@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Redirecting</title>
+  </head>
+  <body>
+    <script>
+      var currentLanguageCode = navigator.language;
+      var targetLanguageCode = 'en-US'
+      if (/$zh.*/.test(currentLanguageCode)) {
+        targetLanguageCode = 'zh-Hans';
+      }
+      window.location.replace(targetLanguageCode + '/index.html');
+    </script>
+  </body>
+</html>
