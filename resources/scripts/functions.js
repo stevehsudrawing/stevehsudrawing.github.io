@@ -1,4 +1,3 @@
-
 function loadHTML(elementId, filePath) {
     return new Promise(async (resolve, reject) => {
         try {
