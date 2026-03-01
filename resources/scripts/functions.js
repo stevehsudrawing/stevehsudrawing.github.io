@@ -1,5 +1,3 @@
-let currentLang = 'en';
-let langData = {};
 
 function loadHTML(elementId, filePath) {
     return new Promise(async (resolve, reject) => {
@@ -25,6 +23,11 @@ function loadHTML(elementId, filePath) {
         }
     })
 }
+
+// ========== Language-Related ==========
+
+let currentLang = 'en';
+let langData = {};
 
 function updatePageText() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -54,4 +57,23 @@ async function loadLang(lang) {
 function toggleLang() {
     const newLang = currentLang === 'zh' ? 'en' : 'zh';
     loadLang(newLang);
+}
+
+// ========== Theme-Related ==========
+
+const htmlElement = document.documentElement;
+
+// Get preference if it exists
+const savedTheme = localStorage.getItem('bsTheme');
+if (savedTheme) {
+    htmlElement.setAttribute('data-bs-theme', savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = htmlElement.getAttribute('data-bs-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    htmlElement.setAttribute('data-bs-theme', newTheme);
+    // Save preference
+    localStorage.setItem('bsTheme', newTheme);
 }
