@@ -1,6 +1,15 @@
 let currentLang = 'en';
 let langData = {};
 
+function updatePageText() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (langData[key]) {
+            el.textContent = langData[key];
+        }
+    });
+}
+
 // Load i18n file
 async function loadLang(lang) {
     try {
@@ -18,22 +27,7 @@ async function loadLang(lang) {
     }
 }
 
-function updatePageText() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (langData[key]) {
-            el.textContent = langData[key];
-        }
-    });
-}
-
 function toggleLang() {
     const newLang = currentLang === 'zh' ? 'en' : 'zh';
     loadLang(newLang);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('preferredLang') || 'en';
-    loadLang(savedLang);
-    document.getElementById('langToggle').addEventListener('click', toggleLang);
-});
