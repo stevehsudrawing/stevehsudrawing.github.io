@@ -1,7 +1,10 @@
 {
+    "textSteveHsusHomepage": "Steve Hsu's Homepage",
     "textCopyrightPart2":". All rights reserved. ",
     "textPoweredByPart1":"This website is powered by ",
     "textPoweredByPart2":".",
     "textHelloWorld": "Hello, world!",
-    "textHome": "Home"
+    "textHome": "Home",
+    "textArtworks": "Artworks",
+    "textProjects": "Projects"
 }

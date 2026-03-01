@@ -4,16 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Steve Hsu's Homepage</title>
+    <title data-i18n="textSteveHsusHomepage">Steve Hsu's Homepage</title>
     <link rel="icon" href="https://stevehsudrawing.github.io/resources/images/favicon.svg" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stevehsudrawing.github.io/resources/style-sheets/default.css">
 </head>
 
 <body>
     <div id="header"></div>
 
-    <div style="margin-top: 64px;">
+    <div id="pageContent">
         <div class="container">
             <h1 data-i18n="textHelloWorld">Hello, world!</h1>
         </div>
@@ -23,24 +24,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <script src="https://stevehsudrawing.github.io/resources/scripts/load-html.js"></script>
-    <script src="https://stevehsudrawing.github.io/resources/scripts/load-locale.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async function () {
-            try {
-                await loadHTML('header', 'https://stevehsudrawing.github.io/resources/subpages/header.html');
-                loadHTML('footer', 'https://stevehsudrawing.github.io/resources/subpages/footer.html');
-
-                const savedLang = localStorage.getItem('preferredLang') || 'en';
-                loadLang(savedLang);
-
-                const langToggleBtn = document.getElementById('langToggle');
-                langToggleBtn.addEventListener('click', toggleLang);
-            } catch {
-                console.error('Failed to initialize: ' + error);
-            }
-        })
-    </script>
+    <script src="https://stevehsudrawing.github.io/resources/scripts/functions.js"></script>
+    <script src="https://stevehsudrawing.github.io/resources/scripts/initialization.js"></script>
 </body>
 
 </html>
