@@ -40,7 +40,8 @@ html {
 }
 
 .container-img-link-icon {
-    width: 32px;
+    width: 40px;
+    margin-right: 8px;
 }
 
 .bi-additional {
