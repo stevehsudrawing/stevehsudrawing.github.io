@@ -2,7 +2,7 @@
     "textSteveHsusLinkHub": "Steve Hsu's Link-Hub",
     "textSteveHsusLinkHubArtworksAndVideos": "Steve Hsu's Link-Hub - Artworks & Videos",
     "textSteveHsusLinkHubOpenSourceProjects": "Steve Hsu's Link-Hub - Open-Source Projects",
-    "textSteveHsusLinkHubSocialMedias": "Steve Hsu's Link-Hub - Social Medias",
+    "textSteveHsusLinkHubChatting": "Steve Hsu's Link-Hub - Chatting",
     "textSteveHsusLinkHubAbout": "Steve Hsu's Link-Hub - About",
     "textCopyrightPart2":". All rights reserved. ",
     "textPoweredByPart1":"This website is powered by ",
@@ -11,7 +11,7 @@
     "textHome": "Home",
     "textArtworksAndVideos": "Artworks & Videos",
     "textOpenSourceProjects": "Open-Source Projects",
-    "textSocialMedias": "Social Medias",
+    "textChatting": "Chatting",
     "textBlogs": "Blogs",
     "textAbout": "About",
     "textWelcomePart1": "Welcome to ",
@@ -29,5 +29,9 @@
     "textVideos": "Videos",
     "textWeibo": "Weibo",
     "textName": "Name",
-    "textBilibili": "Bilibili"
+    "textBilibili": "Bilibili",
+    "textOpenSourceProjectsIntroduction": "Welcome to view my open-source projects!",
+    "textQuantoSeries": "Quanto Series",
+    "textComingSoon": "Coming soon",
+    "textArchived": "Archived"
 }

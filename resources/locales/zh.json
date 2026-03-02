@@ -2,7 +2,7 @@
     "textSteveHsusLinkHub": "Steve Hsu (什五) 的链接枢",
     "textSteveHsusLinkHubArtworksAndVideos": "Steve Hsu (什五) 的链接枢 - 作品与视频",
     "textSteveHsusLinkHubOpenSourceProjects": "Steve Hsu (什五) 的链接枢 - 开源项目",
-    "textSteveHsusLinkHubSocialMedias": "Steve Hsu (什五) 的链接枢 - 社交媒体",
+    "textSteveHsusLinkHubChatting": "Steve Hsu (什五) 的链接枢 - 聊天室",
     "textSteveHsusLinkHubAbout": "Steve Hsu (什五) 的链接枢 - 关于",
     "textCopyrightPart2":"。保留所有权利。",
     "textPoweredByPart1":"本网站由",
@@ -10,8 +10,8 @@
     "textHelloWorld": "你好，世界！",
     "textHome": "首页",
     "textArtworksAndVideos": "作品与视频",
-    "textOpenSourceProjects": "项目",
-    "textSocialMedias": "社交媒体",
+    "textOpenSourceProjects": "开源项目",
+    "textChatting": "聊天室",
     "textBlogs": "博客",
     "textAbout": "关于",
     "textWelcomePart1": "欢迎来到",
@@ -29,5 +29,9 @@
     "textVideos": "视频",
     "textWeibo": "微博",
     "textName": "名称",
-    "textBilibili": "哔哩哔哩"
+    "textBilibili": "哔哩哔哩",
+    "textOpenSourceProjectsIntroduction": "欢迎查看我的开源项目！",
+    "textQuantoSeries": "Quanto 系列",
+    "textComingSoon": "即将到来",
+    "textArchived": "已存档"
 }
