@@ -9,5 +9,14 @@
     "textProjects": "项目",
     "textBlogs": "博客",
     "textSocialMedias": "社交媒体",
-    "textSponsor": "赞助"
+    "textSponsor": "赞助",
+    "textWelcomePart1": "欢迎来到",
+    "textWelcomePart2": "Steve Hsu（什五）",
+    "textWelcomePart3": "的链接枢！",
+    "textIntroduction1": "你可能从我的绘画作品或视频中得知我。你可以在我的Pixiv页面或我在其他平台的页面查看更多作品。",
+    "textVideosAndOtherPlatforms": "视频和其他平台",
+    "textMyOpenSourceProjects": "我的开源项目",
+    "textIntroduction2": "你也可能从我的开源项目（例如 Quanto 系列）中得知我。你可以在我的GitHub界面查看更多项目。",
+    "textMyGitHubPage": "我的GitHub页面",
+    "textLearnMore": "了解更多"
 }
