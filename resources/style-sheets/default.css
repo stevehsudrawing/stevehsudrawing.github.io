@@ -22,7 +22,7 @@ html {
     width: 100%;
     height: 1px;
     background-color: var(--bs-body-color);
-    opacity: 0.25;
+    opacity: 0.2;
 }
 
 .link-hub-part {
@@ -31,7 +31,7 @@ html {
 }
 
 .author-name {
-    color: var(--bs-primary);
+    color: var(--bs-link-color-rgb);
 }
 
 .img-btn-outline-secondary {
