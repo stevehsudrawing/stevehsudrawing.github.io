@@ -31,7 +31,7 @@ html {
 }
 
 .author-name {
-    color: var(--bs-link-color-rgb);
+    color: rgb(var(--bs-link-color-rgb));
 }
 
 .img-btn-outline-secondary {
