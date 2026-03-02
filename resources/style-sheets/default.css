@@ -37,6 +37,7 @@ html {
 
 .container-img-cover-sub {
     width: 240px;
+    margin-left: 16px;
 }
 
 .container-img-link-icon {
@@ -46,4 +47,10 @@ html {
 
 .bi-additional {
     font-size: 0.75rem
+}
+
+#xTwitterIcon {
+    background-color: var(--bs-body-color);
+    -webkit-mask: url(https://stevehsudrawing.github.io/resources/images/x-twitter.png) no-repeat center / contain;
+    mask: url(https://stevehsudrawing.github.io/resources/images/x-twitter.png) no-repeat center / contain;
 }
