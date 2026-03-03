@@ -33,9 +33,16 @@
                             <a class="nav-link" href="https://stevehsudrawing.github.io/about.html" data-i18n="textAbout">About</a>
                         </li>
                     </ul>
-                    <button id="langToggle" class="nav-link py-2 px-0 px-lg-2 lang-switch">
-                        <i class="bi bi-globe2"></i>
-                    </button>
+                    <div class="nav-link py-2 px-0 px-lg-2 dropdown">
+                        <button type="button" id="langDropdown" class="nav-link dropdown-toggle" data-bs-toggle="langDropdown" aria-expanded="false">
+                            <i class="bi bi-globe2"></i>
+                            <span data-i18n="textCurrentLanguage">English</span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item" href="#" data-lang="en">English</a></li>
+                            <li><a class="dropdown-item" href="#" data-lang="zh-Hans">中文 (简体)</a></li>
+                        </ul>
+                    </div>
                     <button id="themeToggle" class="nav-link py-2 px-0 px-lg-2 theme-switch">
                         <i class="bi bi-circle-half"></i>
                     </button>

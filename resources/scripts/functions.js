@@ -47,14 +47,14 @@ async function loadLang(lang) {
         // Save preference
         localStorage.setItem('preferredLang', lang);
         // Update 'lang' element
-        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        document.documentElement.lang = lang;
     } catch (error) {
         console.error('Failed to load language file:', error);
     }
 }
 
 function toggleLang() {
-    const newLang = currentLang === 'zh' ? 'en' : 'zh';
+    const newLang = currentLang === 'zh-Hans' ? 'en' : 'zh-Hans';
     loadLang(newLang);
 }
 

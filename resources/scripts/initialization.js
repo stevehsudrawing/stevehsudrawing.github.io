@@ -7,7 +7,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         loadLang(savedLang);
 
-        document.getElementById('langToggle').addEventListener('click', toggleLang);
+        // document.getElementById('langToggle').addEventListener('click', toggleLang);
+        document.addEventListener('click', function (e) {
+            const langItem = e.target.closest('[data-lang]');
+            if (langItem) {
+                e.preventDefault();
+                const selectedLang = langItem.getAttribute('data-lang');
+                loadLang(selectedLang);
+            }
+        })
+
         document.getElementById('themeToggle').addEventListener('click', toggleTheme);
     } catch {
         console.error('Failed to initialize: ' + error);
