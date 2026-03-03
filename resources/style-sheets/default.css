@@ -56,3 +56,19 @@
 .img-mono-patreon {
     mask: url(https://stevehsudrawing.github.io/resources/images/patreon.png) no-repeat center / contain;
 }
+
+/* Navbar adaption for mobile */
+@media (max-width: 991.98px) {
+    .navbar-collapse-scroll {
+        max-height: calc(100vh - 58px);
+        overflow-y: auto;
+    }
+
+    .navbar-nav {
+        padding: 0.5rem 0;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+}
