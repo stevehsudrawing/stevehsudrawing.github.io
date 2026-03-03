@@ -1,6 +1,6 @@
 * {
     text-autospace: normal;
-    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Microsoft YaHei', sans-serif;
+    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Sarasa Gothic JP', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Microsoft YaHei', sans-serif;
 }
 
 #mainNavbar {
@@ -27,14 +27,6 @@
     color: rgb(var(--bs-link-color-rgb));
 }
 
-.img-btn-outline-secondary {
-    color: var(--bs-secondary-color);
-}
-
-.img-btn-outline-secondary:hover {
-    color: var(--bs-white);
-}
-
 .container-img-cover-sub {
     width: 240px;
     margin-left: 16px;
@@ -46,15 +38,21 @@
 }
 
 .bi-additional {
-    font-size: 0.75rem
+    font-size: 0.75em
 }
 
-.img-x-twitter {
+.img-mono-fill-body-color {
     background-color: var(--bs-body-color);
+}
+
+.img-mono-x-twitter {
     mask: url(https://stevehsudrawing.github.io/resources/images/x-twitter.png) no-repeat center / contain;
 }
 
-.img-github {
-    background-color: var(--bs-body-color);
+.img-mono-github {
     mask: url(https://stevehsudrawing.github.io/resources/images/github.png) no-repeat center / contain;
+}
+
+.img-mono-patreon {
+    mask: url(https://stevehsudrawing.github.io/resources/images/patreon.png) no-repeat center / contain;
 }
