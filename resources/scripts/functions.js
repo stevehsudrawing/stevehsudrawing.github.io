@@ -23,6 +23,35 @@ function loadHTML(elementId, filePath) {
     })
 }
 
+// Activate Nav Item
+function setActiveNavItem() {
+    try {
+        const currentPath = window.location.pathname;
+        let currentPage = currentPath === '/' ? '/' : currentPath;
+        if (currentPage === '/index.html') currentPage = '/';
+        currentPage = "https://stevehsudrawing.github.io" + currentPage;
+
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        if (navLinks.length === 0) {
+            console.warn('Cannot find navbar links!');
+            return;
+        }
+
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref === currentPage) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.classList.remove('active');
+                link.removeAttribute('aria-current');
+            }
+        });
+    } catch (error) {
+        console.error('Failed to activate nav item: ', error);
+    }
+}
+
 // ========== Language-Related ==========
 
 let currentLang = 'en';
@@ -37,6 +66,29 @@ function updatePageText() {
     });
 }
 
+function setActiveLangItem() {
+    try {
+        const langItems = document.querySelectorAll('.lang-item');
+        if (langItems.length === 0) {
+            console.warn('Cannot find language items!');
+            return;
+        }
+
+        langItems.forEach(item => {
+            const itemDataLang = item.getAttribute('data-lang');
+            if (itemDataLang === currentLang) {
+                item.classList.add('active');
+                item.setAttribute('aria-current', 'true');
+            } else {
+                item.classList.remove('active');
+                item.removeAttribute('aria-current');
+            }
+        })
+    } catch (error) {
+        console.error('Failed to activate language item:', error);
+    }
+}
+
 async function loadLang(lang) {
     try {
         const response = await fetch(`https://stevehsudrawing.github.io/resources/locales/${lang}.json`);
@@ -48,14 +100,12 @@ async function loadLang(lang) {
         localStorage.setItem('preferredLang', lang);
         // Update 'lang' element
         document.documentElement.lang = lang;
+
+        setActiveNavItem();
+        setActiveLangItem();
     } catch (error) {
         console.error('Failed to load language file:', error);
     }
-}
-
-function toggleLang() {
-    const newLang = currentLang === 'zh-Hans' ? 'en' : 'zh-Hans';
-    loadLang(newLang);
 }
 
 // ========== Theme-Related ==========

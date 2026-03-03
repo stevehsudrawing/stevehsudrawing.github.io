@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         loadLang(savedLang);
 
-        // document.getElementById('langToggle').addEventListener('click', toggleLang);
         document.addEventListener('click', function (e) {
             const langItem = e.target.closest('[data-lang]');
             if (langItem) {
