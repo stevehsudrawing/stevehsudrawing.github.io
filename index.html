@@ -5,70 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title data-i18n="textSteveHsusLinkHub">Steve Hsu's Link-Hub</title>
-        <script type="text/javascript">
-            function detectBrowser() {
-                const userAgent = navigator.userAgent.toLowerCase();
-                // Default: Unknown
-                let browser = {
-                    name: 'unknown',
-                    version: 0
-                };
-                // Internet Explorer / Legacy Edge
-                if (userAgent.includes('msie') || userAgent.includes('trident/')) {
-                    browser.name = 'ie';
-                    const ieMatch = userAgent.match(/(msie |rv:)(\d+(\.\d+)?)/);
-                    browser.version = ieMatch ? parseFloat(ieMatch[2]) : 0;
-                    return browser;
-                }
-                // Chrome / Chromium
-                if (userAgent.includes('chrome') && !userAgent.includes('edge')) {
-                    browser.name = 'chrome';
-                    const chromeMatch = userAgent.match(/chrome\/(\d+(\.\d+)?)/);
-                    browser.version = chromeMatch ? parseFloat(chromeMatch[1]) : 0;
-                    return browser;
-                }
-                // Firefox
-                if (userAgent.includes('firefox')) {
-                    browser.name = 'firefox';
-                    const ffMatch = userAgent.match(/firefox\/(\d+(\.\d+)?)/);
-                    browser.version = ffMatch ? parseFloat(ffMatch[1]) : 0;
-                    return browser;
-                }
-                // Chromium Edge
-                if (userAgent.includes('edg')) {
-                    browser.name = 'edge';
-                    const edgeMatch = userAgent.match(/edg\/(\d+(\.\d+)?)/);
-                    browser.version = edgeMatch ? parseFloat(edgeMatch[1]) : 0;
-                    return browser;
-                }
-                // Safari
-                if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-                    browser.name = 'safari';
-                    const safariMatch = userAgent.match(/version\/(\d+(\.\d+)?)/);
-                    browser.version = safariMatch ? parseFloat(safariMatch[1]) : 0;
-                    return browser;
-                }
-                return browser;
-            }
-            function isSupported() {
-                const browser = detectBrowser();
-                const supportMap = {
-                    ie: false,
-                    chrome: browser.version >= 60,
-                    firefox: browser.version >= 60,
-                    edge: browser.version >= 79,
-                    safari: browser.version >= 12,
-                    unknown: false
-                };
-                return supportMap[browser.name];
-            }
-            (function () {
-                if (!isSupported()) {
-                    window.location.href = 'https://stevehsudrawing.github.io/unsupported.html';
-                    return false;
-                }
-            })();
-        </script>
+        <script type="text/javascript" src="https://stevehsudrawing.github.io/resources/scripts/browser-detection.js"></script>
         <link rel="icon" href="https://stevehsudrawing.github.io/resources/images/favicon.png" type="image/png">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" crossorigin="anonymous">
