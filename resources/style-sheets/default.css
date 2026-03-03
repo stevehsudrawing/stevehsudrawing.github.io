@@ -3,8 +3,34 @@
     font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Sarasa Gothic JP', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Microsoft YaHei', sans-serif;
 }
 
-#mainNavbar {
+.navbar-bg-glass {
+    background-color: rgba(var(--bs-tertiary-bg-rgb), 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Navbar adaption for mobile */
+@media (max-width: 991.98px) {
+    .navbar-collapse-scroll {
+        max-height: calc(100vh - 58px);
+        overflow-y: auto;
+    }
+
+    .navbar-nav {
+        padding: 0.5rem 0;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+}
+
+@supports not (backdrop-filter: blur(15px)) {
+    .navbar-bg-glass {
+        background-color: rgba(var(--bs-tertiary-bg-rgb), 1);
+    }
 }
 
 #pageContent {
@@ -55,20 +81,4 @@
 
 .img-mono-patreon {
     mask: url(https://stevehsudrawing.github.io/resources/images/patreon.png) no-repeat center / contain;
-}
-
-/* Navbar adaption for mobile */
-@media (max-width: 991.98px) {
-    .navbar-collapse-scroll {
-        max-height: calc(100vh - 58px);
-        overflow-y: auto;
-    }
-
-    .navbar-nav {
-        padding: 0.5rem 0;
-    }
-
-    .nav-item {
-        width: 100%;
-    }
 }
