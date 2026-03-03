@@ -98,8 +98,8 @@ async function loadLang(lang) {
         currentLang = lang;
 
         // Font update
-        for (item in supportedLangs) {
-            document.documentElement.classList.remove(`lang-${item}`);
+        for (i in supportedLangs) {
+            document.documentElement.classList.remove(`lang-${supportedLangs[i]}`);
         }
         document.documentElement.classList.add(`lang-${lang}`);
 
