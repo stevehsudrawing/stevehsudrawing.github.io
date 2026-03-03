@@ -1,6 +1,18 @@
 * {
     text-autospace: normal;
-    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Sarasa Gothic JP', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Microsoft YaHei', sans-serif;
+    font-family: inherit !important;
+}
+
+html.lang-en {
+    font-family: '更紗ゴシック J', 'Sarasa Gothic J', 'Inter', 'Roboto', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+html.lang-zh-Hans {
+    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', '更紗ゴシック J', 'Sarasa Gothic J', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Microsoft YaHei', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+html.lang-zh-Hant {
+    font-family: '更紗黑體 TC', 'Sarasa Gothic SC', '更紗ゴシック J', 'Sarasa Gothic J', 'Inter', 'Roboto', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Microsoft JhengHei', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 .navbar-bg-glass {

@@ -95,6 +95,11 @@ async function loadLang(lang) {
         if (!response.ok) throw new Error(`Failed to load file of language ${lang}`);
         langData = await response.json();
         currentLang = lang;
+
+        // Font update
+        document.documentElement.classList.remove('lang-en', 'lang-zh-Hans', 'lang-zh-Hant');
+        document.documentElement.classList.add(`lang-${lang}`);
+
         updatePageText();
         // Save preference
         localStorage.setItem('preferredLang', lang);
