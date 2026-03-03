@@ -18,8 +18,7 @@ html.lang-zh-Hant {
 
 .navbar-bg-glass {
     background-color: rgba(var(--bs-tertiary-bg-rgb), 0.8);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px) saturate(1.5);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
