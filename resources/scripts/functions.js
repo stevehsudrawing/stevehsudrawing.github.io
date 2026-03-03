@@ -54,6 +54,7 @@ function setActiveNavItem() {
 
 // ========== Language-Related ==========
 
+let supportedLangs = ['en', 'zh-Hans', 'zh-Hant'];
 let currentLang = 'en';
 let langData = {};
 
@@ -97,7 +98,9 @@ async function loadLang(lang) {
         currentLang = lang;
 
         // Font update
-        document.documentElement.classList.remove('lang-en', 'lang-zh-Hans', 'lang-zh-Hant');
+        for (item in supportedLangs) {
+            document.documentElement.classList.remove(`lang-${item}`);
+        }
         document.documentElement.classList.add(`lang-${lang}`);
 
         updatePageText();

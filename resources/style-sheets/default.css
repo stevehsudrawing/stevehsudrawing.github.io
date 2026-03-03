@@ -1,6 +1,7 @@
 * {
     text-autospace: normal;
-    font-family: inherit;
+    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', '微软雅黑', 'Microsoft YaHei', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    /* font-family: inherit; */
 }
 
 html.lang-en {
