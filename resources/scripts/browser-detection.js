@@ -1,3 +1,4 @@
+// Some old browser doesn't support 'String.prototype.includes()'
 function isStringIncludes(str, subStr) {
     if (str.indexOf(subStr) != -1) return true;
     else return false;
@@ -10,6 +11,20 @@ function detectBrowser() {
         name: 'unknown',
         version: 0
     };
+    // New Opera
+    if (isStringIncludes(userAgent, 'opr/')) {
+        browser.name = 'opera';
+        const operaMatch = userAgent.match(/opr\/(\d+(\.\d+)?)/);
+        browser.version = operaMatch ? parseFloat(operaMatch[1]) : 0;
+        return browser;
+    }
+    // Old Opera
+    if (isStringIncludes(userAgent, 'opera') || isStringIncludes(userAgent, 'op/')) {
+        browser.name = 'opera';
+        const operaMatch = userAgent.match(/(opera |op\/)(\d+(\.\d+)?)/);
+        browser.version = operaMatch ? parseFloat(operaMatch[2]) : 0;
+        return browser;
+    }
     // Internet Explorer / Legacy Edge
     if (isStringIncludes(userAgent, 'msie') || isStringIncludes(userAgent, 'trident/')) {
         browser.name = 'ie';
@@ -18,7 +33,7 @@ function detectBrowser() {
         return browser;
     }
     // Chrome / Chromium
-    if (isStringIncludes(userAgent, 'chrome') && !isStringIncludes(userAgent, 'edge')) {
+    if (isStringIncludes(userAgent, 'chrome') && !isStringIncludes(userAgent, 'edge') && !isStringIncludes(userAgent, 'opr')) {
         browser.name = 'chrome';
         const chromeMatch = userAgent.match(/chrome\/(\d+(\.\d+)?)/);
         browser.version = chromeMatch ? parseFloat(chromeMatch[1]) : 0;
@@ -56,6 +71,7 @@ function isSupported() {
         firefox: browser.version >= 60,
         edge: browser.version >= 79,
         safari: browser.version >= 12,
+        opera: browser.version >= 47,
         unknown: false
     };
     return supportMap[browser.name];

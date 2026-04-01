@@ -1,3 +1,9 @@
-﻿# stevehsudrawing.github.io
+﻿<div align="center">
+	<p>
+		<img width="64" alt="Steve Hsu's Link Hub" src="resources/images/favicon.png">
+		<br>
+		<a href="https://stevehsudrawing.github.io">Steve Hsu's Link Hub</a>
+	</p>
+</div>
 
-This is a link-hub which purpose is to consolidate the links to all my personal pages on various platforms.
+This is a website which purpose is to consolidate the links to all my personal pages on various platforms.
