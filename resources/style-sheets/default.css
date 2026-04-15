@@ -4,6 +4,10 @@
     /* font-family: inherit; */
 }
 
+html, body {
+    height: 100%;
+}
+
 html.lang-en {
     font-family: '更紗ゴシック J', 'Sarasa Gothic J', 'Inter', 'Roboto', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
 }
@@ -14,6 +18,12 @@ html.lang-zh-Hans {
 
 html.lang-zh-Hant {
     font-family: '更紗黑體 TC', 'Sarasa Gothic TC', 'Inter', 'Roboto', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', '微軟正黑體', 'Microsoft JhengHei', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .navbar-bg-glass {
@@ -47,7 +57,8 @@ html.lang-zh-Hant {
 
 #pageContent {
     margin-top: 56px;
-    margin-bottom: 16px;
+    margin-bottom: 0;
+    flex: 1;
 }
 
 .img-fit {
