@@ -95,13 +95,13 @@ body {
 }
 
 .img-mono-x-twitter {
-    mask: url(https://stevehsudrawing.github.io/resources/images/x-twitter.png) no-repeat center / contain;
+    mask: url(/images/icons/x-twitter.png) no-repeat center / contain;
 }
 
 .img-mono-github {
-    mask: url(https://stevehsudrawing.github.io/resources/images/github.png) no-repeat center / contain;
+    mask: url(/images/icons/github.png) no-repeat center / contain;
 }
 
 .img-mono-patreon {
-    mask: url(https://stevehsudrawing.github.io/resources/images/patreon.png) no-repeat center / contain;
+    mask: url(/images/icons/patreon.png) no-repeat center / contain;
 }

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        await loadHTML('header', 'https://stevehsudrawing.github.io/resources/subpages/header.html');
-        await loadHTML('footer', 'https://stevehsudrawing.github.io/resources/subpages/footer.html');
+        await loadHTML('header', 'sub-pages/header.html');
+        await loadHTML('footer', 'sub-pages/footer.html');
 
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';

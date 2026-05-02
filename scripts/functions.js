@@ -28,8 +28,8 @@ function setActiveNavItem() {
     try {
         const currentPath = window.location.pathname;
         let currentPage = currentPath === '/' ? '/' : currentPath;
-        if (currentPage === '/index.html') currentPage = '/';
-        currentPage = "https://stevehsudrawing.github.io" + currentPage;
+        if (currentPage === '/') currentPage = '/index.html';
+        // currentPage = "https://stevehsudrawing.github.io" + currentPage;
 
         const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
         if (navLinks.length === 0) {
