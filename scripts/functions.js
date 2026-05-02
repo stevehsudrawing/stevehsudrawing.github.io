@@ -92,7 +92,7 @@ function setActiveLangItem() {
 
 async function loadLang(lang) {
     try {
-        const response = await fetch(`https://stevehsudrawing.github.io/resources/locales/${lang}.json`);
+        const response = await fetch(`/locales/${lang}.json`);
         if (!response.ok) throw new Error(`Failed to load file of language ${lang}`);
         langData = await response.json();
         currentLang = lang;

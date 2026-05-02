@@ -1,6 +1,6 @@
 ﻿<div align="center">
 	<p>
-		<img width="64" alt="Steve Hsu's Link Hub" src="resources/images/favicon.png">
+		<img width="64" alt="Steve Hsu's Link Hub" src="images/favicon.png">
 		<br>
 		<a href="https://stevehsudrawing.github.io">Steve Hsu's Link Hub</a>
 	</p>
