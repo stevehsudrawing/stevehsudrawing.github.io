@@ -29,7 +29,6 @@ function setActiveNavItem() {
         const currentPath = window.location.pathname;
         let currentPage = currentPath === '/' ? '/' : currentPath;
         if (currentPage === '/') currentPage = '/index.html';
-        // currentPage = "https://stevehsudrawing.github.io" + currentPage;
 
         const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
         if (navLinks.length === 0) {
@@ -133,4 +132,34 @@ function toggleTheme() {
     htmlElement.setAttribute('data-bs-theme', newTheme);
     // Save preference
     localStorage.setItem('bsTheme', newTheme);
+}
+
+function showQRCodeModal(linkUrl) {
+    const modalTitle = document.getElementById('qrcodeModalTitle');
+    const qrCodeContainer = document.getElementById('qrcodeContainer');
+    const modalElement = document.getElementById('qrcodeModal');
+
+    if (!modalTitle || !qrCodeContainer || !modalElement) {
+        console.warn('QR code modal elements not found.');
+        return;
+    }
+
+    modalTitle.textContent = linkUrl;
+    qrCodeContainer.innerHTML = '';
+
+    const computedStyles = getComputedStyle(htmlElement);
+    const colorDark = computedStyles.getPropertyValue('--bs-body-color').trim() || '#000000';
+    const colorLight = computedStyles.getPropertyValue('--bs-body-bg').trim() || '#ffffff';
+
+    new QRCode(qrCodeContainer, {
+        text: linkUrl,
+        width: 232,
+        height: 232,
+        colorDark,
+        colorLight,
+        correctLevel: QRCode.CorrectLevel.H,
+    });
+
+    const bootstrapModal = new bootstrap.Modal(modalElement);
+    bootstrapModal.show();
 }

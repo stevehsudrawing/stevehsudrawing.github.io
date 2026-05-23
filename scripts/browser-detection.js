@@ -79,7 +79,7 @@ function isSupported() {
 
 (function () {
     if (!isSupported()) {
-        window.location.href = 'https://stevehsudrawing.github.io/unsupported.html';
+        window.location.href = '/unsupported.html';
         return false;
     }
 })();
