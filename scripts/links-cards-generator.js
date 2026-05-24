@@ -199,8 +199,9 @@ function buildLinkGroup(groupData) {
     groupWrapper.className = 'link-hub-part';
 
     if (groupData.title) {
-        const title = document.createElement('h2');
+        const title = document.createElement('h4');
         title.textContent = groupData.title.content || '';
+        title.classList.add('title-link-group')
         setElementAttributes(title, groupData.title.properties);
         groupWrapper.appendChild(title);
     }

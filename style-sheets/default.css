@@ -47,12 +47,26 @@ body {
     .nav-item {
         width: 100%;
     }
+
+    #langDropdown + .dropdown-menu,
+    #themeDropdown + .dropdown-menu {
+        top: auto !important;
+        bottom: 100% !important;
+        transform-origin: bottom center;
+    }
 }
 
 @supports not (backdrop-filter: blur(15px)) {
     .navbar-bg-glass {
         background-color: rgba(var(--bs-tertiary-bg-rgb), 1);
     }
+}
+
+#langDropdown.btn-light:hover,
+#langDropdown.btn-light:focus,
+#themeDropdown.btn-light:hover,
+#themeDropdown.btn-light:focus {
+    background-color: rgba(var(--bs-body-color-rgb), 0.1);
 }
 
 #pageContent {
@@ -127,4 +141,32 @@ body {
     font-size: 0.95rem;
     word-break: break-all;
     color: var(--bs-body-color);
+}
+
+.title-link-group {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* Button groups in intro/open-source sections */
+p.m-0.border-0 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+}
+
+p.m-0.border-0 > .btn {
+    white-space: normal;
+}
+
+@media (max-width: 767.98px) {
+    p.m-0.border-0 {
+        flex-direction: column;
+    }
+
+    p.m-0.border-0 > .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
 }

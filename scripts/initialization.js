@@ -14,14 +14,23 @@ document.addEventListener('DOMContentLoaded', async function () {
                 e.preventDefault();
                 const selectedLang = langItem.getAttribute('data-lang');
                 loadLang(selectedLang);
+                return;
             }
-        })
 
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            const themeItem = e.target.closest('.theme-item');
+            if (themeItem) {
+                e.preventDefault();
+                const selectedTheme = themeItem.getAttribute('data-theme');
+                setThemePreference(selectedTheme);
+            }
+        });
+
+        updateThemeToggleText();
+        setActiveThemeItem();
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    } catch {
+    } catch (error) {
         console.error('Failed to initialize: ' + error);
     }
 })

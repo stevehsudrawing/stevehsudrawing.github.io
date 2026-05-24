@@ -23,6 +23,8 @@ function loadHTML(elementId, filePath) {
     })
 }
 
+const htmlElement = document.documentElement;
+
 // Activate Nav Item
 function setActiveNavItem() {
     try {
@@ -117,22 +119,106 @@ async function loadLang(lang) {
 
 // ========== Theme-Related ==========
 
-const htmlElement = document.documentElement;
+let currentThemePreference = 'auto';
+const supportedThemes = ['auto', 'light', 'dark'];
 
 // Get preference if it exists
 const savedTheme = localStorage.getItem('bsTheme');
-if (savedTheme) {
-    htmlElement.setAttribute('data-bs-theme', savedTheme);
+if (supportedThemes.includes(savedTheme)) {
+    currentThemePreference = savedTheme;
 }
 
-function toggleTheme() {
-    const currentTheme = htmlElement.getAttribute('data-bs-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-    htmlElement.setAttribute('data-bs-theme', newTheme);
-    // Save preference
-    localStorage.setItem('bsTheme', newTheme);
+function getSystemTheme() {
+    return prefersColorScheme.matches ? 'dark' : 'light';
 }
+
+function applyThemePreference(themeChoice, save = true) {
+    const theme = supportedThemes.includes(themeChoice) ? themeChoice : 'auto';
+    currentThemePreference = theme;
+
+    if (theme === 'auto') {
+        htmlElement.setAttribute('data-bs-theme', getSystemTheme());
+    } else {
+        htmlElement.setAttribute('data-bs-theme', theme);
+    }
+
+    if (save) {
+        localStorage.setItem('bsTheme', theme);
+    }
+}
+
+function updateAutoThemeOnSystemChange() {
+    if (currentThemePreference !== 'auto') {
+        return;
+    }
+
+    htmlElement.setAttribute('data-bs-theme', getSystemTheme());
+}
+
+if (typeof prefersColorScheme.addEventListener === 'function') {
+    prefersColorScheme.addEventListener('change', updateAutoThemeOnSystemChange);
+} else if (typeof prefersColorScheme.addListener === 'function') {
+    prefersColorScheme.addListener(updateAutoThemeOnSystemChange);
+}
+
+function getThemeI18nKey(theme) {
+    switch (theme) {
+        case 'light':
+            return 'textLight';
+        case 'dark':
+            return 'textDark';
+        default:
+            return 'textAuto';
+    }
+}
+
+function getThemeLabel(theme) {
+    switch (theme) {
+        case 'light':
+            return 'Light';
+        case 'dark':
+            return 'Dark';
+        default:
+            return 'Auto';
+    }
+}
+
+function updateThemeToggleText() {
+    const themeTextElement = document.getElementById('themeCurrentText');
+    if (!themeTextElement) {
+        return;
+    }
+
+    const key = getThemeI18nKey(currentThemePreference);
+    themeTextElement.setAttribute('data-i18n', key);
+    themeTextElement.textContent = langData[key] || getThemeLabel(currentThemePreference);
+}
+
+function setActiveThemeItem() {
+    const themeItems = document.querySelectorAll('.theme-item');
+    themeItems.forEach(item => {
+        const itemTheme = item.getAttribute('data-theme');
+        if (itemTheme === currentThemePreference) {
+            item.classList.add('active');
+            item.setAttribute('aria-current', 'true');
+        } else {
+            item.classList.remove('active');
+            item.removeAttribute('aria-current');
+        }
+    });
+}
+
+function setThemePreference(themeChoice) {
+    applyThemePreference(themeChoice, true);
+    updateThemeToggleText();
+    setActiveThemeItem();
+}
+
+applyThemePreference(currentThemePreference, false);
+
+// ========== QR Code Modal ==========
 
 function showQRCodeModal(linkUrl) {
     const modalTitle = document.getElementById('qrcodeModalTitle');
@@ -157,7 +243,7 @@ function showQRCodeModal(linkUrl) {
         height: 232,
         colorDark,
         colorLight,
-        correctLevel: QRCode.CorrectLevel.H,
+        correctLevel: QRCode.CorrectLevel.L
     });
 
     const bootstrapModal = new bootstrap.Modal(modalElement);

@@ -44,9 +44,17 @@
                             <li><a class="dropdown-item lang-item" href="#" data-lang="zh-Hant">中文 (繁體)</a></li>
                         </ul>
                     </div>
-                    <button id="themeToggle" class="nav-link py-2 px-0 px-lg-2 theme-switch">
-                        <i class="bi bi-circle-half"></i>
-                    </button>
+                    <div class="py-2 px-0 px-lg-2 dropdown">
+                        <button type="button" id="themeDropdown" class="nav-link btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-circle-half"></i>
+                            <span id="themeCurrentText" data-i18n="textAuto">Auto</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="themeDropdown">
+                            <li><a class="dropdown-item theme-item" href="#" data-theme="auto" data-i18n="textAuto">Auto</a></li>
+                            <li><a class="dropdown-item theme-item" href="#" data-theme="light" data-i18n="textLight">Light</a></li>
+                            <li><a class="dropdown-item theme-item" href="#" data-theme="dark" data-i18n="textDark">Dark</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
