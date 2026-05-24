@@ -1,0 +1,72 @@
+[
+    {
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Patreon",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-patreon",
+                            "img-mono-fill-body-color"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Patreon (Quanto Series)",
+                            "properties": {
+                                "data-i18n": "textPatreonQuantoSeries"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://www.patreon.com/QuantoSeries"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: QuantoSeries"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Afdian",
+                        "src": "/images/icons/afdian.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Afdian",
+                            "properties": {
+                                "data-i18n": "textAfdian"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://www.patreon.com/QuantoSeries"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsu"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

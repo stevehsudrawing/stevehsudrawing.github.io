@@ -6,4 +6,4 @@
 	</p>
 </div>
 
-This is a website which purpose is to consolidate the links to all my personal pages on various platforms.
+This is a website which purpose is to consolidate the links to all my profiles on various platforms.

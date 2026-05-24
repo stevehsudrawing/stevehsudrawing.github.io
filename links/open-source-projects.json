@@ -1,0 +1,142 @@
+[
+    {
+        "title": {
+            "content": "Quanto Series",
+            "properties": {
+                "data-i18n": "textQuantoSeries"
+            }
+        },
+        "contents": [
+            {
+                "available": false,
+                "icon": {
+                    "properties": {
+                        "alt": "Quanto Ult",
+                        "src": "/images/icons/quanto-ult.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Quanto Ult"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "textName"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": QuantoUlt |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Coming soon",
+                            "properties": {
+                                "data-i18n": "textComingSoon"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Quanto Flx",
+                        "src": "/images/icons/quanto-flx.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Quanto Flx"
+                        },
+                        "properties": {
+                            "href": "https://github.com/stevehsudrawing/quantoflx"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "textName"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": quantoflx"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Quanto Original",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-github",
+                            "img-mono-fill-body-color"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Quanto Original"
+                        },
+                        "properties": {
+                            "href": "https://github.com/stevehsudrawing/quanto"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "textName"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": quanto |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Archived",
+                            "properties": {
+                                "data-i18n": "textArchived"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadHTML('header', 'sub-pages/header.html');
         await loadHTML('footer', 'sub-pages/footer.html');
-        await loadHTML('qr-code-modal', 'sub-pages/qr-code-modal.html');
+        await loadHTML('qrCodeModal', 'sub-pages/qr-code-modal.html');
 
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';
@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         })
 
         document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     } catch {
         console.error('Failed to initialize: ' + error);
     }

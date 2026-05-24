@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" crossorigin="anonymous">
         <link rel="stylesheet" href="/style-sheets/default.css">
+
+        <script src="/scripts/functions.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     </head>
 
     <body>
@@ -39,74 +42,15 @@
                 </div>
             </div>
             <hr>
-            <div class="container py-4">
-                <div class="link-hub-part">
-                    <h2 data-i18n="textQuantoSeries">Quanto Series</h2>
-                    <div class="row g-2">
-                        <div class="col-lg-6 col-xxl-4 opacity-75">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="Quanto Ult" src="/images/icons/quanto-ult.png" class="img-fluid img-fit">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <!-- <a href="https://github.com/stevehsudrawing/QuantoUlt" aria-disabled="true"> -->
-                                        <h6 class="card-title">
-                                            Quanto Ult
-                                            <!-- <i class="bi bi-box-arrow-up-right align-top bi-additional"></i> -->
-                                        </h6>
-                                        <!-- </a> -->
-                                        <p class="card-text"><span data-i18n="textName">Name</span>: QuantoUlt / <span data-i18n="textComingSoon">Coming soon</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-xxl-4">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="Quanto Flx" src="/images/icons/quanto-flx.png" class="img-fluid img-fit">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="https://github.com/stevehsudrawing/quantoflx">
-                                            <h6 class="card-title">
-                                                Quanto Flx
-                                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
-                                            </h6>
-                                        </a>
-                                        <p class="card-text"><span data-i18n="textName">Name</span>: quantoflx</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-xxl-4">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="Quanto Original" src="/images/null.png" class="img-fluid img-fit img-mono-github img-mono-fill-body-color">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="https://github.com/stevehsudrawing/quanto">
-                                            <h6 class="card-title">
-                                                Quanto Original
-                                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
-                                            </h6>
-                                        </a>
-                                        <p class="card-text"><span data-i18n="textName">Name</span>: quanto / <span data-i18n="textArchived">Archived</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="container py-4" id="links"></div>
         </div>
 
         <div id="footer"></div>
-        <div id="qr-code-modal"></div>
+        <div id="qrCodeModal"></div>
 
+        <script src="/scripts/links-cards-generator.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="/scripts/functions.js"></script>
         <script src="/scripts/initialization.js"></script>
     </body>
 

@@ -1,0 +1,441 @@
+[
+    {
+        "title": {
+            "content": "Artworks",
+            "properties": {
+                "data-i18n": "textArtworks"
+            }
+        },
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Pixiv",
+                        "src": "/images/icons/pixiv.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Pixiv"
+                        },
+                        "properties": {
+                            "href": "https://www.pixiv.net/users/70732361"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: 70732361"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "DeviantArt",
+                        "src": "/images/icons/deviant-art.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "DeviantArt"
+                        },
+                        "properties": {
+                            "href": "https://www.deviantart.com/stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "MediBang ART street",
+                        "src": "/images/icons/medibang-art-street.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "MediBang ART street"
+                        },
+                        "properties": {
+                            "href": "https://medibang.com/u/stevehsu"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsu"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Instagram",
+                        "src": "/images/icons/instagram.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Instagram"
+                        },
+                        "properties": {
+                            "href": "https://www.instagram.com/stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "X",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-x-twitter",
+                            "img-mono-fill-body-color"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "X"
+                        },
+                        "properties": {
+                            "href": "https://x.com/stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Weibo",
+                        "src": "/images/icons/weibo.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Weibo",
+                            "properties": {
+                                "data-i18n": "textWeibo"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://weibo.com/stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "textName"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": SteveHsu什五 / UID: 6053515220"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": {
+            "content": "Sticker Collections",
+            "properties": {
+                "data-i18n": "textStickerCollections"
+            }
+        },
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Sticker Collections Series 1 Vol. 1",
+                        "src": "/images/icons/sticker-collection-series-1-vol-1.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Steve Hsu & Kato",
+                            "properties": {
+                                "data-i18n": "textStickerCollectionsSeries1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " Vol. 1"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Available on",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "WeChat",
+                            "properties": {
+                                "data-i18n": "textWeChat"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://w.url.cn/s/AyLPdiX",
+                            "data-bs-toggle": "tooltip",
+                            "data-bs-title": "You may need to open this link in WeChat, and you can choose to copy the link into WeChat or scan the QR code."
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " ",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart2"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Sticker Collections Series 1 Vol. 2",
+                        "src": "/images/icons/sticker-collection-series-1-vol-2.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Steve Hsu & Kato",
+                            "properties": {
+                                "data-i18n": "textStickerCollectionsSeries1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " Vol. 2"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Available on",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "WeChat",
+                            "properties": {
+                                "data-i18n": "textWeChat"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://w.url.cn/s/A3TlTo9",
+                            "data-bs-toggle": "tooltip",
+                            "data-bs-title": "You may need to open this link in WeChat, and you can choose to copy the link into WeChat or scan the QR code."
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " ",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart2"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "available": false,
+                "icon": {
+                    "properties": {
+                        "alt": "Sticker Collections Series 2 Vol. 1",
+                        "src": "/images/icons/sticker-collection-series-2-vol-1.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Steve Hsu EL Edition",
+                            "properties": {
+                                "data-i18n": "textStickerCollectionsSeries2"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " Vol. 1"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Coming soon",
+                            "properties": {
+                                "data-i18n": "textComingSoon"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": {
+            "content": "Videos",
+            "properties": {
+                "data-i18n": "textVideos"
+            }
+        },
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Youtube",
+                        "src": "/images/icons/youtube.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Youtube"
+                        },
+                        "properties": {
+                            "href": "https://youtube.com/@stevehsu4277"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: 70732361"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Bilibili",
+                        "src": "/images/icons/bilibili.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Bilibili",
+                            "properties": {
+                                "data-i18n": "textBilibili"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://space.bilibili.com/298733903"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "textName"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": SteveHsu什五 / UID: 298733903"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" crossorigin="anonymous">
         <link rel="stylesheet" href="/style-sheets/default.css">
+
+        <script src="/scripts/functions.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     </head>
 
     <body>
@@ -30,55 +33,14 @@
                 </div>
             </div>
             <hr>
-            <div class="container py-4">
-                <div class="link-hub-part">
-                    <div class="row g-2">
-                        <div class="col-lg-6 col-xxl-4">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="Patreon" src="/images/null.png" class="img-fluid img-fit img-mono-patreon img-mono-fill-body-color">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="https://www.patreon.com/QuantoSeries">
-                                            <h6 class="card-title">
-                                                Patreon (<span data-i18n="textQuantoSeries">Quanto Series</span>)
-                                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
-                                            </h6>
-                                        </a>
-                                        <p class="card-text">UID: QuantoSeries</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-xxl-4">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="Afdian" src="/images/icons/afdian.png" class="img-fluid img-fit">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="https://afdian.com/a/stevehsu">
-                                            <h6 class="card-title">
-                                                <span data-i18n="textAfdian">Afdian</span>
-                                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
-                                            </h6>
-                                        </a>
-                                        <p class="card-text">UID: stevehsu</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="container py-4" id="links"></div>
         </div>
 
         <div id="footer"></div>
-        <div id="qr-code-modal"></div>
+        <div id="qrCodeModal"></div>
 
+        <script src="/scripts/links-cards-generator.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="/scripts/functions.js"></script>
         <script src="/scripts/initialization.js"></script>
     </body>
 

@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" crossorigin="anonymous">
         <link rel="stylesheet" href="/style-sheets/default.css">
+
+        <script src="/scripts/functions.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     </head>
 
     <body>
@@ -30,65 +33,14 @@
                 </div>
             </div>
             <hr>
-            <div class="container py-4">
-                <div class="link-hub-part">
-                    <h2 data-i18n="textQQGroups">QQ Groups</h2>
-                    <div class="row g-2">
-                        <div class="col-lg-6 col-xxl-4">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="SawtootH" src="/images/icons/sawtooth.png" class="img-fluid img-fit">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="https://jq.qq.com/?_wv=1027&k=lmhL9d2Q">
-                                            <h6 class="card-title">
-                                                SawtootH
-                                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
-                                            </h6>
-                                        </a>
-                                        <p class="card-text">
-                                            <span data-i18n="textSawtoothIntroduction">Steve Hsu's Fan-base</span><br>
-                                            <span data-i18n="textGroupNumber">Number</span>: 1058094344
-                                            <span class="opacity-25">/ <span data-i18n="textKey">Key</span>: DTANL</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-xxl-4">
-                            <div class="card">
-                                <div class="d-flex card-body">
-                                    <div class="container-img-link-icon">
-                                        <img alt="QuantuM" src="/images/icons/quantum.png" class="img-fluid img-fit">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="https://jq.qq.com/?_wv=1027&k=qn8NFmSS">
-                                            <h6 class="card-title">
-                                                QuantuM
-                                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
-                                            </h6>
-                                        </a>
-                                        <p class="card-text">
-                                            <span data-i18n="textQuantumIntroduction">
-                                                Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts
-                                            </span><br>
-                                            <span data-i18n="textGroupNumber">Group Number</span>: 624134769
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="container py-4" id="links"></div>
         </div>
 
         <div id="footer"></div>
-        <div id="qr-code-modal"></div>
+        <div id="qrCodeModal"></div>
 
+        <script src="/scripts/links-cards-generator.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="/scripts/functions.js"></script>
         <script src="/scripts/initialization.js"></script>
     </body>
 

@@ -1,0 +1,131 @@
+[
+    {
+        "title": {
+            "content": "QQ Groups",
+            "properties": {
+                "data-i18n": "textQQGroups"
+            }
+        },
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "SawtootH",
+                        "src": "/images/icons/sawtooth.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "SawtootH"
+                        },
+                        "properties": {
+                            "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Steve Hsu's Fan-base",
+                            "properties": {
+                                "data-i18n": "textSawtoothIntroduction"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "|"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Group Number",
+                            "properties": {
+                                "data-i18n": "textGroupNumber"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": 1058094344 |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Key",
+                            "properties": {
+                                "data-i18n": "textKey"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": DTANL"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "QuantuM",
+                        "src": "/images/icons/quantum.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "QuantuM"
+                        },
+                        "properties": {
+                            "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts",
+                            "properties": {
+                                "data-i18n": "textQuantumIntroduction"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "|"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Group Number",
+                            "properties": {
+                                "data-i18n": "textGroupNumber"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": 624134769"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]
