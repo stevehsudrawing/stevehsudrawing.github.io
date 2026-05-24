@@ -250,9 +250,9 @@ async function generateLinkCards() {
             }
         });
 
-        if (typeof updatePageText === 'function') {
-            updatePageText();
-        }
+        // Load language file
+        const savedLang = localStorage.getItem('preferredLang') || 'en';
+        loadLang(savedLang);
     } catch (error) {
         console.error('Failed to generate link cards:', error);
         container.innerHTML = '<div class="alert alert-warning">Unable to load link cards.</div>';
