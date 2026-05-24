@@ -67,6 +67,8 @@ function createSuperLinkFragment(fragment) {
         qrButton.setAttribute('onclick', `showQRCodeModal('${escapeForOnclick(href)}')`);
         qrButton.className = 'ms-2 text-decoration-none';
         qrButton.setAttribute('aria-label', 'Show QR Code');
+        qrButton.setAttribute('data-bs-toggle', 'tooltip');
+        qrButton.setAttribute('data-bs-title', 'Show QR Code');
 
         const qrIcon = document.createElement('i');
         qrIcon.className = 'bi bi-qr-code';
