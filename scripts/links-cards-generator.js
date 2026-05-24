@@ -249,6 +249,10 @@ async function generateLinkCards() {
                 container.appendChild(document.createElement('hr'));
             }
         });
+
+        if (typeof updatePageText === 'function') {
+            updatePageText();
+        }
     } catch (error) {
         console.error('Failed to generate link cards:', error);
         container.innerHTML = '<div class="alert alert-warning">Unable to load link cards.</div>';
