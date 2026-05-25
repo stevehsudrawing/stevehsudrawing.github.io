@@ -254,6 +254,15 @@ function initializeSettingsModal() {
         });
     }
 
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+        languageSelect.value = currentLang;
+        languageSelect.addEventListener('change', event => {
+            const selectedLang = event.target.value;
+            loadLang(selectedLang);
+        });
+    }
+
     const settingsOpenButtons = document.querySelectorAll('[data-settings-open]');
     settingsOpenButtons.forEach(button => {
         button.addEventListener('click', event => {
@@ -273,7 +282,14 @@ function initializeSettingsModal() {
             event.preventDefault();
             const warningModalEl = document.getElementById('warningClearingPreferencesModal');
             if (warningModalEl) {
+                warningModalEl.style.zIndex = '1070';
                 const warningModal = new bootstrap.Modal(warningModalEl);
+                warningModalEl.addEventListener('shown.bs.modal', () => {
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    if (backdrops.length > 0) {
+                        backdrops[backdrops.length - 1].style.zIndex = '1060';
+                    }
+                }, { once: true });
                 warningModal.show();
             }
         });
