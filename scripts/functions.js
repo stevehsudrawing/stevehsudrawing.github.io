@@ -223,9 +223,9 @@ applyThemePreference(currentThemePreference, false);
 // ========== QR Code Modal ==========
 
 function showQRCodeModal(linkUrl) {
-    const modalTitle = document.getElementById('qrcodeModalTitle');
-    const qrCodeContainer = document.getElementById('qrcodeContainer');
-    const modalElement = document.getElementById('qrcodeModal');
+    const modalTitle = document.getElementById('qrCodeModalTitle');
+    const qrCodeContainer = document.getElementById('qrCodeContainer');
+    const modalElement = document.getElementById('qrCodeModal');
 
     if (!modalTitle || !qrCodeContainer || !modalElement) {
         console.warn('QR code modal elements not found.');

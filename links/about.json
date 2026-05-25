@@ -1,0 +1,91 @@
+[
+    {
+        "title": {
+            "content": "Emails",
+            "properties": {
+                "data-i18n": "textEmails"
+            }
+        },
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Email",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-email",
+                            "img-mono-fill-body-color"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Quanto Series Team",
+                            "properties": {
+                                "data-i18n": "textEmailTitle1"
+                            }
+                        },
+                        "properties": {
+                            "href": "mailto:quantoseries@outlook.com"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "quantoseries@outlook.com | Steve Hsu / 什五 |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Only topics about the Quanto Series are allowed",
+                            "properties": {
+                                "data-i18n": "textEmailDescription1"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Email",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-email",
+                            "img-mono-fill-body-color"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "My personal email",
+                            "properties": {
+                                "data-i18n": "textEmailTitle2"
+                            }
+                        },
+                        "properties": {
+                            "href": "mailto:stevehsudrawing@outlook.com"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "stevehsudrawing@outlook.com | Steve Hsu / 什五"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

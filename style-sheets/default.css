@@ -169,6 +169,10 @@ body {
     mask: url(/images/icons/patreon.png) no-repeat center / contain;
 }
 
+.img-mono-email {
+    mask: url(/images/icons/email.png) no-repeat center / contain;
+}
+
 #qrCodeModal .modal-body {
     display: flex;
     flex-direction: column;
