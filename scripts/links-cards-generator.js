@@ -50,6 +50,8 @@ function createSuperLinkFragment(fragment) {
         setElementAttributes(link, fragment.properties);
     }
 
+    link.classList.add("external-link")
+
     const titleSpan = createTextSpan(fragment.text);
     link.appendChild(titleSpan);
 

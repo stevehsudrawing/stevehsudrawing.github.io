@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         await loadHTML('header', 'sub-pages/header.html');
         await loadHTML('footer', 'sub-pages/footer.html');
         await loadHTML('qrCodeModalContainer', 'sub-pages/qr-code-modal.html');
+        await loadHTML('settingsModalContainer', 'sub-pages/settings-modal.html');
+
+        initializeSettingsModal();
 
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';

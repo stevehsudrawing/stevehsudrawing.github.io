@@ -218,6 +218,94 @@ function setThemePreference(themeChoice) {
     setActiveThemeItem();
 }
 
+function getExternalLinkNewTabPreference() {
+    return localStorage.getItem('openExternalLinksInNewTab') === 'true';
+}
+
+function setExternalLinkNewTabPreference(enabled) {
+    localStorage.setItem('openExternalLinksInNewTab', enabled ? 'true' : 'false');
+}
+
+function applyExternalLinkTargetBehavior() {
+    const enabled = getExternalLinkNewTabPreference();
+    document.querySelectorAll('a.external-link').forEach(link => {
+        if (enabled) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        } else {
+            if (link.getAttribute('target') === '_blank') {
+                link.removeAttribute('target');
+            }
+            if (link.getAttribute('rel') === 'noopener noreferrer') {
+                link.removeAttribute('rel');
+            }
+        }
+    });
+}
+
+function initializeSettingsModal() {
+    const settingsToggle = document.getElementById('externalLinksNewTabToggle');
+    if (settingsToggle) {
+        settingsToggle.checked = getExternalLinkNewTabPreference();
+        settingsToggle.addEventListener('change', event => {
+            const checked = event.target.checked;
+            setExternalLinkNewTabPreference(checked);
+            applyExternalLinkTargetBehavior();
+        });
+    }
+
+    const settingsOpenButtons = document.querySelectorAll('[data-settings-open]');
+    settingsOpenButtons.forEach(button => {
+        button.addEventListener('click', event => {
+            event.preventDefault();
+            const modalElement = document.getElementById('settingsModal');
+            if (modalElement) {
+                const bootstrapModal = new bootstrap.Modal(modalElement);
+                bootstrapModal.show();
+            }
+        });
+    });
+
+    // Clear preferences flow
+    const clearBtn = document.getElementById('clearPreferencesBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', event => {
+            event.preventDefault();
+            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
+            if (warningModalEl) {
+                const warningModal = new bootstrap.Modal(warningModalEl);
+                warningModal.show();
+            }
+        });
+    }
+
+    const confirmClearBtn = document.getElementById('confirmClearPreferencesBtn');
+    if (confirmClearBtn) {
+        confirmClearBtn.addEventListener('click', event => {
+            // Remove known preference keys
+            try {
+                localStorage.removeItem('preferredLang');
+                localStorage.removeItem('bsTheme');
+                localStorage.removeItem('openExternalLinksInNewTab');
+            } catch (e) {
+                console.warn('Failed to clear some preferences:', e);
+            }
+
+            // Close any modal and redirect to homepage
+            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
+            if (warningModalEl) {
+                const m = bootstrap.Modal.getInstance(warningModalEl) || new bootstrap.Modal(warningModalEl);
+                m.hide();
+            }
+
+            // Redirect to homepage
+            window.location.href = '/index.html';
+        });
+    }
+
+    applyExternalLinkTargetBehavior();
+}
+
 applyThemePreference(currentThemePreference, false);
 
 // ========== QR Code Modal ==========

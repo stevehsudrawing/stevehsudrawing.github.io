@@ -56,6 +56,11 @@
                                 <li><a class="dropdown-item theme-item" href="#" data-theme="dark" data-i18n="textDark">Dark</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" data-bs-toggle="tooltip" data-bs-title="Settings" data-settings-open="true">
+                                <i class="bi bi-gear"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -107,10 +112,19 @@
                                 <li><a class="dropdown-item theme-item" href="#" data-theme="dark" data-i18n="textDark">Dark</a></li>
                             </ul>
                         </li>
+                        <hr>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" data-settings-open="true">
+                                <i class="bi bi-gear"></i>
+                                <span data-i18n="textSettings">Settings</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
+        <div id="settingsModalContainer"></div>
     </body>
 
 </html>

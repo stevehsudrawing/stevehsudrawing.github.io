@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+    <body>
+        <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="settingsModalLabel" data-i18n="textSettings">Settings</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="externalLinksNewTabToggle">
+                            <label class="form-check-label" for="externalLinksNewTabToggle" data-i18n="textSettingsOption1">Always open external links in a new tab</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger me-auto" id="clearPreferencesBtn" data-i18n="textSettingsOption2">Clear my preferences</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="textClose">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="warningClearingPreferencesModal" tabindex="-1" aria-labelledby="warningClearingPreferencesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="warningClearingPreferencesModalLabel" data-i18n="textWarning">Warning</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p data-i18n="textWarningClearingPreferences">If you choose to continue, this will clear your preferences, including language and color scheme settings. After clearing, you will be redirected to the homepage.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="textCancel">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmClearPreferencesBtn" data-i18n="textContinue">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
