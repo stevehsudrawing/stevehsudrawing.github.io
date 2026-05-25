@@ -316,43 +316,6 @@
                         }
                     }
                 ]
-            },
-            {
-                "available": false,
-                "icon": {
-                    "properties": {
-                        "alt": "Sticker Collections Series 2 Vol. 1",
-                        "src": "/images/icons/sticker-collection-series-2-vol-1.png"
-                    }
-                },
-                "title": [
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu EL Edition",
-                            "properties": {
-                                "data-i18n": "textStickerCollectionsSeries2"
-                            }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": " Vol. 1"
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Coming soon",
-                            "properties": {
-                                "data-i18n": "textComingSoon"
-                            }
-                        }
-                    }
-                ]
             }
         ]
     },

@@ -186,14 +186,16 @@ function getThemeLabel(theme) {
 }
 
 function updateThemeToggleText() {
-    const themeTextElement = document.getElementById('themeCurrentText');
-    if (!themeTextElement) {
+    const themeTextElements = document.querySelectorAll('.themeCurrentText');
+    if (!themeTextElements || themeTextElements.length === 0) {
         return;
     }
 
     const key = getThemeI18nKey(currentThemePreference);
-    themeTextElement.setAttribute('data-i18n', key);
-    themeTextElement.textContent = langData[key] || getThemeLabel(currentThemePreference);
+    themeTextElements.forEach(themeTextElement => {
+        themeTextElement.setAttribute('data-i18n', key);
+        themeTextElement.textContent = langData[key] || getThemeLabel(currentThemePreference);
+    });
 }
 
 function setActiveThemeItem() {
