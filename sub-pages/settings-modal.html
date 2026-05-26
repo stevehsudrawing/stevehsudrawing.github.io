@@ -14,9 +14,7 @@
                             <div class="mb-3">
                                 <label for="languageSelect" class="form-label fw-semibold" data-i18n="textLanguage">Language</label>
                                 <select class="form-select" id="languageSelect">
-                                    <option value="en">English</option>
-                                    <option value="zh-Hans">中文 (简体)</option>
-                                    <option value="zh-Hant">中文 (繁體)</option>
+                                    <!-- Options will be populated dynamically -->
                                 </select>
                             </div>
                             <div class="mb-2 fw-semibold" data-i18n="textColorScheme">Color Scheme</div>
@@ -28,11 +26,11 @@
                         </div>
                         <div class="mb-3 form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="externalLinksNewTabToggle">
-                            <label class="form-check-label" for="externalLinksNewTabToggle" data-i18n="textSettingsOption1">Always open external links in a new tab</label>
+                            <label class="form-check-label" for="externalLinksNewTabToggle" data-i18n="textAlwaysOpenExternalLinksInANewTab">Always open external links in a new tab</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger me-auto" id="clearPreferencesBtn" data-i18n="textSettingsOption2">Clear my preferences</button>
+                        <button type="button" class="btn btn-outline-danger me-auto" id="clearPreferencesBtn" data-i18n="textReset">Clear my preferences</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="textClose">Close</button>
                     </div>
                 </div>

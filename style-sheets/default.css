@@ -110,6 +110,11 @@ body {
         gap: 0.5rem;
         width: 100%;
     }
+
+    .link-hub-part {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -160,6 +165,11 @@ body {
     .navbar .navbar-nav:not(.flex-grow-1) {
         flex: 0 0 auto;
     }
+
+    .link-hub-part {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
 }
 
 @supports not (backdrop-filter: blur(15px)) {
@@ -169,8 +179,8 @@ body {
 }
 
 #pageContent {
-    margin-top: 56px;
-    margin-bottom: 0;
+    margin-top: 54px;
+    margin-bottom: 16px;
     flex: 1;
 }
 
@@ -178,11 +188,6 @@ body {
     width: 100%;
     height: auto;
     object-fit: cover;
-}
-
-.link-hub-part {
-    margin-top: 16px;
-    margin-bottom: 16px;
 }
 
 .author-name {

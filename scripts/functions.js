@@ -55,9 +55,29 @@ function setActiveNavItem() {
 
 // ========== Language-Related ==========
 
-let supportedLangs = ['en', 'zh-Hans', 'zh-Hant'];
+let supportedLangs = [];
+let languageList = [];
 let currentLang = 'en';
 let langData = {};
+
+async function loadSupportedLangs() {
+    try {
+        const response = await fetch('/configs/language-list.json');
+        if (!response.ok) throw new Error(`Failed to load language list: ${response.status}`);
+        const list = await response.json();
+        if (Array.isArray(list)) {
+            languageList = list;
+            supportedLangs = list.map(item => item && item.code).filter(Boolean);
+        } else {
+            languageList = [];
+            supportedLangs = [];
+        }
+    } catch (error) {
+        console.error('Failed to load language list:', error);
+        supportedLangs = ['en', 'zh-Hans', 'zh-Hant'];
+    }
+}
+
 
 function updatePageText() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -93,7 +113,7 @@ function setActiveLangItem() {
 
 async function loadLang(lang) {
     try {
-        const response = await fetch(`/locales/${lang}.json`);
+        const response = await fetch(`/configs/i18n/${lang}.json`);
         if (!response.ok) throw new Error(`Failed to load file of language ${lang}`);
         langData = await response.json();
         currentLang = lang;
@@ -112,6 +132,10 @@ async function loadLang(lang) {
 
         setActiveNavItem();
         setActiveLangItem();
+        const languageSelect = document.getElementById('languageSelect');
+        if (languageSelect) {
+            languageSelect.value = currentLang;
+        }
     } catch (error) {
         console.error('Failed to load language file:', error);
     }

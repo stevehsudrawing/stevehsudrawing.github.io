@@ -7,7 +7,7 @@ function resolveLinksJsonPath() {
     const pathname = window.location.pathname;
     const pageName = pathname.split('/').pop() || 'index.html';
     const baseName = pageName.replace(/\.[^.]+$/, '') || 'index';
-    return `/links/${baseName}.json`;
+    return `/configs/links/${baseName}.json`;
 }
 
 function setElementAttributes(element, properties = {}) {
