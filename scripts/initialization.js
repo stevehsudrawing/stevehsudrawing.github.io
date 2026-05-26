@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        await loadHTML('header', 'sub-pages/header.html');
-        await loadHTML('footer', 'sub-pages/footer.html');
-        await loadHTML('qrCodeModalContainer', 'sub-pages/qr-code-modal.html');
-        await loadHTML('settingsModalContainer', 'sub-pages/settings-modal.html');
+        await loadHTML('header', '/sub-pages/header.html');
+        await loadHTML('footer', '/sub-pages/footer.html');
+        await loadHTML('qrCodeModalContainer', '/sub-pages/qr-code-modal.html');
+        await loadHTML('settingsModalContainer', '/sub-pages/settings-modal.html');
 
         // Load supported languages and populate UI
         await loadSupportedLangs();
