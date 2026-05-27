@@ -346,8 +346,6 @@ function initializeSettingsModal() {
     applyExternalLinkTargetBehavior();
 }
 
-applyThemePreference(currentThemePreference, false);
-
 // ========== QR Code Modal ==========
 
 function showQRCodeModal(linkUrl) {

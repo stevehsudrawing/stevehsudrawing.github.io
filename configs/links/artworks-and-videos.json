@@ -186,7 +186,7 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": ": SteveHsu什五 / UID: 6053515220"
+                            "content": ": SteveHsu什五 | UID: 6053515220"
                         }
                     }
                 ]
@@ -222,7 +222,7 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": " Vol. 1"
+                            "content": "Vol. 1"
                         }
                     }
                 ],
@@ -280,7 +280,7 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": " Vol. 2"
+                            "content": "Vol. 2"
                         }
                     }
                 ],
@@ -312,6 +312,43 @@
                             "content": " ",
                             "properties": {
                                 "data-i18n": "textAvailableOnPart2"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "available": false,
+                "icon": {
+                    "properties": {
+                        "alt": "Sticker Collections Series 1 Vol. 3",
+                        "src": "/images/icons/sticker-collection-series-1-vol-3.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Steve Hsu & Kato",
+                            "properties": {
+                                "data-i18n": "textStickerCollectionsSeries1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Vol. 3"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Coming soon",
+                            "properties": {
+                                "data-i18n": "textComingSoon"
                             }
                         }
                     }
@@ -390,7 +427,7 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": ": SteveHsu什五 / UID: 298733903"
+                            "content": ": SteveHsu什五 | UID: 298733903"
                         }
                     }
                 ]

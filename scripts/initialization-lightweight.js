@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadHTML('footer', '/sub-pages/footer-lightweight.html');
 
+        applyThemePreference(currentThemePreference, false);
+
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         await loadLang(savedLang);

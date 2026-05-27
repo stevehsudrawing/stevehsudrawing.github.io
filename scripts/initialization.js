@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Load supported languages and populate UI
         await loadSupportedLangs();
 
+        applyThemePreference(currentThemePreference, false);
+
         // Populate header language menu
         try {
             const langToggle = document.getElementById('langDropdown');
