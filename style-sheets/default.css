@@ -228,6 +228,10 @@ body {
     mask: url(/images/icons/email.png) no-repeat center / contain;
 }
 
+.img-mono-threads {
+    mask: url(/images/icons/threads.png) no-repeat center / contain;
+}
+
 #qrCodeModal .modal-body {
     display: flex;
     flex-direction: column;

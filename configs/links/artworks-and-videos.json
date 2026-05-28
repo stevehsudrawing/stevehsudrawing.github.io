@@ -95,34 +95,6 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Instagram",
-                        "src": "/images/icons/instagram.png"
-                    }
-                },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": {
-                            "content": "Instagram"
-                        },
-                        "properties": {
-                            "href": "https://www.instagram.com/stevehsudrawing"
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsudrawing"
-                        }
-                    }
-                ]
-            },
-            {
-                "available": true,
-                "icon": {
-                    "properties": {
                         "alt": "X",
                         "src": "/images/null.png",
                         "class": [
@@ -187,6 +159,62 @@
                         "superLink": false,
                         "text": {
                             "content": ": SteveHsu什五 | UID: 6053515220"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Instagram",
+                        "src": "/images/icons/instagram.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Instagram"
+                        },
+                        "properties": {
+                            "href": "https://www.instagram.com/stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Threads",
+                        "src": "/images/icons/threads.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Threads"
+                        },
+                        "properties": {
+                            "href": "https://www.threads.com/@stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
                         }
                     }
                 ]
