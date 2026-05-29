@@ -186,7 +186,16 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": "UID: stevehsudrawing"
+                            "content": "UID: stevehsudrawing |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Inactive",
+                            "properties": {
+                                "data-i18n": "textInactive"
+                            }
                         }
                     }
                 ]
@@ -196,7 +205,11 @@
                 "icon": {
                     "properties": {
                         "alt": "Threads",
-                        "src": "/images/icons/threads.png"
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-threads",
+                            "img-mono-fill-body-color"
+                        ]
                     }
                 },
                 "title": [
@@ -214,7 +227,16 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": "UID: stevehsudrawing"
+                            "content": "UID: stevehsudrawing |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Inactive",
+                            "properties": {
+                                "data-i18n": "textInactive"
+                            }
                         }
                     }
                 ]
@@ -415,9 +437,19 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": "UID: stevehsu4277"
+                            "content": "UID: stevehsu4277 |"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Inactive",
+                            "properties": {
+                                "data-i18n": "textInactive"
+                            }
                         }
                     }
+
                 ]
             },
             {
