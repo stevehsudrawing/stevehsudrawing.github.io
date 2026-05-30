@@ -6,6 +6,17 @@
                 "data-i18n": "textQuantoSeries"
             }
         },
+        "description": [
+            {
+                "superLink": false,
+                "text": {
+                    "content": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter.",
+                    "properties": {
+                        "data-i18n": "textQuantoSeriesDescription"
+                    }
+                }
+            }
+        ],
         "contents": [
             {
                 "available": false,

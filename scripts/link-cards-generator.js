@@ -208,6 +208,11 @@ function buildLinkGroup(groupData) {
         groupWrapper.appendChild(title);
     }
 
+    if (groupData.description) {
+        const description = buildDescriptionElement(groupData.description);
+        groupWrapper.appendChild(description);
+    }
+
     if (Array.isArray(groupData.contents)) {
         const row = document.createElement('div');
         row.className = 'row g-2';
