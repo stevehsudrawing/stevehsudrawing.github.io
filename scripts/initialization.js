@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadHTML('header', '/sub-pages/header.html');
+        initializeDropdownMenuAnimation();
         await loadHTML('footer', '/sub-pages/footer.html');
         await loadHTML('qrCodeModalContainer', '/sub-pages/qr-code-modal.html');
         await loadHTML('settingsModalContainer', '/sub-pages/settings-modal.html');
@@ -97,6 +98,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
     } catch (error) {
         console.error('Failed to initialize: ' + error);
     }

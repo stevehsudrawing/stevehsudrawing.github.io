@@ -53,6 +53,56 @@ function setActiveNavItem() {
     }
 }
 
+function initializeDropdownMenuAnimation() {
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+        const menu = dropdown.querySelector('.dropdown-menu');
+        if (!menu) {
+            return;
+        }
+
+        dropdown.addEventListener('show.bs.dropdown', () => {
+            menu.style.display = 'block';
+            menu.classList.remove('closing');
+            menu.classList.add('animating');
+        });
+
+        dropdown.addEventListener('shown.bs.dropdown', () => {
+            menu.classList.remove('animating');
+        });
+
+        dropdown.addEventListener('hide.bs.dropdown', event => {
+            if (menu.classList.contains('closing')) {
+                return;
+            }
+
+            event.preventDefault();
+            menu.style.display = 'block';
+            menu.classList.add('closing');
+            menu.classList.remove('show');
+
+            const toggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
+            const cleanup = () => {
+                menu.classList.remove('closing');
+                menu.style.display = '';
+                dropdown.classList.remove('show');
+                if (toggle) {
+                    toggle.classList.remove('show');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            };
+
+            menu.addEventListener('transitionend', function handler(evt) {
+                if (evt.target === menu && evt.propertyName === 'opacity') {
+                    cleanup();
+                    menu.removeEventListener('transitionend', handler);
+                }
+            }, { once: true });
+
+            setTimeout(cleanup, 250);
+        });
+    });
+}
+
 // ========== Language-Related ==========
 
 let supportedLangs = [];
