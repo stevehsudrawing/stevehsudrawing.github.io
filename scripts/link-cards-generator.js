@@ -153,6 +153,29 @@ function buildIconElement(iconData) {
     return wrapper;
 }
 
+function toDashCase(text) {
+    return String(text || '')
+        .trim()
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}\s-]+/gu, '')
+        .replace(/[\s_]+/g, '-')
+        .replace(/-{2,}/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+function scrollToHashTarget(hash, instant = false) {
+    if (!hash) return;
+    if (hash.startsWith('#')) {
+        hash = hash.slice(1);
+    }
+
+    const target = document.getElementById(hash);
+    if (!target) return;
+
+    const offset = 54;
+    const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+    const scrollTop = Math.max(0, targetTop - offset);
+    window.scrollTo({ top: scrollTop, behavior: instant ? 'auto' : 'smooth' });
+}
 function buildCardItem(cardData) {
     const column = document.createElement('div');
     column.className = 'col-lg-6 col-xxl-4';
@@ -201,11 +224,38 @@ function buildLinkGroup(groupData) {
     groupWrapper.className = 'link-hub-part';
 
     if (groupData.title) {
+        const titleText = groupData.title.content || '';
+        const titleId = toDashCase(titleText);
+
+        const titleContainer = document.createElement('div');
+        titleContainer.className = 'title-link-group-wrapper';
+
         const title = document.createElement('h4');
-        title.textContent = groupData.title.content || '';
-        title.classList.add('title-link-group')
+        title.textContent = titleText;
+        title.classList.add('title-link-group');
         setElementAttributes(title, groupData.title.properties);
-        groupWrapper.appendChild(title);
+        if (titleId) {
+            title.id = titleId;
+        }
+
+        titleContainer.appendChild(title);
+
+        if (titleId) {
+            const titleAnchor = document.createElement('a');
+            titleAnchor.className = 'title-link-anchor';
+            titleAnchor.href = `#${titleId}`;
+            titleAnchor.textContent = '#';
+            titleAnchor.setAttribute('aria-label', `Link to ${titleText}`);
+            titleAnchor.addEventListener('click', event => {
+                event.preventDefault();
+                const hash = titleAnchor.getAttribute('href');
+                history.pushState(null, '', hash);
+                scrollToHashTarget(hash);
+            });
+            titleContainer.appendChild(titleAnchor);
+        }
+
+        groupWrapper.appendChild(titleContainer);
     }
 
     if (groupData.description) {
@@ -260,6 +310,10 @@ async function generateLinkCards() {
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         loadLang(savedLang);
+
+        if (window.location.hash) {
+            scrollToHashTarget(window.location.hash, true);
+        }
     } catch (error) {
         console.error('Failed to generate link cards:', error);
         container.innerHTML = '<div class="alert alert-warning">Unable to load link cards.</div>';
@@ -268,4 +322,8 @@ async function generateLinkCards() {
 
 window.addEventListener('DOMContentLoaded', () => {
     generateLinkCards();
+});
+
+window.addEventListener('hashchange', () => {
+    scrollToHashTarget(window.location.hash, true);
 });
