@@ -162,20 +162,7 @@ function toDashCase(text) {
         .replace(/-{2,}/g, '-')
         .replace(/^-+|-+$/g, '');
 }
-function scrollToHashTarget(hash, instant = false) {
-    if (!hash) return;
-    if (hash.startsWith('#')) {
-        hash = hash.slice(1);
-    }
 
-    const target = document.getElementById(hash);
-    if (!target) return;
-
-    const offset = 54;
-    const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
-    const scrollTop = Math.max(0, targetTop - offset);
-    window.scrollTo({ top: scrollTop, behavior: instant ? 'auto' : 'smooth' });
-}
 function buildCardItem(cardData) {
     const column = document.createElement('div');
     column.className = 'col-lg-6 col-xxl-4';
@@ -246,12 +233,6 @@ function buildLinkGroup(groupData) {
             titleAnchor.href = `#${titleId}`;
             titleAnchor.textContent = '#';
             titleAnchor.setAttribute('aria-label', `Link to ${titleText}`);
-            titleAnchor.addEventListener('click', event => {
-                event.preventDefault();
-                const hash = titleAnchor.getAttribute('href');
-                history.pushState(null, '', hash);
-                scrollToHashTarget(hash);
-            });
             titleContainer.appendChild(titleAnchor);
         }
 

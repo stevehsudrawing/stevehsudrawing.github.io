@@ -1,3 +1,41 @@
+// Accessibility: show `#skipButton` only when navigation is via keyboard
+(function () {
+    const root = document.documentElement;
+
+    function setKeyboardMode() {
+        root.classList.add('user-input-keyboard');
+        root.classList.remove('user-input-pointer');
+    }
+
+    function setPointerMode() {
+        root.classList.remove('user-input-keyboard');
+        root.classList.add('user-input-pointer');
+    }
+
+    // Keyboard navigation (Tab) should enable keyboard mode
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Tab' || e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            setKeyboardMode();
+        }
+    }, true);
+
+    // Any pointer interaction disables keyboard-only display
+    ['mousedown', 'pointerdown', 'touchstart'].forEach(evt => {
+        document.addEventListener(evt, setPointerMode, true);
+    });
+
+    // Optional: on focus of skip button ensure keyboard class present for older browsers
+    document.addEventListener('focusin', function (e) {
+        if (e.target && e.target.id === 'skipButton') {
+            // If focus landed on the skip button but pointer mode is active, switch to keyboard mode
+            if (!root.classList.contains('user-input-keyboard')) {
+                // Prefer :focus-visible in modern browsers; this is a safe fallback
+                setKeyboardMode();
+            }
+        }
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadHTML('header', '/sub-pages/header.html');
@@ -98,6 +136,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        addEventListenerToTitleLinkAnchors()
 
     } catch (error) {
         console.error('Failed to initialize: ' + error);

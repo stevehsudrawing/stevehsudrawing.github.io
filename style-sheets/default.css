@@ -57,12 +57,10 @@ html.user-input-keyboard #skipButton:focus {
     padding: 0.25rem 0.5rem;
     overflow: visible;
     clip: auto;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .navbar {
-    height: 54px;
+    height: 64px;
 }
 
 /* Navbar adaption for mobile */
@@ -146,29 +144,29 @@ html.user-input-keyboard #skipButton:focus {
 }
 
 .dropdown-menu {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transform: translateY(-0.25rem) scale(0.95) !important;
-    transform-origin: top center !important;
-    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-0.25rem) scale(0.95);
+    transform-origin: top center;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
 }
 
 .dropdown-menu.show {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateY(0) scale(1) !important;
-    transition-delay: 0s !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
 }
 
 .dropdown-menu.closing {
-    display: block !important;
-    opacity: 0 !important;
-    visibility: visible !important;
-    pointer-events: none !important;
-    transform: translateY(-0.25rem) scale(0.95) !important;
-    transition-delay: 0s !important;
+    display: block;
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+    transform: translateY(-0.25rem) scale(0.95);
+    transition-delay: 0s;
 }
 
 @media (min-width: 992px) {
@@ -233,7 +231,7 @@ html.user-input-keyboard #skipButton:focus {
 }
 
 #page-content {
-    margin-top: 54px;
+    margin-top: 64px;
     margin-bottom: 16px;
     flex: 1;
 }
@@ -310,7 +308,7 @@ html.user-input-keyboard #skipButton:focus {
 }
 
 .title-link-group {
-    margin-top: 25px;
+    margin-top: 10px;
     margin-bottom: 15px;
 }
 
