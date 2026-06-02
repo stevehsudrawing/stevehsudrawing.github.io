@@ -368,7 +368,7 @@
                 ]
             },
             {
-                "available": false,
+                "available": true,
                 "icon": {
                     "properties": {
                         "alt": "Sticker Collections Series 1 Vol. 3",
@@ -396,9 +396,30 @@
                     {
                         "superLink": false,
                         "text": {
-                            "content": "Coming soon",
+                            "content": "Available on",
                             "properties": {
-                                "data-i18n": "textComingSoon"
+                                "data-i18n": "textAvailableOnPart1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "WeChat",
+                            "properties": {
+                                "data-i18n": "textWeChat"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/NRo0KLXXVD7giEg6xiijy36E8U35TTzH2p9XDPEuCntzaqOb9/LT957yTuzQmE6F8="
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " ",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart2"
                             }
                         }
                     }
