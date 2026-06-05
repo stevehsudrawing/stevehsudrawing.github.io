@@ -1,0 +1,14 @@
+.navbar {
+    height: 64px;
+}
+
+.navbar-bg-glass {
+    background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+    backdrop-filter: blur(15px) saturate(1.5);
+}
+
+@supports not (backdrop-filter: blur(15px)) {
+    .navbar-bg-glass {
+    background-color: rgba(var(--bs-body-bg-rgb), 1);
+    }
+}

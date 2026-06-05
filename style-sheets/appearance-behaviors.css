@@ -1,0 +1,26 @@
+/* Dropdown Menu Animations */
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-0.25rem) scale(0.95);
+    transform-origin: top center;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+}
+
+.dropdown-menu.closing {
+    display: block;
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+    transform: translateY(-0.25rem) scale(0.95);
+    transition-delay: 0s;
+}
