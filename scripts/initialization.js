@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        await loadHTML('header', '/sub-pages/header.html');
-        await loadHTML('footer', '/sub-pages/footer.html');
-        await loadHTML('qrCodeModalContainer', '/sub-pages/qr-code-modal.html');
-        await loadHTML('settingsModalContainer', '/sub-pages/settings-modal.html');
+        await loadAllComponents();
 
         // Load supported languages and populate UI
         await loadSupportedLangs();
@@ -27,7 +24,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         addEventListenerToTitleLinkAnchors();
 
+        // Signal that page initialization is complete
+        document.dispatchEvent(new CustomEvent('pageInitialized'));
+
     } catch (error) {
         console.error('Failed to initialize: ' + error);
+        // Still signal completion even on error, so the transition can complete
+        document.dispatchEvent(new CustomEvent('pageInitialized'));
     }
 })

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        await loadHTML('footer', '/sub-pages/footer-lightweight.html');
+        await loadAllComponents();
 
         applyThemePreference(currentThemePreference, false);
 
@@ -12,7 +12,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        // Signal that page initialization is complete
+        document.dispatchEvent(new CustomEvent('pageInitialized'));
     } catch (error) {
         console.error('Failed to initialize: ' + error);
+        document.dispatchEvent(new CustomEvent('pageInitialized'));
     }
 })

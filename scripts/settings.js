@@ -1,5 +1,71 @@
 function addSettingEventListeners() {
+    document.addEventListener('change', function (e) {
+        // External links new tab toggle
+        if (e.target && e.target.id === 'externalLinksNewTabToggle') {
+            const checked = e.target.checked;
+            setExternalLinkNewTabPreference(checked);
+            applyExternalLinkTargetBehavior();
+            return;
+        }
+
+        // Language select
+        if (e.target && e.target.id === 'languageSelect') {
+            const selectedLang = e.target.value;
+            loadLang(selectedLang);
+            return;
+        }
+    });
+
     document.addEventListener('click', function (e) {
+        // Clear preferences button
+        if (e.target && e.target.id === 'clearPreferencesBtn') {
+            e.preventDefault();
+            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
+            if (warningModalEl) {
+                warningModalEl.style.zIndex = '1070';
+                const warningModal = new bootstrap.Modal(warningModalEl);
+                warningModalEl.addEventListener('shown.bs.modal', () => {
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    if (backdrops.length > 0) {
+                        backdrops[backdrops.length - 1].style.zIndex = '1060';
+                    }
+                }, { once: true });
+                warningModal.show();
+            }
+            return;
+        }
+
+        // Confirm clear preferences button
+        if (e.target && e.target.id === 'confirmClearPreferencesBtn') {
+            try {
+                localStorage.removeItem('preferredLang');
+                localStorage.removeItem('bsTheme');
+                localStorage.removeItem('openExternalLinksInNewTab');
+            } catch (e) {
+                console.warn('Failed to clear some preferences:', e);
+            }
+
+            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
+            if (warningModalEl) {
+                const m = bootstrap.Modal.getInstance(warningModalEl) || new bootstrap.Modal(warningModalEl);
+                m.hide();
+            }
+
+            window.location.href = '/index.html';
+            return;
+        }
+
+        const settingsOpenButton = e.target.closest('[data-settings-open]');
+        if (settingsOpenButton) {
+            e.preventDefault();
+            const modalElement = document.getElementById('settingsModal');
+            if (modalElement) {
+                const bootstrapModal = new bootstrap.Modal(modalElement);
+                bootstrapModal.show();
+            }
+            return;
+        }
+
         const langItem = e.target.closest('[data-lang]');
         if (langItem) {
             e.preventDefault();
@@ -43,79 +109,28 @@ function applyExternalLinkTargetBehavior() {
 }
 
 function initializeSettingsModal() {
+    // Prevent duplicate initialization, which can happen after page transitions
+    if (document.body.hasAttribute('data-settings-modal-initialized')) {
+        // Sync toggle state and apply external link target behavior
+        // in case the DOM was recreated after navigation
+        const settingsToggle = document.getElementById('externalLinksNewTabToggle');
+        if (settingsToggle) {
+            settingsToggle.checked = getExternalLinkNewTabPreference();
+        }
+        applyExternalLinkTargetBehavior();
+        return;
+    }
+    document.body.setAttribute('data-settings-modal-initialized', '');
+
+    // Sync initial values for UI elements (events handled via delegation)
     const settingsToggle = document.getElementById('externalLinksNewTabToggle');
     if (settingsToggle) {
         settingsToggle.checked = getExternalLinkNewTabPreference();
-        settingsToggle.addEventListener('change', event => {
-            const checked = event.target.checked;
-            setExternalLinkNewTabPreference(checked);
-            applyExternalLinkTargetBehavior();
-        });
     }
 
     const languageSelect = document.getElementById('languageSelect');
     if (languageSelect) {
         languageSelect.value = currentLang;
-        languageSelect.addEventListener('change', event => {
-            const selectedLang = event.target.value;
-            loadLang(selectedLang);
-        });
-    }
-
-    const settingsOpenButtons = document.querySelectorAll('[data-settings-open]');
-    settingsOpenButtons.forEach(button => {
-        button.addEventListener('click', event => {
-            event.preventDefault();
-            const modalElement = document.getElementById('settingsModal');
-            if (modalElement) {
-                const bootstrapModal = new bootstrap.Modal(modalElement);
-                bootstrapModal.show();
-            }
-        });
-    });
-
-    // Clear preferences flow
-    const clearBtn = document.getElementById('clearPreferencesBtn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', event => {
-            event.preventDefault();
-            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
-            if (warningModalEl) {
-                warningModalEl.style.zIndex = '1070';
-                const warningModal = new bootstrap.Modal(warningModalEl);
-                warningModalEl.addEventListener('shown.bs.modal', () => {
-                    const backdrops = document.querySelectorAll('.modal-backdrop');
-                    if (backdrops.length > 0) {
-                        backdrops[backdrops.length - 1].style.zIndex = '1060';
-                    }
-                }, { once: true });
-                warningModal.show();
-            }
-        });
-    }
-
-    const confirmClearBtn = document.getElementById('confirmClearPreferencesBtn');
-    if (confirmClearBtn) {
-        confirmClearBtn.addEventListener('click', event => {
-            // Remove known preference keys
-            try {
-                localStorage.removeItem('preferredLang');
-                localStorage.removeItem('bsTheme');
-                localStorage.removeItem('openExternalLinksInNewTab');
-            } catch (e) {
-                console.warn('Failed to clear some preferences:', e);
-            }
-
-            // Close any modal and redirect to homepage
-            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
-            if (warningModalEl) {
-                const m = bootstrap.Modal.getInstance(warningModalEl) || new bootstrap.Modal(warningModalEl);
-                m.hide();
-            }
-
-            // Redirect to homepage
-            window.location.href = '/index.html';
-        });
     }
 
     applyExternalLinkTargetBehavior();
