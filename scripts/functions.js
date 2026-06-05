@@ -221,6 +221,8 @@ function applyThemePreference(themeChoice, save = true) {
     if (save) {
         localStorage.setItem('bsTheme', theme);
     }
+
+    applyThemeBasedImages();
 }
 
 function updateAutoThemeOnSystemChange() {
@@ -229,6 +231,33 @@ function updateAutoThemeOnSystemChange() {
     }
 
     htmlElement.setAttribute('data-bs-theme', getSystemTheme());
+    applyThemeBasedImages();
+}
+
+// ========== Theme-Based Images ==========
+
+function applyThemeBasedImages() {
+    try {
+        const currentTheme = htmlElement.getAttribute('data-bs-theme');
+        document.querySelectorAll('img[data-src-dark]').forEach(img => {
+            const darkSrc = img.getAttribute('data-src-dark');
+            if (currentTheme === 'dark') {
+                // Store the light src if not already stored, then switch to dark
+                if (!img.hasAttribute('data-src-light')) {
+                    img.setAttribute('data-src-light', img.getAttribute('src'));
+                }
+                img.setAttribute('src', darkSrc);
+            } else {
+                // Restore the light src if previously stored
+                const lightSrc = img.getAttribute('data-src-light');
+                if (lightSrc) {
+                    img.setAttribute('src', lightSrc);
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Failed to apply theme-based images:', error);
+    }
 }
 
 if (typeof prefersColorScheme.addEventListener === 'function') {
