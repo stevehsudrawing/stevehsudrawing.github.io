@@ -262,7 +262,6 @@ function buildLinkGroup(groupData) {
 async function generateLinkCards() {
     const container = document.getElementById('links');
     if (!container) {
-        console.warn('Could not find element with id "links" to insert card groups.');
         return;
     }
 
@@ -288,10 +287,6 @@ async function generateLinkCards() {
             }
         });
 
-        // Load language file
-        const savedLang = localStorage.getItem('preferredLang') || 'en';
-        loadLang(savedLang);
-
         if (window.location.hash) {
             scrollToHashTarget(window.location.hash, true);
         }
@@ -300,10 +295,6 @@ async function generateLinkCards() {
         container.innerHTML = '<div class="alert alert-warning">Unable to load link cards.</div>';
     }
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-    generateLinkCards();
-});
 
 window.addEventListener('hashchange', () => {
     scrollToHashTarget(window.location.hash, true);

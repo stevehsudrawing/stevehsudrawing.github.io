@@ -67,11 +67,11 @@ function isSupported() {
     const browser = detectBrowser();
     const supportMap = {
         ie: false,
-        chrome: browser.version >= 60,
-        firefox: browser.version >= 60,
-        edge: browser.version >= 79,
-        safari: browser.version >= 12,
-        opera: browser.version >= 47,
+        chrome: browser.version >= 80,
+        firefox: browser.version >= 78,
+        edge: browser.version >= 80,
+        opera: browser.version >= 67,
+        safari: browser.version >= 13,
         unknown: false
     };
     return supportMap[browser.name];

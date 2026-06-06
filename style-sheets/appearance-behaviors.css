@@ -24,3 +24,42 @@
     transform: translateY(-0.25rem) scale(0.95);
     transition-delay: 0s;
 }
+
+/* Page Transition Progress Bar */
+#page-transition-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 1100;
+    pointer-events: none;
+}
+
+#page-transition-progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: rgb(var(--bs-link-color-rgb, 13, 110, 253));
+    transition: width 0.25s ease-out;
+}
+
+#page-transition-progress.active #page-transition-progress-bar {
+    width: 85%;
+    transition: width 2.5s ease-out;
+}
+
+#page-transition-progress.done #page-transition-progress-bar {
+    width: 100%;
+    transition: width 0.25s ease-in;
+}
+
+/* Page Content Transition Dimming */
+#page-content {
+    transition: opacity 0.2s ease;
+}
+
+#page-content.transitioning {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}

@@ -1,3 +1,40 @@
+/**
+ * Initialize page-content-specific elements.
+ * Called both on first load and after page transitions.
+ */
+async function initializePageContent() {
+    // Apply cached translations to static page content first
+    if (currentLang && Object.keys(langData).length > 0) {
+        updatePageText();
+        setActiveNavItem();
+        setActiveLangItem();
+        const languageSelect = document.getElementById('languageSelect');
+        if (languageSelect) {
+            languageSelect.value = currentLang;
+        }
+    }
+
+    // Generate link cards if #links container exists
+    await generateLinkCards();
+
+    // Apply translations again — link cards were just added to the DOM
+    if (currentLang && Object.keys(langData).length > 0) {
+        updatePageText();
+    }
+
+    // Re-initialize Bootstrap tooltips in new content
+    activateTooltips();
+
+    // Re-bind title link anchor click handlers
+    addEventListenerToTitleLinkAnchors();
+
+    // Apply theme-based images (dark/light variants)
+    applyThemeBasedImages();
+
+    // Apply external link target behavior
+    applyExternalLinkTargetBehavior();
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadAllComponents();
@@ -20,9 +57,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         updateThemeToggleText();
         setActiveThemeItem();
 
-        activateTooltips();
-
-        addEventListenerToTitleLinkAnchors();
+        // Initialize page content (link cards, tooltips, etc.)
+        await initializePageContent();
 
         // Signal that page initialization is complete
         document.dispatchEvent(new CustomEvent('pageInitialized'));

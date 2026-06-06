@@ -1,0 +1,281 @@
+/**
+ * Page Transition System
+ * Provides SPA-like smooth transitions between internal pages
+ * by fetching and replacing only the #page-content element.
+ */
+
+const INTERNAL_PAGES = [
+    '/index.html',
+    '/about.html',
+    '/artworks-and-videos.html',
+    '/blogs-and-sponsor.html',
+    '/chatting.html',
+    '/softwares.html'
+];
+
+const EXCLUDED_PAGES = ['/404.html', '/unsupported.html'];
+
+let isTransitioning = false;
+
+/**
+ * Determine if a URL is an internal page that should be handled by the transition system.
+ */
+function isInternalPage(url) {
+    try {
+        const target = new URL(url, window.location.origin);
+        // Must be same origin
+        if (target.origin !== window.location.origin) return false;
+        // Must be one of our known internal pages
+        const path = target.pathname;
+        return INTERNAL_PAGES.includes(path) && !EXCLUDED_PAGES.includes(path);
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Normalize a URL path to match our internal page list.
+ * E.g., '/' or '' → '/index.html'
+ */
+function normalizeInternalPath(pathname) {
+    if (pathname === '/' || pathname === '') return '/index.html';
+    return pathname;
+}
+
+/**
+ * Check if a clicked link should be handled by the transition system.
+ */
+function shouldInterceptLink(link) {
+    if (!link) return false;
+
+    const href = link.getAttribute('href');
+    if (!href || href === '#') return false;
+
+    // Skip javascript: pseudo-protocol
+    if (href.startsWith('javascript:')) return false;
+
+    // Skip hash-only links (page-internal anchors)
+    if (href.startsWith('#')) return false;
+
+    // Skip if link has special attributes
+    if (link.hasAttribute('target') && link.getAttribute('target') === '_blank') return false;
+    if (link.hasAttribute('download')) return false;
+    if (link.hasAttribute('data-bs-toggle')) return false;
+    if (link.hasAttribute('data-lang')) return false;
+    if (link.hasAttribute('data-settings-open')) return false;
+    if (link.hasAttribute('onclick')) return false;
+
+    // Skip external-link class
+    if (link.classList.contains('external-link')) return false;
+
+    // Check if it's an internal page
+    if (!isInternalPage(href)) return false;
+
+    return true;
+}
+
+/**
+ * Start the progress bar animation.
+ */
+function startProgress() {
+    const bar = document.getElementById('page-transition-progress');
+    if (!bar) return;
+    // Reset
+    bar.classList.remove('done');
+    bar.style.display = '';
+    // Force reflow so the reset takes effect before adding 'active'
+    void bar.offsetWidth;
+    bar.classList.add('active');
+}
+
+/**
+ * Complete the progress bar animation and hide it.
+ */
+function completeProgress() {
+    const bar = document.getElementById('page-transition-progress');
+    if (!bar) return;
+    bar.classList.add('done');
+    bar.classList.remove('active');
+    // Hide after the completion transition
+    setTimeout(() => {
+        bar.classList.remove('done');
+        bar.style.display = 'none';
+    }, 350);
+}
+
+/**
+ * Dim the page content to indicate loading.
+ */
+function dimPageContent() {
+    const content = document.getElementById('page-content');
+    if (content) {
+        content.classList.add('transitioning');
+    }
+}
+
+/**
+ * Restore the page content opacity.
+ */
+function restorePageContent() {
+    const content = document.getElementById('page-content');
+    if (content) {
+        content.classList.remove('transitioning');
+    }
+}
+
+/**
+ * Close the offcanvas sidebar if it's open (mobile navigation).
+ */
+function closeOffcanvas() {
+    try {
+        const offcanvasEl = document.getElementById('navbarOffcanvas');
+        if (offcanvasEl) {
+            const instance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+            if (instance) {
+                instance.hide();
+            }
+        }
+    } catch {
+        // Bootstrap might not be available yet; ignore
+    }
+}
+
+/**
+ * Extract the #page-content inner HTML and <title> from a fetched HTML string.
+ */
+function extractPageContent(htmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+
+    const titleEl = doc.querySelector('title');
+    const newTitle = titleEl ? titleEl.textContent : document.title;
+
+    const pageContent = doc.getElementById('page-content');
+    if (!pageContent) {
+        throw new Error('Target page has no #page-content element');
+    }
+
+    return {
+        title: newTitle,
+        contentHTML: pageContent.innerHTML
+    };
+}
+
+/**
+ * Core navigation function.
+ * @param {string} url - The target URL
+ * @param {boolean} pushState - Whether to push a new history entry
+ */
+async function navigateTo(url, pushState = true) {
+    // Prevent concurrent transitions
+    if (isTransitioning) {
+        console.warn('Page transition already in progress, ignoring navigation to:', url);
+        return;
+    }
+
+    // Resolve the full URL to get the pathname for comparison
+    let resolvedPath;
+    try {
+        const resolved = new URL(url, window.location.origin);
+        resolvedPath = normalizeInternalPath(resolved.pathname);
+    } catch {
+        console.error('Invalid URL for navigation:', url);
+        return;
+    }
+
+    // Don't navigate to the same page
+    const currentPath = normalizeInternalPath(window.location.pathname);
+    if (resolvedPath === currentPath && pushState) {
+        return;
+    }
+
+    isTransitioning = true;
+
+    try {
+        // 1. Close offcanvas sidebar
+        closeOffcanvas();
+
+        // 2. Dim page content + start progress bar
+        dimPageContent();
+        startProgress();
+
+        // 3. Fetch the target page
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}: ${response.status}`);
+        }
+        const htmlString = await response.text();
+
+        // 4. Extract page content and title
+        const { title, contentHTML } = extractPageContent(htmlString);
+
+        // 5. Update the page
+        document.title = title;
+        const pageContentEl = document.getElementById('page-content');
+        if (pageContentEl) {
+            pageContentEl.innerHTML = contentHTML;
+        }
+
+        // 6. Update browser history
+        if (pushState) {
+            history.pushState({ path: resolvedPath }, title, url);
+        }
+
+        // 7. Re-initialize page content (i18n, link cards, tooltips, etc.)
+        if (typeof initializePageContent === 'function') {
+            await initializePageContent();
+        }
+
+        // 8. Scroll to top or hash target
+        if (window.location.hash) {
+            scrollToHashTarget(window.location.hash, true);
+        } else {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // 9. Complete progress bar and restore page content
+        completeProgress();
+        restorePageContent();
+
+    } catch (error) {
+        console.error('Page transition failed:', error);
+        // Fall back to full page navigation
+        completeProgress();
+        restorePageContent();
+        isTransitioning = false;
+        window.location.href = url;
+        return;
+    }
+
+    isTransitioning = false;
+}
+
+/**
+ * Handle click events on internal links.
+ */
+document.addEventListener('click', function (e) {
+    // Skip if user is holding modifier keys (open in new tab/window)
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+
+    // Skip if it's not a left-click
+    if (e.button !== 0) return;
+
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    if (!shouldInterceptLink(link)) return;
+
+    e.preventDefault();
+    navigateTo(link.href);
+});
+
+/**
+ * Handle browser back/forward navigation.
+ */
+window.addEventListener('popstate', function (e) {
+    const currentPath = normalizeInternalPath(window.location.pathname);
+    if (INTERNAL_PAGES.includes(currentPath)) {
+        navigateTo(window.location.href, false);
+    }
+    // If the popped state is not an internal page, let the browser handle it normally
+});
