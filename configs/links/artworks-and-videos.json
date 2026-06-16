@@ -346,6 +346,79 @@
                         }
                     }
                 ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Sticker Collections Series 2 Vol. 1",
+                        "src": "/images/icons/sticker-collection-series-2-vol-1.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Steve Hsu's SC Dynamic Edition",
+                            "properties": {
+                                "data-i18n": "textStickerCollectionsSeries2"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Vol. 1"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Available on",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart1"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "QQ"
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "and",
+                            "properties": {
+                                "data-i18n": "textAnd"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "WeChat",
+                            "properties": {
+                                "data-i18n": "textWeChat"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/PA8poXXItcUrmeETGATChYmPJchtOih+LLZBPBLrpRREUvDeoBIOBKdKyGjCWU4Lw="
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": " ",
+                            "properties": {
+                                "data-i18n": "textAvailableOnPart2"
+                            }
+                        }
+                    }
+                ]
             }
         ]
     },
