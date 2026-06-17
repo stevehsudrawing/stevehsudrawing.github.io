@@ -383,9 +383,12 @@
                         }
                     },
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": {
                             "content": "QQ"
+                        },
+                        "properties": {
+                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247481"
                         }
                     },
                     {
