@@ -1,12 +1,18 @@
 @media (max-width: 767.98px) {
-    p.m-0.border-0 {
+    .large-button-container {
         flex-direction: column;
     }
 
-    p.m-0.border-0 > .btn {
+    .large-button-container > .btn {
         width: 100%;
         justify-content: center;
         text-align: center;
+    }
+
+    .btn-group {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
     }
 }
 

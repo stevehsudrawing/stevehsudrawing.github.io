@@ -41,7 +41,7 @@
                     <div class="col-lg-6 order-lg-1 order-2">
                         <h1>
                             <span data-i18n="textWelcomePart1">Welcome to </span>
-                            <span data-i18n="textSteveHsu" class="author-name">Steve Hsu</span>
+                            <a href="/about.html"><span data-i18n="textSteveHsu">Steve Hsu</span></a>
                             <span data-i18n="textWelcomePart2">'s Link-Hub!</span>
                         </h1>
                         <p data-i18n="textIntroduction3">
@@ -50,18 +50,29 @@
                         <p data-i18n="textIntroduction1">
                             You might know me through my artworks and videos. You can view my more artworks from my Pixiv page or my page on other platforms.
                         </p>
-                        <p class="m-0 border-0">
-                            <a class="btn btn-primary external-link" href="https://www.pixiv.net/users/70732361">
-                                <span data-i18n="textMyPixivProfile">My Pixiv Profile</span>
-                                <i class="bi bi-box-arrow-up-right align-top bi-additional"></i>
+                        <div class="btn-group">
+                            <a class="btn btn-primary d-flex justify-content-center align-items-center text-center external-link" href="https://www.pixiv.net/users/70732361" data-bs-toggle="tooltip" data-bs-title="Pixiv">
+                                <img alt="Pixiv" src="/images/null.png" class="img-mono-fill-btn-primary-fg-color img-mono-pixiv" width="40" height="40">
                             </a>
-                            <a class="btn btn-outline-secondary" href="/artworks-and-videos.html" data-i18n="textStickerCollectionsVideosAndOtherPlatforms">
-                                Sticker Collections, Videos & Other Platforms
+                            <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://www.deviantart.com/stevehsudrawing" data-bs-toggle="tooltip" data-bs-title="DeviantArt">
+                                <img alt="DeviantArt" src="/images/icons/deviant-art.png" width="40" height="40">
                             </a>
-                            <a class="btn btn-outline-secondary" href="/about.html" data-i18n="textAboutMe">
-                                About Me
+                            <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://x.com/stevehsudrawing" data-bs-toggle="tooltip" data-bs-title="X">
+                                <img alt="X" src="/images/null.png" class="img-mono-fill-body-color img-mono-x-twitter" width="40" height="40">
                             </a>
-                        </p>
+                            <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://weibo.com/stevehsudrawing" data-bs-toggle="tooltip" data-bs-title="Weibo">
+                                <img alt="Weibo" src="/images/icons/weibo.png" width="40" height="40">
+                            </a>
+                            <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://space.bilibili.com/298733903" data-bs-toggle="tooltip" data-bs-title="Bilibili">
+                                <img alt="Bilibili" src="/images/icons/bilibili.png" width="40" height="40">
+                            </a>
+                            <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center" href="/artworks-and-videos.html#sticker-collections" data-bs-toggle="tooltip" data-bs-title="Sticker Collections">
+                                <img alt="Sticker Collections" src="/images/icons/sticker-collections.png" width="40" height="40">
+                            </a>
+                            <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center" href="/artworks-and-videos.html" data-bs-toggle="tooltip" data-bs-title="More links..." style="font-size: larger;">
+                                <i class="bi bi-three-dots"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
                         <img src="/images/covers/illustration-light.png" alt="Illustration" class="img-fluid img-fit rounded" data-src-dark="/images/covers/illustration-dark.png">
@@ -76,7 +87,7 @@
                         <p data-i18n="textIntroduction2">
                             You might also know me through softwares I made (such as Quanto Series). You can check my GitHub profile to view open source projects, or go to the "Software" page to see more.
                         </p>
-                        <p class="m-0 border-0">
+                        <p class="m-0 border-0 large-button-container">
                             <a class="btn btn-secondary external-link" href="https://github.com/stevehsudrawing">
                                 <i class="bi bi-github"></i>
                                 <span data-i18n="textMyGitHubProfile">My GitHub Profile</span>
@@ -100,7 +111,7 @@
                         <p data-i18n="textBlogsAndSponsorIntroduction">
                             Welcome to read my blogs about me or my projects!
                         </p>
-                        <p class="m-0 border-0">
+                        <p class="m-0 border-0 large-button-container">
                             <a class="btn btn-outline-secondary" href="/blogs-and-sponsor.html" data-i18n="textLearnMore">
                                 Learn More
                             </a>
@@ -119,7 +130,7 @@
                         <p data-i18n="textChattingIntroduction">
                             Welcome to join my chat room for interaction!
                         </p>
-                        <p class="m-0 border-0">
+                        <p class="m-0 border-0 large-button-container">
                             <a class="btn btn-outline-secondary" href="/chatting.html" data-i18n="textLearnMore">
                                 Learn More
                             </a>

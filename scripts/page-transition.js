@@ -60,7 +60,12 @@ function shouldInterceptLink(link) {
     // Skip if link has special attributes
     if (link.hasAttribute('target') && link.getAttribute('target') === '_blank') return false;
     if (link.hasAttribute('download')) return false;
-    if (link.hasAttribute('data-bs-toggle')) return false;
+    // Skip Bootstrap toggles that interfere with navigation (dropdown, modal, tab, collapse, etc.),
+    // but allow tooltip and popover which are just UI hints and don't prevent navigation.
+    if (link.hasAttribute('data-bs-toggle')) {
+        const toggleValue = link.getAttribute('data-bs-toggle');
+        if (toggleValue !== 'tooltip' && toggleValue !== 'popover') return false;
+    }
     if (link.hasAttribute('data-lang')) return false;
     if (link.hasAttribute('data-settings-open')) return false;
     if (link.hasAttribute('onclick')) return false;
