@@ -96,7 +96,7 @@ p.m-0.border-0 > .btn {
     -webkit-overflow-scrolling: touch;
 }
 
-.btn-group > .btn-outline-secondary {
+.btn-group > .btn-outline-secondary.link-button {
     --bs-btn-hover-color: #6c757d;
     --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
     --bs-btn-active-color: #6c757d;
