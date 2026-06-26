@@ -77,9 +77,12 @@ function isSupported() {
     return supportMap[browser.name];
 }
 
-(function () {
+function checkBrowserSupport() {
     if (!isSupported()) {
         window.location.href = '/unsupported.html';
         return false;
     }
-})();
+    return true;
+}
+
+checkBrowserSupport();

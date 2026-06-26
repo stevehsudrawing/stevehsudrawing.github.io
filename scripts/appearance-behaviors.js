@@ -161,8 +161,6 @@ function initMobileNavbarBrandScroll() {
     updateBrand();
 }
 
-document.addEventListener('pageInitialized', initMobileNavbarBrandScroll);
-
 /**
  * On mobile (< 992px), when a .link-button-group overflows its container,
  * show a "Scroll Horizontally" hint below it so users know they can swipe.
@@ -217,5 +215,3 @@ function initScrollHint() {
         }
     });
 }
-
-document.addEventListener('pageInitialized', initScrollHint);

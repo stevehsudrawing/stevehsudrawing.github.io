@@ -1,4 +1,6 @@
 function showQRCodeModal(linkUrl) {
+    const htmlElement = document.documentElement;
+
     const modalTitle = document.getElementById('qrCodeModalTitle');
     const qrCodeContainer = document.getElementById('qrCodeContainer');
     const modalElement = document.getElementById('qrCodeModal');

@@ -38,8 +38,8 @@ function showBootstrapCSSWarning() {
     document.body.prepend(wrapper);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function initBootstrapCSSDetection() {
     if (!isBootstrapCSSLoaded()) {
         showBootstrapCSSWarning();
     }
-});
+}

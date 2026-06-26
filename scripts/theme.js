@@ -1,10 +1,14 @@
+const htmlElement = document.documentElement;
+
 let currentThemePreference = 'auto';
 const supportedThemes = ['auto', 'light', 'dark'];
 
-// Get preference if it exists
-const savedTheme = localStorage.getItem('bsTheme');
-if (supportedThemes.includes(savedTheme)) {
-    currentThemePreference = savedTheme;
+function initThemePreference() {
+    // Get preference if it exists
+    const savedTheme = localStorage.getItem('bsTheme');
+    if (supportedThemes.includes(savedTheme)) {
+        currentThemePreference = savedTheme;
+    }
 }
 
 const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -63,10 +67,12 @@ function applyThemeBasedImages() {
     }
 }
 
-if (typeof prefersColorScheme.addEventListener === 'function') {
-    prefersColorScheme.addEventListener('change', updateAutoThemeOnSystemChange);
-} else if (typeof prefersColorScheme.addListener === 'function') {
-    prefersColorScheme.addListener(updateAutoThemeOnSystemChange);
+function initSystemThemeListener() {
+    if (typeof prefersColorScheme.addEventListener === 'function') {
+        prefersColorScheme.addEventListener('change', updateAutoThemeOnSystemChange);
+    } else if (typeof prefersColorScheme.addListener === 'function') {
+        prefersColorScheme.addListener(updateAutoThemeOnSystemChange);
+    }
 }
 
 function getThemeI18nKey(theme) {

@@ -297,6 +297,8 @@ async function generateLinkCards() {
     }
 }
 
-window.addEventListener('hashchange', () => {
-    scrollToHashTarget(window.location.hash, true);
-});
+function initHashChangeScroll() {
+    window.addEventListener('hashchange', () => {
+        scrollToHashTarget(window.location.hash, true);
+    });
+}

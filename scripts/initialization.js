@@ -35,8 +35,14 @@ async function initializePageContent() {
     applyExternalLinkTargetBehavior();
 }
 
+// Immediate initialization (no DOM required)
+initThemePreference();
+initSystemThemeListener();
+
 document.addEventListener('DOMContentLoaded', async function () {
     try {
+        initBootstrapCSSDetection();
+
         await loadAllComponents();
 
         // Load supported languages and populate UI
@@ -53,6 +59,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         await loadLang(savedLang);
 
         addSettingEventListeners();
+        initHashChangeScroll();
 
         updateThemeToggleText();
         setActiveThemeItem();
@@ -68,4 +75,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Still signal completion even on error, so the transition can complete
         document.dispatchEvent(new CustomEvent('pageInitialized'));
     }
-})
+});
+
+// Listeners that depend on pageInitialized event
+document.addEventListener('pageInitialized', initMobileNavbarBrandScroll);
+document.addEventListener('pageInitialized', initScrollHint);

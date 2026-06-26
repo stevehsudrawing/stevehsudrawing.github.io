@@ -1,5 +1,3 @@
-const htmlElement = document.documentElement;
-
 /**
  * Load a single component by its container element id.
  * The HTML file path is derived as: /sub-pages/{id}.html

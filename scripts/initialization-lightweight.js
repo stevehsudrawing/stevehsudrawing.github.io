@@ -1,5 +1,11 @@
+// Immediate initialization (no DOM required)
+initThemePreference();
+initSystemThemeListener();
+
 document.addEventListener('DOMContentLoaded', async function () {
     try {
+        initBootstrapCSSDetection();
+
         await loadAllComponents();
 
         applyThemePreference(currentThemePreference, false);
@@ -9,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         await loadLang(savedLang);
 
         addSettingEventListeners();
+        initHashChangeScroll();
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
