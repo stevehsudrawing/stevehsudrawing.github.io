@@ -3,7 +3,7 @@
         "title": {
             "content": "Artworks",
             "properties": {
-                "data-i18n": "textArtworks"
+                "data-i18n": "text-artworks"
             }
         },
         "contents": [
@@ -137,7 +137,7 @@
                         "text": {
                             "content": "Weibo",
                             "properties": {
-                                "data-i18n": "textWeibo"
+                                "data-i18n": "text-weibo"
                             }
                         },
                         "properties": {
@@ -151,7 +151,7 @@
                         "text": {
                             "content": "Name",
                             "properties": {
-                                "data-i18n": "textName"
+                                "data-i18n": "text-name"
                             }
                         }
                     },
@@ -169,7 +169,7 @@
         "title": {
             "content": "Sticker Collections",
             "properties": {
-                "data-i18n": "textStickerCollections"
+                "data-i18n": "text-sticker-collections"
             }
         },
         "contents": [
@@ -187,7 +187,7 @@
                         "text": {
                             "content": "Steve Hsu & Kato",
                             "properties": {
-                                "data-i18n": "textStickerCollectionsSeries1"
+                                "data-i18n": "text-sticker-collections-series-1"
                             }
                         }
                     },
@@ -204,7 +204,7 @@
                         "text": {
                             "content": "Available on",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart1"
+                                "data-i18n": "text-available-on-part-1"
                             }
                         }
                     },
@@ -213,7 +213,7 @@
                         "text": {
                             "content": "WeChat",
                             "properties": {
-                                "data-i18n": "textWeChat"
+                                "data-i18n": "text-wechat"
                             }
                         },
                         "properties": {
@@ -225,7 +225,7 @@
                         "text": {
                             "content": " ",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart2"
+                                "data-i18n": "text-available-on-part-2"
                             }
                         }
                     }
@@ -245,7 +245,7 @@
                         "text": {
                             "content": "Steve Hsu & Kato",
                             "properties": {
-                                "data-i18n": "textStickerCollectionsSeries1"
+                                "data-i18n": "text-sticker-collections-series-1"
                             }
                         }
                     },
@@ -262,7 +262,7 @@
                         "text": {
                             "content": "Available on",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart1"
+                                "data-i18n": "text-available-on-part-1"
                             }
                         }
                     },
@@ -271,7 +271,7 @@
                         "text": {
                             "content": "WeChat",
                             "properties": {
-                                "data-i18n": "textWeChat"
+                                "data-i18n": "text-wechat"
                             }
                         },
                         "properties": {
@@ -283,7 +283,7 @@
                         "text": {
                             "content": " ",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart2"
+                                "data-i18n": "text-available-on-part-2"
                             }
                         }
                     }
@@ -303,7 +303,7 @@
                         "text": {
                             "content": "Steve Hsu & Kato",
                             "properties": {
-                                "data-i18n": "textStickerCollectionsSeries1"
+                                "data-i18n": "text-sticker-collections-series-1"
                             }
                         }
                     },
@@ -320,7 +320,7 @@
                         "text": {
                             "content": "Available on",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart1"
+                                "data-i18n": "text-available-on-part-1"
                             }
                         }
                     },
@@ -329,7 +329,7 @@
                         "text": {
                             "content": "WeChat",
                             "properties": {
-                                "data-i18n": "textWeChat"
+                                "data-i18n": "text-wechat"
                             }
                         },
                         "properties": {
@@ -341,7 +341,7 @@
                         "text": {
                             "content": " ",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart2"
+                                "data-i18n": "text-available-on-part-2"
                             }
                         }
                     }
@@ -361,7 +361,7 @@
                         "text": {
                             "content": "Steve Hsu's SC Dynamic Edition",
                             "properties": {
-                                "data-i18n": "textStickerCollectionsSeries2"
+                                "data-i18n": "text-sticker-collections-series-2"
                             }
                         }
                     },
@@ -378,7 +378,7 @@
                         "text": {
                             "content": "Available on",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart1"
+                                "data-i18n": "text-available-on-part-1"
                             }
                         }
                     },
@@ -396,7 +396,7 @@
                         "text": {
                             "content": "and",
                             "properties": {
-                                "data-i18n": "textAnd"
+                                "data-i18n": "text-and"
                             }
                         }
                     },
@@ -405,7 +405,7 @@
                         "text": {
                             "content": "WeChat",
                             "properties": {
-                                "data-i18n": "textWeChat"
+                                "data-i18n": "text-wechat"
                             }
                         },
                         "properties": {
@@ -417,7 +417,7 @@
                         "text": {
                             "content": " ",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart2"
+                                "data-i18n": "text-available-on-part-2"
                             }
                         }
                     }
@@ -437,7 +437,7 @@
                         "text": {
                             "content": "Steve Hsu's SC Dynamic Edition",
                             "properties": {
-                                "data-i18n": "textStickerCollectionsSeries2"
+                                "data-i18n": "text-sticker-collections-series-2"
                             }
                         }
                     },
@@ -454,7 +454,7 @@
                         "text": {
                             "content": "Available on",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart1"
+                                "data-i18n": "text-available-on-part-1"
                             }
                         }
                     },
@@ -472,7 +472,7 @@
                         "text": {
                             "content": "and",
                             "properties": {
-                                "data-i18n": "textAnd"
+                                "data-i18n": "text-and"
                             }
                         }
                     },
@@ -481,7 +481,7 @@
                         "text": {
                             "content": "WeChat",
                             "properties": {
-                                "data-i18n": "textWeChat"
+                                "data-i18n": "text-wechat"
                             }
                         },
                         "properties": {
@@ -493,7 +493,7 @@
                         "text": {
                             "content": " ",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart2"
+                                "data-i18n": "text-available-on-part-2"
                             }
                         }
                     }
@@ -513,7 +513,7 @@
                         "text": {
                             "content": "Steve Hsu's SC Dynamic Edition",
                             "properties": {
-                                "data-i18n": "textStickerCollectionsSeries2"
+                                "data-i18n": "text-sticker-collections-series-2"
                             }
                         }
                     },
@@ -530,7 +530,7 @@
                         "text": {
                             "content": "Available on",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart1"
+                                "data-i18n": "text-available-on-part-1"
                             }
                         }
                     },
@@ -548,7 +548,7 @@
                         "text": {
                             "content": "and",
                             "properties": {
-                                "data-i18n": "textAnd"
+                                "data-i18n": "text-and"
                             }
                         }
                     },
@@ -557,7 +557,7 @@
                         "text": {
                             "content": "WeChat",
                             "properties": {
-                                "data-i18n": "textWeChat"
+                                "data-i18n": "text-wechat"
                             }
                         },
                         "properties": {
@@ -569,7 +569,7 @@
                         "text": {
                             "content": " ",
                             "properties": {
-                                "data-i18n": "textAvailableOnPart2"
+                                "data-i18n": "text-available-on-part-2"
                             }
                         }
                     }
@@ -581,7 +581,7 @@
         "title": {
             "content": "Videos",
             "properties": {
-                "data-i18n": "textVideos"
+                "data-i18n": "text-videos"
             }
         },
         "contents": [
@@ -616,7 +616,7 @@
                         "text": {
                             "content": "Inactive",
                             "properties": {
-                                "data-i18n": "textInactive"
+                                "data-i18n": "text-inactive"
                             }
                         }
                     }
@@ -637,7 +637,7 @@
                         "text": {
                             "content": "Bilibili",
                             "properties": {
-                                "data-i18n": "textBilibili"
+                                "data-i18n": "text-bilibili"
                             }
                         },
                         "properties": {
@@ -651,7 +651,7 @@
                         "text": {
                             "content": "Name",
                             "properties": {
-                                "data-i18n": "textName"
+                                "data-i18n": "text-name"
                             }
                         }
                     },

@@ -27,6 +27,8 @@ function updatePageText() {
         const key = el.getAttribute('data-i18n');
         if (langData[key]) {
             el.textContent = langData[key];
+        } else {
+            console.log('Missing key:', key);
         }
     });
 

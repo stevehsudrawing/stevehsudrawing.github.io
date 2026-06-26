@@ -3,7 +3,7 @@
         "title": {
             "content": "Quanto Series",
             "properties": {
-                "data-i18n": "textQuantoSeries"
+                "data-i18n": "text-quanto-series"
             }
         },
         "description": [
@@ -12,7 +12,7 @@
                 "text": {
                     "content": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter.",
                     "properties": {
-                        "data-i18n": "textQuantoSeriesDescription"
+                        "data-i18n": "text-quanto-series-description"
                     }
                 }
             }
@@ -40,7 +40,7 @@
                         "text": {
                             "content": "Name",
                             "properties": {
-                                "data-i18n": "textName"
+                                "data-i18n": "text-name"
                             }
                         }
                     },
@@ -55,7 +55,7 @@
                         "text": {
                             "content": "Coming soon",
                             "properties": {
-                                "data-i18n": "textComingSoon"
+                                "data-i18n": "text-coming-soon"
                             }
                         }
                     }
@@ -86,7 +86,7 @@
                         "text": {
                             "content": "Name",
                             "properties": {
-                                "data-i18n": "textName"
+                                "data-i18n": "text-name"
                             }
                         }
                     },
@@ -127,7 +127,7 @@
                         "text": {
                             "content": "Name",
                             "properties": {
-                                "data-i18n": "textName"
+                                "data-i18n": "text-name"
                             }
                         }
                     },
@@ -142,7 +142,7 @@
                         "text": {
                             "content": "Archived",
                             "properties": {
-                                "data-i18n": "textArchived"
+                                "data-i18n": "text-archived"
                             }
                         }
                     }

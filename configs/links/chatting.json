@@ -3,7 +3,7 @@
         "title": {
             "content": "QQ Groups",
             "properties": {
-                "data-i18n": "textQQGroups"
+                "data-i18n": "text-qq-groups"
             }
         },
         "contents": [
@@ -32,7 +32,7 @@
                         "text": {
                             "content": "Steve Hsu's Fan-base",
                             "properties": {
-                                "data-i18n": "textSawtoothIntroduction"
+                                "data-i18n": "text-sawtooth-introduction"
                             }
                         }
                     },
@@ -47,7 +47,7 @@
                         "text": {
                             "content": "Group Number",
                             "properties": {
-                                "data-i18n": "textGroupNumber"
+                                "data-i18n": "text-group-number"
                             }
                         }
                     },
@@ -62,7 +62,7 @@
                         "text": {
                             "content": "Key",
                             "properties": {
-                                "data-i18n": "textKey"
+                                "data-i18n": "text-key"
                             }
                         }
                     },
@@ -99,7 +99,7 @@
                         "text": {
                             "content": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts",
                             "properties": {
-                                "data-i18n": "textQuantumIntroduction"
+                                "data-i18n": "text-quantum-introduction"
                             }
                         }
                     },
@@ -114,7 +114,7 @@
                         "text": {
                             "content": "Group Number",
                             "properties": {
-                                "data-i18n": "textGroupNumber"
+                                "data-i18n": "text-group-number"
                             }
                         }
                     },

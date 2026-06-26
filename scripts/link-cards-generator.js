@@ -70,7 +70,7 @@ function createSuperLinkFragment(fragment) {
         qrButton.className = 'ms-2 text-decoration-none';
         qrButton.setAttribute('aria-label', 'Show QR Code');
         qrButton.setAttribute('data-bs-toggle', 'tooltip');
-        qrButton.setAttribute('data-i18n-tooltip', 'textShowQRCode');
+        qrButton.setAttribute('data-i18n-tooltip', 'text-show-qr-code');
         qrButton.setAttribute('data-bs-title', 'Show QR Code');
 
         const qrIcon = document.createElement('i');

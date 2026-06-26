@@ -72,11 +72,11 @@ if (typeof prefersColorScheme.addEventListener === 'function') {
 function getThemeI18nKey(theme) {
     switch (theme) {
         case 'light':
-            return 'textLight';
+            return 'text-light';
         case 'dark':
-            return 'textDark';
+            return 'text-dark';
         default:
-            return 'textAuto';
+            return 'text-auto';
     }
 }
 
