@@ -33,6 +33,9 @@ async function initializePageContent() {
 
     // Apply external link target behavior
     applyExternalLinkTargetBehavior();
+
+    // Re-initialize scroll hint for overflowing button groups
+    initScrollHint();
 }
 
 // Immediate initialization (no DOM required)

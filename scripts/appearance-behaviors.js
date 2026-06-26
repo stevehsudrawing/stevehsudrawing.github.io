@@ -161,8 +161,23 @@ function initMobileNavbarBrandScroll() {
     updateBrand();
 }
 
+let scrollHintResizeSetup = false;
+
+function updateScrollHints() {
+    document.querySelectorAll('.link-button-group').forEach(group => {
+        const hint = group.nextElementSibling;
+        if (!hint || !hint.classList.contains('scroll-hint')) return;
+        const overflows = group.scrollWidth > group.clientWidth;
+        if (overflows) {
+            hint.classList.add('visible');
+        } else {
+            hint.classList.remove('visible');
+        }
+    });
+}
+
 /**
- * On mobile (< 992px), when a .link-button-group overflows its container,
+ * When a .link-button-group overflows its container,
  * show a "Scroll Horizontally" hint below it so users know they can swipe.
  */
 function initScrollHint() {
@@ -187,31 +202,20 @@ function initScrollHint() {
         }
     });
 
-    function updateScrollHints() {
-        const isMobile = window.innerWidth < 992;
-        document.querySelectorAll('.link-button-group').forEach(group => {
-            const hint = group.nextElementSibling;
-            if (!hint || !hint.classList.contains('scroll-hint')) return;
+    updateScrollHints();
 
-            const overflows = group.scrollWidth > group.clientWidth;
-            if (isMobile && overflows) {
-                hint.classList.add('visible');
-            } else {
-                hint.classList.remove('visible');
+    // Set up resize listener only once globally
+    if (!scrollHintResizeSetup) {
+        scrollHintResizeSetup = true;
+        let resizeTicking = false;
+        window.addEventListener('resize', function () {
+            if (!resizeTicking) {
+                requestAnimationFrame(function () {
+                    updateScrollHints();
+                    resizeTicking = false;
+                });
+                resizeTicking = true;
             }
         });
     }
-
-    updateScrollHints();
-
-    let resizeTicking = false;
-    window.addEventListener('resize', function () {
-        if (!resizeTicking) {
-            requestAnimationFrame(function () {
-                updateScrollHints();
-                resizeTicking = false;
-            });
-            resizeTicking = true;
-        }
-    });
 }
