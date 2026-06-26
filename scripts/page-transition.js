@@ -188,9 +188,10 @@ async function navigateTo(url, pushState = true) {
         return;
     }
 
-    // Don't navigate to the same page
+    // Don't navigate to the same page — scroll to top instead
     const currentPath = normalizeInternalPath(window.location.pathname);
     if (resolvedPath === currentPath && pushState) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
 
@@ -199,6 +200,10 @@ async function navigateTo(url, pushState = true) {
     try {
         // 1. Close offcanvas sidebar
         closeOffcanvas();
+
+        // 1.5. Dispose all tooltips to prevent orphaned tooltips
+        //      (especially on mobile where tapping triggers both tooltip and navigation)
+        disposeAllTooltips();
 
         // 2. Dim page content + start progress bar
         dimPageContent();
