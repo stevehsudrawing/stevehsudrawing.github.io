@@ -1,27 +1,69 @@
+:root {
+    --fonts-emoji: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --fonts-fallback-legacy-en: 'Tahoma', 'Geneva', 'Verdana', 'Helvetica', 'Arial';
+    --fonts-fallback-legacy-ja: 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
+    --fonts-fallback-legacy-zh-Hans: '华文细黑', '华文黑体', 'ST Heiti', 'Hei', '黑体', 'SimHei';
+    --fonts-fallback-legacy-zh-Hant: 'LiHei Pro', 'Apple LiGothic', 'Arial Unicode MS';
+    --fonts-fallback-modern-en: 'San Francisco Text', 'San Francisco', 'Segoe UI';
+    --fonts-fallback-modern-ja: '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans JP', 'Noto Sans CJK', 'Osaka', 'Meiryo UI', 'メイリオ', 'Meiryo';
+    --fonts-fallback-modern-zh-Hans: '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
+    --fonts-fallback-modern-zh-Hant: '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';
+    --fonts-major-en: 'Inter', 'Inter Variable', 'Roboto';
+    --fonts-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC';
+    --fonts-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC';
+}
+
 * {
     text-autospace: normal;
-    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', '微软雅黑', 'Microsoft YaHei', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    /* font-family: inherit; */
+    font-family: inherit;
 }
 
 a {
     text-decoration: none;
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
-html.lang-en {
-    font-family: '更紗ゴシック J', 'Sarasa Gothic J', 'Inter', 'Roboto', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+html.lang-en>body {
+    font-family:
+        var(--fonts-major-en),
+        var(--fonts-fallback-modern-en),
+        var(--fonts-fallback-modern-ja),
+        var(--fonts-fallback-legacy-en),
+        var(--fonts-fallback-legacy-ja),
+        var(--fonts-emoji),
+        -apple-system, sans-serif !important;
 }
 
-html.lang-zh-Hans {
-    font-family: '更纱黑体 SC', 'Sarasa Gothic SC', 'Inter', 'Roboto', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', '微软雅黑', 'Microsoft YaHei', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+html.lang-zh-Hans>body {
+    font-family:
+        var(--fonts-major-zh-Hans),
+        var(--fonts-major-en),
+        var(--fonts-fallback-modern-en),
+        var(--fonts-fallback-modern-zh-Hans),
+        var(--fonts-fallback-modern-ja),
+        var(--fonts-fallback-legacy-en),
+        var(--fonts-fallback-legacy-zh-Hans),
+        var(--fonts-fallback-legacy-ja),
+        var(--fonts-emoji),
+        -apple-system, sans-serif !important;
 }
 
-html.lang-zh-Hant {
-    font-family: '更紗黑體 TC', 'Sarasa Gothic TC', 'Inter', 'Roboto', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans CJK', 'Noto Sans JP', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', '微軟正黑體', 'Microsoft JhengHei', 'メイリオ', 'Meiryo', 'Helvetica', 'Arial', -apple-system, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+html.lang-zh-Hant>body {
+    font-family:
+        var(--fonts-major-zh-Hant),
+        var(--fonts-major-en),
+        var(--fonts-fallback-modern-en),
+        var(--fonts-fallback-modern-zh-Hant),
+        var(--fonts-fallback-modern-ja),
+        var(--fonts-fallback-legacy-en),
+        var(--fonts-fallback-legacy-zh-Hant),
+        var(--fonts-fallback-legacy-ja),
+        var(--fonts-emoji),
+        -apple-system, sans-serif !important;
 }
 
 body {
@@ -84,7 +126,7 @@ p.m-0.border-0 {
     gap: 0.35rem 0.5rem;
 }
 
-p.m-0.border-0 > .btn {
+p.m-0.border-0>.btn {
     white-space: normal;
 }
 
@@ -96,7 +138,7 @@ p.m-0.border-0 > .btn {
     -webkit-overflow-scrolling: touch;
 }
 
-.link-button-group > .btn-outline-secondary {
+.link-button-group>.btn-outline-secondary {
     --bs-btn-hover-color: #6c757d;
     --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
     --bs-btn-active-color: #6c757d;
