@@ -49,6 +49,10 @@
     --bs-dropdown-link-active-bg: var(--shlh-primary);
 }
 
+[data-bs-theme='dark'] .dropdown-menu {
+    --bs-dropdown-link-active-color: #000;
+}
+
 .btn-primary {
     --bs-btn-bg: var(--shlh-primary);
     --bs-btn-border-color: var(--shlh-primary);
