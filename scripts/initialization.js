@@ -22,6 +22,9 @@ async function initializePageContent() {
         updatePageText();
     }
 
+    // Set up copy-link tooltips before general tooltip activation
+    initCopyLinkTooltips();
+
     // Re-initialize Bootstrap tooltips in new content
     activateTooltips();
 
@@ -33,6 +36,9 @@ async function initializePageContent() {
 
     // Apply external link target behavior
     applyExternalLinkTargetBehavior();
+
+    // Add external link indicator icons
+    addExternalLinkIndicators();
 
     // Re-initialize scroll hint for overflowing button groups
     initScrollHint();

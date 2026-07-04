@@ -17,6 +17,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         addSettingEventListeners();
         initHashChangeScroll();
 
+        // Add external link indicator icons
+        addExternalLinkIndicators();
+
+        // Set up copy-link tooltips before general tooltip activation
+        initCopyLinkTooltips();
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 

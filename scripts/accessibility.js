@@ -65,3 +65,75 @@ function activateSkipButton() {
         }
     });
 }
+
+function addExternalLinkIndicators() {
+    try {
+        document.querySelectorAll('a.external-link').forEach(link => {
+            // Skip links that have no visible text content
+            const textContent = link.textContent.trim();
+            if (!textContent) return;
+
+            // Avoid adding duplicate icons
+            if (!link.querySelector('i.bi-arrow-up-right')) {
+                const icon = document.createElement('i');
+                icon.className = 'bi bi-arrow-up-right';
+                link.appendChild(document.createTextNode(' '));
+                link.appendChild(icon);
+            }
+        });
+    } catch (error) {
+        console.error('Failed to add external link indicators:', error);
+    }
+}
+
+function initCopyLinkTooltips() {
+    try {
+        const copyLinks = document.querySelectorAll('.copy-link');
+        copyLinks.forEach(link => {
+            // Set Bootstrap tooltip attributes
+            link.setAttribute('data-bs-toggle', 'tooltip');
+            link.setAttribute('data-bs-trigger', 'hover focus');
+            link.setAttribute('data-i18n-tooltip', 'text-click-to-copy');
+
+            // Set initial title from i18n data if available, otherwise use fallback
+            const initialTitle = (typeof langData !== 'undefined' && langData['text-click-to-copy'])
+                ? langData['text-click-to-copy']
+                : 'Click to Copy';
+            link.setAttribute('data-bs-title', initialTitle);
+
+            // Click handler: copy to clipboard, show "Copied!" feedback, restore after 3s
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const copyText = link.getAttribute('data-copy-text');
+                if (!copyText) return;
+
+                navigator.clipboard.writeText(copyText).then(() => {
+                    const tooltipInstance = bootstrap.Tooltip.getInstance(link);
+                    const copiedText = (typeof langData !== 'undefined' && langData['text-copied'])
+                        ? langData['text-copied']
+                        : 'Copied!';
+
+                    if (tooltipInstance) {
+                        tooltipInstance.setContent({ '.tooltip-inner': copiedText });
+                        tooltipInstance.show();
+
+                        // Restore original tooltip text after 3 seconds
+                        setTimeout(() => {
+                            const originalText = (typeof langData !== 'undefined' && langData['text-click-to-copy'])
+                                ? langData['text-click-to-copy']
+                                : 'Click to Copy';
+                            if (tooltipInstance) {
+                                tooltipInstance.setContent({ '.tooltip-inner': originalText });
+                                tooltipInstance.hide();
+                            }
+                        }, 3000);
+                    }
+                }).catch(err => {
+                    console.error('Failed to copy text:', err);
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Failed to initialize copy link tooltips:', error);
+    }
+}

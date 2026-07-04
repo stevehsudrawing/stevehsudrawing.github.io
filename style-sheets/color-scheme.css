@@ -1,0 +1,73 @@
+[data-bs-theme='light'] {
+    --shlh-primary: #3c96ff;
+    --shlh-primary-rgb: 60, 150, 255;
+
+    --shlh-primary-300: #8ac0ff;
+    --shlh-primary-400: #63abff;
+    --shlh-primary-500: var(--shlh-primary);
+    --shlh-primary-600: #3078cc;
+    --shlh-primary-700: #245a99;
+
+    --shlh-primary-300-rgb: 138, 192, 255;
+    --shlh-primary-400-rgb: 99, 171, 255;
+    --shlh-primary-500-rgb: var(--shlh-primary-rgb);
+    --shlh-primary-600-rgb: 48, 120, 204;
+    --shlh-primary-700-rgb: 36, 90, 153;
+
+    --bs-link-hover-color: var(--shlh-primary-600);
+    --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
+}
+
+[data-bs-theme='dark'] {
+    --shlh-primary: #47c4ee;
+    --shlh-primary-rgb: 71, 196, 238;
+
+    --shlh-primary-300: #a7e3f7;
+    --shlh-primary-400: #89d9f4;
+    --shlh-primary-500: var(--shlh-primary);
+    --shlh-primary-600: #56a6c1;
+    --shlh-primary-700: #417d91;
+
+    --shlh-primary-300-rgb: 167, 227, 247;
+    --shlh-primary-400-rgb: 137, 217, 244;
+    --shlh-primary-500-rgb: var(--shlh-primary-rgb);
+    --shlh-primary-600-rgb: 86, 166, 193;
+    --shlh-primary-700-rgb: 65, 125, 145;
+
+    --bs-link-hover-color: var(--shlh-primary-400);
+    --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
+}
+
+:root {
+    --bs-primary: var(--shlh-primary);
+    --bs-link-color: var(--shlh-primary);
+    --bs-primary-rgb: var(--shlh-primary-rgb);
+    --bs-link-color-rgb: var(--shlh-primary-rgb);
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: var(--shlh-primary);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--shlh-primary);
+    --bs-btn-border-color: var(--shlh-primary);
+    --bs-btn-hover-bg: var(--shlh-primary-600);
+    --bs-btn-hover-border-color: var(--shlh-primary-600);
+    --bs-btn-active-bg: var(--shlh-primary-700);
+    --bs-btn-active-border-color: var(--shlh-primary-700);
+    --bs-btn-disabled-bg: var(--shlh-primary);
+    --bs-btn-disabled-border-color: var(--shlh-primary);
+}
+
+[data-bs-theme='dark'] .btn-primary {
+    --bs-btn-color: #000;
+    --bs-btn-hover-color: #000;
+    --bs-btn-active-color: #000;
+    --bs-btn-disabled-color: #000;
+}
+
+.form-check-input:checked {
+    background-color: var(--shlh-primary);
+    border-color: var(--shlh-primary);
+}

@@ -110,6 +110,10 @@
 
 /* For Mobile */
 @media (max-width: 991.98px) {
+    .larger-link {
+        font-size: 1rem;
+    }
+
     .navbar .container {
         position: relative;
     }
@@ -182,21 +186,19 @@
         width: 100%;
     }
 
-    .link-hub-part {
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-
     .title-link-anchor {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
     }
-
 }
 
 /* For Desktop */
 @media (min-width: 992px) {
+    .larger-link {
+        font-size: 1.25rem;
+    }
+
     .navbar .navbar-collapse {
         flex-wrap: nowrap;
         min-width: 0;
@@ -243,11 +245,6 @@
 
     .navbar .navbar-nav:not(.flex-grow-1) {
         flex: 0 0 auto;
-    }
-
-    .link-hub-part {
-        margin-top: 16px;
-        margin-bottom: 16px;
     }
 
     .title-link-anchor {
