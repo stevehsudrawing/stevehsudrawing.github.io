@@ -29,3 +29,7 @@
 .img-mono-threads {
     mask: url(/images/icons/mono/threads.png) no-repeat center / contain;
 }
+
+.img-mono-link {
+    mask: url(/images/icons/mono/link.png) no-repeat center / contain;
+}

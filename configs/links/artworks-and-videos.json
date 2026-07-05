@@ -664,5 +664,203 @@
                 ]
             }
         ]
+    },
+    {
+        "title": {
+            "content": "Unused or Deprecated",
+            "properties": {
+                "data-i18n": "text-unused-or-deprecated"
+            }
+        },
+        "description": [
+            {
+                "superLink": false,
+                "text": {
+                    "content": "The following platform links are still kept, mainly for anti-counterfeiting purposes.",
+                    "properties": {
+                        "data-i18n": "text-unused-or-deprecated-links-description"
+                    }
+                }
+            }
+        ],
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Instagram",
+                        "src": "/images/icons/instagram.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Instagram"
+                        },
+                        "properties": {
+                            "href": "https://www.instagram.com/stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Threads",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-fill-body-color",
+                            "img-mono-threads"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Threads"
+                        },
+                        "properties": {
+                            "href": "https://www.threads.com/@stevehsudrawing"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Lofter",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-fill-body-color",
+                            "img-mono-link"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Lofter"
+                        },
+                        "properties": {
+                            "href": "https://stevehsu.lofter.com/"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "UID: stevehsu"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Rednote",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-fill-body-color",
+                            "img-mono-link"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": {
+                            "content": "Rednote",
+                            "properties": {
+                                "data-i18n": "text-rednote"
+                            }
+                        },
+                        "properties": {
+                            "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "text-name"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": SteveHsu什五 | UID: 63069652143"
+                        }
+                    }
+                ]
+            },
+            {
+                "available": false,
+                "icon": {
+                    "properties": {
+                        "alt": "Douyin",
+                        "src": "/images/null.png",
+                        "class": [
+                            "img-mono-fill-body-color",
+                            "img-mono-link"
+                        ]
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Douyin",
+                            "properties": {
+                                "data-i18n": "text-douyin"
+                            }
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": "Name",
+                            "properties": {
+                                "data-i18n": "text-name"
+                            }
+                        }
+                    },
+                    {
+                        "superLink": false,
+                        "text": {
+                            "content": ": SteveHsu什五 | UID: stevehsudrawing"
+                        }
+                    }
+                ]
+            }
+        ]
     }
 ]
