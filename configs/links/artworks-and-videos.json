@@ -821,7 +821,7 @@
                 ]
             },
             {
-                "available": false,
+                "available": true,
                 "icon": {
                     "properties": {
                         "alt": "Douyin",
@@ -834,12 +834,15 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": {
                             "content": "Douyin",
                             "properties": {
                                 "data-i18n": "text-douyin"
                             }
+                        },
+                        "properties": {
+                            "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3"
                         }
                     }
                 ],

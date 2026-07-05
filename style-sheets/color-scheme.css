@@ -1,4 +1,4 @@
-[data-bs-theme='light'] {
+:root, [data-bs-theme=light] {
     --shlh-primary: #3c96ff;
     --shlh-primary-rgb: 60, 150, 255;
 
