@@ -6,6 +6,10 @@
     background-color: #fff;
 }
 
+[data-bs-theme='dark'] .img-mono-fill-btn-primary-fg-color {
+    background-color: #000;
+}
+
 .img-mono-pixiv {
     mask: url(/images/icons/mono/pixiv.png) no-repeat center / contain;
 }
