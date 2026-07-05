@@ -80,12 +80,6 @@ async function loadLang(lang) {
         langData = await response.json();
         currentLang = lang;
 
-        // Font update
-        for (i in supportedLangs) {
-            document.documentElement.classList.remove(`lang-${supportedLangs[i]}`);
-        }
-        document.documentElement.classList.add(`lang-${lang}`);
-
         updatePageText();
         // Save preference
         localStorage.setItem('preferredLang', lang);
