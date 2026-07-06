@@ -16,9 +16,7 @@ function resolveLinksJsonPath() {
         return container.dataset.linksJson;
     }
 
-    const pathname = window.location.pathname;
-    const pageName = pathname.split('/').pop() || 'index.html';
-    const baseName = pageName.replace(/\.[^.]+$/, '') || 'index';
+    const baseName = extractPageName(window.location.pathname);
     return `/configs/links/${baseName}.json`;
 }
 

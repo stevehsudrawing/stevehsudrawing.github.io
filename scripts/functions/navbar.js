@@ -9,9 +9,7 @@
  */
 function setActiveNavItem() {
     try {
-        const currentPath = window.location.pathname;
-        let currentPage = currentPath === '/' ? '/' : currentPath;
-        if (currentPage === '/') currentPage = '/index.html';
+        const currentPage = normalizeInternalPath(window.location.pathname);
 
         const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
         if (navLinks.length === 0) {
@@ -110,9 +108,7 @@ function initMobileNavbarBrandScroll() {
      *      /index.html  -> text-index
      */
     function getPageI18nKey() {
-        const path = window.location.pathname;
-        const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-        const pageName = filename.replace(/\.html$/, '') || 'index';
+        const pageName = extractPageName(window.location.pathname);
         return 'text-' + pageName;
     }
 

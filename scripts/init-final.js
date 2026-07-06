@@ -6,6 +6,7 @@ async function initializePageContent() {
     // Apply cached translations to static page content first
     if (currentLang && Object.keys(langData).length > 0) {
         updatePageText();
+        updatePageTitle();
         setActiveNavItem();
         setActiveLangItem();
         const languageSelect = document.getElementById('languageSelect');
@@ -76,12 +77,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Initialize page content (link cards, tooltips, etc.)
         await initializePageContent();
 
+        // Hide the loading screen now that everything is ready
+        hideLoadingScreen();
+
         // Signal that page initialization is complete
         document.dispatchEvent(new CustomEvent('pageInitialized'));
 
     } catch (error) {
         console.error('Failed to initialize: ' + error);
-        // Still signal completion even on error, so the transition can complete
+        // Still hide loading screen and signal completion even on error
+        hideLoadingScreen();
         document.dispatchEvent(new CustomEvent('pageInitialized'));
     }
 });

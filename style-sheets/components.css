@@ -96,6 +96,26 @@ html.user-input-keyboard #skip-button:focus {
 }
 
 /* ========================================================================
+   Loading Screen — initial page load overlay (loading-screen.js)
+   ======================================================================== */
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bs-body-bg);
+    transition: opacity 0.5s ease;
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ========================================================================
    Scroll Hint — horizontal scroll indicator (scroll-hint.js)
    ======================================================================== */
 

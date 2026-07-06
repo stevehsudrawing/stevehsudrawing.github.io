@@ -118,6 +118,8 @@ async function loadLang(lang) {
         if (languageSelect) {
             languageSelect.value = currentLang;
         }
+
+        updatePageTitle();
     } catch (error) {
         console.error('Failed to load language file:', error);
     }

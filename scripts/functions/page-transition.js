@@ -34,15 +34,6 @@ function isInternalPage(url) {
 }
 
 /**
- * Normalize a URL path to match our internal page list.
- * E.g., '/' or '' → '/index.html'
- */
-function normalizeInternalPath(pathname) {
-    if (pathname === '/' || pathname === '') return '/index.html';
-    return pathname;
-}
-
-/**
  * Check if a clicked link should be handled by the transition system.
  */
 function shouldInterceptLink(link) {
