@@ -14,7 +14,7 @@
  * - Language dropdown items
  * - Theme dropdown items
  */
-function addSettingEventListeners() {
+function initSettingEventListeners() {
     document.addEventListener('change', function (e) {
         // External links new tab toggle
         if (e.target && e.target.id === 'externalLinksNewTabToggle') {
@@ -103,8 +103,8 @@ function addSettingEventListeners() {
  * Read the "open external links in new tab" preference from localStorage.
  * @returns {boolean} True if external links should open in a new tab.
  */
-function getExternalLinkNewTabPreference() {
-    return localStorage.getItem('openExternalLinksInNewTab') === 'true';
+function isExternalLinkNewTabEnabled() {
+    return localStorage.getItem('openExternalLinksInNewTab') !== 'false';
 }
 
 /**
@@ -121,7 +121,7 @@ function setExternalLinkNewTabPreference(enabled) {
  * or removes them when disabled.
  */
 function applyExternalLinkTargetBehavior() {
-    const enabled = getExternalLinkNewTabPreference();
+    const enabled = isExternalLinkNewTabEnabled();
     document.querySelectorAll('a.external-link').forEach(link => {
         if (enabled) {
             link.setAttribute('target', '_blank');
@@ -141,14 +141,14 @@ function applyExternalLinkTargetBehavior() {
  * Initialize the settings modal on first call (idempotent via body attribute).
  * Syncs the toggle and select values with stored preferences.
  */
-function initializeSettingsModal() {
+function initSettingsModal() {
     // Prevent duplicate initialization, which can happen after page transitions
     if (document.body.hasAttribute('data-settings-modal-initialized')) {
         // Sync toggle state and apply external link target behavior
         // in case the DOM was recreated after navigation
         const settingsToggle = document.getElementById('externalLinksNewTabToggle');
         if (settingsToggle) {
-            settingsToggle.checked = getExternalLinkNewTabPreference();
+            settingsToggle.checked = isExternalLinkNewTabEnabled();
         }
         applyExternalLinkTargetBehavior();
         return;
@@ -158,7 +158,7 @@ function initializeSettingsModal() {
     // Sync initial values for UI elements (events handled via delegation)
     const settingsToggle = document.getElementById('externalLinksNewTabToggle');
     if (settingsToggle) {
-        settingsToggle.checked = getExternalLinkNewTabPreference();
+        settingsToggle.checked = isExternalLinkNewTabEnabled();
     }
 
     const languageSelect = document.getElementById('languageSelect');

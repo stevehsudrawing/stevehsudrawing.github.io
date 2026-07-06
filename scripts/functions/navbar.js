@@ -36,7 +36,7 @@ function setActiveNavItem() {
  * Wire up show/hide animation hooks on all Bootstrap dropdown menus
  * so they fade in/out smoothly instead of appearing instantly.
  */
-function initializeDropdownMenuAnimation() {
+function initDropdownMenuAnimation() {
     document.querySelectorAll('.dropdown').forEach(dropdown => {
         const menu = dropdown.querySelector('.dropdown-menu');
         if (!menu) {

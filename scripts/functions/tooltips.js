@@ -8,7 +8,7 @@
  * Create Bootstrap Tooltip instances for every element that has
  * the data-bs-toggle="tooltip" attribute.
  */
-function activateTooltips() {
+function initTooltips() {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 }

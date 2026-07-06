@@ -99,7 +99,7 @@ function isSupported() {
  * Redirect to /unsupported.html if the current browser is not supported.
  * @returns {boolean} True if the browser is supported, false otherwise.
  */
-function checkBrowserSupport() {
+function isBrowserSupported() {
     if (!isSupported()) {
         window.location.href = '/unsupported.html';
         return false;
@@ -107,4 +107,4 @@ function checkBrowserSupport() {
     return true;
 }
 
-checkBrowserSupport();
+isBrowserSupported();

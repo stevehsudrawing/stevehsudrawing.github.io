@@ -223,8 +223,8 @@ async function navigateTo(url, pushState = true) {
         }
 
         // 7. Re-initialize page content (i18n, link cards, tooltips, etc.)
-        if (typeof initializePageContent === 'function') {
-            await initializePageContent();
+        if (typeof initPageContent === 'function') {
+            await initPageContent();
         }
 
         // 8. Scroll to top or hash target

@@ -1,7 +1,6 @@
 /**
- * Page utility functions.
- * Provides shared helpers for path normalization and page name extraction
- * used across multiple modules.
+ * Utility functions.
+ * Provides shared helpers for some logic used across multiple modules.
  */
 
 /**

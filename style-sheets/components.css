@@ -167,6 +167,22 @@ html.user-input-keyboard #skip-button:focus {
    Title Link Anchors
    ======================================================================== */
 
+.title-link-group {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.title-link-group-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.title-link-anchor {
+    font-weight: 600;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
 /* --- Mobile (< 992px) --- */
 
 @media (max-width: 991.98px) {
@@ -192,6 +208,45 @@ html.user-input-keyboard #skip-button:focus {
         visibility: visible;
         pointer-events: auto;
     }
+}
+
+/* ========================================================================
+   Image Utilities
+   ======================================================================== */
+
+.img-fit {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.container-img-cover-sub {
+    width: 240px;
+    margin-left: 16px;
+}
+
+.container-img-link-icon {
+    width: 40px;
+    margin-right: 8px;
+}
+
+/* ========================================================================
+   Button Groups
+   ======================================================================== */
+
+.btn-group {
+    max-width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.link-button-group>.btn-outline-secondary {
+    --bs-btn-hover-color: #6c757d;
+    --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
+    --bs-btn-active-color: #6c757d;
+    --bs-btn-active-bg: rgba(108, 117, 125, 0.2);
 }
 
 /* ========================================================================
@@ -356,6 +411,14 @@ html.user-input-keyboard #skip-button:focus {
     .navbar .navbar-nav:not(.flex-grow-1) {
         flex: 0 0 auto;
     }
+}
+
+/* ========================================================================
+   Footer
+   ======================================================================== */
+
+.footer {
+    font-size: 0.8rem;
 }
 
 /* ========================================================================

@@ -2,7 +2,7 @@
  * Initialize page-content-specific elements.
  * Called both on first load and after page transitions.
  */
-async function initializePageContent() {
+async function initPageContent() {
     // Apply cached translations to static page content first
     if (currentLang && Object.keys(langData).length > 0) {
         updatePageText();
@@ -27,10 +27,10 @@ async function initializePageContent() {
     initCopyLinkTooltips();
 
     // Re-initialize Bootstrap tooltips in new content
-    activateTooltips();
+    initTooltips();
 
     // Re-bind title link anchor click handlers
-    addEventListenerToTitleLinkAnchors();
+    initTitleLinkAnchors();
 
     // Apply theme-based images (dark/light variants)
     applyThemeBasedImages();
@@ -54,17 +54,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Load supported languages and populate UI
         await loadSupportedLangs();
 
-        initializeDropdownMenuAnimation();
-        activateSkipButton();
+        initDropdownMenuAnimation();
+        initSkipButton();
         applyThemePreference(currentThemePreference, false);
-        initializeSettingsModal();
+        initSettingsModal();
         populateLanguageMenus();
 
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         await loadLang(savedLang);
 
-        addSettingEventListeners();
+        initSettingEventListeners();
         initHashChangeScroll();
 
         updateThemeToggleText();
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         initPageTransitionPopState();
 
         // Initialize page content (link cards, tooltips, etc.)
-        await initializePageContent();
+        await initPageContent();
 
         // Hide the loading screen now that everything is ready
         hideLoadingScreen();

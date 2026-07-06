@@ -28,7 +28,7 @@ function scrollToHashTarget(hash, instant = false) {
  * Attach click listeners to .title-link-anchor elements so they scroll
  * smoothly to the corresponding heading and update the URL hash via pushState.
  */
-function addEventListenerToTitleLinkAnchors() {
+function initTitleLinkAnchors() {
     try {
         const titleLinkAnchors = document.querySelectorAll('.title-link-anchor');
         titleLinkAnchors.forEach(titleAnchor => {
@@ -48,7 +48,7 @@ function addEventListenerToTitleLinkAnchors() {
  * Activate the skip-to-main-content button and manage keyboard vs pointer
  * input mode classes on the root element for focus-visible styling.
  */
-function activateSkipButton() {
+function initSkipButton() {
     const root = document.documentElement;
 
     function setKeyboardMode() {
