@@ -1,3 +1,7 @@
+/* ========================================================================
+   Font Settings — CSS custom properties for multi-language font stacks
+   ======================================================================== */
+
 :root {
     --shlh-fonts-emoji: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
@@ -24,28 +28,7 @@
     --shlh-fonts-sans-serif-display-en: 'Inter Display', 'SF Display', 'San Francisco Display', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
 }
 
-* {
-    text-autospace: normal;
-    font-family: inherit;
-    font-optical-sizing: auto;
-}
-
-/* Super-link Styles */
-
-a {
-    text-decoration: none;
-}
-
-a[class~='link']:hover,
-a[class~='link']:active {
-    text-decoration: underline;
-}
-
-a[class~="link-secondary"] {
-    color: var(--bs-secondary-color);
-}
-
-/* Font Settings */
+/* --- Body --- */
 
 body {
     font-family:
@@ -80,6 +63,8 @@ html[lang='zh-Hant']>body {
         var(--shlh-fonts-sans-serif-fallback-ja),
         var(--shlh-fonts-emoji);
 }
+
+/* --- Headings --- */
 
 h1 {
     font-family:
@@ -117,6 +102,8 @@ html[lang='zh-Hant'] h1 {
         var(--shlh-fonts-sans-serif-fallback-ja),
         var(--shlh-fonts-emoji) !important;
 }
+
+/* --- Code --- */
 
 code {
     font-family:
@@ -169,90 +156,4 @@ html[lang='zh-Hant'] code {
         var(--shlh-fonts-sans-serif-fallback-zh-Hant),
         var(--shlh-fonts-sans-serif-fallback-ja),
         var(--shlh-fonts-emoji) !important;
-}
-
-/* Page Layout */
-
-html,
-body {
-    height: 100%;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-#page-content {
-    margin-top: 64px;
-    margin-bottom: 2rem;
-    flex: 1;
-}
-
-hr {
-    margin: 1.5rem 0;
-}
-
-.img-fit {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: opacity 0.3s ease;
-}
-
-.container-img-cover-sub {
-    width: 240px;
-    margin-left: 16px;
-}
-
-.container-img-link-icon {
-    width: 40px;
-    margin-right: 8px;
-}
-
-.title-link-group {
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
-
-.title-link-group-wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.title-link-anchor {
-    font-weight: 600;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-}
-
-/* Button groups in sections */
-p.m-0.border-0 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.5rem;
-}
-
-p.m-0.border-0>.btn {
-    white-space: normal;
-}
-
-/* Horizontally scrollable button group when content overflows parent */
-.btn-group {
-    max-width: 100%;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
-}
-
-.link-button-group>.btn-outline-secondary {
-    --bs-btn-hover-color: #6c757d;
-    --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
-    --bs-btn-active-color: #6c757d;
-    --bs-btn-active-bg: rgba(108, 117, 125, 0.2);
-}
-
-.footer {
-    font-size: 0.8rem;
 }

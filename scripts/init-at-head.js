@@ -1,0 +1,2 @@
+initThemePreference();
+initSystemThemeListener();

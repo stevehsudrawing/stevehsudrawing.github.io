@@ -1,8 +1,19 @@
+/**
+ * Internationalization (i18n) module.
+ * Loads language-list and translation JSON files, updates page text,
+ * manages the language selector UI, and persists the user's preference.
+ */
+
 let supportedLangs = [];
 let languageList = [];
 let currentLang = 'en';
 let langData = {};
 
+/**
+ * Fetch the list of supported languages from /configs/language-list.json.
+ * Falls back to ['en', 'zh-Hans', 'zh-Hant'] on error.
+ * @returns {Promise<void>}
+ */
 async function loadSupportedLangs() {
     try {
         const response = await fetch('/configs/language-list.json');
@@ -22,6 +33,11 @@ async function loadSupportedLangs() {
 }
 
 
+/**
+ * Walk the DOM and replace text content of all [data-i18n] elements
+ * using the currently loaded langData dictionary.
+ * Also recreates Bootstrap tooltips whose titles are translated.
+ */
 function updatePageText() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -50,6 +66,9 @@ function updatePageText() {
     });
 }
 
+/**
+ * Highlight the active language item in the language switcher dropdown.
+ */
 function setActiveLangItem() {
     try {
         const langItems = document.querySelectorAll('.lang-item');
@@ -73,6 +92,13 @@ function setActiveLangItem() {
     }
 }
 
+/**
+ * Fetch the JSON translation file for a given language code,
+ * store it in langData, update all page text, persist the preference,
+ * and sync UI elements (lang attribute, dropdown, select).
+ * @param {string} lang - The language code to load (e.g. 'en', 'zh-Hans').
+ * @returns {Promise<void>}
+ */
 async function loadLang(lang) {
     try {
         const response = await fetch(`/configs/i18n/${lang}.json`);
@@ -97,6 +123,10 @@ async function loadLang(lang) {
     }
 }
 
+/**
+ * Populate both the header language dropdown menu and the settings modal
+ * language select with items from the loaded language list.
+ */
 function populateLanguageMenus() {
     // Populate header language menu
     try {

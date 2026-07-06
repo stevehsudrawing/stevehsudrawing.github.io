@@ -1,8 +1,18 @@
+/**
+ * Theme management module.
+ * Supports light, dark, and auto (follow system) themes using Bootstrap's
+ * data-bs-theme attribute. Handles persistence, system preference listening,
+ * theme-aware image swapping, and UI toggle synchronization.
+ */
+
 const htmlElement = document.documentElement;
 
 let currentThemePreference = 'auto';
 const supportedThemes = ['auto', 'light', 'dark'];
 
+/**
+ * Restore the saved theme preference from localStorage, defaulting to 'auto'.
+ */
 function initThemePreference() {
     // Get preference if it exists
     const savedTheme = localStorage.getItem('bsTheme');
@@ -13,10 +23,19 @@ function initThemePreference() {
 
 const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
+/**
+ * Query the OS-level color scheme preference.
+ * @returns {'light'|'dark'} The current system theme.
+ */
 function getSystemTheme() {
     return prefersColorScheme.matches ? 'dark' : 'light';
 }
 
+/**
+ * Apply a theme choice to the page. When 'auto', defer to the system theme.
+ * @param {string} themeChoice - One of 'auto', 'light', or 'dark'.
+ * @param {boolean} [save=true] - Whether to persist the choice to localStorage.
+ */
 function applyThemePreference(themeChoice, save = true) {
     const theme = supportedThemes.includes(themeChoice) ? themeChoice : 'auto';
     currentThemePreference = theme;
@@ -34,6 +53,10 @@ function applyThemePreference(themeChoice, save = true) {
     applyThemeBasedImages();
 }
 
+/**
+ * Called when the system color scheme changes. If the user has chosen 'auto',
+ * update the data-bs-theme attribute and refresh theme-based images.
+ */
 function updateAutoThemeOnSystemChange() {
     if (currentThemePreference !== 'auto') {
         return;
@@ -43,6 +66,10 @@ function updateAutoThemeOnSystemChange() {
     applyThemeBasedImages();
 }
 
+/**
+ * Swap img[src] with img[data-src-dark] when the current theme is dark,
+ * and restore the original light source when switching back.
+ */
 function applyThemeBasedImages() {
     try {
         const currentTheme = htmlElement.getAttribute('data-bs-theme');
@@ -67,6 +94,10 @@ function applyThemeBasedImages() {
     }
 }
 
+/**
+ * Listen for OS-level color scheme changes and re-apply the theme
+ * when the user's preference is 'auto'.
+ */
 function initSystemThemeListener() {
     if (typeof prefersColorScheme.addEventListener === 'function') {
         prefersColorScheme.addEventListener('change', updateAutoThemeOnSystemChange);
@@ -75,6 +106,11 @@ function initSystemThemeListener() {
     }
 }
 
+/**
+ * Map a theme value to its i18n key for display in the theme toggle.
+ * @param {string} theme - One of 'auto', 'light', or 'dark'.
+ * @returns {string} The i18n key (e.g. 'text-auto').
+ */
 function getThemeI18nKey(theme) {
     switch (theme) {
         case 'light':
@@ -86,6 +122,11 @@ function getThemeI18nKey(theme) {
     }
 }
 
+/**
+ * Return a human-readable English label for a theme value.
+ * @param {string} theme - One of 'auto', 'light', or 'dark'.
+ * @returns {string} The label (e.g. 'Auto').
+ */
 function getThemeLabel(theme) {
     switch (theme) {
         case 'light':
@@ -97,6 +138,9 @@ function getThemeLabel(theme) {
     }
 }
 
+/**
+ * Update all .themeCurrentText elements to display the current theme name.
+ */
 function updateThemeToggleText() {
     const themeTextElements = document.querySelectorAll('.themeCurrentText');
     if (!themeTextElements || themeTextElements.length === 0) {
@@ -110,6 +154,9 @@ function updateThemeToggleText() {
     });
 }
 
+/**
+ * Mark the currently selected theme item as active in the theme dropdown.
+ */
 function setActiveThemeItem() {
     const themeItems = document.querySelectorAll('.theme-item');
     themeItems.forEach(item => {
@@ -124,6 +171,10 @@ function setActiveThemeItem() {
     });
 }
 
+/**
+ * Persist a theme choice and update all related UI elements.
+ * @param {string} themeChoice - One of 'auto', 'light', or 'dark'.
+ */
 function setThemePreference(themeChoice) {
     applyThemePreference(themeChoice, true);
     updateThemeToggleText();

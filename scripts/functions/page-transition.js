@@ -263,7 +263,7 @@ async function navigateTo(url, pushState = true) {
 /**
  * Handle click events on internal links.
  */
-document.addEventListener('click', function (e) {
+function handleInternalLinkClick(e) {
     // Skip if user is holding modifier keys (open in new tab/window)
     if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
 
@@ -277,15 +277,29 @@ document.addEventListener('click', function (e) {
 
     e.preventDefault();
     navigateTo(link.href);
-});
+}
+
+/**
+ * Initialize the click listener for internal link navigation.
+ */
+function initPageTransitionLinkClicks() {
+    document.addEventListener('click', handleInternalLinkClick);
+}
 
 /**
  * Handle browser back/forward navigation.
  */
-window.addEventListener('popstate', function (e) {
+function handlePopState(e) {
     const currentPath = normalizeInternalPath(window.location.pathname);
     if (INTERNAL_PAGES.includes(currentPath)) {
         navigateTo(window.location.href, false);
     }
     // If the popped state is not an internal page, let the browser handle it normally
-});
+}
+
+/**
+ * Initialize the popstate listener for browser back/forward navigation.
+ */
+function initPageTransitionPopState() {
+    window.addEventListener('popstate', handlePopState);
+}

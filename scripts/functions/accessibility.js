@@ -1,3 +1,14 @@
+/**
+ * Accessibility helpers.
+ * Handles smooth-scroll to hash targets, keyboard/pointer mode switching,
+ * skip-button activation, and external link indicators.
+ */
+
+/**
+ * Smooth-scroll the page to an element identified by a hash fragment.
+ * @param {string} hash - The hash fragment (with or without leading '#').
+ * @param {boolean} [instant=false] - If true, scroll instantly instead of smoothly.
+ */
 function scrollToHashTarget(hash, instant = false) {
     if (!hash) return;
     if (hash.startsWith('#')) {
@@ -13,6 +24,10 @@ function scrollToHashTarget(hash, instant = false) {
     window.scrollTo({ top: scrollTop, behavior: instant ? 'auto' : 'smooth' });
 }
 
+/**
+ * Attach click listeners to .title-link-anchor elements so they scroll
+ * smoothly to the corresponding heading and update the URL hash via pushState.
+ */
 function addEventListenerToTitleLinkAnchors() {
     try {
         const titleLinkAnchors = document.querySelectorAll('.title-link-anchor');
@@ -29,6 +44,10 @@ function addEventListenerToTitleLinkAnchors() {
     }
 }
 
+/**
+ * Activate the skip-to-main-content button and manage keyboard vs pointer
+ * input mode classes on the root element for focus-visible styling.
+ */
 function activateSkipButton() {
     const root = document.documentElement;
 
@@ -56,7 +75,7 @@ function activateSkipButton() {
 
     // Optional: on focus of skip button ensure keyboard class present for older browsers
     document.addEventListener('focusin', function (e) {
-        if (e.target && e.target.id === 'skipButton') {
+        if (e.target && e.target.id === 'skip-button') {
             // If focus landed on the skip button but pointer mode is active, switch to keyboard mode
             if (!root.classList.contains('user-input-keyboard')) {
                 // Prefer :focus-visible in modern browsers; this is a safe fallback
@@ -66,6 +85,10 @@ function activateSkipButton() {
     });
 }
 
+/**
+ * Append an arrow-up-right icon to all .external-link anchors
+ * so users can visually identify links that leave the site.
+ */
 function addExternalLinkIndicators() {
     try {
         document.querySelectorAll('a.external-link').forEach(link => {
@@ -83,57 +106,5 @@ function addExternalLinkIndicators() {
         });
     } catch (error) {
         console.error('Failed to add external link indicators:', error);
-    }
-}
-
-function initCopyLinkTooltips() {
-    try {
-        const copyLinks = document.querySelectorAll('.copy-link');
-        copyLinks.forEach(link => {
-            // Set Bootstrap tooltip attributes
-            link.setAttribute('data-bs-toggle', 'tooltip');
-            link.setAttribute('data-bs-trigger', 'hover focus');
-            link.setAttribute('data-i18n-tooltip', 'text-click-to-copy');
-
-            // Set initial title from i18n data if available, otherwise use fallback
-            const initialTitle = (typeof langData !== 'undefined' && langData['text-click-to-copy'])
-                ? langData['text-click-to-copy']
-                : 'Click to Copy';
-            link.setAttribute('data-bs-title', initialTitle);
-
-            // Click handler: copy to clipboard, show "Copied!" feedback, restore after 3s
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const copyText = link.getAttribute('data-copy-text');
-                if (!copyText) return;
-
-                navigator.clipboard.writeText(copyText).then(() => {
-                    const tooltipInstance = bootstrap.Tooltip.getInstance(link);
-                    const copiedText = (typeof langData !== 'undefined' && langData['text-copied'])
-                        ? langData['text-copied']
-                        : 'Copied!';
-
-                    if (tooltipInstance) {
-                        tooltipInstance.setContent({ '.tooltip-inner': copiedText });
-                        tooltipInstance.show();
-
-                        // Restore original tooltip text after 3 seconds
-                        setTimeout(() => {
-                            const originalText = (typeof langData !== 'undefined' && langData['text-click-to-copy'])
-                                ? langData['text-click-to-copy']
-                                : 'Click to Copy';
-                            if (tooltipInstance) {
-                                tooltipInstance.setContent({ '.tooltip-inner': originalText });
-                                tooltipInstance.hide();
-                            }
-                        }, 3000);
-                    }
-                }).catch(err => {
-                    console.error('Failed to copy text:', err);
-                });
-            });
-        });
-    } catch (error) {
-        console.error('Failed to initialize copy link tooltips:', error);
     }
 }

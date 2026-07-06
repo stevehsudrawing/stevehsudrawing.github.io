@@ -1,11 +1,7 @@
-// Immediate initialization (no DOM required)
-initThemePreference();
-initSystemThemeListener();
-
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         initBootstrapCSSDetection();
-
+        
         await loadAllComponents();
 
         applyThemePreference(currentThemePreference, false);

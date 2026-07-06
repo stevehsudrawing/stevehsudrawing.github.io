@@ -1,4 +1,33 @@
-/* Dropdown Menu Animations */
+﻿/* ========================================================================
+   Accessibility --- Skip Button (accessibility.js)
+   ======================================================================== */
+
+#skip-button {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 1100;
+}
+
+#skip-button:focus-visible,
+html.user-input-keyboard #skip-button:focus {
+    position: fixed;
+    left: 0.5rem;
+    top: 0.5rem;
+    width: auto;
+    height: auto;
+    padding: 0.25rem 0.5rem;
+    overflow: visible;
+    clip: auto;
+}
+
+/* ========================================================================
+   Dropdown Menu — animated by navbar.js via Bootstrap dropdown events
+   ======================================================================== */
+
 .dropdown-menu {
     opacity: 0;
     visibility: hidden;
@@ -25,7 +54,10 @@
     transition-delay: 0s;
 }
 
-/* Page Transition Progress Bar */
+/* ========================================================================
+   Page Transitions — progress bar & content dimming (page-transition.js)
+   ======================================================================== */
+
 #page-transition-progress {
     position: fixed;
     top: 0;
@@ -53,7 +85,6 @@
     transition: width 0.25s ease-in;
 }
 
-/* Page Content Transition Dimming */
 #page-content {
     transition: opacity 0.2s ease;
 }
@@ -64,7 +95,10 @@
     transition: opacity 0.15s ease;
 }
 
-/* Scroll hint for horizontally-scrollable button groups */
+/* ========================================================================
+   Scroll Hint — horizontal scroll indicator (scroll-hint.js)
+   ======================================================================== */
+
 .scroll-hint {
     display: none;
     text-align: center;
@@ -89,31 +123,88 @@
     display: block;
 }
 
-/* Large Button Container */
-@media (max-width: 767.98px) {
-    .large-button-container {
-        flex-direction: column;
-    }
+/* ========================================================================
+   Link Sizing
+   ======================================================================== */
 
-    .large-button-container > .btn {
-        width: 100%;
-        justify-content: center;
-        text-align: center;
-    }
+/* --- Mobile (< 992px) --- */
 
-    .btn-group {
-        display: flex;
-        width: 100%;
-        justify-content: space-evenly;
-    }
-}
-
-/* For Mobile */
 @media (max-width: 991.98px) {
     .larger-link {
         font-size: 1rem;
     }
+}
 
+/* --- Desktop (>= 992px) --- */
+
+@media (min-width: 992px) {
+    .larger-link {
+        font-size: 1.25rem;
+    }
+}
+
+/* ========================================================================
+   Title Link Anchors
+   ======================================================================== */
+
+/* --- Mobile (< 992px) --- */
+
+@media (max-width: 991.98px) {
+    .title-link-anchor {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+
+/* --- Desktop (>= 992px) --- */
+
+@media (min-width: 992px) {
+    .title-link-anchor {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .title-link-group-wrapper:hover .title-link-anchor,
+    .title-link-group-wrapper:focus-within .title-link-anchor {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+
+/* ========================================================================
+   Navbar — layout, glass effect, brand, offcanvas (navbar.js)
+   ======================================================================== */
+
+/* --- Base --- */
+
+.navbar {
+    height: 64px;
+}
+
+.navbar-bg-glass {
+    background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+    backdrop-filter: blur(15px) saturate(1.5);
+}
+
+@supports not (backdrop-filter: blur(15px)) {
+    .navbar-bg-glass {
+    background-color: rgba(var(--bs-body-bg-rgb), 1);
+    }
+}
+
+.navbar-brand-text {
+    display: none;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* --- Mobile (< 992px) --- */
+
+@media (max-width: 991.98px) {
     .navbar .container {
         position: relative;
     }
@@ -186,19 +277,18 @@
         width: 100%;
     }
 
-    .title-link-anchor {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
+    .navbar.scrolled-past .navbar-brand > svg {
+        display: none;
+    }
+
+    .navbar.scrolled-past .navbar-brand-text {
+        display: inline;
     }
 }
 
-/* For Desktop */
-@media (min-width: 992px) {
-    .larger-link {
-        font-size: 1.25rem;
-    }
+/* --- Desktop (>= 992px) --- */
 
+@media (min-width: 992px) {
     .navbar .navbar-collapse {
         flex-wrap: nowrap;
         min-width: 0;
@@ -246,17 +336,31 @@
     .navbar .navbar-nav:not(.flex-grow-1) {
         flex: 0 0 auto;
     }
+}
 
-    .title-link-anchor {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-    }
+/* ========================================================================
+   QR Code Modal (link-cards-generator.js)
+   ======================================================================== */
 
-    .title-link-group-wrapper:hover .title-link-anchor,
-    .title-link-group-wrapper:focus-within .title-link-anchor {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
+#qrCodeModal .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.75rem 1.5rem;
+}
+
+#qrCodeContainer {
+    width: 232px;
+    height: 232px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+#qrCodeModalTitle {
+    font-size: 0.95rem;
+    word-break: break-all;
+    color: var(--bs-body-color);
 }

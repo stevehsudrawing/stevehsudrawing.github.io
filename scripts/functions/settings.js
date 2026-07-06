@@ -1,3 +1,19 @@
+/**
+ * Settings panel event handling.
+ * Manages the settings modal's toggle for opening external links in new tabs,
+ * the language selector, and the clear-preferences workflow with a
+ * confirmation modal.
+ */
+
+/**
+ * Attach delegated event listeners for settings-related UI:
+ * - External links new-tab toggle
+ * - Language selector
+ * - Clear-preferences button + confirmation
+ * - Settings-open button
+ * - Language dropdown items
+ * - Theme dropdown items
+ */
 function addSettingEventListeners() {
     document.addEventListener('change', function (e) {
         // External links new tab toggle
@@ -83,14 +99,27 @@ function addSettingEventListeners() {
     });
 }
 
+/**
+ * Read the "open external links in new tab" preference from localStorage.
+ * @returns {boolean} True if external links should open in a new tab.
+ */
 function getExternalLinkNewTabPreference() {
     return localStorage.getItem('openExternalLinksInNewTab') === 'true';
 }
 
+/**
+ * Persist the "open external links in new tab" preference to localStorage.
+ * @param {boolean} enabled - Whether external links should open in a new tab.
+ */
 function setExternalLinkNewTabPreference(enabled) {
     localStorage.setItem('openExternalLinksInNewTab', enabled ? 'true' : 'false');
 }
 
+/**
+ * Apply the external-link target preference to all .external-link anchors.
+ * Sets target="_blank" and rel="noopener noreferrer" when enabled,
+ * or removes them when disabled.
+ */
 function applyExternalLinkTargetBehavior() {
     const enabled = getExternalLinkNewTabPreference();
     document.querySelectorAll('a.external-link').forEach(link => {
@@ -108,6 +137,10 @@ function applyExternalLinkTargetBehavior() {
     });
 }
 
+/**
+ * Initialize the settings modal on first call (idempotent via body attribute).
+ * Syncs the toggle and select values with stored preferences.
+ */
 function initializeSettingsModal() {
     // Prevent duplicate initialization, which can happen after page transitions
     if (document.body.hasAttribute('data-settings-modal-initialized')) {

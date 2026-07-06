@@ -1,3 +1,7 @@
+/* ========================================================================
+   Light Theme
+   ======================================================================== */
+
 :root, [data-bs-theme='light'] {
     --shlh-primary: #3c96ff;
     --shlh-primary-rgb: 60, 150, 255;
@@ -17,6 +21,10 @@
     --bs-link-hover-color: var(--shlh-primary-600);
     --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
 }
+
+/* ========================================================================
+   Dark Theme
+   ======================================================================== */
 
 [data-bs-theme='dark'] {
     --shlh-primary: #47c4ee;
@@ -38,12 +46,25 @@
     --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
 }
 
+/* ========================================================================
+   Bootstrap Global Overrides
+   ======================================================================== */
+
 :root {
     --bs-primary: var(--shlh-primary);
     --bs-link-color: var(--shlh-primary);
     --bs-primary-rgb: var(--shlh-primary-rgb);
     --bs-link-color-rgb: var(--shlh-primary-rgb);
 }
+
+.form-check-input:checked {
+    background-color: var(--shlh-primary);
+    border-color: var(--shlh-primary);
+}
+
+/* ========================================================================
+   Component: Dropdown Menu
+   ======================================================================== */
 
 .dropdown-menu {
     --bs-dropdown-link-active-bg: var(--shlh-primary);
@@ -52,6 +73,10 @@
 [data-bs-theme='dark'] .dropdown-menu {
     --bs-dropdown-link-active-color: #000;
 }
+
+/* ========================================================================
+   Component: Primary Button
+   ======================================================================== */
 
 .btn-primary {
     --bs-btn-bg: var(--shlh-primary);
@@ -69,9 +94,4 @@
     --bs-btn-hover-color: #000;
     --bs-btn-active-color: #000;
     --bs-btn-disabled-color: #000;
-}
-
-.form-check-input:checked {
-    background-color: var(--shlh-primary);
-    border-color: var(--shlh-primary);
 }

@@ -3,6 +3,10 @@
  * If not, show a warning banner at the top of the page with a refresh link.
  */
 
+/**
+ * Check whether Bootstrap CSS loaded successfully by testing for --bs-blue.
+ * @returns {boolean} True if Bootstrap CSS is loaded.
+ */
 function isBootstrapCSSLoaded() {
     // Bootstrap 5 defines --bs-blue on :root. If the stylesheet failed
     // to load (or was blocked), this custom property will be empty.
@@ -10,6 +14,9 @@ function isBootstrapCSSLoaded() {
     return bsBlue !== '';
 }
 
+/**
+ * Display a warning banner at the top of the page when Bootstrap CSS fails to load.
+ */
 function showBootstrapCSSWarning() {
     // Inline styles are used because Bootstrap CSS may not be available.
     var wrapper = document.createElement('div');
@@ -38,6 +45,9 @@ function showBootstrapCSSWarning() {
     document.body.prepend(wrapper);
 }
 
+/**
+ * Initialize Bootstrap CSS detection; show a warning if the stylesheet didn't load.
+ */
 function initBootstrapCSSDetection() {
     if (!isBootstrapCSSLoaded()) {
         showBootstrapCSSWarning();

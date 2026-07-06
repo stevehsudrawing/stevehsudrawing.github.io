@@ -1,3 +1,9 @@
+/* ========================================================================
+   Monochrome Icon System — CSS mask-based icons
+   ======================================================================== */
+
+/* --- Fill Color Utilities --- */
+
 .img-mono-fill-body-color {
     background-color: var(--bs-body-color);
 }
@@ -10,30 +16,32 @@
     background-color: #000;
 }
 
-.img-mono-pixiv {
-    mask: url(/images/icons/mono/pixiv.png) no-repeat center / contain;
-}
+/* --- Icon Masks (A–Z) --- */
 
-.img-mono-x-twitter {
-    mask: url(/images/icons/mono/x-twitter.png) no-repeat center / contain;
+.img-mono-email {
+    mask: url(/images/icons/mono/email.png) no-repeat center / contain;
 }
 
 .img-mono-github {
     mask: url(/images/icons/mono/github.png) no-repeat center / contain;
 }
 
+.img-mono-link {
+    mask: url(/images/icons/mono/link.png) no-repeat center / contain;
+}
+
 .img-mono-patreon {
     mask: url(/images/icons/mono/patreon.png) no-repeat center / contain;
 }
 
-.img-mono-email {
-    mask: url(/images/icons/mono/email.png) no-repeat center / contain;
+.img-mono-pixiv {
+    mask: url(/images/icons/mono/pixiv.png) no-repeat center / contain;
 }
 
 .img-mono-threads {
     mask: url(/images/icons/mono/threads.png) no-repeat center / contain;
 }
 
-.img-mono-link {
-    mask: url(/images/icons/mono/link.png) no-repeat center / contain;
+.img-mono-x-twitter {
+    mask: url(/images/icons/mono/x-twitter.png) no-repeat center / contain;
 }

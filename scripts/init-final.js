@@ -44,10 +44,6 @@ async function initializePageContent() {
     initScrollHint();
 }
 
-// Immediate initialization (no DOM required)
-initThemePreference();
-initSystemThemeListener();
-
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         initBootstrapCSSDetection();
@@ -72,6 +68,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         updateThemeToggleText();
         setActiveThemeItem();
+
+        // Initialize page transition listeners (internal link clicks & popstate)
+        initPageTransitionLinkClicks();
+        initPageTransitionPopState();
 
         // Initialize page content (link cards, tooltips, etc.)
         await initializePageContent();

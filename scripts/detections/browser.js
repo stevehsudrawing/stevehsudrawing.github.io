@@ -1,10 +1,23 @@
-// Some old browser doesn't support 'String.prototype.includes()'
+/**
+ * Browser detection and support check script.
+ * Written in ES5 for compatibility with older browsers.
+ */
+
+/**
+ * ES5-compatible string inclusion check (no String.prototype.includes).
+ * @param {string} str - The string to search within.
+ * @param {string} subStr - The substring to look for.
+ * @returns {boolean} True if subStr is found in str.
+ */
 function isStringIncludes(str, subStr) {
     if (str.indexOf(subStr) != -1) return true;
     else return false;
 }
 
-// Some old browser even doesn't support `const` and `let`
+/**
+ * Detect the user's browser name and version from the user agent string.
+ * @returns {{name: string, version: number}} An object with browser name and version.
+ */
 function detectBrowser() {
     var userAgent = navigator.userAgent.toLowerCase();
     // Default: Unknown
@@ -64,6 +77,10 @@ function detectBrowser() {
     return browser;
 }
 
+/**
+ * Check whether the detected browser meets minimum version requirements.
+ * @returns {boolean} True if the browser is supported.
+ */
 function isSupported() {
     var browser = detectBrowser();
     var supportMap = {
@@ -78,6 +95,10 @@ function isSupported() {
     return supportMap[browser.name];
 }
 
+/**
+ * Redirect to /unsupported.html if the current browser is not supported.
+ * @returns {boolean} True if the browser is supported, false otherwise.
+ */
 function checkBrowserSupport() {
     if (!isSupported()) {
         window.location.href = '/unsupported.html';

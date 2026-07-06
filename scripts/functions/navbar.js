@@ -1,4 +1,12 @@
-// Activate Nav Item
+/**
+ * Navbar and dropdown behaviors.
+ * Provides active nav-item highlighting, dropdown menu animations,
+ * and mobile navbar-brand scroll swapping (logo → page name).
+ */
+
+/**
+ * Highlight the navbar link that matches the current page path.
+ */
 function setActiveNavItem() {
     try {
         const currentPath = window.location.pathname;
@@ -26,6 +34,10 @@ function setActiveNavItem() {
     }
 }
 
+/**
+ * Wire up show/hide animation hooks on all Bootstrap dropdown menus
+ * so they fade in/out smoothly instead of appearing instantly.
+ */
 function initializeDropdownMenuAnimation() {
     document.querySelectorAll('.dropdown').forEach(dropdown => {
         const menu = dropdown.querySelector('.dropdown-menu');
@@ -73,20 +85,6 @@ function initializeDropdownMenuAnimation() {
 
             setTimeout(cleanup, 250);
         });
-    });
-}
-
-function activateTooltips() {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-}
-
-function disposeAllTooltips() {
-    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-        const instance = bootstrap.Tooltip.getInstance(el);
-        if (instance) {
-            instance.dispose();
-        }
     });
 }
 
@@ -159,63 +157,4 @@ function initMobileNavbarBrandScroll() {
 
     window.addEventListener('resize', updateBrand);
     updateBrand();
-}
-
-let scrollHintResizeSetup = false;
-
-function updateScrollHints() {
-    document.querySelectorAll('.link-button-group').forEach(group => {
-        const hint = group.nextElementSibling;
-        if (!hint || !hint.classList.contains('scroll-hint')) return;
-        const overflows = group.scrollWidth > group.clientWidth;
-        if (overflows) {
-            hint.classList.add('visible');
-        } else {
-            hint.classList.remove('visible');
-        }
-    });
-}
-
-/**
- * When a .link-button-group overflows its container,
- * show a "Scroll Horizontally" hint below it so users know they can swipe.
- */
-function initScrollHint() {
-    const buttonGroups = document.querySelectorAll('.link-button-group');
-    if (buttonGroups.length === 0) return;
-
-    // Create hint elements after each button group
-    buttonGroups.forEach(group => {
-        let hint = group.nextElementSibling;
-        if (!hint || !hint.classList.contains('scroll-hint')) {
-            hint = document.createElement('div');
-            hint.className = 'scroll-hint';
-            hint.setAttribute('aria-hidden', 'true');
-            hint.innerHTML = '<i class="bi bi-chevron-left"></i> <span data-i18n="text-scroll-horizontally">Scroll Horizontally</span> <i class="bi bi-chevron-right"></i>';
-            group.insertAdjacentElement('afterend', hint);
-
-            // Manually set translated text since updatePageText() has already run
-            const span = hint.querySelector('[data-i18n]');
-            if (span && typeof langData !== 'undefined' && langData['text-scroll-horizontally']) {
-                span.textContent = langData['text-scroll-horizontally'];
-            }
-        }
-    });
-
-    updateScrollHints();
-
-    // Set up resize listener only once globally
-    if (!scrollHintResizeSetup) {
-        scrollHintResizeSetup = true;
-        let resizeTicking = false;
-        window.addEventListener('resize', function () {
-            if (!resizeTicking) {
-                requestAnimationFrame(function () {
-                    updateScrollHints();
-                    resizeTicking = false;
-                });
-                resizeTicking = true;
-            }
-        });
-    }
 }
