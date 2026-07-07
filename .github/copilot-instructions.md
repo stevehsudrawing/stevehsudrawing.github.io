@@ -50,7 +50,7 @@ Loaded in the end of `<body>` of each page:
 ### CSS Custom Properties
 
 - **Project-specific**: prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub)
-    - **Color**: The naming convention is similar to Bootstrap (e.g. `--shlh-primary`, `--shlh-primary-rgb`), but an additional parameter has been added to indicate color brightness, which the range is 300-700 (from bright to dark) (e.g. `--shlh-primary-300`, `--shlh-primary-300-rgb`).
+    - **Color**: The naming convention is similar to Bootstrap (e.g. `--shlh-primary`, `--shlh-primary-rgb`), but an additional parameter has been added to indicate color brightness, which the range is 100-900 (from bright to dark) (e.g. `--shlh-primary-500`, `--shlh-primary-500-rgb`).
     - **Font Settings**: `--shlh-fonts-` + type + priority + language code \
         e.g. `--shlh-fonts-sans-serif-major-en`, `--shlh-fonts-monospace-fallback-ja`
 - **Bootstrap (overrides)**: prefix `--bs-*` \
@@ -234,9 +234,9 @@ Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title
 - Controlled by a toggle (`#external-links-new-tab-toggle`) in the settings modal.
 - **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
 - Managed by `settings.js` via three functions:
-  - `isExternalLinkNewTabEnabled()` - reads the preference from localStorage.
-  - `setExternalLinkNewTabPreference(enabled)` - persists the preference.
-  - `applyExternalLinkTargetBehavior()` - applies `target="_blank"` and `rel="noopener noreferrer"` to all `a.external-link` elements, or removes them when disabled.
+    - `isExternalLinkNewTabEnabled()` - reads the preference from localStorage.
+    - `setExternalLinkNewTabPreference(enabled)` - persists the preference.
+    - `applyExternalLinkTargetBehavior()` - applies `target="_blank"` and `rel="noopener noreferrer"` to all `a.external-link` elements, or removes them when disabled.
 - The toggle change event is handled by `initSettingEventListeners()`.
 - When the settings modal is first opened, `initSettingsModal()` syncs the toggle state with the stored preference.
 
