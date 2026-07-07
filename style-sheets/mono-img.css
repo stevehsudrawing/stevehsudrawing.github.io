@@ -19,29 +19,29 @@
 /* --- Icon Masks (A–Z) --- */
 
 .img-mono-email {
-    mask: url(/images/icons/mono/email.png) no-repeat center / contain;
+    mask: url(/images/icons/email.png) no-repeat center / contain;
 }
 
 .img-mono-github {
-    mask: url(/images/icons/mono/github.png) no-repeat center / contain;
+    mask: url(/images/icons/github.png) no-repeat center / contain;
 }
 
 .img-mono-link {
-    mask: url(/images/icons/mono/link.png) no-repeat center / contain;
+    mask: url(/images/icons/link.png) no-repeat center / contain;
 }
 
 .img-mono-patreon {
-    mask: url(/images/icons/mono/patreon.png) no-repeat center / contain;
+    mask: url(/images/icons/patreon.png) no-repeat center / contain;
 }
 
 .img-mono-pixiv {
-    mask: url(/images/icons/mono/pixiv.png) no-repeat center / contain;
+    mask: url(/images/icons/pixiv.png) no-repeat center / contain;
 }
 
 .img-mono-threads {
-    mask: url(/images/icons/mono/threads.png) no-repeat center / contain;
+    mask: url(/images/icons/threads.png) no-repeat center / contain;
 }
 
 .img-mono-x-twitter {
-    mask: url(/images/icons/mono/x-twitter.png) no-repeat center / contain;
+    mask: url(/images/icons/x-twitter.png) no-repeat center / contain;
 }
