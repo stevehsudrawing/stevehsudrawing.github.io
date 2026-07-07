@@ -1,0 +1,52 @@
+# -----------------------------------------------------------------------
+# This robots.txt protects original artworks under /images/ from being
+# crawled by AI/ML training bots, while allowing legitimate search
+# engines to index the site normally.
+#
+# See: /images/README.md for the full copyright declaration.
+# -----------------------------------------------------------------------
+
+# -- AI / Machine-learning crawlers (blocked from /images/) --
+
+User-agent: GPTBot
+Disallow: /images/
+
+User-agent: CCBot
+Disallow: /images/
+
+User-agent: anthropic-ai
+Disallow: /images/
+
+User-agent: Claude-Web
+Disallow: /images/
+
+User-agent: Google-Extended
+Disallow: /images/
+
+User-agent: cohere-ai
+Disallow: /images/
+
+User-agent: Bytespider
+Disallow: /images/
+
+User-agent: FacebookBot
+Disallow: /images/
+
+User-agent: Applebot-Extended
+Disallow: /images/
+
+User-agent: PerplexityBot
+Disallow: /images/
+
+User-agent: omgili
+Disallow: /images/
+
+User-agent: YouBot
+Disallow: /images/
+
+User-agent: img2dataset
+Disallow: /images/
+
+# -- Everyone else: full access --
+User-agent: *
+Allow: /
