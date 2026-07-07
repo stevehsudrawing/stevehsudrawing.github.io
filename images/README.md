@@ -35,7 +35,7 @@ These works are provided **for display purposes only** on this website. The foll
 |----------------------|------------------------------------------|
 | `covers/blogs.png`   | Cover image for the Blogs & Sponsor page |
 | `covers/chatting.png`| Cover image for the Chatting page        |
-| `covers/projects.png`| Cover image for the Projects page        |
+| `covers/projects.png`| Cover image for the Softwares page       |
 | `icons/quanto-*.png` | Icons for the Quanto Series projects     |
 | `icons/quantum.png`  | Icon for QuantuM QQ chat group           |
 | `icons/sawtooth.png` | Icon for SawtootH QQ chat group          |
