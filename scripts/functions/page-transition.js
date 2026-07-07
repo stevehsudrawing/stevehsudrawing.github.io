@@ -124,7 +124,7 @@ function restorePageContent() {
  */
 function closeOffcanvas() {
     try {
-        const offcanvasEl = document.getElementById('navbarOffcanvas');
+        const offcanvasEl = document.getElementById('navbar-offcanvas');
         if (offcanvasEl) {
             const instance = bootstrap.Offcanvas.getInstance(offcanvasEl);
             if (instance) {
@@ -179,7 +179,7 @@ async function navigateTo(url, pushState = true) {
         return;
     }
 
-    // Don't navigate to the same page — scroll to top instead
+    // Don't navigate to the same page - scroll to top instead
     const currentPath = normalizeInternalPath(window.location.pathname);
     if (resolvedPath === currentPath && pushState) {
         window.scrollTo({ top: 0, behavior: 'smooth' });

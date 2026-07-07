@@ -17,7 +17,7 @@
 function initSettingEventListeners() {
     document.addEventListener('change', function (e) {
         // External links new tab toggle
-        if (e.target && e.target.id === 'externalLinksNewTabToggle') {
+        if (e.target && e.target.id === 'external-links-new-tab-toggle') {
             const checked = e.target.checked;
             setExternalLinkNewTabPreference(checked);
             applyExternalLinkTargetBehavior();
@@ -25,7 +25,7 @@ function initSettingEventListeners() {
         }
 
         // Language select
-        if (e.target && e.target.id === 'languageSelect') {
+        if (e.target && e.target.id === 'language-select') {
             const selectedLang = e.target.value;
             loadLang(selectedLang);
             return;
@@ -34,9 +34,9 @@ function initSettingEventListeners() {
 
     document.addEventListener('click', function (e) {
         // Clear preferences button
-        if (e.target && e.target.id === 'clearPreferencesBtn') {
+        if (e.target && e.target.id === 'clear-preferences-btn') {
             e.preventDefault();
-            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
+            const warningModalEl = document.getElementById('warning-clearing-preferences-modal');
             if (warningModalEl) {
                 warningModalEl.style.zIndex = '1070';
                 const warningModal = new bootstrap.Modal(warningModalEl);
@@ -52,7 +52,7 @@ function initSettingEventListeners() {
         }
 
         // Confirm clear preferences button
-        if (e.target && e.target.id === 'confirmClearPreferencesBtn') {
+        if (e.target && e.target.id === 'confirm-clear-preferences-btn') {
             try {
                 localStorage.removeItem('preferredLang');
                 localStorage.removeItem('bsTheme');
@@ -61,7 +61,7 @@ function initSettingEventListeners() {
                 console.warn('Failed to clear some preferences:', e);
             }
 
-            const warningModalEl = document.getElementById('warningClearingPreferencesModal');
+            const warningModalEl = document.getElementById('warning-clearing-preferences-modal');
             if (warningModalEl) {
                 const m = bootstrap.Modal.getInstance(warningModalEl) || new bootstrap.Modal(warningModalEl);
                 m.hide();
@@ -74,7 +74,7 @@ function initSettingEventListeners() {
         const settingsOpenButton = e.target.closest('[data-settings-open]');
         if (settingsOpenButton) {
             e.preventDefault();
-            const modalElement = document.getElementById('settingsModal');
+            const modalElement = document.getElementById('settings-modal');
             if (modalElement) {
                 const bootstrapModal = new bootstrap.Modal(modalElement);
                 bootstrapModal.show();
@@ -146,7 +146,7 @@ function initSettingsModal() {
     if (document.body.hasAttribute('data-settings-modal-initialized')) {
         // Sync toggle state and apply external link target behavior
         // in case the DOM was recreated after navigation
-        const settingsToggle = document.getElementById('externalLinksNewTabToggle');
+        const settingsToggle = document.getElementById('external-links-new-tab-toggle');
         if (settingsToggle) {
             settingsToggle.checked = isExternalLinkNewTabEnabled();
         }
@@ -156,12 +156,12 @@ function initSettingsModal() {
     document.body.setAttribute('data-settings-modal-initialized', '');
 
     // Sync initial values for UI elements (events handled via delegation)
-    const settingsToggle = document.getElementById('externalLinksNewTabToggle');
+    const settingsToggle = document.getElementById('external-links-new-tab-toggle');
     if (settingsToggle) {
         settingsToggle.checked = isExternalLinkNewTabEnabled();
     }
 
-    const languageSelect = document.getElementById('languageSelect');
+    const languageSelect = document.getElementById('language-select');
     if (languageSelect) {
         languageSelect.value = currentLang;
     }

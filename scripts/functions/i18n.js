@@ -114,7 +114,7 @@ async function loadLang(lang) {
 
         setActiveNavItem();
         setActiveLangItem();
-        const languageSelect = document.getElementById('languageSelect');
+        const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.value = currentLang;
         }
@@ -132,7 +132,7 @@ async function loadLang(lang) {
 function populateLanguageMenus() {
     // Populate header language menu
     try {
-        const langToggle = document.getElementById('langDropdown');
+        const langToggle = document.getElementById('lang-dropdown');
         const langMenu = langToggle ? (langToggle.parentElement && langToggle.parentElement.querySelector('.dropdown-menu')) : null;
         if (langMenu) {
             langMenu.innerHTML = '';
@@ -166,7 +166,7 @@ function populateLanguageMenus() {
 
     // Populate settings modal select
     try {
-        const languageSelect = document.getElementById('languageSelect');
+        const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.innerHTML = '';
             if (Array.isArray(languageList) && languageList.length > 0) {

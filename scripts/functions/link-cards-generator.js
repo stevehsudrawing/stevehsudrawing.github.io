@@ -404,9 +404,9 @@ function initHashChangeScroll() {
 function showQRCodeModal(linkUrl) {
     const htmlElement = document.documentElement;
 
-    const modalTitle = document.getElementById('qrCodeModalTitle');
-    const qrCodeContainer = document.getElementById('qrCodeContainer');
-    const modalElement = document.getElementById('qrCodeModal');
+    const modalTitle = document.getElementById('qr-code-modal-title');
+    const qrCodeContainer = document.getElementById('qr-code-container');
+    const modalElement = document.getElementById('qr-code-modal');
 
     if (!modalTitle || !qrCodeContainer || !modalElement) {
         console.warn('QR code modal elements not found.');

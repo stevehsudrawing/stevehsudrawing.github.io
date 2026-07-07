@@ -17,9 +17,6 @@
     --shlh-primary-500-rgb: var(--shlh-primary-rgb);
     --shlh-primary-600-rgb: 48, 120, 204;
     --shlh-primary-700-rgb: 36, 90, 153;
-
-    --bs-link-hover-color: var(--shlh-primary-600);
-    --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
 }
 
 /* ========================================================================
@@ -41,9 +38,6 @@
     --shlh-primary-500-rgb: var(--shlh-primary-rgb);
     --shlh-primary-600-rgb: 86, 166, 193;
     --shlh-primary-700-rgb: 65, 125, 145;
-
-    --bs-link-hover-color: var(--shlh-primary-400);
-    --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
 }
 
 /* ========================================================================
@@ -55,6 +49,16 @@
     --bs-link-color: var(--shlh-primary);
     --bs-primary-rgb: var(--shlh-primary-rgb);
     --bs-link-color-rgb: var(--shlh-primary-rgb);
+}
+
+:root, [data-bs-theme='light'] {
+    --bs-link-hover-color: var(--shlh-primary-600);
+    --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
+}
+
+:root, [data-bs-theme='dark'] {
+    --bs-link-hover-color: var(--shlh-primary-400);
+    --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
 }
 
 .form-check-input:checked {

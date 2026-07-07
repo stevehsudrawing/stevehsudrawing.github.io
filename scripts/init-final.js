@@ -9,7 +9,7 @@ async function initPageContent() {
         updatePageTitle();
         setActiveNavItem();
         setActiveLangItem();
-        const languageSelect = document.getElementById('languageSelect');
+        const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.value = currentLang;
         }
@@ -18,7 +18,7 @@ async function initPageContent() {
     // Generate link cards if #links container exists
     await generateLinkCards();
 
-    // Apply translations again — link cards were just added to the DOM
+    // Apply translations again - link cards were just added to the DOM
     if (currentLang && Object.keys(langData).length > 0) {
         updatePageText();
     }

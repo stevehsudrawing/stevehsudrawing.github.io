@@ -1,5 +1,5 @@
 /* ========================================================================
-   Font Settings — CSS custom properties for multi-language font stacks
+   Font Settings - CSS custom properties for multi-language font stacks
    ======================================================================== */
 
 :root {
@@ -19,11 +19,11 @@
     --shlh-fonts-sans-serif-fallback-ja: 'Osaka', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
     --shlh-fonts-sans-serif-fallback-zh-Hans: '华文细黑', '华文黑体', 'STHeiti', 'Hei', '黑体', 'SimHei', '宋体', 'SimSun';
     --shlh-fonts-sans-serif-fallback-zh-Hant: 'LiHei Pro', 'Apple LiGothic', '新細明體', 'PMingLiU';
-    --shlh-fonts-sans-serif-major-en: 'Inter', 'Inter Variable', 'SF Pro', 'San Francisco Text', 'San Francisco', 'Roboto', 'Segoe UI';
+    --shlh-fonts-sans-serif-major-en: 'Inter Variable', 'Inter', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Segoe UI Variable Text', 'Segoe UI';
     --shlh-fonts-sans-serif-major-ja: '更紗ゴシック J', 'Sarasa Gothic J', 'ヒラギノ角ゴシック', 'Hiragino Sans', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans JP', 'Noto Sans CJK', 'Meiryo UI', 'メイリオ', 'Meiryo';
     --shlh-fonts-sans-serif-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC', '苹方-简', '苹方', 'PingFang SC', 'PingFang', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
     --shlh-fonts-sans-serif-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC', '蘋方-繁', '蘋方', 'PingFang TC', 'PingFang', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';
-    --shlh-fonts-sans-serif-system: -apple-system, ui-sans-serif, sans-serif;
+    --shlh-fonts-sans-serif-system: -apple-system, ui-sans-serif, system-ui, sans-serif;
 
     --shlh-fonts-sans-serif-display-en: 'Inter Display', 'SF Display', 'San Francisco Display', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
 }
