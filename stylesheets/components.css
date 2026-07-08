@@ -1,5 +1,5 @@
 ﻿/* ========================================================================
-   Accessibility --- Skip Button (accessibility.js)
+   Accessibility - Skip Button (accessibility.js)
    ======================================================================== */
 
 #skip-button {
@@ -135,8 +135,15 @@ html.user-input-keyboard #skip-button:focus {
 }
 
 @keyframes scrollHintFadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .scroll-hint.visible {
@@ -266,7 +273,7 @@ html.user-input-keyboard #skip-button:focus {
 
 @supports not (backdrop-filter: blur(15px)) {
     .navbar-bg-glass {
-    background-color: rgba(var(--bs-body-bg-rgb), 1);
+        background-color: rgba(var(--bs-body-bg-rgb), 1);
     }
 }
 
@@ -280,10 +287,12 @@ html.user-input-keyboard #skip-button:focus {
 /* --- Mobile (< 992px) --- */
 
 @media (max-width: 991.98px) {
+    /* Container */
     .navbar .container {
         position: relative;
     }
 
+    /* Brand */
     .navbar-brand {
         position: absolute;
         left: 50%;
@@ -291,6 +300,15 @@ html.user-input-keyboard #skip-button:focus {
         margin: 0;
     }
 
+    .navbar.scrolled-past .navbar-brand>svg {
+        display: none;
+    }
+
+    .navbar.scrolled-past .navbar-brand-text {
+        display: inline;
+    }
+
+    /* Toggler */
     .navbar-toggler {
         padding-top: 8px;
         padding-bottom: 8px;
@@ -304,17 +322,7 @@ html.user-input-keyboard #skip-button:focus {
         font-size: 1.25rem;
     }
 
-    .nav-item {
-        width: 100%;
-    }
-
-    #lang-dropdown + .dropdown-menu,
-    #theme-dropdown + .dropdown-menu {
-        top: auto !important;
-        bottom: 100% !important;
-        transform-origin: bottom center;
-    }
-
+    /* Offcanvas — panel */
     .offcanvas-start {
         width: min(320px, 80vw);
         top: 0;
@@ -334,6 +342,7 @@ html.user-input-keyboard #skip-button:focus {
         height: calc(100vh - 3.5rem);
     }
 
+    /* Offcanvas — nav items */
     .offcanvas-body .navbar-nav .nav-item {
         width: 100%;
     }
@@ -351,29 +360,27 @@ html.user-input-keyboard #skip-button:focus {
         gap: 0.5rem;
         width: 100%;
     }
-
-    .navbar.scrolled-past .navbar-brand > svg {
-        display: none;
-    }
-
-    .navbar.scrolled-past .navbar-brand-text {
-        display: inline;
-    }
 }
 
 /* --- Desktop (>= 992px) --- */
 
 @media (min-width: 992px) {
+    /* Collapse */
     .navbar .navbar-collapse {
         flex-wrap: nowrap;
         min-width: 0;
     }
 
+    /* Nav items */
     .navbar .navbar-nav.flex-grow-1 {
         min-width: 0;
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
+        position: relative;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(128, 128, 128, 0.4) transparent;
+        scrollbar-gutter: stable;
     }
 
     .navbar .navbar-nav.flex-grow-1 .nav-item {
@@ -384,32 +391,28 @@ html.user-input-keyboard #skip-button:focus {
         white-space: nowrap;
     }
 
-    .navbar .navbar-nav.flex-grow-1 {
-        position: relative;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(128, 128, 128, 0.4) transparent;
-        scrollbar-gutter: stable;
-    }
-
-    .navbar .navbar-nav.flex-grow-1::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .navbar .navbar-nav.flex-grow-1::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .navbar .navbar-nav.flex-grow-1::-webkit-scrollbar-thumb {
-        background: rgba(128, 128, 128, 0.35);
-        border-radius: 999px;
-    }
-
-    .navbar .navbar-nav.flex-grow-1:hover::-webkit-scrollbar-thumb {
-        background: rgba(112, 112, 112, 0.55);
-    }
-
     .navbar .navbar-nav:not(.flex-grow-1) {
         flex: 0 0 auto;
+    }
+
+    /* Scrollbar — Webkit fallback (only when scrollbar-width is unsupported) */
+    @supports not (scrollbar-width: thin) {
+        .navbar .navbar-nav.flex-grow-1::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .navbar .navbar-nav.flex-grow-1::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .navbar .navbar-nav.flex-grow-1::-webkit-scrollbar-thumb {
+            background: rgba(128, 128, 128, 0.35);
+            border-radius: 999px;
+        }
+
+        .navbar .navbar-nav.flex-grow-1:hover::-webkit-scrollbar-thumb {
+            background: rgba(112, 112, 112, 0.55);
+        }
     }
 }
 

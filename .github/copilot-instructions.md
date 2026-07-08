@@ -14,22 +14,21 @@ This document provides project-level context, conventions, and constraints for C
 
 ### External Dependencies (CDN)
 
-All external CDNs are loaded from jsDelivr.
-
 Loaded in `<head>` of each page:
 
-| Resource        | Role            | URL                                                                       | Version  |
-|-----------------|-----------------|---------------------------------------------------------------------------|----------|
-| Bootstrap CSS   | Framework       | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css` | 5.3.8    |
-| Bootstrap Icons | Icon Library    | `https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`   | (latest) |
-| QRCode.js       | QR Code Utility | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`               | 1.0.0    |
+| Resource          | Type | Role             | URL                                                                       | Version  |
+|-------------------|------|------------------|---------------------------------------------------------------------------|----------|
+| Bootstrap CSS     | CSS  | Framework        | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css` | 5.3.8    |
+| Bootstrap Icons   | CSS  | Icon Library     | `https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`   | (latest) |
+| Inter Font Family | CSS  | Font Family      | `https://rsms.me/inter/inter.css`                                         | (latest) |
+| QRCode.js         | JS   | QR Code Utility  | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`               | 1.0.0    |
 
 Loaded in the end of `<body>` of each page:
 
-| Resource     | Role               | URL                                                                            | Version |
-|--------------|--------------------|--------------------------------------------------------------------------------|---------|
-| Popper.js    | Positioning Engine | `https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`    | 2.11.8  |
-| Bootstrap JS | Framework          | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js` | 5.3.8   |
+| Resource     | Type | Role               | URL                                                                            | Version |
+|--------------|------|--------------------|--------------------------------------------------------------------------------|---------|
+| Popper.js    | JS   | Positioning Engine | `https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`    | 2.11.8  |
+| Bootstrap JS | JS   | Framework          | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js` | 5.3.8   |
 
 ### Deployment
 
@@ -51,8 +50,8 @@ Loaded in the end of `<body>` of each page:
 
 - **Project-specific**: prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub)
     - **Color**: The naming convention is similar to Bootstrap (e.g. `--shlh-primary`, `--shlh-primary-rgb`), but an additional parameter has been added to indicate color brightness, which the range is 100-900 (from bright to dark) (e.g. `--shlh-primary-500`, `--shlh-primary-500-rgb`).
-    - **Font Settings**: `--shlh-fonts-` + type + priority + language code \
-        e.g. `--shlh-fonts-sans-serif-major-en`, `--shlh-fonts-monospace-fallback-ja`
+    - **Font Settings**: `--shlh-font-` + type + priority + language code \
+        e.g. `--shlh-font-sans-serif-major-en`, `--shlh-font-monospace-fallback-ja`
 - **Bootstrap (overrides)**: prefix `--bs-*` \
     e.g. `--bs-link-hover-color`
 
@@ -97,7 +96,7 @@ Loaded in the end of `<body>` of each page:
 │   ├── covers/                   # Cover images
 │   ├── icons/                    # Icon images
 │   ├── stickers/                 # Sticker images
-|   └── README.md                 # Copyright Notice
+│   └── README.md                 # Copyright Notice
 ├── scripts/
 │   ├── detections/               # Browser/environment detection
 │   ├── functions/                # Reusable function modules (DEFINE ONLY)
@@ -133,7 +132,7 @@ Loaded in the end of `<body>` of each page:
 
 - **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares`
 - **`404`**: The redirected page when an HTTP 404 occurs. It uses the lightweight init.
-- **`unsupported`**: Specifically designed for unsupported browsers, without relying on external CDNs.
+- **`unsupported`**: Specifically designed for unsupported browsers, without relying on external CDNs. The page layout should be written as closely as possible to Bootstrap 5, but it can also be appropriately simplified.
 
 ### `scripts/functions/`: Define Only, Never Execute
 
@@ -168,10 +167,11 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 - Group style rules by the component or purpose they serve.
 - Use large comment blocks as section dividers:
+- Reference the related JS function/file in the header comment for traceability.
 
 ```css
 /* ========================================================================
-   Component Name --- description (related-script.js (if exist))
+   Component Name - description (related-script.js (if exist))
    ======================================================================== */
 
 /* --- Child description --- */
@@ -180,8 +180,6 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
     /* ... */
 }
 ```
-
-- Reference the related JS function/file in the header comment for traceability.
 
 ### `sub-pages/`: HTML Fragments
 

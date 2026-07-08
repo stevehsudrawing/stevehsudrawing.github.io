@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         await loadAllComponents();
 
-        applyThemePreference(currentThemePreference, false);
-
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         await loadLang(savedLang);

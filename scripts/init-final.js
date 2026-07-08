@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         initDropdownMenuAnimation();
         initSkipButton();
-        applyThemePreference(currentThemePreference, false);
         initSettingsModal();
         populateLanguageMenus();
 

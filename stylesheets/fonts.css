@@ -3,157 +3,157 @@
    ======================================================================== */
 
 :root {
-    --shlh-fonts-emoji: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --shlh-font-emoji: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
-    --shlh-fonts-monospace-fallback-en: 'Consolas', 'Lucida Console', 'Courier New', 'Courier';
-    --shlh-fonts-monospace-fallback-ja: 'ＭＳ ゴシック', 'MS Gothic';
-    --shlh-fonts-monospace-fallback-zh-Hans: '黑体', 'SimHei', '新宋体', 'NSimSun';
-    --shlh-fonts-monospace-fallback-zh-Hant: '細明體', 'MingLiU';
-    --shlh-fonts-monospace-major-en: 'Iosevka', 'SF Mono', 'San Francisco Mono', 'Roboto Mono', 'Droid Sans Mono', 'Source Code Pro';
-    --shlh-fonts-monospace-major-ja: '更紗等幅ゴシック J', 'Sarasa Mono J', '源ノ角ゴシック HW', 'Source Han Sans HW', 'Osaka';
-    --shlh-fonts-monospace-major-zh-Hans: '等距更纱黑体 SC', 'Sarasa Mono SC', '思源黑体 HW', 'Source Han Sans HW SC';
-    --shlh-fonts-monospace-major-zh-Hant: '等距更紗黑體 TC', 'Sarasa Mono TC', '思源黑體 HW', 'Source Han Sans HW TC';
-    --shlh-fonts-monospace-system: ui-monospace, monospace;
+    --shlh-font-monospace-fallback-en: 'Consolas', 'Lucida Console', 'Courier New', 'Courier';
+    --shlh-font-monospace-fallback-ja: 'ＭＳ ゴシック', 'MS Gothic';
+    --shlh-font-monospace-fallback-zh-Hans: '黑体', 'SimHei', '新宋体', 'NSimSun';
+    --shlh-font-monospace-fallback-zh-Hant: '細明體', 'MingLiU';
+    --shlh-font-monospace-major-en: 'Iosevka', 'SF Mono', 'San Francisco Mono', 'Roboto Mono', 'Droid Sans Mono', 'Source Code Pro';
+    --shlh-font-monospace-major-ja: '更紗等幅ゴシック J', 'Sarasa Mono J', '源ノ角ゴシック HW', 'Source Han Sans HW', 'Osaka';
+    --shlh-font-monospace-major-zh-Hans: '等距更纱黑体 SC', 'Sarasa Mono SC', '思源黑体 HW', 'Source Han Sans HW SC';
+    --shlh-font-monospace-major-zh-Hant: '等距更紗黑體 TC', 'Sarasa Mono TC', '思源黑體 HW', 'Source Han Sans HW TC';
+    --shlh-font-monospace-system: ui-monospace, monospace;
 
-    --shlh-fonts-sans-serif-fallback-en: 'Tahoma', 'Geneva', 'Verdana', 'Helvetica', 'Arial';
-    --shlh-fonts-sans-serif-fallback-ja: 'Osaka', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
-    --shlh-fonts-sans-serif-fallback-zh-Hans: '华文细黑', '华文黑体', 'STHeiti', 'Hei', '黑体', 'SimHei', '宋体', 'SimSun';
-    --shlh-fonts-sans-serif-fallback-zh-Hant: 'LiHei Pro', 'Apple LiGothic', '新細明體', 'PMingLiU';
-    --shlh-fonts-sans-serif-major-en: 'Inter Variable', 'Inter', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Segoe UI Variable Text', 'Segoe UI';
-    --shlh-fonts-sans-serif-major-ja: '更紗ゴシック J', 'Sarasa Gothic J', 'ヒラギノ角ゴシック', 'Hiragino Sans', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans JP', 'Noto Sans CJK', 'Meiryo UI', 'メイリオ', 'Meiryo';
-    --shlh-fonts-sans-serif-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC', '苹方-简', '苹方', 'PingFang SC', 'PingFang', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
-    --shlh-fonts-sans-serif-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC', '蘋方-繁', '蘋方', 'PingFang TC', 'PingFang', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';
-    --shlh-fonts-sans-serif-system: -apple-system, ui-sans-serif, system-ui, sans-serif;
+    --shlh-font-sans-serif-fallback-en: 'Tahoma', 'Geneva', 'Verdana', 'Helvetica', 'Arial';
+    --shlh-font-sans-serif-fallback-ja: 'Osaka', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
+    --shlh-font-sans-serif-fallback-zh-Hans: '华文细黑', '华文黑体', 'STHeiti', 'Hei', '黑体', 'SimHei', '宋体', 'SimSun';
+    --shlh-font-sans-serif-fallback-zh-Hant: 'LiHei Pro', 'Apple LiGothic', '新細明體', 'PMingLiU';
+    --shlh-font-sans-serif-major-en: 'Inter Variable', 'InterVariable', 'Inter', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Segoe UI Variable Text', 'Segoe UI';
+    --shlh-font-sans-serif-major-ja: '更紗ゴシック J', 'Sarasa Gothic J', 'ヒラギノ角ゴシック', 'Hiragino Sans', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans JP', 'Noto Sans CJK', 'Meiryo UI', 'メイリオ', 'Meiryo';
+    --shlh-font-sans-serif-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC', '苹方-简', '苹方', 'PingFang SC', 'PingFang', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
+    --shlh-font-sans-serif-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC', '蘋方-繁', '蘋方', 'PingFang TC', 'PingFang', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';
+    --shlh-font-sans-serif-system: -apple-system, ui-sans-serif, system-ui, sans-serif;
 
-    --shlh-fonts-sans-serif-display-en: 'Inter Display', 'SF Display', 'San Francisco Display', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
+    --shlh-font-sans-serif-display-en: 'Inter Display', 'InterDisplay', 'SF Display', 'San Francisco Display', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
 }
 
 /* --- Body --- */
 
 body {
     font-family:
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji);
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji);
 }
 
 html[lang='zh-Hans']>body {
     font-family:
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-zh-Hans),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-zh-Hans),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji);
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-zh-Hans),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji);
 }
 
 html[lang='zh-Hant']>body {
     font-family:
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-zh-Hant),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-zh-Hant),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji);
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-zh-Hant),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji);
 }
 
 /* --- Headings --- */
 
 h1 {
     font-family:
-        var(--shlh-fonts-sans-serif-display-en),
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji) !important;
+        var(--shlh-font-sans-serif-display-en),
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji) !important;
 }
 
 html[lang='zh-Hans'] h1 {
     font-family:
-        var(--shlh-fonts-sans-serif-display-en),
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-zh-Hans),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-zh-Hans),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji) !important;
+        var(--shlh-font-sans-serif-display-en),
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-zh-Hans),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji) !important;
 }
 
 html[lang='zh-Hant'] h1 {
     font-family:
-        var(--shlh-fonts-sans-serif-display-en),
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-zh-Hant),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-zh-Hant),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji) !important;
+        var(--shlh-font-sans-serif-display-en),
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-zh-Hant),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji) !important;
 }
 
 /* --- Code --- */
 
 code {
     font-family:
-        var(--shlh-fonts-monospace-major-en),
-        var(--shlh-fonts-monospace-major-ja),
-        var(--shlh-fonts-monospace-system),
-        var(--shlh-fonts-monospace-fallback-en),
-        var(--shlh-fonts-monospace-fallback-ja),
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji) !important;
+        var(--shlh-font-monospace-major-en),
+        var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-monospace-fallback-en),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji) !important;
 }
 
 html[lang='zh-Hans'] code {
     font-family:
-        var(--shlh-fonts-monospace-major-en),
-        var(--shlh-fonts-monospace-major-zh-Hans),
-        var(--shlh-fonts-monospace-major-ja),
-        var(--shlh-fonts-monospace-system),
-        var(--shlh-fonts-monospace-fallback-en),
-        var(--shlh-fonts-monospace-fallback-zh-Hans),
-        var(--shlh-fonts-monospace-fallback-ja),
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-zh-Hans),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-zh-Hans),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji) !important;
+        var(--shlh-font-monospace-major-en),
+        var(--shlh-font-monospace-major-zh-Hans),
+        var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-monospace-fallback-en),
+        var(--shlh-font-monospace-fallback-zh-Hans),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-zh-Hans),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji) !important;
 }
 
 html[lang='zh-Hant'] code {
     font-family:
-        var(--shlh-fonts-monospace-major-en),
-        var(--shlh-fonts-monospace-major-zh-Hant),
-        var(--shlh-fonts-monospace-major-ja),
-        var(--shlh-fonts-monospace-system),
-        var(--shlh-fonts-monospace-fallback-en),
-        var(--shlh-fonts-monospace-fallback-zh-Hant),
-        var(--shlh-fonts-monospace-fallback-ja),
-        var(--shlh-fonts-sans-serif-major-en),
-        var(--shlh-fonts-sans-serif-major-zh-Hant),
-        var(--shlh-fonts-sans-serif-major-ja),
-        var(--shlh-fonts-sans-serif-system),
-        var(--shlh-fonts-sans-serif-fallback-en),
-        var(--shlh-fonts-sans-serif-fallback-zh-Hant),
-        var(--shlh-fonts-sans-serif-fallback-ja),
-        var(--shlh-fonts-emoji) !important;
+        var(--shlh-font-monospace-major-en),
+        var(--shlh-font-monospace-major-zh-Hant),
+        var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-monospace-fallback-en),
+        var(--shlh-font-monospace-fallback-zh-Hant),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-major-en),
+        var(--shlh-font-sans-serif-major-zh-Hant),
+        var(--shlh-font-sans-serif-major-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-sans-serif-fallback-en),
+        var(--shlh-font-sans-serif-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-fallback-ja),
+        var(--shlh-font-emoji) !important;
 }

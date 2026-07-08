@@ -1,8 +1,11 @@
 /* ========================================================================
-   Light Theme
+   Color Settings
    ======================================================================== */
 
-:root, [data-bs-theme='light'] {
+/* --- Light Theme --- */
+
+:root,
+[data-bs-theme='light'] {
     --shlh-primary: #3c96ff;
     --shlh-primary-rgb: 60, 150, 255;
 
@@ -27,9 +30,7 @@
     --shlh-primary-900-rgb: 12, 30, 51;
 }
 
-/* ========================================================================
-   Dark Theme
-   ======================================================================== */
+/* --- Dark Theme --- */
 
 [data-bs-theme='dark'] {
     --shlh-primary: #47c4ee;
@@ -57,8 +58,10 @@
 }
 
 /* ========================================================================
-   Bootstrap Global Overrides
+   Bootstrap Overrides
    ======================================================================== */
+
+/* --- Base --- */
 
 :root {
     --bs-primary: var(--shlh-primary-500);
@@ -68,7 +71,8 @@
     --bs-focus-ring-color: rgba(var(--shlh-primary-500), .25);
 }
 
-:root, [data-bs-theme='light'] {
+:root,
+[data-bs-theme='light'] {
     --bs-link-hover-color: var(--shlh-primary-600);
     --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
     --bs-primary-text-emphasis: var(--shlh-primary-800);
@@ -76,7 +80,8 @@
     --bs-primary-border-subtle: var(--shlh-primary-200);
 }
 
-:root, [data-bs-theme='dark'] {
+:root,
+[data-bs-theme='dark'] {
     --bs-link-hover-color: var(--shlh-primary-400);
     --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
     --bs-primary-text-emphasis: var(--shlh-primary-500);
@@ -84,18 +89,25 @@
     --bs-primary-border-subtle: var(--shlh-primary-800);
 }
 
+/* --- Form Items --- */
+
 .form-check-input:checked {
     background-color: var(--shlh-primary-500);
     border-color: var(--shlh-primary-500);
 }
 
+.form-select:focus {
+    border-color: var(--shlh-primary-300);
+    box-shadow: 0 0 0 .25rem rgba(var(--shlh-primary-500-rgb), .25);
+}
+
+/* --- Navbar Link --- */
+
 .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem rgba(var(--shlh-primary-500-rgb), .25);
 }
 
-/* ========================================================================
-   Component: Dropdown Menu
-   ======================================================================== */
+/* --- Dropdown Menu --- */
 
 .dropdown-menu {
     --bs-dropdown-link-active-bg: var(--shlh-primary-500);
@@ -105,9 +117,7 @@
     --bs-dropdown-link-active-color: #000;
 }
 
-/* ========================================================================
-   Component: Primary Button
-   ======================================================================== */
+/* --- Primary Button --- */
 
 .btn-primary {
     --bs-btn-bg: var(--shlh-primary-500);
