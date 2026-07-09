@@ -193,6 +193,19 @@
                 }
             }
         ],
+        "description": [
+            {
+                "superLink": false,
+                "text": [
+                    {
+                        "content": "You can download and use these stickers on platforms where they are already available.",
+                        "properties": {
+                            "data-i18n": "text-sticker-collections-description"
+                        }
+                    }
+                ]
+            }
+        ],
         "contents": [
             {
                 "available": true,
@@ -204,7 +217,7 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Steve Hsu & Kato",
@@ -213,9 +226,12 @@
                                 }
                             },
                             {
-                                "content": "Vol. 1"
+                                "content": " Vol. 1"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://afdian.com/p/b35828fc38a811f1a22252540025c377"
+                        }
                     }
                 ],
                 "description": [
@@ -267,7 +283,7 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Steve Hsu & Kato",
@@ -276,9 +292,12 @@
                                 }
                             },
                             {
-                                "content": "Vol. 2"
+                                "content": " Vol. 2"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://afdian.com/p/8a9d008241f811f185ea52540025c377"
+                        }
                     }
                 ],
                 "description": [
@@ -330,7 +349,7 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Steve Hsu & Kato",
@@ -339,9 +358,12 @@
                                 }
                             },
                             {
-                                "content": "Vol. 3"
+                                "content": " Vol. 3"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://afdian.com/p/1db1e3465e5111f1afae52540025c377"
+                        }
                     }
                 ],
                 "description": [
@@ -393,7 +415,7 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Steve Hsu's SC Dynamic Edition",
@@ -402,9 +424,12 @@
                                 }
                             },
                             {
-                                "content": "Vol. 1"
+                                "content": " Vol. 1"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://afdian.com/p/02009fb6689711f193cf5254001e7c00"
+                        }
                     }
                 ],
                 "description": [
@@ -478,7 +503,7 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Steve Hsu's SC Dynamic Edition",
@@ -487,9 +512,12 @@
                                 }
                             },
                             {
-                                "content": "Vol. 2"
+                                "content": " Vol. 2"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://afdian.com/p/fbcfb0966ae411f1a16f5254001e7c00"
+                        }
                     }
                 ],
                 "description": [
@@ -563,7 +591,7 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Steve Hsu's SC Dynamic Edition",
@@ -572,9 +600,12 @@
                                 }
                             },
                             {
-                                "content": "Vol. 3"
+                                "content": " Vol. 3"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://afdian.com/p/a3c998786fc911f1b8895254001e7c00"
+                        }
                     }
                 ],
                 "description": [
