@@ -1,11 +1,13 @@
 [
     {
-        "title": {
-            "content": "Artworks",
-            "properties": {
-                "data-i18n": "text-artworks"
+        "title": [
+            {
+                "content": "Artworks",
+                "properties": {
+                    "data-i18n": "text-artworks"
+                }
             }
-        },
+        ],
         "contents": [
             {
                 "available": true,
@@ -18,9 +20,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Pixiv"
-                        },
+                        "text": [
+                            {
+                                "content": "Pixiv"
+                            }
+                        ],
                         "properties": {
                             "href": "https://www.pixiv.net/users/70732361"
                         }
@@ -29,9 +33,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: 70732361"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: 70732361"
+                            }
+                        ]
                     }
                 ]
             },
@@ -46,9 +52,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "DeviantArt"
-                        },
+                        "text": [
+                            {
+                                "content": "DeviantArt"
+                            }
+                        ],
                         "properties": {
                             "href": "https://www.deviantart.com/stevehsudrawing"
                         }
@@ -57,9 +65,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsudrawing"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsudrawing"
+                            }
+                        ]
                     }
                 ]
             },
@@ -74,9 +84,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "MediBang ART street"
-                        },
+                        "text": [
+                            {
+                                "content": "MediBang ART street"
+                            }
+                        ],
                         "properties": {
                             "href": "https://medibang.com/u/stevehsu"
                         }
@@ -85,9 +97,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsu"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsu"
+                            }
+                        ]
                     }
                 ]
             },
@@ -106,9 +120,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "X"
-                        },
+                        "text": [
+                            {
+                                "content": "X"
+                            }
+                        ],
                         "properties": {
                             "href": "https://x.com/stevehsudrawing"
                         }
@@ -117,9 +133,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsudrawing"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsudrawing"
+                            }
+                        ]
                     }
                 ]
             },
@@ -134,12 +152,14 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Weibo",
-                            "properties": {
-                                "data-i18n": "text-weibo"
+                        "text": [
+                            {
+                                "content": "Weibo",
+                                "properties": {
+                                    "data-i18n": "text-weibo"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://weibo.com/stevehsudrawing"
                         }
@@ -148,30 +168,31 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": SteveHsu什五 | UID: 6053515220"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": SteveHsu什五 | UID: 6053515220"
-                        }
+                        ]
                     }
                 ]
             }
         ]
     },
     {
-        "title": {
-            "content": "Sticker Collections",
-            "properties": {
-                "data-i18n": "text-sticker-collections"
+        "title": [
+            {
+                "content": "Sticker Collections",
+                "properties": {
+                    "data-i18n": "text-sticker-collections"
+                }
             }
-        },
+        ],
         "contents": [
             {
                 "available": true,
@@ -184,50 +205,55 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu & Kato",
-                            "properties": {
-                                "data-i18n": "text-sticker-collections-series-1"
+                        "text": [
+                            {
+                                "content": "Steve Hsu & Kato",
+                                "properties": {
+                                    "data-i18n": "text-sticker-collections-series-1"
+                                }
+                            },
+                            {
+                                "content": "Vol. 1"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Vol. 1"
-                        }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Available on",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-1"
+                        "text": [
+                            {
+                                "content": "Available on",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-1"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "WeChat",
-                            "properties": {
-                                "data-i18n": "text-wechat"
+                        "text": [
+                            {
+                                "content": "WeChat",
+                                "properties": {
+                                    "data-i18n": "text-wechat"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qCr94YzS01cGfC+aNZko+3/wp+E8arx1E8FNvqXacZTvHHiWemyTPAoX9tEigbA="
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": " ",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-2"
+                        "text": [
+                            {
+                                "content": " ",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-2"
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             },
@@ -242,50 +268,55 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu & Kato",
-                            "properties": {
-                                "data-i18n": "text-sticker-collections-series-1"
+                        "text": [
+                            {
+                                "content": "Steve Hsu & Kato",
+                                "properties": {
+                                    "data-i18n": "text-sticker-collections-series-1"
+                                }
+                            },
+                            {
+                                "content": "Vol. 2"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Vol. 2"
-                        }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Available on",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-1"
+                        "text": [
+                            {
+                                "content": "Available on",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-1"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "WeChat",
-                            "properties": {
-                                "data-i18n": "text-wechat"
+                        "text": [
+                            {
+                                "content": "WeChat",
+                                "properties": {
+                                    "data-i18n": "text-wechat"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/MiRC/Nc9/8aSu72oWekBFRgI2WdBy3mdZ8AQILiBz3H5xov32EKs5tbiyO03AtfB4="
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": " ",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-2"
+                        "text": [
+                            {
+                                "content": " ",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-2"
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             },
@@ -300,50 +331,55 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu & Kato",
-                            "properties": {
-                                "data-i18n": "text-sticker-collections-series-1"
+                        "text": [
+                            {
+                                "content": "Steve Hsu & Kato",
+                                "properties": {
+                                    "data-i18n": "text-sticker-collections-series-1"
+                                }
+                            },
+                            {
+                                "content": "Vol. 3"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Vol. 3"
-                        }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Available on",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-1"
+                        "text": [
+                            {
+                                "content": "Available on",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-1"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "WeChat",
-                            "properties": {
-                                "data-i18n": "text-wechat"
+                        "text": [
+                            {
+                                "content": "WeChat",
+                                "properties": {
+                                    "data-i18n": "text-wechat"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/NRo0KLXXVD7giEg6xiijy36E8U35TTzH2p9XDPEuCntzaqOb9/LT957yTuzQmE6F8="
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": " ",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-2"
+                        "text": [
+                            {
+                                "content": " ",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-2"
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             },
@@ -358,68 +394,77 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu's SC Dynamic Edition",
-                            "properties": {
-                                "data-i18n": "text-sticker-collections-series-2"
+                        "text": [
+                            {
+                                "content": "Steve Hsu's SC Dynamic Edition",
+                                "properties": {
+                                    "data-i18n": "text-sticker-collections-series-2"
+                                }
+                            },
+                            {
+                                "content": "Vol. 1"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Vol. 1"
-                        }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Available on",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-1"
+                        "text": [
+                            {
+                                "content": "Available on",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-1"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "QQ"
-                        },
+                        "text": [
+                            {
+                                "content": "QQ"
+                            }
+                        ],
                         "properties": {
                             "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247481"
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "and",
-                            "properties": {
-                                "data-i18n": "text-and"
+                        "text": [
+                            {
+                                "content": "and",
+                                "properties": {
+                                    "data-i18n": "text-and"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "WeChat",
-                            "properties": {
-                                "data-i18n": "text-wechat"
+                        "text": [
+                            {
+                                "content": "WeChat",
+                                "properties": {
+                                    "data-i18n": "text-wechat"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/PA8poXXItcUrmeETGATChYmPJchtOih+LLZBPBLrpRREUvDeoBIOBKdKyGjCWU4Lw="
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": " ",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-2"
+                        "text": [
+                            {
+                                "content": " ",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-2"
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             },
@@ -434,68 +479,77 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu's SC Dynamic Edition",
-                            "properties": {
-                                "data-i18n": "text-sticker-collections-series-2"
+                        "text": [
+                            {
+                                "content": "Steve Hsu's SC Dynamic Edition",
+                                "properties": {
+                                    "data-i18n": "text-sticker-collections-series-2"
+                                }
+                            },
+                            {
+                                "content": "Vol. 2"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Vol. 2"
-                        }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Available on",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-1"
+                        "text": [
+                            {
+                                "content": "Available on",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-1"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "QQ"
-                        },
+                        "text": [
+                            {
+                                "content": "QQ"
+                            }
+                        ],
                         "properties": {
                             "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247520"
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "and",
-                            "properties": {
-                                "data-i18n": "text-and"
+                        "text": [
+                            {
+                                "content": "and",
+                                "properties": {
+                                    "data-i18n": "text-and"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "WeChat",
-                            "properties": {
-                                "data-i18n": "text-wechat"
+                        "text": [
+                            {
+                                "content": "WeChat",
+                                "properties": {
+                                    "data-i18n": "text-wechat"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/Pa7fVsJartpp5y2yIfPyz2Reb3yqcBlRWduGQQHVsh783go9A7l7TNmY3UvZMJ21A="
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": " ",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-2"
+                        "text": [
+                            {
+                                "content": " ",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-2"
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             },
@@ -510,80 +564,91 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu's SC Dynamic Edition",
-                            "properties": {
-                                "data-i18n": "text-sticker-collections-series-2"
+                        "text": [
+                            {
+                                "content": "Steve Hsu's SC Dynamic Edition",
+                                "properties": {
+                                    "data-i18n": "text-sticker-collections-series-2"
+                                }
+                            },
+                            {
+                                "content": "Vol. 3"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Vol. 3"
-                        }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Available on",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-1"
+                        "text": [
+                            {
+                                "content": "Available on",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-1"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "QQ"
-                        },
+                        "text": [
+                            {
+                                "content": "QQ"
+                            }
+                        ],
                         "properties": {
                             "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247572"
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "and",
-                            "properties": {
-                                "data-i18n": "text-and"
+                        "text": [
+                            {
+                                "content": "and",
+                                "properties": {
+                                    "data-i18n": "text-and"
+                                }
                             }
-                        }
+                        ]
                     },
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "WeChat",
-                            "properties": {
-                                "data-i18n": "text-wechat"
+                        "text": [
+                            {
+                                "content": "WeChat",
+                                "properties": {
+                                    "data-i18n": "text-wechat"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qRu/1yMqGkIfsJEvgk9BYhoYKxL+DaVwjkn1Pm+7CKgClgj/AV9kd2xtJJT/b10="
                         }
                     },
                     {
                         "superLink": false,
-                        "text": {
-                            "content": " ",
-                            "properties": {
-                                "data-i18n": "text-available-on-part-2"
+                        "text": [
+                            {
+                                "content": " ",
+                                "properties": {
+                                    "data-i18n": "text-available-on-part-2"
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             }
         ]
     },
     {
-        "title": {
-            "content": "Videos",
-            "properties": {
-                "data-i18n": "text-videos"
+        "title": [
+            {
+                "content": "Videos",
+                "properties": {
+                    "data-i18n": "text-videos"
+                }
             }
-        },
+        ],
         "contents": [
             {
                 "available": true,
@@ -596,9 +661,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Youtube"
-                        },
+                        "text": [
+                            {
+                                "content": "Youtube"
+                            }
+                        ],
                         "properties": {
                             "href": "https://youtube.com/@stevehsu4277"
                         }
@@ -607,20 +674,18 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsu4277 |"
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Inactive",
-                            "properties": {
-                                "data-i18n": "text-inactive"
+                        "text": [
+                            {
+                                "content": "UID: stevehsu4277 |"
+                            },
+                            {
+                                "content": "Inactive",
+                                "properties": {
+                                    "data-i18n": "text-inactive"
+                                }
                             }
-                        }
+                        ]
                     }
-
                 ]
             },
             {
@@ -634,12 +699,14 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Bilibili",
-                            "properties": {
-                                "data-i18n": "text-bilibili"
+                        "text": [
+                            {
+                                "content": "Bilibili",
+                                "properties": {
+                                    "data-i18n": "text-bilibili"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://space.bilibili.com/298733903"
                         }
@@ -648,39 +715,42 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": SteveHsu什五 | UID: 298733903"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": SteveHsu什五 | UID: 298733903"
-                        }
+                        ]
                     }
                 ]
             }
         ]
     },
     {
-        "title": {
-            "content": "Unused or Deprecated",
-            "properties": {
-                "data-i18n": "text-unused-or-deprecated"
+        "title": [
+            {
+                "content": "Unused or Deprecated",
+                "properties": {
+                    "data-i18n": "text-unused-or-deprecated"
+                }
             }
-        },
+        ],
         "description": [
             {
                 "superLink": false,
-                "text": {
-                    "content": "The following platform links are still kept, mainly for anti-counterfeiting purposes.",
-                    "properties": {
-                        "data-i18n": "text-unused-or-deprecated-links-description"
+                "text": [
+                    {
+                        "content": "The following platform links are still kept, mainly for anti-counterfeiting purposes.",
+                        "properties": {
+                            "data-i18n": "text-unused-or-deprecated-links-description"
+                        }
                     }
-                }
+                ]
             }
         ],
         "contents": [
@@ -695,9 +765,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Instagram"
-                        },
+                        "text": [
+                            {
+                                "content": "Instagram"
+                            }
+                        ],
                         "properties": {
                             "href": "https://www.instagram.com/stevehsudrawing"
                         }
@@ -706,9 +778,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsudrawing"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsudrawing"
+                            }
+                        ]
                     }
                 ]
             },
@@ -727,9 +801,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Threads"
-                        },
+                        "text": [
+                            {
+                                "content": "Threads"
+                            }
+                        ],
                         "properties": {
                             "href": "https://www.threads.com/@stevehsudrawing"
                         }
@@ -738,9 +814,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsudrawing"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsudrawing"
+                            }
+                        ]
                     }
                 ]
             },
@@ -759,9 +837,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Lofter"
-                        },
+                        "text": [
+                            {
+                                "content": "Lofter"
+                            }
+                        ],
                         "properties": {
                             "href": "https://stevehsu.lofter.com/"
                         }
@@ -770,9 +850,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsu"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsu"
+                            }
+                        ]
                     }
                 ]
             },
@@ -791,12 +873,14 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Rednote",
-                            "properties": {
-                                "data-i18n": "text-rednote"
+                        "text": [
+                            {
+                                "content": "Rednote",
+                                "properties": {
+                                    "data-i18n": "text-rednote"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000"
                         }
@@ -805,18 +889,17 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": SteveHsu什五 | UID: 63069652143"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": SteveHsu什五 | UID: 63069652143"
-                        }
+                        ]
                     }
                 ]
             },
@@ -835,12 +918,14 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Douyin",
-                            "properties": {
-                                "data-i18n": "text-douyin"
+                        "text": [
+                            {
+                                "content": "Douyin",
+                                "properties": {
+                                    "data-i18n": "text-douyin"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3"
                         }
@@ -849,18 +934,17 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": SteveHsu什五 | UID: stevehsudrawing"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": SteveHsu什五 | UID: stevehsudrawing"
-                        }
+                        ]
                     }
                 ]
             }

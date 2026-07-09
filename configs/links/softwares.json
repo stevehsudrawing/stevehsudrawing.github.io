@@ -1,20 +1,24 @@
 [
     {
-        "title": {
-            "content": "Quanto Series",
-            "properties": {
-                "data-i18n": "text-quanto-series"
+        "title": [
+            {
+                "content": "Quanto Series",
+                "properties": {
+                    "data-i18n": "text-quanto-series"
+                }
             }
-        },
+        ],
         "description": [
             {
                 "superLink": false,
-                "text": {
-                    "content": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter.",
-                    "properties": {
-                        "data-i18n": "text-quanto-series-description"
+                "text": [
+                    {
+                        "content": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter.",
+                        "properties": {
+                            "data-i18n": "text-quanto-series-description"
+                        }
                     }
-                }
+                ]
             }
         ],
         "contents": [
@@ -29,35 +33,33 @@
                 "title": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Quanto Ult"
-                        }
+                        "text": [
+                            {
+                                "content": "Quanto Ult"
+                            }
+                        ]
                     }
                 ],
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": QuantoUlt |"
+                            },
+                            {
+                                "content": "Coming soon",
+                                "properties": {
+                                    "data-i18n": "text-coming-soon"
+                                }
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": QuantoUlt |"
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Coming soon",
-                            "properties": {
-                                "data-i18n": "text-coming-soon"
-                            }
-                        }
+                        ]
                     }
                 ]
             },
@@ -72,9 +74,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Quanto Flx"
-                        },
+                        "text": [
+                            {
+                                "content": "Quanto Flx"
+                            }
+                        ],
                         "properties": {
                             "href": "https://github.com/stevehsudrawing/quantoflx"
                         }
@@ -83,18 +87,17 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": quantoflx"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": quantoflx"
-                        }
+                        ]
                     }
                 ]
             },
@@ -113,9 +116,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Quanto Original"
-                        },
+                        "text": [
+                            {
+                                "content": "Quanto Original"
+                            }
+                        ],
                         "properties": {
                             "href": "https://github.com/stevehsudrawing/quanto"
                         }
@@ -124,27 +129,23 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Name",
-                            "properties": {
-                                "data-i18n": "text-name"
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": quanto |"
+                            },
+                            {
+                                "content": "Archived",
+                                "properties": {
+                                    "data-i18n": "text-archived"
+                                }
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": quanto |"
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Archived",
-                            "properties": {
-                                "data-i18n": "text-archived"
-                            }
-                        }
+                        ]
                     }
                 ]
             }

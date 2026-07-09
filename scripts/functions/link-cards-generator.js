@@ -49,7 +49,7 @@ function escapeForOnclick(value) {
 /**
  * Build a "super link" fragment: an external-link anchor tag plus an
  * adjacent QR-code button that opens the QR modal for the link URL.
- * @param {Object} fragment - Fragment descriptor with properties and text.
+ * @param {Object} fragment - Fragment descriptor with properties and text array.
  * @returns {HTMLElement[]} Array of created elements (link + optional QR button).
  */
 function createSuperLinkFragment(fragment) {
@@ -62,8 +62,12 @@ function createSuperLinkFragment(fragment) {
     link.classList.add("link")
     link.classList.add("external-link")
 
-    const titleSpan = createTextSpan(fragment.text);
-    link.appendChild(titleSpan);
+    if (Array.isArray(fragment.text)) {
+        fragment.text.forEach(textItem => {
+            const titleSpan = createTextSpan(textItem);
+            link.appendChild(titleSpan);
+        });
+    }
 
     const extraNodes = [link];
 
@@ -106,7 +110,10 @@ function createFragmentElements(fragment) {
         return createSuperLinkFragment(fragment);
     }
 
-    return [createTextSpan(fragment.text)];
+    if (Array.isArray(fragment.text)) {
+        return fragment.text.map(textItem => createTextSpan(textItem));
+    }
+    return [];
 }
 
 /**
@@ -130,7 +137,8 @@ function appendFragments(container, fragments) {
         });
 
         if (index < fragments.length - 1) {
-            const hasTrailingSpace = typeof fragment?.text?.content === 'string' && fragment.text.content.endsWith(' ');
+            const lastTextItem = Array.isArray(fragment?.text) ? fragment.text[fragment.text.length - 1] : fragment?.text;
+            const hasTrailingSpace = typeof lastTextItem?.content === 'string' && lastTextItem.content.endsWith(' ');
             if (!hasTrailingSpace) {
                 container.appendChild(document.createTextNode(' '));
             }
@@ -285,20 +293,26 @@ function buildLinkGroup(groupData) {
     const groupWrapper = document.createElement('div');
     groupWrapper.className = 'link-hub-part';
 
-    if (groupData.title) {
-        const titleText = groupData.title.content || '';
+    if (Array.isArray(groupData.title) && groupData.title.length > 0) {
+        // Derive plain-text title from all span descriptors for the anchor id.
+        const titleText = groupData.title
+            .map(spanDesc => spanDesc?.content || '')
+            .join('');
         const titleId = toDashCase(titleText);
 
         const titleContainer = document.createElement('div');
         titleContainer.className = 'title-link-group-wrapper';
 
         const title = document.createElement('h4');
-        title.textContent = titleText;
         title.classList.add('title-link-group');
-        setElementAttributes(title, groupData.title.properties);
         if (titleId) {
             title.id = titleId;
         }
+
+        groupData.title.forEach(spanDesc => {
+            const span = createTextSpan(spanDesc);
+            title.appendChild(span);
+        });
 
         titleContainer.appendChild(title);
 

@@ -1,11 +1,13 @@
 [
     {
-        "title": {
-            "content": "Blogs & Sponsor",
-            "properties": {
-                "data-i18n": "text-blogs-and-sponsor"
+        "title": [
+            {
+                "content": "Blogs & Sponsor",
+                "properties": {
+                    "data-i18n": "text-blogs-and-sponsor"
+                }
             }
-        },
+        ],
         "contents": [
             {
                 "available": true,
@@ -22,12 +24,14 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Patreon (Quanto Series)",
-                            "properties": {
-                                "data-i18n": "text-patreon-quanto-series"
+                        "text": [
+                            {
+                                "content": "Patreon (Quanto Series)",
+                                "properties": {
+                                    "data-i18n": "text-patreon-quanto-series"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://www.patreon.com/QuantoSeries"
                         }
@@ -36,9 +40,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: QuantoSeries"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: QuantoSeries"
+                            }
+                        ]
                     }
                 ]
             },
@@ -53,12 +59,14 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "Afdian",
-                            "properties": {
-                                "data-i18n": "text-afdian"
+                        "text": [
+                            {
+                                "content": "Afdian",
+                                "properties": {
+                                    "data-i18n": "text-afdian"
+                                }
                             }
-                        },
+                        ],
                         "properties": {
                             "href": "https://afdian.com/a/stevehsu"
                         }
@@ -67,9 +75,11 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "UID: stevehsu"
-                        }
+                        "text": [
+                            {
+                                "content": "UID: stevehsu"
+                            }
+                        ]
                     }
                 ]
             }

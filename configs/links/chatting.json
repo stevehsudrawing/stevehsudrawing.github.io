@@ -1,11 +1,13 @@
 [
     {
-        "title": {
-            "content": "QQ Groups",
-            "properties": {
-                "data-i18n": "text-qq-groups"
+        "title": [
+            {
+                "content": "QQ Groups",
+                "properties": {
+                    "data-i18n": "text-qq-groups"
+                }
             }
-        },
+        ],
         "contents": [
             {
                 "available": true,
@@ -18,9 +20,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "SawtootH"
-                        },
+                        "text": [
+                            {
+                                "content": "SawtootH"
+                            }
+                        ],
                         "properties": {
                             "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q"
                         }
@@ -29,48 +33,35 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Steve Hsu's Fan-base",
-                            "properties": {
-                                "data-i18n": "text-sawtooth-introduction"
+                        "text": [
+                            {
+                                "content": "Steve Hsu's Fan-base",
+                                "properties": {
+                                    "data-i18n": "text-sawtooth-introduction"
+                                }
+                            },
+                            {
+                                "content": "|"
+                            },
+                            {
+                                "content": "Group Number",
+                                "properties": {
+                                    "data-i18n": "text-group-number"
+                                }
+                            },
+                            {
+                                "content": ": 1058094344 |"
+                            },
+                            {
+                                "content": "Key",
+                                "properties": {
+                                    "data-i18n": "text-key"
+                                }
+                            },
+                            {
+                                "content": ": DTANL"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "|"
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Group Number",
-                            "properties": {
-                                "data-i18n": "text-group-number"
-                            }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": 1058094344 |"
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Key",
-                            "properties": {
-                                "data-i18n": "text-key"
-                            }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": DTANL"
-                        }
+                        ]
                     }
                 ]
             },
@@ -85,9 +76,11 @@
                 "title": [
                     {
                         "superLink": true,
-                        "text": {
-                            "content": "QuantuM"
-                        },
+                        "text": [
+                            {
+                                "content": "QuantuM"
+                            }
+                        ],
                         "properties": {
                             "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS"
                         }
@@ -96,33 +89,26 @@
                 "description": [
                     {
                         "superLink": false,
-                        "text": {
-                            "content": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts",
-                            "properties": {
-                                "data-i18n": "text-quantum-introduction"
+                        "text": [
+                            {
+                                "content": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts",
+                                "properties": {
+                                    "data-i18n": "text-quantum-introduction"
+                                }
+                            },
+                            {
+                                "content": "|"
+                            },
+                            {
+                                "content": "Group Number",
+                                "properties": {
+                                    "data-i18n": "text-group-number"
+                                }
+                            },
+                            {
+                                "content": ": 624134769"
                             }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "|"
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": "Group Number",
-                            "properties": {
-                                "data-i18n": "text-group-number"
-                            }
-                        }
-                    },
-                    {
-                        "superLink": false,
-                        "text": {
-                            "content": ": 624134769"
-                        }
+                        ]
                     }
                 ]
             }

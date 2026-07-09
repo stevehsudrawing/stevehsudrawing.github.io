@@ -190,15 +190,15 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 ### `configs/links/`: Link Card Data
 
 - JSON files defining link-card structures for each page.
-- These JSON files define the list of Link Card Groups (see below).
+- These JSON files define the list of **Link Card Groups** (see below).
 - Rendered by `link-cards-generator.js`.
 
 #### JSON Structural Standards
 
 - **The format of representing HTML elements using JSON**:
-    - `"content"`: Represents the content of an HTML element.
-    - `"properties"`: Represents the attributes contained in an HTML element.
-        - `"classes"` is a special value that specifies the list of classes for this element.
+    - `content`: Represents the content of an HTML element.
+    - `properties`: Represents the attributes contained in an HTML element.
+        - `classes` is a special value that specifies the list of classes for this element.
 
     For example, here is a `<span>` element:
     ```json
@@ -235,22 +235,24 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
     ```
 
 - **Super-Link / Text Fragment**:
-    - `"superLink"`: Indicates whether it is a "super-link" as a Boolean value.
-        - When the value is `true`, treat it as an `<a>` element and place the `<span>` element set in `"text"` inside it. `"properties"` are usually also attached. Note: All super-links defined here will be considered external links (with `link` and `external-link` classes added).
-        - When the value is `false`, only `"text"` is used, which means that only a `<span>` element needs to be inserted, without the need for element nesting.
-    - `"text"`: Sets the content and attributes of the `<span>` element.
-    - `"properties"`: Represents the attributes contained in this `<a>` element (if exists).
+    - `superLink`: Indicates whether it is a "super-link" as a Boolean value.
+        - When the value is `true`, treat it as an `<a>` element and place the `<span>` elements listed in `text` inside it. `properties` are usually also attached. Note: All super-links defined here will be considered external links (with `link` and `external-link` classes added).
+        - When the value is `false`, only `text` is used, which means that only the `<span>` elements listed in `text` need to be inserted, without the need for element nesting.
+    - `text`: A list of `<span>` element descriptors, each with `content` and optional `properties`.
+    - `properties`: Represents the attributes contained in this `<a>` element (if exists).
 
     e.g.
     ```json
     {
         "superLink": true,
-        "text": {
-            "content": "My personal email",
-            "properties": {
-                "data-i18n": "text-email-title-2"
+        "text": [
+            {
+                "content": "My personal email",
+                "properties": {
+                    "data-i18n": "text-email-title-2"
+                }
             }
-        },
+        ],
         "properties": {
             "href": "mailto:stevehsudrawing@outlook.com"
         }
@@ -258,16 +260,92 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
     ```
 
 - **Link Card**:
-    - `"available"` A boolean value that specifies whether this Link Card is in an "available" state.
+    - `available` A boolean value that specifies whether this Link Card is in an "available" state.
         - When the value isn't `true`, add a `opacity-75` class to it.
-    - `"icon"`: Specifies the attributes of the icon (`<img>`) element.
-    - `"title"`: A list of Text Fragments, showing how the title is composed.
-    - `"description"`: A list of Text Fragments, showing how the description is composed.
+    - `icon`: Specifies the attributes of the icon (`<img>`) element.
+    - `title`: A list of Text Fragments, showing how the title is composed.
+    - `description`: A list of Text Fragments, showing how the description is composed.
+
+    e.g.
+    ```json
+    {
+        "available": true,
+        "icon": {
+            "properties": {
+                "alt": "Pixiv",
+                "src": "/images/icons/pixiv.png"
+            }
+        },
+        "title": [
+            {
+                "superLink": true,
+                "text": [
+                    { "content": "Pixiv" }
+                ],
+                "properties": {
+                    "href": "https://www.pixiv.net/users/70732361"
+                }
+            }
+        ],
+        "description": [
+            {
+                "superLink": false,
+                "text": [
+                    { "content": "UID: 70732361" }
+                ]
+            }
+        ]
+    }
+    ```
 
 - **Link Card Group**:
-    - `"title"`: Specifies the content and attributes of the title (`<h4>`) element.
-    - `"description"`: A list of Text Fragments, showing how the description is composed. This is optional.
-    - `"contents"`: A list of Link Cards, showing how the group is composed.
+    - `title`: A list of `<span>` element descriptors that compose the group title (`<h4>`), each with `content` and optional `properties`.
+    - `description`: A list of Text Fragments, showing how the description is composed. This is optional.
+    - `contents`: A list of Link Cards, showing how the group is composed.
+
+    e.g.
+    ```json
+    {
+        "title": [
+            {
+                "content": "Artworks",
+                "properties": {
+                    "data-i18n": "text-artworks"
+                }
+            }
+        ],
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
+                        "alt": "Pixiv",
+                        "src": "/images/icons/pixiv.png"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": [
+                            { "content": "Pixiv" }
+                        ],
+                        "properties": {
+                            "href": "https://www.pixiv.net/users/70732361"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "superLink": false,
+                        "text": [
+                            { "content": "UID: 70732361" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    ```
 
 ## 5. Architecture Patterns
 
@@ -310,13 +388,13 @@ Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title
 - Managed by `settings.js` via three functions:
     - `isExternalLinkNewTabEnabled()` - reads the preference from localStorage.
     - `setExternalLinkNewTabPreference(enabled)` - persists the preference.
-    - `applyExternalLinkTargetBehavior()` - applies `target="_blank"` and `rel="noopener noreferrer"` to all `a.external-link` elements, or removes them when disabled.
+    - `applyExternalLinkTargetBehavior()` - applies `target="_blank` and `rel="noopener noreferrer` to all `a.external-link` elements, or removes them when disabled.
 - The toggle change event is handled by `initSettingEventListeners()`.
 - When the settings modal is first opened, `initSettingsModal()` syncs the toggle state with the stored preference.
 
 ### Page Transitions
 
-- Internal links (`class="internal-link"`) trigger SPA-style transitions.
+- Internal links (`class="internal-link`) trigger SPA-style transitions.
 - A progress bar (`#page-transition-progress`) animates at the top of the viewport.
 - Content is dimmed during transition.
 - Managed by `page-transition.js`.

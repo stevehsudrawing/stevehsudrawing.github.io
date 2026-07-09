@@ -9,7 +9,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 
 ## Features
 
-- 🌐 **Multi-language (i18n)**: Language preference is persisted and all UI strings are loaded dynamically from JSON translation files. The list of supported language is [here](/configs/language-list.json).
+- 🌐 **Multi-language (i18n)**: Language preference is persisted and all UI strings are loaded dynamically from JSON translation files. The list of supported language is [here](configs/language-list.json).
 - 🌓 **Light / Dark / Auto theme**: Three theme modes: light, dark, or follow the OS preference. Theme is persisted via `localStorage` and applied instantly.
 - 🔗 **Configurable external link behavior**: Users can toggle whether external links open in new tabs. Preference is persisted.
 - ✨ **SPA-style page transitions**: Internal navigation triggers a smooth progress-bar animation and content dimming, providing an app-like experience without a front-end framework.
@@ -34,11 +34,9 @@ A personal link-hub website that consolidates links to all my profiles across va
 
 ```
 /
-├── .github/                      # GitHub-specific configs
-│   └── copilot-instructions.md   # Copilot project instructions
 ├── configs/
 │   ├── language-list.json        # Supported languages
-│   ├── i18n/                     # Translation JSON files (en, zh-Hans, zh-Hant)
+│   ├── i18n/                     # Translation JSON files
 │   └── links/                    # Link-card data per page
 ├── images/
 │   ├── covers/                   # Cover images
@@ -47,7 +45,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 │   └── README.md                 # Copyright notice for original artworks
 ├── scripts/
 │   ├── detections/               # Browser/environment detection (ES5)
-│   ├── functions/                # Reusable modules (define only, no execution)
+│   ├── functions/                # Reusable modules
 │   ├── init-at-head.js           # Synchronous init in <head>
 │   ├── init-final.js             # Full initialization (all features)
 │   └── init-final-lightweight.js # Lightweight init (no page transitions)
