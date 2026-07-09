@@ -104,7 +104,7 @@
                     "properties": {
                         "alt": "Quanto Original",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-github",
                             "img-mono-fill-body-color"
                         ]

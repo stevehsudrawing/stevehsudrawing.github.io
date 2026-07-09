@@ -31,6 +31,7 @@
         <script src="/scripts/functions/tooltips.js"></script>
         <script src="/scripts/functions/scroll-hint.js"></script>
         <script src="/scripts/functions/i18n.js"></script>
+        <script src="/scripts/functions/qr-code.js"></script>
         <script src="/scripts/functions/link-cards-generator.js"></script>
         <script src="/scripts/functions/page-transition.js"></script>
         <script src="/scripts/functions/theme.js"></script>
@@ -55,7 +56,9 @@
                     <div class="col-lg-6 order-lg-1 order-2">
                         <h1>
                             <span data-i18n="text-welcome-part-1">Welcome to </span>
-                            <a class="link internal-link" href="/about.html"><span data-i18n="text-steve-hsu">Steve Hsu</span></a>
+                            <a class="link internal-link" href="/about.html" data-bs-toggle="tooltip" data-i18n-tooltip="text-about-me" data-bs-title="About me">
+                                <span data-i18n="text-steve-hsu">Steve Hsu</span>
+                            </a>
                             <span data-i18n="text-welcome-part-2">'s Link-Hub!</span>
                         </h1>
                         <p data-i18n="text-introduction-3">

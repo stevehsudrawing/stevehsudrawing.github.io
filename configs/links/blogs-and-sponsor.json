@@ -13,7 +13,7 @@
                     "properties": {
                         "alt": "Patreon",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-patreon",
                             "img-mono-fill-body-color"
                         ]

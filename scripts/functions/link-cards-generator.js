@@ -21,32 +21,6 @@ function resolveLinksJsonPath() {
 }
 
 /**
- * Set multiple attributes and/or classes on a DOM element from a properties object.
- * Special handling: 'class' can be a string or array and is added via classList.
- * Values of false, null, or undefined are skipped.
- * @param {HTMLElement} element - The target element.
- * @param {Object} [properties={}] - Key/value pairs to set as attributes.
- */
-function setElementAttributes(element, properties = {}) {
-    Object.entries(properties).forEach(([key, value]) => {
-        if (key === 'class') {
-            if (Array.isArray(value)) {
-                value.forEach(cls => element.classList.add(cls));
-            } else if (typeof value === 'string') {
-                value.split(' ').filter(Boolean).forEach(cls => element.classList.add(cls));
-            }
-            return;
-        }
-
-        if (value === false || value === null || value === undefined) {
-            return;
-        }
-
-        element.setAttribute(key, String(value));
-    });
-}
-
-/**
  * Create a <span> element from a text descriptor object.
  * @param {Object} text - Descriptor with `content` and optional `properties`.
  * @param {string} text.content - The text content.
@@ -97,7 +71,14 @@ function createSuperLinkFragment(fragment) {
         const qrButton = document.createElement('a');
         qrButton.setAttribute('href', 'javascript:void(0)');
         qrButton.setAttribute('role', 'button');
-        qrButton.setAttribute('onclick', `showQRCodeModal('${escapeForOnclick(href)}')`);
+
+        const iconPropsJson = fragment.iconProperties
+            ? JSON.stringify(fragment.iconProperties)
+            : null;
+        const onclickArgs = iconPropsJson
+            ? `'${escapeForOnclick(href)}', ${iconPropsJson}`
+            : `'${escapeForOnclick(href)}'`;
+        qrButton.setAttribute('onclick', `showQRCodeModal(${onclickArgs})`);
         qrButton.className = 'ms-2 text-decoration-none';
         qrButton.setAttribute('aria-label', 'Show QR Code');
         qrButton.setAttribute('data-bs-toggle', 'tooltip');
@@ -261,6 +242,21 @@ function buildCardItem(cardData) {
         const textContainer = document.createElement('div');
         textContainer.className = 'flex-grow-1';
 
+        // Attach card icon properties to super-link fragments so the QR
+        // code modal can display the same icon at its centre.
+        const iconProperties = cardData.icon?.properties;
+        if (iconProperties) {
+            [cardData.title, cardData.description].forEach(fragments => {
+                if (Array.isArray(fragments)) {
+                    fragments.forEach(fragment => {
+                        if (fragment?.superLink) {
+                            fragment.iconProperties = iconProperties;
+                        }
+                    });
+                }
+            });
+        }
+
         if (cardData.title) {
             const titleElement = buildTitleElement(cardData.title);
             textContainer.appendChild(titleElement);
@@ -388,47 +384,4 @@ function initHashChangeScroll() {
     window.addEventListener('hashchange', () => {
         scrollToHashTarget(window.location.hash, true);
     });
-}
-
-/**
- * QR code modal helper.
- * Generates a QR code for a given URL using the qrcodejs library
- * and displays it inside a Bootstrap modal, with colors matching
- * the current theme.
- */
-
-/**
- * Generate a QR code for the specified URL and show it in a modal.
- * @param {string} linkUrl - The URL to encode in the QR code.
- */
-function showQRCodeModal(linkUrl) {
-    const htmlElement = document.documentElement;
-
-    const modalTitle = document.getElementById('qr-code-modal-title');
-    const qrCodeContainer = document.getElementById('qr-code-container');
-    const modalElement = document.getElementById('qr-code-modal');
-
-    if (!modalTitle || !qrCodeContainer || !modalElement) {
-        console.warn('QR code modal elements not found.');
-        return;
-    }
-
-    modalTitle.textContent = linkUrl;
-    qrCodeContainer.innerHTML = '';
-
-    const computedStyles = getComputedStyle(htmlElement);
-    const colorDark = computedStyles.getPropertyValue('--bs-body-color').trim() || '#000000';
-    const colorLight = computedStyles.getPropertyValue('--bs-body-bg').trim() || '#ffffff';
-
-    new QRCode(qrCodeContainer, {
-        text: linkUrl,
-        width: 232,
-        height: 232,
-        colorDark,
-        colorLight,
-        correctLevel: QRCode.CorrectLevel.L
-    });
-
-    const bootstrapModal = new bootstrap.Modal(modalElement);
-    bootstrapModal.show();
 }

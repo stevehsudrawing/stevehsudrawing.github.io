@@ -132,7 +132,7 @@ Loaded in the end of `<body>` of each page:
 
 - **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares`
 - **`404`**: The redirected page when an HTTP 404 occurs. It uses the lightweight init.
-- **`unsupported`**: Specifically designed for unsupported browsers, without relying on external CDNs. The page layout should be written as closely as possible to Bootstrap 5, but it can also be appropriately simplified.
+- **`unsupported`**: Specifically designed for unsupported browsers, without relying on external CDNs. The page layout should be written as closely as possible to Bootstrap 5.3, but it can also be appropriately simplified.
 
 ### `scripts/functions/`: Define Only, Never Execute
 
@@ -190,8 +190,84 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 ### `configs/links/`: Link Card Data
 
 - JSON files defining link-card structures for each page.
+- These JSON files define the list of Link Card Groups (see below).
 - Rendered by `link-cards-generator.js`.
-- Structure supports: title, icon, links, availability flag, i18n keys.
+
+#### JSON Structural Standards
+
+- **The format of representing HTML elements using JSON**:
+    - `"content"`: Represents the content of an HTML element.
+    - `"properties"`: Represents the attributes contained in an HTML element.
+        - `"classes"` is a special value that specifies the list of classes for this element.
+
+    For example, here is a `<span>` element:
+    ```json
+    {
+        "content": "My personal email",
+        "properties": {
+            "data-i18n": "text-email-title-2"
+        }
+    }
+    ```
+
+    It should be converted into the following HTML elements:
+    ```html
+    <span data-i18n="text-email-title-2">My personal email</span>
+    ```
+
+    Here is a `<img>` element:
+    ```json
+    {
+        "properties": {
+            "alt": "Email",
+            "src": "/images/null.png",
+            "classes": [
+                "img-mono-email",
+                "img-mono-fill-body-color"
+            ]
+        }
+    }
+    ```
+
+    It should be converted into the following HTML elements:
+    ```html
+    <img alt="Email" src="/images/null.png" class="img-mono-email img-mono-fill-body-color">
+    ```
+
+- **Super-Link / Text Fragment**:
+    - `"superLink"`: Indicates whether it is a "super-link" as a Boolean value.
+        - When the value is `true`, treat it as an `<a>` element and place the `<span>` element set in `"text"` inside it. `"properties"` are usually also attached. Note: All super-links defined here will be considered external links (with `link` and `external-link` classes added).
+        - When the value is `false`, only `"text"` is used, which means that only a `<span>` element needs to be inserted, without the need for element nesting.
+    - `"text"`: Sets the content and attributes of the `<span>` element.
+    - `"properties"`: Represents the attributes contained in this `<a>` element (if exists).
+
+    e.g.
+    ```json
+    {
+        "superLink": true,
+        "text": {
+            "content": "My personal email",
+            "properties": {
+                "data-i18n": "text-email-title-2"
+            }
+        },
+        "properties": {
+            "href": "mailto:stevehsudrawing@outlook.com"
+        }
+    }
+    ```
+
+- **Link Card**:
+    - `"available"` A boolean value that specifies whether this Link Card is in an "available" state.
+        - When the value isn't `true`, add a `opacity-75` class to it.
+    - `"icon"`: Specifies the attributes of the icon (`<img>`) element.
+    - `"title"`: A list of Text Fragments, showing how the title is composed.
+    - `"description"`: A list of Text Fragments, showing how the description is composed.
+
+- **Link Card Group**:
+    - `"title"`: Specifies the content and attributes of the title (`<h4>`) element.
+    - `"description"`: A list of Text Fragments, showing how the description is composed. This is optional.
+    - `"contents"`: A list of Link Cards, showing how the group is composed.
 
 ## 5. Architecture Patterns
 
@@ -278,6 +354,7 @@ Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title
 - **Custom image CSS**: `mono-img.css` provides utility classes for colorizing monochrome icon images to match Bootstrap's primary color or body text color.
 - **`images/null.png`**: This is a placeholder image, intended for use with `img-mono-fill-*`.
 - **QR Code**: Generated dynamically via QRCode.js where needed (e.g., sharing modals).
+- **`.gitignore`**: This file explains that some files do not need to be uploaded to the repository, such as `*.cmd` files used for local debugging.
 
 ## 9. Response Conventions for Copilot
 
@@ -285,5 +362,5 @@ When generating responses for this project, Copilot should:
 
 1. **Think in English**: internal reasoning and analysis should be in English.
 2. **Respond using the language that the user is using**: for example, if the user is conversing in Chinese, responses should be in Chinese.
-3. **Write code / docs / commit messages in English**: all code, comments, documentation, commit messages should be in English. When writing, use standard ASCII characters as much as possible, like using `-` instead of `—`.
+3. **Write code / docs / commit messages in English (United States)**: all code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like using `-` instead of `—`.
 4. **Discuss before executing**: when the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).

@@ -13,7 +13,7 @@
                     "properties": {
                         "alt": "Email",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-email",
                             "img-mono-fill-body-color"
                         ]
@@ -57,7 +57,7 @@
                     "properties": {
                         "alt": "Email",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-email",
                             "img-mono-fill-body-color"
                         ]

@@ -41,11 +41,7 @@ a {
     text-decoration: none;
 }
 
-a[class~='link']:hover,
-a[class~='link']:active {
+.link:hover,
+.link:active {
     text-decoration: underline;
-}
-
-a[class~="link-secondary"] {
-    color: var(--bs-secondary-color);
 }

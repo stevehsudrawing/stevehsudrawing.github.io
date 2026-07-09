@@ -97,7 +97,7 @@
                     "properties": {
                         "alt": "X",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-x-twitter",
                             "img-mono-fill-body-color"
                         ]
@@ -718,7 +718,7 @@
                     "properties": {
                         "alt": "Threads",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-fill-body-color",
                             "img-mono-threads"
                         ]
@@ -750,7 +750,7 @@
                     "properties": {
                         "alt": "Lofter",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-fill-body-color",
                             "img-mono-link"
                         ]
@@ -782,7 +782,7 @@
                     "properties": {
                         "alt": "Rednote",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-fill-body-color",
                             "img-mono-link"
                         ]
@@ -826,7 +826,7 @@
                     "properties": {
                         "alt": "Douyin",
                         "src": "/images/null.png",
-                        "class": [
+                        "classes": [
                             "img-mono-fill-body-color",
                             "img-mono-link"
                         ]

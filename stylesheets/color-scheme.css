@@ -5,8 +5,8 @@
 /* --- Light Theme --- */
 
 :root,
-[data-bs-theme='light'] {
-    --shlh-primary: #3c96ff;
+[data-bs-theme=light] {
+    --shlh-primary: #3C96FF;
     --shlh-primary-rgb: 60, 150, 255;
 
     --shlh-primary-100: #D8EAFF;
@@ -32,8 +32,8 @@
 
 /* --- Dark Theme --- */
 
-[data-bs-theme='dark'] {
-    --shlh-primary: #47c4ee;
+[data-bs-theme=dark] {
+    --shlh-primary: #47C4EE;
     --shlh-primary-rgb: 71, 196, 238;
 
     --shlh-primary-100: #DAF3FC;
@@ -58,11 +58,12 @@
 }
 
 /* ========================================================================
-   Bootstrap Overrides
+   Bootstrap Overrides & Custom Styles
    ======================================================================== */
 
 /* --- Base --- */
 
+/* Both */
 :root {
     --bs-primary: var(--shlh-primary-500);
     --bs-link-color: var(--shlh-primary-500);
@@ -71,8 +72,8 @@
     --bs-focus-ring-color: rgba(var(--shlh-primary-500), .25);
 }
 
-:root,
-[data-bs-theme='light'] {
+/* Light */
+[data-bs-theme=light] {
     --bs-link-hover-color: var(--shlh-primary-600);
     --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
     --bs-primary-text-emphasis: var(--shlh-primary-800);
@@ -80,8 +81,8 @@
     --bs-primary-border-subtle: var(--shlh-primary-200);
 }
 
-:root,
-[data-bs-theme='dark'] {
+/* Dark */
+[data-bs-theme=dark] {
     --bs-link-hover-color: var(--shlh-primary-400);
     --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
     --bs-primary-text-emphasis: var(--shlh-primary-500);
@@ -89,8 +90,81 @@
     --bs-primary-border-subtle: var(--shlh-primary-800);
 }
 
+/* --- (Primary) Link --- */
+
+/* Light */
+a:active {
+    color: var(--shlh-primary-700);
+}
+
+/* Dark */
+[data-bs-theme=dark] a:active {
+    color: var(--shlh-primary-300);
+}
+
+/* --- Secondary Link (Custom Style) --- */
+
+/* Light */
+.link-secondary {
+    color: var(--bs-secondary-color);
+}
+
+/* Dark */
+[data-bs-theme=dark] .link-secondary {
+    color: var(--bs-gray-500) !important;
+    text-decoration-color: var(--bs-gray-500) !important;
+}
+
+[data-bs-theme=dark] .link-secondary:hover {
+    color: var(--bs-gray-400) !important;
+    text-decoration-color: var(--bs-gray-400) !important;
+}
+
+[data-bs-theme=dark] .link-secondary:active {
+    color: var(--bs-gray-300) !important;
+    text-decoration-color: var(--bs-gray-300) !important;
+}
+
+/* --- Navbar Link --- */
+
+/* Light */
+.nav-link:focus-visible {
+    box-shadow: 0 0 0 2px #000;
+}
+
+/* Dark */
+[data-bs-theme=dark] .nav-link:focus-visible {
+    box-shadow: 0 0 0 2px #FFF;
+}
+
+/* --- Footer Link --- */
+
+/* Both */
+.footer a {
+    color: var(--bs-body-color);
+}
+
+/* Light */
+.footer a:hover {
+    color: var(--shlh-primary-600);
+}
+
+.footer a:active {
+    color: var(--shlh-primary-700);
+}
+
+/* Dark */
+[data-bs-theme=dark] .footer a:hover {
+    color: var(--shlh-primary-400);
+}
+
+[data-bs-theme=dark] .footer a:active {
+    color: var(--shlh-primary-300);
+}
+
 /* --- Form Items --- */
 
+/* Both */
 .form-check-input:checked {
     background-color: var(--shlh-primary-500);
     border-color: var(--shlh-primary-500);
@@ -98,27 +172,34 @@
 
 .form-select:focus {
     border-color: var(--shlh-primary-300);
-    box-shadow: 0 0 0 .25rem rgba(var(--shlh-primary-500-rgb), .25);
 }
 
-/* --- Navbar Link --- */
-
-.nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem rgba(var(--shlh-primary-500-rgb), .25);
+/* Light */
+.form-select:focus {
+    box-shadow: 0 0 0 2px #000;
 }
+
+/* Dark */
+[data-bs-theme=dark] .form-select:focus {
+    box-shadow: 0 0 0 2px #FFF;
+}
+
 
 /* --- Dropdown Menu --- */
 
+/* Light */
 .dropdown-menu {
     --bs-dropdown-link-active-bg: var(--shlh-primary-500);
 }
 
-[data-bs-theme='dark'] .dropdown-menu {
+/* Dark */
+[data-bs-theme=dark] .dropdown-menu {
     --bs-dropdown-link-active-color: #000;
 }
 
 /* --- Primary Button --- */
 
+/* Both */
 .btn-primary {
     --bs-btn-bg: var(--shlh-primary-500);
     --bs-btn-border-color: var(--shlh-primary-500);
@@ -131,7 +212,16 @@
     --bs-btn-disabled-border-color: var(--shlh-primary-500);
 }
 
-[data-bs-theme='dark'] .btn-primary {
+/* Light */
+.btn-primary {
+    --bs-btn-color: #FFF;
+    --bs-btn-hover-color: #FFF;
+    --bs-btn-active-color: #FFF;
+    --bs-btn-disabled-color: #FFF;
+}
+
+/* Dark */
+[data-bs-theme=dark] .btn-primary {
     --bs-btn-color: #000;
     --bs-btn-hover-color: #000;
     --bs-btn-active-color: #000;
