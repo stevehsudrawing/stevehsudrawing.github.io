@@ -23,7 +23,7 @@
         ],
         "contents": [
             {
-                "available": false,
+                "available": true,
                 "icon": {
                     "properties": {
                         "alt": "Quanto Ult",
@@ -32,12 +32,15 @@
                 },
                 "title": [
                     {
-                        "superLink": false,
+                        "superLink": true,
                         "text": [
                             {
                                 "content": "Quanto Ult"
                             }
-                        ]
+                        ],
+                        "properties": {
+                            "href": "https://github.com/stevehsudrawing/QuantoUlt"
+                        }
                     }
                 ],
                 "description": [
@@ -51,7 +54,7 @@
                                 }
                             },
                             {
-                                "content": ": QuantoUlt |"
+                                "content": ": QuantoUlt | "
                             },
                             {
                                 "content": "Coming soon",
@@ -137,7 +140,7 @@
                                 }
                             },
                             {
-                                "content": ": quanto |"
+                                "content": ": quanto | "
                             },
                             {
                                 "content": "Archived",
