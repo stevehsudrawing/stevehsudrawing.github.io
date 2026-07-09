@@ -425,7 +425,7 @@ html.user-input-keyboard #skip-button:focus {
 }
 
 /* ========================================================================
-   QR Code Modal (link-cards-generator.js)
+   QR Code Modal (qr-code.js)
    ======================================================================== */
 
 #qr-code-modal .modal-body {
@@ -434,6 +434,57 @@ html.user-input-keyboard #skip-button:focus {
     align-items: center;
     justify-content: center;
     padding: 1.75rem 1.5rem;
+}
+
+/* --- Share Card (captured by html-to-image for download) --- */
+
+#qr-share-card {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+#qr-share-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#qr-share-card-footer {
+    display: flex;
+    flex-direction: column;
+    color: rgba(var(--bs-body-color-rgb), 0.8);
+    font-size: small;
+    border-top: 1px solid rgba(var(--bs-body-color-rgb), 0.8);
+    margin-top: .75rem;
+    padding-top: .5rem;
+    width: stretch;
+}
+
+#qr-share-card-logo-container {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#qr-share-card-logo {
+    display: block;
+    color: var(--bs-link-color);
+}
+
+#qr-share-card-brand {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--bs-body-color);
+    white-space: nowrap;
 }
 
 #qr-code-container {
@@ -453,11 +504,12 @@ html.user-input-keyboard #skip-button:focus {
     transform: translate(-50%, -50%);
     width: 32px;
     height: 32px;
-    background-color: var(--bs-modal-bg);
+    background-color: var(--bs-body-bg);
     border-radius: var(--bs-border-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
+    outline: 2px solid var(--bs-body-color);
 }
 
 #qr-code-icon {
@@ -465,7 +517,14 @@ html.user-input-keyboard #skip-button:focus {
 }
 
 #qr-code-modal-title {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     word-break: break-all;
-    color: var(--bs-body-color);
+    color: rgba(var(--bs-body-color-rgb), 0.9);
+    max-width: 100%;
+}
+
+/* --- Download button (outside share card, not captured) --- */
+
+#qr-download-btn {
+    min-width: 160px;
 }

@@ -8,6 +8,10 @@
     background-color: var(--bs-body-color);
 }
 
+.img-mono-fill-primary-color {
+    background-color: var(--bs-primary);
+}
+
 .img-mono-fill-btn-primary-fg-color {
     background-color: #fff;
 }
@@ -32,6 +36,10 @@
 
 .img-mono-patreon {
     mask: url(/images/icons/patreon.png) no-repeat center / contain;
+}
+
+.img-mono-steve-hsu {
+    mask: url(/images/icons/steve-hsu.png) no-repeat center / contain;
 }
 
 .img-mono-pixiv {

@@ -1,7 +1,7 @@
 /**
  * Settings panel event handling.
  * Manages the settings modal's toggle for opening external links in new tabs,
- * the language selector, and the clear-preferences workflow with a
+ * the language selector, and the reset workflow with a
  * confirmation modal.
  */
 
@@ -9,7 +9,7 @@
  * Attach delegated event listeners for settings-related UI:
  * - External links new-tab toggle
  * - Language selector
- * - Clear-preferences button + confirmation
+ * - Reset button + confirmation
  * - Settings-open button
  * - Language dropdown items
  * - Theme dropdown items
@@ -34,7 +34,7 @@ function initSettingEventListeners() {
 
     document.addEventListener('click', function (e) {
         // Clear preferences button
-        if (e.target && e.target.id === 'clear-preferences-btn') {
+        if (e.target && e.target.id === 'reset-btn') {
             e.preventDefault();
             const warningModalEl = document.getElementById('warning-clearing-preferences-modal');
             if (warningModalEl) {
@@ -52,7 +52,7 @@ function initSettingEventListeners() {
         }
 
         // Confirm clear preferences button
-        if (e.target && e.target.id === 'confirm-clear-preferences-btn') {
+        if (e.target && e.target.id === 'confirm-reset-btn') {
             try {
                 localStorage.removeItem('preferredLang');
                 localStorage.removeItem('bsTheme');

@@ -83,7 +83,7 @@ function createSuperLinkFragment(fragment) {
             ? `'${escapeForOnclick(href)}', ${iconPropsJson}`
             : `'${escapeForOnclick(href)}'`;
         qrButton.setAttribute('onclick', `showQRCodeModal(${onclickArgs})`);
-        qrButton.className = 'ms-2 text-decoration-none';
+        qrButton.className = 'text-decoration-none';
         qrButton.setAttribute('aria-label', 'Show QR Code');
         qrButton.setAttribute('data-bs-toggle', 'tooltip');
         qrButton.setAttribute('data-i18n-tooltip', 'text-show-qr-code');

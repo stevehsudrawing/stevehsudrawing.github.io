@@ -1,7 +1,7 @@
 # Copyright Notice - Original Artworks
 
 **Author:** Steve Hsu (什五) \
-**Last updated:** 2026-07-07
+**Last updated:** 2026-07-09
 
 ---
 
@@ -17,6 +17,7 @@ All files listed in this section are **original artworks** created by me, Steve 
 | `covers/about.png`                            | Cover image for the About page                                         |
 | `covers/artworks-*.png`                       | Cover images for the Artworks & Videos page (light & dark variants)    |
 | `covers/illustration-*.png`                   | Illustration as a cover image for the homepage (light & dark variants) |
+| `icons/steve-hsu.png`                         | My personal signature                                                  |
 | `icons/sticker-collections.png`               | Icon for sticker collections                                           |
 | `icons/sticker-collection-series-*-vol-*.png` | Icons for individual sticker collection volumes                        |
 | `stickers/*`                                  | All sticker artwork files in the stickers directory                    |

@@ -19,7 +19,7 @@
     --shlh-font-sans-serif-fallback-ja: 'Osaka', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
     --shlh-font-sans-serif-fallback-zh-Hans: '华文细黑', '华文黑体', 'STHeiti', 'Hei', '黑体', 'SimHei', '宋体', 'SimSun';
     --shlh-font-sans-serif-fallback-zh-Hant: 'LiHei Pro', 'Apple LiGothic', '新細明體', 'PMingLiU';
-    --shlh-font-sans-serif-major-en: 'Inter Variable', 'InterVariable', 'Inter', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Segoe UI Variable Text', 'Segoe UI';
+    --shlh-font-sans-serif-major-en: 'Inter Variable Text', 'InterVariable', 'Inter', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Segoe UI Variable Text', 'Segoe UI';
     --shlh-font-sans-serif-major-ja: '更紗ゴシック J', 'Sarasa Gothic J', 'ヒラギノ角ゴシック', 'Hiragino Sans', '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans JP', 'Noto Sans CJK', 'Meiryo UI', 'メイリオ', 'Meiryo';
     --shlh-font-sans-serif-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC', '苹方-简', '苹方', 'PingFang SC', 'PingFang', '思源黑体', 'Source Han Sans SC', 'Noto Sans SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
     --shlh-font-sans-serif-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC', '蘋方-繁', '蘋方', 'PingFang TC', 'PingFang', '思源黑體', 'Source Han Sans TC', 'Noto Sans TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';

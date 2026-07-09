@@ -10,8 +10,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <div id="qr-code-container" aria-label="QR code for link"></div>
-                        <code class="mt-3 mb-0 text-break" id="qr-code-modal-title"></code>
+                        <div id="qr-share-card">
+                            <div id="qr-share-card-header">
+                                <div id="qr-share-card-logo-container"></div>
+                                <span id="qr-share-card-brand" data-i18n="text-steve-hsu-s-link-hub">Steve Hsu's Link-Hub</span>
+                            </div>
+                            <div id="qr-code-container" aria-label="QR code for link"></div>
+                            <code class="mt-2 mb-0 text-break" id="qr-code-modal-title"></code>
+                            <div id="qr-share-card-footer">
+                                <span data-i18n="text-learn-more-about-me">Learn more about me</span>
+                                <code style="color: rgba(var(--bs-body-color-rgb), 0.8);">https://stevehsudrawing.github.io</code>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary mt-3" id="qr-download-btn" data-i18n="text-download-qr-code">Download Image</button>
                     </div>
                 </div>
             </div>
@@ -45,7 +56,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger me-auto" id="clear-preferences-btn" data-i18n="text-reset">Clear my preferences</button>
+                        <button type="button" class="btn btn-outline-danger me-auto" id="reset-btn" data-i18n="text-reset">Reset</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
                     </div>
                 </div>
@@ -64,7 +75,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="text-cancel">Cancel</button>
-                        <button type="button" class="btn btn-danger" id="confirm-clear-preferences-btn" data-i18n="text-continue">Continue</button>
+                        <button type="button" class="btn btn-danger" id="confirm-reset-btn" data-i18n="text-continue">Continue</button>
                     </div>
                 </div>
             </div>
