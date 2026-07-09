@@ -44,7 +44,7 @@
     "text-inactive": "不活躍",
     "text-index": "首頁",
     "text-introduction-1": "您可能從我的美術作品或影片中認識我。您可以在我的 Pixiv 個人資料或我在其他平台的個人資料檢視更多作品。",
-    "text-introduction-2": "您也可能從我製作的軟體（例如 Quanto Series）中認識我。你可以檢視我的 GitHub 個人資料檢視開源項目，或者前往「軟體」頁檢視更多。",
+    "text-introduction-2": "您也可能從我製作的軟體（例如 Quanto Series）中認識我。您可以檢視我的 GitHub 個人資料檢視開源項目，或者前往「軟體」頁檢視更多。",
     "text-introduction-3": "我是一位業餘創作者。我會畫畫、做影片，有時還寫程式碼。",
     "text-key": "金鑰",
     "text-language": "語言",
@@ -60,7 +60,7 @@
     "text-powered-by-part-1": "由",
     "text-powered-by-part-2": "和",
     "text-powered-by-part-3": "強力驅動。",
-    "text-profile-part-1": "發音：/stiːv ɕy/。你也可以稱呼我為「什五 (ㄕˊ ㄨˇ)」。男性。",
+    "text-profile-part-1": "發音：/stiːv ɕy/。您也可以稱呼我為「什五 (ㄕˊ ㄨˇ)」。男性。",
     "text-profile-part-2": "我是一名業餘創作者。我有時會畫畫和做影片。",
     "text-profile-part-3": "有時候也會寫程式碼。",
     "text-profile-part-4": "我想創作更多，寫更多程式碼，也想睡得更多。",
@@ -85,7 +85,7 @@
     "text-steve-hsu-s-link-hub-http-404": "HTTP 404 - Steve Hsu (什五) 的 Link-Hub",
     "text-steve-hsu-s-link-hub": "Steve Hsu (什五) 的 Link-Hub",
     "text-steve-hsu": "Steve Hsu (什五)",
-    "text-sticker-collections-description": "你可以在已經上架的平台中下載使用這些表情貼圖。",
+    "text-sticker-collections-description": "您可以在已上架的平台中下載使用這些表情貼圖。",
     "text-sticker-collections-series-1": "什五與 Kato",
     "text-sticker-collections-series-2": "什五動態版",
     "text-sticker-collections": "表情貼圖專輯",
@@ -100,5 +100,5 @@
     "text-wechat": "WeChat",
     "text-weibo": "Weibo",
     "text-welcome-part-1": "歡迎來到",
-    "text-welcome-part-2": "的 Link-Hub！"
+    "text-welcome-part-2": " 的 Link-Hub！"
 }

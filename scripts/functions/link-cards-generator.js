@@ -59,8 +59,8 @@ function createSuperLinkFragment(fragment) {
         setElementAttributes(link, fragment.properties);
     }
 
-    link.classList.add("link")
-    link.classList.add("external-link")
+    link.classList.add('link');
+    link.classList.add('external-link');
 
     if (Array.isArray(fragment.text)) {
         fragment.text.forEach(textItem => {
