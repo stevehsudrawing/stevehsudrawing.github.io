@@ -130,22 +130,16 @@ function showQRCodeModal(linkUrl, imgProperties) {
     qrCodeContainer.appendChild(iconBg);
 
     /**
-     * Render the share card to a canvas and return the resulting blob.
+     * Render the share card to PNG and return the resulting blob.
      * @returns {Promise<Blob>}
      */
     function renderShareCardBlob() {
-        return htmlToImage.toCanvas(shareCard, {
+        return htmlToImage.toPng(shareCard, {
             backgroundColor: modalBg,
             pixelRatio: 2
-        }).then(function (canvas) {
-            return new Promise(function (resolve, reject) {
-                canvas.toBlob(function (blob) {
-                    if (blob) {
-                        resolve(blob);
-                    } else {
-                        reject(new Error('Canvas toBlob returned null'));
-                    }
-                }, 'image/png');
+        }).then(function (dataUrl) {
+            return fetch(dataUrl).then(function (response) {
+                return response.blob();
             });
         });
     }
