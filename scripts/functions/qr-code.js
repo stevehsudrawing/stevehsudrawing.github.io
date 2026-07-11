@@ -7,6 +7,9 @@
  * PNG image via html-to-image.
  */
 
+/** @type {boolean|undefined} Cached share-API availability; undefined = not yet checked. */
+var shareApiSupported;
+
 /**
  * Clone the navbar brand SVG logo into the share card header
  * if it has not been inserted yet.
@@ -34,6 +37,21 @@ function ensureShareCardLogo() {
 }
 
 /**
+ * Trigger a file download from a Blob via a temporary anchor element.
+ * @param {Blob} blob - The blob to download.
+ */
+function downloadBlob(blob) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'qr-code.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/**
  * Generate a QR code for the specified URL and show it in a modal.
  * @param {string} linkUrl - The URL to encode in the QR code.
  * @param {Object} [imgProperties] - Key/value pairs to set as attributes on
@@ -43,13 +61,14 @@ function ensureShareCardLogo() {
 function showQRCodeModal(linkUrl, imgProperties) {
     var htmlElement = document.documentElement;
 
-    var modalTitle = document.getElementById('qr-code-modal-link');
+    var modalLink = document.getElementById('qr-code-modal-link');
     var qrCodeContainer = document.getElementById('qr-code-container');
     var modalElement = document.getElementById('qr-code-modal');
     var shareCard = document.getElementById('qr-share-card');
+    var shareBtn = document.getElementById('qr-share-btn');
     var downloadBtn = document.getElementById('qr-download-btn');
 
-    if (!modalTitle || !qrCodeContainer || !modalElement || !shareCard || !downloadBtn) {
+    if (!modalLink || !qrCodeContainer || !modalElement || !shareCard || !shareBtn || !downloadBtn) {
         console.warn('QR code modal elements not found.');
         return;
     }
@@ -57,7 +76,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
     // Ensure the navbar logo is cloned into the share card header.
     ensureShareCardLogo();
 
-    modalTitle.textContent = linkUrl;
+    modalLink.textContent = linkUrl;
     qrCodeContainer.innerHTML = '';
 
     var computedStyles = getComputedStyle(htmlElement);
@@ -110,21 +129,69 @@ function showQRCodeModal(linkUrl, imgProperties) {
     iconBg.appendChild(centerImg);
     qrCodeContainer.appendChild(iconBg);
 
-    // --- Download handler ---
-    downloadBtn.onclick = function () {
-        htmlToImage.toBlob(shareCard, {
+    /**
+     * Render the share card to a canvas and return the resulting blob.
+     * @returns {Promise<Blob>}
+     */
+    function renderShareCardBlob() {
+        return htmlToImage.toCanvas(shareCard, {
             backgroundColor: modalBg,
             pixelRatio: 2
-        }).then(function (blob) {
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = 'qr-code.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        }).then(function (canvas) {
+            return new Promise(function (resolve, reject) {
+                canvas.toBlob(function (blob) {
+                    if (blob) {
+                        resolve(blob);
+                    } else {
+                        reject(new Error('Canvas toBlob returned null'));
+                    }
+                }, 'image/png');
+            });
+        });
+    }
+
+    /**
+     * Set both action buttons to a disabled/enabled state.
+     * @param {boolean} disabled - Whether to disable the buttons.
+     */
+    function setButtonsDisabled(disabled) {
+        shareBtn.disabled = disabled;
+        downloadBtn.disabled = disabled;
+    }
+
+    // --- Detect share-API support (once) and hide button if unsupported ---
+    if (typeof shareApiSupported === 'undefined') {
+        var testBlob = new Blob([''], { type: 'image/png' });
+        var testFile = new File([testBlob], 'test.png', { type: 'image/png' });
+        shareApiSupported = !!(navigator.share && navigator.canShare && navigator.canShare({ files: [testFile] }));
+    }
+    if (!shareApiSupported) {
+        shareBtn.style.display = 'none';
+    }
+
+    // --- Share handler (native share API) ---
+    shareBtn.onclick = function () {
+        setButtonsDisabled(true);
+        renderShareCardBlob().then(function (blob) {
+            setButtonsDisabled(false);
+            var file = new File([blob], 'qr-code.png', { type: 'image/png' });
+            navigator.share({ files: [file] }).catch(function () {
+                // User cancelled — nothing to do
+            });
         }).catch(function (error) {
+            setButtonsDisabled(false);
+            console.error('Failed to generate QR code image for sharing:', error);
+        });
+    };
+
+    // --- Download handler (direct blob download) ---
+    downloadBtn.onclick = function () {
+        setButtonsDisabled(true);
+        renderShareCardBlob().then(function (blob) {
+            setButtonsDisabled(false);
+            downloadBlob(blob);
+        }).catch(function (error) {
+            setButtonsDisabled(false);
             console.error('Failed to download QR code image:', error);
         });
     };
