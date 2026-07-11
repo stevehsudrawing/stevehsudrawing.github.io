@@ -444,3 +444,13 @@ When generating responses for this project, Copilot should:
 2. **Respond using the language that the user is using**: for example, if the user is conversing in Chinese, responses should be in Chinese.
 3. **Write code / docs / commit messages in English (United States)**: all code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like using `-` instead of `—`.
 4. **Discuss before executing**: when the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
+5. **Conventions of Commit Messages**:
+    - The whole commit message should be as short as possible.
+    - List 1-4 major changes, small changes can be ignored.
+    - Basic example format:
+    ```
+    Summary
+    - Major Change 1
+    - Major Change 2
+    - Major Change 3
+    ```

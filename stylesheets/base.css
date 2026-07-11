@@ -6,6 +6,13 @@
     text-autospace: normal;
     font-family: inherit;
     font-optical-sizing: auto;
+    transition:
+        color .15s ease-in-out,
+        background-color .15s ease-in-out,
+        border-color .15s ease-in-out,
+        outline .15s ease-in-out,
+        box-shadow .15s ease-in-out,
+        opacity .15s ease-in-out;
 }
 
 /* ========================================================================
@@ -39,10 +46,51 @@ hr {
 
 a {
     text-decoration: none;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 }
 
 .link:hover,
 .link:active {
     text-decoration: underline;
+}
+
+.link-hover-change-background:hover,
+.link-hover-change-background:active {
+    text-decoration: none !important;
+    color: var(--shlh-link-hover-on-background-color) !important;
+    background-color: var(--shlh-link-color) !important;
+}
+
+/* ========================================================================
+   Bootstrap Styles Overwrite
+   ======================================================================== */
+
+:root {
+    --bs-border-radius: 0px;
+    --bs-border-radius-sm: 0px;
+    --bs-border-radius-lg: 0px;
+    --bs-border-radius-xl: 0px;
+    --bs-border-radius-xxl: 0px;
+    --bs-border-radius-2xl: 0px;
+    --bs-focus-ring-width: 2px;
+    --bs-focus-ring-opacity: 1;
+}
+
+.btn-close {
+    border-radius: var(--bs-border-radius);
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
+
+.modal-footer {
+    border-top: none !important;
+}
+
+.nav-link {
+    transition: inherit;
+}
+
+.form-select {
+    transition: inherit;
 }

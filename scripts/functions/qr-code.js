@@ -43,7 +43,7 @@ function ensureShareCardLogo() {
 function showQRCodeModal(linkUrl, imgProperties) {
     var htmlElement = document.documentElement;
 
-    var modalTitle = document.getElementById('qr-code-modal-title');
+    var modalTitle = document.getElementById('qr-code-modal-link');
     var qrCodeContainer = document.getElementById('qr-code-container');
     var modalElement = document.getElementById('qr-code-modal');
     var shareCard = document.getElementById('qr-share-card');
@@ -67,8 +67,8 @@ function showQRCodeModal(linkUrl, imgProperties) {
 
     new QRCode(qrCodeContainer, {
         text: linkUrl,
-        width: 232,
-        height: 232,
+        width: 250,
+        height: 250,
         colorDark: colorDark,
         colorLight: colorLight,
         correctLevel: QRCode.CorrectLevel.Q

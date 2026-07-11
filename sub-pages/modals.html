@@ -4,25 +4,27 @@
     <body>
         <div class="modal fade" id="qr-code-modal" tabindex="-1" aria-labelledby="qr-code-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content shadow-lg">
                     <div class="modal-header">
                         <h5 class="modal-title" id="qr-code-modal-label"><div data-i18n="text-qr-code">QR Code</div></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body text-center">
+                    <div class="modal-body">
                         <div id="qr-share-card">
                             <div id="qr-share-card-header">
-                                <div id="qr-share-card-logo-container"></div>
                                 <span id="qr-share-card-brand" data-i18n="text-steve-hsu-s-link-hub">Steve Hsu's Link-Hub</span>
+                                <div id="qr-share-card-logo-container"></div>
                             </div>
                             <div id="qr-code-container" aria-label="QR code for link"></div>
-                            <code class="mt-2 mb-0 text-break" id="qr-code-modal-title"></code>
+                            <code class="mt-2 mb-0 text-break" id="qr-code-modal-link"></code>
                             <div id="qr-share-card-footer">
                                 <span data-i18n="text-learn-more-about-me">Learn more about me</span>
                                 <code style="color: rgba(var(--bs-body-color-rgb), 0.8);">https://stevehsudrawing.github.io</code>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary mt-3" id="qr-download-btn" data-i18n="text-download-qr-code">Download Image</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary btn-no-border me-auto" id="qr-download-btn" data-i18n="text-download">Download</button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
                     </div>
                 </div>
             </div>
@@ -30,10 +32,9 @@
 
         <div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content shadow-lg">
                     <div class="modal-header">
                         <h5 class="modal-title" id="settings-modal-label" data-i18n="text-settings">Settings</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-4">
@@ -44,7 +45,7 @@
                                 </select>
                             </div>
                             <div class="mb-2 fw-semibold" data-i18n="text-theme">Theme</div>
-                            <div class="btn-group d-flex flex-wrap gap-2" role="group">
+                            <div class="btn-group d-flex flex-wrap" role="group">
                                 <button type="button" class="btn btn-outline-secondary theme-item flex-fill" data-theme="auto" data-i18n="text-auto">Auto</button>
                                 <button type="button" class="btn btn-outline-secondary theme-item flex-fill" data-theme="light" data-i18n="text-light">Light</button>
                                 <button type="button" class="btn btn-outline-secondary theme-item flex-fill" data-theme="dark" data-i18n="text-dark">Dark</button>
@@ -56,26 +57,25 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger me-auto" id="reset-btn" data-i18n="text-reset">Reset</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
+                        <button type="button" class="btn btn-outline-danger btn-no-border me-auto" id="reset-btn" data-bs-toggle="modal" data-bs-target="#warning-reset-modal" data-i18n="text-reset">Reset</button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="warning-clearing-preferences-modal" tabindex="-1" aria-labelledby="warning-clearing-preferences-modal-label" aria-hidden="true">
+        <div class="modal fade" id="warning-reset-modal" tabindex="-1" aria-labelledby="warning-reset-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content shadow-lg">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="warning-clearing-preferences-modal-label" data-i18n="text-warning">Warning</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="warning-reset-modal-label" data-i18n="text-warning">Warning</h5>
                     </div>
                     <div class="modal-body">
                         <p data-i18n="text-warning-reset-description">If you choose to continue, this will clear your preferences, including language and color scheme settings. After clearing, you will be redirected to the homepage.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="text-cancel">Cancel</button>
-                        <button type="button" class="btn btn-danger" id="confirm-reset-btn" data-i18n="text-continue">Continue</button>
+                        <button type="button" class="btn btn-outline-secondary btn-no-border" data-bs-toggle="modal" data-bs-target="#settings-modal" data-i18n="text-cancel">Cancel</button>
+                        <button type="button" class="btn btn-outline-danger btn-no-border" id="confirm-reset-btn" data-i18n="text-continue">Continue</button>
                     </div>
                 </div>
             </div>

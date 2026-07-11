@@ -185,7 +185,7 @@ function buildIconElement(iconData) {
     if (!iconData || typeof iconData !== 'object') return null;
 
     const wrapper = document.createElement('div');
-    wrapper.className = 'container-img-link-icon';
+    wrapper.className = 'link-icon-wrapper me-2';
 
     const image = document.createElement('img');
     if (iconData.properties) {
@@ -227,14 +227,14 @@ function toDashCase(text) {
  */
 function buildCardItem(cardData) {
     const column = document.createElement('div');
-    column.className = 'col-lg-6 col-xxl-4';
+    column.className = 'card-wrapper col-lg-6 col-xxl-4';
 
     if (cardData.available !== true) {
         column.classList.add('opacity-75');
     }
 
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'card flex-grow-1';
 
     const cardBody = document.createElement('div');
     cardBody.className = 'd-flex card-body';
@@ -335,7 +335,7 @@ function buildLinkGroup(groupData) {
 
     if (Array.isArray(groupData.contents)) {
         const row = document.createElement('div');
-        row.className = 'row g-2';
+        row.className = 'row g-0';
 
         groupData.contents.forEach(cardData => {
             const cardItem = buildCardItem(cardData);

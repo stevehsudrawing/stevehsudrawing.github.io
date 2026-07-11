@@ -33,25 +33,7 @@ function initSettingEventListeners() {
     });
 
     document.addEventListener('click', function (e) {
-        // Clear preferences button
-        if (e.target && e.target.id === 'reset-btn') {
-            e.preventDefault();
-            const warningModalEl = document.getElementById('warning-clearing-preferences-modal');
-            if (warningModalEl) {
-                warningModalEl.style.zIndex = '1070';
-                const warningModal = new bootstrap.Modal(warningModalEl);
-                warningModalEl.addEventListener('shown.bs.modal', () => {
-                    const backdrops = document.querySelectorAll('.modal-backdrop');
-                    if (backdrops.length > 0) {
-                        backdrops[backdrops.length - 1].style.zIndex = '1060';
-                    }
-                }, { once: true });
-                warningModal.show();
-            }
-            return;
-        }
-
-        // Confirm clear preferences button
+        // Button of confirming reset
         if (e.target && e.target.id === 'confirm-reset-btn') {
             try {
                 localStorage.removeItem('preferredLang');
@@ -59,12 +41,6 @@ function initSettingEventListeners() {
                 localStorage.removeItem('openExternalLinksInNewTab');
             } catch (e) {
                 console.warn('Failed to clear some preferences:', e);
-            }
-
-            const warningModalEl = document.getElementById('warning-clearing-preferences-modal');
-            if (warningModalEl) {
-                const m = bootstrap.Modal.getInstance(warningModalEl) || new bootstrap.Modal(warningModalEl);
-                m.hide();
             }
 
             window.location.href = '/index.html';
