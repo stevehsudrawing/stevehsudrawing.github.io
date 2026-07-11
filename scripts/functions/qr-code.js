@@ -112,11 +112,18 @@ function showQRCodeModal(linkUrl, imgProperties) {
 
     // --- Download handler ---
     downloadBtn.onclick = function () {
-        htmlToImage.toPng(shareCard, {
+        htmlToImage.toBlob(shareCard, {
             backgroundColor: modalBg,
             pixelRatio: 2
-        }).then(function (dataUrl) {
-            download(dataUrl, 'qr-code.png', 'image/png');
+        }).then(function (blob) {
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'qr-code.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }).catch(function (error) {
             console.error('Failed to download QR code image:', error);
         });

@@ -2,6 +2,7 @@
 	<img alt="Icon of Steve Hsu's Link-Hub" src="images/favicon.png" width="64" height="64"><br>
 	<a href="https://stevehsudrawing.github.io">Steve Hsu's Link-Hub</a>
 </div>
+<br>
 
 A personal link-hub website that consolidates links to all my profiles across various platforms. Built with vanilla HTML, CSS, and JavaScript, deployed via GitHub Pages.
 
@@ -15,7 +16,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 - ✨ **SPA-style page transitions**: Internal navigation triggers a smooth progress-bar animation and content dimming, providing an app-like experience without a front-end framework.
 - 📱 **Responsive layout**: Powered by Bootstrap 5.3, the layout adapts to all screen sizes.
 - 📋 **Dynamic link cards**: Link cards are defined in JSON config files and rendered at runtime, making it easy to add or update links without touching HTML.
-- 📲 **QR code sharing**: QR codes are generated on the fly via QRCode.js inside a branded share card, with one-click download as a PNG image via html-to-image and downloadjs.
+- 📲 **QR code sharing**: QR codes are generated on the fly via QRCode.js inside a branded share card, with one-click download as a PNG image via html-to-image.
 - ♿ **Accessibility**: Includes a skip-to-content button, ARIA attributes, keyboard-friendly focus management, and Bootstrap tooltips.
 - 🛡️ **Browser detection & fallback**: Unsupported browsers are detected (via ES5-compatible script) and redirected to a dedicated fallback page that works without CDN dependencies.
 - 🚫 **Custom 404 page**: A styled error page with lightweight initialization.
@@ -29,7 +30,6 @@ A personal link-hub website that consolidates links to all my profiles across va
 | Font           | [Inter](https://github.com/rsms/inter)               |
 | QR Code        | [QRCode.js](https://github.com/davidshimjs/qrcodejs) |
 | HTML-to-Image  | [html-to-image](https://github.com/bubkoo/html-to-image) |
-| File Download  | [downloadjs](https://github.com/rndme/download)      |
 | Hosting        | [GitHub Pages](https://pages.github.com/)            |
 
 ## Project Structure

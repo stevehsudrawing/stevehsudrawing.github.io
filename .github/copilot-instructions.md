@@ -23,7 +23,6 @@ Loaded in `<head>` of each page:
 | Inter Font Family | CSS  | Font Family      | `https://rsms.me/inter/inter.css`                                              | (latest) |
 | QRCode.js         | JS   | QR Code Utility  | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`                    | 1.0.0    |
 | html-to-image     | JS   | HTML → Image    | `https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js` | 1.11.13  |
-| downloadjs        | JS   | File Download    | `https://cdn.jsdelivr.net/npm/downloadjs@1.4.7/download.min.js`                | 1.4.7    |
 
 Loaded at the end of `<body>` of each page:
 
@@ -433,7 +432,7 @@ Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title
 - **`scripts/detections/browser.js`**: This script is executed first, and it's written in ES5 for compatibility. If an unsupported browser is detected, it redirects to `unsupported.html`.
 - **Custom image CSS**: `mono-img.css` provides utility classes for colorizing monochrome icon images to match Bootstrap's primary color or body text color.
 - **`images/null.png`**: This is a placeholder image, intended for use with `img-mono-fill-*`.
-- **QR Code**: Generated dynamically via QRCode.js inside a branded share card (logo + site name). Can be downloaded as a PNG image via html-to-image and downloadjs.
+- **QR Code**: Generated dynamically via QRCode.js inside a branded share card (logo + site name). Can be downloaded as a PNG image via html-to-image.
 - **`.gitignore`**: This file explains that some files do not need to be uploaded to the repository, such as `*.cmd` files used for local debugging.
 
 ## 9. Response Conventions for Copilot
