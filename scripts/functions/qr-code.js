@@ -52,6 +52,20 @@ function downloadBlob(blob) {
 }
 
 /**
+ * Show a brief error message using a Bootstrap toast.
+ * @param {string} message - The error message to display.
+ */
+function showErrorToast(message) {
+    var container = document.getElementById('toast-container');
+    var toastEl = document.getElementById('error-toast');
+    var bodyEl = document.getElementById('error-toast-body');
+    if (!container || !toastEl || !bodyEl) return;
+    bodyEl.textContent = message;
+    var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    toast.show();
+}
+
+/**
  * Generate a QR code for the specified URL and show it in a modal.
  * @param {string} linkUrl - The URL to encode in the QR code.
  * @param {Object} [imgProperties] - Key/value pairs to set as attributes on
@@ -169,11 +183,14 @@ function showQRCodeModal(linkUrl, imgProperties) {
         renderShareCardBlob().then(function (blob) {
             setButtonsDisabled(false);
             var file = new File([blob], 'qr-code.png', { type: 'image/png' });
-            navigator.share({ files: [file] }).catch(function () {
-                // User cancelled — nothing to do
+            navigator.share({ files: [file] }).catch(function (error) {
+                if (error.name !== 'AbortError') {
+                    showErrorToast('Sharing failed: ' + (error && error.message ? error.message : JSON.stringify(error)));
+                }
             });
         }).catch(function (error) {
             setButtonsDisabled(false);
+            showErrorToast('Failed to generate QR code image for sharing: ' + (error && error.message ? error.message : JSON.stringify(error)));
             console.error('Failed to generate QR code image for sharing:', error);
         });
     };
@@ -186,6 +203,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
             downloadBlob(blob);
         }).catch(function (error) {
             setButtonsDisabled(false);
+            showErrorToast('Failed to download QR code image: ' + (error && error.message ? error.message : JSON.stringify(error)));
             console.error('Failed to download QR code image:', error);
         });
     };
