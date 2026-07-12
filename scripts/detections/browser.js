@@ -46,8 +46,15 @@ function detectBrowser() {
         browser.version = ieMatch ? parseFloat(ieMatch[2]) : 0;
         return browser;
     }
+    // Chromium Edge (must precede Chrome — Edg/ UA also contains "Chrome/")
+    if (isStringIncludes(userAgent, 'edg')) {
+        browser.name = 'edge';
+        var edgeMatch = userAgent.match(/edg\/(\d+(\.\d+)?)/);
+        browser.version = edgeMatch ? parseFloat(edgeMatch[1]) : 0;
+        return browser;
+    }
     // Chrome / Chromium
-    if (isStringIncludes(userAgent, 'chrome') && !isStringIncludes(userAgent, 'edge') && !isStringIncludes(userAgent, 'opr')) {
+    if (isStringIncludes(userAgent, 'chrome') && !isStringIncludes(userAgent, 'opr')) {
         browser.name = 'chrome';
         var chromeMatch = userAgent.match(/chrome\/(\d+(\.\d+)?)/);
         browser.version = chromeMatch ? parseFloat(chromeMatch[1]) : 0;
@@ -58,13 +65,6 @@ function detectBrowser() {
         browser.name = 'firefox';
         var ffMatch = userAgent.match(/firefox\/(\d+(\.\d+)?)/);
         browser.version = ffMatch ? parseFloat(ffMatch[1]) : 0;
-        return browser;
-    }
-    // Chromium Edge
-    if (isStringIncludes(userAgent, 'edg')) {
-        browser.name = 'edge';
-        var edgeMatch = userAgent.match(/edg\/(\d+(\.\d+)?)/);
-        browser.version = edgeMatch ? parseFloat(edgeMatch[1]) : 0;
         return browser;
     }
     // Safari
@@ -85,10 +85,10 @@ function isSupported() {
     var browser = detectBrowser();
     var supportMap = {
         ie: false,
-        chrome: browser.version >= 80,
-        edge: browser.version >= 80,
-        firefox: browser.version >= 78,
-        opera: browser.version >= 67,
+        chrome: browser.version >= 66,
+        edge: browser.version >= 79,
+        firefox: browser.version >= 62,
+        opera: browser.version >= 53,
         safari: browser.version >= 13,
         unknown: false
     };

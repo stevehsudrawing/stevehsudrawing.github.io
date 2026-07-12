@@ -16,26 +16,64 @@ This document provides project-level context, conventions, and constraints for C
 
 Loaded in `<head>` of each page:
 
-| Resource          | Type | Role             | URL                                                                            | Version  |
-|-------------------|------|------------------|--------------------------------------------------------------------------------|----------|
-| Bootstrap CSS     | CSS  | Framework        | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`      | 5.3.8    |
-| Bootstrap Icons   | CSS  | Icon Library     | `https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`        | (latest) |
-| Inter Font Family | CSS  | Font Family      | `https://rsms.me/inter/inter.css`                                              | (latest) |
-| QRCode.js         | JS   | QR Code Utility  | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`                    | 1.0.0    |
-| html-to-image     | JS   | HTML → Image    | `https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js` | 1.11.13  |
-| html2canvas       | JS   | HTML → Canvas   | `https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`       | 1.4.1    |
+| Resource          | Type | Role             | Official Website                          | Introduction Page on jsDelivr                          | GitHub Repo                               | URL                                                                            | Version  |
+|-------------------|------|------------------|-------------------------------------------|--------------------------------------------------------|-------------------------------------------|--------------------------------------------------------------------------------|----------|
+| Bootstrap CSS     | CSS  | Page Framework   | `https://getbootstrap.com/`               | `https://www.jsdelivr.com/package/npm/bootstrap`       | `https://github.com/twbs/bootstrap`       | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`      | 5.3.8    |
+| Bootstrap Icons   | CSS  | Icon Library     | `https://icons.getbootstrap.com/`         | `https://www.jsdelivr.com/package/npm/bootstrap-icons` | `https://github.com/twbs/icons`           | `https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`        | (latest) |
+| Inter Font Family | CSS  | Font Family      | `https://rsms.me/inter/`                  | -                                                      | `https://github.com/rsms/inter`           | `https://rsms.me/inter/inter.css`                                              | (latest) |
+| QRCode.js         | JS   | QR Code Utility  | `https://davidshimjs.github.io/qrcodejs/` | `https://www.jsdelivr.com/package/npm/qrcodejs`        | `https://github.com/davidshimjs/qrcodejs` | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`                    | 1.0.0    |
+| html-to-image     | JS   | HTML -> Image    | -                                         | `https://www.jsdelivr.com/package/npm/html-to-image`   | `https://github.com/bubkoo/html-to-image` | `https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js` | 1.11.13  |
+| html2canvas       | JS   | HTML -> Canvas   | `https://html2canvas.hertzen.com/`        | `https://www.jsdelivr.com/package/npm/html2canvas`     | `https://github.com/niklasvh/html2canvas` | `https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`       | 1.4.1    |
 
 Loaded at the end of `<body>` of each page:
 
-| Resource     | Type | Role               | URL                                                                            | Version |
-|--------------|------|--------------------|--------------------------------------------------------------------------------|---------|
-| Popper.js    | JS   | Positioning Engine | `https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`    | 2.11.8  |
-| Bootstrap JS | JS   | Framework          | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js` | 5.3.8   |
+| Resource       | Type | Role               | Official Website                   | Introduction Page on jsDelivr                         | GitHub Repo                            | URL                                                                            | Version |
+|----------------|------|--------------------|------------------------------------|-------------------------------------------------------|----------------------------------------|--------------------------------------------------------------------------------|---------|
+| @popperjs/core | JS   | Positioning Engine | `https://popper.js.org/` (Expired) | `https://www.jsdelivr.com/package/npm/@popperjs/core` | `https://github.com/vusion/popper.js/` | `https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`    | 2.11.8  |
+| Bootstrap JS   | JS   | Page Framework     | `https://getbootstrap.com/`        | `https://www.jsdelivr.com/package/npm/bootstrap`      | `https://github.com/twbs/bootstrap`    | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js` | 5.3.8   |
 
 ### Deployment
 
 - **Platform**: GitHub Pages
 - **Build step**: None: raw HTML/CSS/JS served directly from the repository root.
+
+### Browser Baseline
+
+The minimum browser versions are determined by the requirements of our CDN dependencies (see table below). The enforced baseline is defined in `scripts/detections/browser.js`.
+
+| Browser | Min Version | Release Date | Constrained By                            |
+|---------|-------------|--------------|-------------------------------------------|
+| Chrome  | ≥ 66        | 2018-04-17   | Inter variable fonts                      |
+| Edge    | ≥ 79        | 2020-01-15   | @popperjs/core (Chromium-based Edge only) |
+| Firefox | ≥ 62        | 2018-09-05   | Inter variable fonts                      |
+| Opera   | ≥ 53        | 2018-05-10   | Inter variable fonts                      |
+| Safari  | ≥ 13        | 2019-09-19   | Bootstrap 5 / Popper (iOS 13+)            |
+
+#### Per-Dependency Minimum Browser Versions
+
+| Dependency               | Chrome | Edge   | Firefox | Opera  | Safari |
+|--------------------------|--------|--------|---------|--------|--------|
+| Bootstrap 5.3.8 CSS/JS   | 60     | **79** | 60      | 47     | **12** |
+| @popperjs/core 2.11.8    | 60     | **79** | 60      | 47     | **12** |
+| Bootstrap Icons (latest) | 60     | **79** | 60      | 47     | **12** |
+| QRCode.js 1.0.0          | 1      | 12     | 1.5     | 9      | 3      |
+| html-to-image 1.11.13    | 32     | 12     | 29      | 20     | 7.1    |
+| html2canvas 1.4.1        | 1      | 12     | 3.5     | 12     | 6      |
+| Inter (variable font)    | **66** | 17     | **62**  | **53** | 11     |
+
+> **Key constraints**:
+> - Inter variable fonts require Chrome 66+, Firefox 62+, Opera 53+.
+> - @popperjs/core v2 requires Chromium-based Edge (≥79) and does not support legacy EdgeHTML.
+> - Bootstrap 5 requires Safari ≥12, but the baseline stays at 13 to avoid known iOS 12 scrolling/modal bugs.
+
+> **Sources**:
+> - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) — `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
+> - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) — aligned with Bootstrap 5; IE11 and legacy EdgeHTML not supported
+> - Bootstrap Icons: Part of Bootstrap 5 ecosystem, no independent browser support doc
+> - QRCode.js 1.0.0: [npm](https://www.npmjs.com/package/qrcodejs) — README claims compatibility with "IE6~10, Chrome, Firefox, Safari, Opera"
+> - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) — requires `Promise` + SVG `<foreignObject>`
+> - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) — "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
+> - Inter variable fonts: [Can I Use](https://caniuse.com/variable-fonts) — Chrome 66+, Firefox 62+, Safari 11+, Opera 53+
 
 ## 2. Naming Conventions
 

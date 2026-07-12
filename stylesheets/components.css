@@ -137,6 +137,15 @@ html.user-input-keyboard #skip-button:focus {
     transition: opacity .5s ease;
 }
 
+@supports not (inset: 0) {
+    .loading-screen {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
 .loading-screen.fade-out {
     opacity: 0;
     pointer-events: none;
@@ -348,6 +357,12 @@ html.user-input-keyboard #skip-button:focus {
         bottom: 0;
         height: 100vh;
         max-height: 100vh;
+    }
+
+    @supports not (width: min(320px, 80vw)) {
+        .offcanvas-start {
+            width: 320px;
+        }
     }
 
     .offcanvas.show {
