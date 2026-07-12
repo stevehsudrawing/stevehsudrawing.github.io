@@ -49,3 +49,27 @@ function setElementAttributes(element, properties = {}) {
         element.setAttribute(key, String(value));
     });
 }
+
+/**
+ * Show a brief error message using a Bootstrap toast.
+ * Gracefully does nothing if the toast container is not present.
+ * @param {string} message - The error message to display.
+ */
+function showErrorToast(message) {
+    var container = document.getElementById('toast-container');
+    var toastEl = document.getElementById('error-toast');
+    var bodyEl = document.getElementById('error-toast-body');
+    if (!container || !toastEl || !bodyEl) return;
+    bodyEl.textContent = message;
+    var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    toast.show();
+}
+
+/**
+ * Extract a readable message from any rejection value.
+ * @param {*} error - The rejection value.
+ * @returns {string}
+ */
+function errMsg(error) {
+    return error && error.message ? error.message : JSON.stringify(error);
+}

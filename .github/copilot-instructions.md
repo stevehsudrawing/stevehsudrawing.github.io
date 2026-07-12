@@ -23,6 +23,7 @@ Loaded in `<head>` of each page:
 | Inter Font Family | CSS  | Font Family      | `https://rsms.me/inter/inter.css`                                              | (latest) |
 | QRCode.js         | JS   | QR Code Utility  | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`                    | 1.0.0    |
 | html-to-image     | JS   | HTML → Image    | `https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js` | 1.11.13  |
+| html2canvas       | JS   | HTML → Canvas   | `https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`       | 1.4.1    |
 
 Loaded at the end of `<body>` of each page:
 
@@ -133,7 +134,7 @@ Loaded at the end of `<body>` of each page:
 
 - **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares`
 - **`404`**: The redirected page when an HTTP 404 occurs. It uses the lightweight init.
-- **`unsupported`**: Specifically designed for unsupported browsers, without relying on external CDNs. The page layout should be written as closely as possible to Bootstrap 5.3, but it can also be appropriately simplified.
+- **`unsupported`**: Specifically designed for unsupported browsers, it does not rely on any external JS scripts or external CDNs, which means it does not use features such as `i18n` or Page Transition System, etc. The page layout should be as close to Bootstrap 5.3 as possible, but it can also be appropriately simplified.
 
 ### `scripts/functions/`: Define Only, Never Execute
 
@@ -206,14 +207,14 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
     {
         "content": "My personal email",
         "properties": {
-            "data-i18n": "text-email-title-2"
+            "data-i18n": "text-my-personal-email"
         }
     }
     ```
 
     It should be converted into the following HTML elements:
     ```html
-    <span data-i18n="text-email-title-2">My personal email</span>
+    <span data-i18n="text-my-personal-email">My personal email</span>
     ```
 
     Here is a `<img>` element:
@@ -221,6 +222,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
     {
         "properties": {
             "alt": "Email",
+            "data-i18n-alt": "text-email",
             "src": "/images/null.png",
             "classes": [
                 "img-mono-email",
@@ -232,7 +234,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
     It should be converted into the following HTML elements:
     ```html
-    <img alt="Email" src="/images/null.png" class="img-mono-email img-mono-fill-body-color">
+    <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" class="img-mono-email img-mono-fill-body-color">
     ```
 
 - **Super-Link / Text Fragment**:
@@ -250,7 +252,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
             {
                 "content": "My personal email",
                 "properties": {
-                    "data-i18n": "text-email-title-2"
+                    "data-i18n": "text-my-personal-email"
                 }
             }
         ],
@@ -367,11 +369,22 @@ HTML: <span data-i18n="text-welcome">Welcome</span>
 
 Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title="Foo">
         ↓ (updatePageText() rewrites data-bs-title from langData)
+
+Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
+        ↓ (updatePageText() rewrites alt from langData)
 ```
 
 - Language preference persisted in `localStorage` key: `preferredLang`.
 - Supported languages defined in `configs/language-list.json`.
 - All user-facing strings should have corresponding entries in all these JSON files.
+
+#### i18n Key Naming Conventions
+
+- Keys use `dash-case` naming (e.g. `text-welcome`, `text-learn-more`, `text-http-404-description`).
+- All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts — the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
+- For `<img>` alt attributes: use `data-i18n-alt` (e.g. `data-i18n-alt="text-illustration"`).
+- For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
+- Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys — simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
 ### Theme System
 
@@ -432,7 +445,7 @@ Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title
 - **`scripts/detections/browser.js`**: This script is executed first, and it's written in ES5 for compatibility. If an unsupported browser is detected, it redirects to `unsupported.html`.
 - **Custom image CSS**: `mono-img.css` provides utility classes for colorizing monochrome icon images to match Bootstrap's primary color or body text color.
 - **`images/null.png`**: This is a placeholder image, intended for use with `img-mono-fill-*`.
-- **QR Code**: Generated dynamically via QRCode.js inside a branded share card (logo + site name). Can be downloaded as a PNG image via html-to-image.
+- **QR Code**: Generated dynamically via QRCode.js inside a branded share card (logo + site name). Can be downloaded as a PNG image via html-to-image, with html2canvas fallback for mobile.
 - **`.gitignore`**: This file explains that some files do not need to be uploaded to the repository, such as `*.cmd` files used for local debugging.
 
 ## 9. Response Conventions for Copilot

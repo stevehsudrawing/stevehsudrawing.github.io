@@ -280,17 +280,19 @@ html.user-input-keyboard #skip-button:focus {
 
 .navbar {
     height: 64px;
-}
-
-.navbar-bg-glass {
     background-color: rgba(var(--bs-body-bg-rgb), .8);
     backdrop-filter: blur(15px) saturate(1.5);
+    border-bottom: 0px solid rgba(var(--bs-body-color-rgb), 0);
 }
 
 @supports not (backdrop-filter: blur(15px)) {
-    .navbar-bg-glass {
+    .navbar {
         background-color: rgba(var(--bs-body-bg-rgb), 1);
     }
+}
+
+.navbar-scrolled {
+    border-bottom: 1px solid rgba(var(--bs-body-color-rgb), .25);
 }
 
 .navbar-brand-text {
@@ -470,20 +472,39 @@ html.user-input-keyboard #skip-button:focus {
     display: flex;
     align-items: center;
     gap: .5rem;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
     flex-direction: row;
     justify-content: space-between;
 }
 
-#qr-share-card-footer {
+#qr-share-card-header-text {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+}
+
+#qr-share-card-title {
+    font-size: 16.8px;
+    font-weight: 500;
+    color: var(--bs-body-color);
+    line-height: 1.2;
+}
+
+#qr-share-card-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     color: rgba(var(--bs-body-color-rgb), .8);
-    font-size: small;
+    font-size: 13px;
     border-top: 1px solid rgba(var(--bs-body-color-rgb), .8);
     margin-top: .75rem;
     padding-top: .5rem;
-    width: stretch;
+}
+
+#qr-share-card-footer-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
 #qr-share-card-logo-container {
@@ -499,9 +520,8 @@ html.user-input-keyboard #skip-button:focus {
 }
 
 #qr-share-card-brand {
-    font-size: .9rem;
-    font-weight: 600;
-    color: var(--bs-body-color);
+    font-size: 12.8px;
+    color: var(--bs-secondary-color);
     white-space: nowrap;
 }
 
@@ -527,7 +547,7 @@ html.user-input-keyboard #skip-button:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: 2px solid var(--bs-body-color);
+    box-shadow: 0 0 0 2px var(--bs-body-color);
 }
 
 #qr-code-icon {
@@ -535,8 +555,9 @@ html.user-input-keyboard #skip-button:focus {
 }
 
 #qr-code-modal-link {
-    font-size: .85rem;
+    font-size: 13.6px;
     word-break: break-all;
     color: rgba(var(--bs-body-color-rgb), .9);
     max-width: 100%;
+    line-height: 1.25;
 }

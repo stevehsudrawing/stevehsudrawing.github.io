@@ -13,7 +13,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Email",
+                        "alt": "Quanto Series Team",
+                        "data-i18n-alt": "text-quanto-series-team",
                         "src": "/images/null.png",
                         "classes": [
                             "img-mono-email",
@@ -28,7 +29,7 @@
                             {
                                 "content": "Quanto Series Team",
                                 "properties": {
-                                    "data-i18n": "text-email-title-1"
+                                    "data-i18n": "text-quanto-series-team"
                                 }
                             }
                         ],
@@ -47,7 +48,7 @@
                             {
                                 "content": "Only topics about the Quanto Series are allowed",
                                 "properties": {
-                                    "data-i18n": "text-email-description-1"
+                                    "data-i18n": "text-quanto-series-team-email-description"
                                 }
                             }
                         ]
@@ -58,7 +59,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Email",
+                        "alt": "My personal email",
+                        "data-i18n-alt": "text-my-personal-email",
                         "src": "/images/null.png",
                         "classes": [
                             "img-mono-email",
@@ -73,7 +75,7 @@
                             {
                                 "content": "My personal email",
                                 "properties": {
-                                    "data-i18n": "text-email-title-2"
+                                    "data-i18n": "text-my-personal-email"
                                 }
                             }
                         ],

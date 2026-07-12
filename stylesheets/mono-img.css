@@ -8,16 +8,12 @@
     background-color: var(--bs-body-color);
 }
 
-.img-mono-fill-primary-color {
+.img-mono-fill-primary {
     background-color: var(--bs-primary);
 }
 
-.img-mono-fill-btn-primary-fg-color {
-    background-color: #fff;
-}
-
-[data-bs-theme='dark'] .img-mono-fill-btn-primary-fg-color {
-    background-color: #000;
+.img-mono-fill-primary-color {
+    background-color: var(--shlh-primary-color);
 }
 
 /* --- Icon Masks (A–Z) --- */

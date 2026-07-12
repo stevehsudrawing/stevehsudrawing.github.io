@@ -140,21 +140,6 @@ a {
 
 /* --- Secondary Link --- */
 
-/* Both */
-.link-secondary-shlh {
-    color: var(--shlh-link-color);
-}
-
-.link-secondary-shlh:hover {
-    color: var(--shlh-link-hover-color);
-    text-decoration-color: var(--shlh-link-hover-color);
-}
-
-.link-secondary-shlh:active {
-    color: var(--shlh-link-active-color);
-    text-decoration-color: var(--shlh-link-active-color);
-}
-
 /* Light */
 .link-secondary-shlh {
     --shlh-link-color: var(--bs-gray-600);
@@ -181,18 +166,6 @@ a {
 /* Both */
 .footer a {
     --shlh-link-color: var(--bs-body-color);
-
-    color: var(--shlh-link-color);
-}
-
-.footer a:hover {
-    color: var(--shlh-link-hover-color);
-    text-decoration-color: var(--shlh-link-hover-color);
-}
-
-.footer a:active {
-    color: var(--shlh-link-active-color);
-    text-decoration-color: var(--shlh-link-active-color);
 }
 
 /* Light */

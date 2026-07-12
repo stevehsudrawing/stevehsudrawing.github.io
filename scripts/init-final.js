@@ -91,5 +91,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 // Listeners that depend on pageInitialized event
+document.addEventListener('pageInitialized', initNavbarScrollBorder);
 document.addEventListener('pageInitialized', initMobileNavbarBrandScroll);
 document.addEventListener('pageInitialized', initScrollHint);

@@ -53,6 +53,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Afdian",
+                        "data-i18n-alt": "text-afdian",
                         "src": "/images/icons/afdian.png"
                     }
                 },

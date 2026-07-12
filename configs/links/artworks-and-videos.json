@@ -146,6 +146,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Weibo",
+                        "data-i18n-alt": "text-weibo",
                         "src": "/images/icons/weibo.png"
                     }
                 },
@@ -211,7 +212,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Sticker Collections Series 1 Vol. 1",
+                        "alt": "Steve Hsu & Kato Vol. 1",
+                        "data-i18n-alt": "text-sticker-collections-series-1",
                         "src": "/images/icons/sticker-collection-series-1-vol-1.png"
                     }
                 },
@@ -220,13 +222,10 @@
                         "superLink": true,
                         "text": [
                             {
-                                "content": "Steve Hsu & Kato",
+                                "content": "Steve Hsu & Kato Vol. 1",
                                 "properties": {
                                     "data-i18n": "text-sticker-collections-series-1"
                                 }
-                            },
-                            {
-                                "content": " Vol. 1"
                             }
                         ],
                         "properties": {
@@ -277,7 +276,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Sticker Collections Series 1 Vol. 2",
+                        "alt": "Steve Hsu & Kato Vol. 2",
+                        "data-i18n-alt": "text-sticker-collections-series-1-vol-2",
                         "src": "/images/icons/sticker-collection-series-1-vol-2.png"
                     }
                 },
@@ -286,13 +286,10 @@
                         "superLink": true,
                         "text": [
                             {
-                                "content": "Steve Hsu & Kato",
+                                "content": "Steve Hsu & Kato Vol. 2",
                                 "properties": {
-                                    "data-i18n": "text-sticker-collections-series-1"
+                                    "data-i18n": "text-sticker-collections-series-1-vol-2"
                                 }
-                            },
-                            {
-                                "content": " Vol. 2"
                             }
                         ],
                         "properties": {
@@ -343,7 +340,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Sticker Collections Series 1 Vol. 3",
+                        "alt": "Steve Hsu & Kato Vol. 3",
+                        "data-i18n-alt": "text-sticker-collections-series-1-vol-3",
                         "src": "/images/icons/sticker-collection-series-1-vol-3.png"
                     }
                 },
@@ -352,13 +350,10 @@
                         "superLink": true,
                         "text": [
                             {
-                                "content": "Steve Hsu & Kato",
+                                "content": "Steve Hsu & Kato Vol. 3",
                                 "properties": {
-                                    "data-i18n": "text-sticker-collections-series-1"
+                                    "data-i18n": "text-sticker-collections-series-1-vol-3"
                                 }
-                            },
-                            {
-                                "content": " Vol. 3"
                             }
                         ],
                         "properties": {
@@ -409,7 +404,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Sticker Collections Series 2 Vol. 1",
+                        "alt": "Steve Hsu's SC Dynamic Edition Vol. 1",
+                        "data-i18n-alt": "text-sticker-collections-series-2",
                         "src": "/images/icons/sticker-collection-series-2-vol-1.png"
                     }
                 },
@@ -418,13 +414,10 @@
                         "superLink": true,
                         "text": [
                             {
-                                "content": "Steve Hsu's SC Dynamic Edition",
+                                "content": "Steve Hsu's SC Dynamic Edition Vol. 1",
                                 "properties": {
                                     "data-i18n": "text-sticker-collections-series-2"
                                 }
-                            },
-                            {
-                                "content": " Vol. 1"
                             }
                         ],
                         "properties": {
@@ -497,7 +490,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Sticker Collections Series 2 Vol. 2",
+                        "alt": "Steve Hsu's SC Dynamic Edition Vol. 2",
+                        "data-i18n-alt": "text-sticker-collections-series-2-vol-2",
                         "src": "/images/icons/sticker-collection-series-2-vol-2.png"
                     }
                 },
@@ -506,13 +500,10 @@
                         "superLink": true,
                         "text": [
                             {
-                                "content": "Steve Hsu's SC Dynamic Edition",
+                                "content": "Steve Hsu's SC Dynamic Edition Vol. 2",
                                 "properties": {
-                                    "data-i18n": "text-sticker-collections-series-2"
+                                    "data-i18n": "text-sticker-collections-series-2-vol-2"
                                 }
-                            },
-                            {
-                                "content": " Vol. 2"
                             }
                         ],
                         "properties": {
@@ -585,7 +576,8 @@
                 "available": true,
                 "icon": {
                     "properties": {
-                        "alt": "Sticker Collections Series 2 Vol. 3",
+                        "alt": "Steve Hsu's SC Dynamic Edition Vol. 3",
+                        "data-i18n-alt": "text-sticker-collections-series-2-vol-3",
                         "src": "/images/icons/sticker-collection-series-2-vol-3.png"
                     }
                 },
@@ -594,13 +586,10 @@
                         "superLink": true,
                         "text": [
                             {
-                                "content": "Steve Hsu's SC Dynamic Edition",
+                                "content": "Steve Hsu's SC Dynamic Edition Vol. 3",
                                 "properties": {
-                                    "data-i18n": "text-sticker-collections-series-2"
+                                    "data-i18n": "text-sticker-collections-series-2-vol-3"
                                 }
-                            },
-                            {
-                                "content": " Vol. 3"
                             }
                         ],
                         "properties": {
@@ -724,6 +713,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Bilibili",
+                        "data-i18n-alt": "text-bilibili",
                         "src": "/images/icons/bilibili.png"
                     }
                 },
@@ -894,6 +884,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Rednote",
+                        "data-i18n-alt": "text-rednote",
                         "src": "/images/null.png",
                         "classes": [
                             "img-mono-fill-body-color",
@@ -939,6 +930,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Douyin",
+                        "data-i18n-alt": "text-douyin",
                         "src": "/images/null.png",
                         "classes": [
                             "img-mono-fill-body-color",

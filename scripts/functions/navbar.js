@@ -154,3 +154,27 @@ function initMobileNavbarBrandScroll() {
     window.addEventListener('resize', updateBrand);
     updateBrand();
 }
+
+/**
+ * Add a subtle bottom border to the navbar when the page is scrolled
+ * past the very top. Works at all viewport sizes.
+ */
+function initNavbarScrollBorder() {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    let ticking = false;
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            requestAnimationFrame(function () {
+                if (window.scrollY > 0) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+}

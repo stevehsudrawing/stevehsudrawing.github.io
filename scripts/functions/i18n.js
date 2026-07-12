@@ -64,6 +64,18 @@ function updatePageText() {
             }
         }
     });
+
+    // Translate img alt attributes: elements with data-i18n-alt
+    // use it to specify the translation key,
+    // and the translated text is written to the alt attribute.
+    document.querySelectorAll('img[data-i18n-alt]').forEach(el => {
+        const key = el.getAttribute('data-i18n-alt');
+        if (langData[key]) {
+            el.setAttribute('alt', langData[key]);
+        } else {
+            console.log('Missing key:', key);
+        }
+    });
 }
 
 /**

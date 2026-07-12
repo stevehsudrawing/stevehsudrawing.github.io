@@ -73,6 +73,7 @@ function initCopyLinkTooltips() {
                         }, 3000);
                     }
                 }).catch(err => {
+                    showErrorToast('Failed to copy text');
                     console.error('Failed to copy text:', err);
                 });
             });
