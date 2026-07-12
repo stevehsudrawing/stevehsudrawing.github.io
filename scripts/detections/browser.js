@@ -49,7 +49,7 @@ function detectBrowser() {
     // Chromium Edge (must precede Chrome — Edg/ UA also contains "Chrome/")
     if (isStringIncludes(userAgent, 'edg')) {
         browser.name = 'edge';
-        var edgeMatch = userAgent.match(/edg\/(\d+(\.\d+)?)/);
+        var edgeMatch = userAgent.match(/edg[a-z]*\/(\d+(\.\d+)?)/);
         browser.version = edgeMatch ? parseFloat(edgeMatch[1]) : 0;
         return browser;
     }
