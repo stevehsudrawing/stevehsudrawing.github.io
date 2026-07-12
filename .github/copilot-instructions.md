@@ -90,8 +90,16 @@ The minimum browser versions are determined by the requirements of our CDN depen
 
 - **Project-specific**: prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub)
     - **Color**: The naming convention is similar to Bootstrap (e.g. `--shlh-primary`, `--shlh-primary-rgb`), but an additional parameter has been added to indicate color brightness, which the range is 100-900 (from bright to dark) (e.g. `--shlh-primary-500`, `--shlh-primary-500-rgb`).
-    - **Font Settings**: `--shlh-font-` + type + priority + language code \
-        e.g. `--shlh-font-sans-serif-major-en`, `--shlh-font-monospace-fallback-ja`
+    - **Font Settings**: `--shlh-font-{category}-{priority}-{language}`
+        - **Category**: `sans-serif-text` (body), `sans-serif-display` (headings), `monospace` (code). The `emoji` and `system`-priority properties are language-agnostic and omit the category breakdown.
+        - **Priority**: `major` (preferred fonts, listed first in the stack), `fallback` (secondary fallback fonts), `system` (OS-level generic family, e.g. `ui-monospace`, `-apple-system`).
+        - **Language**: `en`, `ja`, `zh-Hans`, `zh-Hant`. Omitted for language-agnostic properties (`emoji`, `system`).
+        - **Full examples**:
+            - `--shlh-font-sans-serif-text-major-en` → preferred body font stack for English/Latin
+            - `--shlh-font-monospace-fallback-zh-Hans` → fallback monospace stack for Simplified Chinese
+            - `--shlh-font-emoji` → emoji font stack (universal)
+            - `--shlh-font-sans-serif-text-system` → system sans-serif fallback (universal)
+        - Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `stylesheets/fonts.css`. See that file for the exact composition of each stack.
 - **Bootstrap (overrides)**: prefix `--bs-*` \
     e.g. `--bs-link-hover-color`
 
