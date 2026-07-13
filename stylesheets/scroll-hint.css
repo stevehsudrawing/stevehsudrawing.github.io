@@ -1,0 +1,34 @@
+/* ========================================================================
+   Scroll Hint - horizontal scroll indicator
+   ======================================================================== */
+
+.scroll-hint {
+    display: none;
+    text-align: center;
+    font-size: .75rem;
+    color: var(--bs-secondary-color, #6c757d);
+    margin-top: .375rem;
+    user-select: none;
+    animation: scrollHintFadeIn .3s ease;
+}
+
+.scroll-hint i {
+    font-size: .7rem;
+    vertical-align: middle;
+}
+
+@keyframes scrollHintFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scroll-hint.visible {
+    display: block;
+}

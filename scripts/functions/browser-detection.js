@@ -10,8 +10,7 @@
  * @returns {boolean} True if subStr is found in str.
  */
 function isStringIncludes(str, subStr) {
-    if (str.indexOf(subStr) != -1) return true;
-    else return false;
+    return (str.indexOf(subStr) != -1);
 }
 
 /**
@@ -81,7 +80,7 @@ function detectBrowser() {
  * Check whether the detected browser meets minimum version requirements.
  * @returns {boolean} True if the browser is supported.
  */
-function isSupported() {
+function isBrowserSupported() {
     var browser = detectBrowser();
     var supportMap = {
         ie: false,
@@ -94,17 +93,3 @@ function isSupported() {
     };
     return supportMap[browser.name];
 }
-
-/**
- * Redirect to /unsupported.html if the current browser is not supported.
- * @returns {boolean} True if the browser is supported, false otherwise.
- */
-function isBrowserSupported() {
-    if (!isSupported()) {
-        window.location.href = '/unsupported.html';
-        return false;
-    }
-    return true;
-}
-
-isBrowserSupported();

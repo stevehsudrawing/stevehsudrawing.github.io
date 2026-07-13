@@ -6,50 +6,33 @@ This document provides project-level context, conventions, and constraints for C
 
 ## 1. Tech Stack
 
-### Base Language
+### 1.1 Base Language
 
 - **HTML** 5
 - **CSS**
 - **JavaScript**: Vanilla JS
 
-### External Dependencies (CDN)
+### 1.2 External Dependencies (CDN)
 
 Loaded in `<head>` of each page:
 
-| Resource          | Type | Role             | Official Website                          | Introduction Page on jsDelivr                          | GitHub Repo                               | URL                                                                            | Version  |
-|-------------------|------|------------------|-------------------------------------------|--------------------------------------------------------|-------------------------------------------|--------------------------------------------------------------------------------|----------|
-| Bootstrap CSS     | CSS  | Page Framework   | `https://getbootstrap.com/`               | `https://www.jsdelivr.com/package/npm/bootstrap`       | `https://github.com/twbs/bootstrap`       | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`      | 5.3.8    |
-| Bootstrap Icons   | CSS  | Icon Library     | `https://icons.getbootstrap.com/`         | `https://www.jsdelivr.com/package/npm/bootstrap-icons` | `https://github.com/twbs/icons`           | `https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`        | (latest) |
-| Inter Font Family | CSS  | Font Family      | `https://rsms.me/inter/`                  | -                                                      | `https://github.com/rsms/inter`           | `https://rsms.me/inter/inter.css`                                              | (latest) |
-| QRCode.js         | JS   | QR Code Utility  | `https://davidshimjs.github.io/qrcodejs/` | `https://www.jsdelivr.com/package/npm/qrcodejs`        | `https://github.com/davidshimjs/qrcodejs` | `https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`                    | 1.0.0    |
-| html-to-image     | JS   | HTML -> Image    | -                                         | `https://www.jsdelivr.com/package/npm/html-to-image`   | `https://github.com/bubkoo/html-to-image` | `https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js` | 1.11.13  |
-| html2canvas       | JS   | HTML -> Canvas   | `https://html2canvas.hertzen.com/`        | `https://www.jsdelivr.com/package/npm/html2canvas`     | `https://github.com/niklasvh/html2canvas` | `https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`       | 1.4.1    |
+| Resource          | Type | Role             | Homepage                                                                             | Introduction Page on `npmjs.com`                                   | GitHub Repo                                                       | URL                                                                                                                                                            | Version  |
+|-------------------|------|------------------|--------------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| Bootstrap CSS     | CSS  | Page Framework   | [`https://getbootstrap.com/`](https://getbootstrap.com/)                             | [`bootstrap`](https://www.npmjs.com/package/bootstrap)             | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)             | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css)           | 5.3.8    |
+| Bootstrap Icons   | CSS  | Icon Library     | [`https://icons.getbootstrap.com/`](https://icons.getbootstrap.com/)                 | [`bootstrap-icons`](https://www.npmjs.com/package/bootstrap-icons) | [`twbs/icons`](https://github.com/twbs/icons)                     | [`https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`](https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css)               | (latest) |
+| Inter Font Family | CSS  | Font Family      | [`https://rsms.me/inter/`](https://rsms.me/inter/)                                   | -                                                                  | [`rsms/inter`](https://github.com/rsms/inter)                     | [`https://rsms.me/inter/inter.css`](https://rsms.me/inter/inter.css)                                                                                           | (latest) |
+| QRCode.js         | JS   | QR Code Utility  | [`https://davidshimjs.github.io/qrcodejs/`](https://davidshimjs.github.io/qrcodejs/) | [`qrcodejs`](https://www.npmjs.com/package/qrcodejs)               | [`davidshimjs/qrcodejs`](https://github.com/davidshimjs/qrcodejs) | [`https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`](https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js)                                       | 1.0.0    |
+| html-to-image     | JS   | HTML -> Image    | -                                                                                    | [`html-to-image`](https://www.npmjs.com/package/html-to-image)     | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image) | [`https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js`](https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js) | 1.11.13  |
+| html2canvas       | JS   | HTML -> Canvas   | [`https://html2canvas.hertzen.com/`](https://html2canvas.hertzen.com/)               | [`html2canvas`](https://www.npmjs.com/package/html2canvas)         | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas) | [`https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`](https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js)             | 1.4.1    |
 
 Loaded at the end of `<body>` of each page:
 
-| Resource       | Type | Role               | Official Website                   | Introduction Page on jsDelivr                         | GitHub Repo                            | URL                                                                            | Version |
-|----------------|------|--------------------|------------------------------------|-------------------------------------------------------|----------------------------------------|--------------------------------------------------------------------------------|---------|
-| @popperjs/core | JS   | Positioning Engine | `https://popper.js.org/` (Expired) | `https://www.jsdelivr.com/package/npm/@popperjs/core` | `https://github.com/vusion/popper.js/` | `https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`    | 2.11.8  |
-| Bootstrap JS   | JS   | Page Framework     | `https://getbootstrap.com/`        | `https://www.jsdelivr.com/package/npm/bootstrap`      | `https://github.com/twbs/bootstrap`    | `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js` | 5.3.8   |
+| Resource       | Type | Role               | Homepage                                                      | Introduction Page on `npmjs.com`                                 | GitHub Repo                                                | URL                                                                                                                                                            | Version |
+|----------------|------|--------------------|---------------------------------------------------------------|------------------------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| @popperjs/core | JS   | Positioning Engine | [`https://popper.js.org/`](https://popper.js.org/) (Expired?) | [`@popperjs/core`](https://www.npmjs.com/package/@popperjs/core) | [`vusion/popper.js`](https://github.com/vusion/popper.js/) | [`https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`](https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js)       | 2.11.8  |
+| Bootstrap JS   | JS   | Page Framework     | [`https://getbootstrap.com/`](https://getbootstrap.com/)      | [`bootstrap`](https://www.npmjs.com/package/bootstrap)           | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)      | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js) | 5.3.8   |
 
-### Deployment
-
-- **Platform**: GitHub Pages
-- **Build step**: None: raw HTML/CSS/JS served directly from the repository root.
-
-### Browser Baseline
-
-The minimum browser versions are determined by the requirements of our CDN dependencies (see table below). The enforced baseline is defined in `scripts/detections/browser.js`.
-
-| Browser | Min Version | Release Date | Constrained By                            |
-|---------|-------------|--------------|-------------------------------------------|
-| Chrome  | ≥ 66        | 2018-04-17   | Inter variable fonts                      |
-| Edge    | ≥ 79        | 2020-01-15   | @popperjs/core (Chromium-based Edge only) |
-| Firefox | ≥ 62        | 2018-09-05   | Inter variable fonts                      |
-| Opera   | ≥ 53        | 2018-05-10   | Inter variable fonts                      |
-| Safari  | ≥ 13        | 2019-09-19   | Bootstrap 5 / Popper (iOS 13+)            |
-
-#### Per-Dependency Minimum Browser Versions
+#### 1.2.1 Per-Dependency Minimum Browser Versions
 
 | Dependency               | Chrome | Edge   | Firefox | Opera  | Safari |
 |--------------------------|--------|--------|---------|--------|--------|
@@ -61,11 +44,6 @@ The minimum browser versions are determined by the requirements of our CDN depen
 | html2canvas 1.4.1        | 1      | 12     | 3.5     | 12     | 6      |
 | Inter (variable font)    | **66** | 17     | **62**  | **53** | 11     |
 
-> **Key constraints**:
-> - Inter variable fonts require Chrome 66+, Firefox 62+, Opera 53+.
-> - @popperjs/core v2 requires Chromium-based Edge (≥79) and does not support legacy EdgeHTML.
-> - Bootstrap 5 requires Safari ≥12, but the baseline stays at 13 to avoid known iOS 12 scrolling/modal bugs.
-
 > **Sources**:
 > - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) — `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
 > - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) — aligned with Bootstrap 5; IE11 and legacy EdgeHTML not supported
@@ -75,9 +53,30 @@ The minimum browser versions are determined by the requirements of our CDN depen
 > - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) — "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
 > - Inter variable fonts: [Can I Use](https://caniuse.com/variable-fonts) — Chrome 66+, Firefox 62+, Safari 11+, Opera 53+
 
-## 2. Naming Conventions
+### 1.3 Browser Baseline
 
-### HTML / CSS
+The minimum browser versions are determined by the requirements of our CDN dependencies (see table below). The enforced baseline is defined in `scripts/functions/browser-detection.js`.
+
+| Browser | Min Version | Release Date | Constrained By                            |
+|---------|-------------|--------------|-------------------------------------------|
+| Chrome  | ≥ 66        | 2018-04-17   | Inter variable fonts                      |
+| Edge    | ≥ 79        | 2020-01-15   | @popperjs/core (Chromium-based Edge only) |
+| Firefox | ≥ 62        | 2018-09-05   | Inter variable fonts                      |
+| Opera   | ≥ 53        | 2018-05-10   | Inter variable fonts                      |
+| Safari  | ≥ 13        | 2019-09-19   | Bootstrap 5 / Popper (iOS 13+)            |
+
+> Bootstrap 5 requires Safari ≥12, but the baseline stays at 13 to avoid known iOS 12 scrolling/modal bugs.
+
+### 1.4 Deployment
+
+- **Platform**: GitHub Pages
+- **Build step**: None: raw HTML/CSS/JS served directly from the repository root.
+
+---
+
+## 2. General Naming Conventions
+
+### 2.1 HTML / CSS
 
 | Category          | Convention / Constraint     | Examples                                                   |
 |-------------------|-----------------------------|------------------------------------------------------------|
@@ -86,24 +85,22 @@ The minimum browser versions are determined by the requirements of our CDN depen
 | Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-tooltip`          |
 | Bootstrap classes | Use Bootstrap-native naming |  `btn-primary`, `dropdown-menu`, etc.                      |
 
-### CSS Custom Properties
+### 2.2 CSS Custom Properties
 
-- **Project-specific**: prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub)
-    - **Color**: The naming convention is similar to Bootstrap (e.g. `--shlh-primary`, `--shlh-primary-rgb`), but an additional parameter has been added to indicate color brightness, which the range is 100-900 (from bright to dark) (e.g. `--shlh-primary-500`, `--shlh-primary-500-rgb`).
-    - **Font Settings**: `--shlh-font-{category}-{priority}-{language}`
-        - **Category**: `sans-serif-text` (body), `sans-serif-display` (headings), `monospace` (code). The `emoji` and `system`-priority properties are language-agnostic and omit the category breakdown.
-        - **Priority**: `major` (preferred fonts, listed first in the stack), `fallback` (secondary fallback fonts), `system` (OS-level generic family, e.g. `ui-monospace`, `-apple-system`).
-        - **Language**: `en`, `ja`, `zh-Hans`, `zh-Hant`. Omitted for language-agnostic properties (`emoji`, `system`).
-        - **Full examples**:
-            - `--shlh-font-sans-serif-text-major-en` → preferred body font stack for English/Latin
-            - `--shlh-font-monospace-fallback-zh-Hans` → fallback monospace stack for Simplified Chinese
-            - `--shlh-font-emoji` → emoji font stack (universal)
-            - `--shlh-font-sans-serif-text-system` → system sans-serif fallback (universal)
-        - Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `stylesheets/fonts.css`. See that file for the exact composition of each stack.
-- **Bootstrap (overrides)**: prefix `--bs-*` \
-    e.g. `--bs-link-hover-color`
+#### 2.2.1 Project-specific
 
-### JavaScript
+Prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub). These variables cover two domains; their detailed naming conventions are documented in the relevant feature sections:
+
+- **Color variables** — naming and brightness scale defined in [§3.6 Theme System](#36-theme-system).
+- **Font variables** — naming, categories, priorities, and languages defined in [§3.13 Fonts & Typography](#313-fonts--typography).
+
+#### 2.2.2 Bootstrap overrides
+
+Prefix `--bs-*`. See [its documentation](https://getbootstrap.com/docs/5.3/customize/css-variables/) for more information. e.g. `--bs-border-radius`, `--bs-link-hover-color`
+
+Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, it's still best to choose the border-radius size according to Bootstrap conventions.
+
+### 2.3 JavaScript
 
 | Category              | Convention             | Examples                                    |
 |-----------------------|------------------------|---------------------------------------------|
@@ -112,7 +109,7 @@ The minimum browser versions are determined by the requirements of our CDN depen
 | Constants (top-level) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`          |
 | DOM element refs      | `camelCase`            | `htmlElement`, `prefersColorScheme`         |
 
-#### Function Naming by Category
+#### 2.3.1 Function Naming by Category
 
 | Prefix       | Purpose                        | Examples                                                                                     |
 |--------------|--------------------------------|----------------------------------------------------------------------------------------------|
@@ -130,59 +127,39 @@ The minimum browser versions are determined by the requirements of our CDN depen
 
 > Prefer existing prefixes when adding new functions. If none fit, use a clear descriptive verb.
 
-## 3. Project Structure
+---
 
-```
-/
-├── .github/                      # GitHub-specific configs
-│   └── copilot-instructions.md   # This file
-├── configs/
-│   ├── language-list.json        # Supported languages list
-│   ├── i18n/                     # Translation JSON files
-│   └── links/                    # Link-card data JSON files
-├── images/
-│   ├── covers/                   # Cover images
-│   ├── icons/                    # Icon images
-│   ├── stickers/                 # Sticker images
-│   └── README.md                 # Copyright Notice
-├── scripts/
-│   ├── detections/               # Browser/environment detection
-│   ├── functions/                # Reusable function modules (DEFINE ONLY)
-│   ├── init-at-head.js           # Runs in <head>
-│   ├── init-final.js             # Main init (full page, all features)
-│   └── init-final-lightweight.js # Lightweight init (except Page Transition System)
-├── stylesheets/
-│   ├── base.css                  # Reset, layout, typography
-│   ├── color-scheme.css          # Light/dark theme CSS custom properties
-│   ├── components.css            # Component styles, organized by comment headers
-│   ├── fonts.css                 # Font face declarations
-│   └── mono-img.css              # Monochrome image/icon utilities
-├── sub-pages/                    # HTML fragments loaded at runtime
-│   ├── header.html
-│   ├── footer.html
-│   ├── footer-lightweight.html
-│   └── modals.html
-├── index.html                    # Homepage
-├── about.html
-├── artworks-and-videos.html
-├── blogs-and-sponsor.html
-├── chatting.html
-├── softwares.html
-├── 404.html                      # Page specially designed for HTTP 404
-├── unsupported.html              # Designed for unsupported browsers
-├── robots.txt
-└── README.md
-```
+## 3. Feature Reference
 
-## 4. Structural Constraints
+### 3.1 Folder Overview
 
-### `*.html`: Page Functionality
+| Folder               | Purpose                                                     | Where to Add New Code                                 |
+|----------------------|-------------------------------------------------------------|-------------------------------------------------------|
+| `.github/`           | GitHub-specific configurations (Copilot instructions, etc.) | -                                                     |
+| `configs/`           | JSON configuration data for i18n and link cards             | New JSON config files as needed                       |
+| `configs/i18n/`      | Translation JSON files, one per language                    | New translation file for each added language          |
+| `configs/links/`     | Link-card data JSON files, one per page                     | New link-card JSON when adding a page with link cards |
+| `images/`            | Image assets (icons, covers, stickers, placeholder)         | New images in the appropriate sub-folder              |
+| `images/covers/`     | Cover images for link cards and share cards                 | Cover image files                                     |
+| `images/icons/`      | Icon images for link cards                                  | Icon image files                                      |
+| `images/stickers/`   | Sticker images                                              | Sticker image files                                   |
+| `scripts/`           | JS entry points (`init-*.js`, `env-detection.js`)           | New init script if a new page tier is needed          |
+| `scripts/functions/` | Reusable JS modules — **define only, never execute**       | New JS module file, or add to an existing file        |
+| `stylesheets/`       | CSS stylesheets                                             | New CSS file, or add to an existing file              |
+| `sub-pages/`         | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
+| Root `*.html`        | Page files (homepage, sub-pages, error pages)               | New page file when adding a page                      |
 
-- **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares`
-- **`404`**: The redirected page when an HTTP 404 occurs. It uses the lightweight init.
-- **`unsupported`**: Specifically designed for unsupported browsers, it does not rely on any external JS scripts or external CDNs, which means it does not use features such as `i18n` or Page Transition System, etc. The page layout should be as close to Bootstrap 5.3 as possible, but it can also be appropriately simplified.
+**File placement rules**:
 
-### `scripts/functions/`: Define Only, Never Execute
+- Put JS functions in `scripts/functions/` — either in a relevant existing file or a new file.
+- Put CSS in `stylesheets/` — either in a relevant existing file or a new file.
+- If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`). If the CSS is general-purpose, it can go into `components.css` instead.
+- Put JSON configuration data in `configs/` under the appropriate sub-folder.
+- Put reusable HTML fragments in `sub-pages/`.
+
+### 3.2 General File Rules
+
+#### 3.2.1 `scripts/functions/`: Define Only, Never Execute
 
 - Files in `scripts/functions/` must **only define variables and functions**.
 - Every function **must have JSDoc** written for it.
@@ -204,22 +181,21 @@ doSomething();  // No top-level execution!
 document.addEventListener('DOMContentLoaded', doSomething);  // No!
 ```
 
-### `scripts/init-*.js`: Entry Points, Wire Everything
+#### 3.2.2 `scripts/init-*.js`: Entry Points, Wire Everything
 
 - These files import functions from `scripts/functions/` and call them in the correct order.
+- `env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`.
 - `init-at-head.js`: Runs synchronously in `<head>`.
 - `init-final.js`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
-- `init-final-lightweight.js`: Cut-down version. The initialization script of this version does not load the Page Transition System.
+- `init-final-lightweight.js`: Cut-down version. Does not load the Page Transition System.
 
-### `stylesheets/`: Organize by Comment Headers
+#### 3.2.3 `stylesheets/`: Organize by Comment Headers
 
-- Group style rules by the component or purpose they serve.
-- Use large comment blocks as section dividers:
-- Reference the related JS function/file in the header comment for traceability.
+- CSS Commenting format:
 
 ```css
 /* ========================================================================
-   Component Name - description (related-script.js (if exist))
+   Component Name - description
    ======================================================================== */
 
 /* --- Child description --- */
@@ -229,184 +205,78 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 }
 ```
 
-### `sub-pages/`: HTML Fragments
+#### 3.2.4 `*.html`: Page Tiers
 
-- Contain reusable HTML snippets loaded via `component-loader.js`.
-- Elements with `data-component` attribute in the main page are placeholders that get replaced.
-- The component loader maps element `id` → `/sub-pages/{id}.html`.
+- **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares` — use `init-final.js`.
+- **`404`**: The redirected page when an HTTP 404 occurs. Uses `init-final-lightweight.js`.
+- **`unsupported`**: Specifically designed for unsupported browsers. Does not rely on any external JS scripts, external CSS stylesheets, or external CDNs. It does not use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
 
-### `configs/links/`: Link Card Data
+---
 
-- JSON files defining link-card structures for each page.
-- These JSON files define the list of **Link Card Groups** (see below).
-- Rendered by `link-cards-generator.js`.
+### 3.3 Browser Detection & Compatibility
 
-#### JSON Structural Standards
+**Brief**: Detects the user's browser and redirects to `unsupported.html` if it does not meet the minimum baseline. Also verifies that Bootstrap CSS loaded correctly.
 
-- **The format of representing HTML elements using JSON**:
-    - `content`: Represents the content of an HTML element.
-    - `properties`: Represents the attributes contained in an HTML element.
-        - `classes` is a special value that specifies the list of classes for this element.
+**Related Files**:
 
-    For example, here is a `<span>` element:
-    ```json
-    {
-        "content": "My personal email",
-        "properties": {
-            "data-i18n": "text-my-personal-email"
-        }
-    }
-    ```
+| File                                           | Role                                                                                     |
+|------------------------------------------------|------------------------------------------------------------------------------------------|
+| `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                 |
+| `scripts/functions/browser-detection.js`       | Browser version detection and redirection logic (written in ES5 for broad compatibility) |
+| `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                               |
+| `unsupported.html`                             | Fallback page for unsupported browsers                                                   |
 
-    It should be converted into the following HTML elements:
-    ```html
-    <span data-i18n="text-my-personal-email">My personal email</span>
-    ```
+> `browser-detection.js` is executed first among all scripts. It is written in ES5 to ensure it runs even on older browsers.
 
-    Here is a `<img>` element:
-    ```json
-    {
-        "properties": {
-            "alt": "Email",
-            "data-i18n-alt": "text-email",
-            "src": "/images/null.png",
-            "classes": [
-                "img-mono-email",
-                "img-mono-fill-body-color"
-            ]
-        }
-    }
-    ```
+**Data Flow**:
 
-    It should be converted into the following HTML elements:
-    ```html
-    <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" class="img-mono-email img-mono-fill-body-color">
-    ```
+- `browser-detection.js` checks `navigator.userAgent` against the browser baseline table (see [§1.3 Browser Baseline](#13-browser-baseline)).
+- If unsupported: redirects to `unsupported.html`.
+- `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
 
-- **Super-Link / Text Fragment**:
-    - `superLink`: Indicates whether it is a "super-link" as a Boolean value.
-        - When the value is `true`, treat it as an `<a>` element and place the `<span>` elements listed in `text` inside it. `properties` are usually also attached. Note: All super-links defined here will be considered external links (with `link` and `external-link` classes added).
-        - When the value is `false`, only `text` is used, which means that only the `<span>` elements listed in `text` need to be inserted, without the need for element nesting.
-    - `text`: A list of `<span>` element descriptors, each with `content` and optional `properties`.
-    - `properties`: Represents the attributes contained in this `<a>` element (if exists).
+---
 
-    e.g.
-    ```json
-    {
-        "superLink": true,
-        "text": [
-            {
-                "content": "My personal email",
-                "properties": {
-                    "data-i18n": "text-my-personal-email"
-                }
-            }
-        ],
-        "properties": {
-            "href": "mailto:stevehsudrawing@outlook.com"
-        }
-    }
-    ```
+### 3.4 Component Loading
 
-- **Link Card**:
-    - `available` A boolean value that specifies whether this Link Card is in an "available" state.
-        - When the value isn't `true`, add a `opacity-75` class to it.
-    - `icon`: Specifies the attributes of the icon (`<img>`) element.
-    - `title`: A list of Text Fragments, showing how the title is composed.
-    - `description`: A list of Text Fragments, showing how the description is composed.
+**Brief**: Dynamically loads reusable HTML fragments (header, footer, modals) into placeholder elements on each page.
 
-    e.g.
-    ```json
-    {
-        "available": true,
-        "icon": {
-            "properties": {
-                "alt": "Pixiv",
-                "src": "/images/icons/pixiv.png"
-            }
-        },
-        "title": [
-            {
-                "superLink": true,
-                "text": [
-                    { "content": "Pixiv" }
-                ],
-                "properties": {
-                    "href": "https://www.pixiv.net/users/70732361"
-                }
-            }
-        ],
-        "description": [
-            {
-                "superLink": false,
-                "text": [
-                    { "content": "UID: 70732361" }
-                ]
-            }
-        ]
-    }
-    ```
+**Related Files**:
 
-- **Link Card Group**:
-    - `title`: A list of `<span>` element descriptors that compose the group title (`<h4>`), each with `content` and optional `properties`.
-    - `description`: A list of Text Fragments, showing how the description is composed. This is optional.
-    - `contents`: A list of Link Cards, showing how the group is composed.
+| File                                    | Role                                |
+|-----------------------------------------|-------------------------------------|
+| `scripts/functions/component-loader.js` | Fetches and injects HTML fragments  |
+| `sub-pages/header.html`                 | Header fragment                     |
+| `sub-pages/footer.html`                 | Footer fragment (full pages)        |
+| `sub-pages/footer-lightweight.html`     | Footer fragment (lightweight pages) |
+| `sub-pages/modals.html`                 | Settings and QR code modals         |
 
-    e.g.
-    ```json
-    {
-        "title": [
-            {
-                "content": "Artworks",
-                "properties": {
-                    "data-i18n": "text-artworks"
-                }
-            }
-        ],
-        "contents": [
-            {
-                "available": true,
-                "icon": {
-                    "properties": {
-                        "alt": "Pixiv",
-                        "src": "/images/icons/pixiv.png"
-                    }
-                },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            { "content": "Pixiv" }
-                        ],
-                        "properties": {
-                            "href": "https://www.pixiv.net/users/70732361"
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "superLink": false,
-                        "text": [
-                            { "content": "UID: 70732361" }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-    ```
-
-## 5. Architecture Patterns
-
-### Component Loading
+**How It Works**:
 
 ```
 HTML: <div id="header" data-component></div>
         ↓ (component-loader.js at init time)
-      Fetches /sub-pages/header.html → injects innerHTML
+      Fetches /sub-pages/header.html -> injects innerHTML
 ```
 
-### Internationalization (i18n)
+- Elements with `data-component` attribute serve as placeholders.
+- The component loader maps `id` -> `/sub-pages/{id}.html`.
+- The `id` of the placeholder element must match the HTML fragment filename (without extension).
+
+---
+
+### 3.5 Internationalization (i18n)
+
+**Brief**: Provides multi-language support for all user-facing text. Translations are stored in JSON files and applied at runtime by rewriting DOM elements with `data-i18n` attributes.
+
+**Related Files**:
+
+| File                         | Role                                                  |
+|------------------------------|-------------------------------------------------------|
+| `scripts/functions/i18n.js`  | Language loading, text replacement, language switcher |
+| `configs/language-list.json` | List of supported language codes                      |
+| `configs/i18n/{lang}.json`   | Translation key-value pairs for each language         |
+
+**How It Works**:
 
 ```
 HTML: <span data-i18n="text-welcome">Welcome</span>
@@ -420,11 +290,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
         ↓ (updatePageText() rewrites alt from langData)
 ```
 
-- Language preference persisted in `localStorage` key: `preferredLang`.
-- Supported languages defined in `configs/language-list.json`.
-- All user-facing strings should have corresponding entries in all these JSON files.
-
-#### i18n Key Naming Conventions
+#### 3.5.1 i18n Key Naming Conventions
 
 - Keys use `dash-case` naming (e.g. `text-welcome`, `text-learn-more`, `text-http-404-description`).
 - All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts — the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
@@ -432,79 +298,455 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 - For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
 - Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys — simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
-### Theme System
+**Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file.
 
-- This preference persisted in `localStorage` key: `bsTheme`.
+**Data Flow**:
+
+| Mechanism      | Key              | Purpose                            |
+|----------------|------------------|------------------------------------|
+| `localStorage` | `preferredLang`  | Persist language preference        |
+| Global var     | `currentLang`    | Currently loaded language code     |
+| Global var     | `langData`       | Loaded translation key-value pairs |
+| Global var     | `supportedLangs` | Array of available language codes  |
+
+---
+
+### 3.6 Theme System
+
+**Brief**: Supports light, dark, and auto (follow OS) color themes using Bootstrap's `data-bs-theme` attribute. Custom brand colors are defined via `--shlh-*` CSS custom properties.
+
+**Related Files**:
+
+| File                         | Role                                                                      |
+|------------------------------|---------------------------------------------------------------------------|
+| `scripts/functions/theme.js` | Theme initialization, switching, and system theme listener                |
+| `stylesheets/theme.css`      | Theme-specific CSS custom property overrides                              |
+| `stylesheets/base.css`       | Base styles including `--bs-border-radius` overrides and shared variables |
+
+**How It Works**:
+
 - Uses Bootstrap's `data-bs-theme` attribute on `<html>`.
 - Three modes: `auto` (follow OS), `light`, `dark`.
-- Custom CSS variables prefixed `--shlh-` define brand colors per theme.
 - System theme changes listened via `matchMedia('(prefers-color-scheme: dark)')`.
+- Custom CSS variables prefixed `--shlh-` define brand colors per theme.
 
-### Preference of "Always open external links in a new tab"
+#### 3.6.1 Color Variable Naming
 
-- This preference persisted in `localStorage` key: `openExternalLinksInNewTab`.
-- Controlled by a toggle (`#external-links-new-tab-toggle`) in the settings modal.
-- **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
-- Managed by `settings.js` via three functions:
-    - `isExternalLinkNewTabEnabled()` - reads the preference from localStorage.
-    - `setExternalLinkNewTabPreference(enabled)` - persists the preference.
-    - `applyExternalLinkTargetBehavior()` - applies `target="_blank` and `rel="noopener noreferrer` to all `a.external-link` elements, or removes them when disabled.
-- The toggle change event is handled by `initSettingEventListeners()`.
-- When the settings modal is first opened, `initSettingsModal()` syncs the toggle state with the stored preference.
+Color-related CSS custom properties use the `--shlh-*` prefix with the following patterns:
 
-### Page Transitions
+- **Standard**: `--shlh-{type}(-rgb)`
+    - Similar to Bootstrap's naming, e.g. `--shlh-primary`, `--shlh-primary-rgb`.
+    - Add the `-color` suffix to indicate a foreground color, e.g. `--shlh-primary-color`.
+- **Color Brightness**: `--shlh-{type}-{brightness}(-rgb)`
+    - **Type**: Similar to Bootstrap, e.g. `primary`, `secondary`.
+    - **Brightness**: A number from 100–900 (bright to dark).
+    - **Full examples**: `--shlh-primary-500`, `--shlh-primary-500-rgb`.
 
-- Internal links (`class="internal-link`) trigger SPA-style transitions.
+See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definition.
+
+**Data Flow**:
+
+| Mechanism      | Key                      | Purpose                                                  |
+|----------------|--------------------------|----------------------------------------------------------|
+| `localStorage` | `bsTheme`                | Persist theme preference (`'auto'`, `'light'`, `'dark'`) |
+| Global var     | `currentThemePreference` | Current theme choice                                     |
+
+---
+
+### 3.7 Link Cards
+
+**Brief**: Renders link-card groups from JSON configuration files. Each page with link cards has a corresponding JSON file in `configs/links/`.
+
+**Related Files**:
+
+| File                                        | Role                                            |
+|---------------------------------------------|-------------------------------------------------|
+| `scripts/functions/link-cards-generator.js` | Generates link-card DOM elements from JSON data |
+| `configs/links/{page-name}.json`            | Link-card group definitions for each page       |
+
+#### 3.7.1 JSON Structural Standards
+
+The JSON format uses a consistent pattern for representing HTML elements:
+
+- **Element descriptor**: An object with `content` (text content) and `properties` (HTML attributes). The special key `classes` inside `properties` specifies CSS class names as an array.
+
+    ```json
+    // <span> element:
+    {
+        "content": "My personal email",
+        "properties": {
+            "data-i18n": "text-my-personal-email"
+        }
+    }
+    // → <span data-i18n="text-my-personal-email">My personal email</span>
+
+    // <img> element:
+    {
+        "properties": {
+            "alt": "Email",
+            "data-i18n-alt": "text-email",
+            "src": "/images/null.png",
+            "classes": ["img-mono-email", "img-mono-fill-body-color"]
+        }
+    }
+    // → <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" class="img-mono-email img-mono-fill-body-color">
+    ```
+
+- **Text Fragment**: A group of `<span>` elements, optionally wrapped in an `<a>`:
+
+    ```json
+    {
+        "superLink": true,
+        "text": [
+            {
+                "content": "My personal email",
+                "properties": { "data-i18n": "text-my-personal-email" }
+            }
+        ],
+        "properties": {
+            "href": "mailto:stevehsudrawing@outlook.com"
+        }
+    }
+    ```
+
+    - `superLink`: If `true`, wraps the text spans in an `<a>` element with the given `properties`. All super-links are treated as external links (classes `link` and `external-link` are added). If `false`, only the `<span>` elements from `text` are rendered.
+    - `text`: Array of `<span>` element descriptors.
+    - `properties`: Attributes for the `<a>` element (only when `superLink` is `true`).
+
+- **Link Card**:
+
+    ```json
+    {
+        "available": true,
+        "icon": {
+            "properties": {
+                "alt": "Pixiv",
+                "src": "/images/icons/pixiv.png"
+            }
+        },
+        "title": [
+            {
+                "superLink": true,
+                "text": [{ "content": "Pixiv" }],
+                "properties": { "href": "https://www.pixiv.net/users/70732361" }
+            }
+        ],
+        "description": [
+            {
+                "superLink": false,
+                "text": [{ "content": "UID: 70732361" }]
+            }
+        ]
+    }
+    ```
+
+    - `available`: Boolean. When not `true`, the card gets class `opacity-75`.
+    - `icon`: An `<img>` element descriptor for the card icon.
+    - `title`: Array of Text Fragments composing the card title.
+    - `description`: Array of Text Fragments composing the card description.
+
+- **Link Card Group** (top-level structure in each JSON file):
+
+    ```json
+    {
+        "title": [
+            {
+                "content": "Artworks",
+                "properties": { "data-i18n": "text-artworks" }
+            }
+        ],
+        "description": [ /* optional Text Fragments */ ],
+        "contents": [ /* array of Link Cards */ ]
+    }
+    ```
+
+    - `title`: Array of `<span>` element descriptors for the group heading (`<h4>`).
+    - `description`: Optional; array of Text Fragments for a group description.
+    - `contents`: Array of Link Cards.
+
+---
+
+### 3.8 Page Transitions
+
+**Brief**: Provides SPA-style animated transitions when navigating between internal pages.
+
+**Related Files**:
+
+| File                                   | Role                                                          |
+|----------------------------------------|---------------------------------------------------------------|
+| `scripts/functions/page-transition.js` | Intercepts internal link clicks, manages transition animation |
+| `stylesheets/page-transition.css`      | Progress bar and content dimming styles                       |
+
+**How It Works**:
+
+- Internal links (`class="internal-link"`) trigger SPA-style transitions instead of full page reloads.
 - A progress bar (`#page-transition-progress`) animates at the top of the viewport.
-- Content is dimmed during transition.
-- Managed by `page-transition.js`.
+- Content is dimmed during the transition.
+- On lightweight pages (`404.html`), the Page Transition System is not loaded.
 
-### Loading Screen
+---
 
-- `#loading-screen` overlay shown on page load.
-- Hidden by `hideLoadingScreen()` after all initialization completes.
-- Custom event `pageInitialized` signals that deferred listeners can run.
+### 3.9 Loading Screen
 
-## 6. Data Flow
+**Brief**: Displays a loading overlay on page load, hidden after all initialization completes.
 
-| Mechanism      | Key / Event                 | Purpose                                                                 |
-|----------------|-----------------------------|-------------------------------------------------------------------------|
-| `localStorage` | `bsTheme`                   | Persist theme preference                                                |
-| `localStorage` | `preferredLang`             | Persist language preference                                             |
-| `localStorage` | `openExternalLinksInNewTab` | Persist the preference of "Always open external links in a new tab"     |
-| CustomEvent    | `pageInitialized`           | Signal that all init scripts have finished; deferred listeners use this |
-| URL hash       | `#section-id`               | Scroll to anchor after page load (via `initHashChangeScroll()`)         |
-| Global vars    | `currentThemePreference`    | Current theme choice (`'auto'`, `'light'`, `'dark'`)                    |
-| Global vars    | `currentLang`               | Currently loaded language code                                          |
-| Global vars    | `langData`                  | Loaded translation key-value pairs                                      |
-| Global vars    | `supportedLangs`            | Array of available language codes                                       |
+**Related Files**:
 
-## 7. Accessibility
+| File                                  | Role                               |
+|---------------------------------------|------------------------------------|
+| `scripts/functions/loading-screen.js` | Controls loading screen visibility |
+| `stylesheets/loading-screen.css`      | Loading screen overlay styles      |
 
-- **Skip button** (`#skip-button`): Allows keyboard users to skip navigation. Managed by `accessibility.js`.
+**Data Flow**:
+
+| Mechanism   | Key / Event       | Purpose                                                                      |
+|-------------|-------------------|------------------------------------------------------------------------------|
+| CustomEvent | `pageInitialized` | Signals that all init scripts have finished; deferred listeners can then run |
+| URL hash    | `#section-id`     | Scroll to anchor after page load (via `initHashChangeScroll()`)              |
+
+---
+
+### 3.10 Settings & Preferences
+
+**Brief**: Manages user-configurable preferences persisted in `localStorage`.
+
+**Related Files**:
+
+| File                            | Role                                                             |
+|---------------------------------|------------------------------------------------------------------|
+| `scripts/functions/settings.js` | Preference read/write, toggle event handling, applying behaviors |
+
+**Preferences Managed**:
+
+- **"Always open external links in a new tab"**:
+    - `localStorage` key: `openExternalLinksInNewTab`.
+    - **Default**: enabled — the preference is considered on unless explicitly set to `'false'`.
+    - Controlled by a toggle (`#external-links-new-tab-toggle`) in the settings modal.
+    - Key functions:
+        - `isExternalLinkNewTabEnabled()` — reads the preference.
+        - `setExternalLinkNewTabPreference(enabled)` — persists the preference.
+        - `applyExternalLinkTargetBehavior()` — adds or removes `target="_blank"` and `rel="noopener noreferrer"` on all `a.external-link` elements.
+    - The toggle change event is handled by `initSettingEventListeners()`.
+    - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference.
+
+**Data Flow**:
+
+| Mechanism      | Key                         | Purpose                                  |
+|----------------|-----------------------------|------------------------------------------|
+| `localStorage` | `openExternalLinksInNewTab` | Persist external link new-tab preference |
+
+> Theme and language preferences are managed by their respective modules (see [§3.6](#36-theme-system) and [§3.5](#35-internationalization-i18n)).
+
+---
+
+### 3.11 Navigation & Accessibility
+
+**Brief**: Handles navbar active state, scroll hint indicator, skip-to-content button, and keyboard/mouse focus distinction.
+
+**Related Files**:
+
+| File                                 | Role                             |
+|--------------------------------------|----------------------------------|
+| `scripts/functions/navbar.js`        | Active nav item highlighting     |
+| `scripts/functions/scroll-hint.js`   | Scroll-down hint indicator       |
+| `scripts/functions/accessibility.js` | Skip button and focus management |
+| `stylesheets/navbar.css`             | Navbar styles                    |
+| `stylesheets/scroll-hint.css`        | Scroll hint styles               |
+| `stylesheets/accessibility.css`      | Skip button and focus styles     |
+
+**Features**:
+
+- **Skip button** (`#skip-button`): Allows keyboard users to skip navigation and jump to main content.
 - **Focus management**: CSS distinguishes keyboard focus (`.user-input-keyboard #skip-button:focus`) from mouse focus (`:focus-visible`).
-- **Tooltips**: Bootstrap tooltips are initialized with proper ARIA attributes via `initTooltips()`.
-- **Language**: `lang` attribute on `<html>` should reflect the current language.
+- **Language attribute**: The `lang` attribute on `<html>` should reflect the current language.
 
-## 8. Miscellaneous Notes
+---
 
-- **`scripts/detections/browser.js`**: This script is executed first, and it's written in ES5 for compatibility. If an unsupported browser is detected, it redirects to `unsupported.html`.
-- **Custom image CSS**: `mono-img.css` provides utility classes for colorizing monochrome icon images to match Bootstrap's primary color or body text color.
-- **`images/null.png`**: This is a placeholder image, intended for use with `img-mono-fill-*`.
-- **QR Code**: Generated dynamically via QRCode.js inside a branded share card (logo + site name). Can be downloaded as a PNG image via html-to-image, with html2canvas fallback for mobile.
-- **`.gitignore`**: This file explains that some files do not need to be uploaded to the repository, such as `*.cmd` files used for local debugging.
+### 3.12 QR Code & Export
 
-## 9. Response Conventions for Copilot
+**Brief**: Generates a branded QR code share card and allows downloading it as a PNG image.
+
+**Related Files**:
+
+| File                           | Role                                                |
+|--------------------------------|-----------------------------------------------------|
+| `scripts/functions/qr-code.js` | QR code generation, share card assembly, PNG export |
+| `stylesheets/qr-code.css`      | Share card layout styles                            |
+
+**How It Works**:
+
+- QR Code is generated dynamically via QRCode.js inside a branded share card (logo + site name).
+- Can be downloaded as a PNG image via `html-to-image`, with `html2canvas` fallback for mobile browsers.
+
+---
+
+### 3.13 Fonts & Typography
+
+**Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/fonts.css` using `--shlh-font-*` CSS custom properties.
+
+**Related Files**:
+
+| File                    | Role                                                                     |
+|-------------------------|--------------------------------------------------------------------------|
+| `stylesheets/fonts.css` | Font-face declarations and per-element, per-language font stack assembly |
+
+#### 3.13.1 Font Variable Naming
+
+Font-related CSS custom properties use the `--shlh-*` prefix with the following pattern:
+
+`--shlh-font-{category}-{priority}-{language}`
+
+- **Category**:
+    - `sans-serif-text` - body
+    - `sans-serif-display` - headings
+    - `monospace` - code
+- **Priority**:
+    - `major` - Preferred fonts, listed first in the stack
+    - `fallback` - Secondary fallback fonts, arranged as needed
+    - `system`  - OS-level generic family, e.g. `ui-monospace`, `-apple-system`
+- **Language**:
+    - `en` - English / Latin
+    - `ja` - Japanese / CJK Compatible
+    - `zh-Hans`,`zh-Hant`, etc.
+
+**Full examples**:
+- `--shlh-font-sans-serif-text-major-en`: preferred body font stack for English / Latin
+- `--shlh-font-monospace-fallback-zh-Hans`: fallback monospace stack for Simplified Chinese
+
+**Special Variables**:
+- `--shlh-font-{category}-system`: System fallback. Such variables are considered language-independent.
+- `--shlh-font-emoji`: Emoji font stack. Emoji is considered unrelated to all three of the above entries.
+
+Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `stylesheets/fonts.css`. See that file for the exact composition of each stack.
+
+See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definition.
+
+#### 3.13.2 Font Stack Design
+
+- **Font arrangement constraint**: If a font has a localized name, the localized name is placed first, followed by the general Western name.
+- The detailed per-language, per-platform font preference tables below define the canonical font lists. The actual CSS in `fonts.css` is the authoritative source.
+
+<details>
+<summary><b>sans-serif-text-major</b> (body text preferred fonts)</summary>
+
+| Language  | Preferred                                       | Apple                                                                     | Chromium / Android / Linux                                                               | Windows                                                     |
+|-----------|-------------------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| `en`      | `Inter Variable Text`, `InterVariable`, `Inter` | `SF Pro`, `SF Pro Text`, `SF Text`, `San Francisco Text`, `San Francisco` | `Roboto Flex`, `Roboto`, `Noto Sans`                                                     | `Segoe UI Variable Text`, `Segoe UI`                        |
+| `ja`      | `更紗ゴシック J`, `Sarasa Gothic J`             | `ヒラギノ角ゴシック`, `Hiragino Sans`                                     | `Noto Sans JP`, `Noto Sans CJK JP`, `Noto Sans CJK`, `源ノ角ゴシック`, `Source Han Sans` | `Meiryo UI`, `メイリオ`, `Meiryo`                           |
+| `zh-Hans` | `更纱黑体 SC`, `Sarasa Gothic SC`               | `苹方-简`, `PingFang SC`, `苹方`, `PingFang`                              | `Noto Sans SC`, `Noto Sans CJK SC`, `思源黑体`, `Source Han Sans SC`                     | `Microsoft YaHei UI`, `微软雅黑`, `Microsoft YaHei`         |
+| `zh-Hant` | `更紗黑體 TC`, `Sarasa Gothic TC`               | `蘋方-繁`, `PingFang TC`, `蘋方`, `PingFang`                              | `Noto Sans TC`, `Noto Sans CJK TC`, `思源黑體`, `Source Han Sans TC`                     | `Microsoft JhengHei UI`, `微軟正黑體`, `Microsoft JhengHei` |
+
+</details>
+
+<details>
+<summary><b>sans-serif-text-fallback</b> (body text fallback fonts)</summary>
+
+| Language  | Apple                                                                      | Android / Linux                                                                                                                                  | Windows / General                                   |
+|-----------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| `en`      | `Helvetica`                                                                | `Liberation Sans`, `DejaVu Sans`, `Droid Sans`                                                                                                   | `Tahoma`, `Geneva`, `Verdana`, `Arial`              |
+| `ja`      | `Osaka`                                                                    | `VL Ｐゴシック`, `VL PGothic`, `IPA ゴシック`, `IPA Gothic`, `さざなみゴシック`, `Sazanami Gothic`, `Droid Sans Japanese`, `Droid Sans Fallback` | `ＭＳ Ｐゴシック`, `MS PGothic`, `Arial Unicode MS` |
+| `zh-Hans` | `华文细黑`, `STXihei`, `华文黑体`, `STHeiti`, `黑体-简`, `Heiti SC`, `Hei` | `文泉驿微米黑`, `WenQuanYi Micro Hei`, `文泉驿正黑`, `WenQuanYi Zen Hei`, `Droid Sans Fallback`                                                  | `黑体`, `SimHei`, `宋体`, `SimSun`                  |
+| `zh-Hant` | `儷黑 Pro`, `LiHei Pro`, `蘋果儷中黑`, `Apple LiGothic`                    | `文泉驛微米黑`, `WenQuanYi Micro Hei`, `文泉驛正黑`, `WenQuanYi Zen Hei`, `Droid Sans Fallback`                                                  | `新細明體`, `PMingLiU`                              |
+
+</details>
+
+<details>
+<summary><b>monospace-major</b> (code preferred fonts)</summary>
+
+| Language  | Preferred                             | Apple                           | Chromium / Android / Linux                                | Windows                          |
+|-----------|---------------------------------------|---------------------------------|-----------------------------------------------------------|----------------------------------|
+| `en`      | `Iosevka`                             | `SF Mono`, `San Francisco Mono` | `Roboto Mono`, `Noto Sans Mono`                           | `Cascadia Code`, `Cascadia Mono` |
+| `ja`      | `更紗等幅ゴシック J`, `Sarasa Mono J` | -                               | `Noto Sans Mono CJK JP`, `源ノ等幅`, `Source Han Mono`    | -                                |
+| `zh-Hans` | `等距更纱黑体 SC`, `Sarasa Mono SC`   | -                               | `Noto Sans Mono CJK SC`, `思源等宽`, `Source Han Mono SC` | -                                |
+| `zh-Hant` | `等距更紗黑體 TC`, `Sarasa Mono TC`   | -                               | `Noto Sans Mono CJK TC`, `思源等寬`, `Source Han Mono TC` | -                                |
+
+</details>
+
+<details>
+<summary><b>monospace-fallback</b> (code fallback fonts)</summary>
+
+| Language  | Apple             | Android / Linux                                                                                 | Windows / General                                      |
+|-----------|-------------------|-------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| `en`      | `Menlo`, `Monaco` | `DejaVu Sans Mono`, `Liberation Mono`, `Droid Sans Mono`, `FreeMono`                            | `Consolas`, `Lucida Console`, `Courier New`, `Courier` |
+| `ja`      | `Osaka`           | `VL ゴシック`, `VL Gothic`, `IPA ゴシック`, `IPA Gothic`, `さざなみゴシック`, `Sazanami Gothic` | `ＭＳ ゴシック`, `MS Gothic`                           |
+| `zh-Hans` | -                 | `文泉驿等宽微米黑`, `WenQuanYi Micro Hei Mono`, `文泉驿等宽正黑`, `WenQuanYi Zen Hei Mono`      | `黑体`, `SimHei`, `新宋体`, `NSimSun`                  |
+| `zh-Hant` | -                 | `文泉驛等寬微米黑`, `WenQuanYi Micro Hei Mono`, `文泉驛等寬正黑`, `WenQuanYi Zen Hei Mono`      | `細明體`, `MingLiU`                                    |
+
+</details>
+
+<details>
+<summary><b>sans-serif-display</b> (<code>en</code> only, for headings)</summary>
+
+- Preferred: `Inter Display`, `InterDisplay`, `InterVariable`
+- Apple: `SF Pro Display`, `SF Display`, `San Francisco Display`, `SF Pro`
+- Chromium / Android / Linux: `Google Sans Flex`, `Roboto Flex`
+- Windows: `Segoe UI Variable Display`
+
+</details>
+
+<details>
+<summary><b>emoji</b> (language-agnostic)</summary>
+
+- Apple: `Apple Color Emoji`
+- Android / Linux: `Noto Color Emoji`
+- Windows: `Segoe UI Emoji`, `Segoe UI Symbol`
+
+</details>
+
+---
+
+### 3.14 Tooltips
+
+**Brief**: Initializes Bootstrap tooltips with proper ARIA attributes.
+
+**Related Files**:
+
+| File                            | Role                                      |
+|---------------------------------|-------------------------------------------|
+| `scripts/functions/tooltips.js` | Tooltip initialization (`initTooltips()`) |
+
+---
+
+### 3.15 Image Utilities
+
+**Brief**: Provides CSS utility classes for monochrome icon colorization and a placeholder image.
+
+**Related Files**:
+
+| File                       | Role                                                                                                                                      |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| `stylesheets/mono-img.css` | Utility classes (`.img-mono-*`, `.img-mono-fill-*`) for colorizing monochrome icons to match Bootstrap's primary color or body text color |
+| `images/null.png`          | Placeholder image used with `img-mono-fill-*` classes                                                                                     |
+| `images/README.md`         | Copyright notice for image assets                                                                                                         |
+
+---
+
+### 3.16 Utilities
+
+**Brief**: General-purpose helper functions used across the project.
+
+**Related Files**:
+
+| File                              | Role                                                                      |
+|-----------------------------------|---------------------------------------------------------------------------|
+| `scripts/functions/utils.js`      | Shared utility functions (path normalization, page name extraction, etc.) |
+| `scripts/functions/page-title.js` | Page title management                                                     |
+
+---
+
+## 4. Response Conventions for Copilot
 
 When generating responses for this project, Copilot should:
 
-1. **Think in English**: internal reasoning and analysis should be in English.
-2. **Respond using the language that the user is using**: for example, if the user is conversing in Chinese, responses should be in Chinese.
-3. **Write code / docs / commit messages in English (United States)**: all code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like using `-` instead of `—`.
-4. **Discuss before executing**: when the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
+1. **Think in English**: Internal reasoning and analysis should be in English.
+2. **Respond using the language that the user is using**: For example, if the user is conversing in Chinese, responses should be in Chinese.
+3. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `—`, using `->` instead of `→`.
+4. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 5. **Conventions of Commit Messages**:
+    - Write in English (United States).
+    - Use the simple present tense to describe changes. e.g. "Change" is **correct**; "Changed" is **wrong**.
     - The whole commit message should be as short as possible.
-    - List 1-4 major changes, small changes can be ignored.
+    - First provide a summary, then list the 1-4 main changes; minor changes can be ignored.
     - Basic example format:
     ```
     Summary

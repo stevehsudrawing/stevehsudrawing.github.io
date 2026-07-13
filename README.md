@@ -23,56 +23,15 @@ A personal link-hub website that consolidates links to all my profiles across va
 
 ## Tech Stack
 
-| Category       | Choice                                                 |
-|----------------|--------------------------------------------------------|
-| Page Framework | [Bootstrap 5.3.8](https://getbootstrap.com/)           |
-| Icons          | [Bootstrap Icons](https://icons.getbootstrap.com/)     |
-| Font           | [Inter](https://github.com/rsms/inter)                 |
-| QR Code        | [QRCode.js](https://github.com/davidshimjs/qrcodejs)   |
+| Category       | Choice                                                   |
+|----------------|----------------------------------------------------------|
+| Page Framework | [Bootstrap 5.3.8](https://getbootstrap.com/)             |
+| Icons          | [Bootstrap Icons](https://icons.getbootstrap.com/)       |
+| Font           | [Inter](https://github.com/rsms/inter)                   |
+| QR Code        | [QRCode.js](https://github.com/davidshimjs/qrcodejs)     |
 | HTML-to-Image  | [html-to-image](https://github.com/bubkoo/html-to-image) |
 | HTML-to-Canvas | [html2canvas](https://github.com/niklasvh/html2canvas)   |
-| Hosting        | [GitHub Pages](https://pages.github.com/)              |
-
-## Project Structure
-
-```
-/
-├── configs/
-│   ├── language-list.json        # Supported languages
-│   ├── i18n/                     # Translation JSON files
-│   └── links/                    # Link-card data per page
-├── images/
-│   ├── covers/                   # Cover images
-│   ├── icons/                    # Icon images
-│   ├── stickers/                 # Sticker artwork
-│   └── README.md                 # Copyright notice for original artworks
-├── scripts/
-│   ├── detections/               # Browser/environment detection (ES5)
-│   ├── functions/                # Reusable modules
-│   ├── init-at-head.js           # Synchronous init in <head>
-│   ├── init-final.js             # Full initialization (all features)
-│   └── init-final-lightweight.js # Lightweight init (no page transitions)
-├── stylesheets/
-│   ├── base.css                  # Reset, layout, typography
-│   ├── color-scheme.css          # Light/dark theme CSS custom properties
-│   ├── components.css            # Component styles
-│   ├── fonts.css                 # Font face declarations
-│   └── mono-img.css              # Monochrome image utilities
-├── sub-pages/                    # HTML fragments loaded at runtime
-│   ├── header.html
-│   ├── footer.html
-│   ├── footer-lightweight.html
-│   └── modals.html
-├── index.html                    # Homepage
-├── about.html
-├── artworks-and-videos.html
-├── blogs-and-sponsor.html
-├── chatting.html
-├── softwares.html
-├── 404.html                      # HTTP 404 error page
-├── unsupported.html              # Fallback for unsupported browsers
-└── robots.txt
-```
+| Hosting        | [GitHub Pages](https://pages.github.com/)                |
 
 ## Copyright
 

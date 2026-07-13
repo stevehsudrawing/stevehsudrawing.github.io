@@ -154,6 +154,16 @@ a {
     --shlh-link-active-color: var(--bs-gray-300);
 }
 
+/* --- Hover Effect of Changing Background --- */
+
+/* Both */
+.link-hover-change-background:hover,
+.link-hover-change-background:active {
+    text-decoration: none !important;
+    color: var(--shlh-link-hover-on-background-color) !important;
+    background-color: var(--shlh-link-color) !important;
+}
+
 /* --- Navbar Link --- */
 
 /* Both */

@@ -1,0 +1,25 @@
+/* ========================================================================
+   Accessibility - Skip Button
+   ======================================================================== */
+
+#skip-button {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 1100;
+}
+
+#skip-button:focus-visible,
+html.user-input-keyboard #skip-button:focus {
+    position: fixed;
+    left: .5rem;
+    top: .5rem;
+    width: auto;
+    height: auto;
+    padding: .25rem .5rem;
+    overflow: visible;
+    clip: auto;
+}
