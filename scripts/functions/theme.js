@@ -40,6 +40,10 @@ function applyThemePreference(themeChoice, save = true) {
     const theme = supportedThemes.includes(themeChoice) ? themeChoice : 'auto';
     currentThemePreference = theme;
 
+    // Temporarily disable all transitions to prevent cascading transition
+    // flicker when CSS custom properties change during theme switch.
+    htmlElement.classList.add('disable-transitions');
+
     if (theme === 'auto') {
         htmlElement.setAttribute('data-bs-theme', getSystemTheme());
     } else {
@@ -51,6 +55,11 @@ function applyThemePreference(themeChoice, save = true) {
     }
 
     applyThemeBasedImages();
+
+    // Re-enable transitions after the current frame settles.
+    requestAnimationFrame(function () {
+        htmlElement.classList.remove('disable-transitions');
+    });
 }
 
 /**
@@ -62,8 +71,16 @@ function updateAutoThemeOnSystemChange() {
         return;
     }
 
+    // Temporarily disable all transitions to prevent cascading transition flicker.
+    htmlElement.classList.add('disable-transitions');
+
     htmlElement.setAttribute('data-bs-theme', getSystemTheme());
     applyThemeBasedImages();
+
+    // Re-enable transitions after the current frame settles.
+    requestAnimationFrame(function () {
+        htmlElement.classList.remove('disable-transitions');
+    });
 }
 
 /**

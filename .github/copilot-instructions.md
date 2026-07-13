@@ -91,8 +91,8 @@ The minimum browser versions are determined by the requirements of our CDN depen
 
 Prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub). These variables cover two domains; their detailed naming conventions are documented in the relevant feature sections:
 
-- **Color variables** — naming and brightness scale defined in [§3.6 Theme System](#36-theme-system).
-- **Font variables** — naming, categories, priorities, and languages defined in [§3.13 Fonts & Typography](#313-fonts--typography).
+- **Color variables** — naming and brightness scale defined in [§4.4 Theme System](#44-theme-system).
+- **Font variables** — naming, categories, priorities, and languages defined in [§4.11 Fonts & Typography](#411-fonts--typography).
 
 #### 2.2.2 Bootstrap overrides
 
@@ -129,7 +129,7 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 
 ---
 
-## 3. Feature Reference
+## 3. Project Structural Constraints
 
 ### 3.1 Folder Overview
 
@@ -211,9 +211,23 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 - **`404`**: The redirected page when an HTTP 404 occurs. Uses `init-final-lightweight.js`.
 - **`unsupported`**: Specifically designed for unsupported browsers. Does not rely on any external JS scripts, external CSS stylesheets, or external CDNs. It does not use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
 
+#### 3.2.5 `*.md`: Document Writing Standards
+
+- **Document Title**: Use a level-one heading (`#`) to indicate the document title.
+- **Title Numbering Convention**: Starting from the secondary headings, add numbers before each level of heading to indicate position. Use dots to create a hierarchy for the headings. e.g.
+    - `##`: `1.`
+    - `###`: `1.2`
+    - `####`: `1.2.3`
+    - `#####`: `1.2.3.4`
+    - `######`: `1.2.3.4.5`
+- **In-document referencing**: Use the form `§` followed by a number to indicate locations within the document, and format it as a hyperlink for navigation. e.g. [§3.2.5](#325-md-document-writing-standards)
+- The deepest level is a level 6 heading.
+
 ---
 
-### 3.3 Browser Detection & Compatibility
+## 4. Feature Reference
+
+### 4.1 Browser Detection & Compatibility
 
 **Brief**: Detects the user's browser and redirects to `unsupported.html` if it does not meet the minimum baseline. Also verifies that Bootstrap CSS loaded correctly.
 
@@ -236,7 +250,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 ---
 
-### 3.4 Component Loading
+### 4.2 Component Loading
 
 **Brief**: Dynamically loads reusable HTML fragments (header, footer, modals) into placeholder elements on each page.
 
@@ -264,7 +278,7 @@ HTML: <div id="header" data-component></div>
 
 ---
 
-### 3.5 Internationalization (i18n)
+### 4.3 Internationalization (i18n)
 
 **Brief**: Provides multi-language support for all user-facing text. Translations are stored in JSON files and applied at runtime by rewriting DOM elements with `data-i18n` attributes.
 
@@ -290,7 +304,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
         ↓ (updatePageText() rewrites alt from langData)
 ```
 
-#### 3.5.1 i18n Key Naming Conventions
+#### 4.3.1 i18n Key Naming Conventions
 
 - Keys use `dash-case` naming (e.g. `text-welcome`, `text-learn-more`, `text-http-404-description`).
 - All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts — the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
@@ -311,7 +325,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 
 ---
 
-### 3.6 Theme System
+### 4.4 Theme System
 
 **Brief**: Supports light, dark, and auto (follow OS) color themes using Bootstrap's `data-bs-theme` attribute. Custom brand colors are defined via `--shlh-*` CSS custom properties.
 
@@ -330,7 +344,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 - System theme changes listened via `matchMedia('(prefers-color-scheme: dark)')`.
 - Custom CSS variables prefixed `--shlh-` define brand colors per theme.
 
-#### 3.6.1 Color Variable Naming
+#### 4.4.1 Color Variable Naming
 
 Color-related CSS custom properties use the `--shlh-*` prefix with the following patterns:
 
@@ -353,7 +367,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ---
 
-### 3.7 Link Cards
+### 4.5 Link Cards
 
 **Brief**: Renders link-card groups from JSON configuration files. Each page with link cards has a corresponding JSON file in `configs/links/`.
 
@@ -364,7 +378,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 | `scripts/functions/link-cards-generator.js` | Generates link-card DOM elements from JSON data |
 | `configs/links/{page-name}.json`            | Link-card group definitions for each page       |
 
-#### 3.7.1 JSON Structural Standards
+#### 4.5.1 JSON Structural Standards
 
 The JSON format uses a consistent pattern for representing HTML elements:
 
@@ -466,7 +480,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ---
 
-### 3.8 Page Transitions
+### 4.6 Page Transitions
 
 **Brief**: Provides SPA-style animated transitions when navigating between internal pages.
 
@@ -486,7 +500,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ---
 
-### 3.9 Loading Screen
+### 4.7 Loading Screen
 
 **Brief**: Displays a loading overlay on page load, hidden after all initialization completes.
 
@@ -506,7 +520,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ---
 
-### 3.10 Settings & Preferences
+### 4.8 Settings & Preferences
 
 **Brief**: Manages user-configurable preferences persisted in `localStorage`.
 
@@ -535,11 +549,11 @@ The JSON format uses a consistent pattern for representing HTML elements:
 |----------------|-----------------------------|------------------------------------------|
 | `localStorage` | `openExternalLinksInNewTab` | Persist external link new-tab preference |
 
-> Theme and language preferences are managed by their respective modules (see [§3.6](#36-theme-system) and [§3.5](#35-internationalization-i18n)).
+> Language and theme preferences are managed by their respective modules (see [§4.3](#43-internationalization-i18n) and [§4.4](#44-theme-system)).
 
 ---
 
-### 3.11 Navigation & Accessibility
+### 4.9 Navigation & Accessibility
 
 **Brief**: Handles navbar active state, scroll hint indicator, skip-to-content button, and keyboard/mouse focus distinction.
 
@@ -562,7 +576,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ---
 
-### 3.12 QR Code & Export
+### 4.10 QR Code & Export
 
 **Brief**: Generates a branded QR code share card and allows downloading it as a PNG image.
 
@@ -580,7 +594,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ---
 
-### 3.13 Fonts & Typography
+### 4.11 Fonts & Typography
 
 **Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/fonts.css` using `--shlh-font-*` CSS custom properties.
 
@@ -590,7 +604,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 |-------------------------|--------------------------------------------------------------------------|
 | `stylesheets/fonts.css` | Font-face declarations and per-element, per-language font stack assembly |
 
-#### 3.13.1 Font Variable Naming
+#### 4.11.1 Font Variable Naming
 
 Font-related CSS custom properties use the `--shlh-*` prefix with the following pattern:
 
@@ -621,7 +635,7 @@ Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang=
 
 See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definition.
 
-#### 3.13.2 Font Stack Design
+#### 4.11.2 Font Stack Design
 
 - **Font arrangement constraint**: If a font has a localized name, the localized name is placed first, followed by the general Western name.
 - The detailed per-language, per-platform font preference tables below define the canonical font lists. The actual CSS in `fonts.css` is the authoritative source.
@@ -695,7 +709,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ---
 
-### 3.14 Tooltips
+### 4.12 Tooltips
 
 **Brief**: Initializes Bootstrap tooltips with proper ARIA attributes.
 
@@ -707,7 +721,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ---
 
-### 3.15 Image Utilities
+### 4.13 Image Utilities
 
 **Brief**: Provides CSS utility classes for monochrome icon colorization and a placeholder image.
 
@@ -721,7 +735,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ---
 
-### 3.16 Utilities
+### 4.14 Utilities
 
 **Brief**: General-purpose helper functions used across the project.
 
@@ -734,7 +748,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ---
 
-## 4. Response Conventions for Copilot
+## 5. Response Conventions for Copilot
 
 When generating responses for this project, Copilot should:
 

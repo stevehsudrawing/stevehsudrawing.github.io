@@ -58,8 +58,8 @@ Any file **not** listed above - including but not limited to brand logos, browse
 
 ## 2. Traceability
 
-Some of these original artworks (across both §1.1 and §1.2) contain **invisible digital watermarks** that allow me to trace unauthorized use back to its source. This measure exists to protect my rights as the creator and applies regardless of the license chosen for each work.
+Some of these original artworks (across both [§1.1](#11-restricted-works---all-rights-reserved) and [§1.2](#12-open-licensed-works---cc-by-nc-40)) contain **invisible digital watermarks** that allow me to trace unauthorized use back to its source. This measure exists to protect my rights as the creator and applies regardless of the license chosen for each work.
 
 ## 3. Inquiries
 
-If you wish to use any restricted works (§1.1) beyond what is permitted above, or have questions about the CC-licensed works (§1.2), please contact me through my email address ([stevehsudrawing@outlook.com](mailto:stevehsudrawing@outlook.com)) or other platform links listed in [my Link-Hub](https://stevehsudrawing.github.io).
+If you wish to use any restricted works ([§1.1](#11-restricted-works---all-rights-reserved)) beyond what is permitted above, or have questions about the CC-licensed works ([§1.2](#12-open-licensed-works---cc-by-nc-40)), please contact me through my email address ([stevehsudrawing@outlook.com](mailto:stevehsudrawing@outlook.com)) or other platform links listed in [my Link-Hub](https://stevehsudrawing.github.io).
