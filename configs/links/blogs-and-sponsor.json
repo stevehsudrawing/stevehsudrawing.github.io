@@ -39,7 +39,6 @@
                 ],
                 "description": [
                     {
-                        "superLink": false,
                         "text": [
                             {
                                 "content": "UID: QuantoSeries"
@@ -75,7 +74,6 @@
                 ],
                 "description": [
                     {
-                        "superLink": false,
                         "text": [
                             {
                                 "content": "UID: stevehsu"

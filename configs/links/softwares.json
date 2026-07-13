@@ -45,7 +45,6 @@
                 ],
                 "description": [
                     {
-                        "superLink": false,
                         "text": [
                             {
                                 "content": "Name",
@@ -89,7 +88,6 @@
                 ],
                 "description": [
                     {
-                        "superLink": false,
                         "text": [
                             {
                                 "content": "Name",
@@ -131,7 +129,6 @@
                 ],
                 "description": [
                     {
-                        "superLink": false,
                         "text": [
                             {
                                 "content": "Name",

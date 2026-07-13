@@ -409,7 +409,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
     }
     ```
 
-    - `superLink`: If `true`, wraps the text spans in an `<a>` element with the given `properties`. All super-links are treated as external links (classes `link` and `external-link` are added). If `false`, only the `<span>` elements from `text` are rendered.
+    - `superLink`: If `true`, wraps the text spans in an `<a>` element with the given `properties`. All super-links are treated as external links (classes `link` and `external-link` are added). If `false`, only the `<span>` elements from `text` are rendered, and this key can also be ignored.
     - `text`: Array of `<span>` element descriptors.
     - `properties`: Attributes for the `<a>` element (only when `superLink` is `true`).
 
