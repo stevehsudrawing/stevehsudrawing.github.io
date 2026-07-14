@@ -84,16 +84,25 @@
 
     <body class="min-vh-100">
         <div id="loading-screen" class="loading-screen">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+            <script>
+                document.write('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
+            </script>
+            <noscript>
+                <div class="container notice-container">
+                    <img alt="Sticker (Observing)" src="/images/stickers/light/observing.png" width="150" height="150">
+                    <h3>JavaScript Disabled</h3>
+                    <p><b>JavaScript is required to view this site.</b></p>
+                    <p class="opacity-75">Please enable JavaScript in your browser settings and reload the page.</p>
+                </div>
+            </noscript>
         </div>
+
         <div id="page-content" class="container d-flex flex-column justify-content-center align-items-center text-center">
             <img alt="Sticker (Observing)" src="/images/stickers/light/observing.png" data-img-feature="follow-theme" data-src-light="/images/stickers/light/observing.png" data-src-dark="/images/stickers/dark/observing.png" data-i18n-alt="text-sticker-of-observing" width="150" height="150">
             <h3>HTTP 404</h3>
-            <div class="pb-2">
-                <b data-i18n="text-http-404-description">Page not found</b><br>
-                <span data-i18n="text-http-error-additional-text" class="opacity-75">Uhh... What's up, doc?</span>
+            <div class="pb-2 notice-container">
+                <p><b data-i18n="text-http-404-description">Page not found</b></p>
+                <p><span data-i18n="text-http-error-additional-text" class="opacity-75">Uhh... What's up, doc?</span></p>
             </div>
             <a class="btn btn-primary internal-link" href="/index.html" data-i18n="text-go-to-homepage">
                 Go to Homepage

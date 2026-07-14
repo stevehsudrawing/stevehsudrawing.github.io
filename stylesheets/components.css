@@ -124,3 +124,17 @@
 .footer {
     font-size: .8rem;
 }
+
+/* ========================================================================
+   Page Notice
+   ======================================================================== */
+
+.notice-container {
+    text-align: center;
+    color: var(--bs-body-color);
+    padding: 0 1rem;
+}
+
+.notice-container p {
+    margin-bottom: 0.25rem;
+}

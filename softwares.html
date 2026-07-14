@@ -84,10 +84,19 @@
 
     <body>
         <div id="loading-screen" class="loading-screen">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+            <script>
+                document.write('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
+            </script>
+            <noscript>
+                <div class="container notice-container">
+                    <img alt="Sticker (Observing)" src="/images/stickers/light/observing.png" width="150" height="150">
+                    <h3>JavaScript Disabled</h3>
+                    <p><b>JavaScript is required to view this site.</b></p>
+                    <p class="opacity-75">Please enable JavaScript in your browser settings and reload the page.</p>
+                </div>
+            </noscript>
         </div>
+
         <div data-role="page-component" data-component-name="header"></div>
 
         <div id="page-content">
