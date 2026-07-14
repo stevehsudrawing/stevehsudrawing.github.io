@@ -3,6 +3,11 @@
  * Called both on first load and after page transitions.
  */
 async function initPageContent() {
+    // Update the navbar brand page-name for the current page
+    if (typeof updateNavbarBrandText === 'function') {
+        updateNavbarBrandText();
+    }
+
     // Apply cached translations to static page content first
     if (currentLang && Object.keys(langData).length > 0) {
         updatePageText();
@@ -56,6 +61,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         initBootstrapCSSDetection();
 
         await loadAllComponents();
+
+        // Initialize theme transition overlay (after header is loaded)
+        initThemeTransitionOverlay();
 
         // Load supported languages and populate UI
         await loadSupportedLangs();

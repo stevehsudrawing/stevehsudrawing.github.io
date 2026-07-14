@@ -1,37 +1,4 @@
 /* ========================================================================
-   Dropdown Menu - animated by navbar.js via Bootstrap dropdown events
-   ======================================================================== */
-
-.dropdown-menu {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-.25rem) scale(.95);
-    transform-origin: top center;
-    transition:
-        opacity .18s ease,
-        transform .18s ease,
-        visibility 0s linear .18s;
-}
-
-.dropdown-menu.show {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-    transition-delay: 0s;
-}
-
-.dropdown-menu.closing {
-    display: block;
-    opacity: 0;
-    visibility: visible;
-    pointer-events: none;
-    transform: translateY(-.25rem) scale(.95);
-    transition-delay: 0s;
-}
-
-/* ========================================================================
    Navbar - layout, glass effect, brand, offcanvas
    ======================================================================== */
 
@@ -41,7 +8,8 @@
     height: 64px;
     background-color: rgba(var(--bs-body-bg-rgb), .8);
     backdrop-filter: blur(15px) saturate(1.5);
-    border-bottom: 0px solid rgba(var(--bs-body-color-rgb), 0);
+    box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
+    padding: 0;
 }
 
 @supports not (backdrop-filter: blur(15px)) {
@@ -50,15 +18,50 @@
     }
 }
 
-.navbar-scrolled {
-    border-bottom: 1px solid rgba(var(--bs-body-color-rgb), .25);
+.navbar-container {
+    height: inherit;
+}
+
+/* --- Brand container --- */
+
+#navbar-brand-container {
+    padding: 0 8px;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar-brand-slide {
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar-brand-logo-slide a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Hidden by default so only the logo shows when JS is disabled */
+#navbar-brand-page-slide {
+    display: none;
+}
+
+#navbar-brand-page-slide a {
+    text-decoration: none;
+    color: var(--bs-body-color);
 }
 
 .navbar-brand-text {
-    display: none;
     font-size: 1rem;
     font-weight: 500;
     white-space: nowrap;
+}
+
+.navbar-scrolled {
+    box-shadow: 0 1px 0 rgba(var(--bs-body-color-rgb), .25);
 }
 
 /* --- Mobile (< 992px) --- */
@@ -70,28 +73,27 @@
         position: relative;
     }
 
-    /* Brand */
-    .navbar-brand {
+    /* Brand — grid-stacked slides with overflow clipping */
+    #navbar-brand-container {
+        display: grid;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         margin: 0;
+        overflow: hidden;
     }
 
-    .navbar.scrolled-past .navbar-brand>svg {
-        display: none;
-    }
-
-    .navbar.scrolled-past .navbar-brand-text {
-        display: inline;
+    .navbar-brand-slide {
+        grid-area: 1 / 1;
+        will-change: transform;
     }
 
     /* Toggler */
     .navbar-toggler {
         padding-top: 8px;
         padding-bottom: 8px;
-        padding-left: 0px;
-        padding-right: 0px;
+        padding-left: 0;
+        padding-right: 0;
         border: none;
         z-index: 2;
     }
@@ -199,4 +201,37 @@
             background: rgba(112, 112, 112, .55);
         }
     }
+}
+
+/* ========================================================================
+   Dropdown Menu - animated by navbar.js via Bootstrap dropdown events
+   ======================================================================== */
+
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-.25rem) scale(.95);
+    transform-origin: top center;
+    transition:
+        opacity .18s ease,
+        transform .18s ease,
+        visibility 0s linear .18s;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+}
+
+.dropdown-menu.closing {
+    display: block;
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+    transform: translateY(-.25rem) scale(.95);
+    transition-delay: 0s;
 }

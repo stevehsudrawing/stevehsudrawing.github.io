@@ -6,13 +6,6 @@
     text-autospace: normal;
     font-family: inherit;
     font-optical-sizing: auto;
-    transition:
-        color .15s ease-in-out,
-        background-color .15s ease-in-out,
-        border-color .15s ease-in-out,
-        outline .15s ease-in-out,
-        box-shadow .15s ease-in-out,
-        opacity .15s ease-in-out;
 }
 
 /* ========================================================================
@@ -46,6 +39,10 @@ hr {
 
 a {
     text-decoration: none;
+    transition:
+        color .15s ease-in-out,
+        background-color .15s ease-in-out,
+        border-color .15s ease-in-out;
 }
 
 .link:hover,
@@ -58,12 +55,12 @@ a {
    ======================================================================== */
 
 :root {
-    --bs-border-radius: 0px;
-    --bs-border-radius-sm: 0px;
-    --bs-border-radius-lg: 0px;
-    --bs-border-radius-xl: 0px;
-    --bs-border-radius-xxl: 0px;
-    --bs-border-radius-2xl: 0px;
+    --bs-border-radius: 0;
+    --bs-border-radius-sm: 0;
+    --bs-border-radius-lg: 0;
+    --bs-border-radius-xl: 0;
+    --bs-border-radius-xxl: 0;
+    --bs-border-radius-2xl: 0;
     --bs-focus-ring-width: 2px;
     --bs-focus-ring-opacity: 1;
 }

@@ -10,6 +10,9 @@ const htmlElement = document.documentElement;
 let currentThemePreference = 'auto';
 const supportedThemes = ['auto', 'light', 'dark'];
 
+/** @type {number} Monotonic counter to cancel superseded transition callbacks. */
+var themeTransitionId = 0;
+
 /**
  * Restore the saved theme preference from localStorage, defaulting to 'auto'.
  */
@@ -32,55 +35,104 @@ function getSystemTheme() {
 }
 
 /**
- * Apply a theme choice to the page. When 'auto', defer to the system theme.
+ * Resolve a theme choice to the effective 'light' or 'dark' value
+ * that will be applied to data-bs-theme.
  * @param {string} themeChoice - One of 'auto', 'light', or 'dark'.
- * @param {boolean} [save=true] - Whether to persist the choice to localStorage.
+ * @returns {'light'|'dark'} The effective theme.
  */
-function applyThemePreference(themeChoice, save = true) {
-    const theme = supportedThemes.includes(themeChoice) ? themeChoice : 'auto';
-    currentThemePreference = theme;
+function getEffectiveTheme(themeChoice) {
+    if (themeChoice === 'auto') return getSystemTheme();
+    return themeChoice;
+}
 
-    // Temporarily disable all transitions to prevent cascading transition
-    // flicker when CSS custom properties change during theme switch.
-    htmlElement.classList.add('disable-transitions');
+/**
+ * Initialize the theme transition overlay's transitionend listener.
+ * Must be called after header.html has been loaded into the DOM.
+ */
+function initThemeTransitionOverlay() {
+    var overlay = document.querySelector('.theme-transition-overlay');
+    if (!overlay) return;
 
+    // Clean up fade-out class after the fade-out transition ends,
+    // so the overlay is ready for the next use.
+    overlay.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'opacity' && overlay.classList.contains('fade-out')) {
+            overlay.classList.remove('fade-out');
+        }
+    });
+}
+
+/**
+ * Apply the raw theme change (data-bs-theme + images) immediately.
+ * Callers are responsible for overlay timing if a visual transition is desired.
+ * @param {string} theme - The resolved theme value ('light', 'dark', or 'auto').
+ */
+function applyThemeChange(theme) {
     if (theme === 'auto') {
         htmlElement.setAttribute('data-bs-theme', getSystemTheme());
     } else {
         htmlElement.setAttribute('data-bs-theme', theme);
     }
+    applyThemeBasedImages();
+}
+
+/**
+ * Apply a theme choice to the page. When 'auto', defer to the system theme.
+ * Uses a full-page overlay crossfade for smooth visual transition.
+ * Skips the overlay for users who prefer reduced motion.
+ * @param {string} themeChoice - One of 'auto', 'light', or 'dark'.
+ * @param {boolean} [save=true] - Whether to persist the choice to localStorage.
+ */
+function applyThemePreference(themeChoice, save = true) {
+    const theme = supportedThemes.includes(themeChoice) ? themeChoice : 'auto';
 
     if (save) {
         localStorage.setItem('bsTheme', theme);
     }
 
-    applyThemeBasedImages();
+    var overlay = document.querySelector('.theme-transition-overlay');
 
-    // Re-enable transitions after the current frame settles.
-    requestAnimationFrame(function () {
-        htmlElement.classList.remove('disable-transitions');
-    });
+    // Skip the overlay (instant switch) when:
+    // - User prefers reduced motion, or
+    // - The effective theme does not actually change, or
+    // - The overlay is not yet in the DOM (initial load from <head>).
+    var skipOverlay =
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        htmlElement.getAttribute('data-bs-theme') === getEffectiveTheme(theme) ||
+        !overlay;
+
+    if (skipOverlay) {
+        applyThemeChange(theme);
+        return;
+    }
+
+    // Increment ID to cancel any pending callback from rapid toggling.
+    var thisId = ++themeTransitionId;
+
+    // Phase 1: Fade in the overlay over ~500 ms.
+    overlay.classList.add('active');
+    overlay.classList.remove('fade-out');
+
+    // Phase 2: After fade-in completes, switch theme behind the opaque overlay.
+    setTimeout(function () {
+        if (thisId !== themeTransitionId) return; // Superseded
+
+        applyThemeChange(theme);
+
+        // Phase 3: Fade out the overlay to reveal the new theme.
+        overlay.classList.remove('active');
+        overlay.classList.add('fade-out');
+    }, 500);
 }
 
 /**
  * Called when the system color scheme changes. If the user has chosen 'auto',
  * update the data-bs-theme attribute and refresh theme-based images.
+ * No overlay is used — system-initiated changes should be subtle.
  */
 function updateAutoThemeOnSystemChange() {
-    if (currentThemePreference !== 'auto') {
-        return;
-    }
-
-    // Temporarily disable all transitions to prevent cascading transition flicker.
-    htmlElement.classList.add('disable-transitions');
-
-    htmlElement.setAttribute('data-bs-theme', getSystemTheme());
-    applyThemeBasedImages();
-
-    // Re-enable transitions after the current frame settles.
-    requestAnimationFrame(function () {
-        htmlElement.classList.remove('disable-transitions');
-    });
+    if (currentThemePreference !== 'auto') return;
+    applyThemeChange('auto');
 }
 
 /**
@@ -126,19 +178,22 @@ function initSystemThemeListener() {
 }
 
 /**
+ * Theme metadata: i18n keys and English labels.
+ * @type {Object<string, {i18n: string, label: string}>}
+ */
+var THEME_META = {
+    'light': { i18n: 'text-light', label: 'Light' },
+    'dark':  { i18n: 'text-dark',  label: 'Dark' },
+    'auto':  { i18n: 'text-auto',  label: 'Auto' }
+};
+
+/**
  * Map a theme value to its i18n key for display in the theme toggle.
  * @param {string} theme - One of 'auto', 'light', or 'dark'.
  * @returns {string} The i18n key (e.g. 'text-auto').
  */
 function getThemeI18nKey(theme) {
-    switch (theme) {
-        case 'light':
-            return 'text-light';
-        case 'dark':
-            return 'text-dark';
-        default:
-            return 'text-auto';
-    }
+    return (THEME_META[theme] || THEME_META['auto']).i18n;
 }
 
 /**
@@ -147,14 +202,7 @@ function getThemeI18nKey(theme) {
  * @returns {string} The label (e.g. 'Auto').
  */
 function getThemeLabel(theme) {
-    switch (theme) {
-        case 'light':
-            return 'Light';
-        case 'dark':
-            return 'Dark';
-        default:
-            return 'Auto';
-    }
+    return (THEME_META[theme] || THEME_META['auto']).label;
 }
 
 /**
@@ -162,7 +210,7 @@ function getThemeLabel(theme) {
  */
 function updateThemeToggleText() {
     const themeTextElements = document.querySelectorAll('.themeCurrentText');
-    if (!themeTextElements || themeTextElements.length === 0) {
+    if (themeTextElements.length === 0) {
         return;
     }
 
@@ -192,8 +240,8 @@ function setActiveThemeItem() {
 
 /**
  * Persist a theme choice and update all related UI elements.
- * When a dropdown menu is mid-close, the actual theme application is
- * deferred to avoid disable-transitions from killing the close animation.
+ * The overlay from applyThemePreference naturally covers any in-progress
+ * dropdown close animation, so no special deferral is needed.
  * @param {string} themeChoice - One of 'auto', 'light', or 'dark'.
  */
 function setThemePreference(themeChoice) {
@@ -202,18 +250,5 @@ function setThemePreference(themeChoice) {
     localStorage.setItem('bsTheme', themeChoice);
     updateThemeToggleText();
     setActiveThemeItem();
-
-    // Check if a dropdown menu is currently playing its close animation.
-    // If so, defer the theme application so disable-transitions does not
-    // kill the dropdown's opacity/transform transition.
-    var closingMenu = document.querySelector('.dropdown-menu.closing');
-    if (closingMenu) {
-        // The close animation takes ~180 ms plus cleanup; 250 ms is safe.
-        setTimeout(function () {
-            applyThemePreference(themeChoice, false);
-        }, 250);
-    } else {
-        applyThemePreference(themeChoice, false);
-    }
+    applyThemePreference(themeChoice, false);
 }
-

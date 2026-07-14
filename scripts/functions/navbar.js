@@ -87,20 +87,25 @@ function initDropdownMenuAnimation() {
 }
 
 /**
- * On mobile (< 992px), when the page is scrolled past 64px,
- * replace the navbar-brand SVG logo with the current page name.
- * Clicking the brand then scrolls to top instead of navigating to /index.html.
+ * On mobile (< 992px), smoothly slide the navbar-brand logo and current
+ * page name vertically based on scroll position (0 px – 64 px).
+ *
+ * - Logo slides up and out of view as the user scrolls down.
+ * - Page name slides up from below into view.
+ * - Beyond 64 px both elements stay at their final positions.
+ * - Clicking the page name scrolls smoothly back to top.
+ *
+ * When JS is disabled the page-name slide stays hidden (CSS default)
+ * so only the logo is visible.
  */
 function initMobileNavbarBrandScroll() {
-    const navbar = document.querySelector('.navbar');
-    const navbarBrand = document.querySelector('.navbar-brand');
-    if (!navbar || !navbarBrand) return;
+    const container = document.getElementById('navbar-brand-container');
+    const logoTarget = document.getElementById('navbar-brand-logo-slide');
+    const pageTarget = document.getElementById('navbar-brand-page-slide');
+    const brandText = pageTarget ? pageTarget.querySelector('.navbar-brand-text') : null;
+    if (!container || !logoTarget || !pageTarget || !brandText) return;
 
-    const brandSvg = navbarBrand.querySelector('svg');
-    const brandText = navbarBrand.querySelector('.navbar-brand-text');
-    if (!brandSvg || !brandText) return;
-
-    const originalHref = navbarBrand.getAttribute('href') || '/index.html';
+    const pageNameLink = pageTarget.querySelector('a');
 
     /**
      * Derive the i18n key from the current page filename.
@@ -112,48 +117,75 @@ function initMobileNavbarBrandScroll() {
         return 'text-' + pageName;
     }
 
-    function updateBrand() {
+    /**
+     * Update slide transforms based on current scroll position and viewport width.
+     */
+    function updateSlides() {
         const isMobile = window.innerWidth < 992;
-        const scrolledPast = window.scrollY > 64;
 
-        if (isMobile && scrolledPast) {
-            const i18nKey = getPageI18nKey();
-            brandText.setAttribute('data-i18n', i18nKey);
-            const translated = translate(i18nKey);
-            if (translated) {
-                brandText.textContent = translated;
-            }
+        if (isMobile) {
+            // Ensure the page-name slide is visible (hidden by default CSS)
+            pageTarget.style.display = 'flex';
 
-            navbar.classList.add('scrolled-past');
-            navbarBrand.setAttribute('href', '#');
+            // Clamp progress to [0, 1] over the 0–64 px scroll range
+            const progress = Math.min(Math.max(window.scrollY / 64, 0), 1);
+
+            // Logo: 0 → -100 % (slides up out of view)
+            logoTarget.style.transform = 'translateY(-' + (progress * 100) + '%)';
+            // Page name: 100 % → 0 (slides up into view from below)
+            pageTarget.style.transform = 'translateY(' + ((1 - progress) * 100) + '%)';
         } else {
-            navbar.classList.remove('scrolled-past');
-            navbarBrand.setAttribute('href', originalHref);
+            // Desktop: reset inline overrides so CSS defaults take over
+            logoTarget.style.transform = '';
+            pageTarget.style.transform = '';
+            pageTarget.style.display = '';
         }
     }
 
-    // Click handler: when scrolled past, scroll smoothly to top
-    navbarBrand.addEventListener('click', function (e) {
-        if (navbar.classList.contains('scrolled-past')) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    });
+    // Populate the page-name text via i18n
+    updateNavbarBrandText();
+
+    // Click handler: scroll smoothly to top when the page-name link is tapped
+    if (pageNameLink) {
+        pageNameLink.addEventListener('click', function (e) {
+            if (window.innerWidth < 992) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    }
 
     // Throttled scroll listener
-    let ticking = false;
+    var ticking = false;
     window.addEventListener('scroll', function () {
         if (!ticking) {
             requestAnimationFrame(function () {
-                updateBrand();
+                updateSlides();
                 ticking = false;
             });
             ticking = true;
         }
     });
 
-    window.addEventListener('resize', updateBrand);
-    updateBrand();
+    window.addEventListener('resize', updateSlides);
+    updateSlides();
+}
+
+/**
+ * Update the navbar-brand page-name text to reflect the current page.
+ * Safe to call multiple times (e.g. after SPA page transitions).
+ */
+function updateNavbarBrandText() {
+    const brandText = document.querySelector('#navbar-brand-page-slide .navbar-brand-text');
+    if (!brandText) return;
+
+    const pageName = extractPageName(window.location.pathname);
+    const i18nKey = 'text-' + pageName;
+    brandText.setAttribute('data-i18n', i18nKey);
+    var translated = translate(i18nKey);
+    if (translated) {
+        brandText.textContent = translated;
+    }
 }
 
 /**

@@ -260,3 +260,28 @@ a {
 .navbar-toggler:focus {
     box-shadow: var(--shlh-focus-shadow);
 }
+
+/* ========================================================================
+   Theme Transition Overlay - full-page crossfade during theme switch
+   ======================================================================== */
+
+.theme-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background-color: #909294;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .5s ease-in;
+}
+
+.theme-transition-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.theme-transition-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-out;
+}
