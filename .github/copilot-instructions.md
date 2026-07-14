@@ -34,24 +34,24 @@ Loaded at the end of `<body>` of each page:
 
 #### 1.2.1 Per-Dependency Minimum Browser Versions
 
-| Dependency               | Chrome | Edge   | Firefox | Opera  | Safari |
-|--------------------------|--------|--------|---------|--------|--------|
-| Bootstrap 5.3.8 CSS/JS   | 60     | **79** | 60      | 47     | **12** |
-| @popperjs/core 2.11.8    | 60     | **79** | 60      | 47     | **12** |
-| Bootstrap Icons (latest) | 60     | **79** | 60      | 47     | **12** |
-| QRCode.js 1.0.0          | 1      | 12     | 1.5     | 9      | 3      |
-| html-to-image 1.11.13    | 32     | 12     | 29      | 20     | 7.1    |
-| html2canvas 1.4.1        | 1      | 12     | 3.5     | 12     | 6      |
-| Inter (variable font)    | **66** | 17     | **62**  | **53** | 11     |
+| Dependency                   | Chrome | Edge   | Firefox | Opera  | Safari |
+|------------------------------|--------|--------|---------|--------|--------|
+| Bootstrap 5.3.8 CSS/JS       | 60     | **79** | 60      | 47     | **12** |
+| Bootstrap Icons CSS (latest) | 36     | 14     | 39      | 23     | 10     |
+| Inter (variable font)        | **66** | 17     | **62**  | **53** | 11     |
+| QRCode.js 1.0.0              | 1      | 12     | 1.5     | 9      | 3      |
+| html-to-image 1.11.13        | 32     | 12     | 29      | 20     | 7.1    |
+| html2canvas 1.4.1            | 1      | 12     | 3.5     | 12     | 6      |
+| @popperjs/core 2.11.8        | 60     | **79** | 60      | 47     | **12** |
 
 > **Sources**:
-> - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) — `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
-> - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) — aligned with Bootstrap 5; IE11 and legacy EdgeHTML not supported
-> - Bootstrap Icons: Part of Bootstrap 5 ecosystem, no independent browser support doc
-> - QRCode.js 1.0.0: [npm](https://www.npmjs.com/package/qrcodejs) — README claims compatibility with "IE6~10, Chrome, Firefox, Safari, Opera"
-> - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) — requires `Promise` + SVG `<foreignObject>`
-> - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) — "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
-> - Inter variable fonts: [Can I Use](https://caniuse.com/variable-fonts) — Chrome 66+, Firefox 62+, Safari 11+, Opera 53+
+> - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
+> - Bootstrap Icons CSS: [Can I Use](https://caniuse.com/mdn-css_at-rules_font-face_woff_2) - requires `@font-face` and WOFF 2 support
+> - Inter variable fonts: [Can I Use](https://caniuse.com/variable-fonts) - Chrome 66+, Firefox 62+, Safari 11+, Opera 53+
+> - QRCode.js 1.0.0: [npm](https://www.npmjs.com/package/qrcodejs) - README claims compatibility with "IE6~10, Chrome, Firefox, Safari, Opera"
+> - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) - requires `Promise` + SVG `<foreignObject>`
+> - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) - "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
+> - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5; IE11 and legacy EdgeHTML not supported
 
 ### 1.3 Browser Baseline
 
@@ -81,7 +81,7 @@ The minimum browser versions are determined by the requirements of our CDN depen
 | Category          | Convention / Constraint     | Examples                                                   |
 |-------------------|-----------------------------|------------------------------------------------------------|
 | Element IDs       | `dash-case`                 | `#page-content`, `#skip-button`, `#language-select`        |
-| CSS classes       | `dash-case`                 | `.loading-screen`, `.link-button-group`, `.img-mono-pixiv` |
+| CSS classes       | `dash-case`                 | `.loading-screen`, `.link-button-group`                    |
 | Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-tooltip`          |
 | Bootstrap classes | Use Bootstrap-native naming |  `btn-primary`, `dropdown-menu`, etc.                      |
 
@@ -91,8 +91,8 @@ The minimum browser versions are determined by the requirements of our CDN depen
 
 Prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub). These variables cover two domains; their detailed naming conventions are documented in the relevant feature sections:
 
-- **Color variables** — naming and brightness scale defined in [§4.4 Theme System](#44-theme-system).
-- **Font variables** — naming, categories, priorities, and languages defined in [§4.11 Fonts & Typography](#411-fonts--typography).
+- **Color variables** - naming and brightness scale defined in [§4.4 Theme System](#44-theme-system).
+- **Font variables** - naming, categories, priorities, and languages defined in [§4.11 Fonts & Typography](#411-fonts--typography).
 
 #### 2.2.2 Bootstrap overrides
 
@@ -144,15 +144,15 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 | `images/icons/`      | Icon images for link cards                                  | Icon image files                                      |
 | `images/stickers/`   | Sticker images                                              | Sticker image files                                   |
 | `scripts/`           | JS entry points (`init-*.js`, `env-detection.js`)           | New init script if a new page tier is needed          |
-| `scripts/functions/` | Reusable JS modules — **define only, never execute**       | New JS module file, or add to an existing file        |
+| `scripts/functions/` | Reusable JS modules - **define only, never execute**       | New JS module file, or add to an existing file        |
 | `stylesheets/`       | CSS stylesheets                                             | New CSS file, or add to an existing file              |
 | `sub-pages/`         | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
 | Root `*.html`        | Page files (homepage, sub-pages, error pages)               | New page file when adding a page                      |
 
 **File placement rules**:
 
-- Put JS functions in `scripts/functions/` — either in a relevant existing file or a new file.
-- Put CSS in `stylesheets/` — either in a relevant existing file or a new file.
+- Put JS functions in `scripts/functions/` - either in a relevant existing file or a new file.
+- Put CSS in `stylesheets/` - either in a relevant existing file or a new file.
 - If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`). If the CSS is general-purpose, it can go into `components.css` instead.
 - Put JSON configuration data in `configs/` under the appropriate sub-folder.
 - Put reusable HTML fragments in `sub-pages/`.
@@ -162,7 +162,7 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 #### 3.2.1 `scripts/functions/`: Define Only, Never Execute
 
 - Files in `scripts/functions/` must **only define variables and functions**.
-- Every function **must have JSDoc** written for it.
+- Every global variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
 - All execution / wiring happens in the `init-*.js` entry points.
@@ -171,6 +171,10 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 // In scripts/functions/example.js:
 
 // CORRECT:
+
+/** @type {number} This is a global number variable. */
+var num1 = 1;
+
 /**
  * This function will do something.
  */
@@ -207,7 +211,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 #### 3.2.4 `*.html`: Page Tiers
 
-- **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares` — use `init-final.js`.
+- **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares` - use `init-final.js`.
 - **`404`**: The redirected page when an HTTP 404 occurs. Uses `init-final-lightweight.js`.
 - **`unsupported`**: Specifically designed for unsupported browsers. Does not rely on any external JS scripts, external CSS stylesheets, or external CDNs. It does not use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
 
@@ -307,10 +311,10 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 #### 4.3.1 i18n Key Naming Conventions
 
 - Keys use `dash-case` naming (e.g. `text-welcome`, `text-learn-more`, `text-http-404-description`).
-- All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts — the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
+- All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts - the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
 - For `<img>` alt attributes: use `data-i18n-alt` (e.g. `data-i18n-alt="text-illustration"`).
 - For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
-- Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys — simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
+- Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys - simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
 **Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file.
 
@@ -394,16 +398,30 @@ The JSON format uses a consistent pattern for representing HTML elements:
     }
     // → <span data-i18n="text-my-personal-email">My personal email</span>
 
-    // <img> element:
+    // <img> element (colored mask-based icon):
     {
         "properties": {
             "alt": "Email",
             "data-i18n-alt": "text-email",
             "src": "/images/null.png",
-            "classes": ["img-mono-email", "img-mono-fill-body-color"]
+            "data-img-feature": "colored",
+            "data-mask-src": "/images/icons/email.png",
+            "data-color-var": "bs-body-color"
         }
     }
-    // → <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" class="img-mono-email img-mono-fill-body-color">
+    // → <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" data-img-feature="colored" data-mask-src="/images/icons/email.png" data-color-var="bs-body-color">
+
+    // <img> element (theme-following image):
+    {
+        "properties": {
+            "alt": "Illustration",
+            "src": "/images/covers/illustration-light.png",
+            "data-img-feature": "follow-theme",
+            "data-src-light": "/images/covers/illustration-light.png",
+            "data-src-dark": "/images/covers/illustration-dark.png"
+        }
+    }
+    // → <img alt="Illustration" src="/images/covers/illustration-light.png" data-img-feature="follow-theme" data-src-light="/images/covers/illustration-light.png" data-src-dark="/images/covers/illustration-dark.png">
     ```
 
 - **Text Fragment**: A group of `<span>` elements, optionally wrapped in an `<a>`:
@@ -534,12 +552,12 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 - **"Always open external links in a new tab"**:
     - `localStorage` key: `openExternalLinksInNewTab`.
-    - **Default**: enabled — the preference is considered on unless explicitly set to `'false'`.
+    - **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
     - Controlled by a toggle (`#external-links-new-tab-toggle`) in the settings modal.
     - Key functions:
-        - `isExternalLinkNewTabEnabled()` — reads the preference.
-        - `setExternalLinkNewTabPreference(enabled)` — persists the preference.
-        - `applyExternalLinkTargetBehavior()` — adds or removes `target="_blank"` and `rel="noopener noreferrer"` on all `a.external-link` elements.
+        - `isExternalLinkNewTabEnabled()` - reads the preference.
+        - `setExternalLinkNewTabPreference(enabled)` - persists the preference.
+        - `applyExternalLinkTargetBehavior()` - adds or removes `target="_blank"` and `rel="noopener noreferrer"` on all `a.external-link` elements.
     - The toggle change event is handled by `initSettingEventListeners()`.
     - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference.
 
@@ -723,15 +741,41 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ### 4.13 Image Utilities
 
-**Brief**: Provides CSS utility classes for monochrome icon colorization and a placeholder image.
+**Brief**: Provides a unified `data-img-feature` attribute system for image behaviors such as theme-following source swapping and CSS mask-based monochrome coloring.
 
 **Related Files**:
 
-| File                       | Role                                                                                                                                      |
-|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| `stylesheets/mono-img.css` | Utility classes (`.img-mono-*`, `.img-mono-fill-*`) for colorizing monochrome icons to match Bootstrap's primary color or body text color |
-| `images/null.png`          | Placeholder image used with `img-mono-fill-*` classes                                                                                     |
-| `images/README.md`         | Copyright notice for image assets                                                                                                         |
+| File                            | Role                                                                         |
+|---------------------------------|------------------------------------------------------------------------------|
+| `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images via `initColoredImages()`   |
+| `stylesheets/img-utils.css`      | Generic CSS rules for `[data-img-feature~="colored"]` mask-based styling   |
+| `scripts/functions/theme.js`     | `applyThemeBasedImages()` handles `data-img-feature~="follow-theme"` images |
+| `images/null.png`               | Placeholder image used with `data-img-feature="colored"`                    |
+| `images/README.md`              | Copyright notice for image assets                                            |
+
+#### 4.13.1 `data-img-feature` Attribute
+
+The `data-img-feature` attribute on `<img>` elements declares which image features apply. Multiple features are space-separated (e.g. `data-img-feature="follow-theme colored"`).
+
+#### 4.13.2 `follow-theme`
+
+Swaps `src` between light and dark variants based on the current theme.
+
+- `data-img-feature="follow-theme"` — enables theme-based source swapping
+- `data-src-light` — URL for the light-theme image (populated automatically if missing)
+- `data-src-dark` — URL for the dark-theme image
+
+Handled by `applyThemeBasedImages()` in `theme.js` (see [§4.4 Theme System](#44-theme-system)).
+
+#### 4.13.3 `colored`
+
+Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
+
+- `data-img-feature="colored"` — enables mask-based coloring
+- `data-mask-src` — path to the mask source image (e.g. `/images/icons/email.png`)
+- `data-color-var` — CSS variable name (without `--` prefix) for the fill color (e.g. `bs-body-color`, `shlh-primary-color`)
+
+Handled by `initColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
 
 ---
 
@@ -754,7 +798,7 @@ When generating responses for this project, Copilot should:
 
 1. **Think in English**: Internal reasoning and analysis should be in English.
 2. **Respond using the language that the user is using**: For example, if the user is conversing in Chinese, responses should be in Chinese.
-3. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `—`, using `->` instead of `→`.
+3. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `-`, using `->` instead of `→`.
 4. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 5. **Conventions of Commit Messages**:
     - Write in English (United States).

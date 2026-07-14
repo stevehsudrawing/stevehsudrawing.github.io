@@ -1,0 +1,11 @@
+/* ========================================================================
+   Image Utilities - data-img-feature based image styling
+   ======================================================================== */
+
+/* --- Colored mask-based icons --- */
+
+[data-img-feature~="colored"] {
+    background-color: var(--img-color, var(--bs-body-color));
+    mask: var(--img-mask-url, none) no-repeat center / contain;
+    -webkit-mask: var(--img-mask-url, none) no-repeat center / contain;
+}

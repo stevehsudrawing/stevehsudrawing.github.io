@@ -43,8 +43,11 @@ function initScrollHint() {
 
             // Manually set translated text since updatePageText() has already run
             const span = hint.querySelector('[data-i18n]');
-            if (span && typeof langData !== 'undefined' && langData['text-scroll-horizontally']) {
-                span.textContent = langData['text-scroll-horizontally'];
+            if (span) {
+                const translated = translate('text-scroll-horizontally');
+                if (translated) {
+                    span.textContent = translated;
+                }
             }
         }
     });

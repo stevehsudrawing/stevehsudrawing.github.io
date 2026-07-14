@@ -108,10 +108,9 @@
                     "properties": {
                         "alt": "Quanto Original",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-github",
-                            "img-mono-fill-body-color"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/github.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [

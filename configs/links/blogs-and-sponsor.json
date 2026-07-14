@@ -15,10 +15,9 @@
                     "properties": {
                         "alt": "Patreon",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-patreon",
-                            "img-mono-fill-body-color"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/patreon.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [

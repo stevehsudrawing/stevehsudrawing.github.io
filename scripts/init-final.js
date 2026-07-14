@@ -35,6 +35,9 @@ async function initPageContent() {
     // Apply theme-based images (dark/light variants)
     applyThemeBasedImages();
 
+    // Initialize colored (mask-based) images
+    initColoredImages();
+
     // Apply external link target behavior
     applyExternalLinkTargetBehavior();
 

@@ -59,7 +59,7 @@
         <link rel="stylesheet" href="/stylesheets/scroll-hint.css">
         <link rel="stylesheet" href="/stylesheets/qr-code.css">
         <link rel="stylesheet" href="/stylesheets/components.css">
-        <link rel="stylesheet" href="/stylesheets/mono-img.css">
+        <link rel="stylesheet" href="/stylesheets/img-utils.css">
 
         <script src="/scripts/functions/utils.js"></script>
         <script src="/scripts/functions/component-loader.js"></script>
@@ -73,6 +73,7 @@
         <script src="/scripts/functions/link-cards-generator.js"></script>
         <script src="/scripts/functions/page-transition.js"></script>
         <script src="/scripts/functions/theme.js"></script>
+        <script src="/scripts/functions/img-utils.js"></script>
         <script src="/scripts/functions/settings.js"></script>
         <script src="/scripts/functions/loading-screen.js"></script>
         <script src="/scripts/functions/page-title.js"></script>
@@ -103,13 +104,13 @@
                         </p>
                         <div class="btn-group link-button-group">
                             <a class="btn btn-primary d-flex justify-content-center align-items-center text-center external-link" href="https://www.pixiv.net/users/70732361" data-bs-toggle="tooltip" data-bs-title="Pixiv">
-                                <img alt="Pixiv" src="/images/null.png" class="img-mono-fill-primary-color img-mono-pixiv" width="40" height="40">
+                                <img alt="Pixiv" src="/images/null.png" data-img-feature="colored" data-mask-src="/images/icons/pixiv.png" data-color-var="shlh-primary-color" width="40" height="40">
                             </a>
                             <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://www.deviantart.com/stevehsudrawing" data-bs-toggle="tooltip" data-bs-title="DeviantArt">
                                 <img alt="DeviantArt" src="/images/icons/deviant-art.png" width="40" height="40">
                             </a>
                             <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://x.com/stevehsudrawing" data-bs-toggle="tooltip" data-bs-title="X">
-                                <img alt="X" src="/images/null.png" class="img-mono-fill-body-color img-mono-x-twitter" width="40" height="40">
+                                <img alt="X" src="/images/null.png" data-img-feature="colored" data-mask-src="/images/icons/x-twitter.png" data-color-var="bs-body-color" width="40" height="40">
                             </a>
                             <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center text-center external-link" href="https://weibo.com/stevehsudrawing" data-bs-toggle="tooltip" data-i18n-tooltip="text-weibo" data-bs-title="Weibo">
                                 <img alt="Weibo" src="/images/icons/weibo.png" data-i18n-alt="text-weibo" width="40" height="40">
@@ -126,7 +127,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
-                        <img alt="Illustration" src="/images/covers/illustration-light.png" data-i18n-alt="text-illustration" class="img-fluid img-fit rounded" data-src-dark="/images/covers/illustration-dark.png">
+                        <img alt="Illustration" src="/images/covers/illustration-light.png" data-i18n-alt="text-illustration" class="img-fluid img-fit rounded" data-img-feature="follow-theme" data-src-light="/images/covers/illustration-light.png" data-src-dark="/images/covers/illustration-dark.png">
                     </div>
                 </div>
             </div>

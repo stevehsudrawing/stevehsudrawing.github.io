@@ -10,6 +10,21 @@ let currentLang = 'en';
 let langData = {};
 
 /**
+ * Safely retrieve a translated string from the global langData dictionary.
+ * If langData is loaded and contains the given key, the translated value is returned;
+ * otherwise the fallback text is returned.
+ * @param {string} key - The i18n key to look up (e.g. 'text-welcome').
+ * @param {string} [fallback=''] - Text to return when the key is not found.
+ * @returns {string} The translated text, or the fallback if unavailable.
+ */
+function translate(key, fallback) {
+    if (typeof langData !== 'undefined' && langData[key]) {
+        return langData[key];
+    }
+    return fallback !== undefined ? fallback : '';
+}
+
+/**
  * Fetch the list of supported languages from /configs/language-list.json.
  * Falls back to ['en', 'zh-Hans', 'zh-Hant'] on error.
  * @returns {Promise<void>}
@@ -32,7 +47,6 @@ async function loadSupportedLangs() {
     }
 }
 
-
 /**
  * Walk the DOM and replace text content of all [data-i18n] elements
  * using the currently loaded langData dictionary.
@@ -41,8 +55,9 @@ async function loadSupportedLangs() {
 function updatePageText() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (langData[key]) {
-            el.textContent = langData[key];
+        const translated = translate(key);
+        if (translated) {
+            el.textContent = translated;
         } else {
             console.log('Missing key:', key);
         }
@@ -55,8 +70,9 @@ function updatePageText() {
     // dispose and recreate it so it picks up the new title.
     document.querySelectorAll('[data-bs-toggle="tooltip"][data-i18n-tooltip]').forEach(el => {
         const key = el.getAttribute('data-i18n-tooltip');
-        if (langData[key]) {
-            el.setAttribute('data-bs-title', langData[key]);
+        const translated = translate(key);
+        if (translated) {
+            el.setAttribute('data-bs-title', translated);
             const tooltipInstance = bootstrap.Tooltip.getInstance(el);
             if (tooltipInstance) {
                 tooltipInstance.dispose();
@@ -70,8 +86,9 @@ function updatePageText() {
     // and the translated text is written to the alt attribute.
     document.querySelectorAll('img[data-i18n-alt]').forEach(el => {
         const key = el.getAttribute('data-i18n-alt');
-        if (langData[key]) {
-            el.setAttribute('alt', langData[key]);
+        const translated = translate(key);
+        if (translated) {
+            el.setAttribute('alt', translated);
         } else {
             console.log('Missing key:', key);
         }

@@ -97,10 +97,9 @@ function showQRCodeModal(linkUrl, imgProperties) {
         id: 'qr-code-icon',
         alt: 'Link',
         src: '/images/null.png',
-        classes: [
-            'img-mono-fill-body-color',
-            'img-mono-link'
-        ]
+        'data-img-feature': 'colored',
+        'data-mask-src': '/images/icons/link.png',
+        'data-color-var': 'bs-body-color'
     };
 
     var mergedProperties = Object.assign({}, defaultImgProperties, imgProperties);
@@ -108,12 +107,11 @@ function showQRCodeModal(linkUrl, imgProperties) {
     mergedProperties.width = 32;
     mergedProperties.height = 32;
 
-    // When a custom icon is provided, drop the default mask classes.
-    if (mergedProperties.src !== '/images/null.png' && mergedProperties.classes) {
-        var clsArr = [].concat(mergedProperties.classes);
-        mergedProperties.classes = clsArr.filter(function (c) {
-            return c !== 'img-mono-fill-body-color' && c !== 'img-mono-link';
-        });
+    // When a custom icon is provided, drop the default mask and color attributes.
+    if (mergedProperties.src !== '/images/null.png') {
+        delete mergedProperties['data-img-feature'];
+        delete mergedProperties['data-mask-src'];
+        delete mergedProperties['data-color-var'];
     }
 
     // Rounded-square background wrapper behind the icon
@@ -129,13 +127,8 @@ function showQRCodeModal(linkUrl, imgProperties) {
     var titleEl = document.getElementById('qr-share-card-title');
     if (titleEl) {
         var i18nAltKey = mergedProperties['data-i18n-alt'];
-        if (i18nAltKey && langData && langData[i18nAltKey]) {
-            titleEl.textContent = langData[i18nAltKey];
-        } else if (mergedProperties.alt) {
-            titleEl.textContent = mergedProperties.alt;
-        } else {
-            titleEl.textContent = langData['text-link'] || 'Link';
-        }
+        var altText = i18nAltKey ? translate(i18nAltKey) : mergedProperties.alt;
+        titleEl.textContent = altText ? altText : translate('text-link', 'Link');
     }
 
     var scale = 3;

@@ -86,20 +86,22 @@ function updateAutoThemeOnSystemChange() {
 /**
  * Swap img[src] with img[data-src-dark] when the current theme is dark,
  * and restore the original light source when switching back.
+ * Targets <img> elements with data-img-feature~="follow-theme".
  */
 function applyThemeBasedImages() {
     try {
         const currentTheme = htmlElement.getAttribute('data-bs-theme');
-        document.querySelectorAll('img[data-src-dark]').forEach(img => {
+        document.querySelectorAll('img[data-img-feature~="follow-theme"]').forEach(img => {
+            // Ensure data-src-light is populated for robustness regardless
+            // of the current theme, so the light src is always recoverable.
+            if (!img.hasAttribute('data-src-light')) {
+                img.setAttribute('data-src-light', img.getAttribute('src'));
+            }
+
             const darkSrc = img.getAttribute('data-src-dark');
             if (currentTheme === 'dark') {
-                // Store the light src if not already stored, then switch to dark
-                if (!img.hasAttribute('data-src-light')) {
-                    img.setAttribute('data-src-light', img.getAttribute('src'));
-                }
                 img.setAttribute('src', darkSrc);
             } else {
-                // Restore the light src if previously stored
                 const lightSrc = img.getAttribute('data-src-light');
                 if (lightSrc) {
                     img.setAttribute('src', lightSrc);
@@ -167,7 +169,7 @@ function updateThemeToggleText() {
     const key = getThemeI18nKey(currentThemePreference);
     themeTextElements.forEach(themeTextElement => {
         themeTextElement.setAttribute('data-i18n', key);
-        themeTextElement.textContent = langData[key] || getThemeLabel(currentThemePreference);
+        themeTextElement.textContent = translate(key) || getThemeLabel(currentThemePreference);
     });
 }
 

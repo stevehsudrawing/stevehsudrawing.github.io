@@ -14,8 +14,8 @@ function updatePageTitle() {
     const pageKey = 'text-' + pageName;
     const siteKey = 'text-steve-hsu-s-link-hub';
 
-    const pageTitle = langData[pageKey];
-    const siteTitle = langData[siteKey];
+    const pageTitle = translate(pageKey);
+    const siteTitle = translate(siteKey);
 
     if (pageName === 'index') {
         // Homepage: show site name only

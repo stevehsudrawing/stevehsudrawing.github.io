@@ -108,10 +108,9 @@
                     "properties": {
                         "alt": "X",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-x-twitter",
-                            "img-mono-fill-body-color"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/x-twitter.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [
@@ -790,10 +789,9 @@
                     "properties": {
                         "alt": "Threads",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-fill-body-color",
-                            "img-mono-threads"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/threads.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [
@@ -825,10 +823,9 @@
                     "properties": {
                         "alt": "Lofter",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-fill-body-color",
-                            "img-mono-link"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/link.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [
@@ -861,10 +858,9 @@
                         "alt": "Rednote",
                         "data-i18n-alt": "text-rednote",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-fill-body-color",
-                            "img-mono-link"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/link.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [
@@ -906,10 +902,9 @@
                         "alt": "Douyin",
                         "data-i18n-alt": "text-douyin",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-fill-body-color",
-                            "img-mono-link"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/link.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [

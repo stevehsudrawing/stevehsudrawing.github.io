@@ -16,10 +16,9 @@
                         "alt": "Quanto Series Team",
                         "data-i18n-alt": "text-quanto-series-team",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-email",
-                            "img-mono-fill-body-color"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/email.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [
@@ -61,10 +60,9 @@
                         "alt": "My personal email",
                         "data-i18n-alt": "text-my-personal-email",
                         "src": "/images/null.png",
-                        "classes": [
-                            "img-mono-email",
-                            "img-mono-fill-body-color"
-                        ]
+                        "data-img-feature": "colored",
+                        "data-mask-src": "/images/icons/email.png",
+                        "data-color-var": "bs-body-color"
                     }
                 },
                 "title": [

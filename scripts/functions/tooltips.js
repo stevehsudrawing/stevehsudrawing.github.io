@@ -40,9 +40,7 @@ function initCopyLinkTooltips() {
             link.setAttribute('data-i18n-tooltip', 'text-click-to-copy');
 
             // Set initial title from i18n data if available, otherwise use fallback
-            const initialTitle = (typeof langData !== 'undefined' && langData['text-click-to-copy'])
-                ? langData['text-click-to-copy']
-                : 'Click to Copy';
+            const initialTitle = translate('text-click-to-copy', 'Click to Copy');
             link.setAttribute('data-bs-title', initialTitle);
 
             // Click handler: copy to clipboard, show "Copied!" feedback, restore after 3s
@@ -53,9 +51,7 @@ function initCopyLinkTooltips() {
 
                 navigator.clipboard.writeText(copyText).then(() => {
                     const tooltipInstance = bootstrap.Tooltip.getInstance(link);
-                    const copiedText = (typeof langData !== 'undefined' && langData['text-copied'])
-                        ? langData['text-copied']
-                        : 'Copied!';
+                    const copiedText = translate('text-copied', 'Copied!');
 
                     if (tooltipInstance) {
                         tooltipInstance.setContent({ '.tooltip-inner': copiedText });
@@ -63,9 +59,7 @@ function initCopyLinkTooltips() {
 
                         // Restore original tooltip text after 3 seconds
                         setTimeout(() => {
-                            const originalText = (typeof langData !== 'undefined' && langData['text-click-to-copy'])
-                                ? langData['text-click-to-copy']
-                                : 'Click to Copy';
+                            const originalText = translate('text-click-to-copy', 'Click to Copy');
                             if (tooltipInstance) {
                                 tooltipInstance.setContent({ '.tooltip-inner': originalText });
                                 tooltipInstance.hide();

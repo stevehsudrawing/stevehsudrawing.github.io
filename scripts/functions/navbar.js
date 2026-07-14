@@ -119,8 +119,9 @@ function initMobileNavbarBrandScroll() {
         if (isMobile && scrolledPast) {
             const i18nKey = getPageI18nKey();
             brandText.setAttribute('data-i18n', i18nKey);
-            if (typeof langData !== 'undefined' && langData[i18nKey]) {
-                brandText.textContent = langData[i18nKey];
+            const translated = translate(i18nKey);
+            if (translated) {
+                brandText.textContent = translated;
             }
 
             navbar.classList.add('scrolled-past');
