@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Apply theme-based images (dark/light variants)
         await applyThemeBasedImages();
 
+        // Inject inline SVGs from external files
+        await initSvgInjection();
+
         // Re-initialize Bootstrap tooltips in new content
         await initTooltips();
 

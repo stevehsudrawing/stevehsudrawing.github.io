@@ -192,10 +192,28 @@ function setActiveThemeItem() {
 
 /**
  * Persist a theme choice and update all related UI elements.
+ * When a dropdown menu is mid-close, the actual theme application is
+ * deferred to avoid disable-transitions from killing the close animation.
  * @param {string} themeChoice - One of 'auto', 'light', or 'dark'.
  */
 function setThemePreference(themeChoice) {
-    applyThemePreference(themeChoice, true);
+    // Persist and update UI immediately for responsiveness.
+    currentThemePreference = themeChoice;
+    localStorage.setItem('bsTheme', themeChoice);
     updateThemeToggleText();
     setActiveThemeItem();
+
+    // Check if a dropdown menu is currently playing its close animation.
+    // If so, defer the theme application so disable-transitions does not
+    // kill the dropdown's opacity/transform transition.
+    var closingMenu = document.querySelector('.dropdown-menu.closing');
+    if (closingMenu) {
+        // The close animation takes ~180 ms plus cleanup; 250 ms is safe.
+        setTimeout(function () {
+            applyThemePreference(themeChoice, false);
+        }, 250);
+    } else {
+        applyThemePreference(themeChoice, false);
+    }
 }
+

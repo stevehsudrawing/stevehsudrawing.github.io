@@ -143,8 +143,9 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 | `images/covers/`     | Cover images for link cards and share cards                 | Cover image files                                     |
 | `images/icons/`      | Icon images for link cards                                  | Icon image files                                      |
 | `images/stickers/`   | Sticker images                                              | Sticker image files                                   |
+| `images/svg/`        | SVG icon/image files for runtime injection                  | New SVG file when adding a vector graphic             |
 | `scripts/`           | JS entry points (`init-*.js`, `env-detection.js`)           | New init script if a new page tier is needed          |
-| `scripts/functions/` | Reusable JS modules - **define only, never execute**       | New JS module file, or add to an existing file        |
+| `scripts/functions/` | Reusable JS modules - **define only, never execute**        | New JS module file, or add to an existing file        |
 | `stylesheets/`       | CSS stylesheets                                             | New CSS file, or add to an existing file              |
 | `sub-pages/`         | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
 | Root `*.html`        | Page files (homepage, sub-pages, error pages)               | New page file when adding a page                      |
@@ -271,14 +272,14 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 **How It Works**:
 
 ```
-HTML: <div id="header" data-component></div>
+HTML: <div data-role="page-component" data-component-name="header"></div>
         ↓ (component-loader.js at init time)
-      Fetches /sub-pages/header.html -> injects innerHTML
+      Reads data-component-name="header" → fetches /sub-pages/header.html → injects innerHTML
 ```
 
-- Elements with `data-component` attribute serve as placeholders.
-- The component loader maps `id` -> `/sub-pages/{id}.html`.
-- The `id` of the placeholder element must match the HTML fragment filename (without extension).
+- Elements with `data-role="page-component"` serve as placeholders.
+- The component loader reads `data-component-name` to derive the file path: `/sub-pages/{name}.html`.
+- The `data-component-name` value must match the HTML fragment filename (without extension).
 
 ---
 
@@ -745,13 +746,13 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                            | Role                                                                         |
-|---------------------------------|------------------------------------------------------------------------------|
+| File                             | Role                                                                        |
+|----------------------------------|-----------------------------------------------------------------------------|
 | `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images via `initColoredImages()`   |
-| `stylesheets/img-utils.css`      | Generic CSS rules for `[data-img-feature~="colored"]` mask-based styling   |
+| `stylesheets/img-utils.css`      | Generic CSS rules for `[data-img-feature~="colored"]` mask-based styling    |
 | `scripts/functions/theme.js`     | `applyThemeBasedImages()` handles `data-img-feature~="follow-theme"` images |
-| `images/null.png`               | Placeholder image used with `data-img-feature="colored"`                    |
-| `images/README.md`              | Copyright notice for image assets                                            |
+| `images/null.png`                | Placeholder image used with `data-img-feature="colored"`                    |
+| `images/README.md`               | Copyright notice for image assets                                           |
 
 #### 4.13.1 `data-img-feature` Attribute
 
@@ -777,9 +778,46 @@ Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 
 Handled by `initColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
 
+### 4.14 SVG Injection
+
+**Brief**: Replaces `<span>` placeholders with inline SVG fetched from files at runtime, avoiding hardcoded SVG markup in HTML. Supports dynamic dimension and color control via data attributes.
+
+**Related Files**:
+
+| File                              | Role                                                                |
+|-----------------------------------|---------------------------------------------------------------------|
+| `scripts/functions/svg-utils.js`  | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
+| `images/svg/`                     | SVG source files (e.g. `steve-hsu.svg`)                             |
+
+**How It Works**:
+
+```
+HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32" data-height="28" data-color-var="bs-link-color"></span>
+        ↓ (svg-utils.js at init time)
+      Fetch /images/svg/steve-hsu.svg → replace fill="currentColor" with var(--bs-link-color)
+        ↓
+      Set width/height on <svg>, inject as innerHTML
+```
+
+**Attributes**:
+
+| Attribute         | Role                                                    | Example                  |
+|-------------------|---------------------------------------------------------|--------------------------|
+| `data-role="svg"` | Declares this element as an SVG placeholder             | -                        |
+| `data-src`        | Path to the SVG file                                    | `/images/svg/logo.svg`   |
+| `data-width`      | SVG width (default unit: px)                            | `32`                     |
+| `data-height`     | SVG height (default unit: px)                           | `28`                     |
+| `data-color-var`  | CSS variable name (without `--`) for `fill` replacement | `bs-link-color`          |
+
+**SVG File Convention**:
+
+- Use `fill="currentColor"` as a placeholder in the SVG file; it will be replaced at injection time.
+- Do not hardcode `width`/`height` in the SVG file; they are set via `data-width`/`data-height`.
+- Always include a `viewBox` attribute for proper scaling.
+
 ---
 
-### 4.14 Utilities
+### 4.15 Utilities
 
 **Brief**: General-purpose helper functions used across the project.
 

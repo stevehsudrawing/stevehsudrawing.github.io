@@ -11,32 +11,6 @@
 var shareApiSupported;
 
 /**
- * Clone the navbar brand SVG logo into the share card header
- * if it has not been inserted yet.
- */
-function ensureShareCardLogo() {
-    var logoContainer = document.getElementById('qr-share-card-logo-container');
-    if (!logoContainer || logoContainer.firstChild) {
-        return;
-    }
-    var navbarLogoSvg = document.querySelector('.navbar-brand svg');
-    if (!navbarLogoSvg) {
-        return;
-    }
-    var logoClone = navbarLogoSvg.cloneNode(true);
-    logoClone.id = 'qr-share-card-logo';
-    logoClone.removeAttribute('width');
-    logoClone.removeAttribute('height');
-    logoClone.setAttribute('width', '25');
-    logoClone.setAttribute('height', '21');
-    var path = logoClone.querySelector('path');
-    if (path) {
-        path.setAttribute('fill', 'currentColor');
-    }
-    logoContainer.appendChild(logoClone);
-}
-
-/**
  * Trigger a file download from a Blob via a temporary anchor element.
  * @param {Blob} blob - The blob to download.
  */
@@ -73,8 +47,8 @@ function showQRCodeModal(linkUrl, imgProperties) {
         return;
     }
 
-    // Ensure the navbar logo is cloned into the share card header.
-    ensureShareCardLogo();
+    // Ensure the share card logo SVG is injected if not already.
+    initSvgInjection();
 
     modalLink.textContent = linkUrl;
     qrCodeContainer.innerHTML = '';
@@ -120,6 +94,9 @@ function showQRCodeModal(linkUrl, imgProperties) {
 
     var centerImg = document.createElement('img');
     setElementAttributes(centerImg, mergedProperties);
+    if (mergedProperties['data-img-feature'] === 'colored') {
+        applyColoredImage(centerImg);
+    }
     iconBg.appendChild(centerImg);
     qrCodeContainer.appendChild(iconBg);
 

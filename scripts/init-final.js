@@ -38,6 +38,9 @@ async function initPageContent() {
     // Initialize colored (mask-based) images
     initColoredImages();
 
+    // Inject inline SVGs from external files
+    await initSvgInjection();
+
     // Apply external link target behavior
     applyExternalLinkTargetBehavior();
 
