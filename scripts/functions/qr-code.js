@@ -18,7 +18,7 @@ function downloadBlob(blob) {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = 'qr-code.webp';
+    a.download = 'qr-code.png';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -173,7 +173,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
 
     // --- Detect share-API support (once) and hide button if unsupported ---
     if (typeof shareApiSupported === 'undefined') {
-        var testFile = new File([new Blob([''], { type: 'image/png' })], 'test.webp', { type: 'image/png' });
+        var testFile = new File([new Blob([''], { type: 'image/png' })], 'test.png', { type: 'image/png' });
         shareApiSupported = !!(navigator.share && navigator.canShare && navigator.canShare({ files: [testFile] }));
     }
     if (!shareApiSupported) {
@@ -183,7 +183,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
     // --- Share handler (native share API) ---
     shareBtn.onclick = function () {
         runWithSpinner(function (blob) {
-            var file = new File([blob], 'qr-code.webp', { type: 'image/png' });
+            var file = new File([blob], 'qr-code.png', { type: 'image/png' });
             navigator.share({ files: [file] }).catch(function (error) {
                 if (error.name !== 'AbortError') {
                     showErrorToast('Sharing failed: ' + errMsg(error));
