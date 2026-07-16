@@ -15,7 +15,7 @@
     --shlh-font-monospace-major-zh-Hant: '等距更紗黑體 TC', 'Sarasa Mono TC', 'Noto Sans Mono CJK TC', '思源等寬', 'Source Han Mono TC';
     --shlh-font-monospace-system: ui-monospace, monospace;
 
-    --shlh-font-sans-serif-text-fallback-en: 'Helvetica', 'Liberation Sans', 'DejaVu Sans', 'Droid Sans', 'Tahoma', 'Geneva', 'Verdana', 'Arial';
+    --shlh-font-sans-serif-text-fallback-en: 'Helvetica Neue', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', 'Droid Sans', 'Tahoma', 'Geneva', 'Verdana', 'Arial';
     --shlh-font-sans-serif-text-fallback-ja: 'Osaka', 'VL Ｐゴシック', 'VL PGothic', 'IPA ゴシック', 'IPA Gothic', 'さざなみゴシック', 'Sazanami Gothic', 'Droid Sans Japanese', 'Droid Sans Fallback', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
     --shlh-font-sans-serif-text-fallback-zh-Hans: '华文细黑', 'STXihei', '华文黑体', 'STHeiti', '黑体-简', 'Heiti SC', 'Hei', '文泉驿微米黑', 'WenQuanYi Micro Hei', '文泉驿正黑', 'WenQuanYi Zen Hei', 'Droid Sans Fallback', '黑体', 'SimHei', '宋体', 'SimSun';
     --shlh-font-sans-serif-text-fallback-zh-Hant: '儷黑 Pro', 'LiHei Pro', '蘋果儷中黑', 'Apple LiGothic', '文泉驛微米黑', 'WenQuanYi Micro Hei', '文泉驛正黑', 'WenQuanYi Zen Hei', 'Droid Sans Fallback', '新細明體', 'PMingLiU';

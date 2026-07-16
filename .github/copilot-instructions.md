@@ -65,11 +65,11 @@ The minimum browser versions are determined by both **our CDN dependencies** and
 
 The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Feature        | Chrome | Edge   | Firefox | Opera  | Safari | Used By         |
-|----------------|--------|--------|---------|--------|--------|-----------------|
-| WebP           | 32     | **18** | **65**  | 19     | **16** | Image assets    |
-| WOFF 2         | 36     | 14     | 39      | 23     | 10     | Bootstrap Icons |
-| Variable fonts | **66** | 17     | 62      | **53** | 11     | Inter           |
+| Feature        | Used By         | Chrome | Edge   | Firefox | Opera  | Safari |
+|----------------|-----------------|--------|--------|---------|--------|--------|
+| WebP           | Image assets    | 32     | **18** | **65**  | 19     | **16** |
+| WOFF 2         | Bootstrap Icons | 36     | 14     | 39      | 23     | 10     |
+| Variable fonts | Inter           | **66** | 17     | 62      | **53** | 11     |
 
 ### 1.5 Deployment
 
@@ -702,7 +702,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 | Language  | Apple                                                                      | Android / Linux                                                                                                                                  | Windows / General                                   |
 |-----------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| `en`      | `Helvetica`                                                                | `Liberation Sans`, `DejaVu Sans`, `Droid Sans`                                                                                                   | `Tahoma`, `Geneva`, `Verdana`, `Arial`              |
+| `en`      | `Helvetica Neue`, `Helvetica`                                              | `Liberation Sans`, `DejaVu Sans`, `Droid Sans`                                                                                                   | `Tahoma`, `Geneva`, `Verdana`, `Arial`              |
 | `ja`      | `Osaka`                                                                    | `VL Ｐゴシック`, `VL PGothic`, `IPA ゴシック`, `IPA Gothic`, `さざなみゴシック`, `Sazanami Gothic`, `Droid Sans Japanese`, `Droid Sans Fallback` | `ＭＳ Ｐゴシック`, `MS PGothic`, `Arial Unicode MS` |
 | `zh-Hans` | `华文细黑`, `STXihei`, `华文黑体`, `STHeiti`, `黑体-简`, `Heiti SC`, `Hei` | `文泉驿微米黑`, `WenQuanYi Micro Hei`, `文泉驿正黑`, `WenQuanYi Zen Hei`, `Droid Sans Fallback`                                                  | `黑体`, `SimHei`, `宋体`, `SimSun`                  |
 | `zh-Hant` | `儷黑 Pro`, `LiHei Pro`, `蘋果儷中黑`, `Apple LiGothic`                    | `文泉驛微米黑`, `WenQuanYi Micro Hei`, `文泉驛正黑`, `WenQuanYi Zen Hei`, `Droid Sans Fallback`                                                  | `新細明體`, `PMingLiU`                              |
