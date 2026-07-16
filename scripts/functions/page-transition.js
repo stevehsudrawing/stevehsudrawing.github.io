@@ -4,6 +4,10 @@
  * by fetching and replacing only the #page-content element.
  */
 
+/**
+ * List of internal page paths that support page transitions.
+ * @constant {string[]}
+ */
 const INTERNAL_PAGES = [
     '/index.html',
     '/about.html',
@@ -13,12 +17,28 @@ const INTERNAL_PAGES = [
     '/softwares.html'
 ];
 
-const EXCLUDED_PAGES = ['/404.html', '/error-unsupported-browser.html'];
+/**
+ * List of page paths excluded from the page transition system.
+ * These pages will always trigger a full browser navigation.
+ * @constant {string[]}
+ */
+const EXCLUDED_PAGES = [
+    '/404.html',
+    '/error-javascript-disabled.html',
+    '/error-unsupported-browser.html'
+];
 
+/**
+ * Flag indicating whether a page transition is currently in progress.
+ * Used to prevent concurrent transitions.
+ * @type {boolean}
+ */
 let isTransitioning = false;
 
 /**
  * Determine if a URL is an internal page that should be handled by the transition system.
+ * @param {string} url - The URL to check, can be relative or absolute.
+ * @returns {boolean} True if the URL points to an internal page eligible for transitions.
  */
 function isInternalPage(url) {
     try {
@@ -35,9 +55,15 @@ function isInternalPage(url) {
 
 /**
  * Check if a clicked link should be handled by the transition system.
+ * @param {HTMLAnchorElement} link - The anchor element to check.
+ * @returns {boolean} True if the link should be intercepted for page transition.
  */
 function shouldInterceptLink(link) {
     if (!link) return false;
+
+    // For predefined links, a direct return is possible
+    if (link.classList.contains('internal-link')) return true;
+    if (link.classList.contains('external-link')) return false;
 
     const href = link.getAttribute('href');
     if (!href || href === '#') return false;
@@ -138,6 +164,8 @@ function closeOffcanvas() {
 
 /**
  * Extract the #page-content inner HTML and <title> from a fetched HTML string.
+ * @param {string} htmlString - The full HTML content of a fetched page.
+ * @returns {{title: string, contentHTML: string}} An object containing the page title and the inner HTML of #page-content.
  */
 function extractPageContent(htmlString) {
     const parser = new DOMParser();
@@ -253,6 +281,7 @@ async function navigateTo(url, pushState = true) {
 
 /**
  * Handle click events on internal links.
+ * @param {MouseEvent} e - The click event object.
  */
 function handleInternalLinkClick(e) {
     // Skip if user is holding modifier keys (open in new tab/window)
@@ -279,6 +308,7 @@ function initPageTransitionLinkClicks() {
 
 /**
  * Handle browser back/forward navigation.
+ * @param {PopStateEvent} e - The popstate event object.
  */
 function handlePopState(e) {
     const currentPath = normalizeInternalPath(window.location.pathname);
