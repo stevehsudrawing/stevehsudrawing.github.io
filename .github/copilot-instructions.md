@@ -548,6 +548,15 @@ The JSON format uses a consistent pattern for representing HTML elements:
     - `description`: Optional; array of Text Fragments for a group description.
     - `contents`: Array of Link Cards.
 
+**Interaction with Other Systems**:
+
+- **i18n ([§4.3](#43-internationalization-i18n))**: Generated cards contain `data-i18n` attributes; `updatePageText()` must be called after card generation to apply translations.
+- **QR Code ([§4.10](#410-qr-code--export))**: "super link" fragments generate adjacent QR-code buttons that call `showQRCodeModal()`.
+- **Image Utilities ([§4.13](#413-image-utilities))**: Card icons may use `data-img-feature="colored"` (mask-based coloring) or `"follow-theme"` (dark/light variant swapping).
+- **Utilities ([§4.15](#415-utilities))**: Uses `setElementAttributes()` to apply element properties and `extractPageName()` to resolve the JSON config path.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: Links generated with `.external-link` class will trigger the confirmation modal on click.
+- **Page Transition ([§4.6](#46-page-transitions))**: Links generated with `.internal-link` class will trigger SPA-style page navigation.
+
 ---
 
 ### 4.6 Page Transitions
@@ -567,6 +576,15 @@ The JSON format uses a consistent pattern for representing HTML elements:
 - A progress bar (`#page-transition-progress`) animates at the top of the viewport.
 - Content is dimmed during the transition.
 - On lightweight pages (`404.html`), the Page Transition System is not loaded.
+
+**Interaction with Other Systems**:
+
+- **Utilities ([§4.15](#415-utilities))**: Depends on `isInternalPage()`, `normalizeInternalPath()`, `INTERNAL_PAGES`, and `EXCLUDED_PAGES` (defined in `utils.js`) for link classification and path resolution.
+- **Tooltips ([§4.12](#412-tooltips))**: Calls `disposeAllTooltips()` before each transition to prevent orphaned tooltip instances.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: `shouldInterceptLink()` returns `false` for `.external-link` links, allowing the confirmation system to take over. The confirmation system uses `isInternalPage()` from `utils.js` to avoid false positives.
+- **Settings ([§4.8](#48-settings--preferences))**: After a page transition, `initPageContent()` re-invokes `initSettingsModal()` to re-sync toggle states with the recreated DOM.
+- **i18n ([§4.3](#43-internationalization-i18n))**: After a page transition, `initPageContent()` calls `updatePageText()` and `updatePageTitle()` to apply translations to the new content.
+- **Initialization ([§4.7](#47-loading-screen))**: `navigateTo()` restores page content and completes the progress bar on success; on failure, falls back to a full browser navigation (`window.location.href`).
 
 ---
 
@@ -635,6 +653,13 @@ The JSON format uses a consistent pattern for representing HTML elements:
 | `localStorage` | `enableAnimations`          | Persist animation preference             |
 
 > Language and theme preferences are managed by their respective modules (see [§4.3](#43-internationalization-i18n) and [§4.4](#44-theme-system)).
+
+**Interaction with Other Systems**:
+
+- **i18n ([§4.3](#43-internationalization-i18n))**: The language selector (`#language-select`) in the settings modal triggers `loadLang()` on change.
+- **Theme ([§4.4](#44-theme-system))**: Theme buttons (`.theme-item`) in the settings modal call `setThemePreference()` on click.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: The `openExternalLinksInNewTab` preference is shared between the settings modal toggle (`#external-links-new-tab-toggle`) and the confirmation modal toggle (`#external-link-new-tab-toggle`). The confirmation module calls `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyExternalLinkTargetBehavior()` from this module.
+- **Page Transition ([§4.6](#46-page-transitions))**: `initSettingsModal()` is re-invoked after each SPA transition (via `initPageContent()`) to re-sync toggle DOM elements with stored preferences.
 
 ---
 
@@ -973,6 +998,68 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 - Contains the page title (`<h1>`) and a descriptive paragraph (`<p>`).
 - The homepage noscript additionally includes a `<ul>` of key platform links.
 - This is purely for search engine crawlers; users without JS are redirected by the `<head>` noscript before seeing this content.
+
+---
+
+### 4.17 External Link Confirmation
+
+**Brief**: Intercepts clicks on external links (`.external-link`) and shows a confirmation modal before navigating away from the site. Allows the user to choose whether to open the link in a new tab.
+
+**Related Files**:
+
+| File                                              | Role                                               |
+|---------------------------------------------------|----------------------------------------------------|
+| `scripts/functions/external-link-confirmation.js` | Link interception, modal display, navigation logic |
+| `stylesheets/external-link-confirmation.css`      | Modal URL display styling                          |
+| `page-components/modals.html`                     | Confirmation modal HTML (shared with other modals) |
+
+**How It Works**:
+
+```
+User clicks a.external-link
+  ↓ (preventDefault)
+shouldConfirmExternalLink(link) checks:
+  - Must have .external-link class
+  - Must have a valid href (not #, javascript:, mailto:, tel:)
+  - Must not have download or onclick attributes
+  - Must not be an internal page (isInternalPage check)
+  ↓ Passes all checks
+Show confirmation modal:
+  - Displays the target URL
+  - "Open in new tab" toggle (synced with localStorage openExternalLinksInNewTab)
+  - [Open] button -> navigateToExternalUrl()
+  - [Close] button / x / backdrop -> dismiss
+  ↓ User clicks [Open]
+navigateToExternalUrl():
+  - If toggle is ON -> window.open(url, '_blank', 'noopener,noreferrer')
+  - If toggle is OFF -> window.location.href = url
+```
+
+- Modifier key clicks (Ctrl/Cmd/Shift/Alt) bypass the confirmation and let the browser handle the link normally.
+- The "Open in new tab" toggle shares the same `localStorage` key (`openExternalLinksInNewTab`) with the settings modal ([§4.8](#48-settings--preferences)). Changes in either location are immediately reflected in the other.
+
+**Key Functions**:
+
+- `shouldConfirmExternalLink(link)` - Determines whether a clicked link should trigger the confirmation modal.
+- `showExternalLinkConfirmation(url)` - Populates and displays the confirmation modal for the given URL.
+- `navigateToExternalUrl(url)` - Performs the actual navigation based on the toggle state.
+- `handleExternalLinkClick(e)` - Delegated click handler that intercepts `.external-link` clicks.
+- `handleExternalLinkConfirm()` - Handles the [Open] button click.
+- `handleExternalLinkToggleChange()` - Persists toggle changes to localStorage and applies the target behavior.
+- `initExternalLinkConfirmation()` - Sets up delegated event listeners on `document`. Called once from `init-final.js`.
+
+**Data Flow**:
+
+| Mechanism      | Key                         | Purpose                                                       |
+|----------------|-----------------------------|---------------------------------------------------------------|
+| `localStorage` | `openExternalLinksInNewTab` | Shared preference with settings modal ([§4.8](#48-settings--preferences)) for new-tab toggle |
+
+**Interaction with Other Systems**:
+
+- **Page Transition ([§4.6](#46-page-transitions))**: The confirmation system only intercepts `.external-link` links. Internal links continue to be handled by `page-transition.js` via `shouldInterceptLink()`.
+- **Settings ([§4.8](#48-settings--preferences))**: The new-tab toggle in the confirmation modal and the one in the settings modal share the same `localStorage` key. The `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyExternalLinkTargetBehavior()` functions from `settings.js` are called by the confirmation module.
+- **Utilities ([§4.15](#415-utilities))**: `isInternalPage()` (in `utils.js`) is used to avoid showing the confirmation for links that point to internal pages.
+- **Component Loading ([§4.2](#42-component-loading))**: The modal HTML is part of `modals.html`, loaded by the component loader during initial page load.
 
 ---
 

@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         await loadLang(savedLang);
 
         initSettingEventListeners();
+        initExternalLinkConfirmation();
         initHashChangeScroll();
         initNoCopyProtection();
 

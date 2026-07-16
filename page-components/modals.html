@@ -23,7 +23,7 @@
                             <div id="qr-share-card-footer">
                                 <div id="qr-share-card-footer-text">
                                     <span data-i18n="text-learn-more-about-me">Learn more about me</span>
-                                    <code style="color: rgba(var(--bs-body-color-rgb), 0.8);">https://stevehsudrawing.github.io</code>
+                                    <code>https://stevehsudrawing.github.io</code>
                                 </div>
                                 <div id="qr-share-card-logo-container">
                                     <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="25" data-height="21" data-color-var="bs-primary"></span>
@@ -90,6 +90,28 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary btn-no-border" data-bs-toggle="modal" data-bs-target="#settings-modal" data-i18n="text-cancel">Cancel</button>
                         <button type="button" class="btn btn-outline-danger btn-no-border" id="confirm-reset-btn" data-i18n="text-continue">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="external-link-confirmation-modal" tabindex="-1" aria-labelledby="external-link-confirmation-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="external-link-confirmation-modal-label" data-i18n="text-external-link-confirmation">External Link</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-2" data-i18n="text-you-are-about-to-leave">You are about to leave this site:</p>
+                        <code class="d-block mb-3" id="external-link-url-display"></code>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="external-link-new-tab-toggle">
+                            <label class="form-check-label" for="external-link-new-tab-toggle" data-i18n="text-open-in-new-tab">Open in new tab</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary btn-no-border" id="external-link-open-btn" data-i18n="text-open">Open</button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
                     </div>
                 </div>
             </div>

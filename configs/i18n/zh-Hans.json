@@ -38,6 +38,7 @@
     "text-download": "下载",
     "text-emails": "电子邮箱",
     "text-enable-animations": "启用动画",
+    "text-external-link-confirmation": "外部链接",
     "text-go-to-homepage": "转到首页",
     "text-group-number": "群号",
     "text-home": "首页",
@@ -59,6 +60,8 @@
     "text-my-pixiv-profile": "我的 Pixiv 个人资料",
     "text-my-softwares": "我的软件",
     "text-name": "名称",
+    "text-open-in-new-tab": "在新标签页中打开",
+    "text-open": "打开",
     "text-patreon-quanto-series": "Patreon (Quanto 系列)",
     "text-profile-part-1": "发音：/stiːv ɕy/。您也可以称呼我为「什五 (shí wǔ)」。男性。",
     "text-profile-part-2": "我是一名业余创作者。我有时会画画和做视频。",
@@ -108,5 +111,6 @@
     "text-wechat":"微信",
     "text-weibo": "微博",
     "text-welcome-part-1": "欢迎来到",
-    "text-welcome-part-2": " 的链接中枢！"
+    "text-welcome-part-2": " 的链接中枢！",
+    "text-you-are-about-to-leave": "您即将离开本站："
 }

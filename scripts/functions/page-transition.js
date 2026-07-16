@@ -5,53 +5,11 @@
  */
 
 /**
- * List of internal page paths that support page transitions.
- * @constant {string[]}
- */
-const INTERNAL_PAGES = [
-    '/index.html',
-    '/about.html',
-    '/artworks-and-videos.html',
-    '/blogs-and-sponsor.html',
-    '/chatting.html',
-    '/softwares.html'
-];
-
-/**
- * List of page paths excluded from the page transition system.
- * These pages will always trigger a full browser navigation.
- * @constant {string[]}
- */
-const EXCLUDED_PAGES = [
-    '/404.html',
-    '/error-javascript-disabled.html',
-    '/error-unsupported-browser.html'
-];
-
-/**
  * Flag indicating whether a page transition is currently in progress.
  * Used to prevent concurrent transitions.
  * @type {boolean}
  */
 let isTransitioning = false;
-
-/**
- * Determine if a URL is an internal page that should be handled by the transition system.
- * @param {string} url - The URL to check, can be relative or absolute.
- * @returns {boolean} True if the URL points to an internal page eligible for transitions.
- */
-function isInternalPage(url) {
-    try {
-        const target = new URL(url, window.location.origin);
-        // Must be same origin
-        if (target.origin !== window.location.origin) return false;
-        // Must be one of our known internal pages
-        const path = target.pathname;
-        return INTERNAL_PAGES.includes(path) && !EXCLUDED_PAGES.includes(path);
-    } catch {
-        return false;
-    }
-}
 
 /**
  * Check if a clicked link should be handled by the transition system.

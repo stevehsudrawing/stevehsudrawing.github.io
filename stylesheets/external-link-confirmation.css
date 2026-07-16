@@ -1,0 +1,13 @@
+/* ========================================================================
+   External Link Confirmation - modal styles
+   ======================================================================== */
+
+/* --- URL display --- */
+
+#external-link-url-display {
+    word-break: break-all;
+    font-size: .875rem;
+    background-color: rgba(var(--bs-secondary-bg-rgb), .5);
+    padding: .5rem .75rem;
+    border-radius: var(--bs-border-radius);
+}
