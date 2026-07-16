@@ -67,16 +67,14 @@ function updatePageText() {
     // use data-i18n-tooltip to specify the translation key,
     // and the translated text is written to data-bs-title.
     // If a tooltip instance already exists (e.g. after language switch),
-    // dispose and recreate it so it picks up the new title.
+    // recreate it via createTooltip() so it picks up the new title.
     document.querySelectorAll('[data-bs-toggle="tooltip"][data-i18n-tooltip]').forEach(el => {
         const key = el.getAttribute('data-i18n-tooltip');
         const translated = translate(key);
         if (translated) {
             el.setAttribute('data-bs-title', translated);
-            const tooltipInstance = bootstrap.Tooltip.getInstance(el);
-            if (tooltipInstance) {
-                tooltipInstance.dispose();
-                new bootstrap.Tooltip(el);
+            if (bootstrap.Tooltip.getInstance(el)) {
+                createTooltip(el);
             }
         }
     });

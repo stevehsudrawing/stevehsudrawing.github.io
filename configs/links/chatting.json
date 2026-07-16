@@ -36,7 +36,7 @@
                             {
                                 "content": "Steve Hsu's Fan-base",
                                 "properties": {
-                                    "data-i18n": "text-sawtooth-introduction"
+                                    "data-i18n": "text-sawtooth-description"
                                 }
                             },
                             {
@@ -91,7 +91,7 @@
                             {
                                 "content": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts",
                                 "properties": {
-                                    "data-i18n": "text-quantum-introduction"
+                                    "data-i18n": "text-quantum-description"
                                 }
                             },
                             {

@@ -32,16 +32,16 @@ async function initPageContent() {
     initCopyLinkTooltips();
 
     // Re-initialize Bootstrap tooltips in new content
-    initTooltips();
+    initAllTooltips();
 
     // Re-bind title link anchor click handlers
     initTitleLinkAnchors();
 
     // Apply theme-based images (dark/light variants)
-    applyThemeBasedImages();
+    applyAllThemeBasedImages();
 
     // Initialize colored (mask-based) images
-    initColoredImages();
+    initAllColoredImages();
 
     // Inject inline SVGs from external files
     await initSvgInjection();

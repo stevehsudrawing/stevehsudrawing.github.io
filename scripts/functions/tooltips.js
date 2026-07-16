@@ -8,9 +8,9 @@
  * Create Bootstrap Tooltip instances for every element that has
  * the data-bs-toggle="tooltip" attribute.
  */
-function initTooltips() {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+function initAllTooltips() {
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        .forEach(el => createTooltip(el));
 }
 
 /**
@@ -18,12 +18,30 @@ function initTooltips() {
  * Useful before page transitions to prevent orphaned tooltips.
  */
 function disposeAllTooltips() {
-    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-        const instance = bootstrap.Tooltip.getInstance(el);
-        if (instance) {
-            instance.dispose();
-        }
-    });
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        .forEach(el => disposeTooltip(el));
+}
+
+/**
+ * Create a Bootstrap Tooltip instance on a single element.
+ * Disposes any existing tooltip on the element first (idempotent).
+ * @param {Element} element - The element to attach the tooltip to.
+ * @returns {bootstrap.Tooltip} The new tooltip instance.
+ */
+function createTooltip(element) {
+    disposeTooltip(element);
+    return new bootstrap.Tooltip(element);
+}
+
+/**
+ * Dispose a Bootstrap Tooltip instance from a single element, if one exists.
+ * @param {Element} element - The element to remove the tooltip from.
+ */
+function disposeTooltip(element) {
+    const instance = bootstrap.Tooltip.getInstance(element);
+    if (instance) {
+        instance.dispose();
+    }
 }
 
 /**

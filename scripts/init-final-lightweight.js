@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         initCopyLinkTooltips();
 
         // Apply theme-based images (dark/light variants)
-        await applyThemeBasedImages();
+        await applyAllThemeBasedImages();
 
         // Inject inline SVGs from external files
         await initSvgInjection();
 
         // Re-initialize Bootstrap tooltips in new content
-        await initTooltips();
+        await initAllTooltips();
 
         // Hide the loading screen now that everything is ready
         hideLoadingScreen();

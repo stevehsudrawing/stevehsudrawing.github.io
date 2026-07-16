@@ -1,8 +1,8 @@
 /**
  * Settings panel event handling.
- * Manages the settings modal's toggle for opening external links in new tabs,
- * the language selector, and the reset workflow with a
- * confirmation modal.
+ * Manages the settings modal's toggles for opening external links in new tabs
+ * and enabling animations, the language selector, and the reset workflow
+ * with a confirmation modal.
  */
 
 /**
@@ -24,6 +24,14 @@ function initSettingEventListeners() {
             return;
         }
 
+        // Enable animations toggle
+        if (e.target && e.target.id === 'enable-animations-toggle') {
+            const checked = e.target.checked;
+            setAnimationPreference(checked);
+            applyAnimationPreference();
+            return;
+        }
+
         // Language select
         if (e.target && e.target.id === 'language-select') {
             const selectedLang = e.target.value;
@@ -39,6 +47,7 @@ function initSettingEventListeners() {
                 localStorage.removeItem('preferredLang');
                 localStorage.removeItem('bsTheme');
                 localStorage.removeItem('openExternalLinksInNewTab');
+                localStorage.removeItem('enableAnimations');
             } catch (e) {
                 console.warn('Failed to clear some preferences:', e);
             }
@@ -114,6 +123,35 @@ function applyExternalLinkTargetBehavior() {
 }
 
 /**
+ * Read the "enable animations" preference from localStorage.
+ * @returns {boolean} True if animations should be enabled.
+ */
+function isAnimationEnabled() {
+    return localStorage.getItem('enableAnimations') !== 'false';
+}
+
+/**
+ * Persist the "enable animations" preference to localStorage.
+ * @param {boolean} enabled - Whether animations should be enabled.
+ */
+function setAnimationPreference(enabled) {
+    localStorage.setItem('enableAnimations', enabled ? 'true' : 'false');
+}
+
+/**
+ * Apply the animation preference by toggling the .no-animations class
+ * on the <html> element.
+ */
+function applyAnimationPreference() {
+    const enabled = isAnimationEnabled();
+    if (enabled) {
+        htmlElement.classList.remove('no-animations');
+    } else {
+        htmlElement.classList.add('no-animations');
+    }
+}
+
+/**
  * Initialize the settings modal on first call (idempotent via body attribute).
  * Syncs the toggle and select values with stored preferences.
  */
@@ -126,6 +164,7 @@ function initSettingsModal() {
         if (settingsToggle) {
             settingsToggle.checked = isExternalLinkNewTabEnabled();
         }
+        updateAnimationToggleState();
         applyExternalLinkTargetBehavior();
         return;
     }
@@ -137,10 +176,56 @@ function initSettingsModal() {
         settingsToggle.checked = isExternalLinkNewTabEnabled();
     }
 
+    updateAnimationToggleState();
+
+    // Listen for OS-level reduced-motion preference changes
+    var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    reducedMotionQuery.addEventListener('change', function () {
+        updateAnimationToggleState();
+    });
+
     const languageSelect = document.getElementById('language-select');
     if (languageSelect) {
         languageSelect.value = currentLang;
     }
 
     applyExternalLinkTargetBehavior();
+    applyAnimationPreference();
+}
+
+/**
+ * Update the animation toggle state based on the system reduced-motion
+ * preference. When the system prefers reduced motion, the toggle is
+ * disabled (unchecked) and a tooltip explains why. Otherwise the toggle
+ * reflects the user's stored preference.
+ */
+function updateAnimationToggleState() {
+    var toggle = document.getElementById('enable-animations-toggle');
+    if (!toggle) return;
+
+    var label = document.querySelector('label[for="enable-animations-toggle"]');
+    var systemReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (systemReduced) {
+        toggle.disabled = true;
+        toggle.checked = false;
+        if (label) {
+            var tooltipText = typeof translate === 'function'
+                ? translate('text-animations-disabled-by-system-description', 'Animations are disabled by your system settings.')
+                : 'Animations are disabled by your system settings.';
+            label.setAttribute('data-bs-toggle', 'tooltip');
+            label.setAttribute('data-bs-title', tooltipText);
+            label.setAttribute('data-i18n-tooltip', 'text-animations-disabled-by-system-description');
+            createTooltip(label);
+        }
+    } else {
+        toggle.disabled = false;
+        toggle.checked = isAnimationEnabled();
+        if (label) {
+            disposeTooltip(label);
+            label.removeAttribute('data-bs-toggle');
+            label.removeAttribute('data-bs-title');
+            label.removeAttribute('data-i18n-tooltip', 'text-animations-disabled-by-system-description');
+        }
+    }
 }

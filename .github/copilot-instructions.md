@@ -115,21 +115,40 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 
 #### 2.3.1 Function Naming by Category
 
-| Prefix       | Purpose                        | Examples                                                                                     |
-|--------------|--------------------------------|----------------------------------------------------------------------------------------------|
-| `init*`      | Initialize / set up listeners  | `initThemePreference`, `initSkipButton`, `initTooltips`, `initScrollHint`, `initPageContent` |
-| `load*`      | Async data fetching            | `loadSupportedLangs`, `loadLang`, `loadAllComponents`, `loadHTML`                            |
-| `update*`    | Update existing DOM content    | `updatePageText`, `updatePageTitle`, `updateThemeToggleText`                                 |
-| `apply*`     | Apply a setting / style change | `applyThemePreference`, `applyThemeBasedImages`, `applyExternalLinkTargetBehavior`           |
-| `get*`       | Retrieve / compute a value     | `getSystemTheme`                                                                             |
-| `set*`       | Set a state / attribute        | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                |
-| `populate*`  | Fill UI lists / menus          | `populateLanguageMenus`                                                                      |
-| `generate*`  | Create and inject DOM elements | `generateLinkCards`                                                                          |
-| `hide*`      | Hide an element                | `hideLoadingScreen`                                                                          |
-| `extract*`   | Parse / derive from input      | `extractPageName`                                                                            |
-| `normalize*` | Normalize / sanitize input     | `normalizeInternalPath`                                                                      |
+| Prefix       | Purpose                        | Examples                                                                                        |
+|--------------|--------------------------------|-------------------------------------------------------------------------------------------------|
+| `init*`      | Initialize / set up listeners  | `initThemePreference`, `initSkipButton`, `initAllTooltips`, `initScrollHint`, `initPageContent` |
+| `load*`      | Async data fetching            | `loadSupportedLangs`, `loadLang`, `loadAllComponents`, `loadHTML`                               |
+| `update*`    | Update existing DOM content    | `updatePageText`, `updatePageTitle`, `updateThemeToggleText`                                    |
+| `apply*`     | Apply a setting / style change | `applyThemePreference`, `applyAllThemeBasedImages`, `applyExternalLinkTargetBehavior`           |
+| `get*`       | Retrieve / compute a value     | `getSystemTheme`                                                                                |
+| `set*`       | Set a state / attribute        | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                   |
+| `populate*`  | Fill UI lists / menus          | `populateLanguageMenus`                                                                         |
+| `generate*`  | Create and inject DOM elements | `generateLinkCards`                                                                             |
+| `hide*`      | Hide an element                | `hideLoadingScreen`                                                                             |
+| `extract*`   | Parse / derive from input      | `extractPageName`                                                                               |
+| `normalize*` | Normalize / sanitize input     | `normalizeInternalPath`                                                                         |
 
 > Prefer existing prefixes when adding new functions. If none fit, use a clear descriptive verb.
+
+#### 2.3.2 Batch Functions Must Delegate to Single-Element Functions
+
+A **batch function** is a function that queries multiple DOM elements and applies the same operation to each one. The per-element logic **must** be extracted into a reusable single-element function. The batch function then delegates to it.
+
+- Batch function names **must** include `All` before the noun (e.g. `initAllTooltips()`, `applyAllThemeBasedImages()`).
+- The corresponding single-element function describes the per-element action (e.g. `createTooltip(el)`, `applyThemeBasedImage(img)`).
+- The single-element function should be **idempotent** (safe to call multiple times on the same element).
+- Functions without a corresponding single-element function (pure event delegation, singleton initialization, etc.) do not need `All` in their name.
+
+Existing batch / single-element pairs:
+
+| Batch Function               | Single-Element Function       | Module                |
+|------------------------------|-------------------------------|-----------------------|
+| `initAllTooltips()`          | `createTooltip(el)`           | `tooltips.js`         |
+| `disposeAllTooltips()`       | `disposeTooltip(el)`          | `tooltips.js`         |
+| `initAllColoredImages()`     | `applyColoredImage(img)`      | `img-utils.js`        |
+| `applyAllThemeBasedImages()` | `applyThemeBasedImage(img)`   | `theme.js`            |
+| `loadAllComponents()`        | `loadHTML(placeholder, name)` | `component-loader.js` |
 
 ---
 
@@ -289,9 +308,9 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 **Related Files**:
 
-| File                                    | Role                                |
-|-----------------------------------------|-------------------------------------|
-| `scripts/functions/component-loader.js` | Fetches and injects HTML fragments  |
+| File                                          | Role                                |
+|-----------------------------------------------|-------------------------------------|
+| `scripts/functions/component-loader.js`       | Fetches and injects HTML fragments  |
 | `page-components/header.html`                 | Header fragment                     |
 | `page-components/footer.html`                 | Footer fragment (full pages)        |
 | `page-components/footer-lightweight.html`     | Footer fragment (lightweight pages) |
@@ -590,11 +609,26 @@ The JSON format uses a consistent pattern for representing HTML elements:
     - The toggle change event is handled by `initSettingEventListeners()`.
     - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference.
 
+- **"Enable animations"**:
+    - `localStorage` key: `enableAnimations`.
+    - **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
+    - Controlled by a toggle (`#enable-animations-toggle`) in the settings modal.
+    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `stylesheets/base.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
+    - Key functions:
+        - `isAnimationEnabled()` - reads the preference.
+        - `setAnimationPreference(enabled)` - persists the preference.
+        - `applyAnimationPreference()` - toggles the `.no-animations` class on `<html>`.
+        - `updateAnimationToggleState()` - checks `matchMedia('(prefers-reduced-motion: reduce)')`; when the OS-level reduced-motion setting is active, disables the toggle (`disabled + unchecked`) and displays a tooltip on the label (i18n key `text-animations-disabled-by-system-description`) explaining that the system setting overrides this option. Listens for changes to the OS setting via `matchMedia(...).addEventListener('change', ...)`.
+    - CSS rules (in `stylesheets/base.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
+    - The toggle change event is handled by `initSettingEventListeners()`.
+    - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference and system state.
+
 **Data Flow**:
 
 | Mechanism      | Key                         | Purpose                                  |
 |----------------|-----------------------------|------------------------------------------|
 | `localStorage` | `openExternalLinksInNewTab` | Persist external link new-tab preference |
+| `localStorage` | `enableAnimations`          | Persist animation preference             |
 
 > Language and theme preferences are managed by their respective modules (see [§4.3](#43-internationalization-i18n) and [§4.4](#44-theme-system)).
 
@@ -758,13 +792,21 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ### 4.12 Tooltips
 
-**Brief**: Initializes Bootstrap tooltips with proper ARIA attributes.
+**Brief**: Initializes Bootstrap tooltips with proper ARIA attributes. Provides reusable utility functions for single-element tooltip creation and disposal.
 
 **Related Files**:
 
-| File                            | Role                                      |
-|---------------------------------|-------------------------------------------|
-| `scripts/functions/tooltips.js` | Tooltip initialization (`initTooltips()`) |
+| File                            | Role                                                                                       |
+|---------------------------------|--------------------------------------------------------------------------------------------|
+| `scripts/functions/tooltips.js` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initCopyLinkTooltips()` |
+
+**Key Functions**:
+
+- `initAllTooltips()` - scans all `[data-bs-toggle="tooltip"]` elements and creates tooltip instances via `createTooltip()`.
+- `disposeAllTooltips()` - disposes all tooltip instances on the page via `disposeTooltip()`. Called before page transitions to prevent orphaned tooltips.
+- `createTooltip(element)` - creates a Bootstrap Tooltip on a single element. Idempotent: disposes any existing tooltip on the element first. Usable by other modules for on-demand tooltip management.
+- `disposeTooltip(element)` - disposes a Bootstrap Tooltip from a single element, if one exists.
+- `initCopyLinkTooltips()` - sets up copy-link tooltips with click-to-copy clipboard behavior and "Copied!" feedback.
 
 ---
 
@@ -774,13 +816,13 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                             | Role                                                                        |
-|----------------------------------|-----------------------------------------------------------------------------|
-| `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images via `initColoredImages()`   |
-| `stylesheets/img-utils.css`      | Generic CSS rules for `[data-img-feature~="colored"]` mask-based styling    |
-| `scripts/functions/theme.js`     | `applyThemeBasedImages()` handles `data-img-feature~="follow-theme"` images |
-| `images/null.png`                | Placeholder image used with `data-img-feature="colored"`                    |
-| `images/README.md`               | Copyright notice for image assets                                           |
+| File                             | Role                                                                           |
+|----------------------------------|--------------------------------------------------------------------------------|
+| `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images via `initAllColoredImages()`   |
+| `stylesheets/img-utils.css`      | Generic CSS rules for `[data-img-feature~="colored"]` mask-based styling       |
+| `scripts/functions/theme.js`     | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images |
+| `images/null.png`                | Placeholder image used with `data-img-feature="colored"`                       |
+| `images/README.md`               | Copyright notice for image assets                                              |
 
 #### 4.13.1 `data-img-feature` Attribute
 
@@ -794,7 +836,7 @@ Swaps `src` between light and dark variants based on the current theme.
 - `data-src-light` — URL for the light-theme image (populated automatically if missing)
 - `data-src-dark` — URL for the dark-theme image
 
-Handled by `applyThemeBasedImages()` in `theme.js` (see [§4.4 Theme System](#44-theme-system)).
+Handled by `applyAllThemeBasedImages()` in `theme.js` (see [§4.4 Theme System](#44-theme-system)).
 
 #### 4.13.3 `colored`
 
@@ -804,7 +846,7 @@ Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 - `data-src-mask` — path to the mask source image (e.g. `/images/icons/email.webp`)
 - `data-color-var` — CSS variable name (without `--` prefix) for the fill color (e.g. `bs-body-color`, `shlh-primary-color`)
 
-Handled by `initColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
+Handled by `initAllColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
 
 ### 4.14 SVG Injection
 

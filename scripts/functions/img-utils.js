@@ -25,6 +25,6 @@ function applyColoredImage(img) {
  * Initialize all images with data-img-feature~="colored".
  * Delegates to applyColoredImage() for each matching element.
  */
-function initColoredImages() {
+function initAllColoredImages() {
     document.querySelectorAll('img[data-img-feature~="colored"]').forEach(applyColoredImage);
 }

@@ -73,7 +73,7 @@ function applyThemeChange(theme) {
     } else {
         htmlElement.setAttribute('data-bs-theme', theme);
     }
-    applyThemeBasedImages();
+    applyAllThemeBasedImages();
 }
 
 /**
@@ -136,30 +136,38 @@ function updateAutoThemeOnSystemChange() {
 }
 
 /**
+ * Apply the current theme's image source to a single <img> element
+ * that has data-img-feature~="follow-theme".
+ * Ensures data-src-light is populated on first call so the light
+ * source is always recoverable.
+ * @param {HTMLImageElement} img - The image element to update.
+ */
+function applyThemeBasedImage(img) {
+    if (!img.hasAttribute('data-src-light')) {
+        img.setAttribute('data-src-light', img.getAttribute('src'));
+    }
+
+    const currentTheme = htmlElement.getAttribute('data-bs-theme');
+    if (currentTheme === 'dark') {
+        img.setAttribute('src', img.getAttribute('data-src-dark'));
+    } else {
+        const lightSrc = img.getAttribute('data-src-light');
+        if (lightSrc) {
+            img.setAttribute('src', lightSrc);
+        }
+    }
+}
+
+/**
  * Swap img[src] with img[data-src-dark] when the current theme is dark,
  * and restore the original light source when switching back.
  * Targets <img> elements with data-img-feature~="follow-theme".
+ * Delegates to applyThemeBasedImage() for each matching element.
  */
-function applyThemeBasedImages() {
+function applyAllThemeBasedImages() {
     try {
-        const currentTheme = htmlElement.getAttribute('data-bs-theme');
-        document.querySelectorAll('img[data-img-feature~="follow-theme"]').forEach(img => {
-            // Ensure data-src-light is populated for robustness regardless
-            // of the current theme, so the light src is always recoverable.
-            if (!img.hasAttribute('data-src-light')) {
-                img.setAttribute('data-src-light', img.getAttribute('src'));
-            }
-
-            const darkSrc = img.getAttribute('data-src-dark');
-            if (currentTheme === 'dark') {
-                img.setAttribute('src', darkSrc);
-            } else {
-                const lightSrc = img.getAttribute('data-src-light');
-                if (lightSrc) {
-                    img.setAttribute('src', lightSrc);
-                }
-            }
-        });
+        document.querySelectorAll('img[data-img-feature~="follow-theme"]')
+            .forEach(applyThemeBasedImage);
     } catch (error) {
         console.error('Failed to apply theme-based images:', error);
     }
