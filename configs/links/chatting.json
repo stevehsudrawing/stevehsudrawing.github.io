@@ -26,7 +26,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q"
+                            "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -81,7 +84,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS"
+                            "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],

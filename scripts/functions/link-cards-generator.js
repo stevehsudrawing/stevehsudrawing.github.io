@@ -47,8 +47,8 @@ function escapeForOnclick(value) {
 }
 
 /**
- * Build a "super link" fragment: an external-link anchor tag plus an
- * adjacent QR-code button that opens the QR modal for the link URL.
+ * Build a "super link" fragment: an link plus an adjacent QR-code button that
+ * opens the QR modal for the link URL.
  * @param {Object} fragment - Fragment descriptor with properties and text array.
  * @returns {HTMLElement[]} Array of created elements (link + optional QR button).
  */
@@ -60,7 +60,6 @@ function createSuperLinkFragment(fragment) {
     }
 
     link.classList.add('link');
-    link.classList.add('external-link');
 
     if (Array.isArray(fragment.text)) {
         fragment.text.forEach(textItem => {

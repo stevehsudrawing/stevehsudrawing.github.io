@@ -39,7 +39,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://github.com/stevehsudrawing/QuantoUlt"
+                            "href": "https://github.com/stevehsudrawing/QuantoUlt",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -82,7 +85,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://github.com/stevehsudrawing/quantoflx"
+                            "href": "https://github.com/stevehsudrawing/quantoflx",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -122,7 +128,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://github.com/stevehsudrawing/quanto"
+                            "href": "https://github.com/stevehsudrawing/quanto",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],

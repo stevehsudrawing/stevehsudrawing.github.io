@@ -33,7 +33,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.patreon.com/QuantoSeries"
+                            "href": "https://www.patreon.com/QuantoSeries",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -68,7 +71,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/a/stevehsu"
+                            "href": "https://afdian.com/a/stevehsu",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],

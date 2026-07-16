@@ -33,7 +33,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "mailto:quantoseries@outlook.com"
+                            "href": "mailto:quantoseries@outlook.com",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -77,7 +80,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "mailto:stevehsudrawing@outlook.com"
+                            "href": "mailto:stevehsudrawing@outlook.com",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],

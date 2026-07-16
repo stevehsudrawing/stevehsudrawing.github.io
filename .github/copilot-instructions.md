@@ -484,12 +484,13 @@ The JSON format uses a consistent pattern for representing HTML elements:
             }
         ],
         "properties": {
-            "href": "mailto:stevehsudrawing@outlook.com"
+            "href": "mailto:stevehsudrawing@outlook.com",
+            "classes": [ "external-link" ]
         }
     }
     ```
 
-    - `superLink`: If `true`, wraps the text spans in an `<a>` element with the given `properties`. All super-links are treated as external links (classes `link` and `external-link` are added). If `false`, only the `<span>` elements from `text` are rendered, and this key can also be ignored.
+    - `superLink`: If `true`, wraps the text spans in an `<a>` element with the given `properties`. If `false`, only the `<span>` elements from `text` are rendered, and this key can also be ignored.
     - `text`: Array of `<span>` element descriptors.
     - `properties`: Attributes for the `<a>` element (only when `superLink` is `true`).
 
@@ -508,7 +509,10 @@ The JSON format uses a consistent pattern for representing HTML elements:
             {
                 "superLink": true,
                 "text": [{ "content": "Pixiv" }],
-                "properties": { "href": "https://www.pixiv.net/users/70732361" }
+                "properties": {
+                    "href": "https://www.pixiv.net/users/70732361",
+                    "classes": [ "external-link" ]
+                }
             }
         ],
         "description": [

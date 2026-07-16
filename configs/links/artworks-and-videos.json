@@ -26,7 +26,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.pixiv.net/users/70732361"
+                            "href": "https://www.pixiv.net/users/70732361",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -57,7 +60,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.deviantart.com/stevehsudrawing"
+                            "href": "https://www.deviantart.com/stevehsudrawing",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -88,7 +94,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://medibang.com/u/stevehsu"
+                            "href": "https://medibang.com/u/stevehsu",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -122,7 +131,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://x.com/stevehsudrawing"
+                            "href": "https://x.com/stevehsudrawing",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -157,7 +169,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://weibo.com/stevehsudrawing"
+                            "href": "https://weibo.com/stevehsudrawing",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -226,7 +241,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/p/b35828fc38a811f1a22252540025c377"
+                            "href": "https://afdian.com/p/b35828fc38a811f1a22252540025c377",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -252,7 +270,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qCr94YzS01cGfC+aNZko+3/wp+E8arx1E8FNvqXacZTvHHiWemyTPAoX9tEigbA="
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qCr94YzS01cGfC+aNZko+3/wp+E8arx1E8FNvqXacZTvHHiWemyTPAoX9tEigbA=",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -291,7 +312,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/p/8a9d008241f811f185ea52540025c377"
+                            "href": "https://afdian.com/p/8a9d008241f811f185ea52540025c377",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -317,7 +341,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/MiRC/Nc9/8aSu72oWekBFRgI2WdBy3mdZ8AQILiBz3H5xov32EKs5tbiyO03AtfB4="
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/MiRC/Nc9/8aSu72oWekBFRgI2WdBy3mdZ8AQILiBz3H5xov32EKs5tbiyO03AtfB4=",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -356,7 +383,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/p/1db1e3465e5111f1afae52540025c377"
+                            "href": "https://afdian.com/p/1db1e3465e5111f1afae52540025c377",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -382,7 +412,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/NRo0KLXXVD7giEg6xiijy36E8U35TTzH2p9XDPEuCntzaqOb9/LT957yTuzQmE6F8="
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/NRo0KLXXVD7giEg6xiijy36E8U35TTzH2p9XDPEuCntzaqOb9/LT957yTuzQmE6F8=",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -421,7 +454,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/p/02009fb6689711f193cf5254001e7c00"
+                            "href": "https://afdian.com/p/02009fb6689711f193cf5254001e7c00",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -444,7 +480,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247481"
+                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247481",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -468,7 +507,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/PA8poXXItcUrmeETGATChYmPJchtOih+LLZBPBLrpRREUvDeoBIOBKdKyGjCWU4Lw="
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/PA8poXXItcUrmeETGATChYmPJchtOih+LLZBPBLrpRREUvDeoBIOBKdKyGjCWU4Lw=",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -507,7 +549,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/p/fbcfb0966ae411f1a16f5254001e7c00"
+                            "href": "https://afdian.com/p/fbcfb0966ae411f1a16f5254001e7c00",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -530,7 +575,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247520"
+                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247520",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -554,7 +602,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/Pa7fVsJartpp5y2yIfPyz2Reb3yqcBlRWduGQQHVsh783go9A7l7TNmY3UvZMJ21A="
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/Pa7fVsJartpp5y2yIfPyz2Reb3yqcBlRWduGQQHVsh783go9A7l7TNmY3UvZMJ21A=",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -593,7 +644,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://afdian.com/p/a3c998786fc911f1b8895254001e7c00"
+                            "href": "https://afdian.com/p/a3c998786fc911f1b8895254001e7c00",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -616,7 +670,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247572"
+                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247572",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -640,7 +697,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qRu/1yMqGkIfsJEvgk9BYhoYKxL+DaVwjkn1Pm+7CKgClgj/AV9kd2xtJJT/b10="
+                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qRu/1yMqGkIfsJEvgk9BYhoYKxL+DaVwjkn1Pm+7CKgClgj/AV9kd2xtJJT/b10=",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     },
                     {
@@ -684,7 +744,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://youtube.com/@stevehsu4277"
+                            "href": "https://youtube.com/@stevehsu4277",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -725,7 +788,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://space.bilibili.com/298733903"
+                            "href": "https://space.bilibili.com/298733903",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -787,7 +853,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.instagram.com/stevehsudrawing"
+                            "href": "https://www.instagram.com/stevehsudrawing",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -821,7 +890,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.threads.com/@stevehsudrawing"
+                            "href": "https://www.threads.com/@stevehsudrawing",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -855,7 +927,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://stevehsu.lofter.com/"
+                            "href": "https://stevehsu.lofter.com/",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -893,7 +968,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.mihuashi.com/profiles/10398496"
+                            "href": "https://www.mihuashi.com/profiles/10398496",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -937,7 +1015,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000"
+                            "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
@@ -981,7 +1062,10 @@
                             }
                         ],
                         "properties": {
-                            "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3"
+                            "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3",
+                            "classes": [
+                                "external-link"
+                            ]
                         }
                     }
                 ],
