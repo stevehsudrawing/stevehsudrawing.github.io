@@ -5,12 +5,12 @@
 
 /**
  * Apply colored (mask-based) styling to a single <img> element.
- * Reads data-mask-src and data-color-var attributes and sets the
+ * Reads data-src-mask and data-color-var attributes and sets the
  * --img-mask-url and --img-color CSS custom properties on the element.
  * @param {HTMLImageElement} img - The image element to style.
  */
 function applyColoredImage(img) {
-    const maskSrc = img.getAttribute('data-mask-src');
+    const maskSrc = img.getAttribute('data-src-mask');
     if (maskSrc) {
         img.style.setProperty('--img-mask-url', `url(${maskSrc})`);
     }

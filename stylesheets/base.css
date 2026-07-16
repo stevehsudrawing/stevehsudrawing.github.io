@@ -40,9 +40,9 @@ hr {
 a {
     text-decoration: none;
     transition:
-        color .15s ease-in-out,
-        background-color .15s ease-in-out,
-        border-color .15s ease-in-out;
+        color .2s ease-in-out,
+        background-color .2s ease-in-out,
+        border-color .2s ease-in-out;
 }
 
 .link:hover,
@@ -85,8 +85,40 @@ a {
     transition: inherit;
 }
 
+.modal-backdrop {
+    --bs-backdrop-bg-rgb: 0, 0, 0;
+    opacity: 0;
+    backdrop-filter: blur(0px);
+}
+
+.modal-backdrop.show {
+    background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
+    opacity: 1;
+    backdrop-filter: blur(5px);
+}
+
+.fade {
+    transition:
+        opacity .2s linear,
+        background-color .2s linear,
+        backdrop-filter .2s linear;
+}
+
+.card {
+    transition:
+        border-color .2s ease-in-out;
+}
+
+.card:hover {
+    border: var(--bs-card-border-width) solid var(--shlh-focus-ring-color);
+}
+
+.modal-body {
+    padding: 0 var(--bs-modal-padding);
+}
+
 /* ========================================================================
-   Theme Switch Utility - temporarily disable all transitions
+   Disable Transitions Utility
    ======================================================================== */
 
 .disable-transitions,
@@ -94,4 +126,17 @@ a {
 .disable-transitions *::before,
 .disable-transitions *::after {
     transition: none !important;
+}
+
+/* ========================================================================
+   No Copy - for restricted original artworks
+   ======================================================================== */
+
+.no-copy {
+    user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
 }

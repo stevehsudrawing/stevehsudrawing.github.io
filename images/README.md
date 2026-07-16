@@ -1,7 +1,7 @@
 # Copyright Notice - Original Artworks
 
 **Author:** Steve Hsu (什五) \
-**Last updated:** 2026-07-13
+**Last updated:** 2026-07-16
 
 ---
 
@@ -11,17 +11,18 @@ All files listed in this section are **original artworks** created by me, Steve 
 
 ### 1.1 Restricted Works - All Rights Reserved
 
-| Path / Pattern                                | Description                                                            |
-|-----------------------------------------------|------------------------------------------------------------------------|
-| `banner.png`                                  | Website preview banner                                                 |
-| `favicon*.png`                                | Website icon                                                           |
-| `covers/about.png`                            | Cover image for the About page                                         |
-| `covers/artworks-*.png`                       | Cover images for the Artworks & Videos page (light & dark variants)    |
-| `covers/illustration-*.png`                   | Illustration as a cover image for the homepage (light & dark variants) |
-| `icons/steve-hsu.png`                         | My personal signature                                                  |
-| `icons/sticker-collections.png`               | Icon for sticker collections                                           |
-| `icons/sticker-collection-series-*-vol-*.png` | Icons for individual sticker collection volumes                        |
-| `stickers/*`                                  | All sticker artwork files in the stickers directory                    |
+| Path / Pattern                                 | Description                                                            |
+|------------------------------------------------|------------------------------------------------------------------------|
+| `banner.png`                                   | Website preview banner                                                 |
+| `favicon*.png`                                 | Website icon                                                           |
+| `covers/about.webp`                            | Cover image for the About page                                         |
+| `covers/artworks-*.webp`                       | Cover images for the Artworks & Videos page (light & dark variants)    |
+| `covers/illustration-*.webp`                   | Illustration as a cover image for the homepage (light & dark variants) |
+| `icons/steve-hsu.webp`                         | My personal signature                                                  |
+| `icons/sticker-collections.webp`               | Icon for sticker collections                                           |
+| `icons/sticker-collection-series-*-vol-*.webp` | Icons for individual sticker collection volumes                        |
+| `stickers/*`                                   | All sticker artwork files in the stickers directory                    |
+| `svg/steve-hsu.svg`                            | My personal signature                                                  |
 
 These works are provided **for display purposes only** on this website. The following actions are **strictly prohibited** without my prior written permission:
 
@@ -33,14 +34,14 @@ These works are provided **for display purposes only** on this website. The foll
 
 ### 1.2 Open-Licensed Works - CC BY-NC 4.0
 
-| Path / Pattern       | Description                              |
-|----------------------|------------------------------------------|
-| `covers/blogs.png`   | Cover image for the Blogs & Sponsor page |
-| `covers/chatting.png`| Cover image for the Chatting page        |
-| `covers/projects.png`| Cover image for the Softwares page       |
-| `icons/quanto-*.png` | Icons for the Quanto Series projects     |
-| `icons/quantum.png`  | Icon for QuantuM QQ chat group           |
-| `icons/sawtooth.png` | Icon for SawtootH QQ chat group          |
+| Path / Pattern        | Description                              |
+|-----------------------|------------------------------------------|
+| `covers/blogs.webp`   | Cover image for the Blogs & Sponsor page |
+| `covers/chatting.webp`| Cover image for the Chatting page        |
+| `covers/projects.webp`| Cover image for the Softwares page       |
+| `icons/quanto-*.webp` | Icons for the Quanto Series projects     |
+| `icons/quantum.webp`  | Icon for QuantuM QQ chat group           |
+| `icons/sawtooth.webp` | Icon for SawtootH QQ chat group          |
 
 These works are licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0). You are free to:
 

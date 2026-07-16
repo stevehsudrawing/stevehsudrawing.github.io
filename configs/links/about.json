@@ -17,7 +17,7 @@
                         "data-i18n-alt": "text-quanto-series-team",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/email.png",
+                        "data-src-mask": "/images/icons/email.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -61,7 +61,7 @@
                         "data-i18n-alt": "text-my-personal-email",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/email.png",
+                        "data-src-mask": "/images/icons/email.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },

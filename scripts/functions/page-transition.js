@@ -13,7 +13,7 @@ const INTERNAL_PAGES = [
     '/softwares.html'
 ];
 
-const EXCLUDED_PAGES = ['/404.html', '/unsupported.html'];
+const EXCLUDED_PAGES = ['/404.html', '/error-unsupported-browser.html'];
 
 let isTransitioning = false;
 

@@ -14,7 +14,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Pixiv",
-                        "src": "/images/icons/pixiv.png"
+                        "src": "/images/icons/pixiv.webp"
                     }
                 },
                 "title": [
@@ -45,7 +45,7 @@
                 "icon": {
                     "properties": {
                         "alt": "DeviantArt",
-                        "src": "/images/icons/deviant-art.png"
+                        "src": "/images/icons/deviant-art.webp"
                     }
                 },
                 "title": [
@@ -76,7 +76,7 @@
                 "icon": {
                     "properties": {
                         "alt": "MediBang ART street",
-                        "src": "/images/icons/medibang-art-street.png"
+                        "src": "/images/icons/medibang-art-street.webp"
                     }
                 },
                 "title": [
@@ -109,7 +109,7 @@
                         "alt": "X",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/x-twitter.png",
+                        "data-src-mask": "/images/icons/x-twitter.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -142,7 +142,7 @@
                     "properties": {
                         "alt": "Weibo",
                         "data-i18n-alt": "text-weibo",
-                        "src": "/images/icons/weibo.png"
+                        "src": "/images/icons/weibo.webp"
                     }
                 },
                 "title": [
@@ -208,7 +208,10 @@
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 1",
                         "data-i18n-alt": "text-sticker-collections-series-1",
-                        "src": "/images/icons/sticker-collection-series-1-vol-1.png"
+                        "src": "/images/icons/sticker-collection-series-1-vol-1.webp",
+                        "classes": [
+                            "no-copy"
+                        ]
                     }
                 },
                 "title": [
@@ -270,7 +273,10 @@
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 2",
                         "data-i18n-alt": "text-sticker-collections-series-1-vol-2",
-                        "src": "/images/icons/sticker-collection-series-1-vol-2.png"
+                        "src": "/images/icons/sticker-collection-series-1-vol-2.webp",
+                        "classes": [
+                            "no-copy"
+                        ]
                     }
                 },
                 "title": [
@@ -332,7 +338,10 @@
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 3",
                         "data-i18n-alt": "text-sticker-collections-series-1-vol-3",
-                        "src": "/images/icons/sticker-collection-series-1-vol-3.png"
+                        "src": "/images/icons/sticker-collection-series-1-vol-3.webp",
+                        "classes": [
+                            "no-copy"
+                        ]
                     }
                 },
                 "title": [
@@ -394,7 +403,10 @@
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 1",
                         "data-i18n-alt": "text-sticker-collections-series-2",
-                        "src": "/images/icons/sticker-collection-series-2-vol-1.png"
+                        "src": "/images/icons/sticker-collection-series-2-vol-1.webp",
+                        "classes": [
+                            "no-copy"
+                        ]
                     }
                 },
                 "title": [
@@ -477,7 +489,10 @@
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 2",
                         "data-i18n-alt": "text-sticker-collections-series-2-vol-2",
-                        "src": "/images/icons/sticker-collection-series-2-vol-2.png"
+                        "src": "/images/icons/sticker-collection-series-2-vol-2.webp",
+                        "classes": [
+                            "no-copy"
+                        ]
                     }
                 },
                 "title": [
@@ -560,7 +575,10 @@
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 3",
                         "data-i18n-alt": "text-sticker-collections-series-2-vol-3",
-                        "src": "/images/icons/sticker-collection-series-2-vol-3.png"
+                        "src": "/images/icons/sticker-collection-series-2-vol-3.webp",
+                        "classes": [
+                            "no-copy"
+                        ]
                     }
                 },
                 "title": [
@@ -654,7 +672,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Youtube",
-                        "src": "/images/icons/youtube.png"
+                        "src": "/images/icons/youtube.webp"
                     }
                 },
                 "title": [
@@ -692,7 +710,7 @@
                     "properties": {
                         "alt": "Bilibili",
                         "data-i18n-alt": "text-bilibili",
-                        "src": "/images/icons/bilibili.png"
+                        "src": "/images/icons/bilibili.webp"
                     }
                 },
                 "title": [
@@ -757,7 +775,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Instagram",
-                        "src": "/images/icons/instagram.png"
+                        "src": "/images/icons/instagram.webp"
                     }
                 },
                 "title": [
@@ -790,7 +808,7 @@
                         "alt": "Threads",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/threads.png",
+                        "data-src-mask": "/images/icons/threads.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -824,7 +842,7 @@
                         "alt": "Lofter",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/link.png",
+                        "data-src-mask": "/images/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -855,11 +873,55 @@
                 "available": true,
                 "icon": {
                     "properties": {
+                        "alt": "Mihuashi",
+                        "data-i18n-alt": "text-mihuashi",
+                        "src": "/images/null.png",
+                        "data-img-feature": "colored",
+                        "data-src-mask": "/images/icons/link.webp",
+                        "data-color-var": "bs-body-color"
+                    }
+                },
+                "title": [
+                    {
+                        "superLink": true,
+                        "text": [
+                            {
+                                "content": "Mihuashi",
+                                "properties": {
+                                    "data-i18n": "text-mihuashi"
+                                }
+                            }
+                        ],
+                        "properties": {
+                            "href": "https://www.mihuashi.com/profiles/10398496"
+                        }
+                    }
+                ],
+                "description": [
+                    {
+                        "text": [
+                            {
+                                "content": "Name",
+                                "properties": {
+                                    "data-i18n": "text-name"
+                                }
+                            },
+                            {
+                                "content": ": SteveHsu什五 | UID: 10398496"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "available": true,
+                "icon": {
+                    "properties": {
                         "alt": "Rednote",
                         "data-i18n-alt": "text-rednote",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/link.png",
+                        "data-src-mask": "/images/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -903,7 +965,7 @@
                         "data-i18n-alt": "text-douyin",
                         "src": "/images/null.png",
                         "data-img-feature": "colored",
-                        "data-mask-src": "/images/icons/link.png",
+                        "data-src-mask": "/images/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },

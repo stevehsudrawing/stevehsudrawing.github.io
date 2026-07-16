@@ -14,14 +14,6 @@
     display: flex;
 }
 
-.card:hover {
-    border: var(--bs-card-border-width) solid var(--shlh-focus-ring-color);
-}
-
-.modal-body {
-    padding: 0 var(--bs-modal-padding);
-}
-
 /* ========================================================================
    Link Sizing
    ======================================================================== */
@@ -87,7 +79,7 @@
     width: 100%;
     height: auto;
     object-fit: cover;
-    transition: opacity .3s ease;
+    transition: opacity .2s ease;
 }
 
 .sub-cover-wrapper {

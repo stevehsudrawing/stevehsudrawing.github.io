@@ -1,5 +1,5 @@
 var isEnvSupported = isBrowserSupported();
 
 if (!isEnvSupported) {
-    window.location.href = '/unsupported.html';
+    window.location.href = '/error-unsupported-browser.html';
 }

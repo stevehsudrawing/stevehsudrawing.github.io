@@ -32,42 +32,46 @@ Loaded at the end of `<body>` of each page:
 | @popperjs/core | JS   | Positioning Engine | [`https://popper.js.org/`](https://popper.js.org/) (Expired?) | [`@popperjs/core`](https://www.npmjs.com/package/@popperjs/core) | [`vusion/popper.js`](https://github.com/vusion/popper.js/) | [`https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`](https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js)       | 2.11.8  |
 | Bootstrap JS   | JS   | Page Framework     | [`https://getbootstrap.com/`](https://getbootstrap.com/)      | [`bootstrap`](https://www.npmjs.com/package/bootstrap)           | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)      | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js) | 5.3.8   |
 
-#### 1.2.1 Per-Dependency Minimum Browser Versions
+### 1.3 Browser Baseline
+
+The minimum browser versions are determined by both **our CDN dependencies** and **browser feature requirements**. The enforced baseline is defined in `scripts/functions/browser-detection.js`.
+
+| Browser | Min Version | Release Date | Constrained By                            |
+|---------|-------------|--------------|-------------------------------------------|
+| Chrome  | ≥ 66        | 2018-04-17   | Variable fonts                            |
+| Edge    | ≥ 79        | 2020-01-15   | @popperjs/core (Chromium-based Edge only) |
+| Firefox | ≥ 65        | 2019-01-29   | WebP                                      |
+| Opera   | ≥ 53        | 2018-05-10   | Variable fonts                            |
+| Safari  | ≥ 16        | 2022-09-12   | WebP                                      |
+
+#### 1.3.1 Per-Dependency Minimum Browser Versions
 
 | Dependency                   | Chrome | Edge   | Firefox | Opera  | Safari |
 |------------------------------|--------|--------|---------|--------|--------|
-| Bootstrap 5.3.8 CSS/JS       | 60     | **79** | 60      | 47     | **12** |
-| Bootstrap Icons CSS (latest) | 36     | 14     | 39      | 23     | 10     |
-| Inter (variable font)        | **66** | 17     | **62**  | **53** | 11     |
+| Bootstrap 5.3.8 CSS/JS       | **60** | **79** | **60**  | **47** | **12** |
 | QRCode.js 1.0.0              | 1      | 12     | 1.5     | 9      | 3      |
 | html-to-image 1.11.13        | 32     | 12     | 29      | 20     | 7.1    |
 | html2canvas 1.4.1            | 1      | 12     | 3.5     | 12     | 6      |
-| @popperjs/core 2.11.8        | 60     | **79** | 60      | 47     | **12** |
+| @popperjs/core 2.11.8        | **60** | **79** | **60**  | **47** | **12** |
 
 > **Sources**:
 > - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
-> - Bootstrap Icons CSS: [Can I Use](https://caniuse.com/mdn-css_at-rules_font-face_woff_2) - requires `@font-face` and WOFF 2 support
-> - Inter variable fonts: [Can I Use](https://caniuse.com/variable-fonts) - Chrome 66+, Firefox 62+, Safari 11+, Opera 53+
 > - QRCode.js 1.0.0: [npm](https://www.npmjs.com/package/qrcodejs) - README claims compatibility with "IE6~10, Chrome, Firefox, Safari, Opera"
 > - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) - requires `Promise` + SVG `<foreignObject>`
 > - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) - "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
 > - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5; IE11 and legacy EdgeHTML not supported
 
-### 1.3 Browser Baseline
+#### 1.3.2 Browser Feature Requirements
 
-The minimum browser versions are determined by the requirements of our CDN dependencies (see table below). The enforced baseline is defined in `scripts/functions/browser-detection.js`.
+The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Browser | Min Version | Release Date | Constrained By                            |
-|---------|-------------|--------------|-------------------------------------------|
-| Chrome  | ≥ 66        | 2018-04-17   | Inter variable fonts                      |
-| Edge    | ≥ 79        | 2020-01-15   | @popperjs/core (Chromium-based Edge only) |
-| Firefox | ≥ 62        | 2018-09-05   | Inter variable fonts                      |
-| Opera   | ≥ 53        | 2018-05-10   | Inter variable fonts                      |
-| Safari  | ≥ 13        | 2019-09-19   | Bootstrap 5 / Popper (iOS 13+)            |
+| Feature        | Chrome | Edge   | Firefox | Opera  | Safari | Used By         |
+|----------------|--------|--------|---------|--------|--------|-----------------|
+| WebP           | 32     | **18** | **65**  | 19     | **16** | Image assets    |
+| WOFF 2         | 36     | 14     | 39      | 23     | 10     | Bootstrap Icons |
+| Variable fonts | **66** | 17     | 62      | **53** | 11     | Inter           |
 
-> Bootstrap 5 requires Safari ≥12, but the baseline stays at 13 to avoid known iOS 12 scrolling/modal bugs.
-
-### 1.4 Deployment
+### 1.5 Deployment
 
 - **Platform**: GitHub Pages
 - **Build step**: None: raw HTML/CSS/JS served directly from the repository root.
@@ -212,9 +216,18 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 #### 3.2.4 `*.html`: Page Tiers
 
-- **Full functionality**: `index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares` - use `init-final.js`.
-- **`404`**: The redirected page when an HTTP 404 occurs. Uses `init-final-lightweight.js`.
-- **`unsupported`**: Specifically designed for unsupported browsers. Does not rely on any external JS scripts, external CSS stylesheets, or external CDNs. It does not use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
+- **Full Functionality Pages**: Use `init-final.js`.
+    - `index`
+    - `about`
+    - `artworks-and-videos`
+    - `blogs-and-sponsor`
+    - `chatting`
+    - `softwares`
+- **Error Pages**: Use `init-final-lightweight.js`.
+    - `404`: The redirected page when an HTTP 404 occurs.
+- **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/stylesheets/for-minimal-reference-pages.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
+    - `unsupported-browser`
+    - `javascript-disabled`
 
 #### 3.2.5 `*.md`: Document Writing Standards
 
@@ -232,9 +245,9 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 ## 4. Feature Reference
 
-### 4.1 Browser Detection & Compatibility
+### 4.1 Browser Detection & Compatibility Fallbacks
 
-**Brief**: Detects the user's browser and redirects to `unsupported.html` if it does not meet the minimum baseline. Also verifies that Bootstrap CSS loaded correctly.
+**Brief**: Detects the user's browser and redirects to `error-unsupported-browser.html` if it does not meet the minimum baseline. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`.
 
 **Related Files**:
 
@@ -243,15 +256,28 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 | `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                 |
 | `scripts/functions/browser-detection.js`       | Browser version detection and redirection logic (written in ES5 for broad compatibility) |
 | `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                               |
-| `unsupported.html`                             | Fallback page for unsupported browsers                                                   |
+| `error-unsupported-browser.html`               | Fallback page for unsupported browsers                                                   |
+| `error-javascript-disabled.html`               | Fallback page displayed when JavaScript is disabled                                      |
 
 > `browser-detection.js` is executed first among all scripts. It is written in ES5 to ensure it runs even on older browsers.
 
 **Data Flow**:
 
-- `browser-detection.js` checks `navigator.userAgent` against the browser baseline table (see [§1.3 Browser Baseline](#13-browser-baseline)).
-- If unsupported: redirects to `unsupported.html`.
+- `browser-detection.js` checks `navigator.userAgent` against the browser baseline table (see [§1.4 Browser Baseline](#14-browser-baseline)).
+- If unsupported: redirects to `error-unsupported-browser.html`.
 - `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
+
+**JavaScript Disabled Fallback**:
+
+- Every full-functionality page and `404.html` includes a `<noscript>` meta-refresh in `<head>`:
+
+    ```html
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=/error-javascript-disabled.html">
+    </noscript>
+    ```
+
+- This redirect happens before any external resources are loaded, ensuring the fallback page is shown even when CDN scripts are unavailable.
 
 ---
 
@@ -406,23 +432,23 @@ The JSON format uses a consistent pattern for representing HTML elements:
             "data-i18n-alt": "text-email",
             "src": "/images/null.png",
             "data-img-feature": "colored",
-            "data-mask-src": "/images/icons/email.png",
+            "data-src-mask": "/images/icons/email.webp",
             "data-color-var": "bs-body-color"
         }
     }
-    // → <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" data-img-feature="colored" data-mask-src="/images/icons/email.png" data-color-var="bs-body-color">
+    // → <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" data-img-feature="colored" data-src-mask="/images/icons/email.webp" data-color-var="bs-body-color">
 
     // <img> element (theme-following image):
     {
         "properties": {
             "alt": "Illustration",
-            "src": "/images/covers/illustration-light.png",
+            "src": "/images/covers/illustration-light.webp",
             "data-img-feature": "follow-theme",
-            "data-src-light": "/images/covers/illustration-light.png",
-            "data-src-dark": "/images/covers/illustration-dark.png"
+            "data-src-light": "/images/covers/illustration-light.webp",
+            "data-src-dark": "/images/covers/illustration-dark.webp"
         }
     }
-    // → <img alt="Illustration" src="/images/covers/illustration-light.png" data-img-feature="follow-theme" data-src-light="/images/covers/illustration-light.png" data-src-dark="/images/covers/illustration-dark.png">
+    // → <img alt="Illustration" src="/images/covers/illustration-light.webp" data-img-feature="follow-theme" data-src-light="/images/covers/illustration-light.webp" data-src-dark="/images/covers/illustration-dark.webp">
     ```
 
 - **Text Fragment**: A group of `<span>` elements, optionally wrapped in an `<a>`:
@@ -454,7 +480,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
         "icon": {
             "properties": {
                 "alt": "Pixiv",
-                "src": "/images/icons/pixiv.png"
+                "src": "/images/icons/pixiv.webp"
             }
         },
         "title": [
@@ -773,7 +799,7 @@ Handled by `applyThemeBasedImages()` in `theme.js` (see [§4.4 Theme System](#44
 Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 
 - `data-img-feature="colored"` — enables mask-based coloring
-- `data-mask-src` — path to the mask source image (e.g. `/images/icons/email.png`)
+- `data-src-mask` — path to the mask source image (e.g. `/images/icons/email.webp`)
 - `data-color-var` — CSS variable name (without `--` prefix) for the fill color (e.g. `bs-body-color`, `shlh-primary-color`)
 
 Handled by `initColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.

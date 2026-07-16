@@ -269,19 +269,21 @@ a {
     position: fixed;
     inset: 0;
     z-index: 1100;
-    background-color: #909294;
-    opacity: 0;
+    background-color: rgba(144, 146, 148, 0);
+    backdrop-filter: blur(0);
     pointer-events: none;
-    transition: opacity .5s ease-in;
+    transition: background-color .5s ease-in, backdrop-filter .5s ease-in;
 }
 
 .theme-transition-overlay.active {
-    opacity: 1;
+    background-color: rgba(144, 146, 148, 1);
+    backdrop-filter: blur(15px);
     pointer-events: auto;
 }
 
 .theme-transition-overlay.fade-out {
-    opacity: 0;
+    background-color: rgba(144, 146, 148, 0);
+    backdrop-filter: blur(0);
     pointer-events: none;
-    transition: opacity 1s ease-out;
+    transition: background-color 1s ease-out, backdrop-filter .5s ease-in;
 }
