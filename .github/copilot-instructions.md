@@ -148,10 +148,10 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 | `images/icons/`      | Icon images for link cards                                  | Icon image files                                      |
 | `images/stickers/`   | Sticker images                                              | Sticker image files                                   |
 | `images/svg/`        | SVG icon/image files for runtime injection                  | New SVG file when adding a vector graphic             |
+| `page-components/`   | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
 | `scripts/`           | JS entry points (`init-*.js`, `env-detection.js`)           | New init script if a new page tier is needed          |
 | `scripts/functions/` | Reusable JS modules - **define only, never execute**        | New JS module file, or add to an existing file        |
 | `stylesheets/`       | CSS stylesheets                                             | New CSS file, or add to an existing file              |
-| `sub-pages/`         | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
 | Root `*.xml`         | Sitemap and other XML config files                          | -                                                     |
 | Root `*.json`        | PWA manifest and other root JSON configs                    | -                                                     |
 | Root `*.html`        | Page files (homepage, sub-pages, error pages)               | New page file when adding a page                      |
@@ -162,7 +162,7 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 - Put CSS in `stylesheets/` - either in a relevant existing file or a new file.
 - If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`). If the CSS is general-purpose, it can go into `components.css` instead.
 - Put JSON configuration data in `configs/` under the appropriate sub-folder.
-- Put reusable HTML fragments in `sub-pages/`.
+- Put reusable HTML fragments in `page-components/`.
 
 ### 3.2 General File Rules
 
@@ -292,21 +292,21 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 | File                                    | Role                                |
 |-----------------------------------------|-------------------------------------|
 | `scripts/functions/component-loader.js` | Fetches and injects HTML fragments  |
-| `sub-pages/header.html`                 | Header fragment                     |
-| `sub-pages/footer.html`                 | Footer fragment (full pages)        |
-| `sub-pages/footer-lightweight.html`     | Footer fragment (lightweight pages) |
-| `sub-pages/modals.html`                 | Settings and QR code modals         |
+| `page-components/header.html`                 | Header fragment                     |
+| `page-components/footer.html`                 | Footer fragment (full pages)        |
+| `page-components/footer-lightweight.html`     | Footer fragment (lightweight pages) |
+| `page-components/modals.html`                 | Settings and QR code modals         |
 
 **How It Works**:
 
 ```
 HTML: <div data-role="page-component" data-component-name="header"></div>
         ↓ (component-loader.js at init time)
-      Reads data-component-name="header" → fetches /sub-pages/header.html → injects innerHTML
+      Reads data-component-name="header" → fetches /page-components/header.html → injects innerHTML
 ```
 
 - Elements with `data-role="page-component"` serve as placeholders.
-- The component loader reads `data-component-name` to derive the file path: `/sub-pages/{name}.html`.
+- The component loader reads `data-component-name` to derive the file path: `/page-components/{name}.html`.
 - The `data-component-name` value must match the HTML fragment filename (without extension).
 
 ---
@@ -864,10 +864,10 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 
 **Related Files**:
 
-| File                  | Role                                                       |
-|-----------------------|------------------------------------------------------------|
-| `sitemap.xml`         | XML sitemap listing all indexable pages with hreflang      |
-| `manifest.json`       | PWA web app manifest for mobile install experience         |
+| File                  | Role                                                                   |
+|-----------------------|------------------------------------------------------------------------|
+| `sitemap.xml`         | XML sitemap listing all indexable pages with hreflang                  |
+| `manifest.json`       | PWA web app manifest for mobile install experience                     |
 | `robots.txt`          | Crawler directives; blocks AI bots from `/images/`; references sitemap |
 
 #### 4.16.1 SEO Elements by Page Tier
@@ -883,10 +883,9 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 | `link manifest`           | ✓                                              | ✗                 | ✗                    |
 | `link sitemap`            | ✓                                              | ✗                 | ✗                    |
 | Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✗                 | ✗                    |
-| Open Graph tags           | ✓                                              | ✓ (existing)      | ✓ (existing)         |
+| Open Graph tags           | ✓                                              | ✓                 | ✓                    |
 | `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                       | ✗                 | ✗                    |
-| Twitter/X Card tags       | ✓ `summary_large_image`                        | ✓ (existing)      | ✓ (existing)         |
-| `twitter:creator`         | ✓ `@stevehsudrawing`                           | ✗                 | ✗                    |
+| Twitter/X Card tags       | ✓ `summary_large_image`                        | ✓                 | ✓                    |
 | `theme-color`             | ✓ light + dark                                 | ✓                 | ✓                    |
 | JSON-LD (inline)          | ✓ See [§4.16.2](#4162-structured-data-json-ld) | ✗                 | ✗                    |
 | `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links           | ✗                 | ✗                    |
@@ -897,13 +896,13 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 
 All JSON-LD scripts are **inline** (not external `src`) for maximum search engine compatibility. Use `\uXXXX` escape sequences for special Unicode characters within JSON strings.
 
-##### Homepage (`index.html`)
+##### 4.16.2.1 Homepage (`index.html`)
 
 - **`Person`** schema with `sameAs` (all social platform URLs), `email`, `image`, `knowsLanguage`, `gender`.
 - **`WebSite`** schema with `SearchAction` and `inLanguage`.
 - The `sameAs` array must include every verified social/creative platform profile URL. When adding a new platform link, update this list.
 
-##### Sub-Pages
+##### 4.16.2.2 Sub-Pages
 
 - **`BreadcrumbList`** schema only: `Home → {Current Page Name}`.
 - Duplicate `Person` or `WebSite` across sub-pages is unnecessary; the homepage already declares them.

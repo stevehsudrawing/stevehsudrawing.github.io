@@ -7,7 +7,7 @@
 
 /**
  * Load a single component by injecting fetched HTML into its placeholder.
- * The HTML file path is derived as: /sub-pages/{name}.html
+ * The HTML file path is derived as: /page-components/{name}.html
  * @param {HTMLElement} placeholder - The placeholder element to inject into.
  * @param {string} name - The component name (matches the HTML file name).
  * @returns {Promise<void>}
@@ -15,7 +15,7 @@
 function loadHTML(placeholder, name) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('/sub-pages/' + name + '.html');
+            const response = await fetch('/page-components/' + name + '.html');
             if (!response.ok) {
                 throw new Error(`Failed to load: ${response.status}`);
             }
@@ -33,7 +33,7 @@ function loadHTML(placeholder, name) {
 /**
  * Load all components marked with data-role="page-component".
  * The HTML file path for each component is derived from its
- * data-component-name attribute: /sub-pages/{name}.html
+ * data-component-name attribute: /page-components/{name}.html
  * @returns {Promise<void>}
  */
 async function loadAllComponents() {
