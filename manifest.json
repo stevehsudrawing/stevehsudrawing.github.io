@@ -1,0 +1,18 @@
+{
+    "name": "Steve Hsu (什五)'s Link-Hub",
+    "short_name": "Steve Hsu's Link-Hub",
+    "description": "A curated collection of links to Steve Hsu (什五)'s artworks, software projects, social media, and more.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#212529",
+    "icons": [
+        {
+            "src": "/images/favicon.png",
+            "sizes": "any",
+            "type": "image/png"
+        }
+    ],
+    "lang": "en",
+    "dir": "ltr"
+}

@@ -11,6 +11,12 @@
         <meta name="robots" content="index, follow">
         <link rel="canonical" href="https://stevehsudrawing.github.io/">
 
+        <!-- Hreflang -->
+        <link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/">
+        <link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/">
+        <link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/">
+        <link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/">
+
         <!-- Open Graph -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://stevehsudrawing.github.io/">
@@ -21,12 +27,15 @@
         <meta property="og:image:height" content="630">
         <meta property="og:site_name" content="Steve Hsu (什五)'s Link-Hub">
         <meta property="og:locale" content="en_US">
+        <meta property="og:locale:alternate" content="zh_Hans_CN">
+        <meta property="og:locale:alternate" content="zh_Hant_TW">
 
         <!-- Twitter/X Card -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Steve Hsu (什五)'s Link-Hub">
         <meta name="twitter:description" content="A curated collection of links to Steve Hsu (什五)'s artworks, software projects, social media, and more. Find all of Steve Hsu (什五)'s online presence in one place.">
         <meta name="twitter:image" content="https://stevehsudrawing.github.io/images/banner.png">
+        <meta name="twitter:creator" content="@stevehsudrawing">
 
         <!-- Browser UI -->
         <meta name="theme-color" content="#212529" media="(prefers-color-scheme: dark)">
@@ -34,6 +43,8 @@
 
         <title>Steve Hsu (什五)'s Link-Hub</title>
         <link rel="icon" href="/images/favicon.png" type="image/png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
         <noscript><meta http-equiv="refresh" content="0;url=/error-javascript-disabled.html"></noscript>
 
@@ -84,9 +95,70 @@
         <script src="/scripts/functions/page-title.js"></script>
 
         <script src="/scripts/init-at-head.js"></script>
+
+        <!-- Structured Data: Person -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Steve Hsu",
+            "alternateName": ["什五", "Steve Hsu (什五)"],
+            "url": "https://stevehsudrawing.github.io/",
+            "sameAs": [
+                "https://www.pixiv.net/users/70732361",
+                "https://www.deviantart.com/stevehsudrawing",
+                "https://x.com/stevehsudrawing",
+                "https://weibo.com/stevehsudrawing",
+                "https://space.bilibili.com/298733903",
+                "https://github.com/stevehsudrawing",
+                "https://medibang.com/u/stevehsu",
+                "https://www.patreon.com/QuantoSeries"
+            ],
+            "description": "Amateur creator \u2014 draws, makes videos, and codes sometimes.",
+            "email": "stevehsudrawing@outlook.com",
+            "image": "https://stevehsudrawing.github.io/images/banner.png",
+            "knowsLanguage": ["en", "zh-Hans", "zh-Hant"],
+            "gender": "Male"
+        }
+        </script>
+
+        <!-- Structured Data: WebSite -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Steve Hsu (什五)'s Link-Hub",
+            "url": "https://stevehsudrawing.github.io/",
+            "description": "A curated collection of links to Steve Hsu (什五)'s artworks, software projects, social media, and more.",
+            "inLanguage": ["en", "zh-Hans", "zh-Hant"],
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://stevehsudrawing.github.io/?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+            }
+        }
+        </script>
     </head>
 
     <body>
+        <noscript>
+            <div style="padding:2rem;font-family:sans-serif;">
+                <h1>Steve Hsu (什五)'s Link-Hub</h1>
+                <p>A curated collection of links to Steve Hsu (什五)'s artworks, software projects, social media, and more. Find all of Steve Hsu (什五)'s online presence in one place.</p>
+                <p>Steve Hsu (什五) is an amateur creator who draws, makes videos, and codes. Find links to Pixiv, DeviantArt, X (Twitter), Weibo, Bilibili, GitHub, and more.</p>
+                <ul>
+                    <li><a href="https://www.pixiv.net/users/70732361">Pixiv</a></li>
+                    <li><a href="https://github.com/stevehsudrawing">GitHub</a></li>
+                    <li><a href="https://x.com/stevehsudrawing">X (Twitter)</a></li>
+                    <li><a href="https://weibo.com/stevehsudrawing">Weibo</a></li>
+                    <li><a href="https://space.bilibili.com/298733903">Bilibili</a></li>
+                </ul>
+            </div>
+        </noscript>
+        
         <div id="loading-screen" class="loading-screen">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>

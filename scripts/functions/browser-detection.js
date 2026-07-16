@@ -88,7 +88,7 @@ function isBrowserSupported() {
         edge: browser.version >= 79,
         firefox: browser.version >= 65,
         opera: browser.version >= 53,
-        safari: browser.version >= 16,
+        safari: browser.version >= 14,
         unknown: false
     };
     return supportMap[browser.name];

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <!-- Homepage -->
+    <url>
+        <loc>https://stevehsudrawing.github.io/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/"/>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <!-- About -->
+    <url>
+        <loc>https://stevehsudrawing.github.io/about.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/about.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/about.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/about.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/about.html"/>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <!-- Artworks & Videos -->
+    <url>
+        <loc>https://stevehsudrawing.github.io/artworks-and-videos.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/artworks-and-videos.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/artworks-and-videos.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/artworks-and-videos.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/artworks-and-videos.html"/>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <!-- Softwares -->
+    <url>
+        <loc>https://stevehsudrawing.github.io/softwares.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/softwares.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/softwares.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/softwares.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/softwares.html"/>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <!-- Blogs & Sponsor -->
+    <url>
+        <loc>https://stevehsudrawing.github.io/blogs-and-sponsor.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/blogs-and-sponsor.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/blogs-and-sponsor.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/blogs-and-sponsor.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/blogs-and-sponsor.html"/>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <!-- Chatting -->
+    <url>
+        <loc>https://stevehsudrawing.github.io/chatting.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://stevehsudrawing.github.io/chatting.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://stevehsudrawing.github.io/chatting.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://stevehsudrawing.github.io/chatting.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://stevehsudrawing.github.io/chatting.html"/>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+</urlset>

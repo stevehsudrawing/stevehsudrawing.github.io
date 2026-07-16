@@ -173,3 +173,5 @@ Disallow: /images/
 # -- Everyone else: full access --
 User-agent: *
 Allow: /
+
+Sitemap: https://stevehsudrawing.github.io/sitemap.xml

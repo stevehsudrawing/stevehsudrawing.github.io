@@ -39,20 +39,20 @@ The minimum browser versions are determined by both **our CDN dependencies** and
 | Browser | Min Version | Release Date | Constrained By                            |
 |---------|-------------|--------------|-------------------------------------------|
 | Chrome  | ≥ 66        | 2018-04-17   | Variable fonts                            |
-| Edge    | ≥ 79        | 2020-01-15   | @popperjs/core (Chromium-based Edge only) |
+| Edge    | ≥ 79        | 2020-01-15   | Bootstrap 5.3.8 and @popperjs/core 2.11.8 |
 | Firefox | ≥ 65        | 2019-01-29   | WebP                                      |
 | Opera   | ≥ 53        | 2018-05-10   | Variable fonts                            |
-| Safari  | ≥ 16        | 2022-09-12   | WebP                                      |
+| Safari  | ≥ 14        | 2020-09-16   | WebP                                      |
 
 #### 1.3.1 Per-Dependency Minimum Browser Versions
 
-| Dependency                   | Chrome | Edge   | Firefox | Opera  | Safari |
-|------------------------------|--------|--------|---------|--------|--------|
-| Bootstrap 5.3.8 CSS/JS       | **60** | **79** | **60**  | **47** | **12** |
-| QRCode.js 1.0.0              | 1      | 12     | 1.5     | 9      | 3      |
-| html-to-image 1.11.13        | 32     | 12     | 29      | 20     | 7.1    |
-| html2canvas 1.4.1            | 1      | 12     | 3.5     | 12     | 6      |
-| @popperjs/core 2.11.8        | **60** | **79** | **60**  | **47** | **12** |
+| Dependency             | Chrome | Edge   | Firefox | Opera  | Safari |
+|------------------------|--------|--------|---------|--------|--------|
+| Bootstrap 5.3.8 CSS/JS | **60** | **79** | **60**  | **47** | **12** |
+| QRCode.js 1.0.0        | 1      | 12     | 1.5     | 9      | 3      |
+| html-to-image 1.11.13  | 32     | 12     | 29      | 20     | 7.1    |
+| html2canvas 1.4.1      | 1      | 12     | 3.5     | 12     | 6      |
+| @popperjs/core 2.11.8  | **60** | **79** | **60**  | **47** | **12** |
 
 > **Sources**:
 > - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
@@ -65,13 +65,13 @@ The minimum browser versions are determined by both **our CDN dependencies** and
 
 The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Feature        | Used By         | Chrome | Edge   | Firefox | Opera  | Safari |
-|----------------|-----------------|--------|--------|---------|--------|--------|
-| WebP           | Image assets    | 32     | **18** | **65**  | 19     | **16** |
-| WOFF 2         | Bootstrap Icons | 36     | 14     | 39      | 23     | 10     |
-| Variable fonts | Inter           | **66** | 17     | 62      | **53** | 11     |
+| Feature                                              | Used By         | Chrome | Edge   | Firefox | Opera  | Safari |
+|------------------------------------------------------|-----------------|--------|--------|---------|--------|--------|
+| [WebP](https://caniuse.com/webp)                     | Image assets    | 32     | **18** | **65**  | 19     | **14** |
+| [WOFF 2](https://caniuse.com/woff2)                  | Bootstrap Icons | 36     | 14     | 39      | 23     | 10     |
+| [Variable fonts](https://caniuse.com/variable-fonts) | Inter           | **66** | 17     | 62      | **53** | 11     |
 
-### 1.5 Deployment
+### 1.4 Deployment
 
 - **Platform**: GitHub Pages
 - **Build step**: None: raw HTML/CSS/JS served directly from the repository root.
@@ -152,6 +152,8 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 | `scripts/functions/` | Reusable JS modules - **define only, never execute**        | New JS module file, or add to an existing file        |
 | `stylesheets/`       | CSS stylesheets                                             | New CSS file, or add to an existing file              |
 | `sub-pages/`         | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
+| Root `*.xml`         | Sitemap and other XML config files                          | -                                                     |
+| Root `*.json`        | PWA manifest and other root JSON configs                    | -                                                     |
 | Root `*.html`        | Page files (homepage, sub-pages, error pages)               | New page file when adding a page                      |
 
 **File placement rules**:
@@ -343,7 +345,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 - For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
 - Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys - simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
-**Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file.
+**Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file. The keys should be arranged in alphabetical order.
 
 **Data Flow**:
 
@@ -686,7 +688,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 - The detailed per-language, per-platform font preference tables below define the canonical font lists. The actual CSS in `fonts.css` is the authoritative source.
 
 <details>
-<summary><b>sans-serif-text-major</b> (body text preferred fonts)</summary>
+<summary><code>sans-serif-text-major</code> (body text preferred fonts)</summary>
 
 | Language  | Preferred                                       | Apple                                                                     | Chromium / Android / Linux                                                               | Windows                                                     |
 |-----------|-------------------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------|-------------------------------------------------------------|
@@ -698,7 +700,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 </details>
 
 <details>
-<summary><b>sans-serif-text-fallback</b> (body text fallback fonts)</summary>
+<summary><code>sans-serif-text-fallback</code> (body text fallback fonts)</summary>
 
 | Language  | Apple                                                                      | Android / Linux                                                                                                                                  | Windows / General                                   |
 |-----------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
@@ -710,7 +712,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 </details>
 
 <details>
-<summary><b>monospace-major</b> (code preferred fonts)</summary>
+<summary><code>monospace-major</code> (code preferred fonts)</summary>
 
 | Language  | Preferred                             | Apple                           | Chromium / Android / Linux                                | Windows                          |
 |-----------|---------------------------------------|---------------------------------|-----------------------------------------------------------|----------------------------------|
@@ -722,7 +724,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 </details>
 
 <details>
-<summary><b>monospace-fallback</b> (code fallback fonts)</summary>
+<summary><code>monospace-fallback</code> (code fallback fonts)</summary>
 
 | Language  | Apple             | Android / Linux                                                                                 | Windows / General                                      |
 |-----------|-------------------|-------------------------------------------------------------------------------------------------|--------------------------------------------------------|
@@ -734,7 +736,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 </details>
 
 <details>
-<summary><b>sans-serif-display</b> (<code>en</code> only, for headings)</summary>
+<summary><code>sans-serif-display</code> (<code>en</code> only, for headings)</summary>
 
 - Preferred: `Inter Display`, `InterDisplay`, `InterVariable`
 - Apple: `SF Pro Display`, `SF Display`, `San Francisco Display`, `SF Pro`
@@ -744,7 +746,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 </details>
 
 <details>
-<summary><b>emoji</b> (language-agnostic)</summary>
+<summary><code>emoji</code> (language-agnostic)</summary>
 
 - Apple: `Apple Color Emoji`
 - Android / Linux: `Noto Color Emoji`
@@ -853,6 +855,79 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 |-----------------------------------|---------------------------------------------------------------------------|
 | `scripts/functions/utils.js`      | Shared utility functions (path normalization, page name extraction, etc.) |
 | `scripts/functions/page-title.js` | Page title management                                                     |
+
+---
+
+### 4.16 SEO
+
+**Brief**: Search engine optimization via meta tags, structured data (JSON-LD), sitemap, hreflang, Open Graph, Twitter Cards, and PWA manifest. Applied across all full-functionality pages and the 404 page.
+
+**Related Files**:
+
+| File                  | Role                                                       |
+|-----------------------|------------------------------------------------------------|
+| `sitemap.xml`         | XML sitemap listing all indexable pages with hreflang      |
+| `manifest.json`       | PWA web app manifest for mobile install experience         |
+| `robots.txt`          | Crawler directives; blocks AI bots from `/images/`; references sitemap |
+
+#### 4.16.1 SEO Elements by Page Tier
+
+| Element                   | Full-Functionality Pages                        | 404 (Lightweight)  | Error Pages (Minimal) |
+|---------------------------|-------------------------------------------------|--------------------|-----------------------|
+| `meta description`        | ✓ Unique per page                              | ✓                 | ✓                    |
+| `meta author`             | ✓                                              | ✓                 | ✓                    |
+| `meta robots`             | ✓ `index, follow`                              | ✓ `noindex`       | ✓ `noindex`          |
+| `link canonical`          | ✓                                              | ✓                 | ✓                    |
+| `<title>`                 | ✓ `{Page} - Steve Hsu (什五)'s Link-Hub`       | ✓                 | ✓                    |
+| `link favicon`            | ✓                                              | ✓                 | ✓                    |
+| `link manifest`           | ✓                                              | ✗                 | ✗                    |
+| `link sitemap`            | ✓                                              | ✗                 | ✗                    |
+| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✗                 | ✗                    |
+| Open Graph tags           | ✓                                              | ✓ (existing)      | ✓ (existing)         |
+| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                       | ✗                 | ✗                    |
+| Twitter/X Card tags       | ✓ `summary_large_image`                        | ✓ (existing)      | ✓ (existing)         |
+| `twitter:creator`         | ✓ `@stevehsudrawing`                           | ✗                 | ✗                    |
+| `theme-color`             | ✓ light + dark                                 | ✓                 | ✓                    |
+| JSON-LD (inline)          | ✓ See [§4.16.2](#4162-structured-data-json-ld) | ✗                 | ✗                    |
+| `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links           | ✗                 | ✗                    |
+
+**Error pages do not need SEO optimization** beyond basic `description`, `canonical`, `robots: noindex`, and existing OG/Twitter tags. They must not appear in the sitemap.
+
+#### 4.16.2 Structured Data (JSON-LD)
+
+All JSON-LD scripts are **inline** (not external `src`) for maximum search engine compatibility. Use `\uXXXX` escape sequences for special Unicode characters within JSON strings.
+
+##### Homepage (`index.html`)
+
+- **`Person`** schema with `sameAs` (all social platform URLs), `email`, `image`, `knowsLanguage`, `gender`.
+- **`WebSite`** schema with `SearchAction` and `inLanguage`.
+- The `sameAs` array must include every verified social/creative platform profile URL. When adding a new platform link, update this list.
+
+##### Sub-Pages
+
+- **`BreadcrumbList`** schema only: `Home → {Current Page Name}`.
+- Duplicate `Person` or `WebSite` across sub-pages is unnecessary; the homepage already declares them.
+
+#### 4.16.3 Sitemap
+
+- All 6 full-functionality pages are listed in `sitemap.xml`.
+- Each `<url>` includes `xhtml:link` hreflang alternates for `en`, `zh-Hans`, `zh-Hant`, and `x-default`.
+- `lastmod`, `changefreq`, and `priority` are set per page.
+- Error pages and 404 must NOT be included.
+- `robots.txt` references the sitemap via `Sitemap: https://stevehsudrawing.github.io/sitemap.xml`.
+
+#### 4.16.4 Hreflang
+
+- Since this site uses client-side JS i18n (same URL for all languages), all hreflang `<link>` tags point to the **same canonical URL**.
+- This is a valid pattern: search engines understand that the page is available in multiple languages on a single URL.
+- The `x-default` hreflang signals that the page does not specifically target any one language.
+
+#### 4.16.5 Noscript SEO Fallback
+
+- Each full-functionality page includes a `<noscript>` block at the top of `<body>`.
+- Contains the page title (`<h1>`) and a descriptive paragraph (`<p>`).
+- The homepage noscript additionally includes a `<ul>` of key platform links.
+- This is purely for search engine crawlers; users without JS are redirected by the `<head>` noscript before seeing this content.
 
 ---
 
