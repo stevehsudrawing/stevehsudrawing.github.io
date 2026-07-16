@@ -127,16 +127,3 @@ a {
 .disable-transitions *::after {
     transition: none !important;
 }
-
-/* ========================================================================
-   No Copy - for restricted original artworks
-   ======================================================================== */
-
-.no-copy {
-    user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    -webkit-touch-callout: none;
-}

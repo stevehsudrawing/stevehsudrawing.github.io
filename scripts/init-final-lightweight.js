@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         updatePageTitle();
         initHashChangeScroll();
+        initNoCopyProtection();
 
         // Add external link indicator icons
         addExternalLinkIndicators();

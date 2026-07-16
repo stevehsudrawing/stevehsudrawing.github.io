@@ -34,14 +34,14 @@ These works are provided **for display purposes only** on this website. The foll
 
 ### 1.2 Open-Licensed Works - CC BY-NC 4.0
 
-| Path / Pattern        | Description                              |
-|-----------------------|------------------------------------------|
-| `covers/blogs.webp`   | Cover image for the Blogs & Sponsor page |
-| `covers/chatting.webp`| Cover image for the Chatting page        |
-| `covers/projects.webp`| Cover image for the Softwares page       |
-| `icons/quanto-*.webp` | Icons for the Quanto Series projects     |
-| `icons/quantum.webp`  | Icon for QuantuM QQ chat group           |
-| `icons/sawtooth.webp` | Icon for SawtootH QQ chat group          |
+| Path / Pattern         | Description                              |
+|------------------------|------------------------------------------|
+| `covers/blogs.webp`    | Cover image for the Blogs & Sponsor page |
+| `covers/chatting.webp` | Cover image for the Chatting page        |
+| `covers/projects.webp` | Cover image for the Softwares page       |
+| `icons/quanto-*.webp`  | Icons for the Quanto Series projects     |
+| `icons/quantum.webp`   | Icon for QuantuM QQ chat group           |
+| `icons/sawtooth.webp`  | Icon for SawtootH QQ chat group          |
 
 These works are licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0). You are free to:
 

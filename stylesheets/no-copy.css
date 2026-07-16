@@ -1,0 +1,12 @@
+/* ========================================================================
+   No-copy - for Restricted Original Works
+   ======================================================================== */
+
+.no-copy {
+    user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+}

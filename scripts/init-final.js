@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         initSettingEventListeners();
         initHashChangeScroll();
+        initNoCopyProtection();
 
         updateThemeToggleText();
         setActiveThemeItem();
