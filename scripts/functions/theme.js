@@ -156,14 +156,6 @@ function applyThemeBasedImage(img) {
             img.setAttribute('src', lightSrc);
         }
     }
-
-    // If this image also uses loading-opacity, reset its loading state
-    // so the new theme image fades in from semi-transparent.
-    if (img.getAttribute('data-img-feature') && img.getAttribute('data-img-feature').indexOf('loading-opacity') !== -1) {
-        if (typeof resetImageLoadingState === 'function') {
-            resetImageLoadingState(img);
-        }
-    }
 }
 
 /**
