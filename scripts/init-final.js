@@ -43,6 +43,9 @@ async function initPageContent() {
     // Initialize colored (mask-based) images
     initAllColoredImages();
 
+    // Initialize loading-opacity images (semi-transparent until loaded)
+    initAllLoadingOpacityImages();
+
     // Inject inline SVGs from external files
     await initSvgInjection();
 

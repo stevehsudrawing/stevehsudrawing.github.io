@@ -9,3 +9,14 @@
     mask: var(--img-mask-url, none) no-repeat center / contain;
     -webkit-mask: var(--img-mask-url, none) no-repeat center / contain;
 }
+
+/* --- Loading opacity --- */
+
+[data-img-feature~="loading-opacity"]:not([data-img-loaded]) {
+    opacity: 0.5;
+}
+
+[data-img-feature~="loading-opacity"][data-img-loaded] {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
