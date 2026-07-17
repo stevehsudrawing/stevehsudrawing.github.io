@@ -955,9 +955,9 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 | `link sitemap`            | ✓                                              | ✗                 | ✗                    |
 | Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✗                 | ✗                    |
 | Open Graph tags           | ✓                                              | ✓                 | ✓                    |
-| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                       | ✗                 | ✗                    |
+| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                       | ✓                 | ✗                    |
 | Twitter/X Card tags       | ✓ `summary_large_image`                        | ✓                 | ✓                    |
-| `theme-color`             | ✓ light + dark                                 | ✓                 | ✓                    |
+| Multiple `theme-color`    | ✓                                              | ✓                 | ✗                    |
 | JSON-LD (inline)          | ✓ See [§4.16.2](#4162-structured-data-json-ld) | ✗                 | ✗                    |
 | `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links           | ✗                 | ✗                    |
 
