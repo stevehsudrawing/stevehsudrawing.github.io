@@ -24,34 +24,51 @@ function updateScrollHints() {
 }
 
 /**
- * Create a "Scroll Horizontally" hint element after each .link-button-group
- * and listen for resize events to toggle its visibility.
+ * Create a "Scroll Horizontally" hint element after a single .link-button-group.
+ * Idempotent: does nothing if a hint already exists after the group.
+ * @param {HTMLElement} group - The .link-button-group container.
  */
-function initScrollHint() {
+function createScrollHint(group) {
+    let hint = group.nextElementSibling;
+    if (hint && hint.classList.contains('scroll-hint')) return;
+
+    hint = document.createElement('div');
+    hint.className = 'scroll-hint';
+    hint.setAttribute('aria-hidden', 'true');
+    hint.innerHTML = '<i class="bi bi-chevron-left"></i> <span data-i18n="text-scroll-horizontally">Scroll Horizontally</span> <i class="bi bi-chevron-right"></i>';
+    group.insertAdjacentElement('afterend', hint);
+
+    // Manually set translated text since updatePageText() has already run
+    const span = hint.querySelector('[data-i18n]');
+    if (span) {
+        const translated = translate('text-scroll-horizontally');
+        if (translated) {
+            span.textContent = translated;
+        }
+    }
+}
+
+/**
+ * Remove the scroll hint element after a single .link-button-group.
+ * @param {HTMLElement} group - The .link-button-group container.
+ */
+function removeScrollHint(group) {
+    const hint = group.nextElementSibling;
+    if (hint && hint.classList.contains('scroll-hint')) {
+        hint.remove();
+    }
+}
+
+/**
+ * Create scroll hint elements after every .link-button-group on the page
+ * and listen for resize events to toggle their visibility.
+ * Delegates to createScrollHint() for each matching element.
+ */
+function initAllScrollHints() {
     const buttonGroups = document.querySelectorAll('.link-button-group');
     if (buttonGroups.length === 0) return;
 
-    // Create hint elements after each button group
-    buttonGroups.forEach(group => {
-        let hint = group.nextElementSibling;
-        if (!hint || !hint.classList.contains('scroll-hint')) {
-            hint = document.createElement('div');
-            hint.className = 'scroll-hint';
-            hint.setAttribute('aria-hidden', 'true');
-            hint.innerHTML = '<i class="bi bi-chevron-left"></i> <span data-i18n="text-scroll-horizontally">Scroll Horizontally</span> <i class="bi bi-chevron-right"></i>';
-            group.insertAdjacentElement('afterend', hint);
-
-            // Manually set translated text since updatePageText() has already run
-            const span = hint.querySelector('[data-i18n]');
-            if (span) {
-                const translated = translate('text-scroll-horizontally');
-                if (translated) {
-                    span.textContent = translated;
-                }
-            }
-        }
-    });
-
+    buttonGroups.forEach(createScrollHint);
     updateScrollHints();
 
     // Set up resize listener only once globally

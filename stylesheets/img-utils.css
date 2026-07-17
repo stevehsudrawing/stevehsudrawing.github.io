@@ -2,6 +2,18 @@
    Image Utilities - data-img-feature based image styling
    ======================================================================== */
 
+/* --- Image loading opacity --- */
+
+img {
+    opacity: 0.5;
+    transition: opacity .2s ease;
+}
+
+img[data-img-loaded],
+img[data-img-feature~="colored"] {
+    opacity: 1;
+}
+
 /* --- Colored mask-based icons --- */
 
 [data-img-feature~="colored"] {

@@ -28,3 +28,54 @@ function applyColoredImage(img) {
 function initAllColoredImages() {
     document.querySelectorAll('img[data-img-feature~="colored"]').forEach(applyColoredImage);
 }
+
+/**
+ * Mark an image as loaded by adding the data-img-loaded attribute.
+ * @param {HTMLImageElement} img - The image element to mark as loaded.
+ */
+function markImageLoaded(img) {
+    img.setAttribute('data-img-loaded', '');
+}
+
+/**
+ * Mark an image as unloaded (loading) by removing the data-img-loaded attribute.
+ * The image will revert to its default semi-transparent state via CSS.
+ * @param {HTMLImageElement} img - The image element to mark as unloaded.
+ */
+function markImageUnloaded(img) {
+    img.removeAttribute('data-img-loaded');
+}
+
+/**
+ * Initialize image loading opacity on a single <img> element.
+ * Skips colored images (they use CSS mask rendering).
+ * For already-loaded (cached) images, marks them immediately.
+ * For loading images, sets up load and error listeners to mark when ready.
+ * @param {HTMLImageElement} img - The image element to initialize.
+ */
+function initImageLoadingOpacity(img) {
+    // Colored images use CSS mask rendering, not the image src
+    if (img.matches('[data-img-feature~="colored"]')) {
+        return;
+    }
+
+    if (img.complete && img.naturalWidth > 0) {
+        // Already loaded (e.g. from browser cache)
+        markImageLoaded(img);
+    } else {
+        img.addEventListener('load', function () {
+            markImageLoaded(img);
+        }, { once: true });
+        img.addEventListener('error', function () {
+            markImageLoaded(img);
+        }, { once: true });
+    }
+}
+
+/**
+ * Initialize image loading opacity for all <img> elements on the page.
+ * Delegates to initImageLoadingOpacity() for each matching element.
+ */
+function initAllImageLoadingOpacity() {
+    document.querySelectorAll('img').forEach(initImageLoadingOpacity);
+}

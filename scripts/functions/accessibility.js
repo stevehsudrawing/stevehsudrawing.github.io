@@ -25,20 +25,41 @@ function scrollToHashTarget(hash, instant = false) {
 }
 
 /**
- * Attach click listeners to .title-link-anchor elements so they scroll
- * smoothly to the corresponding heading and update the URL hash via pushState.
+ * Click handler for .title-link-anchor elements.
+ * Scrolls smoothly to the target heading and updates the URL hash via pushState.
+ * @param {MouseEvent} e - The click event.
  */
-function initTitleLinkAnchors() {
+function handleTitleLinkAnchorClick(e) {
+    e.preventDefault();
+    const hash = e.currentTarget.getAttribute('href');
+    history.pushState(null, '', hash);
+    scrollToHashTarget(hash);
+}
+
+/**
+ * Attach the click listener to a single .title-link-anchor element.
+ * @param {HTMLAnchorElement} anchor - The anchor element to initialize.
+ */
+function initTitleLinkAnchor(anchor) {
+    anchor.addEventListener('click', handleTitleLinkAnchorClick);
+}
+
+/**
+ * Remove the click listener from a single .title-link-anchor element.
+ * @param {HTMLAnchorElement} anchor - The anchor element to dispose.
+ */
+function disposeTitleLinkAnchor(anchor) {
+    anchor.removeEventListener('click', handleTitleLinkAnchorClick);
+}
+
+/**
+ * Attach click listeners to all .title-link-anchor elements so they scroll
+ * smoothly to the corresponding heading and update the URL hash via pushState.
+ * Delegates to initTitleLinkAnchor() for each matching element.
+ */
+function initAllTitleLinkAnchors() {
     try {
-        const titleLinkAnchors = document.querySelectorAll('.title-link-anchor');
-        titleLinkAnchors.forEach(titleAnchor => {
-            titleAnchor.addEventListener('click', event => {
-                event.preventDefault();
-                const hash = titleAnchor.getAttribute('href');
-                history.pushState(null, '', hash);
-                scrollToHashTarget(hash);
-            })
-        })
+        document.querySelectorAll('.title-link-anchor').forEach(initTitleLinkAnchor);
     } catch (error) {
         console.error('Failed to add event listener to title link anchors:', error);
     }
@@ -86,24 +107,50 @@ function initSkipButton() {
 }
 
 /**
- * Append an arrow-up-right icon to all .external-link anchors
+ * Append an arrow-up-right icon to a single .external-link anchor
  * so users can visually identify links that leave the site.
+ * Skips links with no visible text content. Idempotent: does nothing
+ * if the icon already exists.
+ * @param {HTMLAnchorElement} link - The link element to add the indicator to.
  */
-function addExternalLinkIndicators() {
-    try {
-        document.querySelectorAll('a.external-link').forEach(link => {
-            // Skip links that have no visible text content
-            const textContent = link.textContent.trim();
-            if (!textContent) return;
+function addExternalLinkIndicator(link) {
+    // Skip links that have no visible text content
+    const textContent = link.textContent.trim();
+    if (!textContent) return;
 
-            // Avoid adding duplicate icons
-            if (!link.querySelector('i.bi-arrow-up-right')) {
-                const icon = document.createElement('i');
-                icon.className = 'bi bi-arrow-up-right';
-                link.appendChild(document.createTextNode(' '));
-                link.appendChild(icon);
-            }
-        });
+    // Avoid adding duplicate icons
+    if (link.querySelector('i.bi-arrow-up-right')) return;
+
+    const icon = document.createElement('i');
+    icon.className = 'bi bi-arrow-up-right';
+    link.appendChild(document.createTextNode(' '));
+    link.appendChild(icon);
+}
+
+/**
+ * Remove the arrow-up-right icon from a single .external-link anchor,
+ * along with the space text node that precedes it.
+ * @param {HTMLAnchorElement} link - The link element to remove the indicator from.
+ */
+function removeExternalLinkIndicator(link) {
+    const icon = link.querySelector('i.bi-arrow-up-right');
+    if (!icon) return;
+
+    // Remove the space text node before the icon, if present
+    const prev = icon.previousSibling;
+    if (prev && prev.nodeType === Node.TEXT_NODE && prev.textContent === ' ') {
+        prev.remove();
+    }
+    icon.remove();
+}
+
+/**
+ * Append arrow-up-right icons to all .external-link anchors on the page.
+ * Delegates to addExternalLinkIndicator() for each matching element.
+ */
+function addAllExternalLinkIndicators() {
+    try {
+        document.querySelectorAll('a.external-link').forEach(addExternalLinkIndicator);
     } catch (error) {
         console.error('Failed to add external link indicators:', error);
     }

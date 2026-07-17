@@ -4,28 +4,36 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         await loadAllComponents();
 
+        // Initialize theme transition overlay (after header is loaded)
+        initThemeTransitionOverlay();
+
         // Load language file
         const savedLang = localStorage.getItem('preferredLang') || 'en';
         await loadLang(savedLang);
 
+        updateThemeToggleText();
+        setActiveThemeItem();
         updatePageTitle();
         initHashChangeScroll();
         initNoCopyProtection();
 
         // Add external link indicator icons
-        addExternalLinkIndicators();
+        addAllExternalLinkIndicators();
 
         // Set up copy-link tooltips before general tooltip activation
-        initCopyLinkTooltips();
+        initAllCopyLinkTooltips();
 
         // Apply theme-based images (dark/light variants)
-        await applyAllThemeBasedImages();
+        applyAllThemeBasedImages();
+
+        // Initialize image loading opacity (semi-transparent until loaded)
+        initAllImageLoadingOpacity();
 
         // Inject inline SVGs from external files
         await initSvgInjection();
 
         // Re-initialize Bootstrap tooltips in new content
-        await initAllTooltips();
+        initAllTooltips();
 
         // Hide the loading screen now that everything is ready
         hideLoadingScreen();

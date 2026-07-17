@@ -147,6 +147,10 @@ function applyThemeBasedImage(img) {
         img.setAttribute('data-src-light', img.getAttribute('src'));
     }
 
+    // Remove loaded marker so the image appears semi-transparent while
+    // the new theme variant loads (see img-utils.js loading opacity).
+    markImageUnloaded(img);
+
     const currentTheme = htmlElement.getAttribute('data-bs-theme');
     if (currentTheme === 'dark') {
         img.setAttribute('src', img.getAttribute('data-src-dark'));
@@ -156,6 +160,10 @@ function applyThemeBasedImage(img) {
             img.setAttribute('src', lightSrc);
         }
     }
+
+    // Re-mark as loaded once the new src finishes loading.
+    // Delegates to img-utils.js which handles both cached and loading images.
+    initImageLoadingOpacity(img);
 }
 
 /**

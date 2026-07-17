@@ -29,13 +29,13 @@ async function initPageContent() {
     }
 
     // Set up copy-link tooltips before general tooltip activation
-    initCopyLinkTooltips();
+    initAllCopyLinkTooltips();
 
     // Re-initialize Bootstrap tooltips in new content
     initAllTooltips();
 
     // Re-bind title link anchor click handlers
-    initTitleLinkAnchors();
+    initAllTitleLinkAnchors();
 
     // Apply theme-based images (dark/light variants)
     applyAllThemeBasedImages();
@@ -43,17 +43,20 @@ async function initPageContent() {
     // Initialize colored (mask-based) images
     initAllColoredImages();
 
+    // Initialize image loading opacity (semi-transparent until loaded)
+    initAllImageLoadingOpacity();
+
     // Inject inline SVGs from external files
     await initSvgInjection();
 
     // Apply external link target behavior
-    applyExternalLinkTargetBehavior();
+    applyAllExternalLinkTargetBehavior();
 
     // Add external link indicator icons
-    addExternalLinkIndicators();
+    addAllExternalLinkIndicators();
 
     // Re-initialize scroll hint for overflowing button groups
-    initScrollHint();
+    initAllScrollHints();
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -109,4 +112,4 @@ document.addEventListener('DOMContentLoaded', async function () {
 // Listeners that depend on pageInitialized event
 document.addEventListener('pageInitialized', initNavbarScrollBorder);
 document.addEventListener('pageInitialized', initMobileNavbarBrandScroll);
-document.addEventListener('pageInitialized', initScrollHint);
+document.addEventListener('pageInitialized', initAllScrollHints);

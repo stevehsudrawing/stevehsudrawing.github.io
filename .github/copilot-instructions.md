@@ -115,19 +115,25 @@ Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, i
 
 #### 2.3.1 Function Naming by Category
 
-| Prefix       | Purpose                        | Examples                                                                                        |
-|--------------|--------------------------------|-------------------------------------------------------------------------------------------------|
-| `init*`      | Initialize / set up listeners  | `initThemePreference`, `initSkipButton`, `initAllTooltips`, `initScrollHint`, `initPageContent` |
-| `load*`      | Async data fetching            | `loadSupportedLangs`, `loadLang`, `loadAllComponents`, `loadHTML`                               |
-| `update*`    | Update existing DOM content    | `updatePageText`, `updatePageTitle`, `updateThemeToggleText`                                    |
-| `apply*`     | Apply a setting / style change | `applyThemePreference`, `applyAllThemeBasedImages`, `applyExternalLinkTargetBehavior`           |
-| `get*`       | Retrieve / compute a value     | `getSystemTheme`                                                                                |
-| `set*`       | Set a state / attribute        | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                   |
-| `populate*`  | Fill UI lists / menus          | `populateLanguageMenus`                                                                         |
-| `generate*`  | Create and inject DOM elements | `generateLinkCards`                                                                             |
-| `hide*`      | Hide an element                | `hideLoadingScreen`                                                                             |
-| `extract*`   | Parse / derive from input      | `extractPageName`                                                                               |
-| `normalize*` | Normalize / sanitize input     | `normalizeInternalPath`                                                                         |
+| Prefix       | Purpose                              | Examples                                                                                            |
+|--------------|--------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `init*`      | Initialize / set up listeners        | `initThemePreference`, `initSkipButton`, `initAllTooltips`, `initAllScrollHints`, `initPageContent` |
+| `dispose*`   | Tear down / remove listeners         | `disposeTooltip`, `disposeCopyLinkTooltip`, `disposeAllTooltips`                                    |
+| `create*`    | Create and inject a DOM element      | `createTooltip`, `createScrollHint`                                                                 |
+| `remove*`    | Remove a DOM element or attribute    | `removeScrollHint`, `removeExternalLinkIndicator`, `removeExternalLinkTargetBehavior`               |
+| `add*`       | Add a DOM element or attribute       | `addExternalLinkIndicator`, `addExternalLinkTargetBehavior`                                         |
+| `mark*`      | Set or clear a visual state marker   | `markImageLoaded`, `markImageUnloaded`                                                              |
+| `handle*`    | DOM event handler (named function)   | `handleCopyLinkClick`, `handleTitleLinkAnchorClick`                                                 |
+| `load*`      | Async data fetching                  | `loadSupportedLangs`, `loadLang`, `loadAllComponents`, `loadHTML`                                   |
+| `update*`    | Update existing DOM content          | `updatePageText`, `updatePageTitle`, `updateThemeToggleText`                                        |
+| `apply*`     | Apply a setting / style change       | `applyThemePreference`, `applyAllThemeBasedImages`, `applyAllExternalLinkTargetBehavior`            |
+| `get*`       | Retrieve / compute a value           | `getSystemTheme`                                                                                    |
+| `set*`       | Set a state / attribute              | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                       |
+| `populate*`  | Fill UI lists / menus                | `populateLanguageMenus`                                                                             |
+| `generate*`  | Create and inject DOM elements       | `generateLinkCards`                                                                                 |
+| `hide*`      | Hide an element                      | `hideLoadingScreen`                                                                                 |
+| `extract*`   | Parse / derive from input            | `extractPageName`                                                                                   |
+| `normalize*` | Normalize / sanitize input           | `normalizeInternalPath`                                                                             |
 
 > Prefer existing prefixes when adding new functions. If none fit, use a clear descriptive verb.
 
@@ -140,15 +146,52 @@ A **batch function** is a function that queries multiple DOM elements and applie
 - The single-element function should be **idempotent** (safe to call multiple times on the same element).
 - Functions without a corresponding single-element function (pure event delegation, singleton initialization, etc.) do not need `All` in their name.
 
+#### 2.3.3 Single-Element Functions Must Have Symmetric Counterparts
+
+Every single-element function that **adds, creates, or initializes** something on a DOM element **must** have a corresponding single-element function that **removes, destroys, or cleans up** the same thing. This ensures that:
+
+- Other modules can cleanly reverse an operation without inlining DOM manipulation logic.
+- `removeEventListener` can precisely target the handler (requires a named `handle*` function, not an anonymous closure).
+- The API surface is predictable: if there is an "on" path, there is an "off" path.
+
+**Naming conventions for symmetric pairs:**
+
+| Operation          | Add / Create / Init            | Remove / Destroy / Cleanup        |
+|--------------------|--------------------------------|-----------------------------------|
+| DOM element        | `create*` / `add*`             | `remove*`                         |
+| Event listener     | `init*` (with named `handle*`) | `dispose*`                        |
+| Visual state       | `mark*Loaded` / `mark*Active`  | `mark*Unloaded` / `mark*Inactive` |
+| Bootstrap instance | `createTooltip`                | `disposeTooltip`                  |
+
+**Existing symmetric single-element pairs:**
+
+| Add / Create / Init                   | Remove / Destroy / Cleanup               | Module             |
+|---------------------------------------|------------------------------------------|--------------------|
+| `createTooltip(el)`                   | `disposeTooltip(el)`                     | `tooltips.js`      |
+| `initCopyLinkTooltip(link)`           | `disposeCopyLinkTooltip(link)`           | `tooltips.js`      |
+| `markImageLoaded(img)`                | `markImageUnloaded(img)`                 | `img-utils.js`     |
+| `addExternalLinkIndicator(link)`      | `removeExternalLinkIndicator(link)`      | `accessibility.js` |
+| `initTitleLinkAnchor(anchor)`         | `disposeTitleLinkAnchor(anchor)`         | `accessibility.js` |
+| `createScrollHint(group)`             | `removeScrollHint(group)`                | `scroll-hint.js`   |
+| `addExternalLinkTargetBehavior(link)` | `removeExternalLinkTargetBehavior(link)` | `settings.js`      |
+
+**Handler extraction rule:** If an `init*` function uses `addEventListener` with an anonymous function, the handler **must** be extracted as a named `handle*` function so the corresponding `dispose*` function can call `removeEventListener` with the same reference.
+
 Existing batch / single-element pairs:
 
-| Batch Function               | Single-Element Function       | Module                |
-|------------------------------|-------------------------------|-----------------------|
-| `initAllTooltips()`          | `createTooltip(el)`           | `tooltips.js`         |
-| `disposeAllTooltips()`       | `disposeTooltip(el)`          | `tooltips.js`         |
-| `initAllColoredImages()`     | `applyColoredImage(img)`      | `img-utils.js`        |
-| `applyAllThemeBasedImages()` | `applyThemeBasedImage(img)`   | `theme.js`            |
-| `loadAllComponents()`        | `loadHTML(placeholder, name)` | `component-loader.js` |
+| Batch Function                        | Single-Element Function              | Module                |
+|---------------------------------------|--------------------------------------|-----------------------|
+| `initAllTooltips()`                   | `createTooltip(el)`                  | `tooltips.js`         |
+| `disposeAllTooltips()`                | `disposeTooltip(el)`                 | `tooltips.js`         |
+| `initAllCopyLinkTooltips()`           | `initCopyLinkTooltip(link)`          | `tooltips.js`         |
+| `initAllColoredImages()`              | `applyColoredImage(img)`             | `img-utils.js`        |
+| `initAllImageLoadingOpacity()`        | `initImageLoadingOpacity(img)`       | `img-utils.js`        |
+| `applyAllThemeBasedImages()`          | `applyThemeBasedImage(img)`          | `theme.js`            |
+| `addAllExternalLinkIndicators()`      | `addExternalLinkIndicator(link)`     | `accessibility.js`    |
+| `initAllTitleLinkAnchors()`           | `initTitleLinkAnchor(anchor)`        | `accessibility.js`    |
+| `initAllScrollHints()`                | `createScrollHint(group)`            | `scroll-hint.js`      |
+| `applyAllExternalLinkTargetBehavior()`| `addExternalLinkTargetBehavior(link)`| `settings.js`         |
+| `loadAllComponents()`                 | `loadHTML(placeholder, name)`        | `component-loader.js` |
 
 ---
 
@@ -627,7 +670,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
     - Key functions:
         - `isExternalLinkNewTabEnabled()` - reads the preference.
         - `setExternalLinkNewTabPreference(enabled)` - persists the preference.
-        - `applyExternalLinkTargetBehavior()` - adds or removes `target="_blank"` and `rel="noopener noreferrer"` on all `a.external-link` elements.
+        - `applyAllExternalLinkTargetBehavior()` - reads the preference and delegates to `addExternalLinkTargetBehavior(link)` or `removeExternalLinkTargetBehavior(link)` for each `a.external-link` element.
     - The toggle change event is handled by `initSettingEventListeners()`.
     - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference.
 
@@ -658,7 +701,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 - **i18n ([§4.3](#43-internationalization-i18n))**: The language selector (`#language-select`) in the settings modal triggers `loadLang()` on change.
 - **Theme ([§4.4](#44-theme-system))**: Theme buttons (`.theme-item`) in the settings modal call `setThemePreference()` on click.
-- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: The `openExternalLinksInNewTab` preference is shared between the settings modal toggle (`#external-links-new-tab-toggle`) and the confirmation modal toggle (`#external-link-new-tab-toggle`). The confirmation module calls `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyExternalLinkTargetBehavior()` from this module.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: The `openExternalLinksInNewTab` preference is shared between the settings modal toggle (`#external-links-new-tab-toggle`) and the confirmation modal toggle (`#external-link-new-tab-toggle`). The confirmation module calls `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyAllExternalLinkTargetBehavior()` from this module.
 - **Page Transition ([§4.6](#46-page-transitions))**: `initSettingsModal()` is re-invoked after each SPA transition (via `initPageContent()`) to re-sync toggle DOM elements with stored preferences.
 
 ---
@@ -669,14 +712,14 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 **Related Files**:
 
-| File                                 | Role                             |
-|--------------------------------------|----------------------------------|
-| `scripts/functions/navbar.js`        | Active nav item highlighting     |
-| `scripts/functions/scroll-hint.js`   | Scroll-down hint indicator       |
-| `scripts/functions/accessibility.js` | Skip button and focus management |
-| `stylesheets/navbar.css`             | Navbar styles                    |
-| `stylesheets/scroll-hint.css`        | Scroll hint styles               |
-| `stylesheets/accessibility.css`      | Skip button and focus styles     |
+| File                                 | Role                                                                        |
+|--------------------------------------|-----------------------------------------------------------------------------|
+| `scripts/functions/navbar.js`        | Active nav item highlighting                                                |
+| `scripts/functions/scroll-hint.js`   | Scroll-down hint indicator                                                  |
+| `scripts/functions/accessibility.js` | Skip button, focus management, external link indicators, title link anchors |
+| `stylesheets/navbar.css`             | Navbar styles                                                               |
+| `stylesheets/scroll-hint.css`        | Scroll hint styles                                                          |
+| `stylesheets/accessibility.css`      | Skip button and focus styles                                                |
 
 **Features**:
 
@@ -825,33 +868,35 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                            | Role                                                                                       |
-|---------------------------------|--------------------------------------------------------------------------------------------|
-| `scripts/functions/tooltips.js` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initCopyLinkTooltips()` |
+| File                            | Role                                                                                                                               |
+|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `scripts/functions/tooltips.js` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
 
 **Key Functions**:
 
 - `initAllTooltips()` - scans all `[data-bs-toggle="tooltip"]` elements and creates tooltip instances via `createTooltip()`.
 - `disposeAllTooltips()` - disposes all tooltip instances on the page via `disposeTooltip()`. Called before page transitions to prevent orphaned tooltips.
-- `createTooltip(element)` - creates a Bootstrap Tooltip on a single element. Idempotent: disposes any existing tooltip on the element first. Usable by other modules for on-demand tooltip management.
+- `createTooltip(element)` - creates a Bootstrap Tooltip on a single element. Idempotent: disposes any existing tooltip on the element first.
 - `disposeTooltip(element)` - disposes a Bootstrap Tooltip from a single element, if one exists.
-- `initCopyLinkTooltips()` - sets up copy-link tooltips with click-to-copy clipboard behavior and "Copied!" feedback.
+- `initAllCopyLinkTooltips()` - batch function: sets up copy-link tooltips on all `.copy-link` elements via `initCopyLinkTooltip()`.
+- `initCopyLinkTooltip(link)` - sets tooltip attributes and attaches the named `handleCopyLinkClick` handler to a single `.copy-link` element.
+- `disposeCopyLinkTooltip(link)` - removes the click handler, tooltip attributes, and disposes the Bootstrap Tooltip instance from a single `.copy-link` element.
 
 ---
 
 ### 4.13 Image Utilities
 
-**Brief**: Provides a unified `data-img-feature` attribute system for image behaviors such as theme-following source swapping and CSS mask-based monochrome coloring.
+**Brief**: Provides a unified `data-img-feature` attribute system for image behaviors such as theme-following source swapping, CSS mask-based monochrome coloring, and loading-state opacity control.
 
 **Related Files**:
 
-| File                             | Role                                                                           |
-|----------------------------------|--------------------------------------------------------------------------------|
-| `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images via `initAllColoredImages()`   |
-| `stylesheets/img-utils.css`      | Generic CSS rules for `[data-img-feature~="colored"]` mask-based styling       |
-| `scripts/functions/theme.js`     | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images |
-| `images/null.png`                | Placeholder image used with `data-img-feature="colored"`                       |
-| `images/README.md`               | Copyright notice for image assets                                              |
+| File                             | Role                                                                                 |
+|----------------------------------|--------------------------------------------------------------------------------------|
+| `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images and image loading opacity            |
+| `stylesheets/img-utils.css`      | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
+| `scripts/functions/theme.js`     | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
+| `images/null.png`                | Placeholder image used with `data-img-feature="colored"`                             |
+| `images/README.md`               | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute
 
@@ -877,16 +922,51 @@ Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 
 Handled by `initAllColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
 
+#### 4.13.4 `loading-opacity`
+
+Renders `<img>` elements semi-transparent (`opacity: 0.5`) while their source is loading, then fades to fully opaque (`opacity: 1`) once the image has loaded. Colored images (`data-img-feature~="colored"`) are excluded because their visual comes from CSS `mask` / `background-color` rather than the `src`.
+
+- **Default state**: All `<img>` elements are `opacity: 0.5` with `transition: opacity .2s ease`.
+- **Loaded state**: When an image finishes loading (or is already cached), the `data-img-loaded` attribute is added, which sets `opacity: 1`.
+- **Error state**: Images that fail to load are also marked as loaded to prevent them from staying semi-transparent forever.
+
+**Key Functions** (in `img-utils.js`):
+
+| Function                       | Role                                                                           |
+|--------------------------------|--------------------------------------------------------------------------------|
+| `markImageLoaded(img)`         | Adds `data-img-loaded` attribute → `opacity: 1`                               |
+| `markImageUnloaded(img)`       | Removes `data-img-loaded` attribute → `opacity: 0.5`                          |
+| `initImageLoadingOpacity(img)` | Checks if image is cached (mark immediately) or binds `load`/`error` listeners |
+| `initAllImageLoadingOpacity()` | Batch function: calls `initImageLoadingOpacity()` on every `<img>`             |
+
+**CSS Rules** (in `img-utils.css`):
+
+```css
+img {
+    opacity: 0.5;
+    transition: opacity .2s ease;
+}
+
+img[data-img-loaded],
+img[data-img-feature~="colored"] {
+    opacity: 1;
+}
+```
+
+**Interaction with Theme System** ([§4.4](#44-theme-system)):
+
+When `applyThemeBasedImage()` switches the `src` of a `follow-theme` image during theme changes, it calls `markImageUnloaded(img)` before changing `src` and `initImageLoadingOpacity(img)` afterward. This prevents the old theme's image from briefly remaining visible at full opacity while the new theme's image loads.
+
 ### 4.14 SVG Injection
 
 **Brief**: Replaces `<span>` placeholders with inline SVG fetched from files at runtime, avoiding hardcoded SVG markup in HTML. Supports dynamic dimension and color control via data attributes.
 
 **Related Files**:
 
-| File                              | Role                                                                |
-|-----------------------------------|---------------------------------------------------------------------|
-| `scripts/functions/svg-utils.js`  | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
-| `images/svg/`                     | SVG source files (e.g. `steve-hsu.svg`)                             |
+| File                             | Role                                                                |
+|----------------------------------|---------------------------------------------------------------------|
+| `scripts/functions/svg-utils.js` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
+| `images/svg/`                    | SVG source files (e.g. `steve-hsu.svg`)                             |
 
 **How It Works**:
 
@@ -935,11 +1015,11 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 
 **Related Files**:
 
-| File                  | Role                                                                   |
-|-----------------------|------------------------------------------------------------------------|
-| `sitemap.xml`         | XML sitemap listing all indexable pages with hreflang                  |
-| `manifest.json`       | PWA web app manifest for mobile install experience                     |
-| `robots.txt`          | Crawler directives; blocks AI bots from `/images/`; references sitemap |
+| File            | Role                                                                   |
+|-----------------|------------------------------------------------------------------------|
+| `sitemap.xml`   | XML sitemap listing all indexable pages with hreflang                  |
+| `manifest.json` | PWA web app manifest for mobile install experience                     |
+| `robots.txt`    | Crawler directives; blocks AI bots from `/images/`; references sitemap |
 
 #### 4.16.1 SEO Elements by Page Tier
 
@@ -1057,7 +1137,7 @@ navigateToExternalUrl():
 **Interaction with Other Systems**:
 
 - **Page Transition ([§4.6](#46-page-transitions))**: The confirmation system only intercepts `.external-link` links. Internal links continue to be handled by `page-transition.js` via `shouldInterceptLink()`.
-- **Settings ([§4.8](#48-settings--preferences))**: The new-tab toggle in the confirmation modal and the one in the settings modal share the same `localStorage` key. The `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyExternalLinkTargetBehavior()` functions from `settings.js` are called by the confirmation module.
+- **Settings ([§4.8](#48-settings--preferences))**: The new-tab toggle in the confirmation modal and the one in the settings modal share the same `localStorage` key. The `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyAllExternalLinkTargetBehavior()` functions from `settings.js` are called by the confirmation module.
 - **Utilities ([§4.15](#415-utilities))**: `isInternalPage()` (in `utils.js`) is used to avoid showing the confirmation for links that point to internal pages.
 - **Component Loading ([§4.2](#42-component-loading))**: The modal HTML is part of `modals.html`, loaded by the component loader during initial page load.
 

@@ -20,7 +20,7 @@ function initSettingEventListeners() {
         if (e.target && e.target.id === 'external-links-new-tab-toggle') {
             const checked = e.target.checked;
             setExternalLinkNewTabPreference(checked);
-            applyExternalLinkTargetBehavior();
+            applyAllExternalLinkTargetBehavior();
             return;
         }
 
@@ -101,25 +101,39 @@ function setExternalLinkNewTabPreference(enabled) {
 }
 
 /**
- * Apply the external-link target preference to all .external-link anchors.
- * Sets target="_blank" and rel="noopener noreferrer" when enabled,
- * or removes them when disabled.
+ * Add external-link new-tab behavior to a single .external-link anchor.
+ * Sets target="_blank" and rel="noopener noreferrer".
+ * @param {HTMLAnchorElement} link - The external link to modify.
  */
-function applyExternalLinkTargetBehavior() {
+function addExternalLinkTargetBehavior(link) {
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener noreferrer');
+}
+
+/**
+ * Remove external-link new-tab behavior from a single .external-link anchor.
+ * Only removes attributes when they match the expected values, preserving
+ * any manually-set target or rel attributes.
+ * @param {HTMLAnchorElement} link - The external link to modify.
+ */
+function removeExternalLinkTargetBehavior(link) {
+    if (link.getAttribute('target') === '_blank') {
+        link.removeAttribute('target');
+    }
+    if (link.getAttribute('rel') === 'noopener noreferrer') {
+        link.removeAttribute('rel');
+    }
+}
+
+/**
+ * Apply the external-link target preference to all .external-link anchors.
+ * Reads the stored preference and delegates to addExternalLinkTargetBehavior()
+ * or removeExternalLinkTargetBehavior() for each matching element.
+ */
+function applyAllExternalLinkTargetBehavior() {
     const enabled = isExternalLinkNewTabEnabled();
-    document.querySelectorAll('a.external-link').forEach(link => {
-        if (enabled) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
-        } else {
-            if (link.getAttribute('target') === '_blank') {
-                link.removeAttribute('target');
-            }
-            if (link.getAttribute('rel') === 'noopener noreferrer') {
-                link.removeAttribute('rel');
-            }
-        }
-    });
+    const action = enabled ? addExternalLinkTargetBehavior : removeExternalLinkTargetBehavior;
+    document.querySelectorAll('a.external-link').forEach(action);
 }
 
 /**
@@ -165,7 +179,7 @@ function initSettingsModal() {
             settingsToggle.checked = isExternalLinkNewTabEnabled();
         }
         updateAnimationToggleState();
-        applyExternalLinkTargetBehavior();
+        applyAllExternalLinkTargetBehavior();
         return;
     }
     document.body.setAttribute('data-settings-modal-initialized', '');
@@ -189,7 +203,7 @@ function initSettingsModal() {
         languageSelect.value = currentLang;
     }
 
-    applyExternalLinkTargetBehavior();
+    applyAllExternalLinkTargetBehavior();
     applyAnimationPreference();
 }
 

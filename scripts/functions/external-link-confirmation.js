@@ -122,8 +122,8 @@ function handleExternalLinkToggleChange() {
     if (typeof setExternalLinkNewTabPreference === 'function') {
         setExternalLinkNewTabPreference(checked);
     }
-    if (typeof applyExternalLinkTargetBehavior === 'function') {
-        applyExternalLinkTargetBehavior();
+    if (typeof applyAllExternalLinkTargetBehavior === 'function') {
+        applyAllExternalLinkTargetBehavior();
     }
 }
 
