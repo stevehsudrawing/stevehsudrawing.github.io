@@ -8,6 +8,18 @@
                 }
             }
         ],
+        "description": [
+            {
+                "text": [
+                    {
+                        "content": "QQ groups are only available in Mainland China.",
+                        "properties": {
+                            "data-i18n": "text-qq-groups-description"
+                        }
+                    }
+                ]
+            }
+        ],
         "contents": [
             {
                 "available": true,

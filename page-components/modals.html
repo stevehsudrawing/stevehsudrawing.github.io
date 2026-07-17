@@ -15,10 +15,10 @@
                             <div id="qr-share-card-header">
                                 <div id="qr-share-card-header-text">
                                     <span id="qr-share-card-title"></span>
-                                    <span id="qr-share-card-brand" data-i18n="text-steve-hsu-s-link-hub">Steve Hsu's Link-Hub</span>
+                                    <span id="qr-share-card-brand" data-i18n="text-from-steve-hsu-s-link-hub">from Steve Hsu's Link-Hub</span>
                                 </div>
                             </div>
-                            <div id="qr-code-container" aria-label="QR code for link"></div>
+                            <div id="qr-code-container" aria-label="QR code for link" class="no-copy"></div>
                             <code class="mt-2 mb-0" id="qr-code-modal-link"></code>
                             <div id="qr-share-card-footer">
                                 <div id="qr-share-card-footer-text">
@@ -26,7 +26,7 @@
                                     <code>https://stevehsudrawing.github.io</code>
                                 </div>
                                 <div id="qr-share-card-logo-container">
-                                    <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="25" data-height="21" data-color-var="bs-primary"></span>
+                                    <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="25" data-height="21" data-color-var="bs-primary" class="no-copy"></span>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content shadow-lg">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="external-link-confirmation-modal-label" data-i18n="text-external-link-confirmation">External Link</h5>
+                        <h5 class="modal-title" id="external-link-confirmation-modal-label" data-i18n="text-external-link">External Link</h5>
                     </div>
                     <div class="modal-body">
                         <p class="mb-2" data-i18n="text-you-are-about-to-leave">You are about to leave this site:</p>
@@ -110,8 +110,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-no-border" data-bs-dismiss="modal" data-i18n="text-cancel">Cancel</button>
                         <button type="button" class="btn btn-outline-primary btn-no-border" id="external-link-open-btn" data-i18n="text-open">Open</button>
-                        <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
                     </div>
                 </div>
             </div>

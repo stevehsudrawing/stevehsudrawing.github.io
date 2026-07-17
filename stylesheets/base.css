@@ -50,6 +50,18 @@ a {
     text-decoration: underline;
 }
 
+.cite {
+    font-style: italic;
+}
+
+html[lang='zh-Hans'] .cite {
+    font-style: normal;
+}
+
+html[lang='zh-Hant'] .cite {
+    font-style: normal;
+}
+
 /* ========================================================================
    Bootstrap Overwrites
    ======================================================================== */
@@ -119,6 +131,10 @@ a {
 
 code {
     color: inherit;
+}
+
+.tooltip {
+    font-family: inherit;
 }
 
 /* ========================================================================
