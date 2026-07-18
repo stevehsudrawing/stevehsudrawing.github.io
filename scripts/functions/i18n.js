@@ -10,6 +10,55 @@ let currentLang = 'en';
 let langData = {};
 
 /**
+ * Determine and load the preferred language.
+ * Priority: ?lang= URL parameter → localStorage → default 'en'.
+ * @returns {Promise<void>}
+ */
+async function initLang() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    const savedLang = urlLang || localStorage.getItem('preferredLang') || 'en';
+    await loadLang(savedLang);
+}
+
+/**
+ * Normalize a language code to one of the site's supported languages.
+ * Maps regional variants (zh-TW, zh-HK, etc.) to their canonical form,
+ * and falls back to 'en' for any unrecognized code.
+ * @param {string} lang - The raw language code (e.g. 'zh-TW', 'en-US').
+ * @returns {string} The normalized language code ('en', 'zh-Hans', or 'zh-Hant').
+ */
+function normalizeLang(lang) {
+    if (!lang || typeof lang !== 'string') return 'en';
+    var lower = lang.toLowerCase();
+
+    // Traditional Chinese: zh-HK, zh-MO, zh-TW, zh-Hant, and any zh-Hant-*
+    if (lower === 'zh-hk' || lower === 'zh-mo' || lower === 'zh-tw' ||
+        lower === 'zh-hant' || lower.indexOf('zh-hant-') === 0) {
+        return 'zh-Hant';
+    }
+
+    // Simplified Chinese: zh-Hans, zh-CN, zh-SG, bare 'zh', and any zh-Hans-*
+    if (lower === 'zh-hans' || lower === 'zh-cn' || lower === 'zh-sg' ||
+        lower === 'zh' || lower.indexOf('zh-hans-') === 0) {
+        return 'zh-Hans';
+    }
+
+    // Any other zh-* variant not covered above: default to Simplified Chinese
+    if (lower.indexOf('zh') === 0) {
+        return 'zh-Hans';
+    }
+
+    // English and any en-* variant
+    if (lower === 'en' || lower.indexOf('en-') === 0) {
+        return 'en';
+    }
+
+    // All other codes: fall back to English
+    return 'en';
+}
+
+/**
  * Safely retrieve a translated string from the global langData dictionary.
  * If langData is loaded and contains the given key, the translated value is returned;
  * otherwise the fallback text is returned.
@@ -139,6 +188,9 @@ function setActiveLangItem() {
  * @returns {Promise<void>}
  */
 async function loadLang(lang) {
+    // Normalize the language code before loading
+    lang = normalizeLang(lang);
+
     try {
         const response = await fetch(`/configs/i18n/${lang}.json`);
         if (!response.ok) throw new Error(`Failed to load file of language ${lang}`);
@@ -148,6 +200,10 @@ async function loadLang(lang) {
         updatePageText();
         // Save preference
         localStorage.setItem('preferredLang', lang);
+        // Update URL query parameter without reloading
+        const url = new URL(window.location);
+        url.searchParams.set('lang', lang);
+        history.replaceState(null, '', url);
         // Update 'lang' element
         document.documentElement.lang = lang;
 

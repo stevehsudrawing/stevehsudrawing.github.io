@@ -76,9 +76,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         initSettingsModal();
         populateLanguageMenus();
 
-        // Load language file
-        const savedLang = localStorage.getItem('preferredLang') || 'en';
-        await loadLang(savedLang);
+        // Load language file (URL query param takes priority over localStorage)
+        await initLang();
 
         initSettingEventListeners();
         initExternalLinkConfirmation();

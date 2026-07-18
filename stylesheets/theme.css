@@ -106,6 +106,12 @@
     --bs-primary-border-subtle: var(--shlh-primary-800);
 }
 
+/* --- Color Utils --- */
+
+.color-primary {
+    color: var(--bs-primary) !important;
+}
+
 /* --- (Primary) Link --- */
 
 /* Both */

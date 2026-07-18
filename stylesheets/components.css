@@ -109,6 +109,15 @@
     --bs-btn-active-bg: rgba(108, 117, 125, .2);
 }
 
+/* --- Link Icons in Button Groups --- */
+
+.link-btn-img-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 /* ========================================================================
    Footer
    ======================================================================== */

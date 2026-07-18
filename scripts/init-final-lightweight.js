@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Initialize theme transition overlay (after header is loaded)
         initThemeTransitionOverlay();
 
-        // Load language file
-        const savedLang = localStorage.getItem('preferredLang') || 'en';
-        await loadLang(savedLang);
+        // Load language file (URL query param takes priority over localStorage)
+        await initLang();
 
         updateThemeToggleText();
         setActiveThemeItem();

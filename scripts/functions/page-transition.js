@@ -149,6 +149,17 @@ function extractPageContent(htmlString) {
  * @param {boolean} pushState - Whether to push a new history entry
  */
 async function navigateTo(url, pushState = true) {
+    // Preserve language query parameter across internal navigations
+    const currentParams = new URLSearchParams(window.location.search);
+    const currentLangParam = currentParams.get('lang');
+    if (currentLangParam) {
+        try {
+            const urlObj = new URL(url, window.location.origin);
+            urlObj.searchParams.set('lang', currentLangParam);
+            url = urlObj.toString();
+        } catch { /* ignore invalid URLs */ }
+    }
+
     // Prevent concurrent transitions
     if (isTransitioning) {
         console.warn('Page transition already in progress, ignoring navigation to:', url);

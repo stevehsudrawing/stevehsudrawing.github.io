@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 ### 4.1 Browser Detection & Compatibility Fallbacks
 
-**Brief**: Detects the user's browser and redirects to `error-unsupported-browser.html` if it does not meet the minimum baseline. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`.
+**Brief**: Detects the user's browser and redirects to `error-unsupported-browser.html` if it does not meet the minimum baseline. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`. Known search engine bots, crawlers, and SEO tools are whitelisted via `isBotOrCrawler()` to prevent them from being falsely redirected (see [§4.16.8](#4168-crawler-whitelist)).
 
 **Related Files**:
 
@@ -328,6 +328,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 **Data Flow**:
 
 - `browser-detection.js` checks `navigator.userAgent` against the browser baseline table (see [§1.4 Browser Baseline](#14-browser-baseline)).
+- Before version detection, `isBotOrCrawler()` checks whether the User-Agent belongs to a known search engine bot, crawler, or SEO tool. If so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
 - If unsupported: redirects to `error-unsupported-browser.html`.
 - `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
 
@@ -1047,7 +1048,7 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 | `link favicon`            | ✓                                              | ✓                 | ✓                    |
 | `link manifest`           | ✓                                              | ✗                 | ✗                    |
 | `link sitemap`            | ✓                                              | ✗                 | ✗                    |
-| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✗                 | ✗                    |
+| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✓ en, zh-Hans, zh-Hant, x-default | ✗                    |
 | Open Graph tags           | ✓                                              | ✓                 | ✓                    |
 | `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                       | ✓                 | ✗                    |
 | Twitter/X Card tags       | ✓ `summary_large_image`                        | ✓                 | ✓                    |
@@ -1082,16 +1083,54 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.4 Hreflang
 
-- Since this site uses client-side JS i18n (same URL for all languages), all hreflang `<link>` tags point to the **same canonical URL**.
-- This is a valid pattern: search engines understand that the page is available in multiple languages on a single URL.
-- The `x-default` hreflang signals that the page does not specifically target any one language.
+- Language variants are distinguished via the `?lang=` query parameter on each page URL:
+    - `?lang=en` — English
+    - `?lang=zh-Hans` — Simplified Chinese
+    - `?lang=zh-Hant` — Traditional Chinese
+- The `x-default` hreflang points to the parameter-less URL, signaling that the page does not specifically target any one language and will auto-detect based on saved preference.
+- Language detection priority: `?lang=` query parameter → `localStorage` (`preferredLang`) → default `'en'`.
+- When the user switches language via the UI, `history.replaceState()` updates the URL with the new `?lang=` parameter without creating a browser history entry.
+- The Page Transition System ([§4.6](#46-page-transitions)) preserves the `?lang=` parameter across internal SPA navigations, so the user's chosen language persists through page transitions.
+- Hreflang `<link>` tags in `<head>` use the `?lang=` URLs to give each language a unique URL for search engines.
+- Language code normalization: a `normalizeLang()` function (in `scripts/functions/i18n.js`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
+    - `zh-HK`, `zh-MO`, `zh-TW`, `zh-Hant`, `zh-Hant-*` → `zh-Hant`
+    - `zh-CN`, `zh-SG`, `zh`, `zh-Hans`, `zh-Hans-*` → `zh-Hans`
+    - Other `zh-*` variants → `zh-Hans` (fallback)
+    - `en`, `en-*`, any unrecognized code → `en` (default)
+- Hreflang tags only declare these three canonical codes; regional variants are not listed to avoid false duplicate-content signals.
 
 #### 4.16.5 Noscript SEO Fallback
 
 - Each full-functionality page includes a `<noscript>` block at the top of `<body>`.
-- Contains the page title (`<h1>`) and a descriptive paragraph (`<p>`).
+- Contains the page title (`<h2 class="pseudo-h1">`) and a descriptive paragraph (`<p>`). The `<h2>` avoids conflicting with the page's sole `<h1>` (see [§4.16.6](#4166-heading-hierarchy)).
 - The homepage noscript additionally includes a `<ul>` of key platform links.
 - This is purely for search engine crawlers; users without JS are redirected by the `<head>` noscript before seeing this content.
+
+#### 4.16.6 Heading Hierarchy
+
+- **Every page must have exactly one `<h1>`**. This is the primary SEO heading signal. Multiple `<h1>`s dilute ranking and are flagged as critical issues by SEO tools.
+- The `<h1>` must be **pure text** — no `<a>` links, no inline markup beyond semantic phrasing elements. Links dilute the heading keyword signal.
+- **Sub-section headings** (e.g. \"My Softwares\", \"Blogs & Sponsor\") use `<h2 class="pseudo-h1">`. The `.pseudo-h1` class (defined in `stylesheets/base.css`) applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
+- **`<noscript>` fallback headings** use `<h2 class="pseudo-h1">` to avoid creating a second `<h1>` that search engines would count against the page.
+
+#### 4.16.7 Homepage H1 Rich Text
+
+- The homepage `<h1>` uses `data-i18n-html="text-steve-hsu-s-link-hub-rich"` with inline HTML markup.
+- The translation string includes `<span class="color-primary">` to brand the name with the site's primary color (defined in `stylesheets/theme.css`).
+- This approach allows per-language flexibility: the name can appear at the beginning, middle, or end of the title depending on the language's grammar.
+- The English fallback text between the tags serves as both the default rendering and the English translation.
+
+#### 4.16.8 Crawler Whitelist
+
+- `scripts/functions/browser-detection.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function.
+- Without this whitelist, crawlers with User-Agents that do not match recognized browser patterns are detected as \"unsupported\" and redirected to `error-unsupported-browser.html`, which has `robots: noindex`. This prevents the site from being indexed.
+- The whitelist covers:
+    - **Search engines**: Googlebot, Bingbot, Baiduspider, Yandex, DuckDuckGo, Yahoo Slurp, Sogou, 360Spider
+    - **Social media**: Facebook, Twitter/X, LinkedIn, Discord
+    - **SEO tools**: Ahrefs, SEMrush, Moz, Majestic, Sitebulb, Seobility, Screaming Frog
+    - **AI crawlers**: GPTBot (OpenAI), ClaudeBot (Anthropic), PerplexityBot, DeepSeekBot
+    - **Generic fallback**: any UA containing `bot`, `crawler`, `spider`, or `scraper` is also allowed
+- `isBotOrCrawler()` is called at the top of `isBrowserSupported()`; if it returns `true`, the browser is treated as supported regardless of version detection.
 
 ---
 
