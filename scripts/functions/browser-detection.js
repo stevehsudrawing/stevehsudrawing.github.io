@@ -77,10 +77,66 @@ function detectBrowser() {
 }
 
 /**
+ * Check whether the user agent belongs to a known search engine bot, crawler, or SEO tool.
+ * These should always be treated as supported regardless of browser detection result.
+ * @returns {boolean} True if the UA appears to be a bot or crawler.
+ */
+function isBotOrCrawler() {
+    var userAgent = navigator.userAgent.toLowerCase();
+
+    // Known search engine and SEO tool bots
+    var knownBots = [
+        'googlebot', 'adsbot-google', 'google-other', 'google-extended',
+        'bingbot', 'msnbot', 'bingpreview',
+        'baiduspider',
+        'yandexbot', 'yandex',
+        'duckduckbot',
+        'slurp', // Yahoo
+        'facebookexternalhit', 'facebookcatalog',
+        'twitterbot',
+        'linkedinbot',
+        'discordbot',
+        'applebot',
+        'petalbot', // Huawei
+        'sogou',
+        '360spider',
+        'bytespider', // ByteDance
+        'ahrefsbot',
+        'semrushbot',
+        'dotbot', 'rogerbot', // Moz
+        'mj12bot', // Majestic
+        'sitebulb',
+        'seobility',
+        'screaming frog',
+        'gptbot', // OpenAI
+        'claudebot', // Anthropic
+        'perplexitybot',
+        'deepseekbot'
+    ];
+    for (var i = 0; i < knownBots.length; i++) {
+        if (isStringIncludes(userAgent, knownBots[i])) return true;
+    }
+
+    // Generic crawler pattern fallback
+    if (isStringIncludes(userAgent, 'bot')
+        || isStringIncludes(userAgent, 'crawler')
+        || isStringIncludes(userAgent, 'spider')
+        || isStringIncludes(userAgent, 'scraper')
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * Check whether the detected browser meets minimum version requirements.
  * @returns {boolean} True if the browser is supported.
  */
 function isBrowserSupported() {
+    // Search engine bots and crawlers are always treated as supported
+    if (isBotOrCrawler()) return true;
+
     var browser = detectBrowser();
     var supportMap = {
         ie: false,
