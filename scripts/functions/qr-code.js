@@ -100,6 +100,10 @@ function showQRCodeModal(linkUrl, imgProperties) {
     iconBg.appendChild(centerImg);
     qrCodeContainer.appendChild(iconBg);
 
+    // Mark QR code images as loaded so they appear at full opacity
+    // (dynamically created <img> elements are not covered by initAllImageLoadingOpacity).
+    qrCodeContainer.querySelectorAll('img').forEach(initImageLoadingOpacity);
+
     // --- Set share card title from icon properties ---
     var titleEl = document.getElementById('qr-share-card-title');
     if (titleEl) {
