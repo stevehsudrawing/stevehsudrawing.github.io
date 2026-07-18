@@ -63,6 +63,18 @@ function updatePageText() {
         }
     });
 
+    // Translate HTML-capable elements: [data-i18n-html] uses innerHTML
+    // so the translation string may contain inline markup (e.g. <cite>).
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        const translated = translate(key);
+        if (translated) {
+            el.innerHTML = translated;
+        } else {
+            console.log('Missing key:', key);
+        }
+    });
+
     // Translate Bootstrap tooltips: elements with data-bs-toggle="tooltip"
     // use data-i18n-tooltip to specify the translation key,
     // and the translated text is written to data-bs-title.

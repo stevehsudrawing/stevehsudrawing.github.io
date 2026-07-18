@@ -14,8 +14,9 @@
                     {
                         "content": "Sponsorship is based on the principle of voluntariness.",
                         "properties": {
-                            "data-i18n": "text-sponsorship-description"
-                        }
+                            "data-i18n-html": "text-sponsorship-description"
+                        },
+                        "isHtml": true
                     }
                 ]
             }

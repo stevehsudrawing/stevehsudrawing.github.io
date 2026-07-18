@@ -50,15 +50,11 @@ a {
     text-decoration: underline;
 }
 
-.cite {
-    font-style: italic;
-}
-
-html[lang='zh-Hans'] .cite {
+html[lang='zh-Hans'] cite {
     font-style: normal;
 }
 
-html[lang='zh-Hant'] .cite {
+html[lang='zh-Hant'] cite {
     font-style: normal;
 }
 

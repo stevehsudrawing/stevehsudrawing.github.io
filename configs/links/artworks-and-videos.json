@@ -12,10 +12,11 @@
             {
                 "text": [
                     {
-                        "content": "Specialized styles: Chibi, Pixel Art. Commercial commissions for artworks are unavailable at this time.",
+                        "content": "Preferred styles: Chibi, Pixel Art. I mainly create original works, and occasionally fan-art. Commercial commissions for artworks are <strong>unavailable</strong> at this time.",
                         "properties": {
-                            "data-i18n": "text-artworks-description"
-                        }
+                            "data-i18n-html": "text-artworks-description"
+                        },
+                        "isHtml": true
                     }
                 ]
             }
@@ -785,24 +786,11 @@
             {
                 "text": [
                     {
-                        "content": "Videos are uploaded irregularly. Currently the main content consists of recorded series of the game ",
+                        "content": "Videos are uploaded irregularly. Currently the main content consists of recorded series of the video game <cite>Minecraft</cite>.",
                         "properties": {
-                            "data-i18n": "text-videos-description-part-1"
-                        }
-                    },
-                    {
-                        "content": "Minecraft",
-                        "properties": {
-                            "classes": [
-                                "cite"
-                            ]
-                        }
-                    },
-                    {
-                        "content": ".",
-                        "properties": {
-                            "data-i18n": "text-videos-description-part-2"
-                        }
+                            "data-i18n-html": "text-videos-description"
+                        },
+                        "isHtml": true
                     }
                 ]
             }

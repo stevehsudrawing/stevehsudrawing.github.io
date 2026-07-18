@@ -86,7 +86,7 @@ The following browser features are required by this project. Their minimum brows
 |-------------------|-----------------------------|------------------------------------------------------------|
 | Element IDs       | `dash-case`                 | `#page-content`, `#skip-button`, `#language-select`        |
 | CSS classes       | `dash-case`                 | `.loading-screen`, `.link-button-group`                    |
-| Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-tooltip`          |
+| Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-html`, `data-i18n-tooltip`          |
 | Bootstrap classes | Use Bootstrap-native naming |  `btn-primary`, `dropdown-menu`, etc.                      |
 
 ### 2.2 CSS Custom Properties
@@ -392,6 +392,9 @@ HTML: <span data-i18n="text-welcome">Welcome</span>
         ↓ (i18n.js loads configs/i18n/{lang}.json)
       Replaces textContent with translated value
 
+Rich text: <span data-i18n-html="text-intro">Intro with <cite>Title</cite></span>
+        ↓ (updatePageText() rewrites innerHTML from langData, preserving inline markup)
+
 Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title="Foo">
         ↓ (updatePageText() rewrites data-bs-title from langData)
 
@@ -405,6 +408,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 - All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts - the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
 - For `<img>` alt attributes: use `data-i18n-alt` (e.g. `data-i18n-alt="text-illustration"`).
 - For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
+- For translations that contain inline HTML markup (e.g. `<cite>`, `<em>`, `<strong>`): use `data-i18n-html` (e.g. `data-i18n-html="text-videos-description"`). The translation string is applied via `innerHTML` rather than `textContent`, so HTML tags are rendered as elements. Only use this when inline markup is required; prefer `data-i18n` for plain text.
 - Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys - simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
 **Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file. The keys should be arranged in alphabetical order.
@@ -477,7 +481,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 The JSON format uses a consistent pattern for representing HTML elements:
 
-- **Element descriptor**: An object with `content` (text content) and `properties` (HTML attributes). The special key `classes` inside `properties` specifies CSS class names as an array.
+- **Element descriptor**: An object with `content` (text or HTML content), optional `properties` (HTML attributes), and optional `isHtml` (boolean). The special key `classes` inside `properties` specifies CSS class names as an array. When `isHtml` is `true`, the content is rendered via `innerHTML`; otherwise `textContent` is used.
 
     ```json
     // <span> element:
@@ -488,6 +492,16 @@ The JSON format uses a consistent pattern for representing HTML elements:
         }
     }
     // → <span data-i18n="text-my-personal-email">My personal email</span>
+
+    // <span> element with inline HTML (isHtml + data-i18n-html):
+    {
+        "content": "The game <cite>Minecraft</cite>.",
+        "properties": {
+            "data-i18n-html": "text-videos-description"
+        },
+        "isHtml": true
+    }
+    // → <span data-i18n-html="text-videos-description">The game <cite>Minecraft</cite>.</span>
 
     // <img> element (colored mask-based icon):
     {
@@ -593,7 +607,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 **Interaction with Other Systems**:
 
-- **i18n ([§4.3](#43-internationalization-i18n))**: Generated cards contain `data-i18n` attributes; `updatePageText()` must be called after card generation to apply translations.
+- **i18n ([§4.3](#43-internationalization-i18n))**: Generated cards contain `data-i18n` or `data-i18n-html` attributes; `updatePageText()` must be called after card generation to apply translations.
 - **QR Code ([§4.10](#410-qr-code--export))**: "super link" fragments generate adjacent QR-code buttons that call `showQRCodeModal()`.
 - **Image Utilities ([§4.13](#413-image-utilities))**: Card icons may use `data-img-feature="colored"` (mask-based coloring) or `"follow-theme"` (dark/light variant swapping).
 - **Utilities ([§4.15](#415-utilities))**: Uses `setElementAttributes()` to apply element properties and `extractPageName()` to resolve the JSON config path.

@@ -22,18 +22,23 @@ function resolveLinksJsonPath() {
 
 /**
  * Create a <span> element from a text descriptor object.
- * @param {Object} text - Descriptor with `content` and optional `properties`.
- * @param {string} text.content - The text content.
+ * @param {Object} text - Descriptor with `content`, optional `properties`, and `isHtml`.
+ * @param {string} text.content - The text (or HTML when isHtml is true).
  * @param {Object} [text.properties] - Attributes to set on the span.
+ * @param {boolean} [text.isHtml] - When true, use innerHTML instead of textContent.
  * @returns {HTMLSpanElement} The created span element.
  */
 function createTextSpan(text) {
     const span = document.createElement('span');
     if (!text) return span;
 
-    const { content = '', properties } = text;
+    const { content = '', properties, isHtml } = text;
     setElementAttributes(span, properties);
-    span.textContent = content;
+    if (isHtml) {
+        span.innerHTML = content;
+    } else {
+        span.textContent = content;
+    }
     return span;
 }
 
