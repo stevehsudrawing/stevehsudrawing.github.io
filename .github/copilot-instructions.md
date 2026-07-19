@@ -188,6 +188,7 @@ Existing batch / single-element pairs:
 | `initAllColoredImages()`               | `applyColoredImage(img)`             | `img-utils.js`        |
 | `initAllImageLoadingOpacity()`         | `initImageLoadingOpacity(img)`       | `img-utils.js`        |
 | `applyAllThemeBasedImages()`           | `applyThemeBasedImage(img)`          | `theme.js`            |
+| `applyAllFaviconThemes()`              | `applyFaviconTheme(link)`            | `theme.js`            |
 | `addAllExternalLinkIndicators()`       | `addExternalLinkIndicator(link)`     | `accessibility.js`    |
 | `initAllTitleLinkAnchors()`            | `initTitleLinkAnchor(anchor)`        | `accessibility.js`    |
 | `initAllScrollHints()`                 | `createScrollHint(group)`            | `scroll-hint.js`      |
@@ -208,6 +209,7 @@ Existing batch / single-element pairs:
 | `configs/links/`          | Link-card data JSON files, one per page                       | New link-card JSON when adding a page with link cards |
 | `images/`                 | Image assets (icons, covers, stickers, placeholder)           | New images in the appropriate sub-folder              |
 | `images/covers/`          | Cover images for link cards and share cards                   | Cover image files                                     |
+| `images/favicons/`        | Favicon and PWA icon assets (SVG, PNG, ICO)                   | New favicon variant                                   |
 | `images/icons/`           | Icon images for link cards                                    | Icon image files                                      |
 | `images/stickers/`        | Sticker images                                                | Sticker image files                                   |
 | `images/svg/`             | SVG icon/image files for runtime injection                    | New SVG file when adding a vector graphic             |
@@ -439,15 +441,17 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 
 ### 4.4 Theme System
 
-**Brief**: Supports light, dark, and auto (follow OS) color themes using Bootstrap's `data-bs-theme` attribute. Custom brand colors are defined via `--shlh-*` CSS custom properties.
+**Brief**: Supports light, dark, and auto (follow OS) color themes using Bootstrap's `data-bs-theme` attribute. Custom brand colors are defined via `--shlh-*` CSS custom properties. Also handles favicon switching between light/dark variants when the theme changes.
 
 **Related Files**:
 
-| File                           | Role                                                                      |
-|--------------------------------|---------------------------------------------------------------------------|
-| `scripts/functions/theme.js`   | Theme initialization, switching, and system theme listener                |
-| `stylesheets/modern/theme.css` | Theme-specific CSS custom property overrides                              |
-| `stylesheets/modern/base.css`  | Base styles including `--bs-border-radius` overrides and shared variables |
+| File                                | Role                                                                      |
+|-------------------------------------|---------------------------------------------------------------------------|
+| `scripts/functions/theme.js`        | Theme initialization, switching, system theme listener, and favicon theme |
+| `stylesheets/modern/theme.css`      | Theme-specific CSS custom property overrides                              |
+| `stylesheets/modern/base.css`       | Base styles including `--bs-border-radius` overrides and shared variables |
+| `images/favicons/general.svg`       | Light-theme favicon (blue `#3c96ff`)                                      |
+| `images/favicons/general-dark.svg`  | Dark-theme favicon (white)                                                |
 
 **How It Works**:
 
@@ -455,6 +459,7 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 - Three modes: `auto` (follow OS), `light`, `dark`.
 - System theme changes listened via `matchMedia('(prefers-color-scheme: dark)')`.
 - Custom CSS variables prefixed `--shlh-` define brand colors per theme.
+- Favicon `<link>` hrefs are swapped between `general.svg` (light) and `general-dark.svg` (dark) by `applyAllFaviconThemes()`.
 
 #### 4.4.1 Color Variable Naming
 
@@ -527,7 +532,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
             "data-color-var": "bs-body-color"
         }
     }
-    // → <img alt="Email" data-i18n-alt="text-email" src="/images/null.png" data-img-feature="colored" data-src-mask="/images/icons/email.webp" data-color-var="bs-body-color">
+    // → <img alt="Email" data-i18n-alt="text-email"   src="/images/null.png" data-img-feature="colored" data-src-mask="/images/icons/email.webp" data-color-var="bs-body-color">
 
     // <img> element (theme-following image):
     {
@@ -1059,6 +1064,7 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 | `<title>`                 | ✓ `{Page} - Steve Hsu (什五)'s Link-Hub`       | ✓                 | ✓                    |
 | `link favicon`            | ✓                                              | ✓                 | ✓                    |
 | `link manifest`           | ✓                                              | ✗                 | ✗                    |
+| Apple PWA meta tags       | ✓ `apple-mobile-web-app-capable` + others      | ✓                 | ✓                    |
 | `link sitemap`            | ✓                                              | ✗                 | ✗                    |
 | Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✓                 | ✗                    |
 | Open Graph tags           | ✓                                              | ✓                 | ✓                    |

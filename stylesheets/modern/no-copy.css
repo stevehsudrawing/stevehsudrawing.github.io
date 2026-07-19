@@ -8,3 +8,8 @@
     -webkit-touch-callout: none;
     -webkit-user-drag: none;
 }
+
+img.no-copy {
+    outline: .5px solid var(--bs-body-bg);
+    outline-offset: -.5px;
+}

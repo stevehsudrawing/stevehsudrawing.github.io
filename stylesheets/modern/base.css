@@ -49,9 +49,9 @@ hr {
 a {
     text-decoration: none;
     transition:
-        color .2s ease-in-out,
-        background-color .2s ease-in-out,
-        border-color .2s ease-in-out;
+        color .1s ease-in-out,
+        background-color .1s ease-in-out,
+        border-color .1s ease-in-out;
 }
 
 .link:hover,
@@ -107,7 +107,10 @@ html[lang='zh-Hant'] cite {
 }
 
 .nav-link {
-    transition: inherit;
+    transition:
+        color .1s ease-in-out,
+        background-color .1s ease-in-out,
+        border-color .1s ease-in-out;
 }
 
 .form-select {
@@ -134,12 +137,18 @@ html[lang='zh-Hant'] cite {
 }
 
 .card {
+    border: none;
+    outline: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    outline-offset: -(calc(var(--bs-card-border-width) / 2));
     transition:
-        border-color .2s ease-in-out;
+        outline .1s ease-in-out,
+        outline-offset .1s ease-in-out;
 }
 
 .card:hover {
-    border: var(--bs-card-border-width) solid var(--shlh-focus-ring-color);
+    z-index: 1005;
+    outline: calc(var(--bs-card-border-width) * 2) solid var(--bs-body-color);
+    outline-offset: -(var(--bs-card-border-width));
 }
 
 .modal-body {
