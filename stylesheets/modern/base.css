@@ -23,14 +23,23 @@ body {
     min-height: 100vh;
 }
 
-#page-content {
-    margin-top: 64px;
-    margin-bottom: 2rem;
-    flex: 1;
-}
-
 hr {
     margin: 1.5rem 0;
+}
+
+/* ========================================================================
+   Safe Area (iOS standalone PWA)
+   ======================================================================== */
+
+:root {
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+#page-content {
+    margin-top: calc(64px + var(--safe-area-inset-top));
+    margin-bottom: calc(2rem + var(--safe-area-inset-bottom));
+    flex: 1;
 }
 
 /* ========================================================================

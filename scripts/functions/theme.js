@@ -74,6 +74,7 @@ function applyThemeChange(theme) {
         htmlElement.setAttribute('data-bs-theme', theme);
     }
     applyAllThemeBasedImages();
+    applyAllFaviconThemes();
 }
 
 /**
@@ -178,6 +179,45 @@ function applyAllThemeBasedImages() {
             .forEach(applyThemeBasedImage);
     } catch (error) {
         console.error('Failed to apply theme-based images:', error);
+    }
+}
+
+/**
+ * Apply the current theme's favicon to a single <link rel="icon"> element.
+ * Swaps the href between light and dark variants using file-naming convention:
+ * general.svg / general-dark.svg, general.png / general-dark.png.
+ * @param {HTMLLinkElement} link - The favicon link element to update.
+ */
+function applyFaviconTheme(link) {
+    var href = link.getAttribute('href');
+    if (!href) return;
+
+    var currentTheme = htmlElement.getAttribute('data-bs-theme');
+
+    if (currentTheme === 'dark') {
+        // Switch to dark variant: general.ext -> general-dark.ext
+        var darkHref = href.replace(/general(?=\.[a-z]+$)/, 'general-dark');
+        if (darkHref !== href) {
+            link.setAttribute('href', darkHref);
+        }
+    } else {
+        // Switch to light variant: general-dark.ext -> general.ext
+        var lightHref = href.replace(/general-dark(?=\.[a-z]+$)/, 'general');
+        if (lightHref !== href) {
+            link.setAttribute('href', lightHref);
+        }
+    }
+}
+
+/**
+ * Update all favicon <link> elements to match the current theme.
+ * Delegates to applyFaviconTheme() for each matching element.
+ */
+function applyAllFaviconThemes() {
+    try {
+        document.querySelectorAll('link[rel="icon"]').forEach(applyFaviconTheme);
+    } catch (error) {
+        console.error('Failed to apply favicon themes:', error);
     }
 }
 
