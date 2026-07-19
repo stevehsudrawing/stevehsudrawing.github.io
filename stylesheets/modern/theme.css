@@ -6,6 +6,16 @@
 :root {
     --shlh-close-btn-focus-ring-color: #000;
     --shlh-close-btn-focus-shadow: 0 0 0 var(--bs-focus-ring-width) var(--shlh-close-btn-focus-ring-color);
+
+    --bs-gray-100-rgb: 248, 249, 250;
+    --bs-gray-200-rgb: 233, 236, 239;
+    --bs-gray-300-rgb: 222, 226, 230;
+    --bs-gray-400-rgb: 206, 212, 218;
+    --bs-gray-500-rgb: 173, 181, 189;
+    --bs-gray-600-rgb: 108, 117, 125;
+    --bs-gray-700-rgb: 73, 80, 87;
+    --bs-gray-800-rgb: 52, 58, 64;
+    --bs-gray-900-rgb: 33, 37, 41;
 }
 
 /* --- Light Theme --- */
@@ -117,6 +127,7 @@
 /* Both */
 a {
     --shlh-link-color: var(--shlh-primary-500);
+    --shlh-link-color-rgb: var(--shlh-primary-500-rgb);
     --shlh-link-hover-on-background-color: var(--shlh-primary-color);
 
     color: var(--shlh-link-color);
@@ -149,6 +160,7 @@ a {
 /* Light */
 .link-secondary-shlh {
     --shlh-link-color: var(--bs-gray-600);
+    --shlh-link-color-rgb: var(--bs-gray-600-rgb);
     --shlh-link-hover-color: var(--bs-gray-700);
     --shlh-link-active-color: var(--bs-gray-800);
 }
@@ -156,6 +168,7 @@ a {
 /* Dark */
 [data-bs-theme=dark] .link-secondary-shlh {
     --shlh-link-color: var(--bs-gray-500);
+    --shlh-link-color-rgb: var(--bs-gray-500-rgb);
     --shlh-link-hover-color: var(--bs-gray-400);
     --shlh-link-active-color: var(--bs-gray-300);
 }
@@ -163,11 +176,16 @@ a {
 /* --- Hover Effect of Changing Background --- */
 
 /* Both */
+.link-hover-change-background {
+    outline: .2rem solid rgba(var(--shlh-link-color-rgb), 0);
+}
+
 .link-hover-change-background:hover,
 .link-hover-change-background:active {
     text-decoration: none !important;
     color: var(--shlh-link-hover-on-background-color) !important;
     background-color: var(--shlh-link-color) !important;
+    outline: .2rem solid rgba(var(--shlh-link-color-rgb), 1) !important;
 }
 
 /* --- Navbar Link --- */
@@ -182,6 +200,7 @@ a {
 /* Both */
 .footer a {
     --shlh-link-color: var(--bs-body-color);
+    --shlh-link-color-rgb: var(--bs-body-color-rgb);
 }
 
 /* Light */
