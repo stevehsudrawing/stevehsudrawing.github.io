@@ -158,14 +158,14 @@ function initExternalLinkConfirmation() {
 
     // Toggle change handler inside the confirmation modal
     document.addEventListener('change', function (e) {
-        if (e.target && e.target.id === 'external-link-new-tab-toggle') {
+        if (e.target?.id === 'external-link-new-tab-toggle') {
             handleExternalLinkToggleChange();
         }
     });
 
     // "Open" button click handler inside the confirmation modal
     document.addEventListener('click', function (e) {
-        if (e.target && e.target.id === 'external-link-open-btn') {
+        if (e.target?.id === 'external-link-open-btn') {
             e.preventDefault();
             handleExternalLinkConfirm();
         }

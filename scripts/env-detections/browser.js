@@ -1,6 +1,7 @@
 /**
  * Browser detection and support check script.
  * Written in ES5 for compatibility with older browsers.
+ * This file belongs to scripts/env-detections/ which uses ES5.
  */
 
 /**
@@ -140,10 +141,10 @@ function isBrowserSupported() {
     var browser = detectBrowser();
     var supportMap = {
         ie: false,
-        chrome: browser.version >= 66,
-        edge: browser.version >= 79,
-        firefox: browser.version >= 65,
-        opera: browser.version >= 53,
+        chrome: browser.version >= 80,
+        edge: browser.version >= 80,
+        firefox: browser.version >= 74,
+        opera: browser.version >= 67,
         safari: browser.version >= 14,
         unknown: false
     };

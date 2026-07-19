@@ -30,7 +30,7 @@ async function initLang() {
  */
 function normalizeLang(lang) {
     if (!lang || typeof lang !== 'string') return 'en';
-    var lower = lang.toLowerCase();
+    const lower = lang.toLowerCase();
 
     // Traditional Chinese: zh-HK, zh-MO, zh-TW, zh-Hant, and any zh-Hant-*
     if (lower === 'zh-hk' || lower === 'zh-mo' || lower === 'zh-tw' ||
@@ -85,7 +85,7 @@ async function loadSupportedLangs() {
         const list = await response.json();
         if (Array.isArray(list)) {
             languageList = list;
-            supportedLangs = list.map(item => item && item.code).filter(Boolean);
+            supportedLangs = list.map(item => item?.code).filter(Boolean);
         } else {
             languageList = [];
             supportedLangs = [];
@@ -228,7 +228,7 @@ function populateLanguageMenus() {
     // Populate header language menu
     try {
         const langToggle = document.getElementById('lang-dropdown');
-        const langMenu = langToggle ? (langToggle.parentElement && langToggle.parentElement.querySelector('.dropdown-menu')) : null;
+        const langMenu = langToggle ? langToggle.parentElement?.querySelector('.dropdown-menu') : null;
         if (langMenu) {
             langMenu.innerHTML = '';
             if (Array.isArray(languageList) && languageList.length > 0) {

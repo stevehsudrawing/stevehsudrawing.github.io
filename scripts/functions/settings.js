@@ -193,7 +193,7 @@ function initSettingsModal() {
     updateAnimationToggleState();
 
     // Listen for OS-level reduced-motion preference changes
-    var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     reducedMotionQuery.addEventListener('change', function () {
         updateAnimationToggleState();
     });
@@ -214,17 +214,17 @@ function initSettingsModal() {
  * reflects the user's stored preference.
  */
 function updateAnimationToggleState() {
-    var toggle = document.getElementById('enable-animations-toggle');
+    const toggle = document.getElementById('enable-animations-toggle');
     if (!toggle) return;
 
-    var label = document.querySelector('label[for="enable-animations-toggle"]');
-    var systemReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const label = document.querySelector('label[for="enable-animations-toggle"]');
+    const systemReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (systemReduced) {
         toggle.disabled = true;
         toggle.checked = false;
         if (label) {
-            var tooltipText = typeof translate === 'function'
+            const tooltipText = typeof translate === 'function'
                 ? translate('text-animations-disabled-by-system-description', 'Animations are disabled by your system settings.')
                 : 'Animations are disabled by your system settings.';
             label.setAttribute('data-bs-toggle', 'tooltip');

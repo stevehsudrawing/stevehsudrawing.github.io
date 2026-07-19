@@ -34,15 +34,15 @@ Loaded at the end of `<body>` of each page:
 
 ### 1.3 Browser Baseline
 
-The minimum browser versions are determined by both **our CDN dependencies** and **browser feature requirements**. The enforced baseline is defined in `scripts/functions/browser-detection.js`.
+The minimum browser versions are determined by both **our CDN dependencies** and **browser feature requirements**. The enforced baseline is defined in `scripts/env-detections/browser.js`.
 
-| Browser | Min Version | Release Date | Constrained By                            |
-|---------|-------------|--------------|-------------------------------------------|
-| Chrome  | ≥ 66        | 2018-04-17   | Variable fonts                            |
-| Edge    | ≥ 79        | 2020-01-15   | Bootstrap 5.3.8 and @popperjs/core 2.11.8 |
-| Firefox | ≥ 65        | 2019-01-29   | WebP                                      |
-| Opera   | ≥ 53        | 2018-05-10   | Variable fonts                            |
-| Safari  | ≥ 14        | 2020-09-16   | WebP                                      |
+| Browser | Min Version | Release Date | Constrained By           |
+|---------|-------------|--------------|--------------------------|
+| Chrome  | ≥ 80        | 2020-02-04   | Optional chaining (`?.`) |
+| Edge    | ≥ 80        | 2020-02-07   | Optional chaining (`?.`) |
+| Firefox | ≥ 74        | 2020-03-10   | Optional chaining (`?.`) |
+| Opera   | ≥ 67        | 2020-02-25   | Optional chaining (`?.`) |
+| Safari  | ≥ 14        | 2020-09-16   | WebP                     |
 
 #### 1.3.1 Per-Dependency Minimum Browser Versions
 
@@ -55,21 +55,22 @@ The minimum browser versions are determined by both **our CDN dependencies** and
 | @popperjs/core 2.11.8  | **60** | **79** | **60**  | **47** | **12** |
 
 > **Sources**:
-> - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`)
+> - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`); IE11 and legacy EdgeHTML not supported
 > - QRCode.js 1.0.0: [npm](https://www.npmjs.com/package/qrcodejs) - README claims compatibility with "IE6~10, Chrome, Firefox, Safari, Opera"
 > - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) - requires `Promise` + SVG `<foreignObject>`
 > - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) - "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
-> - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5; IE11 and legacy EdgeHTML not supported
+> - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5
 
 #### 1.3.2 Browser Feature Requirements
 
 The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Feature                                              | Used By         | Chrome | Edge   | Firefox | Opera  | Safari |
-|------------------------------------------------------|-----------------|--------|--------|---------|--------|--------|
-| [WebP](https://caniuse.com/webp)                     | Image assets    | 32     | **18** | **65**  | 19     | **14** |
-| [WOFF 2](https://caniuse.com/woff2)                  | Bootstrap Icons | 36     | 14     | 39      | 23     | 10     |
-| [Variable fonts](https://caniuse.com/variable-fonts) | Inter           | **66** | 17     | 62      | **53** | 11     |
+| Feature                                                                                    | Used By                   | Chrome | Edge   | Firefox | Opera  | Safari |
+|--------------------------------------------------------------------------------------------|---------------------------|--------|--------|---------|--------|--------|
+| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | `link-cards-generator.js` | **80** | **80** | **74**  | **67** | 13.1   |
+| [WebP](https://caniuse.com/webp)                                                           | Image assets              | 32     | 18     | 65      | 19     | **14** |
+| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons           | 36     | 14     | 39      | 23     | 10     |
+| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                     | 66     | 17     | 62      | 53     | 11     |
 
 ### 1.4 Deployment
 
@@ -82,12 +83,12 @@ The following browser features are required by this project. Their minimum brows
 
 ### 2.1 HTML / CSS
 
-| Category          | Convention / Constraint     | Examples                                                   |
-|-------------------|-----------------------------|------------------------------------------------------------|
-| Element IDs       | `dash-case`                 | `#page-content`, `#skip-button`, `#language-select`        |
-| CSS classes       | `dash-case`                 | `.loading-screen`, `.link-button-group`                    |
-| Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-html`, `data-i18n-tooltip`          |
-| Bootstrap classes | Use Bootstrap-native naming |  `btn-primary`, `dropdown-menu`, etc.                      |
+| Category          | Convention / Constraint     | Examples                                                            |
+|-------------------|-----------------------------|---------------------------------------------------------------------|
+| Element IDs       | `dash-case`                 | `#page-content`, `#skip-button`, `#language-select`                 |
+| CSS classes       | `dash-case`                 | `.loading-screen`, `.link-button-group`                             |
+| Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-html`, `data-i18n-tooltip` |
+| Bootstrap classes | Use Bootstrap-native naming |  `btn-primary`, `dropdown-menu`, etc.                               |
 
 ### 2.2 CSS Custom Properties
 
@@ -199,28 +200,31 @@ Existing batch / single-element pairs:
 
 ### 3.1 Folder Overview
 
-| Folder               | Purpose                                                     | Where to Add New Code                                 |
-|----------------------|-------------------------------------------------------------|-------------------------------------------------------|
-| `.github/`           | GitHub-specific configurations (Copilot instructions, etc.) | -                                                     |
-| `configs/`           | JSON configuration data for i18n and link cards             | New JSON config files as needed                       |
-| `configs/i18n/`      | Translation JSON files, one per language                    | New translation file for each added language          |
-| `configs/links/`     | Link-card data JSON files, one per page                     | New link-card JSON when adding a page with link cards |
-| `images/`            | Image assets (icons, covers, stickers, placeholder)         | New images in the appropriate sub-folder              |
-| `images/covers/`     | Cover images for link cards and share cards                 | Cover image files                                     |
-| `images/icons/`      | Icon images for link cards                                  | Icon image files                                      |
-| `images/stickers/`   | Sticker images                                              | Sticker image files                                   |
-| `images/svg/`        | SVG icon/image files for runtime injection                  | New SVG file when adding a vector graphic             |
-| `page-components/`   | HTML fragments loaded at runtime by the component loader    | New HTML fragment                                     |
-| `scripts/`           | JS entry points (`init-*.js`, `env-detection.js`)           | New init script if a new page tier is needed          |
-| `scripts/functions/` | Reusable JS modules - **define only, never execute**        | New JS module file, or add to an existing file        |
-| `stylesheets/`       | CSS stylesheets                                             | New CSS file, or add to an existing file              |
-| Root `*.xml`         | Sitemap and other XML config files                          | -                                                     |
-| Root `*.json`        | PWA manifest and other root JSON configs                    | -                                                     |
-| Root `*.html`        | Page files (homepage, sub-pages, error pages)               | New page file when adding a page                      |
+| Folder                   | Purpose                                                       | Where to Add New Code                                 |
+|--------------------------|---------------------------------------------------------------|-------------------------------------------------------|
+| `.github/`               | GitHub-specific configurations (Copilot instructions, etc.)   | -                                                     |
+| `configs/`               | JSON configuration data for i18n and link cards               | New JSON config files as needed                       |
+| `configs/i18n/`          | Translation JSON files, one per language                      | New translation file for each added language          |
+| `configs/links/`         | Link-card data JSON files, one per page                       | New link-card JSON when adding a page with link cards |
+| `images/`                | Image assets (icons, covers, stickers, placeholder)           | New images in the appropriate sub-folder              |
+| `images/covers/`         | Cover images for link cards and share cards                   | Cover image files                                     |
+| `images/icons/`          | Icon images for link cards                                    | Icon image files                                      |
+| `images/stickers/`       | Sticker images                                                | Sticker image files                                   |
+| `images/svg/`            | SVG icon/image files for runtime injection                    | New SVG file when adding a vector graphic             |
+| `page-components/`       | HTML fragments loaded at runtime by the component loader      | New HTML fragment                                     |
+| `scripts/`               | JS entry points (`init-*.js`, `env-detection.js`)             | New init script if a new page tier is needed          |
+| `scripts/env-detections/`| Reusable JS modules (ES5) - **define only, never execute**    | New env-detection module                              |
+| `scripts/functions/`     | Reusable JS modules (ES2020) - **define only, never execute** | New JS module file, or add to an existing file        |
+| `stylesheets/`           | CSS stylesheets                                               | New CSS file, or add to an existing file              |
+| Root `*.xml`             | Sitemap and other XML config files                            | -                                                     |
+| Root `*.json`            | PWA manifest and other root JSON configs                      | -                                                     |
+| Root `*.html`            | Page files (homepage, sub-pages, error pages)                 | New page file when adding a page                      |
 
 **File placement rules**:
 
-- Put JS functions in `scripts/functions/` - either in a relevant existing file or a new file.
+- Put JS functions in `scripts/functions/` or `scripts/env-detections/` - either in a relevant existing file or a new file.
+    - Use `scripts/env-detections/` for ES5 scripts (e.g. browser/environment detection that runs before the page renders).
+    - Use `scripts/functions/` for ES2020 scripts (general-purpose reusable modules).
 - Put CSS in `stylesheets/` - either in a relevant existing file or a new file.
 - If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`). If the CSS is general-purpose, it can go into `components.css` instead.
 - Put JSON configuration data in `configs/` under the appropriate sub-folder.
@@ -228,9 +232,10 @@ Existing batch / single-element pairs:
 
 ### 3.2 General File Rules
 
-#### 3.2.1 `scripts/functions/`: Define Only, Never Execute
+#### 3.2.1 `scripts/env-detections/` and `scripts/functions/`: Define Only, Never Execute
 
-- Files in `scripts/functions/` must **only define variables and functions**.
+- Files in `scripts/env-detections/` must **only define variables and functions**, using **ES5** syntax.
+- Files in `scripts/functions/` must **only define variables and functions**, using **ES2020** syntax.
 - Every global variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
@@ -256,8 +261,8 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 
 #### 3.2.2 `scripts/init-*.js`: Entry Points, Wire Everything
 
-- These files import functions from `scripts/functions/` and call them in the correct order.
-- `env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`.
+- These files import functions from `scripts/functions/` and `scripts/env-detections/` and call them in the correct order.
+- `env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`. Uses functions defined in `scripts/env-detections/`.
 - `init-at-head.js`: Runs synchronously in `<head>`.
 - `init-final.js`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
 - `init-final-lightweight.js`: Cut-down version. Does not load the Page Transition System.
@@ -318,16 +323,16 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 | File                                           | Role                                                                                     |
 |------------------------------------------------|------------------------------------------------------------------------------------------|
 | `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                 |
-| `scripts/functions/browser-detection.js`       | Browser version detection and redirection logic (written in ES5 for broad compatibility) |
+| `scripts/env-detections/browser.js`            | Browser version detection and redirection logic (written in ES5 for broad compatibility) |
 | `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                               |
 | `error-unsupported-browser.html`               | Fallback page for unsupported browsers                                                   |
 | `error-javascript-disabled.html`               | Fallback page displayed when JavaScript is disabled                                      |
 
-> `browser-detection.js` is executed first among all scripts. It is written in ES5 to ensure it runs even on older browsers.
+> `browser.js` is executed first among all scripts. It is written in ES5 to ensure it runs even on older browsers.
 
 **Data Flow**:
 
-- `browser-detection.js` checks `navigator.userAgent` against the browser baseline table (see [§1.4 Browser Baseline](#14-browser-baseline)).
+- `browser.js` checks `navigator.userAgent` against the browser baseline table (see [§1.3 Browser Baseline](#13-browser-baseline)).
 - Before version detection, `isBotOrCrawler()` checks whether the User-Agent belongs to a known search engine bot, crawler, or SEO tool. If so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
 - If unsupported: redirects to `error-unsupported-browser.html`.
 - `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
@@ -1122,7 +1127,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.8 Crawler Whitelist
 
-- `scripts/functions/browser-detection.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function.
+- `scripts/env-detections/browser.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function.
 - Without this whitelist, crawlers with User-Agents that do not match recognized browser patterns are detected as \"unsupported\" and redirected to `error-unsupported-browser.html`, which has `robots: noindex`. This prevents the site from being indexed.
 - The whitelist covers:
     - **Search engines**: Googlebot, Bingbot, Baiduspider, Yandex, DuckDuckGo, Yahoo Slurp, Sogou, 360Spider

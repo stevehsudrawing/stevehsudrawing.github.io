@@ -156,7 +156,7 @@ function initMobileNavbarBrandScroll() {
     }
 
     // Throttled scroll listener
-    var ticking = false;
+    let ticking = false;
     window.addEventListener('scroll', function () {
         if (!ticking) {
             requestAnimationFrame(function () {
@@ -182,7 +182,7 @@ function updateNavbarBrandText() {
     const pageName = extractPageName(window.location.pathname);
     const i18nKey = 'text-' + pageName;
     brandText.setAttribute('data-i18n', i18nKey);
-    var translated = translate(i18nKey);
+    const translated = translate(i18nKey);
     if (translated) {
         brandText.textContent = translated;
     }

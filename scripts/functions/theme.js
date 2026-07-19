@@ -11,7 +11,7 @@ let currentThemePreference = 'auto';
 const supportedThemes = ['auto', 'light', 'dark'];
 
 /** @type {number} Monotonic counter to cancel superseded transition callbacks. */
-var themeTransitionId = 0;
+let themeTransitionId = 0;
 
 /**
  * Restore the saved theme preference from localStorage, defaulting to 'auto'.
@@ -50,7 +50,7 @@ function getEffectiveTheme(themeChoice) {
  * Must be called after header.html has been loaded into the DOM.
  */
 function initThemeTransitionOverlay() {
-    var overlay = document.querySelector('.theme-transition-overlay');
+    const overlay = document.querySelector('.theme-transition-overlay');
     if (!overlay) return;
 
     // Clean up fade-out class after the fade-out transition ends,
@@ -90,13 +90,13 @@ function applyThemePreference(themeChoice, save = true) {
         localStorage.setItem('bsTheme', theme);
     }
 
-    var overlay = document.querySelector('.theme-transition-overlay');
+    const overlay = document.querySelector('.theme-transition-overlay');
 
     // Skip the overlay (instant switch) when:
     // - User prefers reduced motion, or
     // - The effective theme does not actually change, or
     // - The overlay is not yet in the DOM (initial load from <head>).
-    var skipOverlay =
+    const skipOverlay =
         window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
         htmlElement.getAttribute('data-bs-theme') === getEffectiveTheme(theme) ||
         !overlay;
@@ -107,7 +107,7 @@ function applyThemePreference(themeChoice, save = true) {
     }
 
     // Increment ID to cancel any pending callback from rapid toggling.
-    var thisId = ++themeTransitionId;
+    const thisId = ++themeTransitionId;
 
     // Phase 1: Fade in the overlay over ~500 ms.
     overlay.classList.add('active');
@@ -197,7 +197,7 @@ function initSystemThemeListener() {
  * Theme metadata: i18n keys and English labels.
  * @type {Object<string, {i18n: string, label: string}>}
  */
-var THEME_META = {
+const THEME_META = {
     'light': { i18n: 'text-light', label: 'Light' },
     'dark':  { i18n: 'text-dark',  label: 'Dark' },
     'auto':  { i18n: 'text-auto',  label: 'Auto' }

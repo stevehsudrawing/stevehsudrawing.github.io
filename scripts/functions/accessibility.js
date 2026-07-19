@@ -96,7 +96,7 @@ function initSkipButton() {
 
     // Optional: on focus of skip button ensure keyboard class present for older browsers
     document.addEventListener('focusin', function (e) {
-        if (e.target && e.target.id === 'skip-button') {
+        if (e.target?.id === 'skip-button') {
             // If focus landed on the skip button but pointer mode is active, switch to keyboard mode
             if (!root.classList.contains('user-input-keyboard')) {
                 // Prefer :focus-visible in modern browsers; this is a safe fallback

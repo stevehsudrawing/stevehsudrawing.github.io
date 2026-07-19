@@ -8,20 +8,33 @@ A personal link-hub website that consolidates links to all my profiles across va
 
 ---
 
-## Features
+## 1. Features
 
-- 🌐 **Multi-language (i18n)**: Language preference is persisted and all UI strings are loaded dynamically from JSON translation files. The list of supported language is [here](configs/language-list.json).
-- 🌓 **Light / Dark / Auto theme**: Three theme modes: light, dark, or follow the OS preference. Theme is persisted via `localStorage` and applied instantly.
-- 🔗 **Configurable external link behavior**: Users can toggle whether external links open in new tabs. Preference is persisted.
-- ✨ **SPA-style page transitions**: Internal navigation triggers a smooth progress-bar animation and content dimming, providing an app-like experience without a front-end framework.
-- 📱 **Responsive layout**: Powered by Bootstrap 5.3, the layout adapts to all screen sizes.
-- 📋 **Dynamic link cards**: Link cards are defined in JSON config files and rendered at runtime, making it easy to add or update links without touching HTML.
-- 📲 **QR code sharing**: QR codes are generated on the fly via QRCode.js inside a branded share card, with one-click download as a PNG image via html-to-image (html2canvas fallback for mobile).
-- ♿ **Accessibility**: Includes a skip-to-content button, ARIA attributes, keyboard-friendly focus management, and Bootstrap tooltips.
-- 🛡️ **Browser detection & fallback**: Unsupported browsers are detected (via ES5-compatible script) and redirected to a dedicated fallback page that works without CDN dependencies.
-- 🚫 **Custom 404 page**: A styled error page with lightweight initialization.
+- 🌐 **Multi-language (i18n)**: Supports English and Chinese (both Simplified and Traditional). Language preference is persisted and auto-detected from the URL or system settings.
+- 🌓 **Light / Dark / Auto theme**: Three theme modes with instant switching. Theme follows the OS preference by default.
+- ⚙️ **Customizable settings**: Toggle external links to always open in new tabs, and enable or disable animations. Preferences are saved locally.
+- ✨ **SPA-style page transitions**: Smooth animated transitions between internal pages with a progress bar, no front-end framework required.
+- 📱 **Responsive layout**: Adapts to all screen sizes, powered by Bootstrap 5.3.
+- 📋 **Config-driven link cards**: Link cards are defined in JSON config files and rendered at runtime — add or update links without touching HTML.
+- 📲 **QR code sharing**: Generate branded QR codes for any link, with one-click download as a PNG image.
+- ♿ **Accessibility**: Skip-to-content button, ARIA attributes, keyboard-friendly focus management, and tooltips.
+- 🛡️ **Browser compatibility guard**: Unsupported browsers are detected early and redirected to a fallback page. JavaScript-disabled users are also redirected to a dedicated error page.
+- 🔍 **SEO optimized**: Structured data (JSON-LD), Open Graph tags, Twitter/X Cards, hreflang alternates, sitemap, and semantic heading hierarchy across all pages.
+- 🚫 **Custom 404 page**: A styled error page with lightweight loading for a graceful fallback.
 
-## Tech Stack
+## 2. Browser Baseline
+
+| Browser | Min Version |
+|---------|-------------|
+| Chrome  | ≥ 80        |
+| Edge    | ≥ 80        |
+| Firefox | ≥ 74        |
+| Opera   | ≥ 67        |
+| Safari  | ≥ 14        |
+
+For more details, read [this](.github/copilot-instructions.md#13-browser-baseline).
+
+## 3. Tech Stack
 
 | Category       | Choice                                                   |
 |----------------|----------------------------------------------------------|
@@ -33,6 +46,6 @@ A personal link-hub website that consolidates links to all my profiles across va
 | HTML-to-Canvas | [html2canvas](https://github.com/niklasvh/html2canvas)   |
 | Hosting        | [GitHub Pages](https://pages.github.com/)                |
 
-## Copyright
+## 4. Copyright
 
 All original artworks in `images/` (including covers, icons, and stickers) are created by **Steve Hsu (什五)**. See [images/README.md](images/README.md) for the full copyright notice and usage restrictions.

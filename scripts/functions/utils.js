@@ -56,12 +56,12 @@ function setElementAttributes(element, properties = {}) {
  * @param {string} message - The error message to display.
  */
 function showErrorToast(message) {
-    var container = document.getElementById('toast-container');
-    var toastEl = document.getElementById('error-toast');
-    var bodyEl = document.getElementById('error-toast-body');
+    const container = document.getElementById('toast-container');
+    const toastEl = document.getElementById('error-toast');
+    const bodyEl = document.getElementById('error-toast-body');
     if (!container || !toastEl || !bodyEl) return;
     bodyEl.textContent = message;
-    var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
     toast.show();
 }
 
