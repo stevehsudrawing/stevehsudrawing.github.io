@@ -108,7 +108,7 @@ html[lang='zh-Hant'] cite {
 .modal-backdrop {
     --bs-backdrop-bg-rgb: 0, 0, 0;
     opacity: 0;
-    backdrop-filter: blur(0px);
+    backdrop-filter: none;
 }
 
 .modal-backdrop.show {
@@ -152,6 +152,7 @@ code {
 /* --- when browser/system prefers reduced motion --- */
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {

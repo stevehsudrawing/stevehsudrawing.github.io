@@ -88,7 +88,7 @@ The following browser features are required by this project. Their minimum brows
 | Element IDs       | `dash-case`                 | `#page-content`, `#skip-button`, `#language-select`                 |
 | CSS classes       | `dash-case`                 | `.loading-screen`, `.link-button-group`                             |
 | Custom attributes | `data-*` with `dash-case`   | `data-bs-theme`, `data-i18n`, `data-i18n-html`, `data-i18n-tooltip` |
-| Bootstrap classes | Use Bootstrap-native naming |  `btn-primary`, `dropdown-menu`, etc.                               |
+| Bootstrap classes | Use Bootstrap-native naming | `.btn-primary`, `.dropdown-menu`, etc.                              |
 
 ### 2.2 CSS Custom Properties
 
@@ -103,7 +103,7 @@ Prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub). These variab
 
 Prefix `--bs-*`. See [its documentation](https://getbootstrap.com/docs/5.3/customize/css-variables/) for more information. e.g. `--bs-border-radius`, `--bs-link-hover-color`
 
-Although all `--bs-border-radius*` settings in `stylesheets/base.css` are 0px, it's still best to choose the border-radius size according to Bootstrap conventions.
+Although all `--bs-border-radius*` settings in `stylesheets/modern/base.css` are 0px, it's still best to choose the border-radius size according to Bootstrap conventions.
 
 ### 2.3 JavaScript
 
@@ -180,19 +180,19 @@ Every single-element function that **adds, creates, or initializes** something o
 
 Existing batch / single-element pairs:
 
-| Batch Function                        | Single-Element Function              | Module                |
-|---------------------------------------|--------------------------------------|-----------------------|
-| `initAllTooltips()`                   | `createTooltip(el)`                  | `tooltips.js`         |
-| `disposeAllTooltips()`                | `disposeTooltip(el)`                 | `tooltips.js`         |
-| `initAllCopyLinkTooltips()`           | `initCopyLinkTooltip(link)`          | `tooltips.js`         |
-| `initAllColoredImages()`              | `applyColoredImage(img)`             | `img-utils.js`        |
-| `initAllImageLoadingOpacity()`        | `initImageLoadingOpacity(img)`       | `img-utils.js`        |
-| `applyAllThemeBasedImages()`          | `applyThemeBasedImage(img)`          | `theme.js`            |
-| `addAllExternalLinkIndicators()`      | `addExternalLinkIndicator(link)`     | `accessibility.js`    |
-| `initAllTitleLinkAnchors()`           | `initTitleLinkAnchor(anchor)`        | `accessibility.js`    |
-| `initAllScrollHints()`                | `createScrollHint(group)`            | `scroll-hint.js`      |
-| `applyAllExternalLinkTargetBehavior()`| `addExternalLinkTargetBehavior(link)`| `settings.js`         |
-| `loadAllComponents()`                 | `loadHTML(placeholder, name)`        | `component-loader.js` |
+| Batch Function                         | Single-Element Function              | Module                |
+|----------------------------------------|--------------------------------------|-----------------------|
+| `initAllTooltips()`                    | `createTooltip(el)`                  | `tooltips.js`         |
+| `disposeAllTooltips()`                 | `disposeTooltip(el)`                 | `tooltips.js`         |
+| `initAllCopyLinkTooltips()`            | `initCopyLinkTooltip(link)`          | `tooltips.js`         |
+| `initAllColoredImages()`               | `applyColoredImage(img)`             | `img-utils.js`        |
+| `initAllImageLoadingOpacity()`         | `initImageLoadingOpacity(img)`       | `img-utils.js`        |
+| `applyAllThemeBasedImages()`           | `applyThemeBasedImage(img)`          | `theme.js`            |
+| `addAllExternalLinkIndicators()`       | `addExternalLinkIndicator(link)`     | `accessibility.js`    |
+| `initAllTitleLinkAnchors()`            | `initTitleLinkAnchor(anchor)`        | `accessibility.js`    |
+| `initAllScrollHints()`                 | `createScrollHint(group)`            | `scroll-hint.js`      |
+| `applyAllExternalLinkTargetBehavior()` | `addExternalLinkTargetBehavior(link)`| `settings.js`         |
+| `loadAllComponents()`                  | `loadHTML(placeholder, name)`        | `component-loader.js` |
 
 ---
 
@@ -200,32 +200,36 @@ Existing batch / single-element pairs:
 
 ### 3.1 Folder Overview
 
-| Folder                   | Purpose                                                       | Where to Add New Code                                 |
-|--------------------------|---------------------------------------------------------------|-------------------------------------------------------|
-| `.github/`               | GitHub-specific configurations (Copilot instructions, etc.)   | -                                                     |
-| `configs/`               | JSON configuration data for i18n and link cards               | New JSON config files as needed                       |
-| `configs/i18n/`          | Translation JSON files, one per language                      | New translation file for each added language          |
-| `configs/links/`         | Link-card data JSON files, one per page                       | New link-card JSON when adding a page with link cards |
-| `images/`                | Image assets (icons, covers, stickers, placeholder)           | New images in the appropriate sub-folder              |
-| `images/covers/`         | Cover images for link cards and share cards                   | Cover image files                                     |
-| `images/icons/`          | Icon images for link cards                                    | Icon image files                                      |
-| `images/stickers/`       | Sticker images                                                | Sticker image files                                   |
-| `images/svg/`            | SVG icon/image files for runtime injection                    | New SVG file when adding a vector graphic             |
-| `page-components/`       | HTML fragments loaded at runtime by the component loader      | New HTML fragment                                     |
-| `scripts/`               | JS entry points (`init-*.js`, `env-detection.js`)             | New init script if a new page tier is needed          |
-| `scripts/env-detections/`| Reusable JS modules (ES5) - **define only, never execute**    | New env-detection module                              |
-| `scripts/functions/`     | Reusable JS modules (ES2020) - **define only, never execute** | New JS module file, or add to an existing file        |
-| `stylesheets/`           | CSS stylesheets                                               | New CSS file, or add to an existing file              |
-| Root `*.xml`             | Sitemap and other XML config files                            | -                                                     |
-| Root `*.json`            | PWA manifest and other root JSON configs                      | -                                                     |
-| Root `*.html`            | Page files (homepage, sub-pages, error pages)                 | New page file when adding a page                      |
+| Folder                    | Purpose                                                       | Where to Add New Code                                 |
+|---------------------------|---------------------------------------------------------------|-------------------------------------------------------|
+| `.github/`                | GitHub-specific configurations (Copilot instructions, etc.)   | -                                                     |
+| `configs/`                | JSON configuration data for i18n and link cards               | New JSON config files as needed                       |
+| `configs/i18n/`           | Translation JSON files, one per language                      | New translation file for each added language          |
+| `configs/links/`          | Link-card data JSON files, one per page                       | New link-card JSON when adding a page with link cards |
+| `images/`                 | Image assets (icons, covers, stickers, placeholder)           | New images in the appropriate sub-folder              |
+| `images/covers/`          | Cover images for link cards and share cards                   | Cover image files                                     |
+| `images/icons/`           | Icon images for link cards                                    | Icon image files                                      |
+| `images/stickers/`        | Sticker images                                                | Sticker image files                                   |
+| `images/svg/`             | SVG icon/image files for runtime injection                    | New SVG file when adding a vector graphic             |
+| `page-components/`        | HTML fragments loaded at runtime by the component loader      | New HTML fragment                                     |
+| `scripts/`                | JS entry points (`init-*.js`, `env-detection.js`)             | New init script if a new page tier is needed          |
+| `scripts/env-detections/` | Reusable JS modules (ES5) - **define only, never execute**    | New env-detection module                              |
+| `scripts/functions/`      | Reusable JS modules (ES2020) - **define only, never execute** | New JS module file, or add to an existing file        |
+| `stylesheets/`            | CSS stylesheets                                               | New CSS file in the appropriate sub-folder            |
+| `stylesheets/modern/`     | CSS modules using modern CSS specifications - for all pages   | New CSS module, or add to an existing file            |
+| `stylesheets/minimal/`    | CSS with broad compatibility (IE 11) - for error pages only   | New minimal stylesheet                                |
+| Root `*.xml`              | Sitemap and other XML config files                            | -                                                     |
+| Root `*.json`             | PWA manifest and other root JSON configs                      | -                                                     |
+| Root `*.html`             | Page files (homepage, sub-pages, error pages)                 | New page file when adding a page                      |
 
 **File placement rules**:
 
 - Put JS functions in `scripts/functions/` or `scripts/env-detections/` - either in a relevant existing file or a new file.
     - Use `scripts/env-detections/` for ES5 scripts (e.g. browser/environment detection that runs before the page renders).
     - Use `scripts/functions/` for ES2020 scripts (general-purpose reusable modules).
-- Put CSS in `stylesheets/` - either in a relevant existing file or a new file.
+- Put CSS in `stylesheets/modern/` - either in a relevant existing file or a new file.
+    - Use `stylesheets/modern/` for all normal page stylesheets (modern CSS).
+    - Use `stylesheets/minimal/` only for error pages that must support IE 11.
 - If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`). If the CSS is general-purpose, it can go into `components.css` instead.
 - Put JSON configuration data in `configs/` under the appropriate sub-folder.
 - Put reusable HTML fragments in `page-components/`.
@@ -267,9 +271,12 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 - `init-final.js`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
 - `init-final-lightweight.js`: Cut-down version. Does not load the Page Transition System.
 
-#### 3.2.3 `stylesheets/`: Organize by Comment Headers
+#### 3.2.3 `stylesheets/`: Two Sub-Folders, One Commenting Convention
 
-- CSS Commenting format:
+- **`stylesheets/modern/`** — CSS modules for all normal pages. Uses modern CSS specifications.
+- **`stylesheets/minimal/`** — Broad compatibility CSS for error pages (supports IE 11).
+
+Both sub-folders use the same CSS commenting format:
 
 ```css
 /* ========================================================================
@@ -294,7 +301,7 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
     - `softwares`
 - **Error Pages**: Use `init-final-lightweight.js`.
     - `404`: The redirected page when an HTTP 404 occurs.
-- **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/stylesheets/for-minimal-reference-pages.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
+- **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/stylesheets/minimal/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
     - `unsupported-browser`
     - `javascript-disabled`
 
@@ -436,11 +443,11 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 
 **Related Files**:
 
-| File                         | Role                                                                      |
-|------------------------------|---------------------------------------------------------------------------|
-| `scripts/functions/theme.js` | Theme initialization, switching, and system theme listener                |
-| `stylesheets/theme.css`      | Theme-specific CSS custom property overrides                              |
-| `stylesheets/base.css`       | Base styles including `--bs-border-radius` overrides and shared variables |
+| File                           | Role                                                                      |
+|--------------------------------|---------------------------------------------------------------------------|
+| `scripts/functions/theme.js`   | Theme initialization, switching, and system theme listener                |
+| `stylesheets/modern/theme.css` | Theme-specific CSS custom property overrides                              |
+| `stylesheets/modern/base.css`  | Base styles including `--bs-border-radius` overrides and shared variables |
 
 **How It Works**:
 
@@ -628,10 +635,10 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 **Related Files**:
 
-| File                                   | Role                                                          |
-|----------------------------------------|---------------------------------------------------------------|
-| `scripts/functions/page-transition.js` | Intercepts internal link clicks, manages transition animation |
-| `stylesheets/page-transition.css`      | Progress bar and content dimming styles                       |
+| File                                     | Role                                                          |
+|------------------------------------------|---------------------------------------------------------------|
+| `scripts/functions/page-transition.js`   | Intercepts internal link clicks, manages transition animation |
+| `stylesheets/modern/page-transition.css` | Progress bar and content dimming styles                       |
 
 **How It Works**:
 
@@ -657,10 +664,10 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 **Related Files**:
 
-| File                                  | Role                               |
-|---------------------------------------|------------------------------------|
-| `scripts/functions/loading-screen.js` | Controls loading screen visibility |
-| `stylesheets/loading-screen.css`      | Loading screen overlay styles      |
+| File                                    | Role                               |
+|-----------------------------------------|------------------------------------|
+| `scripts/functions/loading-screen.js`   | Controls loading screen visibility |
+| `stylesheets/modern/loading-screen.css` | Loading screen overlay styles      |
 
 **Data Flow**:
 
@@ -698,13 +705,13 @@ The JSON format uses a consistent pattern for representing HTML elements:
     - `localStorage` key: `enableAnimations`.
     - **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
     - Controlled by a toggle (`#enable-animations-toggle`) in the settings modal.
-    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `stylesheets/base.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
+    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `stylesheets/modern/base.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
     - Key functions:
         - `isAnimationEnabled()` - reads the preference.
         - `setAnimationPreference(enabled)` - persists the preference.
         - `applyAnimationPreference()` - toggles the `.no-animations` class on `<html>`.
         - `updateAnimationToggleState()` - checks `matchMedia('(prefers-reduced-motion: reduce)')`; when the OS-level reduced-motion setting is active, disables the toggle (`disabled + unchecked`) and displays a tooltip on the label (i18n key `text-animations-disabled-by-system-description`) explaining that the system setting overrides this option. Listens for changes to the OS setting via `matchMedia(...).addEventListener('change', ...)`.
-    - CSS rules (in `stylesheets/base.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
+    - CSS rules (in `stylesheets/modern/base.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
     - The toggle change event is handled by `initSettingEventListeners()`.
     - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference and system state.
 
@@ -732,14 +739,14 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 **Related Files**:
 
-| File                                 | Role                                                                        |
-|--------------------------------------|-----------------------------------------------------------------------------|
-| `scripts/functions/navbar.js`        | Active nav item highlighting                                                |
-| `scripts/functions/scroll-hint.js`   | Scroll-down hint indicator                                                  |
-| `scripts/functions/accessibility.js` | Skip button, focus management, external link indicators, title link anchors |
-| `stylesheets/navbar.css`             | Navbar styles                                                               |
-| `stylesheets/scroll-hint.css`        | Scroll hint styles                                                          |
-| `stylesheets/accessibility.css`      | Skip button and focus styles                                                |
+| File                                   | Role                                                                        |
+|----------------------------------------|-----------------------------------------------------------------------------|
+| `scripts/functions/navbar.js`          | Active nav item highlighting                                                |
+| `scripts/functions/scroll-hint.js`     | Scroll-down hint indicator                                                  |
+| `scripts/functions/accessibility.js`   | Skip button, focus management, external link indicators, title link anchors |
+| `stylesheets/modern/navbar.css`        | Navbar styles                                                               |
+| `stylesheets/modern/scroll-hint.css`   | Scroll hint styles                                                          |
+| `stylesheets/modern/accessibility.css` | Skip button and focus styles                                                |
 
 **Features**:
 
@@ -755,10 +762,10 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 **Related Files**:
 
-| File                           | Role                                                |
-|--------------------------------|-----------------------------------------------------|
-| `scripts/functions/qr-code.js` | QR code generation, share card assembly, PNG export |
-| `stylesheets/qr-code.css`      | Share card layout styles                            |
+| File                             | Role                                                |
+|----------------------------------|-----------------------------------------------------|
+| `scripts/functions/qr-code.js`   | QR code generation, share card assembly, PNG export |
+| `stylesheets/modern/qr-code.css` | Share card layout styles                            |
 
 **How It Works**:
 
@@ -769,13 +776,13 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ### 4.11 Fonts & Typography
 
-**Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/fonts.css` using `--shlh-font-*` CSS custom properties.
+**Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/modern/fonts.css` using `--shlh-font-*` CSS custom properties.
 
 **Related Files**:
 
-| File                    | Role                                                                     |
-|-------------------------|--------------------------------------------------------------------------|
-| `stylesheets/fonts.css` | Font-face declarations and per-element, per-language font stack assembly |
+| File                           | Role                                                                     |
+|--------------------------------|--------------------------------------------------------------------------|
+| `stylesheets/modern/fonts.css` | Font-face declarations and per-element, per-language font stack assembly |
 
 #### 4.11.1 Font Variable Naming
 
@@ -804,7 +811,7 @@ Font-related CSS custom properties use the `--shlh-*` prefix with the following 
 - `--shlh-font-{category}-system`: System fallback. Such variables are considered language-independent.
 - `--shlh-font-emoji`: Emoji font stack. Emoji is considered unrelated to all three of the above entries.
 
-Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `stylesheets/fonts.css`. See that file for the exact composition of each stack.
+Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `stylesheets/modern/fonts.css`. See that file for the exact composition of each stack.
 
 See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definition.
 
@@ -910,13 +917,13 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                             | Role                                                                                 |
-|----------------------------------|--------------------------------------------------------------------------------------|
-| `scripts/functions/img-utils.js` | Initializes `data-img-feature="colored"` images and image loading opacity            |
-| `stylesheets/img-utils.css`      | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
-| `scripts/functions/theme.js`     | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `images/null.png`                | Placeholder image used with `data-img-feature="colored"`                             |
-| `images/README.md`               | Copyright notice for image assets                                                    |
+| File                               | Role                                                                                 |
+|------------------------------------|--------------------------------------------------------------------------------------|
+| `scripts/functions/img-utils.js`   | Initializes `data-img-feature="colored"` images and image loading opacity            |
+| `stylesheets/modern/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
+| `scripts/functions/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
+| `images/null.png`                  | Placeholder image used with `data-img-feature="colored"`                             |
+| `images/README.md`                 | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute
 
@@ -1053,7 +1060,7 @@ HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32"
 | `link favicon`            | ✓                                              | ✓                 | ✓                    |
 | `link manifest`           | ✓                                              | ✗                 | ✗                    |
 | `link sitemap`            | ✓                                              | ✗                 | ✗                    |
-| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✓ en, zh-Hans, zh-Hant, x-default | ✗                    |
+| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default              | ✓                 | ✗                    |
 | Open Graph tags           | ✓                                              | ✓                 | ✓                    |
 | `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                       | ✓                 | ✗                    |
 | Twitter/X Card tags       | ✓ `summary_large_image`                        | ✓                 | ✓                    |
@@ -1115,13 +1122,13 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 - **Every page must have exactly one `<h1>`**. This is the primary SEO heading signal. Multiple `<h1>`s dilute ranking and are flagged as critical issues by SEO tools.
 - The `<h1>` must be **pure text** — no `<a>` links, no inline markup beyond semantic phrasing elements. Links dilute the heading keyword signal.
-- **Sub-section headings** (e.g. \"My Softwares\", \"Blogs & Sponsor\") use `<h2 class="pseudo-h1">`. The `.pseudo-h1` class (defined in `stylesheets/base.css`) applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
+- **Sub-section headings** (e.g. \"My Softwares\", \"Blogs & Sponsor\") use `<h2 class="pseudo-h1">`. The `.pseudo-h1` class (defined in `stylesheets/modern/base.css`) applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
 - **`<noscript>` fallback headings** use `<h2 class="pseudo-h1">` to avoid creating a second `<h1>` that search engines would count against the page.
 
 #### 4.16.7 Homepage H1 Rich Text
 
 - The homepage `<h1>` uses `data-i18n-html="text-steve-hsu-s-link-hub-rich"` with inline HTML markup.
-- The translation string includes `<span class="color-primary">` to brand the name with the site's primary color (defined in `stylesheets/theme.css`).
+- The translation string includes `<span class="color-primary">` to brand the name with the site's primary color (defined in `stylesheets/modern/theme.css`).
 - This approach allows per-language flexibility: the name can appear at the beginning, middle, or end of the title depending on the language's grammar.
 - The English fallback text between the tags serves as both the default rendering and the English translation.
 

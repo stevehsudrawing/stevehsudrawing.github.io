@@ -282,7 +282,7 @@ a {
 }
 
 .theme-transition-overlay.active {
-    background-color: rgba(144, 146, 148, 1);
+    background-color: rgb(144, 146, 148);
     backdrop-filter: blur(15px);
     pointer-events: auto;
 }
