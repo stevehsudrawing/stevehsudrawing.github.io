@@ -38,7 +38,6 @@
 }
 
 .title-link-anchor {
-    font-weight: 600;
     transition:
         opacity .2s ease,
         visibility .2s ease;

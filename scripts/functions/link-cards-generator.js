@@ -321,13 +321,23 @@ function buildLinkGroup(groupData) {
         titleContainer.appendChild(title);
 
         if (titleId) {
-            // Title Anchor
+            // Title Anchor (hash icon)
             const titleAnchor = document.createElement('a');
             titleAnchor.className = 'title-link-anchor';
             titleAnchor.href = `#${titleId}`;
             titleAnchor.innerHTML = '<i class="bi bi-hash"></i>';
             titleAnchor.setAttribute('aria-label', `Link to ${titleText}`);
             titleContainer.appendChild(titleAnchor);
+
+            // Copy Link Anchor (copy-to-clipboard icon)
+            const copyUrl = `${window.location.origin}${window.location.pathname}#${titleId}`;
+            const copyAnchor = document.createElement('a');
+            copyAnchor.className = 'link title-link-anchor copy-link';
+            copyAnchor.href = '#';
+            copyAnchor.setAttribute('aria-label', `Copy the link to ${titleText}`);
+            copyAnchor.setAttribute('data-copy-text', copyUrl);
+            copyAnchor.innerHTML = '<i class="bi bi-link-45deg"></i>';
+            titleContainer.appendChild(copyAnchor);
         }
 
         groupWrapper.appendChild(titleContainer);
