@@ -201,28 +201,26 @@ Existing batch / single-element pairs:
 
 ### 3.1 Folder Overview
 
-| Folder                    | Purpose                                                       | Where to Add New Code                                 |
-|---------------------------|---------------------------------------------------------------|-------------------------------------------------------|
-| `.github/`                | GitHub-specific configurations (Copilot instructions, etc.)   | -                                                     |
-| `configs/`                | JSON configuration data for i18n and link cards               | New JSON config files as needed                       |
-| `configs/i18n/`           | Translation JSON files, one per language                      | New translation file for each added language          |
-| `configs/links/`          | Link-card data JSON files, one per page                       | New link-card JSON when adding a page with link cards |
-| `images/`                 | Image assets (icons, covers, stickers, placeholder)           | New images in the appropriate sub-folder              |
-| `images/covers/`          | Cover images for link cards and share cards                   | Cover image files                                     |
-| `images/favicons/`        | Favicon and PWA icon assets (SVG, PNG, ICO)                   | New favicon variant                                   |
-| `images/icons/`           | Icon images for link cards                                    | Icon image files                                      |
-| `images/stickers/`        | Sticker images                                                | Sticker image files                                   |
-| `images/svg/`             | SVG icon/image files for runtime injection                    | New SVG file when adding a vector graphic             |
-| `page-components/`        | HTML fragments loaded at runtime by the component loader      | New HTML fragment                                     |
-| `scripts/`                | JS entry points (`init-*.js`, `env-detection.js`)             | New init script if a new page tier is needed          |
-| `scripts/env-detections/` | Reusable JS modules (ES5) - **define only, never execute**    | New env-detection module                              |
-| `scripts/functions/`      | Reusable JS modules (ES2020) - **define only, never execute** | New JS module file, or add to an existing file        |
-| `stylesheets/`            | CSS stylesheets                                               | New CSS file in the appropriate sub-folder            |
-| `stylesheets/modern/`     | CSS modules using modern CSS specifications - for all pages   | New CSS module, or add to an existing file            |
-| `stylesheets/minimal/`    | CSS with broad compatibility (IE 11) - for error pages only   | New minimal stylesheet                                |
-| Root `*.xml`              | Sitemap and other XML config files                            | -                                                     |
-| Root `*.json`             | PWA manifest and other root JSON configs                      | -                                                     |
-| Root `*.html`             | Page files (homepage, sub-pages, error pages)                 | New page file when adding a page                      |
+| Folder                    | Purpose                                                           | Where to Add New Code                                 |
+|---------------------------|-------------------------------------------------------------------|-------------------------------------------------------|
+| `.github/`                | GitHub-specific configurations (Copilot instructions, etc.)       | -                                                     |
+| `configs/`                | JSON configuration data for i18n and link cards                   | New JSON config files as needed                       |
+| `configs/i18n/`           | Translation JSON files, one per language                          | New translation file for each added language          |
+| `configs/links/`          | Link-card data JSON files, one per page                           | New link-card JSON when adding a page with link cards |
+| `images/`                 | Image assets organized by format (png, webp, svg) then by purpose | New images in the appropriate sub-folder              |
+| `images/png/`             | PNG images (favicons, icons, stickers, placeholder)               | PNG image files                                       |
+| `images/webp/`            | WebP images (covers, icons, stickers)                             | WebP image files                                      |
+| `images/svg/`             | SVG vector files for runtime injection                            | New SVG file when adding a vector graphic             |
+| `page-components/`        | HTML fragments loaded at runtime by the component loader          | New HTML fragment                                     |
+| `scripts/`                | JS entry points (`init-*.js`, `env-detection.js`)                 | New init script if a new page tier is needed          |
+| `scripts/env-detections/` | Reusable JS modules (ES5) - **define only, never execute**        | New env-detection module                              |
+| `scripts/functions/`      | Reusable JS modules (ES2020) - **define only, never execute**     | New JS module file, or add to an existing file        |
+| `stylesheets/`            | CSS stylesheets                                                   | New CSS file in the appropriate sub-folder            |
+| `stylesheets/modern/`     | CSS modules using modern CSS specifications - for all pages       | New CSS module, or add to an existing file            |
+| `stylesheets/minimal/`    | CSS with broad compatibility (IE 11) - for error pages only       | New minimal stylesheet                                |
+| Root `*.xml`              | Sitemap and other XML config files                                | -                                                     |
+| Root `*.json`             | PWA manifest and other root JSON configs                          | -                                                     |
+| Root `*.html`             | Page files (homepage, sub-pages, error pages)                     | New page file when adding a page                      |
 
 **File placement rules**:
 
@@ -366,13 +364,13 @@ Both sub-folders use the same CSS commenting format:
 
 **Related Files**:
 
-| File                                          | Role                                |
-|-----------------------------------------------|-------------------------------------|
-| `scripts/functions/component-loader.js`       | Fetches and injects HTML fragments  |
-| `page-components/header.html`                 | Header fragment                     |
-| `page-components/footer.html`                 | Footer fragment (full pages)        |
-| `page-components/footer-lightweight.html`     | Footer fragment (lightweight pages) |
-| `page-components/modals.html`                 | Settings and QR code modals         |
+| File                                      | Role                                |
+|-------------------------------------------|-------------------------------------|
+| `scripts/functions/component-loader.js`   | Fetches and injects HTML fragments  |
+| `page-components/header.html`             | Header fragment                     |
+| `page-components/footer.html`             | Footer fragment (full pages)        |
+| `page-components/footer-lightweight.html` | Footer fragment (lightweight pages) |
+| `page-components/modals.html`             | Settings and QR code modals         |
 
 **How It Works**:
 
@@ -445,13 +443,13 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 
 **Related Files**:
 
-| File                                | Role                                                                      |
-|-------------------------------------|---------------------------------------------------------------------------|
-| `scripts/functions/theme.js`        | Theme initialization, switching, system theme listener, and favicon theme |
-| `stylesheets/modern/theme.css`      | Theme-specific CSS custom property overrides                              |
-| `stylesheets/modern/base.css`       | Base styles including `--bs-border-radius` overrides and shared variables |
-| `images/svg/favicons/general.svg`       | Light-theme favicon (blue `#3c96ff`)                                      |
-| `images/svg/favicons/general-dark.svg`  | Dark-theme favicon (white)                                                |
+| File                                   | Role                                                                      |
+|----------------------------------------|---------------------------------------------------------------------------|
+| `scripts/functions/theme.js`           | Theme initialization, switching, system theme listener, and favicon theme |
+| `stylesheets/modern/theme.css`         | Theme-specific CSS custom property overrides                              |
+| `stylesheets/modern/base.css`          | Base styles including `--bs-border-radius` overrides and shared variables |
+| `images/svg/favicons/general.svg`      | Light-theme favicon (blue `#3c96ff`)                                      |
+| `images/svg/favicons/general-dark.svg` | Dark-theme favicon (white)                                                |
 
 **How It Works**:
 
@@ -927,7 +925,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 | `scripts/functions/img-utils.js`   | Initializes `data-img-feature="colored"` images and image loading opacity            |
 | `stylesheets/modern/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
 | `scripts/functions/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `images/png/null.png`                  | Placeholder image used with `data-img-feature="colored"`                             |
+| `images/png/null.png`              | Placeholder image used with `data-img-feature="colored"`                             |
 | `images/README.md`                 | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute
