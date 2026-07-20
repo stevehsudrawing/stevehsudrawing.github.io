@@ -26,7 +26,7 @@
                 "icon": {
                     "properties": {
                         "alt": "SawtootH",
-                        "src": "/images/icons/sawtooth.webp"
+                        "src": "/images/webp/icons/sawtooth.webp"
                     }
                 },
                 "title": [
@@ -84,7 +84,7 @@
                 "icon": {
                     "properties": {
                         "alt": "QuantuM",
-                        "src": "/images/icons/quantum.webp"
+                        "src": "/images/webp/icons/quantum.webp"
                     }
                 },
                 "title": [

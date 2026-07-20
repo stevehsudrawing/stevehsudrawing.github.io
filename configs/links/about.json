@@ -15,9 +15,9 @@
                     "properties": {
                         "alt": "Quanto Series Team",
                         "data-i18n-alt": "text-quanto-series-team",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/email.webp",
+                        "data-src-mask": "/images/webp/icons/email.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -62,9 +62,9 @@
                     "properties": {
                         "alt": "My personal email",
                         "data-i18n-alt": "text-my-personal-email",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/email.webp",
+                        "data-src-mask": "/images/webp/icons/email.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },

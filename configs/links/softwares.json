@@ -26,7 +26,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Quanto Ult",
-                        "src": "/images/icons/quanto-ult.webp"
+                        "src": "/images/webp/icons/quanto-ult.webp"
                     }
                 },
                 "title": [
@@ -72,7 +72,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Quanto Flx",
-                        "src": "/images/icons/quanto-flx.webp"
+                        "src": "/images/webp/icons/quanto-flx.webp"
                     }
                 },
                 "title": [
@@ -112,9 +112,9 @@
                 "icon": {
                     "properties": {
                         "alt": "Quanto Original",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/github.webp",
+                        "data-src-mask": "/images/webp/icons/github.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },

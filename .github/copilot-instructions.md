@@ -450,8 +450,8 @@ Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
 | `scripts/functions/theme.js`        | Theme initialization, switching, system theme listener, and favicon theme |
 | `stylesheets/modern/theme.css`      | Theme-specific CSS custom property overrides                              |
 | `stylesheets/modern/base.css`       | Base styles including `--bs-border-radius` overrides and shared variables |
-| `images/favicons/general.svg`       | Light-theme favicon (blue `#3c96ff`)                                      |
-| `images/favicons/general-dark.svg`  | Dark-theme favicon (white)                                                |
+| `images/svg/favicons/general.svg`       | Light-theme favicon (blue `#3c96ff`)                                      |
+| `images/svg/favicons/general-dark.svg`  | Dark-theme favicon (white)                                                |
 
 **How It Works**:
 
@@ -526,25 +526,25 @@ The JSON format uses a consistent pattern for representing HTML elements:
         "properties": {
             "alt": "Email",
             "data-i18n-alt": "text-email",
-            "src": "/images/null.png",
+            "src": "/images/png/null.png",
             "data-img-feature": "colored",
-            "data-src-mask": "/images/icons/email.webp",
+            "data-src-mask": "/images/webp/icons/email.webp",
             "data-color-var": "bs-body-color"
         }
     }
-    // → <img alt="Email" data-i18n-alt="text-email"   src="/images/null.png" data-img-feature="colored" data-src-mask="/images/icons/email.webp" data-color-var="bs-body-color">
+    // → <img alt="Email" data-i18n-alt="text-email"   src="/images/png/null.png" data-img-feature="colored" data-src-mask="/images/webp/icons/email.webp" data-color-var="bs-body-color">
 
     // <img> element (theme-following image):
     {
         "properties": {
             "alt": "Illustration",
-            "src": "/images/covers/illustration-light.webp",
+            "src": "/images/webp/covers/illustration-light.webp",
             "data-img-feature": "follow-theme",
-            "data-src-light": "/images/covers/illustration-light.webp",
-            "data-src-dark": "/images/covers/illustration-dark.webp"
+            "data-src-light": "/images/webp/covers/illustration-light.webp",
+            "data-src-dark": "/images/webp/covers/illustration-dark.webp"
         }
     }
-    // → <img alt="Illustration" src="/images/covers/illustration-light.webp" data-img-feature="follow-theme" data-src-light="/images/covers/illustration-light.webp" data-src-dark="/images/covers/illustration-dark.webp">
+    // → <img alt="Illustration" src="/images/webp/covers/illustration-light.webp" data-img-feature="follow-theme" data-src-light="/images/webp/covers/illustration-light.webp" data-src-dark="/images/webp/covers/illustration-dark.webp">
     ```
 
 - **Text Fragment**: A group of `<span>` elements, optionally wrapped in an `<a>`:
@@ -577,7 +577,7 @@ The JSON format uses a consistent pattern for representing HTML elements:
         "icon": {
             "properties": {
                 "alt": "Pixiv",
-                "src": "/images/icons/pixiv.webp"
+                "src": "/images/webp/icons/pixiv.webp"
             }
         },
         "title": [
@@ -927,7 +927,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 | `scripts/functions/img-utils.js`   | Initializes `data-img-feature="colored"` images and image loading opacity            |
 | `stylesheets/modern/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
 | `scripts/functions/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `images/null.png`                  | Placeholder image used with `data-img-feature="colored"`                             |
+| `images/png/null.png`                  | Placeholder image used with `data-img-feature="colored"`                             |
 | `images/README.md`                 | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute
@@ -949,7 +949,7 @@ Handled by `applyAllThemeBasedImages()` in `theme.js` (see [§4.4 Theme System](
 Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 
 - `data-img-feature="colored"` — enables mask-based coloring
-- `data-src-mask` — path to the mask source image (e.g. `/images/icons/email.webp`)
+- `data-src-mask` — path to the mask source image (e.g. `/images/webp/icons/email.webp`)
 - `data-color-var` — CSS variable name (without `--` prefix) for the fill color (e.g. `bs-body-color`, `shlh-primary-color`)
 
 Handled by `initAllColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
@@ -1003,9 +1003,9 @@ When `applyThemeBasedImage()` switches the `src` of a `follow-theme` image durin
 **How It Works**:
 
 ```
-HTML: <span data-role="svg" data-src="/images/svg/steve-hsu.svg" data-width="32" data-height="28" data-color-var="bs-link-color"></span>
+HTML: <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-width="32" data-height="28" data-color-var="bs-link-color"></span>
         ↓ (svg-utils.js at init time)
-      Fetch /images/svg/steve-hsu.svg → replace fill="currentColor" with var(--bs-link-color)
+      Fetch /images/svg/icons/steve-hsu.svg → replace fill="currentColor" with var(--bs-link-color)
         ↓
       Set width/height on <svg>, inject as innerHTML
 ```

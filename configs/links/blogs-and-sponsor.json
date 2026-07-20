@@ -28,9 +28,9 @@
                     "properties": {
                         "alt": "Patreon (Quanto Series)",
                         "data-i18n-alt": "text-patreon-quanto-series",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/patreon.webp",
+                        "data-src-mask": "/images/webp/icons/patreon.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -69,7 +69,7 @@
                     "properties": {
                         "alt": "Afdian",
                         "data-i18n-alt": "text-afdian",
-                        "src": "/images/icons/afdian.webp"
+                        "src": "/images/webp/icons/afdian.webp"
                     }
                 },
                 "title": [

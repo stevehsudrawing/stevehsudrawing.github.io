@@ -27,7 +27,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Pixiv",
-                        "src": "/images/icons/pixiv.webp"
+                        "src": "/images/webp/icons/pixiv.webp"
                     }
                 },
                 "title": [
@@ -61,7 +61,7 @@
                 "icon": {
                     "properties": {
                         "alt": "DeviantArt",
-                        "src": "/images/icons/deviant-art.webp"
+                        "src": "/images/webp/icons/deviant-art.webp"
                     }
                 },
                 "title": [
@@ -95,7 +95,7 @@
                 "icon": {
                     "properties": {
                         "alt": "MediBang ART street",
-                        "src": "/images/icons/medibang-art-street.webp"
+                        "src": "/images/webp/icons/medibang-art-street.webp"
                     }
                 },
                 "title": [
@@ -129,9 +129,9 @@
                 "icon": {
                     "properties": {
                         "alt": "X",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/x-twitter.webp",
+                        "data-src-mask": "/images/webp/icons/x-twitter.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -167,7 +167,7 @@
                     "properties": {
                         "alt": "Weibo",
                         "data-i18n-alt": "text-weibo",
-                        "src": "/images/icons/weibo.webp"
+                        "src": "/images/webp/icons/weibo.webp"
                     }
                 },
                 "title": [
@@ -211,7 +211,7 @@
                     "properties": {
                         "alt": "Bilibili",
                         "data-i18n-alt": "text-bilibili",
-                        "src": "/images/icons/bilibili.webp"
+                        "src": "/images/webp/icons/bilibili.webp"
                     }
                 },
                 "title": [
@@ -279,7 +279,7 @@
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 1",
                         "data-i18n-alt": "text-sticker-collections-series-1",
-                        "src": "/images/icons/sticker-collection-series-1-vol-1.webp",
+                        "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp",
                         "classes": [
                             "no-copy"
                         ]
@@ -350,7 +350,7 @@
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 2",
                         "data-i18n-alt": "text-sticker-collections-series-1-vol-2",
-                        "src": "/images/icons/sticker-collection-series-1-vol-2.webp",
+                        "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp",
                         "classes": [
                             "no-copy"
                         ]
@@ -421,7 +421,7 @@
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 3",
                         "data-i18n-alt": "text-sticker-collections-series-1-vol-3",
-                        "src": "/images/icons/sticker-collection-series-1-vol-3.webp",
+                        "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp",
                         "classes": [
                             "no-copy"
                         ]
@@ -492,7 +492,7 @@
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 1",
                         "data-i18n-alt": "text-sticker-collections-series-2",
-                        "src": "/images/icons/sticker-collection-series-2-vol-1.webp",
+                        "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp",
                         "classes": [
                             "no-copy"
                         ]
@@ -587,7 +587,7 @@
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 2",
                         "data-i18n-alt": "text-sticker-collections-series-2-vol-2",
-                        "src": "/images/icons/sticker-collection-series-2-vol-2.webp",
+                        "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp",
                         "classes": [
                             "no-copy"
                         ]
@@ -682,7 +682,7 @@
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 3",
                         "data-i18n-alt": "text-sticker-collections-series-2-vol-3",
-                        "src": "/images/icons/sticker-collection-series-2-vol-3.webp",
+                        "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp",
                         "classes": [
                             "no-copy"
                         ]
@@ -801,7 +801,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Youtube",
-                        "src": "/images/icons/youtube.webp"
+                        "src": "/images/webp/icons/youtube.webp"
                     }
                 },
                 "title": [
@@ -842,7 +842,7 @@
                     "properties": {
                         "alt": "Bilibili",
                         "data-i18n-alt": "text-bilibili",
-                        "src": "/images/icons/bilibili.webp"
+                        "src": "/images/webp/icons/bilibili.webp"
                     }
                 },
                 "title": [
@@ -909,7 +909,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Instagram",
-                        "src": "/images/icons/instagram.webp"
+                        "src": "/images/webp/icons/instagram.webp"
                     }
                 },
                 "title": [
@@ -943,9 +943,9 @@
                 "icon": {
                     "properties": {
                         "alt": "Threads",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/threads.webp",
+                        "data-src-mask": "/images/webp/icons/threads.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -980,9 +980,9 @@
                 "icon": {
                     "properties": {
                         "alt": "Lofter",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/link.webp",
+                        "data-src-mask": "/images/webp/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -1018,9 +1018,9 @@
                     "properties": {
                         "alt": "Mihuashi",
                         "data-i18n-alt": "text-mihuashi",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/link.webp",
+                        "data-src-mask": "/images/webp/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -1065,9 +1065,9 @@
                     "properties": {
                         "alt": "Rednote",
                         "data-i18n-alt": "text-rednote",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/link.webp",
+                        "data-src-mask": "/images/webp/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },
@@ -1112,9 +1112,9 @@
                     "properties": {
                         "alt": "Douyin",
                         "data-i18n-alt": "text-douyin",
-                        "src": "/images/null.png",
+                        "src": "/images/png/null.png",
                         "data-img-feature": "colored",
-                        "data-src-mask": "/images/icons/link.webp",
+                        "data-src-mask": "/images/webp/icons/link.webp",
                         "data-color-var": "bs-body-color"
                     }
                 },

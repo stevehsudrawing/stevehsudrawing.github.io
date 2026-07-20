@@ -1,5 +1,5 @@
 ﻿<div align="center">
-	<img alt="Icon of Steve Hsu's Link-Hub" src="images/favicon.png" width="64" height="64"><br>
+	<img alt="Icon of Steve Hsu's Link-Hub" src="images/png/favicon.png" width="64" height="64"><br>
 	<a href="https://stevehsudrawing.github.io">Steve Hsu's Link-Hub</a>
 </div>
 <br>
