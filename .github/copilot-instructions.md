@@ -34,7 +34,7 @@ Loaded at the end of `<body>` of each page:
 
 ### 1.3 Browser Baseline
 
-The minimum browser versions are determined by both **our CDN dependencies** and **browser feature requirements**. The enforced baseline is defined in `scripts/env-detections/browser.js`.
+The minimum browser versions are determined by both **CDN dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection (`new Function('return 0?.x')`) in `scripts/env-detections/browser.js` to verify that the JS engine supports optional chaining.
 
 | Browser | Min Version | Release Date | Constrained By           |
 |---------|-------------|--------------|--------------------------|
@@ -65,12 +65,12 @@ The minimum browser versions are determined by both **our CDN dependencies** and
 
 The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Feature                                                                                    | Used By                   | Chrome | Edge   | Firefox | Opera  | Safari |
-|--------------------------------------------------------------------------------------------|---------------------------|--------|--------|---------|--------|--------|
-| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | `link-cards-generator.js` | **80** | **80** | **74**  | **67** | 13.1   |
-| [WebP](https://caniuse.com/webp)                                                           | Image assets              | 32     | 18     | 65      | 19     | **14** |
-| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons           | 36     | 14     | 39      | 23     | 10     |
-| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                     | 66     | 17     | 62      | 53     | 11     |
+| Feature                                                                                    | Used By                               | Chrome | Edge   | Firefox | Opera  | Safari |
+|--------------------------------------------------------------------------------------------|---------------------------------------|--------|--------|---------|--------|--------|
+| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any JS Scripts in `scripts/functions` | **80** | **80** | **74**  | **67** | 13.1   |
+| [WebP](https://caniuse.com/webp)                                                           | Image assets                          | 32     | 18     | 65      | 19     | **14** |
+| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                       | 36     | 14     | 39      | 23     | 10     |
+| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                 | 66     | 17     | 62      | 53     | 11     |
 
 ### 1.4 Deployment
 
@@ -325,24 +325,24 @@ Both sub-folders use the same CSS commenting format:
 
 ### 4.1 Browser Detection & Compatibility Fallbacks
 
-**Brief**: Detects the user's browser and redirects to `error-unsupported-browser.html` if it does not meet the minimum baseline. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`. Known search engine bots, crawlers, and SEO tools are whitelisted via `isBotOrCrawler()` to prevent them from being falsely redirected (see [§4.16.8](#4168-crawler-whitelist)).
+**Brief**: Uses feature detection (testing optional chaining support via `new Function()`) to verify the browser meets the minimum baseline, and redirects to `error-unsupported-browser.html` if not. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`. Known search engine bots, crawlers, and SEO tools are whitelisted via `isBotOrCrawler()` by UA matching to prevent SEO-impacting false negatives (see [§4.16.8](#4168-crawler-whitelist)).
 
 **Related Files**:
 
 | File                                           | Role                                                                                     |
 |------------------------------------------------|------------------------------------------------------------------------------------------|
 | `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                 |
-| `scripts/env-detections/browser.js`            | Browser version detection and redirection logic (written in ES5 for broad compatibility) |
+| `scripts/env-detections/browser.js`            | Feature detection (optional chaining) and crawler whitelist (UA-based); written in ES5 for broad compatibility |
 | `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                               |
 | `error-unsupported-browser.html`               | Fallback page for unsupported browsers                                                   |
 | `error-javascript-disabled.html`               | Fallback page displayed when JavaScript is disabled                                      |
 
-> `browser.js` is executed first among all scripts. It is written in ES5 to ensure it runs even on older browsers.
+> `browser.js` is executed first among all scripts. It uses `new Function()` to test ES2020 syntax support without causing a SyntaxError on older engines.
 
 **Data Flow**:
 
-- `browser.js` checks `navigator.userAgent` against the browser baseline table (see [§1.3 Browser Baseline](#13-browser-baseline)).
-- Before version detection, `isBotOrCrawler()` checks whether the User-Agent belongs to a known search engine bot, crawler, or SEO tool. If so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
+- `browser.js` first checks via `isBotOrCrawler()` whether the User-Agent belongs to a known crawler; if so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
+- For real users, `isFeatureSupported()` tests whether the JS engine can parse optional chaining syntax via `new Function('return 0?.x')`. If the test throws a SyntaxError, the browser is considered unsupported.
 - If unsupported: redirects to `error-unsupported-browser.html`.
 - `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
 
@@ -1140,8 +1140,8 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.8 Crawler Whitelist
 
-- `scripts/env-detections/browser.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function.
-- Without this whitelist, crawlers with User-Agents that do not match recognized browser patterns are detected as \"unsupported\" and redirected to `error-unsupported-browser.html`, which has `robots: noindex`. This prevents the site from being indexed.
+- `scripts/env-detections/browser.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function. Bots are identified by UA string matching because some crawlers run limited JS engines that may not support optional chaining.
+- Without this whitelist, crawlers with User-Agents that do not match recognized browser patterns are detected as \"unsupported\" and redirected to `error-unsupported-browser.html`, which has `robots: noindex`. This would prevent the site from being indexed.
 - The whitelist covers:
     - **Search engines**: Googlebot, Bingbot, Baiduspider, Yandex, DuckDuckGo, Yahoo Slurp, Sogou, 360Spider
     - **Social media**: Facebook, Twitter/X, LinkedIn, Discord

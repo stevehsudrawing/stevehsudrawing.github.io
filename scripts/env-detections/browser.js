@@ -1,5 +1,8 @@
 /**
- * Browser detection and support check script.
+ * Browser support detection via feature testing.
+ * Uses feature detection (optional chaining) rather than UA string
+ * parsing, which is inherently fragile. Crawlers are whitelisted by UA
+ * to prevent SEO-impacting false negatives.
  * Written in ES5 for compatibility with older browsers.
  * This file belongs to scripts/env-detections/ which uses ES5.
  */
@@ -15,71 +18,8 @@ function isStringIncludes(str, subStr) {
 }
 
 /**
- * Detect the user's browser name and version from the user agent string.
- * @returns {{name: string, version: number}} An object with browser name and version.
- */
-function detectBrowser() {
-    var userAgent = navigator.userAgent.toLowerCase();
-    // Default: Unknown
-    var browser = {
-        name: 'unknown',
-        version: 0
-    };
-    // New Opera
-    if (isStringIncludes(userAgent, 'opr/')) {
-        browser.name = 'opera';
-        var operaMatch = userAgent.match(/opr\/(\d+(\.\d+)?)/);
-        browser.version = operaMatch ? parseFloat(operaMatch[1]) : 0;
-        return browser;
-    }
-    // Old Opera
-    if (isStringIncludes(userAgent, 'opera') || isStringIncludes(userAgent, 'op/')) {
-        browser.name = 'opera';
-        var operaMatch = userAgent.match(/(opera |op\/)(\d+(\.\d+)?)/);
-        browser.version = operaMatch ? parseFloat(operaMatch[2]) : 0;
-        return browser;
-    }
-    // Internet Explorer / Legacy Edge
-    if (isStringIncludes(userAgent, 'msie') || isStringIncludes(userAgent, 'trident/')) {
-        browser.name = 'ie';
-        var ieMatch = userAgent.match(/(msie |rv:)(\d+(\.\d+)?)/);
-        browser.version = ieMatch ? parseFloat(ieMatch[2]) : 0;
-        return browser;
-    }
-    // Chromium Edge (must precede Chrome — Edg/ UA also contains "Chrome/")
-    if (isStringIncludes(userAgent, 'edg')) {
-        browser.name = 'edge';
-        var edgeMatch = userAgent.match(/edg[a-z]*\/(\d+(\.\d+)?)/);
-        browser.version = edgeMatch ? parseFloat(edgeMatch[1]) : 0;
-        return browser;
-    }
-    // Chrome / Chromium
-    if (isStringIncludes(userAgent, 'chrome') && !isStringIncludes(userAgent, 'opr')) {
-        browser.name = 'chrome';
-        var chromeMatch = userAgent.match(/chrome\/(\d+(\.\d+)?)/);
-        browser.version = chromeMatch ? parseFloat(chromeMatch[1]) : 0;
-        return browser;
-    }
-    // Firefox
-    if (isStringIncludes(userAgent, 'firefox')) {
-        browser.name = 'firefox';
-        var ffMatch = userAgent.match(/firefox\/(\d+(\.\d+)?)/);
-        browser.version = ffMatch ? parseFloat(ffMatch[1]) : 0;
-        return browser;
-    }
-    // Safari
-    if (isStringIncludes(userAgent, 'safari') && !isStringIncludes(userAgent, 'chrome')) {
-        browser.name = 'safari';
-        var safariMatch = userAgent.match(/version\/(\d+(\.\d+)?)/);
-        browser.version = safariMatch ? parseFloat(safariMatch[1]) : 0;
-        return browser;
-    }
-    return browser;
-}
-
-/**
  * Check whether the user agent belongs to a known search engine bot, crawler, or SEO tool.
- * These should always be treated as supported regardless of browser detection result.
+ * These are always treated as supported so that SEO crawlers are never redirected.
  * @returns {boolean} True if the UA appears to be a bot or crawler.
  */
 function isBotOrCrawler() {
@@ -131,22 +71,29 @@ function isBotOrCrawler() {
 }
 
 /**
- * Check whether the detected browser meets minimum version requirements.
+ * Test whether the browser's JavaScript engine supports ES2020 optional chaining (?.).
+ * Uses new Function() so that the syntax is parsed at runtime rather than at
+ * script load time — this avoids a SyntaxError for older engines.
+ * @returns {boolean} True if optional chaining syntax is supported.
+ */
+function isFeatureSupported() {
+    try {
+        new Function('return 0?.x');
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
+ * Check whether the browser is supported.
+ * Crawlers always pass. For real users, the JS engine must support
+ * optional chaining — the feature that currently constrains our baseline.
  * @returns {boolean} True if the browser is supported.
  */
 function isBrowserSupported() {
     // Search engine bots and crawlers are always treated as supported
     if (isBotOrCrawler()) return true;
 
-    var browser = detectBrowser();
-    var supportMap = {
-        ie: false,
-        chrome: browser.version >= 80,
-        edge: browser.version >= 80,
-        firefox: browser.version >= 74,
-        opera: browser.version >= 67,
-        safari: browser.version >= 14,
-        unknown: false
-    };
-    return supportMap[browser.name];
+    return isFeatureSupported();
 }

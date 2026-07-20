@@ -34,9 +34,9 @@ body {
     font-family:
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-sans-serif-text-fallback-en),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji);
 }
 
@@ -45,10 +45,10 @@ html[lang='zh-Hans']>body {
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-major-zh-Hans),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-sans-serif-text-fallback-en),
         var(--shlh-font-sans-serif-text-fallback-zh-Hans),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji);
 }
 
@@ -57,10 +57,10 @@ html[lang='zh-Hant']>body {
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-major-zh-Hant),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-sans-serif-text-fallback-en),
         var(--shlh-font-sans-serif-text-fallback-zh-Hant),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji);
 }
 
@@ -72,9 +72,9 @@ h2 {
         var(--shlh-font-sans-serif-display-en),
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-sans-serif-text-fallback-en),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji) !important;
 }
 
@@ -85,10 +85,10 @@ html[lang='zh-Hans'] h2 {
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-major-zh-Hans),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-sans-serif-text-fallback-en),
         var(--shlh-font-sans-serif-text-fallback-zh-Hans),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji) !important;
 }
 
@@ -99,10 +99,10 @@ html[lang='zh-Hant'] h2 {
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-major-zh-Hant),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-sans-serif-text-fallback-en),
         var(--shlh-font-sans-serif-text-fallback-zh-Hant),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji) !important;
 }
 
@@ -111,52 +111,52 @@ html[lang='zh-Hant'] h2 {
 code {
     font-family:
         var(--shlh-font-monospace-major-en),
-        var(--shlh-font-monospace-fallback-en),
         var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
         var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-monospace-fallback-ja),
         var(--shlh-font-sans-serif-text-fallback-ja),
-        var(--shlh-font-monospace-system),
+        var(--shlh-font-monospace-fallback-en),
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-fallback-en),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji) !important;
 }
 
 html[lang='zh-Hans'] code {
     font-family:
         var(--shlh-font-monospace-major-en),
-        var(--shlh-font-monospace-fallback-en),
         var(--shlh-font-monospace-major-zh-Hans),
-        var(--shlh-font-sans-serif-text-major-zh-Hans),
-        var(--shlh-font-monospace-fallback-zh-Hans),
-        var(--shlh-font-sans-serif-text-fallback-zh-Hans),
         var(--shlh-font-monospace-major-ja),
-        var(--shlh-font-sans-serif-text-major-ja),
-        var(--shlh-font-monospace-fallback-ja),
-        var(--shlh-font-sans-serif-text-fallback-ja),
         var(--shlh-font-monospace-system),
+        var(--shlh-font-sans-serif-text-major-zh-Hans),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-monospace-fallback-zh-Hans),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-monospace-fallback-en),
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-fallback-en),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji) !important;
 }
 
 html[lang='zh-Hant'] code {
     font-family:
         var(--shlh-font-monospace-major-en),
-        var(--shlh-font-monospace-fallback-en),
         var(--shlh-font-monospace-major-zh-Hant),
-        var(--shlh-font-sans-serif-text-major-zh-Hant),
-        var(--shlh-font-monospace-fallback-zh-Hant),
-        var(--shlh-font-sans-serif-text-fallback-zh-Hant),
         var(--shlh-font-monospace-major-ja),
-        var(--shlh-font-sans-serif-text-major-ja),
-        var(--shlh-font-monospace-fallback-ja),
-        var(--shlh-font-sans-serif-text-fallback-ja),
         var(--shlh-font-monospace-system),
+        var(--shlh-font-sans-serif-text-major-zh-Hant),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-monospace-fallback-zh-Hant),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-monospace-fallback-en),
         var(--shlh-font-sans-serif-text-major-en),
         var(--shlh-font-sans-serif-text-fallback-en),
-        var(--shlh-font-sans-serif-text-system),
         var(--shlh-font-emoji) !important;
 }
