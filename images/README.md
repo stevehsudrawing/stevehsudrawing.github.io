@@ -14,7 +14,7 @@ All files listed in this section are **original artworks** created by me, Steve 
 | Path / Pattern                                 | Description                                                            |
 |------------------------------------------------|------------------------------------------------------------------------|
 | `banner.png`                                   | Website preview banner                                                 |
-| `favicon*.png`                                 | Website icon                                                           |
+| `favicons/*`                                   | Website icon                                                           |
 | `covers/about.webp`                            | Cover image for the About page                                         |
 | `covers/artworks-*.webp`                       | Cover images for the Artworks & Videos page (light & dark variants)    |
 | `covers/illustration-*.webp`                   | Illustration as a cover image for the homepage (light & dark variants) |

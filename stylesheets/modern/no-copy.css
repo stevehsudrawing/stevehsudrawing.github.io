@@ -9,7 +9,7 @@
     -webkit-user-drag: none;
 }
 
-img.no-copy {
+img.no-copy.solid-bg {
     outline: .5px solid var(--bs-body-bg);
     outline-offset: -.5px;
 }

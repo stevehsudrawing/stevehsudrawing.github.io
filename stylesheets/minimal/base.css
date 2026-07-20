@@ -36,6 +36,14 @@ a:hover {
     color: #444;
 }
 
+.opacity-50 {
+    color: #888;
+}
+
+.small {
+    font-size: 12px;
+}
+
 #page-content {
     margin-top: 64px;
     margin-bottom: 16px;
@@ -98,6 +106,10 @@ a:hover {
 .btn-primary:active {
     background-color: #245a99;
     color: #fff;
+}
+
+.mb-2 {
+    margin-bottom: 8px !important;
 }
 
 .ps-2 {

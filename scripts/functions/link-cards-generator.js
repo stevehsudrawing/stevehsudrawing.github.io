@@ -321,10 +321,11 @@ function buildLinkGroup(groupData) {
         titleContainer.appendChild(title);
 
         if (titleId) {
+            // Title Anchor
             const titleAnchor = document.createElement('a');
             titleAnchor.className = 'title-link-anchor';
             titleAnchor.href = `#${titleId}`;
-            titleAnchor.textContent = '#';
+            titleAnchor.innerHTML = '<i class="bi bi-hash"></i>';
             titleAnchor.setAttribute('aria-label', `Link to ${titleText}`);
             titleContainer.appendChild(titleAnchor);
         }

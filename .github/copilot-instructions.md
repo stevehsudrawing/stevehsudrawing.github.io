@@ -329,13 +329,13 @@ Both sub-folders use the same CSS commenting format:
 
 **Related Files**:
 
-| File                                           | Role                                                                                     |
-|------------------------------------------------|------------------------------------------------------------------------------------------|
-| `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                 |
+| File                                           | Role                                                                                                           |
+|------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                                       |
 | `scripts/env-detections/browser.js`            | Feature detection (optional chaining) and crawler whitelist (UA-based); written in ES5 for broad compatibility |
-| `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                               |
-| `error-unsupported-browser.html`               | Fallback page for unsupported browsers                                                   |
-| `error-javascript-disabled.html`               | Fallback page displayed when JavaScript is disabled                                      |
+| `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                                                     |
+| `error-unsupported-browser.html`               | Fallback page for unsupported browsers                                                                         |
+| `error-javascript-disabled.html`               | Fallback page displayed when JavaScript is disabled                                                            |
 
 > `browser.js` is executed first among all scripts. It uses `new Function()` to test ES2020 syntax support without causing a SyntaxError on older engines.
 
