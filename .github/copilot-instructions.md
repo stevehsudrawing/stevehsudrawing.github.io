@@ -16,14 +16,15 @@ This document provides project-level context, conventions, and constraints for C
 
 Loaded in `<head>` of each page:
 
-| Resource          | Type | Role             | Homepage                                                                             | Introduction Page on `npmjs.com`                                   | GitHub Repo                                                       | URL                                                                                                                                                            | Version  |
-|-------------------|------|------------------|--------------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| Bootstrap CSS     | CSS  | Page Framework   | [`https://getbootstrap.com/`](https://getbootstrap.com/)                             | [`bootstrap`](https://www.npmjs.com/package/bootstrap)             | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)             | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css)           | 5.3.8    |
-| Bootstrap Icons   | CSS  | Icon Library     | [`https://icons.getbootstrap.com/`](https://icons.getbootstrap.com/)                 | [`bootstrap-icons`](https://www.npmjs.com/package/bootstrap-icons) | [`twbs/icons`](https://github.com/twbs/icons)                     | [`https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`](https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css)               | (latest) |
-| Inter Font Family | CSS  | Font Family      | [`https://rsms.me/inter/`](https://rsms.me/inter/)                                   | -                                                                  | [`rsms/inter`](https://github.com/rsms/inter)                     | [`https://rsms.me/inter/inter.css`](https://rsms.me/inter/inter.css)                                                                                           | (latest) |
-| QRCode.js         | JS   | QR Code Utility  | [`https://davidshimjs.github.io/qrcodejs/`](https://davidshimjs.github.io/qrcodejs/) | [`qrcodejs`](https://www.npmjs.com/package/qrcodejs)               | [`davidshimjs/qrcodejs`](https://github.com/davidshimjs/qrcodejs) | [`https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`](https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js)                                       | 1.0.0    |
-| html-to-image     | JS   | HTML -> Image    | -                                                                                    | [`html-to-image`](https://www.npmjs.com/package/html-to-image)     | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image) | [`https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js`](https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js) | 1.11.13  |
-| html2canvas       | JS   | HTML -> Canvas   | [`https://html2canvas.hertzen.com/`](https://html2canvas.hertzen.com/)               | [`html2canvas`](https://www.npmjs.com/package/html2canvas)         | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas) | [`https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`](https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js)             | 1.4.1    |
+| Resource          | Type | Role             | Homepage                                                                                                               | Introduction Page on `npmjs.com`                                       | GitHub Repo                                                                         | URL                                                                                                                                                            | Version  |
+|-------------------|------|------------------|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| Bootstrap CSS     | CSS  | Page Framework   | [`https://getbootstrap.com/`](https://getbootstrap.com/)                                                               | [`bootstrap`](https://www.npmjs.com/package/bootstrap)                 | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                               | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css)           | 5.3.8    |
+| Bootstrap Icons   | CSS  | Icon Library     | [`https://icons.getbootstrap.com/`](https://icons.getbootstrap.com/)                                                   | [`bootstrap-icons`](https://www.npmjs.com/package/bootstrap-icons)     | [`twbs/icons`](https://github.com/twbs/icons)                                       | [`https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`](https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css)               | (latest) |
+| Inter Font Family | CSS  | Font Family      | [`https://rsms.me/inter/`](https://rsms.me/inter/)                                                                     | -                                                                      | [`rsms/inter`](https://github.com/rsms/inter)                                       | [`https://rsms.me/inter/inter.css`](https://rsms.me/inter/inter.css)                                                                                           | (latest) |
+| QRCode.js         | JS   | QR Code Utility  | [`https://davidshimjs.github.io/qrcodejs/`](https://davidshimjs.github.io/qrcodejs/)                                   | [`qrcodejs`](https://www.npmjs.com/package/qrcodejs)                   | [`davidshimjs/qrcodejs`](https://github.com/davidshimjs/qrcodejs)                   | [`https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`](https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js)                                       | 1.0.0    |
+| html-to-image     | JS   | HTML -> Image    | -                                                                                                                      | [`html-to-image`](https://www.npmjs.com/package/html-to-image)         | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | [`https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js`](https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js) | 1.11.13  |
+| html2canvas       | JS   | HTML -> Canvas   | [`https://html2canvas.hertzen.com/`](https://html2canvas.hertzen.com/)                                                 | [`html2canvas`](https://www.npmjs.com/package/html2canvas)             | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | [`https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`](https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js)             | 1.4.1    |
+| hast-util-to-html | JS   | hast -> HTML     | [`https://unifiedjs.com/explore/package/hast-util-to-html/`](https://unifiedjs.com/explore/package/hast-util-to-html/) | [`hast-util-to-html`](https://www.npmjs.com/package/hast-util-to-html) | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | [`https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm`](https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm)                                       | 9.0.5    |
 
 Loaded at the end of `<body>` of each page:
 
@@ -46,13 +47,14 @@ The minimum browser versions are determined by both **CDN dependencies** and **b
 
 #### 1.3.1 Per-Dependency Minimum Browser Versions
 
-| Dependency             | Chrome | Edge   | Firefox | Opera  | Safari |
-|------------------------|--------|--------|---------|--------|--------|
-| Bootstrap 5.3.8 CSS/JS | **60** | **79** | **60**  | **47** | **12** |
-| QRCode.js 1.0.0        | 1      | 12     | 1.5     | 9      | 3      |
-| html-to-image 1.11.13  | 32     | 12     | 29      | 20     | 7.1    |
-| html2canvas 1.4.1      | 1      | 12     | 3.5     | 12     | 6      |
-| @popperjs/core 2.11.8  | **60** | **79** | **60**  | **47** | **12** |
+| Dependency              | Chrome | Edge   | Firefox | Opera  | Safari |
+|-------------------------|--------|--------|---------|--------|--------|
+| Bootstrap 5.3.8 CSS/JS  | **60** | **79** | **60**  | **47** | **12** |
+| QRCode.js 1.0.0         | 1      | 12     | 1.5     | 9      | 3      |
+| html-to-image 1.11.13   | 32     | 12     | 29      | 20     | 7.1    |
+| html2canvas 1.4.1       | 1      | 12     | 3.5     | 12     | 6      |
+| @popperjs/core 2.11.8   | **60** | **79** | **60**  | **47** | **12** |
+| hast-util-to-html 9.0.5 | 61     | 16     | 60      | 48     | 11     |
 
 > **Sources**:
 > - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`); IE11 and legacy EdgeHTML not supported
@@ -60,6 +62,7 @@ The minimum browser versions are determined by both **CDN dependencies** and **b
 > - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) - requires `Promise` + SVG `<foreignObject>`
 > - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) - "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
 > - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5
+> - hast-util-to-html 9.0.5: loaded via `<script type="module">`; requires [ES modules](https://caniuse.com/es6-module) support
 
 #### 1.3.2 Browser Feature Requirements
 
@@ -71,6 +74,7 @@ The following browser features are required by this project. Their minimum brows
 | [WebP](https://caniuse.com/webp)                                                           | Image assets                          | 32     | 18     | 65      | 19     | **14** |
 | [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                       | 36     | 14     | 39      | 23     | 10     |
 | [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                 | 66     | 17     | 62      | 53     | 11     |
+| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | hast-util-to-html                     | 61     | 16     | 60      | 48     | 11     |
 
 ### 1.4 Deployment
 
@@ -405,7 +409,7 @@ HTML: <span data-i18n="text-welcome">Welcome</span>
         ↓ (i18n.js loads configs/i18n/{lang}.json)
       Replaces textContent with translated value
 
-Rich text: <span data-i18n-html="text-intro">Intro with <cite>Title</cite></span>
+Rich text: <span data-i18n-html="html-intro">Intro with <cite>Title</cite></span>
         ↓ (updatePageText() rewrites innerHTML from langData, preserving inline markup)
 
 Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title="Foo">
@@ -420,15 +424,16 @@ ARIA labels: <a aria-label="Settings" data-i18n-aria-label="text-settings"><i cl
 
 #### 4.3.1 i18n Key Naming Conventions
 
-- Keys use `dash-case` naming (e.g. `text-welcome`, `text-learn-more`, `text-http-404-description`).
-- All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts - the same key can serve `data-i18n`, `data-i18n-alt`, `data-i18n-tooltip`, or `data-i18n-aria-label` on different elements.
+- Keys use `dash-case` naming (e.g. `text-welcome`, `html-videos-description`, `text-http-404-description`).
+- **Plain text** translations use the `text-` prefix. These keys serve `data-i18n`, `data-i18n-alt`, `data-i18n-tooltip`, and `data-i18n-aria-label` — the same `text-*` key can be reused across different contexts.
+- **HTML / rich text** translations use the `html-` prefix. These keys contain HTML markup (e.g. `<cite>`, `<strong>`) and are only used with `data-i18n-html`. The translation string is applied via `innerHTML`.
 - For `<img>` alt attributes: use `data-i18n-alt` (e.g. `data-i18n-alt="text-illustration"`).
 - For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
 - For `aria-label` translations: use `data-i18n-aria-label` (e.g. `data-i18n-aria-label="text-settings"`). The English fallback text must be placed in the `aria-label` attribute directly, with `data-i18n-aria-label` as the companion i18n key attribute after it.
-- For translations that contain inline HTML markup (e.g. `<cite>`, `<em>`, `<strong>`): use `data-i18n-html` (e.g. `data-i18n-html="text-videos-description"`). The translation string is applied via `innerHTML` rather than `textContent`, so HTML tags are rendered as elements. Only use this when inline markup is required; prefer `data-i18n` for plain text.
+- For translations that contain inline HTML markup (e.g. `<cite>`, `<em>`, `<strong>`): use `data-i18n-html` with an `html-*` key (e.g. `data-i18n-html="html-videos-description"`). Only use this when inline markup is required; prefer `data-i18n` with a `text-*` key for plain text.
 - Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys - simply use the original text directly in `alt`, `data-bs-title`, or `aria-label` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
-**Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file. The keys should be arranged in alphabetical order.
+**Configuration**: Translation JSON files are flat key-value objects. Every `text-*` or `html-*` key used in HTML must have a corresponding entry in every language file. The keys should be arranged in alphabetical order.
 
 **Data Flow**:
 
@@ -488,7 +493,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ### 4.5 Link Cards
 
-**Brief**: Renders link-card groups from JSON configuration files. Each page with link cards has a corresponding JSON file in `configs/links/`.
+**Brief**: Renders link-card groups from JSON configuration files in a hybrid hast format. Content subtrees are rendered via `hast-util-to-html`; card scaffolding is built with `document.createElement`. QR buttons and title anchors are added via post-processing.
 
 **Related Files**:
 
@@ -499,140 +504,115 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 #### 4.5.1 JSON Structural Standards
 
-The JSON format uses a consistent pattern for representing HTML elements:
+The link-card JSON files use a **hybrid hast format**: the top-level structure defines semantic groupings (Link Card Groups, Link Cards), while content values inside them use [hast](https://github.com/syntax-tree/hast) (Hypertext Abstract Syntax Tree) nodes. Content subtrees are rendered via `hast-util-to-html` (`window.toHtml`), while the card scaffolding (Bootstrap grid, card wrappers) is built with `document.createElement`.
 
-- **Element descriptor**: An object with `content` (text or HTML content), optional `properties` (HTML attributes), and optional `isHtml` (boolean). The special key `classes` inside `properties` specifies CSS class names as an array. When `isHtml` is `true`, the content is rendered via `innerHTML`; otherwise `textContent` is used.
+##### 4.5.1.1 hast Node Types Used
 
-    ```json
-    // <span> element:
-    {
-        "content": "My personal email",
-        "properties": {
-            "data-i18n": "text-my-personal-email"
-        }
-    }
-    // → <span data-i18n="text-my-personal-email">My personal email</span>
+| Node type | JSON shape                                                                        | Rendered as                       |
+|-----------|-----------------------------------------------------------------------------------|-----------------------------------|
+| `root`    | `{ "type": "root", "children": [...] }`                                           | Fragment wrapper (no DOM element) |
+| `element` | `{ "type": "element", "tagName": "...", "properties": {...}, "children": [...] }` | HTML element                      |
+| `text`    | `{ "type": "text", "value": "..." }`                                              | Text node                         |
+| `comment` | `{ "type": "comment", "value": "..." }`                                           | HTML comment                      |
 
-    // <span> element with inline HTML (isHtml + data-i18n-html):
-    {
-        "content": "The game <cite>Minecraft</cite>.",
-        "properties": {
-            "data-i18n-html": "text-videos-description"
-        },
-        "isHtml": true
-    }
-    // → <span data-i18n-html="text-videos-description">The game <cite>Minecraft</cite>.</span>
+##### 4.5.1.2 Property Naming (hast Convention)
 
-    // <img> element (colored mask-based icon):
-    {
-        "properties": {
-            "alt": "Email",
-            "data-i18n-alt": "text-email",
-            "src": "/images/webp/null.webp",
-            "data-img-feature": "colored",
-            "data-src-mask": "/images/webp/icons/email.webp",
-            "data-color-var": "bs-body-color"
-        }
-    }
-    // → <img alt="Email" data-i18n-alt="text-email"   src="/images/webp/null.webp" data-img-feature="colored" data-src-mask="/images/webp/icons/email.webp" data-color-var="bs-body-color">
+hast uses `className` (array) instead of `class` (string), and `data*` attributes are camelCase (e.g. `dataI18n` → `data-i18n`). `hast-util-to-html` and `setElementAttributes` (utils.js) both handle the kebab-case conversion automatically.
 
-    // <img> element (theme-following image):
-    {
-        "properties": {
-            "alt": "Illustration",
-            "src": "/images/webp/covers/illustration-light.webp",
-            "data-img-feature": "follow-theme",
-            "data-src-light": "/images/webp/covers/illustration-light.webp",
-            "data-src-dark": "/images/webp/covers/illustration-dark.webp"
-        }
-    }
-    // → <img alt="Illustration" src="/images/webp/covers/illustration-light.webp" data-img-feature="follow-theme" data-src-light="/images/webp/covers/illustration-light.webp" data-src-dark="/images/webp/covers/illustration-dark.webp">
-    ```
+```json
+// hast properties:
+{
+    "className": ["external-link"],
+    "href": "https://example.com",
+    "dataI18n": "text-foo",
+    "dataI18nHtml": "html-bar",
+    "dataImgFeature": "colored",
+    "dataSrcMask": "/images/webp/icons/email.webp",
+    "dataColorVar": "bs-body-color"
+}
+// → <a class="external-link" href="https://..." data-i18n="text-foo" data-i18n-html="html-bar" ...>
+```
 
-- **Text Fragment**: A group of `<span>` elements, optionally wrapped in an `<a>`:
+##### 4.5.1.3 Link Card Group (top-level)
 
-    ```json
-    {
-        "superLink": true,
-        "text": [
+```json
+{
+    "title": {
+        "type": "element",
+        "tagName": "span",
+        "properties": { "dataI18n": "text-artworks" },
+        "children": [{ "type": "text", "value": "Artworks" }]
+    },
+    "description": {
+        "type": "root",
+        "children": [
             {
-                "content": "My personal email",
-                "properties": { "data-i18n": "text-my-personal-email" }
-            }
-        ],
-        "properties": {
-            "href": "mailto:stevehsudrawing@outlook.com",
-            "classes": [ "external-link" ]
-        }
-    }
-    ```
-
-    - `superLink`: If `true`, wraps the text spans in an `<a>` element with the given `properties`. If `false`, only the `<span>` elements from `text` are rendered, and this key can also be ignored.
-    - `text`: Array of `<span>` element descriptors.
-    - `properties`: Attributes for the `<a>` element (only when `superLink` is `true`).
-
-- **Link Card**:
-
-    ```json
-    {
-        "available": true,
-        "icon": {
-            "properties": {
-                "alt": "Pixiv",
-                "src": "/images/webp/icons/pixiv.webp"
-            }
-        },
-        "title": [
-            {
-                "superLink": true,
-                "text": [{ "content": "Pixiv" }],
-                "properties": {
-                    "href": "https://www.pixiv.net/users/70732361",
-                    "classes": [ "external-link" ]
-                }
-            }
-        ],
-        "description": [
-            {
-                "superLink": false,
-                "text": [{ "content": "UID: 70732361" }]
+                "type": "element",
+                "tagName": "span",
+                "properties": { "dataI18nHtml": "html-artworks-description" },
+                "children": [{ "type": "text", "value": "Preferred styles: ..." }]
             }
         ]
+    },
+    "contents": [ /* array of Link Cards */ ]
+}
+```
+
+- `title`: A hast node (usually a `<span>` with `dataI18n`) — rendered inside an `<h4>`.
+- `description`: A hast node (`null` if absent) — rendered inside a `<p>`.
+- `contents`: Array of Link Cards.
+
+##### 4.5.1.4 Link Card
+
+```json
+{
+    "available": true,
+    "icon": {
+        "type": "element",
+        "tagName": "img",
+        "properties": {
+            "alt": "Pixiv",
+            "src": "/images/webp/icons/pixiv.webp"
+        },
+        "children": []
+    },
+    "title": {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+            "href": "https://www.pixiv.net/users/70732361",
+            "className": ["external-link"]
+        },
+        "children": [{
+            "type": "element",
+            "tagName": "span",
+            "children": [{ "type": "text", "value": "Pixiv" }]
+        }]
+    },
+    "description": {
+        "type": "root",
+        "children": [{
+            "type": "element",
+            "tagName": "span",
+            "children": [{ "type": "text", "value": "UID: 70732361" }]
+        }]
     }
-    ```
+}
+```
 
-    - `available`: Boolean. When not `true`, the card gets class `opacity-75`.
-    - `icon`: An `<img>` element descriptor for the card icon.
-    - `title`: Array of Text Fragments composing the card title.
-    - `description`: Array of Text Fragments composing the card description.
-
-- **Link Card Group** (top-level structure in each JSON file):
-
-    ```json
-    {
-        "title": [
-            {
-                "content": "Artworks",
-                "properties": { "data-i18n": "text-artworks" }
-            }
-        ],
-        "description": [ /* optional Text Fragments */ ],
-        "contents": [ /* array of Link Cards */ ]
-    }
-    ```
-
-    - `title`: Array of `<span>` element descriptors for the group heading (`<h4>`).
-    - `description`: Optional; array of Text Fragments for a group description.
-    - `contents`: Array of Link Cards.
+- `available`: Boolean. When not `true`, the card gets class `opacity-75`.
+- `icon`: A hast `<img>` element (`null` if absent). Its `properties` are also passed to `showQRCodeModal()` for the centre icon.
+- `title`: A hast node — rendered inside an `<h6>`. When it is a single `<a>`, the `<h6>` gets `d-flex align-items-center justify-content-between` for QR button layout. External links in the title automatically get QR-code buttons.
+- `description`: A hast node (`null` if absent) — rendered inside a `<p>`.
 
 **Interaction with Other Systems**:
 
-- **i18n ([§4.3](#43-internationalization-i18n))**: Generated cards contain `data-i18n` or `data-i18n-html` attributes; `updatePageText()` must be called after card generation to apply translations.
-- **QR Code ([§4.10](#410-qr-code--export))**: "super link" fragments generate adjacent QR-code buttons that call `showQRCodeModal()`.
-- **Image Utilities ([§4.13](#413-image-utilities))**: Card icons may use `data-img-feature="colored"` (mask-based coloring) or `"follow-theme"` (dark/light variant swapping).
-- **Utilities ([§4.15](#415-utilities))**: Uses `setElementAttributes()` to apply element properties and `extractPageName()` to resolve the JSON config path.
-- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: Links generated with `.external-link` class will trigger the confirmation modal on click.
-- **Page Transition ([§4.6](#46-page-transitions))**: Links generated with `.internal-link` class will trigger SPA-style page navigation.
+- **i18n ([§4.3](#43-internationalization-i18n))**: hast properties use camelCase `dataI18n` / `dataI18nHtml` / `dataI18nAlt`. `toHtml()` converts them to kebab-case HTML attributes. `updatePageText()` is called after card generation.
+- **QR Code ([§4.10](#410-qr-code--export))**: External links (`<a>` with `href`) inside card titles automatically get adjacent QR-code buttons via post-processing (`addQRButtonsToElement`). The card's icon properties are passed to `showQRCodeModal()`.
+- **Image Utilities ([§4.13](#413-image-utilities))**: Card icons use `dataImgFeature` (`"colored"` or `"follow-theme"`) — see [§4.13.1](#4131-data-img-feature-attribute). `setElementAttributes` converts camelCase to kebab-case.
+- **Utilities ([§4.15](#415-utilities))**: Uses `extractPageName()` to resolve the JSON config path and `toDashCase()` / `extractPlainText()` for group title IDs.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: Links with `className: ["external-link"]` trigger the confirmation modal.
+- **Page Transition ([§4.6](#46-page-transitions))**: Links with `className: ["internal-link"]` trigger SPA navigation.
 
 ---
 
@@ -1139,7 +1119,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.7 Homepage H1 Rich Text
 
-- The homepage `<h1>` uses `data-i18n-html="text-steve-hsu-s-link-hub-rich"` with inline HTML markup.
+- The homepage `<h1>` uses `data-i18n-html="html-steve-hsu-s-link-hub"` with inline HTML markup.
 - The translation string includes `<span class="color-primary">` to brand the name with the site's primary color (defined in `stylesheets/modern/theme.css`).
 - This approach allows per-language flexibility: the name can appear at the beginning, middle, or end of the title depending on the language's grammar.
 - The English fallback text between the tags serves as both the default rendering and the English translation.

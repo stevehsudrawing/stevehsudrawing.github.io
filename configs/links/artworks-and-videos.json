@@ -1,1157 +1,1592 @@
 [
     {
-        "title": [
-            {
-                "content": "Artworks",
-                "properties": {
-                    "data-i18n": "text-artworks"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Artworks"
                 }
+            ],
+            "properties": {
+                "dataI18n": "text-artworks"
             }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "Preferred styles: Chibi, Pixel Art. I mainly create original works, and occasionally fan-art. Commercial commissions for artworks are <strong>unavailable</strong> at this time.",
-                        "properties": {
-                            "data-i18n-html": "text-artworks-description"
-                        },
-                        "isHtml": true
-                    }
-                ]
+        },
+        "description": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Preferred styles: Chibi, Pixel Art. I mainly create original works, and occasionally fan-art. Commercial commissions for artworks are <strong>unavailable</strong> at this time."
+                }
+            ],
+            "properties": {
+                "dataI18nHtml": "html-artworks-description"
             }
-        ],
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Pixiv",
                         "src": "/images/webp/icons/pixiv.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Pixiv"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://www.pixiv.net/users/70732361",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.pixiv.net/users/70732361",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Pixiv"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: 70732361"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: 70732361"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "DeviantArt",
                         "src": "/images/webp/icons/deviant-art.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "DeviantArt"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://www.deviantart.com/stevehsudrawing",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.deviantart.com/stevehsudrawing",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "DeviantArt"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsudrawing"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: stevehsudrawing"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "MediBang ART street",
                         "src": "/images/webp/icons/medibang-art-street.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "MediBang ART street"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://medibang.com/u/stevehsu",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://medibang.com/u/stevehsu",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "MediBang ART street"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsu"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: stevehsu"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "X",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/x-twitter.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/x-twitter.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "X"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://x.com/stevehsudrawing",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://x.com/stevehsudrawing",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "X"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsudrawing"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: stevehsudrawing"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Weibo",
-                        "data-i18n-alt": "text-weibo",
+                        "dataI18nAlt": "text-weibo",
                         "src": "/images/webp/icons/weibo.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Weibo",
-                                "properties": {
-                                    "data-i18n": "text-weibo"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://weibo.com/stevehsudrawing",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Weibo"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-weibo"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://weibo.com/stevehsudrawing",
-                            "classes": [
-                                "external-link"
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: 6053515220"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
-                            },
-                            {
-                                "content": ": SteveHsu什五 | UID: 6053515220"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Bilibili",
-                        "data-i18n-alt": "text-bilibili",
+                        "dataI18nAlt": "text-bilibili",
                         "src": "/images/webp/icons/bilibili.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Bilibili",
-                                "properties": {
-                                    "data-i18n": "text-bilibili"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://space.bilibili.com/298733903",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Bilibili"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-bilibili"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://space.bilibili.com/298733903",
-                            "classes": [
-                                "external-link"
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: 298733903"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
-                            },
-                            {
-                                "content": ": SteveHsu什五 | UID: 298733903"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             }
         ]
     },
     {
-        "title": [
-            {
-                "content": "Sticker Collections",
-                "properties": {
-                    "data-i18n": "text-sticker-collections"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Sticker Collections"
                 }
+            ],
+            "properties": {
+                "dataI18n": "text-sticker-collections"
             }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "You can download and use these stickers on platforms where they are already available. The display quality of stickers varies depending on platform requirements; please refer to the actual version.",
-                        "properties": {
-                            "data-i18n": "text-sticker-collections-description"
-                        }
-                    }
-                ]
+        },
+        "description": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "You can download and use these stickers on platforms where they are already available. The display quality of stickers varies depending on platform requirements; please refer to the actual version."
+                }
+            ],
+            "properties": {
+                "dataI18n": "text-sticker-collections-description"
             }
-        ],
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 1",
-                        "data-i18n-alt": "text-sticker-collections-series-1",
+                        "dataI18nAlt": "text-sticker-collections-series-1",
                         "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp",
-                        "classes": [
+                        "className": [
                             "no-copy"
                         ]
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Steve Hsu & Kato Vol. 1",
-                                "properties": {
-                                    "data-i18n": "text-sticker-collections-series-1"
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/p/b35828fc38a811f1a22252540025c377",
-                            "classes": [
-                                "external-link"
-                            ]
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Available on",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-1"
-                                }
-                            }
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/p/b35828fc38a811f1a22252540025c377",
+                        "className": [
+                            "external-link"
                         ]
                     },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "WeChat",
-                                "properties": {
-                                    "data-i18n": "text-wechat"
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu & Kato Vol. 1"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-sticker-collections-series-1"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qCr94YzS01cGfC+aNZko+3/wp+E8arx1E8FNvqXacZTvHHiWemyTPAoX9tEigbA=",
-                            "classes": [
-                                "external-link"
-                            ]
                         }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": " ",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-2"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Available on "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-1"
                             }
-                        ]
-                    }
-                ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qCr94YzS01cGfC+aNZko+3/wp+E8arx1E8FNvqXacZTvHHiWemyTPAoX9tEigbA=",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "WeChat"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "dataI18n": "text-wechat"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " "
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-2"
+                            }
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 2",
-                        "data-i18n-alt": "text-sticker-collections-series-1-vol-2",
+                        "dataI18nAlt": "text-sticker-collections-series-1-vol-2",
                         "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp",
-                        "classes": [
+                        "className": [
                             "no-copy"
                         ]
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Steve Hsu & Kato Vol. 2",
-                                "properties": {
-                                    "data-i18n": "text-sticker-collections-series-1-vol-2"
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/p/8a9d008241f811f185ea52540025c377",
-                            "classes": [
-                                "external-link"
-                            ]
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Available on",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-1"
-                                }
-                            }
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/p/8a9d008241f811f185ea52540025c377",
+                        "className": [
+                            "external-link"
                         ]
                     },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "WeChat",
-                                "properties": {
-                                    "data-i18n": "text-wechat"
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu & Kato Vol. 2"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-sticker-collections-series-1-vol-2"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/MiRC/Nc9/8aSu72oWekBFRgI2WdBy3mdZ8AQILiBz3H5xov32EKs5tbiyO03AtfB4=",
-                            "classes": [
-                                "external-link"
-                            ]
                         }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": " ",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-2"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Available on "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-1"
                             }
-                        ]
-                    }
-                ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/MiRC/Nc9/8aSu72oWekBFRgI2WdBy3mdZ8AQILiBz3H5xov32EKs5tbiyO03AtfB4=",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "WeChat"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "dataI18n": "text-wechat"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " "
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-2"
+                            }
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Steve Hsu & Kato Vol. 3",
-                        "data-i18n-alt": "text-sticker-collections-series-1-vol-3",
+                        "dataI18nAlt": "text-sticker-collections-series-1-vol-3",
                         "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp",
-                        "classes": [
+                        "className": [
                             "no-copy"
                         ]
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Steve Hsu & Kato Vol. 3",
-                                "properties": {
-                                    "data-i18n": "text-sticker-collections-series-1-vol-3"
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/p/1db1e3465e5111f1afae52540025c377",
-                            "classes": [
-                                "external-link"
-                            ]
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Available on",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-1"
-                                }
-                            }
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/p/1db1e3465e5111f1afae52540025c377",
+                        "className": [
+                            "external-link"
                         ]
                     },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "WeChat",
-                                "properties": {
-                                    "data-i18n": "text-wechat"
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu & Kato Vol. 3"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-sticker-collections-series-1-vol-3"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/NRo0KLXXVD7giEg6xiijy36E8U35TTzH2p9XDPEuCntzaqOb9/LT957yTuzQmE6F8=",
-                            "classes": [
-                                "external-link"
-                            ]
                         }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": " ",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-2"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Available on "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-1"
                             }
-                        ]
-                    }
-                ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/NRo0KLXXVD7giEg6xiijy36E8U35TTzH2p9XDPEuCntzaqOb9/LT957yTuzQmE6F8=",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "WeChat"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "dataI18n": "text-wechat"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " "
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-2"
+                            }
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 1",
-                        "data-i18n-alt": "text-sticker-collections-series-2",
+                        "dataI18nAlt": "text-sticker-collections-series-2",
                         "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp",
-                        "classes": [
+                        "className": [
                             "no-copy"
                         ]
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Steve Hsu's SC Dynamic Edition Vol. 1",
-                                "properties": {
-                                    "data-i18n": "text-sticker-collections-series-2"
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/p/02009fb6689711f193cf5254001e7c00",
-                            "classes": [
-                                "external-link"
-                            ]
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Available on",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-1"
-                                }
-                            }
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/p/02009fb6689711f193cf5254001e7c00",
+                        "className": [
+                            "external-link"
                         ]
                     },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "QQ"
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu's SC Dynamic Edition Vol. 1"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-sticker-collections-series-2"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247481",
-                            "classes": [
-                                "external-link"
-                            ]
                         }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": "and",
-                                "properties": {
-                                    "data-i18n": "text-and"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Available on "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-1"
                             }
-                        ]
-                    },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "WeChat",
-                                "properties": {
-                                    "data-i18n": "text-wechat"
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247481",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "QQ"
+                                        }
+                                    ]
                                 }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/PA8poXXItcUrmeETGATChYmPJchtOih+LLZBPBLrpRREUvDeoBIOBKdKyGjCWU4Lw=",
-                            "classes": [
-                                "external-link"
                             ]
-                        }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": " ",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-2"
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " and "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-and"
                             }
-                        ]
-                    }
-                ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/PA8poXXItcUrmeETGATChYmPJchtOih+LLZBPBLrpRREUvDeoBIOBKdKyGjCWU4Lw=",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "WeChat"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "dataI18n": "text-wechat"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " "
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-2"
+                            }
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 2",
-                        "data-i18n-alt": "text-sticker-collections-series-2-vol-2",
+                        "dataI18nAlt": "text-sticker-collections-series-2-vol-2",
                         "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp",
-                        "classes": [
+                        "className": [
                             "no-copy"
                         ]
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Steve Hsu's SC Dynamic Edition Vol. 2",
-                                "properties": {
-                                    "data-i18n": "text-sticker-collections-series-2-vol-2"
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/p/fbcfb0966ae411f1a16f5254001e7c00",
-                            "classes": [
-                                "external-link"
-                            ]
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Available on",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-1"
-                                }
-                            }
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/p/fbcfb0966ae411f1a16f5254001e7c00",
+                        "className": [
+                            "external-link"
                         ]
                     },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "QQ"
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu's SC Dynamic Edition Vol. 2"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-sticker-collections-series-2-vol-2"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247520",
-                            "classes": [
-                                "external-link"
-                            ]
                         }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": "and",
-                                "properties": {
-                                    "data-i18n": "text-and"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Available on "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-1"
                             }
-                        ]
-                    },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "WeChat",
-                                "properties": {
-                                    "data-i18n": "text-wechat"
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247520",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "QQ"
+                                        }
+                                    ]
                                 }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/Pa7fVsJartpp5y2yIfPyz2Reb3yqcBlRWduGQQHVsh783go9A7l7TNmY3UvZMJ21A=",
-                            "classes": [
-                                "external-link"
                             ]
-                        }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": " ",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-2"
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " and "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-and"
                             }
-                        ]
-                    }
-                ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/Pa7fVsJartpp5y2yIfPyz2Reb3yqcBlRWduGQQHVsh783go9A7l7TNmY3UvZMJ21A=",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "WeChat"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "dataI18n": "text-wechat"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " "
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-2"
+                            }
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Steve Hsu's SC Dynamic Edition Vol. 3",
-                        "data-i18n-alt": "text-sticker-collections-series-2-vol-3",
+                        "dataI18nAlt": "text-sticker-collections-series-2-vol-3",
                         "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp",
-                        "classes": [
+                        "className": [
                             "no-copy"
                         ]
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Steve Hsu's SC Dynamic Edition Vol. 3",
-                                "properties": {
-                                    "data-i18n": "text-sticker-collections-series-2-vol-3"
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/p/a3c998786fc911f1b8895254001e7c00",
-                            "classes": [
-                                "external-link"
-                            ]
-                        }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Available on",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-1"
-                                }
-                            }
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/p/a3c998786fc911f1b8895254001e7c00",
+                        "className": [
+                            "external-link"
                         ]
                     },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "QQ"
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu's SC Dynamic Edition Vol. 3"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-sticker-collections-series-2-vol-3"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247572",
-                            "classes": [
-                                "external-link"
-                            ]
                         }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": "and",
-                                "properties": {
-                                    "data-i18n": "text-and"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Available on "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-1"
                             }
-                        ]
-                    },
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "WeChat",
-                                "properties": {
-                                    "data-i18n": "text-wechat"
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://zb.vip.qq.com/hybrid/emoticonmall/detail?id=247572",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "QQ"
+                                        }
+                                    ]
                                 }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qRu/1yMqGkIfsJEvgk9BYhoYKxL+DaVwjkn1Pm+7CKgClgj/AV9kd2xtJJT/b10=",
-                            "classes": [
-                                "external-link"
                             ]
-                        }
-                    },
-                    {
-                        "text": [
-                            {
-                                "content": " ",
-                                "properties": {
-                                    "data-i18n": "text-available-on-part-2"
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " and "
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-and"
                             }
-                        ]
-                    }
-                ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "a",
+                            "properties": {
+                                "href": "https://sticker.weixin.qq.com/cgi-bin/mmemoticon-bin/emoticonview?oper=single&t=shop/detail&productid=aL2PCfwK/89qO7sF6/+I+UDhfwEjhec2ZNvdnLLJRd/M0qRu/1yMqGkIfsJEvgk9BYhoYKxL+DaVwjkn1Pm+7CKgClgj/AV9kd2xtJJT/b10=",
+                                "className": [
+                                    "external-link"
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "type": "element",
+                                    "tagName": "span",
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": "WeChat"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "dataI18n": "text-wechat"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " "
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-available-on-part-2"
+                            }
+                        }
+                    ]
+                }
             }
         ]
     },
     {
-        "title": [
-            {
-                "content": "Videos",
-                "properties": {
-                    "data-i18n": "text-videos"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Videos"
                 }
+            ],
+            "properties": {
+                "dataI18n": "text-videos"
             }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "Videos are uploaded irregularly. Currently the main content consists of recorded series of the video game <cite>Minecraft</cite>.",
-                        "properties": {
-                            "data-i18n-html": "text-videos-description"
-                        },
-                        "isHtml": true
-                    }
-                ]
+        },
+        "description": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Videos are uploaded irregularly. Currently the main content consists of recorded series of the video game <cite>Minecraft</cite>."
+                }
+            ],
+            "properties": {
+                "dataI18nHtml": "html-videos-description"
             }
-        ],
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Youtube",
                         "src": "/images/webp/icons/youtube.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Youtube"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://youtube.com/@stevehsu4277",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://youtube.com/@stevehsu4277",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Youtube"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsu4277 |"
-                            },
-                            {
-                                "content": "Inactive",
-                                "properties": {
-                                    "data-i18n": "text-inactive"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "UID: stevehsu4277 | "
                                 }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Inactive"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-inactive"
                             }
-                        ]
-                    }
-                ]
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Bilibili",
-                        "data-i18n-alt": "text-bilibili",
+                        "dataI18nAlt": "text-bilibili",
                         "src": "/images/webp/icons/bilibili.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Bilibili",
-                                "properties": {
-                                    "data-i18n": "text-bilibili"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://space.bilibili.com/298733903",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Bilibili"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-bilibili"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://space.bilibili.com/298733903",
-                            "classes": [
-                                "external-link"
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: 298733903"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
-                            },
-                            {
-                                "content": ": SteveHsu什五 | UID: 298733903"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             }
         ]
     },
     {
-        "title": [
-            {
-                "content": "Unused or Deprecated",
-                "properties": {
-                    "data-i18n": "text-unused-or-deprecated"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Unused or Deprecated"
                 }
+            ],
+            "properties": {
+                "dataI18n": "text-unused-or-deprecated"
             }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "The following platform links are still kept, mainly for anti-counterfeiting purposes.",
-                        "properties": {
-                            "data-i18n": "text-unused-or-deprecated-links-description"
-                        }
-                    }
-                ]
+        },
+        "description": {
+            "type": "element",
+            "tagName": "span",
+            "children": [
+                {
+                    "type": "text",
+                    "value": "The following platform links are still kept, mainly for anti-counterfeiting purposes."
+                }
+            ],
+            "properties": {
+                "dataI18n": "text-unused-or-deprecated-links-description"
             }
-        ],
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Instagram",
                         "src": "/images/webp/icons/instagram.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Instagram"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://www.instagram.com/stevehsudrawing",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.instagram.com/stevehsudrawing",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Instagram"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsudrawing"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: stevehsudrawing"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Threads",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/threads.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/threads.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Threads"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://www.threads.com/@stevehsudrawing",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.threads.com/@stevehsudrawing",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Threads"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsudrawing"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: stevehsudrawing"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Lofter",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/link.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/link.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Lofter"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://stevehsu.lofter.com/",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://stevehsu.lofter.com/",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Lofter"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsu"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "element",
+                    "tagName": "span",
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "UID: stevehsu"
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Mihuashi",
-                        "data-i18n-alt": "text-mihuashi",
+                        "dataI18nAlt": "text-mihuashi",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/link.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/link.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Mihuashi",
-                                "properties": {
-                                    "data-i18n": "text-mihuashi"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.mihuashi.com/profiles/10398496",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Mihuashi"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-mihuashi"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://www.mihuashi.com/profiles/10398496",
-                            "classes": [
-                                "external-link"
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: 10398496"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
-                            },
-                            {
-                                "content": ": SteveHsu什五 | UID: 10398496"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Rednote",
-                        "data-i18n-alt": "text-rednote",
+                        "dataI18nAlt": "text-rednote",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/link.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/link.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Rednote",
-                                "properties": {
-                                    "data-i18n": "text-rednote"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Rednote"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-rednote"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000",
-                            "classes": [
-                                "external-link"
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: 63069652143"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
-                            },
-                            {
-                                "content": ": SteveHsu什五 | UID: 63069652143"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Douyin",
-                        "data-i18n-alt": "text-douyin",
+                        "dataI18nAlt": "text-douyin",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/link.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/link.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Douyin",
-                                "properties": {
-                                    "data-i18n": "text-douyin"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Douyin"
                                 }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-douyin"
                             }
-                        ],
-                        "properties": {
-                            "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3",
-                            "classes": [
-                                "external-link"
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: stevehsudrawing"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
-                            },
-                            {
-                                "content": ": SteveHsu什五 | UID: stevehsudrawing"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             }
         ]
     }

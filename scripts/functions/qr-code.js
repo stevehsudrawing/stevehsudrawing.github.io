@@ -29,7 +29,7 @@ function downloadBlob(blob) {
  * Generate a QR code for the specified URL and show it in a modal.
  * @param {string} linkUrl - The URL to encode in the QR code.
  * @param {Object} [imgProperties] - Key/value pairs to set as attributes on
- *   the center overlay <img> element. The 'classes' key accepts a string or
+ *   the center overlay <img> element. The 'className' key accepts a string or
  *   array of CSS class names. `width` and `height` are always forced to 32.
  */
 function showQRCodeModal(linkUrl, imgProperties) {
@@ -71,9 +71,9 @@ function showQRCodeModal(linkUrl, imgProperties) {
         id: 'qr-code-icon',
         alt: 'Link',
         src: '/images/webp/null.webp',
-        'data-img-feature': 'colored',
-        'data-src-mask': '/images/webp/icons/link.webp',
-        'data-color-var': 'bs-body-color'
+        dataImgFeature: 'colored',
+        dataSrcMask: '/images/webp/icons/link.webp',
+        dataColorVar: 'bs-body-color'
     };
 
     let mergedProperties = Object.assign({}, defaultImgProperties, imgProperties);
@@ -83,9 +83,9 @@ function showQRCodeModal(linkUrl, imgProperties) {
 
     // When a custom icon is provided, drop the default mask and color attributes.
     if (mergedProperties.src !== '/images/webp/null.webp') {
-        delete mergedProperties['data-img-feature'];
-        delete mergedProperties['data-src-mask'];
-        delete mergedProperties['data-color-var'];
+        delete mergedProperties.dataImgFeature;
+        delete mergedProperties.dataSrcMask;
+        delete mergedProperties.dataColorVar;
     }
 
     // Rounded-square background wrapper behind the icon
@@ -94,7 +94,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
 
     const centerImg = document.createElement('img');
     setElementAttributes(centerImg, mergedProperties);
-    if (mergedProperties['data-img-feature'] === 'colored') {
+    if (mergedProperties.dataImgFeature === 'colored') {
         applyColoredImage(centerImg);
     }
     iconBg.appendChild(centerImg);
@@ -107,7 +107,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
     // --- Set share card title from icon properties ---
     const titleEl = document.getElementById('qr-share-card-title');
     if (titleEl) {
-        const i18nAltKey = mergedProperties['data-i18n-alt'];
+        const i18nAltKey = mergedProperties.dataI18nAlt;
         const altText = i18nAltKey ? translate(i18nAltKey) : mergedProperties.alt;
         titleEl.textContent = altText ? altText : translate('text-link', 'Link');
     }

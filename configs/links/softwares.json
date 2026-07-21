@@ -1,160 +1,251 @@
 [
     {
-        "title": [
-            {
-                "content": "Quanto Series",
-                "properties": {
-                    "data-i18n": "text-quanto-series"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "properties": {
+                "dataI18n": "text-quanto-series"
+            },
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Quanto Series"
                 }
-            }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter.",
-                        "properties": {
-                            "data-i18n": "text-quanto-series-description"
+            ]
+        },
+        "description": {
+            "type": "root",
+            "children": [
+                {
+                    "type": "element",
+                    "tagName": "span",
+                    "properties": {
+                        "dataI18n": "text-quanto-series-description"
+                    },
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter."
                         }
-                    }
-                ]
-            }
-        ],
+                    ]
+                }
+            ]
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Quanto Ult",
                         "src": "/images/webp/icons/quanto-ult.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Quanto Ult"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://github.com/stevehsudrawing/QuantoUlt",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://github.com/stevehsudrawing/QuantoUlt",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Quanto Ult"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-name"
                             },
-                            {
-                                "content": ": QuantoUlt | "
-                            },
-                            {
-                                "content": "Coming soon",
-                                "properties": {
-                                    "data-i18n": "text-coming-soon"
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
                                 }
-                            }
-                        ]
-                    }
-                ]
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": QuantoUlt | "
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-coming-soon"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Coming soon"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Quanto Flx",
                         "src": "/images/webp/icons/quanto-flx.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Quanto Flx"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://github.com/stevehsudrawing/quantoflx",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://github.com/stevehsudrawing/quantoflx",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Quanto Flx"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-name"
                             },
-                            {
-                                "content": ": quantoflx"
-                            }
-                        ]
-                    }
-                ]
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": quantoflx"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Quanto Original",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/github.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/github.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Quanto Original"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://github.com/stevehsudrawing/quanto",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://github.com/stevehsudrawing/quanto",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Quanto Original"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Name",
-                                "properties": {
-                                    "data-i18n": "text-name"
-                                }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-name"
                             },
-                            {
-                                "content": ": quanto | "
-                            },
-                            {
-                                "content": "Archived",
-                                "properties": {
-                                    "data-i18n": "text-archived"
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
                                 }
-                            }
-                        ]
-                    }
-                ]
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": quanto | "
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-archived"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Archived"
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }

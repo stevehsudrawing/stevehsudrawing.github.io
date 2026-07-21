@@ -1,105 +1,145 @@
 [
     {
-        "title": [
-            {
-                "content": "Blogs & Sponsor",
-                "properties": {
-                    "data-i18n": "text-blogs-and-sponsor"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "properties": {
+                "dataI18n": "text-blogs-and-sponsor"
+            },
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Blogs & Sponsor"
                 }
-            }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "Sponsorship is based on the principle of voluntariness.",
-                        "properties": {
-                            "data-i18n-html": "text-sponsorship-description"
-                        },
-                        "isHtml": true
-                    }
-                ]
-            }
-        ],
+            ]
+        },
+        "description": {
+            "type": "root",
+            "children": [
+                {
+                    "type": "element",
+                    "tagName": "span",
+                    "properties": {
+                        "dataI18nHtml": "html-sponsorship-description"
+                    },
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "Sponsorship is based on the principle of voluntariness."
+                        }
+                    ]
+                }
+            ]
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Patreon (Quanto Series)",
-                        "data-i18n-alt": "text-patreon-quanto-series",
+                        "dataI18nAlt": "text-patreon-quanto-series",
                         "src": "/images/webp/null.webp",
-                        "data-img-feature": "colored",
-                        "data-src-mask": "/images/webp/icons/patreon.webp",
-                        "data-color-var": "bs-body-color"
-                    }
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/patreon.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Patreon (Quanto Series)",
-                                "properties": {
-                                    "data-i18n": "text-patreon-quanto-series"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.patreon.com/QuantoSeries",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-patreon-quanto-series"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Patreon (Quanto Series)"
                                 }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://www.patreon.com/QuantoSeries",
-                            "classes": [
-                                "external-link"
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: QuantoSeries"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "UID: QuantoSeries"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "Afdian",
-                        "data-i18n-alt": "text-afdian",
+                        "dataI18nAlt": "text-afdian",
                         "src": "/images/webp/icons/afdian.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "Afdian",
-                                "properties": {
-                                    "data-i18n": "text-afdian"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/a/stevehsu",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-afdian"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Afdian"
                                 }
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://afdian.com/a/stevehsu",
-                            "classes": [
-                                "external-link"
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "UID: stevehsu"
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "UID: stevehsu"
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }

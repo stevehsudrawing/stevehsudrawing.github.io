@@ -1,8 +1,13 @@
 /**
  * Link-cards generator.
- * Reads a JSON configuration file, builds a set of responsive card groups
- * with icons, titles, descriptions, and super-link fragments (links with
- * QR-code buttons), then injects them into the #links container.
+ * Reads a JSON configuration file in hybrid hast format, builds card groups
+ * using hast-util-to-html for content subtrees, and injects them into the
+ * #links container. QR buttons and title anchors are added via post-processing.
+ *
+ * Dependencies:
+ * - window.toHtml (hast-util-to-html, loaded via ESM import in the page)
+ * - setElementAttributes (utils.js)
+ * - showQRCodeModal (qr-code.js)
  */
 
 /**
@@ -18,191 +23,6 @@ function resolveLinksJsonPath() {
 
     const baseName = extractPageName(window.location.pathname);
     return `/configs/links/${baseName}.json`;
-}
-
-/**
- * Create a <span> element from a text descriptor object.
- * @param {Object} text - Descriptor with `content`, optional `properties`, and `isHtml`.
- * @param {string} text.content - The text (or HTML when isHtml is true).
- * @param {Object} [text.properties] - Attributes to set on the span.
- * @param {boolean} [text.isHtml] - When true, use innerHTML instead of textContent.
- * @returns {HTMLSpanElement} The created span element.
- */
-function createTextSpan(text) {
-    const span = document.createElement('span');
-    if (!text) return span;
-
-    const { content = '', properties, isHtml } = text;
-    setElementAttributes(span, properties);
-    if (isHtml) {
-        span.innerHTML = content;
-    } else {
-        span.textContent = content;
-    }
-    return span;
-}
-
-/**
- * Escape a string for safe embedding inside an onclick handler attribute.
- * @param {*} value - The value to escape.
- * @returns {string} Escaped string safe for single-quoted JS attributes.
- */
-function escapeForOnclick(value) {
-    return String(value).replace(/'/g, "\\'").replace(/\\/g, '\\\\');
-}
-
-/**
- * Build a "super link" fragment: an link plus an adjacent QR-code button that
- * opens the QR modal for the link URL.
- * @param {Object} fragment - Fragment descriptor with properties and text array.
- * @returns {HTMLElement[]} Array of created elements (link + optional QR button).
- */
-function createSuperLinkFragment(fragment) {
-    const link = document.createElement('a');
-    const href = fragment?.properties?.href || '';
-    if (fragment?.properties) {
-        setElementAttributes(link, fragment.properties);
-    }
-
-    link.classList.add('link');
-
-    if (Array.isArray(fragment.text)) {
-        fragment.text.forEach(textItem => {
-            const titleSpan = createTextSpan(textItem);
-            link.appendChild(titleSpan);
-        });
-    }
-
-    const extraNodes = [link];
-
-    if (href) {
-        const qrButton = document.createElement('a');
-        qrButton.setAttribute('href', 'javascript:void(0)');
-        qrButton.setAttribute('role', 'button');
-
-        const iconPropsJson = fragment.iconProperties
-            ? JSON.stringify(fragment.iconProperties)
-            : null;
-        const onclickArgs = iconPropsJson
-            ? `'${escapeForOnclick(href)}', ${iconPropsJson}`
-            : `'${escapeForOnclick(href)}'`;
-        qrButton.setAttribute('onclick', `showQRCodeModal(${onclickArgs})`);
-        qrButton.className = 'text-decoration-none';
-        qrButton.setAttribute('aria-label', 'Show QR Code');
-        qrButton.setAttribute('data-bs-toggle', 'tooltip');
-        qrButton.setAttribute('data-i18n-tooltip', 'text-show-qr-code');
-        qrButton.setAttribute('data-bs-title', 'Show QR Code');
-
-        const qrIcon = document.createElement('i');
-        qrIcon.className = 'bi bi-qr-code';
-        qrButton.appendChild(qrIcon);
-
-        extraNodes.push(qrButton);
-    }
-
-    return extraNodes;
-}
-
-/**
- * Dispatch a fragment descriptor to the appropriate element builder.
- * @param {Object} fragment - Fragment descriptor.
- * @returns {HTMLElement[]} Array of created elements.
- */
-function createFragmentElements(fragment) {
-    if (!fragment) return [];
-    if (fragment.superLink === true) {
-        return createSuperLinkFragment(fragment);
-    }
-
-    if (Array.isArray(fragment.text)) {
-        return fragment.text.map(textItem => createTextSpan(textItem));
-    }
-    return [];
-}
-
-/**
- * Append an array of fragment descriptors as child elements to a container.
- * Inserts spaces between fragments unless the preceding fragment already
- * ends with a space.
- * @param {HTMLElement} container - The parent element.
- * @param {Object[]} fragments - Array of fragment descriptors.
- */
-function appendFragments(container, fragments) {
-    if (!Array.isArray(fragments)) return;
-
-    fragments.forEach((fragment, index) => {
-        const fragmentElements = createFragmentElements(fragment);
-        fragmentElements.forEach((fragmentElement, i) => {
-            container.appendChild(fragmentElement);
-            if (i === 0 && fragmentElements.length > 1) {
-                // separate the link and its QR button for inline layout
-                container.appendChild(document.createTextNode(' '));
-            }
-        });
-
-        if (index < fragments.length - 1) {
-            const lastTextItem = Array.isArray(fragment?.text) ? fragment.text[fragment.text.length - 1] : fragment?.text;
-            const hasTrailingSpace = typeof lastTextItem?.content === 'string' && lastTextItem.content.endsWith(' ');
-            if (!hasTrailingSpace) {
-                container.appendChild(document.createTextNode(' '));
-            }
-        }
-    });
-}
-
-/**
- * Build a card-title <h6> element from an array of title fragments.
- * @param {Object[]} titleFragments - Array of fragment descriptors for the title.
- * @returns {HTMLHeadingElement} The created h6 element.
- */
-function buildTitleElement(titleFragments) {
-    const titleElement = document.createElement('h6');
-    titleElement.className = 'card-title';
-
-    const hasSingleSuperLink = Array.isArray(titleFragments) && titleFragments.filter(fragment => fragment?.superLink === true).length === 1 && titleFragments.length === 1;
-    if (hasSingleSuperLink) {
-        titleElement.classList.add('d-flex', 'align-items-center', 'justify-content-between');
-    }
-
-    appendFragments(titleElement, titleFragments);
-    return titleElement;
-}
-
-/**
- * Build a card-text <p> element from an array of description fragments.
- * @param {Object[]} descriptionFragments - Array of fragment descriptors.
- * @returns {HTMLParagraphElement} The created p element.
- */
-function buildDescriptionElement(descriptionFragments) {
-    const descriptionElement = document.createElement('p');
-    descriptionElement.className = 'card-text';
-    appendFragments(descriptionElement, descriptionFragments);
-    return descriptionElement;
-}
-
-/**
- * Build an icon wrapper element (<div> with an <img>) from icon descriptor data.
- * @param {Object} iconData - Descriptor with optional properties for the <img>.
- * @returns {HTMLDivElement|null} The icon wrapper, or null if iconData is invalid.
- */
-function buildIconElement(iconData) {
-    if (!iconData || typeof iconData !== 'object') return null;
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'link-icon-wrapper me-2';
-
-    const image = document.createElement('img');
-    if (iconData.properties) {
-        setElementAttributes(image, iconData.properties);
-    }
-
-    image.classList.add('img-fluid', 'img-fit');
-    if (!image.hasAttribute('class')) {
-        image.setAttribute('class', 'img-fluid img-fit');
-    }
-
-    wrapper.appendChild(image);
-    return wrapper;
 }
 
 /**
@@ -223,10 +43,90 @@ function toDashCase(text) {
 }
 
 /**
+ * Recursively extract all plain text from a hast node tree.
+ * Used to derive title IDs from group-title hast subtrees.
+ * @param {Object} node - A hast node.
+ * @returns {string} Concatenated plain text.
+ */
+function extractPlainText(node) {
+    if (!node || typeof node !== 'object') return '';
+    if (node.type === 'text') return node.value || '';
+    if (node.type === 'comment') return '';
+    if (Array.isArray(node.children)) {
+        return node.children.map(extractPlainText).join('');
+    }
+    return '';
+}
+
+/**
+ * Escape a string for safe embedding inside an onclick handler attribute.
+ * @param {*} value - The value to escape.
+ * @returns {string} Escaped string safe for single-quoted JS attributes.
+ */
+function escapeForOnclick(value) {
+    return String(value).replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+}
+
+/**
+ * Create a QR-code button element for a given link URL.
+ * The button opens the QR code modal with an optional centre icon.
+ * @param {string} href - The link URL to encode.
+ * @param {Object} [iconProperties] - Icon properties to display in the QR modal.
+ * @returns {HTMLAnchorElement} The QR button element.
+ */
+function createQRButton(href, iconProperties) {
+    const qrButton = document.createElement('a');
+    qrButton.setAttribute('href', 'javascript:void(0)');
+    qrButton.setAttribute('role', 'button');
+
+    const iconPropsJson = iconProperties
+        ? JSON.stringify(iconProperties)
+        : null;
+    const onclickArgs = iconPropsJson
+        ? `showQRCodeModal('${escapeForOnclick(href)}', ${iconPropsJson})`
+        : `showQRCodeModal('${escapeForOnclick(href)}')`;
+    qrButton.setAttribute('onclick', onclickArgs);
+
+    qrButton.className = 'text-decoration-none';
+    qrButton.setAttribute('aria-label', 'Show QR Code');
+    qrButton.setAttribute('data-bs-toggle', 'tooltip');
+    qrButton.setAttribute('data-i18n-tooltip', 'text-show-qr-code');
+    qrButton.setAttribute('data-bs-title', 'Show QR Code');
+
+    const qrIcon = document.createElement('i');
+    qrIcon.className = 'bi bi-qr-code';
+    qrButton.appendChild(qrIcon);
+
+    return qrButton;
+}
+
+/**
+ * Scan an element for external links and append QR-code buttons after them.
+ * Used as post-processing after hast subtrees are rendered via innerHTML.
+ * @param {HTMLElement} container - The container to scan for links.
+ * @param {Object} [iconProperties] - Icon properties for the QR modal centre icon.
+ */
+function addQRButtonsToElement(container, iconProperties) {
+    if (!container) return;
+
+    container.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('javascript:') ||
+            href.startsWith('mailto:') || href.startsWith('tel:')) {
+            return;
+        }
+
+        const qrButton = createQRButton(href, iconProperties);
+
+        // Insert a space text node and the QR button after the link.
+        link.parentNode.insertBefore(document.createTextNode(' '), link.nextSibling);
+        link.parentNode.insertBefore(qrButton, link.nextSibling ? link.nextSibling.nextSibling : null);
+    });
+}
+
+/**
  * Build a single card column from card descriptor data.
- * Produces a <div.col> containing a Bootstrap card with optional icon,
- * title, and description.
- * @param {Object} cardData - Card descriptor from the links JSON.
+ * @param {Object} cardData - Card descriptor with `available`, `icon`, `title`, `description`.
  * @returns {HTMLDivElement} The column element containing the card.
  */
 function buildCardItem(cardData) {
@@ -243,40 +143,52 @@ function buildCardItem(cardData) {
     const cardBody = document.createElement('div');
     cardBody.className = 'd-flex card-body';
 
+    // --- Icon ---
     if (cardData.icon) {
-        const iconElement = buildIconElement(cardData.icon);
-        if (iconElement) {
-            cardBody.appendChild(iconElement);
+        const iconWrapper = document.createElement('div');
+        iconWrapper.className = 'link-icon-wrapper me-2';
+        iconWrapper.innerHTML = window.toHtml(cardData.icon);
+
+        // Ensure the <img> has the required Bootstrap classes.
+        const img = iconWrapper.querySelector('img');
+        if (img) {
+            img.classList.add('img-fluid', 'img-fit');
         }
+
+        cardBody.appendChild(iconWrapper);
     }
 
+    // --- Title & Description ---
     if (cardData.title || cardData.description) {
         const textContainer = document.createElement('div');
         textContainer.className = 'flex-grow-1';
 
-        // Attach card icon properties to super-link fragments so the QR
-        // code modal can display the same icon at its centre.
-        const iconProperties = cardData.icon?.properties;
-        if (iconProperties) {
-            [cardData.title, cardData.description].forEach(fragments => {
-                if (Array.isArray(fragments)) {
-                    fragments.forEach(fragment => {
-                        if (fragment?.superLink) {
-                            fragment.iconProperties = iconProperties;
-                        }
-                    });
-                }
-            });
-        }
-
         if (cardData.title) {
-            const titleElement = buildTitleElement(cardData.title);
-            textContainer.appendChild(titleElement);
+            const titleHast = cardData.title;
+            const h6 = document.createElement('h6');
+            h6.className = 'card-title';
+
+            // When the title is a single <a>, use flex layout for the QR button.
+            const isSingleLink = titleHast.type === 'element'
+                && titleHast.tagName === 'a';
+            if (isSingleLink) {
+                h6.classList.add('d-flex', 'align-items-center', 'justify-content-between');
+            }
+
+            h6.innerHTML = window.toHtml(titleHast);
+
+            // Add QR buttons for links in the title, using the card's icon.
+            const iconProps = cardData.icon?.properties || null;
+            addQRButtonsToElement(h6, iconProps);
+
+            textContainer.appendChild(h6);
         }
 
         if (cardData.description) {
-            const descriptionElement = buildDescriptionElement(cardData.description);
-            textContainer.appendChild(descriptionElement);
+            const p = document.createElement('p');
+            p.className = 'card-text';
+            p.innerHTML = window.toHtml(cardData.description);
+            textContainer.appendChild(p);
         }
 
         cardBody.appendChild(textContainer);
@@ -288,66 +200,74 @@ function buildCardItem(cardData) {
 }
 
 /**
+ * Add a hash anchor and copy-link button after an h4 group title.
+ * @param {HTMLHeadingElement} h4 - The group title element.
+ * @param {string} titleId - The dash-case ID derived from the title text.
+ * @param {string} titleText - The raw title text (for aria-label).
+ */
+function addTitleAnchors(h4, titleId, titleText) {
+    const titleContainer = h4.parentNode;
+
+    // Hash anchor
+    const titleAnchor = document.createElement('a');
+    titleAnchor.className = 'title-link-anchor';
+    titleAnchor.href = `#${titleId}`;
+    titleAnchor.innerHTML = '<i class="bi bi-hash"></i>';
+    titleAnchor.setAttribute('aria-label', `Link to ${titleText}`);
+    titleContainer.appendChild(titleAnchor);
+
+    // Copy-link anchor
+    const copyUrl = `${window.location.origin}${window.location.pathname}#${titleId}`;
+    const copyAnchor = document.createElement('a');
+    copyAnchor.className = 'link title-link-anchor copy-link';
+    copyAnchor.href = '#';
+    copyAnchor.setAttribute('aria-label', `Copy the link to ${titleText}`);
+    copyAnchor.setAttribute('data-copy-text', copyUrl);
+    copyAnchor.innerHTML = '<i class="bi bi-link-45deg"></i>';
+    titleContainer.appendChild(copyAnchor);
+}
+
+/**
  * Build an entire link group section from group descriptor data.
- * Includes an optional title (with anchor), description, and a row of cards.
- * @param {Object} groupData - Group descriptor from the links JSON.
+ * @param {Object} groupData - Group descriptor with `title`, `description`, `contents`.
  * @returns {HTMLDivElement} The group wrapper element.
  */
 function buildLinkGroup(groupData) {
     const groupWrapper = document.createElement('div');
     groupWrapper.className = 'link-hub-part';
 
-    if (Array.isArray(groupData.title) && groupData.title.length > 0) {
-        // Derive plain-text title from all span descriptors for the anchor id.
-        const titleText = groupData.title
-            .map(spanDesc => spanDesc?.content || '')
-            .join('');
+    // --- Group title ---
+    if (groupData.title) {
+        const titleText = extractPlainText(groupData.title);
         const titleId = toDashCase(titleText);
 
         const titleContainer = document.createElement('div');
         titleContainer.className = 'title-link-group-wrapper';
 
-        const title = document.createElement('h4');
-        title.classList.add('title-link-group');
+        const h4 = document.createElement('h4');
+        h4.className = 'title-link-group';
         if (titleId) {
-            title.id = titleId;
+            h4.id = titleId;
         }
-
-        groupData.title.forEach(spanDesc => {
-            const span = createTextSpan(spanDesc);
-            title.appendChild(span);
-        });
-
-        titleContainer.appendChild(title);
+        h4.innerHTML = window.toHtml(groupData.title);
+        titleContainer.appendChild(h4);
 
         if (titleId) {
-            // Title Anchor (hash icon)
-            const titleAnchor = document.createElement('a');
-            titleAnchor.className = 'title-link-anchor';
-            titleAnchor.href = `#${titleId}`;
-            titleAnchor.innerHTML = '<i class="bi bi-hash"></i>';
-            titleAnchor.setAttribute('aria-label', `Link to ${titleText}`);
-            titleContainer.appendChild(titleAnchor);
-
-            // Copy Link Anchor (copy-to-clipboard icon)
-            const copyUrl = `${window.location.origin}${window.location.pathname}#${titleId}`;
-            const copyAnchor = document.createElement('a');
-            copyAnchor.className = 'link title-link-anchor copy-link';
-            copyAnchor.href = '#';
-            copyAnchor.setAttribute('aria-label', `Copy the link to ${titleText}`);
-            copyAnchor.setAttribute('data-copy-text', copyUrl);
-            copyAnchor.innerHTML = '<i class="bi bi-link-45deg"></i>';
-            titleContainer.appendChild(copyAnchor);
+            addTitleAnchors(h4, titleId, titleText);
         }
 
         groupWrapper.appendChild(titleContainer);
     }
 
+    // --- Group description ---
     if (groupData.description) {
-        const description = buildDescriptionElement(groupData.description);
-        groupWrapper.appendChild(description);
+        const p = document.createElement('p');
+        p.className = 'card-text';
+        p.innerHTML = window.toHtml(groupData.description);
+        groupWrapper.appendChild(p);
     }
 
+    // --- Cards ---
     if (Array.isArray(groupData.contents)) {
         const row = document.createElement('div');
         row.className = 'row g-0';
@@ -372,6 +292,12 @@ function buildLinkGroup(groupData) {
 async function generateLinkCards() {
     const container = document.getElementById('links');
     if (!container) {
+        return;
+    }
+
+    if (typeof window.toHtml !== 'function') {
+        console.error('window.toHtml (hast-util-to-html) is not available. Ensure the ESM import is loaded.');
+        container.innerHTML = '<div class="alert alert-warning">Link card renderer not available.</div>';
         return;
     }
 

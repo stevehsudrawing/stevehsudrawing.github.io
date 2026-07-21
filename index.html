@@ -111,6 +111,11 @@
         <script src="/scripts/functions/no-copy.js"></script>
         <script src="/scripts/functions/page-title.js"></script>
 
+        <script type="module">
+            import { toHtml } from 'https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm';
+            window.toHtml = toHtml;
+        </script>
+
         <script src="/scripts/init-at-head.js"></script>
 
         <!-- Structured Data: Person -->
@@ -188,7 +193,7 @@
             <div class="container link-hub-part">
                 <div class="row align-items-center">
                     <div class="col-lg-6 order-lg-1 order-2">
-                        <h1 data-i18n-html="text-steve-hsu-s-link-hub-rich"><strong class="color-primary">Steve Hsu <small>什五</small></strong>'s Link-Hub</h1>
+                        <h1 data-i18n-html="html-steve-hsu-s-link-hub"><strong class="color-primary">Steve Hsu <small>什五</small></strong>'s Link-Hub</h1>
                         <p data-i18n="text-homepage-welcome">
                             Welcome! I'm an amateur creator. I draw something, make video, and code sometimes.
                         </p>

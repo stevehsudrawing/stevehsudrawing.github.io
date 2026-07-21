@@ -1,132 +1,229 @@
 [
     {
-        "title": [
-            {
-                "content": "QQ Groups",
-                "properties": {
-                    "data-i18n": "text-qq-groups"
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "properties": {
+                "dataI18n": "text-qq-groups"
+            },
+            "children": [
+                {
+                    "type": "text",
+                    "value": "QQ Groups"
                 }
-            }
-        ],
-        "description": [
-            {
-                "text": [
-                    {
-                        "content": "QQ groups are only available in Mainland China.",
-                        "properties": {
-                            "data-i18n": "text-qq-groups-description"
+            ]
+        },
+        "description": {
+            "type": "root",
+            "children": [
+                {
+                    "type": "element",
+                    "tagName": "span",
+                    "properties": {
+                        "dataI18n": "text-qq-groups-description"
+                    },
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "QQ groups are only available in Mainland China."
                         }
-                    }
-                ]
-            }
-        ],
+                    ]
+                }
+            ]
+        },
         "contents": [
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "SawtootH",
                         "src": "/images/webp/icons/sawtooth.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "SawtootH"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "SawtootH"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Steve Hsu's Fan-base",
-                                "properties": {
-                                    "data-i18n": "text-sawtooth-description"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-sawtooth-description"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Steve Hsu's Fan-Base, Chat Group"
                                 }
-                            },
-                            {
-                                "content": "| "
-                            },
-                            {
-                                "content": "Group Number",
-                                "properties": {
-                                    "data-i18n": "text-group-number"
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " | "
                                 }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-group-number"
                             },
-                            {
-                                "content": ": 1058094344 | "
-                            },
-                            {
-                                "content": "Key",
-                                "properties": {
-                                    "data-i18n": "text-key"
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Group Number"
                                 }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": 1058094344 | "
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-key"
                             },
-                            {
-                                "content": ": DTANL"
-                            }
-                        ]
-                    }
-                ]
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Key"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": DTANL"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
             {
                 "available": true,
                 "icon": {
+                    "type": "element",
+                    "tagName": "img",
                     "properties": {
                         "alt": "QuantuM",
                         "src": "/images/webp/icons/quantum.webp"
-                    }
+                    },
+                    "children": []
                 },
-                "title": [
-                    {
-                        "superLink": true,
-                        "text": [
-                            {
-                                "content": "QuantuM"
-                            }
-                        ],
-                        "properties": {
-                            "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS",
-                            "classes": [
-                                "external-link"
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "QuantuM"
+                                }
                             ]
                         }
-                    }
-                ],
-                "description": [
-                    {
-                        "text": [
-                            {
-                                "content": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts",
-                                "properties": {
-                                    "data-i18n": "text-quantum-description"
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-quantum-description"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Quanto Series product updates and feedback channels, discussion group for desktop customization enthusiasts"
                                 }
-                            },
-                            {
-                                "content": "| "
-                            },
-                            {
-                                "content": "Group Number",
-                                "properties": {
-                                    "data-i18n": "text-group-number"
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": " | "
                                 }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-group-number"
                             },
-                            {
-                                "content": ": 624134769"
-                            }
-                        ]
-                    }
-                ]
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Group Number"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": 624134769"
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }

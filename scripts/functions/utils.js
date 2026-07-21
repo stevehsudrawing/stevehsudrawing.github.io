@@ -28,14 +28,15 @@ function extractPageName(pathname) {
 
 /**
  * Set multiple attributes and/or classes on a DOM element from a properties object.
- * Special handling: 'classes' can be a string or array and is added via classList.
+ * Special handling: 'className' can be a string or array and is added via classList.
+ * camelCase data* keys (hast convention) are converted to data-* kebab-case.
  * Values of false, null, or undefined are skipped.
  * @param {HTMLElement} element - The target element.
  * @param {Object} [properties={}] - Key/value pairs to set as attributes.
  */
 function setElementAttributes(element, properties = {}) {
     Object.entries(properties).forEach(([key, value]) => {
-        if (key === 'classes') {
+        if (key === 'className') {
             if (Array.isArray(value)) {
                 value.forEach(cls => element.classList.add(cls));
             }
@@ -46,7 +47,14 @@ function setElementAttributes(element, properties = {}) {
             return;
         }
 
-        element.setAttribute(key, String(value));
+        // Convert camelCase data* keys to data-* kebab-case (hast convention).
+        // e.g. dataImgFeature -> data-img-feature, dataI18n -> data-i18n.
+        const attrName = /^data[A-Z]/.test(key)
+            ? key.replace(/^data([A-Z])/, (_, c) => 'data-' + c.toLowerCase())
+                .replace(/[A-Z]/g, m => '-' + m.toLowerCase())
+            : key;
+
+        element.setAttribute(attrName, String(value));
     });
 }
 

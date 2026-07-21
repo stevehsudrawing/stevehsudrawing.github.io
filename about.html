@@ -111,6 +111,11 @@
         <script src="/scripts/functions/no-copy.js"></script>
         <script src="/scripts/functions/page-title.js"></script>
 
+        <script type="module">
+            import { toHtml } from 'https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm';
+            window.toHtml = toHtml;
+        </script>
+
         <script src="/scripts/init-at-head.js"></script>
 
         <!-- Structured Data: BreadcrumbList -->
@@ -218,7 +223,7 @@
                             <tr class="pb-1">
                                 <th scope="row" class="pe-2 align-top">👾</th>
                                 <td>
-                                    <span data-i18n-html="text-profile-part-7">Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:</span>
+                                    <span data-i18n-html="html-profile-part-7">Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:</span>
                                     <a class="link external-link" href="https://afdian.com/p/590c0408806111f1b05f52540025c377">
                                         <span data-i18n="text-learn-more">Learn More</span>
                                     </a>

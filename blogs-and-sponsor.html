@@ -111,6 +111,11 @@
         <script src="/scripts/functions/no-copy.js"></script>
         <script src="/scripts/functions/page-title.js"></script>
 
+        <script type="module">
+            import { toHtml } from 'https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm';
+            window.toHtml = toHtml;
+        </script>
+
         <script src="/scripts/init-at-head.js"></script>
 
         <!-- Structured Data: BreadcrumbList -->
