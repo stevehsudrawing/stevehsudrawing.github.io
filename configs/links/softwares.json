@@ -112,7 +112,7 @@
                 "icon": {
                     "properties": {
                         "alt": "Quanto Original",
-                        "src": "/images/png/null.png",
+                        "src": "/images/webp/null.webp",
                         "data-img-feature": "colored",
                         "data-src-mask": "/images/webp/icons/github.webp",
                         "data-color-var": "bs-body-color"

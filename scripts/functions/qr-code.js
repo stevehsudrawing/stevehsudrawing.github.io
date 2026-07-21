@@ -70,7 +70,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
     const defaultImgProperties = {
         id: 'qr-code-icon',
         alt: 'Link',
-        src: '/images/png/null.png',
+        src: '/images/webp/null.webp',
         'data-img-feature': 'colored',
         'data-src-mask': '/images/webp/icons/link.webp',
         'data-color-var': 'bs-body-color'
@@ -82,7 +82,7 @@ function showQRCodeModal(linkUrl, imgProperties) {
     mergedProperties.height = 32;
 
     // When a custom icon is provided, drop the default mask and color attributes.
-    if (mergedProperties.src !== '/images/png/null.png') {
+    if (mergedProperties.src !== '/images/webp/null.webp') {
         delete mergedProperties['data-img-feature'];
         delete mergedProperties['data-src-mask'];
         delete mergedProperties['data-color-var'];

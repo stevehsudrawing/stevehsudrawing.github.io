@@ -528,13 +528,13 @@ The JSON format uses a consistent pattern for representing HTML elements:
         "properties": {
             "alt": "Email",
             "data-i18n-alt": "text-email",
-            "src": "/images/png/null.png",
+            "src": "/images/webp/null.webp",
             "data-img-feature": "colored",
             "data-src-mask": "/images/webp/icons/email.webp",
             "data-color-var": "bs-body-color"
         }
     }
-    // → <img alt="Email" data-i18n-alt="text-email"   src="/images/png/null.png" data-img-feature="colored" data-src-mask="/images/webp/icons/email.webp" data-color-var="bs-body-color">
+    // → <img alt="Email" data-i18n-alt="text-email"   src="/images/webp/null.webp" data-img-feature="colored" data-src-mask="/images/webp/icons/email.webp" data-color-var="bs-body-color">
 
     // <img> element (theme-following image):
     {
@@ -933,7 +933,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 | `scripts/functions/img-utils.js`   | Initializes `data-img-feature="colored"` images and image loading opacity            |
 | `stylesheets/modern/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
 | `scripts/functions/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `images/png/null.png`              | Placeholder image used with `data-img-feature="colored"`                             |
+| `images/webp/null.webp`            | Placeholder image used with `data-img-feature="colored"`                             |
 | `images/README.md`                 | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute

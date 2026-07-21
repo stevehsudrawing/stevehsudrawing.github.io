@@ -28,7 +28,7 @@
                     "properties": {
                         "alt": "Patreon (Quanto Series)",
                         "data-i18n-alt": "text-patreon-quanto-series",
-                        "src": "/images/png/null.png",
+                        "src": "/images/webp/null.webp",
                         "data-img-feature": "colored",
                         "data-src-mask": "/images/webp/icons/patreon.webp",
                         "data-color-var": "bs-body-color"
