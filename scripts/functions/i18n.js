@@ -152,6 +152,19 @@ function updatePageText() {
             console.log('Missing key:', key);
         }
     });
+
+    // Translate aria-label attributes: elements with data-i18n-aria-label
+    // use it to specify the translation key,
+    // and the translated text is written to the aria-label attribute.
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria-label');
+        const translated = translate(key);
+        if (translated) {
+            el.setAttribute('aria-label', translated);
+        } else {
+            console.log('Missing key:', key);
+        }
+    });
 }
 
 /**

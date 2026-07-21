@@ -164,27 +164,25 @@ code {
     font-family: inherit;
 }
 
-/* ========================================================================
-   Disable all transitions & animations
-   ======================================================================== */
-
-/* --- when browser/system prefers reduced motion --- */
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        transition: none !important;
-        animation: none !important;
-    }
+.btn-outline-primary {
+    --bs-btn-color: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: var(--bs-primary);
+    --bs-btn-hover-border-color: var(--bs-primary);
+    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: var(--bs-primary);
+    --bs-btn-disabled-color: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
 }
-
-/* --- when the user manually turns them off --- */
-
-.no-animations *,
-.no-animations *::before,
-.no-animations *::after {
-    transition: none !important;
-    animation: none !important;
+.btn-outline-secondary {
+    --bs-btn-color: var(--bs-secondary);
+    --bs-btn-border-color: var(--bs-secondary);
+    --bs-btn-hover-bg: var(--bs-secondary);
+    --bs-btn-hover-border-color: var(--bs-secondary);
+    --bs-btn-focus-shadow-rgb: var(--bs-secondary-rgb);
+    --bs-btn-active-bg: var(--bs-secondary);
+    --bs-btn-active-border-color: var(--bs-secondary);
+    --bs-btn-disabled-color: var(--bs-secondary);
+    --bs-btn-disabled-border-color: var(--bs-secondary);
 }

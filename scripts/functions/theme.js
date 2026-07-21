@@ -189,20 +189,20 @@ function applyAllThemeBasedImages() {
  * @param {HTMLLinkElement} link - The favicon link element to update.
  */
 function applyFaviconTheme(link) {
-    var href = link.getAttribute('href');
+    const href = link.getAttribute('href');
     if (!href) return;
 
-    var currentTheme = htmlElement.getAttribute('data-bs-theme');
+    const currentTheme = htmlElement.getAttribute('data-bs-theme');
 
     if (currentTheme === 'dark') {
         // Switch to dark variant: general.ext -> general-dark.ext
-        var darkHref = href.replace(/general(?=\.[a-z]+$)/, 'general-dark');
+        const darkHref = href.replace(/general(?=\.[a-z]+$)/, 'general-dark');
         if (darkHref !== href) {
             link.setAttribute('href', darkHref);
         }
     } else {
         // Switch to light variant: general-dark.ext -> general.ext
-        var lightHref = href.replace(/general-dark(?=\.[a-z]+$)/, 'general');
+        const lightHref = href.replace(/general-dark(?=\.[a-z]+$)/, 'general');
         if (lightHref !== href) {
             link.setAttribute('href', lightHref);
         }

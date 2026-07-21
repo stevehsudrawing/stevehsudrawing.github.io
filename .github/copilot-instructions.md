@@ -239,7 +239,7 @@ Existing batch / single-element pairs:
 #### 3.2.1 `scripts/env-detections/` and `scripts/functions/`: Define Only, Never Execute
 
 - Files in `scripts/env-detections/` must **only define variables and functions**, using **ES5** syntax.
-- Files in `scripts/functions/` must **only define variables and functions**, using **ES2020** syntax.
+- Files in `scripts/functions/` must **only define variables and functions**, using **ES2020** syntax. `var` should be avoided.
 - Every global variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
@@ -413,16 +413,20 @@ Tooltips: <a data-bs-toggle="tooltip" data-i18n-tooltip="text-foo" data-bs-title
 
 Alt text: <img alt="Illustration" data-i18n-alt="text-illustration" src="...">
         ↓ (updatePageText() rewrites alt from langData)
+
+ARIA labels: <a aria-label="Settings" data-i18n-aria-label="text-settings"><i class="bi bi-gear"></i></a>
+        ↓ (updatePageText() rewrites aria-label from langData)
 ```
 
 #### 4.3.1 i18n Key Naming Conventions
 
 - Keys use `dash-case` naming (e.g. `text-welcome`, `text-learn-more`, `text-http-404-description`).
-- All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts - the same key can serve `data-i18n`, `data-i18n-alt`, or `data-i18n-tooltip` on different elements.
+- All i18n keys for user-facing text **must** use the `text-` prefix. This allows keys to be reused across different contexts - the same key can serve `data-i18n`, `data-i18n-alt`, `data-i18n-tooltip`, or `data-i18n-aria-label` on different elements.
 - For `<img>` alt attributes: use `data-i18n-alt` (e.g. `data-i18n-alt="text-illustration"`).
 - For tooltip-only translations: use `data-i18n-tooltip` (e.g. `data-i18n-tooltip="text-settings"`).
+- For `aria-label` translations: use `data-i18n-aria-label` (e.g. `data-i18n-aria-label="text-settings"`). The English fallback text must be placed in the `aria-label` attribute directly, with `data-i18n-aria-label` as the companion i18n key attribute after it.
 - For translations that contain inline HTML markup (e.g. `<cite>`, `<em>`, `<strong>`): use `data-i18n-html` (e.g. `data-i18n-html="text-videos-description"`). The translation string is applied via `innerHTML` rather than `textContent`, so HTML tags are rendered as elements. Only use this when inline markup is required; prefer `data-i18n` for plain text.
-- Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys - simply use the original text directly in `alt` or `data-bs-title` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
+- Proper nouns that are identical across all supported languages (e.g. "Pixiv", "GitHub", "QQ") do not need i18n keys - simply use the original text directly in `alt`, `data-bs-title`, or `aria-label` without a `data-i18n-*` attribute. Do not add these to the translation JSON files.
 
 **Configuration**: Translation JSON files are flat key-value objects. Every `text-*` key used in HTML must have a corresponding entry in every language file. The keys should be arranged in alphabetical order.
 
@@ -708,13 +712,13 @@ The JSON format uses a consistent pattern for representing HTML elements:
     - `localStorage` key: `enableAnimations`.
     - **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
     - Controlled by a toggle (`#enable-animations-toggle`) in the settings modal.
-    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `stylesheets/modern/base.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
+    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `stylesheets/modern/accessibility.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
     - Key functions:
         - `isAnimationEnabled()` - reads the preference.
         - `setAnimationPreference(enabled)` - persists the preference.
         - `applyAnimationPreference()` - toggles the `.no-animations` class on `<html>`.
         - `updateAnimationToggleState()` - checks `matchMedia('(prefers-reduced-motion: reduce)')`; when the OS-level reduced-motion setting is active, disables the toggle (`disabled + unchecked`) and displays a tooltip on the label (i18n key `text-animations-disabled-by-system-description`) explaining that the system setting overrides this option. Listens for changes to the OS setting via `matchMedia(...).addEventListener('change', ...)`.
-    - CSS rules (in `stylesheets/modern/base.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
+    - CSS rules (in `stylesheets/modern/accessibility.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
     - The toggle change event is handled by `initSettingEventListeners()`.
     - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference and system state.
 
@@ -738,21 +742,25 @@ The JSON format uses a consistent pattern for representing HTML elements:
 
 ### 4.9 Navigation & Accessibility
 
-**Brief**: Handles navbar active state, scroll hint indicator, skip-to-content button, and keyboard/mouse focus distinction.
+**Brief**: Handles navbar active state, scroll hint indicator, skip-to-content button, keyboard/mouse focus distinction, and CSS-based accessibility adaptations (reduced motion, reduced transparency, high contrast).
 
 **Related Files**:
 
-| File                                   | Role                                                                        |
-|----------------------------------------|-----------------------------------------------------------------------------|
-| `scripts/functions/navbar.js`          | Active nav item highlighting                                                |
-| `scripts/functions/scroll-hint.js`     | Scroll-down hint indicator                                                  |
-| `scripts/functions/accessibility.js`   | Skip button, focus management, external link indicators, title link anchors |
-| `stylesheets/modern/navbar.css`        | Navbar styles                                                               |
-| `stylesheets/modern/scroll-hint.css`   | Scroll hint styles                                                          |
-| `stylesheets/modern/accessibility.css` | Skip button and focus styles                                                |
+| File                                   | Role                                                                                     |
+|----------------------------------------|------------------------------------------------------------------------------------------|
+| `scripts/functions/navbar.js`          | Active nav item highlighting                                                             |
+| `scripts/functions/scroll-hint.js`     | Scroll-down hint indicator                                                               |
+| `scripts/functions/accessibility.js`   | Skip button, focus management, external link indicators, title link anchors              |
+| `stylesheets/modern/navbar.css`        | Navbar styles                                                                            |
+| `stylesheets/modern/scroll-hint.css`   | Scroll hint styles                                                                       |
+| `stylesheets/modern/accessibility.css` | Base accessibility rules (motion, transparency, contrast), skip button, and focus styles |
 
 **Features**:
 
+- **CSS-based accessibility adaptations** (in `stylesheets/modern/accessibility.css`, "Base Accessibility" section):
+    - **Disable all transitions & animations**: Two independent paths — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual, toggled via the "Enable animations" setting in [§4.8](#48-settings--preferences)). Both set `transition: none !important; animation: none !important` on all elements and their `::before`/`::after` pseudo-elements.
+    - **Disable Transparency**: Responds to the `@media (prefers-reduced-transparency: reduce)` query by forcing full opacity on tooltips (`--bs-tooltip-opacity: 1`), removing `backdrop-filter` from the navbar and modal backdrop, and using opaque `background-color` fallbacks.
+    - **High Contrast**: Responds to the `@media (prefers-contrast: more)` query by using stark black/white border and secondary colors, forcing `hr` opacity to 1, adding a visible border-box shadow to `.navbar-scrolled`, enforcing a visible border on `.btn-no-border`, and in dark mode using a black body background with white borders.
 - **Skip button** (`#skip-button`): Allows keyboard users to skip navigation and jump to main content.
 - **Focus management**: CSS distinguishes keyboard focus (`.user-input-keyboard #skip-button:focus`) from mouse focus (`:focus-visible`).
 - **Language attribute**: The `lang` attribute on `<html>` should reflect the current language.
