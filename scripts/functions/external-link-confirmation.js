@@ -38,11 +38,14 @@ function shouldConfirmExternalLink(link) {
 
 /**
  * Show the external link confirmation modal.
- * Populates the URL display, syncs the new-tab toggle with localStorage,
- * and shows the Bootstrap modal.
+ * Populates the URL display, optionally renders a link icon, syncs the
+ * new-tab toggle with localStorage, and shows the Bootstrap modal.
  * @param {string} url - The target URL to display and navigate to.
+ * @param {Object} [imgProperties] - Optional hast-format icon properties
+ *   (passed through to showQRCodeModal for the QR button and rendered
+ *   as a coloured icon next to the URL).
  */
-function showExternalLinkConfirmation(url) {
+function showExternalLinkConfirmation(url, imgProperties) {
     const modalElement = document.getElementById('external-link-confirmation-modal');
     if (!modalElement) {
         // Fallback: navigate directly if modal is not available
@@ -50,13 +53,35 @@ function showExternalLinkConfirmation(url) {
         return;
     }
 
-    // Store the target URL for use by the "Open" button handler
+    // Store the target URL and icon properties for use by button handlers
     modalElement._confirmUrl = url;
+    modalElement._confirmIconProps = imgProperties || null;
 
     // Display the target URL
     const urlDisplay = document.getElementById('external-link-url-display');
     if (urlDisplay) {
         urlDisplay.textContent = url;
+    }
+
+    // Render the icon if provided
+    const iconContainer = document.getElementById('external-link-icon-container');
+    if (iconContainer) {
+        iconContainer.innerHTML = '';
+        if (imgProperties) {
+            iconContainer.classList.remove('d-none');
+            const img = document.createElement('img');
+            setElementAttributes(img, imgProperties);
+            img.classList.add('img-fluid');
+            img.style.width = '32px';
+            img.style.height = '32px';
+            if (imgProperties.dataImgFeature === 'colored') {
+                applyColoredImage(img);
+            }
+            markImageLoaded(img);
+            iconContainer.appendChild(img);
+        } else {
+            iconContainer.classList.add('d-none');
+        }
     }
 
     // Sync the new-tab toggle with localStorage
@@ -145,7 +170,40 @@ function handleExternalLinkClick(e) {
     if (!shouldConfirmExternalLink(link)) return;
 
     e.preventDefault();
-    showExternalLinkConfirmation(link.href);
+
+    // Read optional icon properties for the confirmation modal.
+    const imgPropsJson = link.getAttribute('data-link-img-props');
+    const imgProperties = imgPropsJson ? JSON.parse(imgPropsJson) : null;
+    showExternalLinkConfirmation(link.href, imgProperties);
+}
+
+/**
+ * Handle the "Show QR Code" button click in the external link confirmation modal.
+ * Hides the confirmation modal and opens the QR code modal for the same URL.
+ */
+function handleExternalLinkShowQR() {
+    const modalElement = document.getElementById('external-link-confirmation-modal');
+    if (!modalElement) return;
+
+    const url = modalElement._confirmUrl;
+    const iconProps = modalElement._confirmIconProps;
+
+    // Hide the confirmation modal, then show the QR code modal after
+    // the hide transition completes.
+    const instance = bootstrap.Modal.getInstance(modalElement);
+    if (instance) {
+        modalElement.addEventListener('hidden.bs.modal', function handler() {
+            modalElement.removeEventListener('hidden.bs.modal', handler);
+            if (typeof showQRCodeModal === 'function') {
+                if (iconProps) {
+                    showQRCodeModal(url, iconProps);
+                } else {
+                    showQRCodeModal(url);
+                }
+            }
+        });
+        instance.hide();
+    }
 }
 
 /**
@@ -168,6 +226,15 @@ function initExternalLinkConfirmation() {
         if (e.target?.id === 'external-link-open-btn') {
             e.preventDefault();
             handleExternalLinkConfirm();
+        }
+    });
+
+    // "Show QR Code" button click handler inside the confirmation modal
+    document.addEventListener('click', function (e) {
+        const qrBtn = e.target.closest('#external-link-qr-btn');
+        if (qrBtn) {
+            e.preventDefault();
+            handleExternalLinkShowQR();
         }
     });
 }

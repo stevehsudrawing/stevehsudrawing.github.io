@@ -101,26 +101,32 @@ function createQRButton(href, iconProperties) {
 }
 
 /**
- * Scan an element for external links and append QR-code buttons after them.
+ * Scan an element for external links: append QR-code buttons and inject
+ * data-link-img-props for the confirmation modal icon.
  * Used as post-processing after hast subtrees are rendered via innerHTML.
  * @param {HTMLElement} container - The container to scan for links.
  * @param {Object} [iconProperties] - Icon properties for the QR modal centre icon.
+ * @param {string} [propsJson] - JSON-stringified icon properties for data-link-img-props.
  */
-function addQRButtonsToElement(container, iconProperties) {
+function addQRButtonsToElement(container, iconProperties, propsJson) {
     if (!container) return;
 
     container.querySelectorAll('a').forEach(link => {
         const href = link.getAttribute('href');
+
+        // Inject icon properties for the confirmation modal on every link.
+        if (propsJson) {
+            link.setAttribute('data-link-img-props', propsJson);
+        }
+
+        // Skip QR buttons for non-web links.
         if (!href || href.startsWith('#') || href.startsWith('javascript:') ||
             href.startsWith('mailto:') || href.startsWith('tel:')) {
             return;
         }
 
         const qrButton = createQRButton(href, iconProperties);
-
-        // Insert a space text node and the QR button after the link.
-        link.parentNode.insertBefore(document.createTextNode(' '), link.nextSibling);
-        link.parentNode.insertBefore(qrButton, link.nextSibling ? link.nextSibling.nextSibling : null);
+        link.after(' ', qrButton);
     });
 }
 
@@ -163,6 +169,10 @@ function buildCardItem(cardData) {
         const textContainer = document.createElement('div');
         textContainer.className = 'flex-grow-1';
 
+        // Card icon properties: used for QR buttons and confirmation-modal icon.
+        const iconProps = cardData.icon?.properties || null;
+        const propsJson = iconProps ? JSON.stringify(iconProps) : null;
+
         if (cardData.title) {
             const titleHast = cardData.title;
             const h6 = document.createElement('h6');
@@ -177,9 +187,8 @@ function buildCardItem(cardData) {
 
             h6.innerHTML = window.toHtml(titleHast);
 
-            // Add QR buttons for links in the title, using the card's icon.
-            const iconProps = cardData.icon?.properties || null;
-            addQRButtonsToElement(h6, iconProps);
+            // Add QR buttons and icon properties for the title links.
+            addQRButtonsToElement(h6, iconProps, propsJson);
 
             textContainer.appendChild(h6);
         }
@@ -188,6 +197,14 @@ function buildCardItem(cardData) {
             const p = document.createElement('p');
             p.className = 'card-text';
             p.innerHTML = window.toHtml(cardData.description);
+
+            // Inject icon properties for the description links (no QR buttons).
+            if (propsJson) {
+                p.querySelectorAll('a[href]').forEach(link => {
+                    link.setAttribute('data-link-img-props', propsJson);
+                });
+            }
+
             textContainer.appendChild(p);
         }
 

@@ -41,11 +41,17 @@ function showQRCodeModal(linkUrl, imgProperties) {
     const shareCard = document.getElementById('qr-share-card');
     const shareBtn = document.getElementById('qr-share-btn');
     const downloadBtn = document.getElementById('qr-download-btn');
+    const openLinkBtn = document.getElementById('qr-open-link-btn');
 
     if (!modalLink || !qrCodeContainer || !modalElement || !shareCard || !shareBtn || !downloadBtn) {
         console.warn('QR code modal elements not found.');
         return;
     }
+
+    // Store the URL and icon properties on the modal element so the
+    // "Open Link" button can pass them back to the confirmation modal.
+    modalElement._qrUrl = linkUrl;
+    modalElement._qrIconProps = imgProperties || null;
 
     // Ensure the share card logo SVG is injected if not already.
     initSvgInjection();
@@ -182,6 +188,36 @@ function showQRCodeModal(linkUrl, imgProperties) {
     }
     if (!shareApiSupported) {
         shareBtn.style.display = 'none';
+    }
+
+    // --- "Open Link" button (bottom-left) ---
+    // Hides the QR modal and opens the external link confirmation modal.
+    // Hidden for internal links (no confirmation needed).
+    if (openLinkBtn) {
+        const isInternal = typeof isInternalPage === 'function' && isInternalPage(linkUrl);
+        if (isInternal) {
+            openLinkBtn.style.display = 'none';
+        } else {
+            openLinkBtn.style.display = '';
+            openLinkBtn.onclick = function () {
+                // Hide the QR modal, then show the confirmation modal after
+                // the hide transition completes.
+                const qrInstance = bootstrap.Modal.getInstance(modalElement);
+                if (qrInstance) {
+                    modalElement.addEventListener('hidden.bs.modal', function handler() {
+                        modalElement.removeEventListener('hidden.bs.modal', handler);
+                        if (typeof showExternalLinkConfirmation === 'function') {
+                            if (imgProperties) {
+                                showExternalLinkConfirmation(linkUrl, imgProperties);
+                            } else {
+                                showExternalLinkConfirmation(linkUrl);
+                            }
+                        }
+                    });
+                    qrInstance.hide();
+                }
+            };
+        }
     }
 
     // --- Share handler (native share API) ---

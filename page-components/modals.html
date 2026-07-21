@@ -32,8 +32,15 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary btn-no-border" id="qr-share-btn" data-i18n="text-share">Share</button>
-                        <button type="button" class="btn btn-outline-primary btn-no-border me-auto" id="qr-download-btn" data-i18n="text-download">Download</button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" id="qr-open-link-btn" aria-label="Open" data-i18n-aria-label="text-open" data-bs-toggle="tooltip" data-i18n-tooltip="text-open" data-bs-title="Open">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" id="qr-share-btn" aria-label="Share" data-i18n-aria-label="text-share" data-bs-toggle="tooltip" data-i18n-tooltip="text-share" data-bs-title="Share">
+                            <i class="bi bi-share-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border me-auto" id="qr-download-btn" aria-label="Download" data-i18n-aria-label="text-download" data-bs-toggle="tooltip" data-i18n-tooltip="text-download" data-bs-title="Download">
+                            <i class="bi bi-download"></i>
+                        </button>
                         <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
                     </div>
                 </div>
@@ -103,13 +110,19 @@
                     </div>
                     <div class="modal-body">
                         <p class="mb-2" data-i18n="text-you-are-about-to-leave">You are about to leave this site:</p>
-                        <code class="d-block mb-3" id="external-link-url-display"></code>
+                        <div class="d-flex align-items-start mb-3">
+                            <span id="external-link-icon-container" class="me-2 d-none"></span>
+                            <code class="d-block flex-grow-1" id="external-link-url-display"></code>
+                        </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="external-link-new-tab-toggle">
                             <label class="form-check-label" for="external-link-new-tab-toggle" data-i18n="text-open-in-new-tab">Open in new tab</label>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary btn-no-border me-auto" id="external-link-qr-btn" aria-label="Show QR Code" data-i18n-aria-label="text-show-qr-code" data-bs-toggle="tooltip" data-i18n-tooltip="text-show-qr-code" data-bs-title="Show QR Code">
+                            <i class="bi bi-qr-code"></i>
+                        </button>
                         <button type="button" class="btn btn-outline-secondary btn-no-border" data-bs-dismiss="modal" data-i18n="text-cancel">Cancel</button>
                         <button type="button" class="btn btn-outline-primary btn-no-border" id="external-link-open-btn" data-i18n="text-open">Open</button>
                     </div>

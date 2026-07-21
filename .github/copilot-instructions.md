@@ -611,7 +611,7 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 - **QR Code ([§4.10](#410-qr-code--export))**: External links (`<a>` with `href`) inside card titles automatically get adjacent QR-code buttons via post-processing (`addQRButtonsToElement`). The card's icon properties are passed to `showQRCodeModal()`.
 - **Image Utilities ([§4.13](#413-image-utilities))**: Card icons use `dataImgFeature` (`"colored"` or `"follow-theme"`) — see [§4.13.1](#4131-data-img-feature-attribute). `setElementAttributes` converts camelCase to kebab-case.
 - **Utilities ([§4.15](#415-utilities))**: Uses `extractPageName()` to resolve the JSON config path and `toDashCase()` / `extractPlainText()` for group title IDs.
-- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: Links with `className: ["external-link"]` trigger the confirmation modal.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: Links with `className: ["external-link"]` trigger the confirmation modal. Card title and description links automatically receive `data-link-img-props` (using the card's icon properties) so the confirmation modal can display the icon.
 - **Page Transition ([§4.6](#46-page-transitions))**: Links with `className: ["internal-link"]` trigger SPA navigation.
 
 ---
@@ -749,7 +749,7 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 ### 4.10 QR Code & Export
 
-**Brief**: Generates a branded QR code share card and allows downloading it as a PNG image.
+**Brief**: Generates a branded QR code share card and allows downloading it as a PNG image. The modal also provides an "Open Link" button that switches to the external link confirmation modal for cross-navigation.
 
 **Related Files**:
 
@@ -757,11 +757,22 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 |----------------------------------|-----------------------------------------------------|
 | `scripts/functions/qr-code.js`   | QR code generation, share card assembly, PNG export |
 | `stylesheets/modern/qr-code.css` | Share card layout styles                            |
+| `page-components/modals.html`    | QR code modal HTML (shared with other modals)       |
 
 **How It Works**:
 
 - QR Code is generated dynamically via QRCode.js inside a branded share card (logo + site name).
 - Can be downloaded as a PNG image via `html-to-image`, with `html2canvas` fallback for mobile browsers.
+- A centre overlay icon is rendered from `imgProperties` (hast-format properties; see [§4.5.1.2](#4512-property-naming-hast-convention)). Custom icons replace the default link icon.
+- **Modal footer** (left to right): [Open Link] [Share] [Download] (me-auto) [Close].
+    - **Open Link** (`bi-box-arrow-up-right`, icon-only): Switches to the external link confirmation modal ([§4.17](#417-external-link-confirmation)) via `hidden.bs.modal` transition. Hidden for internal links (`isInternalPage`). Has `aria-label` + tooltip (i18n key `text-open`).
+    - **Share** (`bi-share-fill`, icon-only): Uses the native Web Share API when available; hidden otherwise. Has `aria-label` + tooltip (i18n key `text-share`).
+    - **Download** (`bi-download`, icon-only): Triggers a direct PNG blob download. Has `aria-label` + tooltip (i18n key `text-download`).
+- The `imgProperties` and `linkUrl` are stored on the modal DOM element (`_qrUrl`, `_qrIconProps`) so the "Open Link" button can pass them back to the confirmation modal.
+
+**Key Functions**:
+
+- `showQRCodeModal(linkUrl, imgProperties)` - Generates the QR code, renders the centre icon, and shows the modal.
 
 ---
 
@@ -1140,7 +1151,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 ### 4.17 External Link Confirmation
 
-**Brief**: Intercepts clicks on external links (`.external-link`) and shows a confirmation modal before navigating away from the site. Allows the user to choose whether to open the link in a new tab.
+**Brief**: Intercepts clicks on external links (`.external-link`) and shows a confirmation modal before navigating away from the site. Displays an optional link icon, allows switching to the QR code modal, and lets the user choose whether to open the link in a new tab.
 
 **Related Files**:
 
@@ -1161,9 +1172,13 @@ shouldConfirmExternalLink(link) checks:
   - Must not have download or onclick attributes
   - Must not be an internal page (isInternalPage check)
   ↓ Passes all checks
+Read data-link-img-props attribute (if present) -> JSON.parse -> imgProperties
+  ↓
 Show confirmation modal:
+  - Displays the link icon (if imgProperties provided)
   - Displays the target URL
   - "Open in new tab" toggle (synced with localStorage openExternalLinksInNewTab)
+  - [Show QR Code] button -> switches to QR code modal (via hidden.bs.modal)
   - [Open] button -> navigateToExternalUrl()
   - [Close] button / x / backdrop -> dismiss
   ↓ User clicks [Open]
@@ -1174,27 +1189,52 @@ navigateToExternalUrl():
 
 - Modifier key clicks (Ctrl/Cmd/Shift/Alt) bypass the confirmation and let the browser handle the link normally.
 - The "Open in new tab" toggle shares the same `localStorage` key (`openExternalLinksInNewTab`) with the settings modal ([§4.8](#48-settings--preferences)). Changes in either location are immediately reflected in the other.
+- The **link icon** is rendered from `imgProperties` (hast-format; see [§4.5.1.2](#4512-property-naming-hast-convention)). Coloured icons (`dataImgFeature: "colored"`) are processed via `applyColoredImage`.
+- The **"Show QR Code"** button (`bi-qr-code`, icon-only) switches to the QR code modal via `hidden.bs.modal` transition, passing both the URL and `imgProperties`. Has `aria-label` + tooltip (i18n key `text-show-qr-code`).
+- The `url` and `imgProperties` are stored on the modal DOM element (`_confirmUrl`, `_confirmIconProps`) so the "Show QR Code" button can pass them to the QR modal, and the QR modal's "Open Link" button can pass them back.
+
+#### 4.17.1 `data-link-img-props` Attribute
+
+External links (`a.external-link`) may carry a `data-link-img-props` attribute containing a JSON-serialized hast-format icon properties object. When present, the confirmation modal displays the icon next to the URL.
+
+```html
+<a href="https://pixiv.net/..."
+   class="external-link"
+   data-link-img-props='{"alt":"Pixiv","src":"/images/webp/icons/pixiv.webp"}'>
+    Pixiv
+</a>
+```
+
+- The value is a JSON string using hast property conventions (`className`, `dataImgFeature`, `dataSrcMask`, `dataColorVar`, `dataI18nAlt` — see [§4.5.1.2](#4512-property-naming-hast-convention)).
+- Link cards automatically inject this attribute on title and description links (using the card's icon properties) during `buildCardItem`.
+- Static HTML links can carry it manually; use single quotes for the attribute value to avoid escaping double-quote JSON.
+- `handleExternalLinkClick` reads the attribute via `JSON.parse` and passes the result as the second argument to `showExternalLinkConfirmation`.
 
 **Key Functions**:
 
 - `shouldConfirmExternalLink(link)` - Determines whether a clicked link should trigger the confirmation modal.
-- `showExternalLinkConfirmation(url)` - Populates and displays the confirmation modal for the given URL.
+- `showExternalLinkConfirmation(url, imgProperties)` - Populates and displays the confirmation modal. `imgProperties` is an optional hast-format icon properties object.
 - `navigateToExternalUrl(url)` - Performs the actual navigation based on the toggle state.
-- `handleExternalLinkClick(e)` - Delegated click handler that intercepts `.external-link` clicks.
+- `handleExternalLinkClick(e)` - Delegated click handler that intercepts `.external-link` clicks. Reads `data-link-img-props` and passes it to `showExternalLinkConfirmation`.
 - `handleExternalLinkConfirm()` - Handles the [Open] button click.
+- `handleExternalLinkShowQR()` - Handles the [Show QR Code] button click. Hides the confirmation modal, then calls `showQRCodeModal` after the hide transition.
 - `handleExternalLinkToggleChange()` - Persists toggle changes to localStorage and applies the target behavior.
 - `initExternalLinkConfirmation()` - Sets up delegated event listeners on `document`. Called once from `init-final.js`.
 
 **Data Flow**:
 
-| Mechanism      | Key                         | Purpose                                                       |
-|----------------|-----------------------------|---------------------------------------------------------------|
+| Mechanism      | Key                         | Purpose                                                                                      |
+|----------------|-----------------------------|----------------------------------------------------------------------------------------------|
 | `localStorage` | `openExternalLinksInNewTab` | Shared preference with settings modal ([§4.8](#48-settings--preferences)) for new-tab toggle |
+| DOM attribute  | `data-link-img-props`       | JSON-serialized hast icon properties for the confirmation modal icon                         |
 
 **Interaction with Other Systems**:
 
 - **Page Transition ([§4.6](#46-page-transitions))**: The confirmation system only intercepts `.external-link` links. Internal links continue to be handled by `page-transition.js` via `shouldInterceptLink()`.
+- **QR Code ([§4.10](#410-qr-code--export))**: The [Show QR Code] button and the QR modal's [Open Link] button form a cross-navigation pair. Both preserve `imgProperties` across the round-trip via DOM element storage.
 - **Settings ([§4.8](#48-settings--preferences))**: The new-tab toggle in the confirmation modal and the one in the settings modal share the same `localStorage` key. The `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyAllExternalLinkTargetBehavior()` functions from `settings.js` are called by the confirmation module.
+- **Link Cards ([§4.5](#45-link-cards))**: `buildCardItem` injects `data-link-img-props` on all title and description links within a card, using the card's icon properties.
+- **Image Utilities ([§4.13](#413-image-utilities))**: Coloured icons in the confirmation modal are processed via `applyColoredImage`.
 - **Utilities ([§4.15](#415-utilities))**: `isInternalPage()` (in `utils.js`) is used to avoid showing the confirmation for links that point to internal pages.
 - **Component Loading ([§4.2](#42-component-loading))**: The modal HTML is part of `modals.html`, loaded by the component loader during initial page load.
 
