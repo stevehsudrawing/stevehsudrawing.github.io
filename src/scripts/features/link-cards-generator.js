@@ -7,11 +7,9 @@
  * Dependencies:
  * - window.toHtml (hast-util-to-html, loaded via ESM import in the page)
  * - setElementAttributes (utils.js)
- * - showQRCodeModal (qr-code.js)
  */
 
 import { scrollToHashTarget } from '../core/accessibility.js';
-import { showQRCodeModal } from './qr-code.js';
 import { extractPageName, setElementAttributes } from '../core/utils.js';
 
 /**
@@ -63,15 +61,6 @@ export function extractPlainText(node) {
 }
 
 /**
- * Escape a string for safe embedding inside an onclick handler attribute.
- * @param {*} value - The value to escape.
- * @returns {string} Escaped string safe for single-quoted JS attributes.
- */
-export function escapeForOnclick(value) {
-    return String(value).replace(/'/g, "\\'").replace(/\\/g, '\\\\');
-}
-
-/**
  * Create a QR-code button element for a given link URL.
  * The button opens the QR code modal with an optional centre icon.
  * @param {string} href - The link URL to encode.
@@ -82,14 +71,11 @@ export function createQRButton(href, iconProperties) {
     const qrButton = document.createElement('a');
     qrButton.setAttribute('href', 'javascript:void(0)');
     qrButton.setAttribute('role', 'button');
+    qrButton.setAttribute('data-qr-url', href);
 
-    const iconPropsJson = iconProperties
-        ? JSON.stringify(iconProperties)
-        : null;
-    const onclickArgs = iconPropsJson
-        ? `showQRCodeModal('${escapeForOnclick(href)}', ${iconPropsJson})`
-        : `showQRCodeModal('${escapeForOnclick(href)}')`;
-    qrButton.setAttribute('onclick', onclickArgs);
+    if (iconProperties) {
+        qrButton.setAttribute('data-qr-icon', JSON.stringify(iconProperties));
+    }
 
     qrButton.className = 'text-decoration-none';
     qrButton.setAttribute('aria-label', 'Show QR Code');

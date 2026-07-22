@@ -1,15 +1,16 @@
 /**
  * QR code modal helper.
- * Generates a QR code for a given URL using the qrcodejs library
+ * Generates a QR code for a given URL using the qrcode library
  * and displays it inside a Bootstrap modal, with colors matching
  * the current theme. An optional image can be overlaid at the
  * center of the QR code. The share card can be downloaded as a
  * PNG image via html-to-image, with html2canvas fallback.
  */
 
+import QRCode from 'qrcode';
 import { showExternalLinkConfirmation } from './external-link-confirmation.js';
 import { translate } from '../core/i18n.js';
-import { applyColoredImage } from '../core/img-utils.js';
+import { initImageLoadingOpacity, applyColoredImage } from '../core/img-utils.js';
 import { initSvgInjection } from '../core/svg-utils.js';
 import { errMsg, isInternalPage, setElementAttributes, showErrorToast } from '../core/utils.js';
 
@@ -38,7 +39,7 @@ export function downloadBlob(blob) {
  *   the center overlay <img> element. The 'className' key accepts a string or
  *   array of CSS class names. `width` and `height` are always forced to 32.
  */
-export function showQRCodeModal(linkUrl, imgProperties) {
+export async function showQRCodeModal(linkUrl, imgProperties) {
     const htmlElement = document.documentElement;
 
     const modalLink = document.getElementById('qr-code-modal-link');
@@ -69,13 +70,14 @@ export function showQRCodeModal(linkUrl, imgProperties) {
     const colorDark = computedStyles.getPropertyValue('--bs-body-color').trim() || '#000000';
     const pageBg = computedStyles.getPropertyValue('--bs-body-bg').trim() || '#ffffff';
 
-    new QRCode(qrCodeContainer, {
-        text: linkUrl,
+    const canvas = document.createElement('canvas');
+    qrCodeContainer.appendChild(canvas);
+
+    await QRCode.toCanvas(canvas, linkUrl, {
         width: 250,
-        height: 250,
-        colorDark: colorDark,
-        colorLight: pageBg,
-        correctLevel: 3
+        margin: 0,
+        color: { dark: colorDark, light: pageBg },
+        errorCorrectionLevel: 'Q'
     });
 
     // --- Center overlay image ---
@@ -112,8 +114,6 @@ export function showQRCodeModal(linkUrl, imgProperties) {
     iconBg.appendChild(centerImg);
     qrCodeContainer.appendChild(iconBg);
 
-    // Mark QR code images as loaded so they appear at full opacity
-    // (dynamically created <img> elements are not covered by initAllImageLoadingOpacity).
     qrCodeContainer.querySelectorAll('img').forEach(initImageLoadingOpacity);
 
     // --- Set share card title from icon properties ---
@@ -247,4 +247,37 @@ export function showQRCodeModal(linkUrl, imgProperties) {
 
     const bootstrapModal = new bootstrap.Modal(modalElement);
     bootstrapModal.show();
+}
+
+/**
+ * Set up delegated click listener for QR-code trigger elements.
+ * Elements with `data-qr-url` will open the QR code modal on click.
+ * The optional `data-qr-icon` attribute contains a JSON object with
+ * hast-format icon properties for the centre overlay.
+ *
+ * Call once during page initialization. Uses event delegation on
+ * `document`, so it survives SPA page transitions automatically.
+ */
+export function initQRCodeDelegation() {
+    document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('[data-qr-url]');
+        if (!trigger) return;
+
+        e.preventDefault();
+
+        const url = trigger.getAttribute('data-qr-url');
+        if (!url) return;
+
+        let iconProps = null;
+        const iconAttr = trigger.getAttribute('data-qr-icon');
+        if (iconAttr) {
+            try {
+                iconProps = JSON.parse(iconAttr);
+            } catch {
+                console.warn('Invalid JSON in data-qr-icon:', iconAttr);
+            }
+        }
+
+        showQRCodeModal(url, iconProps);
+    });
 }

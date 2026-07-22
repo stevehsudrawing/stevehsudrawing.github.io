@@ -4,7 +4,7 @@
 </div>
 <br>
 
-A personal link-hub website that consolidates links to all my profiles across various platforms. Built with vanilla HTML, CSS, and JavaScript, deployed via GitHub Pages.
+A personal link-hub website that consolidates links to all my profiles across various platforms. Built with vanilla HTML, CSS, and JavaScript, bundled by [Vite](https://vite.dev/), deployed via GitHub Pages.
 
 ---
 
@@ -36,16 +36,27 @@ For more details, read [this](.github/copilot-instructions.md#13-browser-baselin
 
 ## 3. Tech Stack
 
-| Category       | Choice                                                   |
-|----------------|----------------------------------------------------------|
-| Page Framework | [Bootstrap 5.3.8](https://getbootstrap.com/)             |
-| Icons          | [Bootstrap Icons](https://icons.getbootstrap.com/)       |
-| Font           | [Inter](https://github.com/rsms/inter)                   |
-| QR Code        | [QRCode.js](https://github.com/davidshimjs/qrcodejs)     |
-| HTML-to-Image  | [html-to-image](https://github.com/bubkoo/html-to-image) |
-| HTML-to-Canvas | [html2canvas](https://github.com/niklasvh/html2canvas)   |
-| Hosting        | [GitHub Pages](https://pages.github.com/)                |
+| Category        | Choice                                                                             |
+|-----------------|------------------------------------------------------------------------------------|
+| Build Tool      | [Vite 8](https://vite.dev/)                                                        |
+| Package Manager | [pnpm](https://pnpm.io/)                                                           |
+| Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                                       |
+| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                 |
+| Font            | [Inter](https://github.com/rsms/inter) (via [Fontsource](https://fontsource.org/)) |
+| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                   |
+| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                           |
+| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                             |
+| Hosting         | [GitHub Pages](https://pages.github.com/)                                          |
 
-## 4. Copyright
+## 4. Development
+
+```bash
+pnpm install    # Install dependencies
+pnpm dev        # Start dev server (http://localhost:5173)
+pnpm build      # Build for production (output: dist/)
+pnpm preview    # Preview production build locally
+```
+
+## 5. Copyright
 
 All original artworks in `images/` (including covers, icons, and stickers) are created by **Steve Hsu (什五)**. See [images/README.md](images/README.md) for the full copyright notice and usage restrictions.

@@ -6,36 +6,34 @@ This document provides project-level context, conventions, and constraints for C
 
 ## 1. Tech Stack
 
-### 1.1 Base Language
+### 1.1 Base
 
 - **HTML** 5
 - **CSS**
-- **JavaScript**: Vanilla JS
+- **JavaScript**: Vanilla JS (ES2020+)
+- **Build Tool**: [Vite 8](https://vite.dev/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
 
-### 1.2 External Dependencies (CDN)
+### 1.2 External Dependencies (npm, bundled by Vite)
 
-Loaded in `<head>` of each page:
+All dependencies are installed via pnpm and imported in [`src/main.js`](src/main.js).
+No CDN `<link>` or `<script>` tags are used.
 
-| Resource          | Type | Role             | Homepage                                                                                                               | Introduction Page on `npmjs.com`                                       | GitHub Repo                                                                         | URL                                                                                                                                                            | Version  |
-|-------------------|------|------------------|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| Bootstrap CSS     | CSS  | Page Framework   | [`https://getbootstrap.com/`](https://getbootstrap.com/)                                                               | [`bootstrap`](https://www.npmjs.com/package/bootstrap)                 | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                               | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css)           | 5.3.8    |
-| Bootstrap Icons   | CSS  | Icon Library     | [`https://icons.getbootstrap.com/`](https://icons.getbootstrap.com/)                                                   | [`bootstrap-icons`](https://www.npmjs.com/package/bootstrap-icons)     | [`twbs/icons`](https://github.com/twbs/icons)                                       | [`https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css`](https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css)               | (latest) |
-| Inter Font Family | CSS  | Font Family      | [`https://rsms.me/inter/`](https://rsms.me/inter/)                                                                     | -                                                                      | [`rsms/inter`](https://github.com/rsms/inter)                                       | [`https://rsms.me/inter/inter.css`](https://rsms.me/inter/inter.css)                                                                                           | (latest) |
-| QRCode.js         | JS   | QR Code Utility  | [`https://davidshimjs.github.io/qrcodejs/`](https://davidshimjs.github.io/qrcodejs/)                                   | [`qrcodejs`](https://www.npmjs.com/package/qrcodejs)                   | [`davidshimjs/qrcodejs`](https://github.com/davidshimjs/qrcodejs)                   | [`https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js`](https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js)                                       | 1.0.0    |
-| html-to-image     | JS   | HTML -> Image    | -                                                                                                                      | [`html-to-image`](https://www.npmjs.com/package/html-to-image)         | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | [`https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js`](https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js) | 1.11.13  |
-| html2canvas       | JS   | HTML -> Canvas   | [`https://html2canvas.hertzen.com/`](https://html2canvas.hertzen.com/)                                                 | [`html2canvas`](https://www.npmjs.com/package/html2canvas)             | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | [`https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js`](https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js)             | 1.4.1    |
-| hast-util-to-html | JS   | hast -> HTML     | [`https://unifiedjs.com/explore/package/hast-util-to-html/`](https://unifiedjs.com/explore/package/hast-util-to-html/) | [`hast-util-to-html`](https://www.npmjs.com/package/hast-util-to-html) | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | [`https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm`](https://cdn.jsdelivr.net/npm/hast-util-to-html@9.0.5/+esm)                                       | 9.0.5    |
-
-Loaded at the end of `<body>` of each page:
-
-| Resource       | Type | Role               | Homepage                                                      | Introduction Page on `npmjs.com`                                 | GitHub Repo                                                | URL                                                                                                                                                            | Version |
-|----------------|------|--------------------|---------------------------------------------------------------|------------------------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| @popperjs/core | JS   | Positioning Engine | [`https://popper.js.org/`](https://popper.js.org/) (Expired?) | [`@popperjs/core`](https://www.npmjs.com/package/@popperjs/core) | [`vusion/popper.js`](https://github.com/vusion/popper.js/) | [`https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js`](https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js)       | 2.11.8  |
-| Bootstrap JS   | JS   | Page Framework     | [`https://getbootstrap.com/`](https://getbootstrap.com/)      | [`bootstrap`](https://www.npmjs.com/package/bootstrap)           | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)      | [`https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js`](https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js) | 5.3.8   |
+| Resource          | npm Package         | Role               | GitHub Repo                                                                         | Version |
+|-------------------|---------------------|--------------------|-------------------------------------------------------------------------------------|---------|
+| Bootstrap         | `bootstrap`         | Page Framework     | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                               | 5.3.8   |
+| Bootstrap Icons   | `bootstrap-icons`   | Icon Library       | [`twbs/icons`](https://github.com/twbs/icons)                                       | 1.11.3  |
+| @popperjs/core    | `@popperjs/core`    | Positioning Engine | [`vusion/popper.js`](https://github.com/vusion/popper.js/)                          | 2.11.8  |
+| Inter Font        | `@fontsource/inter` | Font Family        | [`rsms/inter`](https://github.com/rsms/inter)                                       | 5.3.0   |
+| qrcode            | `qrcode`            | QR Code Utility    | [`soldair/node-qrcode`](https://github.com/soldair/node-qrcode)                     | 1.5.4   |
+| html-to-image     | `html-to-image`     | HTML -> Image      | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | 1.11.13 |
+| html2canvas       | `html2canvas`       | HTML -> Canvas     | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | 1.4.1   |
+| hast-util-to-html | `hast-util-to-html` | hast -> HTML       | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | 9.0.5   |
+| Vite (dev only)   | `vite`              | Build Tool         | [`vitejs/vite`](https://github.com/vitejs/vite)                                     | 8.1.5   |
 
 ### 1.3 Browser Baseline
 
-The minimum browser versions are determined by both **CDN dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection (`new Function('return 0?.x')`) in `scripts/env-detections/browser.js` to verify that the JS engine supports optional chaining.
+The minimum browser versions are determined by both **npm dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection (`new Function('return 0?.x')`) in `public/legacy/env-detection.js` to verify that the JS engine supports optional chaining.
 
 | Browser | Min Version | Release Date | Constrained By           |
 |---------|-------------|--------------|--------------------------|
@@ -50,7 +48,7 @@ The minimum browser versions are determined by both **CDN dependencies** and **b
 | Dependency              | Chrome | Edge   | Firefox | Opera  | Safari |
 |-------------------------|--------|--------|---------|--------|--------|
 | Bootstrap 5.3.8 CSS/JS  | **60** | **79** | **60**  | **47** | **12** |
-| QRCode.js 1.0.0         | 1      | 12     | 1.5     | 9      | 3      |
+| qrcode 1.5.4            | 1      | 12     | 1.5     | 9      | 2      |
 | html-to-image 1.11.13   | 32     | 12     | 29      | 20     | 7.1    |
 | html2canvas 1.4.1       | 1      | 12     | 3.5     | 12     | 6      |
 | @popperjs/core 2.11.8   | **60** | **79** | **60**  | **47** | **12** |
@@ -58,7 +56,7 @@ The minimum browser versions are determined by both **CDN dependencies** and **b
 
 > **Sources**:
 > - Bootstrap 5.3.8: [Browsers and devices](https://getbootstrap.com/docs/5.3/getting-started/browsers-devices/) - `.browserslistrc` (`Chrome >= 60, Firefox >= 60, Safari >= 12`); IE11 and legacy EdgeHTML not supported
-> - QRCode.js 1.0.0: [npm](https://www.npmjs.com/package/qrcodejs) - README claims compatibility with "IE6~10, Chrome, Firefox, Safari, Opera"
+> - qrcode 1.5.4: [npm](https://www.npmjs.com/package/qrcode) - renders to `<canvas>`; requires [Canvas API](https://caniuse.com/canvas) support
 > - html-to-image 1.11.13: [GitHub README](https://github.com/bubkoo/html-to-image) - requires `Promise` + SVG `<foreignObject>`
 > - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) - "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
 > - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5
@@ -68,18 +66,19 @@ The minimum browser versions are determined by both **CDN dependencies** and **b
 
 The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Feature                                                                                    | Used By                               | Chrome | Edge   | Firefox | Opera  | Safari |
-|--------------------------------------------------------------------------------------------|---------------------------------------|--------|--------|---------|--------|--------|
-| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any JS Scripts in `scripts/functions` | **80** | **80** | **74**  | **67** | 13.1   |
-| [WebP](https://caniuse.com/webp)                                                           | Image assets                          | 32     | 18     | 65      | 19     | **14** |
-| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                       | 36     | 14     | 39      | 23     | 10     |
-| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                 | 66     | 17     | 62      | 53     | 11     |
-| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | hast-util-to-html                     | 61     | 16     | 60      | 48     | 11     |
+| Feature                                                                                    | Used By                                   | Chrome | Edge   | Firefox | Opera  | Safari |
+|--------------------------------------------------------------------------------------------|-------------------------------------------|--------|--------|---------|--------|--------|
+| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any JS Scripts in `src/scripts/functions` | **80** | **80** | **74**  | **67** | 13.1   |
+| [WebP](https://caniuse.com/webp)                                                           | Image assets                              | 32     | 18     | 65      | 19     | **14** |
+| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                           | 36     | 14     | 39      | 23     | 10     |
+| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                     | 66     | 17     | 62      | 53     | 11     |
+| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | Vite entry point (`src/main.js`)          | 61     | 16     | 60      | 48     | 11     |
 
 ### 1.4 Deployment
 
 - **Platform**: GitHub Pages
-- **Build step**: None: raw HTML/CSS/JS served directly from the repository root.
+- **Build step**: `pnpm build` (Vite bundles to `dist/`), deployed via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+- **CI**: GitHub Actions — checks out → installs pnpm → builds → deploys to Pages
 
 ---
 
@@ -107,7 +106,7 @@ Prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub). These variab
 
 Prefix `--bs-*`. See [its documentation](https://getbootstrap.com/docs/5.3/customize/css-variables/) for more information. e.g. `--bs-border-radius`, `--bs-link-hover-color`
 
-Although all `--bs-border-radius*` settings in `stylesheets/modern/base.css` are 0px, it's still best to choose the border-radius size according to Bootstrap conventions.
+Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0px, it's still best to choose the border-radius size according to Bootstrap conventions.
 
 ### 2.3 JavaScript
 
@@ -205,80 +204,100 @@ Existing batch / single-element pairs:
 
 ### 3.1 Folder Overview
 
-| Folder                    | Purpose                                                           | Where to Add New Code                                 |
-|---------------------------|-------------------------------------------------------------------|-------------------------------------------------------|
-| `.github/`                | GitHub-specific configurations (Copilot instructions, etc.)       | -                                                     |
-| `configs/`                | JSON configuration data for i18n and link cards                   | New JSON config files as needed                       |
-| `configs/i18n/`           | Translation JSON files, one per language                          | New translation file for each added language          |
-| `configs/links/`          | Link-card data JSON files, one per page                           | New link-card JSON when adding a page with link cards |
-| `images/`                 | Image assets organized by format (png, webp, svg) then by purpose | New images in the appropriate sub-folder              |
-| `images/png/`             | PNG images (favicons, icons, stickers, placeholder)               | PNG image files                                       |
-| `images/webp/`            | WebP images (covers, icons, stickers)                             | WebP image files                                      |
-| `images/svg/`             | SVG vector files for runtime injection                            | New SVG file when adding a vector graphic             |
-| `page-components/`        | HTML fragments loaded at runtime by the component loader          | New HTML fragment                                     |
-| `scripts/`                | JS entry points (`init-*.js`, `env-detection.js`)                 | New init script if a new page tier is needed          |
-| `scripts/env-detections/` | Reusable JS modules (ES5) - **define only, never execute**        | New env-detection module                              |
-| `scripts/functions/`      | Reusable JS modules (ES2020) - **define only, never execute**     | New JS module file, or add to an existing file        |
-| `stylesheets/`            | CSS stylesheets                                                   | New CSS file in the appropriate sub-folder            |
-| `stylesheets/modern/`     | CSS modules using modern CSS specifications - for all pages       | New CSS module, or add to an existing file            |
-| `stylesheets/minimal/`    | CSS with broad compatibility (IE 11) - for error pages only       | New minimal stylesheet                                |
-| Root `*.xml`              | Sitemap and other XML config files                                | -                                                     |
-| Root `*.json`             | PWA manifest and other root JSON configs                          | -                                                     |
-| Root `*.html`             | Page files (homepage, sub-pages, error pages)                     | New page file when adding a page                      |
+| Folder                            | Purpose                                                            | Where to Add New Code                                 |
+|-----------------------------------|--------------------------------------------------------------------|-------------------------------------------------------|
+| `.github/`                        | GitHub-specific configurations (Copilot instructions, CI)          | -                                                     |
+| `src/`                            | **Vite source** — all JS modules, CSS, and the Vite entry point   | See sub-folders below                                 |
+| `src/main.js`                     | Vite entry point — imports all CSS, npm packages, and JS modules  | -                                                     |
+| `src/scripts/`                    | JS entry points (`init-*.js`)                                      | New init script if a new page tier is needed          |
+| `src/scripts/functions/core/`     | **Core modules** — zero project imports, only npm or browser APIs | New core utility when it has no project dependencies  |
+| `src/scripts/functions/ui/`       | **UI modules** — depend on `core/`, may depend on each other      | New UI module when it uses `core/` modules            |
+| `src/scripts/functions/features/` | **Feature modules** — depend on `core/` + `ui/`, orchestrate UI   | New feature module for cross-cutting functionality    |
+| `src/stylesheets/`         | CSS modules using modern CSS specifications — for all pages       | New CSS module, or add to an existing file            |
+| `public/`                         | **Static assets** served as-is by Vite, no processing              | See sub-folders below                                 |
+| `public/configs/`                 | JSON configuration data for i18n and link cards                    | New JSON config files as needed                       |
+| `public/configs/i18n/`            | Translation JSON files, one per language                           | New translation file for each added language          |
+| `public/configs/links/`           | Link-card data JSON files, one per page                            | New link-card JSON when adding a page with link cards |
+| `public/images/`                  | Image assets organized by format (png, webp, svg) then by purpose  | New images in the appropriate sub-folder              |
+| `public/page-components/`         | HTML fragments loaded at runtime by the component loader           | New HTML fragment                                     |
+| `public/legacy/`                  | Broad-compatibility scripts/CSS (ES5, IE11) for error pages        | New legacy compatibility asset                        |
+| `public/*.xml`, `public/*.json`   | Sitemap, PWA manifest, and other static configs                    | -                                                     |
+| `tools/`                          | Migration helper scripts (Python) — temporary                     | -                                                     |
+| `test/`                           | Test pages for isolated feature validation                         | New test page                                         |
+| Root `*.html`                     | Page files (homepage, sub-pages, error pages)                      | New page file when adding a page                      |
+| `vite.config.js`                  | Vite configuration — multi-page input, dev server, build options  | -                                                     |
+| `package.json`                    | npm dependencies and scripts (`dev`, `build`, `preview`)           | -                                                     |
+
+**Layered JS architecture (`src/scripts/functions/`):**
+
+```
+core/     →  zero project imports (utils, i18n, img-utils, accessibility, etc.)
+  ↑
+ui/       →  depends on core/ (theme, navbar, tooltips, settings, etc.)
+  ↑
+features/ → depends on core/ + ui/ (page-transition, link-cards, qr-code, etc.)
+```
+
+| Layer       | May import from                | Must NOT import from     |
+|-------------|--------------------------------|--------------------------|
+| `core/`     | npm packages, browser APIs     | Any `../` project module |
+| `ui/`       | `core/*`                       | `features/*`             |
+| `features/` | `core/*`, `ui/*`, `features/*` | -                        |
 
 **File placement rules**:
 
-- Put JS functions in `scripts/functions/` or `scripts/env-detections/` - either in a relevant existing file or a new file.
-    - Use `scripts/env-detections/` for ES5 scripts (e.g. browser/environment detection that runs before the page renders).
-    - Use `scripts/functions/` for ES2020 scripts (general-purpose reusable modules).
-- Put CSS in `stylesheets/modern/` - either in a relevant existing file or a new file.
-    - Use `stylesheets/modern/` for all normal page stylesheets (modern CSS).
-    - Use `stylesheets/minimal/` only for error pages that must support IE 11.
-- If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`). If the CSS is general-purpose, it can go into `components.css` instead.
-- Put JSON configuration data in `configs/` under the appropriate sub-folder.
-- Put reusable HTML fragments in `page-components/`.
+- Put JS modules in `src/scripts/functions/{core,ui,features}/` according to their dependency level.
+    - New modules with zero project imports → `core/`.
+    - New modules depending only on `core/` → `ui/`.
+    - New modules depending on `core/` + `ui/` (or orchestrating both) → `features/`.
+- Put CSS in `src/stylesheets/` — either in a relevant existing file or a new file.
+    - If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`).
+- Put JSON configuration data in `public/configs/` under the appropriate sub-folder.
+- Put reusable HTML fragments in `public/page-components/`.
+- Put broad-compatibility assets (ES5, IE11) in `public/legacy/`.
 
 ### 3.2 General File Rules
 
-#### 3.2.1 `scripts/env-detections/` and `scripts/functions/`: Define Only, Never Execute
+#### 3.2.1 `src/scripts/functions/`: Define Only, Never Execute
 
-- Files in `scripts/env-detections/` must **only define variables and functions**, using **ES5** syntax.
-- Files in `scripts/functions/` must **only define variables and functions**, using **ES2020** syntax. `var` should be avoided.
-- Every global variable and function **must have JSDoc** written for it.
+- Files in `src/scripts/functions/` must **only define variables and functions**, using **ES2020** syntax. `var` should be avoided.
+- Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
-- All execution / wiring happens in the `init-*.js` entry points.
+- All execution / wiring happens in the `init-*.js` entry points (see [§3.2.2](#322-srcscriptsinit-js-entry-points-wire-everything)).
+- **Exception**: `public/legacy/env-detection.js` is a classic script (not a module) that runs before `<head>` to perform browser/crawler detection. It DOES execute at the top level, but must still use **ES5** syntax for broad compatibility.
 
 ```js
-// In scripts/functions/example.js:
+// In src/scripts/functions/core/example.js:
 
 // CORRECT:
 
-/** @type {number} This is a global number variable. */
-var num1 = 1;
+/** @type {number} This is an exported constant. */
+export const EXAMPLE_NUMBER = 1;
 
 /**
  * This function will do something.
+ * @returns {void}
  */
-function doSomething() { /* ... */ }
+export function doSomething() { /* ... */ }
 
 // WRONG:
 doSomething();  // No top-level execution!
 document.addEventListener('DOMContentLoaded', doSomething);  // No!
 ```
 
-#### 3.2.2 `scripts/init-*.js`: Entry Points, Wire Everything
+#### 3.2.2 `src/scripts/init-*.js`: Entry Points, Wire Everything
 
-- These files import functions from `scripts/functions/` and `scripts/env-detections/` and call them in the correct order.
-- `env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`. Uses functions defined in `scripts/env-detections/`.
+- These files import functions from `src/scripts/functions/` and call them in the correct order.
+- `public/legacy/env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`.
 - `init-at-head.js`: Runs synchronously in `<head>`.
 - `init-final.js`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
 - `init-final-lightweight.js`: Cut-down version. Does not load the Page Transition System.
 
 #### 3.2.3 `stylesheets/`: Two Sub-Folders, One Commenting Convention
 
-- **`stylesheets/modern/`** — CSS modules for all normal pages. Uses modern CSS specifications.
-- **`stylesheets/minimal/`** — Broad compatibility CSS for error pages (supports IE 11).
+- **`src/stylesheets/`** — CSS modules for all normal pages. Uses modern CSS specifications.
+- **`public/legacy/`** — Broad compatibility CSS for error pages (`base.css`, supports IE 11).
 
 Both sub-folders use the same CSS commenting format:
 
@@ -305,7 +324,7 @@ Both sub-folders use the same CSS commenting format:
     - `softwares`
 - **Error Pages**: Use `init-final-lightweight.js`.
     - `404`: The redirected page when an HTTP 404 occurs.
-- **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/stylesheets/minimal/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
+- **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
     - `unsupported-browser`
     - `javascript-disabled`
 
@@ -331,19 +350,18 @@ Both sub-folders use the same CSS commenting format:
 
 **Related Files**:
 
-| File                                           | Role                                                                                                           |
-|------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `scripts/env-detection.js`                     | Runs before page load; performs basic environment checks                                                       |
-| `scripts/env-detections/browser.js`            | Feature detection (optional chaining) and crawler whitelist (UA-based); written in ES5 for broad compatibility |
-| `scripts/functions/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                                                     |
-| `error-unsupported-browser.html`               | Fallback page for unsupported browsers                                                                         |
-| `error-javascript-disabled.html`               | Fallback page displayed when JavaScript is disabled                                                            |
+| File                                                    | Role                                                                                               |
+|---------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `public/legacy/env-detection.js`                        | Runs before page load; performs basic environment checks, feature detection, and crawler whitelist |
+| `src/scripts/functions/core/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                                         |
+| `error-unsupported-browser.html`                        | Fallback page for unsupported browsers                                                             |
+| `error-javascript-disabled.html`                        | Fallback page displayed when JavaScript is disabled                                                |
 
-> `browser.js` is executed first among all scripts. It uses `new Function()` to test ES2020 syntax support without causing a SyntaxError on older engines.
+> `env-detection.js` is executed first among all scripts. It uses `new Function()` to test ES2020 syntax support without causing a SyntaxError on older engines. Written in ES5 for broad compatibility.
 
 **Data Flow**:
 
-- `browser.js` first checks via `isBotOrCrawler()` whether the User-Agent belongs to a known crawler; if so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
+- `env-detection.js` first checks via `isBotOrCrawler()` whether the User-Agent belongs to a known crawler; if so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
 - For real users, `isFeatureSupported()` tests whether the JS engine can parse optional chaining syntax via `new Function('return 0?.x')`. If the test throws a SyntaxError, the browser is considered unsupported.
 - If unsupported: redirects to `error-unsupported-browser.html`.
 - `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
@@ -368,13 +386,13 @@ Both sub-folders use the same CSS commenting format:
 
 **Related Files**:
 
-| File                                      | Role                                |
-|-------------------------------------------|-------------------------------------|
-| `scripts/functions/component-loader.js`   | Fetches and injects HTML fragments  |
-| `page-components/header.html`             | Header fragment                     |
-| `page-components/footer.html`             | Footer fragment (full pages)        |
-| `page-components/footer-lightweight.html` | Footer fragment (lightweight pages) |
-| `page-components/modals.html`             | Settings and QR code modals         |
+| File                                             | Role                                |
+|--------------------------------------------------|-------------------------------------|
+| `src/scripts/functions/core/component-loader.js` | Fetches and injects HTML fragments  |
+| `public/page-components/header.html`             | Header fragment                     |
+| `public/page-components/footer.html`             | Footer fragment (full pages)        |
+| `public/page-components/footer-lightweight.html` | Footer fragment (lightweight pages) |
+| `public/page-components/modals.html`             | Settings and QR code modals         |
 
 **How It Works**:
 
@@ -396,11 +414,11 @@ HTML: <div data-role="page-component" data-component-name="header"></div>
 
 **Related Files**:
 
-| File                         | Role                                                  |
-|------------------------------|-------------------------------------------------------|
-| `scripts/functions/i18n.js`  | Language loading, text replacement, language switcher |
-| `configs/language-list.json` | List of supported language codes                      |
-| `configs/i18n/{lang}.json`   | Translation key-value pairs for each language         |
+| File                                 | Role                                                  |
+|--------------------------------------|-------------------------------------------------------|
+| `src/scripts/functions/core/i18n.js` | Language loading, text replacement, language switcher |
+| `public/configs/language-list.json`  | List of supported language codes                      |
+| `public/configs/i18n/{lang}.json`    | Translation key-value pairs for each language         |
 
 **How It Works**:
 
@@ -452,13 +470,13 @@ ARIA labels: <a aria-label="Settings" data-i18n-aria-label="text-settings"><i cl
 
 **Related Files**:
 
-| File                                   | Role                                                                      |
-|----------------------------------------|---------------------------------------------------------------------------|
-| `scripts/functions/theme.js`           | Theme initialization, switching, system theme listener, and favicon theme |
-| `stylesheets/modern/theme.css`         | Theme-specific CSS custom property overrides                              |
-| `stylesheets/modern/base.css`          | Base styles including `--bs-border-radius` overrides and shared variables |
-| `images/svg/favicons/general.svg`      | Light-theme favicon (blue `#3c96ff`)                                      |
-| `images/svg/favicons/general-dark.svg` | Dark-theme favicon (white)                                                |
+| File                                          | Role                                                                      |
+|-----------------------------------------------|---------------------------------------------------------------------------|
+| `src/scripts/functions/ui/theme.js`           | Theme initialization, switching, system theme listener, and favicon theme |
+| `src/stylesheets/theme.css`                   | Theme-specific CSS custom property overrides                              |
+| `src/stylesheets/base.css`                    | Base styles including `--bs-border-radius` overrides and shared variables |
+| `public/images/svg/favicons/general.svg`      | Light-theme favicon (blue `#3c96ff`)                                      |
+| `public/images/svg/favicons/general-dark.svg` | Dark-theme favicon (white)                                                |
 
 **How It Works**:
 
@@ -497,10 +515,10 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                                        | Role                                            |
-|---------------------------------------------|-------------------------------------------------|
-| `scripts/functions/link-cards-generator.js` | Generates link-card DOM elements from JSON data |
-| `configs/links/{page-name}.json`            | Link-card group definitions for each page       |
+| File                                                     | Role                                            |
+|----------------------------------------------------------|-------------------------------------------------|
+| `src/scripts/functions/features/link-cards-generator.js` | Generates link-card DOM elements from JSON data |
+| `public/configs/links/{page-name}.json`                  | Link-card group definitions for each page       |
 
 #### 4.5.1 JSON Structural Standards
 
@@ -622,10 +640,10 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                     | Role                                                          |
-|------------------------------------------|---------------------------------------------------------------|
-| `scripts/functions/page-transition.js`   | Intercepts internal link clicks, manages transition animation |
-| `stylesheets/modern/page-transition.css` | Progress bar and content dimming styles                       |
+| File                                                | Role                                                          |
+|-----------------------------------------------------|---------------------------------------------------------------|
+| `src/scripts/functions/features/page-transition.js` | Intercepts internal link clicks, manages transition animation |
+| `src/stylesheets/page-transition.css`               | Progress bar and content dimming styles                       |
 
 **How It Works**:
 
@@ -651,10 +669,10 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                    | Role                               |
-|-----------------------------------------|------------------------------------|
-| `scripts/functions/loading-screen.js`   | Controls loading screen visibility |
-| `stylesheets/modern/loading-screen.css` | Loading screen overlay styles      |
+| File                                           | Role                               |
+|------------------------------------------------|------------------------------------|
+| `src/scripts/functions/core/loading-screen.js` | Controls loading screen visibility |
+| `src/stylesheets/loading-screen.css`           | Loading screen overlay styles      |
 
 **Data Flow**:
 
@@ -671,9 +689,9 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                            | Role                                                             |
-|---------------------------------|------------------------------------------------------------------|
-| `scripts/functions/settings.js` | Preference read/write, toggle event handling, applying behaviors |
+| File                                   | Role                                                             |
+|----------------------------------------|------------------------------------------------------------------|
+| `src/scripts/functions/ui/settings.js` | Preference read/write, toggle event handling, applying behaviors |
 
 **Preferences Managed**:
 
@@ -692,13 +710,13 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
     - `localStorage` key: `enableAnimations`.
     - **Default**: enabled - the preference is considered on unless explicitly set to `'false'`.
     - Controlled by a toggle (`#enable-animations-toggle`) in the settings modal.
-    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `stylesheets/modern/accessibility.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
+    - When disabled, the `applyAnimationPreference()` function adds the `.no-animations` class to `<html>`, which triggers a global CSS rule (in `src/stylesheets/accessibility.css`) that sets `transition: none !important` and `animation: none !important` on all elements.
     - Key functions:
         - `isAnimationEnabled()` - reads the preference.
         - `setAnimationPreference(enabled)` - persists the preference.
         - `applyAnimationPreference()` - toggles the `.no-animations` class on `<html>`.
         - `updateAnimationToggleState()` - checks `matchMedia('(prefers-reduced-motion: reduce)')`; when the OS-level reduced-motion setting is active, disables the toggle (`disabled + unchecked`) and displays a tooltip on the label (i18n key `text-animations-disabled-by-system-description`) explaining that the system setting overrides this option. Listens for changes to the OS setting via `matchMedia(...).addEventListener('change', ...)`.
-    - CSS rules (in `stylesheets/modern/accessibility.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
+    - CSS rules (in `src/stylesheets/accessibility.css`): two independent paths disable animations — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual). Both use the same `transition: none !important; animation: none !important` approach.
     - The toggle change event is handled by `initSettingEventListeners()`.
     - When the settings modal opens, `initSettingsModal()` syncs the toggle with the stored preference and system state.
 
@@ -726,18 +744,18 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                   | Role                                                                                     |
-|----------------------------------------|------------------------------------------------------------------------------------------|
-| `scripts/functions/navbar.js`          | Active nav item highlighting                                                             |
-| `scripts/functions/scroll-hint.js`     | Scroll-down hint indicator                                                               |
-| `scripts/functions/accessibility.js`   | Skip button, focus management, external link indicators, title link anchors              |
-| `stylesheets/modern/navbar.css`        | Navbar styles                                                                            |
-| `stylesheets/modern/scroll-hint.css`   | Scroll hint styles                                                                       |
-| `stylesheets/modern/accessibility.css` | Base accessibility rules (motion, transparency, contrast), skip button, and focus styles |
+| File                                          | Role                                                                                     |
+|-----------------------------------------------|------------------------------------------------------------------------------------------|
+| `src/scripts/functions/ui/navbar.js`          | Active nav item highlighting                                                             |
+| `src/scripts/functions/ui/scroll-hint.js`     | Scroll-down hint indicator                                                               |
+| `src/scripts/functions/core/accessibility.js` | Skip button, focus management, external link indicators, title link anchors              |
+| `src/stylesheets/navbar.css`                  | Navbar styles                                                                            |
+| `src/stylesheets/scroll-hint.css`             | Scroll hint styles                                                                       |
+| `src/stylesheets/accessibility.css`           | Base accessibility rules (motion, transparency, contrast), skip button, and focus styles |
 
 **Features**:
 
-- **CSS-based accessibility adaptations** (in `stylesheets/modern/accessibility.css`, "Base Accessibility" section):
+- **CSS-based accessibility adaptations** (in `src/stylesheets/accessibility.css`, "Base Accessibility" section):
     - **Disable all transitions & animations**: Two independent paths — the `@media (prefers-reduced-motion: reduce)` query (OS-level) and the `.no-animations` class (manual, toggled via the "Enable animations" setting in [§4.8](#48-settings--preferences)). Both set `transition: none !important; animation: none !important` on all elements and their `::before`/`::after` pseudo-elements.
     - **Disable Transparency**: Responds to the `@media (prefers-reduced-transparency: reduce)` query by forcing full opacity on tooltips (`--bs-tooltip-opacity: 1`), removing `backdrop-filter` from the navbar and modal backdrop, and using opaque `background-color` fallbacks.
     - **High Contrast**: Responds to the `@media (prefers-contrast: more)` query by using stark black/white border and secondary colors, forcing `hr` opacity to 1, adding a visible border-box shadow to `.navbar-scrolled`, enforcing a visible border on `.btn-no-border`, and in dark mode using a black body background with white borders.
@@ -753,11 +771,11 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                             | Role                                                |
-|----------------------------------|-----------------------------------------------------|
-| `scripts/functions/qr-code.js`   | QR code generation, share card assembly, PNG export |
-| `stylesheets/modern/qr-code.css` | Share card layout styles                            |
-| `page-components/modals.html`    | QR code modal HTML (shared with other modals)       |
+| File                                        | Role                                                |
+|---------------------------------------------|-----------------------------------------------------|
+| `src/scripts/functions/features/qr-code.js` | QR code generation, share card assembly, PNG export |
+| `src/stylesheets/qr-code.css`               | Share card layout styles                            |
+| `page-components/modals.html`               | QR code modal HTML (shared with other modals)       |
 
 **How It Works**:
 
@@ -778,13 +796,13 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 ### 4.11 Fonts & Typography
 
-**Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/modern/fonts.css` using `--shlh-font-*` CSS custom properties.
+**Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/fonts.css` using `--shlh-font-*` CSS custom properties.
 
 **Related Files**:
 
-| File                           | Role                                                                     |
-|--------------------------------|--------------------------------------------------------------------------|
-| `stylesheets/modern/fonts.css` | Font-face declarations and per-element, per-language font stack assembly |
+| File                        | Role                                                                     |
+|-----------------------------|--------------------------------------------------------------------------|
+| `src/stylesheets/fonts.css` | Font-face declarations and per-element, per-language font stack assembly |
 
 #### 4.11.1 Font Variable Naming
 
@@ -813,7 +831,7 @@ Font-related CSS custom properties use the `--shlh-*` prefix with the following 
 - `--shlh-font-{category}-system`: System fallback. Such variables are considered language-independent.
 - `--shlh-font-emoji`: Emoji font stack. Emoji is considered unrelated to all three of the above entries.
 
-Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `stylesheets/modern/fonts.css`. See that file for the exact composition of each stack.
+Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `src/stylesheets/fonts.css`. See that file for the exact composition of each stack.
 
 See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definition.
 
@@ -897,9 +915,9 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                            | Role                                                                                                                               |
-|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `scripts/functions/tooltips.js` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
+| File                                   | Role                                                                                                                               |
+|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `src/scripts/functions/ui/tooltips.js` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
 
 **Key Functions**:
 
@@ -919,13 +937,13 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                               | Role                                                                                 |
-|------------------------------------|--------------------------------------------------------------------------------------|
-| `scripts/functions/img-utils.js`   | Initializes `data-img-feature="colored"` images and image loading opacity            |
-| `stylesheets/modern/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
-| `scripts/functions/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `images/webp/null.webp`            | Placeholder image used with `data-img-feature="colored"`                             |
-| `images/README.md`                 | Copyright notice for image assets                                                    |
+| File                                      | Role                                                                                 |
+|-------------------------------------------|--------------------------------------------------------------------------------------|
+| `src/scripts/functions/core/img-utils.js` | Initializes `data-img-feature="colored"` images and image loading opacity            |
+| `src/stylesheets/img-utils.css`           | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
+| `src/scripts/functions/ui/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
+| `public/images/webp/null.webp`            | Placeholder image used with `data-img-feature="colored"`                             |
+| `public/images/README.md`                 | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute
 
@@ -992,10 +1010,10 @@ When `applyThemeBasedImage()` switches the `src` of a `follow-theme` image durin
 
 **Related Files**:
 
-| File                             | Role                                                                |
-|----------------------------------|---------------------------------------------------------------------|
-| `scripts/functions/svg-utils.js` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
-| `images/svg/`                    | SVG source files (e.g. `steve-hsu.svg`)                             |
+| File                                      | Role                                                                |
+|-------------------------------------------|---------------------------------------------------------------------|
+| `src/scripts/functions/core/svg-utils.js` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
+| `public/images/svg/`                      | SVG source files (e.g. `steve-hsu.svg`)                             |
 
 **How It Works**:
 
@@ -1031,10 +1049,10 @@ HTML: <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-widt
 
 **Related Files**:
 
-| File                              | Role                                                                      |
-|-----------------------------------|---------------------------------------------------------------------------|
-| `scripts/functions/utils.js`      | Shared utility functions (path normalization, page name extraction, etc.) |
-| `scripts/functions/page-title.js` | Page title management                                                     |
+| File                                     | Role                                                                      |
+|------------------------------------------|---------------------------------------------------------------------------|
+| `src/scripts/functions/core/utils.js`    | Shared utility functions (path normalization, page name extraction, etc.) |
+| `src/scripts/functions/ui/page-title.js` | Page title management                                                     |
 
 ---
 
@@ -1107,7 +1125,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 - When the user switches language via the UI, `history.replaceState()` updates the URL with the new `?lang=` parameter without creating a browser history entry.
 - The Page Transition System ([§4.6](#46-page-transitions)) preserves the `?lang=` parameter across internal SPA navigations, so the user's chosen language persists through page transitions.
 - Hreflang `<link>` tags in `<head>` use the `?lang=` URLs to give each language a unique URL for search engines.
-- Language code normalization: a `normalizeLang()` function (in `scripts/functions/i18n.js`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
+- Language code normalization: a `normalizeLang()` function (in `src/scripts/functions/core/i18n.js`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
     - `zh-HK`, `zh-MO`, `zh-TW`, `zh-Hant`, `zh-Hant-*` → `zh-Hant`
     - `zh-CN`, `zh-SG`, `zh`, `zh-Hans`, `zh-Hans-*` → `zh-Hans`
     - Other `zh-*` variants → `zh-Hans` (fallback)
@@ -1125,19 +1143,19 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 - **Every page must have exactly one `<h1>`**. This is the primary SEO heading signal. Multiple `<h1>`s dilute ranking and are flagged as critical issues by SEO tools.
 - The `<h1>` must be **pure text** — no `<a>` links, no inline markup beyond semantic phrasing elements. Links dilute the heading keyword signal.
-- **Sub-section headings** (e.g. \"My Softwares\", \"Blogs & Sponsor\") use `<h2 class="pseudo-h1">`. The `.pseudo-h1` class (defined in `stylesheets/modern/base.css`) applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
+- **Sub-section headings** (e.g. \"My Softwares\", \"Blogs & Sponsor\") use `<h2 class="pseudo-h1">`. The `.pseudo-h1` class (defined in `src/stylesheets/base.css`) applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
 - **`<noscript>` fallback headings** use `<h2 class="pseudo-h1">` to avoid creating a second `<h1>` that search engines would count against the page.
 
 #### 4.16.7 Homepage H1 Rich Text
 
 - The homepage `<h1>` uses `data-i18n-html="html-steve-hsu-s-link-hub"` with inline HTML markup.
-- The translation string includes `<span class="color-primary">` to brand the name with the site's primary color (defined in `stylesheets/modern/theme.css`).
+- The translation string includes `<span class="color-primary">` to brand the name with the site's primary color (defined in `src/stylesheets/theme.css`).
 - This approach allows per-language flexibility: the name can appear at the beginning, middle, or end of the title depending on the language's grammar.
 - The English fallback text between the tags serves as both the default rendering and the English translation.
 
 #### 4.16.8 Crawler Whitelist
 
-- `scripts/env-detections/browser.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function. Bots are identified by UA string matching because some crawlers run limited JS engines that may not support optional chaining.
+- `public/legacy/env-detection.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function. Bots are identified by UA string matching because some crawlers run limited JS engines that may not support optional chaining.
 - Without this whitelist, crawlers with User-Agents that do not match recognized browser patterns are detected as \"unsupported\" and redirected to `error-unsupported-browser.html`, which has `robots: noindex`. This would prevent the site from being indexed.
 - The whitelist covers:
     - **Search engines**: Googlebot, Bingbot, Baiduspider, Yandex, DuckDuckGo, Yahoo Slurp, Sogou, 360Spider
@@ -1155,11 +1173,11 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 **Related Files**:
 
-| File                                              | Role                                               |
-|---------------------------------------------------|----------------------------------------------------|
-| `scripts/functions/external-link-confirmation.js` | Link interception, modal display, navigation logic |
-| `stylesheets/external-link-confirmation.css`      | Modal URL display styling                          |
-| `page-components/modals.html`                     | Confirmation modal HTML (shared with other modals) |
+| File                                                           | Role                                               |
+|----------------------------------------------------------------|----------------------------------------------------|
+| `src/scripts/functions/features/external-link-confirmation.js` | Link interception, modal display, navigation logic |
+| `stylesheets/external-link-confirmation.css`                   | Modal URL display styling                          |
+| `page-components/modals.html`                                  | Confirmation modal HTML (shared with other modals) |
 
 **How It Works**:
 
@@ -1248,7 +1266,8 @@ When generating responses for this project, Copilot should:
 2. **Respond using the language that the user is using**: For example, if the user is conversing in Chinese, responses should be in Chinese.
 3. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `-`, using `->` instead of `→`.
 4. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
-5. **Conventions of Commit Messages**:
+5. **Priority of norms/standards**: If there are more normative or standard practices, priority should be given to norms or standards, even if refactoring is required.
+6. **Conventions of Commit Messages**:
     - Write in English (United States).
     - Use the simple present tense to describe changes. e.g. "Change" is **correct**; "Changed" is **wrong**.
     - The whole commit message should be as short as possible.

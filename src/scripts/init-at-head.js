@@ -1,5 +1,5 @@
 
-import { applyThemePreference, currentThemePreference, initSystemThemeListener, initThemePreference } from './functions/ui/theme.js';
+import { applyThemePreference, currentThemePreference, initSystemThemeListener, initThemePreference } from './ui/theme.js';
 
 initThemePreference();
 initSystemThemeListener();

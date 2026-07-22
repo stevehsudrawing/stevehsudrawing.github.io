@@ -117,6 +117,7 @@
     "text-you-are-about-to-leave": "You are about to leave this site and go to:",
 
     "html-artworks-description": "Preferred styles: Chibi, Pixel Art. I mainly create original works, and occasionally fan-art. Commercial commissions for artworks are <strong>unavailable</strong> at this time.",
+    "html-powered-by": "Powered by <a href=\"https://vite.dev/\" data-link-img-props='{\"src\":\"/images/webp/icons/vite.webp\",\"alt\":\"Vite\"}' class=\"link external-link\">Vite</a>",
     "html-profile-part-7": "Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:",
     "html-sponsorship-description": "Sponsorship is based on <strong>the principle of voluntariness</strong>.",
     "html-steve-hsu-s-link-hub": "<strong class=\"color-primary\">Steve Hsu <small>什五</small></strong>'s Link-Hub",

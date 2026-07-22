@@ -1,16 +1,16 @@
 
-import { addAllExternalLinkIndicators } from './functions/core/accessibility.js';
-import { initBootstrapCSSDetection } from './functions/core/bootstrap-css-detection.js';
-import { loadAllComponents } from './functions/core/component-loader.js';
-import { initLang } from './functions/core/i18n.js';
-import { initAllImageLoadingOpacity } from './functions/core/img-utils.js';
-import { initHashChangeScroll } from './functions/features/link-cards-generator.js';
-import { hideLoadingScreen } from './functions/core/loading-screen.js';
-import { initNoCopyProtection } from './functions/core/no-copy.js';
-import { updatePageTitle } from './functions/ui/page-title.js';
-import { initSvgInjection } from './functions/core/svg-utils.js';
-import { applyAllThemeBasedImages, initThemeTransitionOverlay, setActiveThemeItem, updateThemeToggleText } from './functions/ui/theme.js';
-import { initAllCopyLinkTooltips, initAllTooltips, initTooltipI18nListener } from './functions/ui/tooltips.js';
+import { addAllExternalLinkIndicators } from './core/accessibility.js';
+import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
+import { loadAllComponents } from './core/component-loader.js';
+import { initLang } from './core/i18n.js';
+import { initAllImageLoadingOpacity } from './core/img-utils.js';
+import { initHashChangeScroll } from './features/link-cards-generator.js';
+import { hideLoadingScreen } from './core/loading-screen.js';
+import { initNoCopyProtection } from './core/no-copy.js';
+import { updatePageTitle } from './ui/page-title.js';
+import { initSvgInjection } from './core/svg-utils.js';
+import { applyAllThemeBasedImages, initThemeTransitionOverlay, setActiveThemeItem, updateThemeToggleText } from './ui/theme.js';
+import { initAllCopyLinkTooltips, initAllTooltips, initTooltipI18nListener } from './ui/tooltips.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {

@@ -1,18 +1,19 @@
-import { initPageContent } from './functions/features/init-page-content.js';
-import { initTooltipI18nListener } from './functions/ui/tooltips.js';
-import { initThemeTransitionOverlay, updateThemeToggleText, setActiveThemeItem } from './functions/ui/theme.js';
-import { hideLoadingScreen } from './functions/core/loading-screen.js';
-import { loadAllComponents } from './functions/core/component-loader.js';
-import { initBootstrapCSSDetection } from './functions/core/bootstrap-css-detection.js';
-import { initNavbarScrollBorder, initMobileNavbarBrandScroll, initDropdownMenuAnimation } from './functions/ui/navbar.js';
-import { initSettingEventListeners, initSettingsModal } from './functions/ui/settings.js';
-import { initPageTransitionLinkClicks, initPageTransitionPopState } from './functions/features/page-transition.js';
-import { initExternalLinkConfirmation } from './functions/features/external-link-confirmation.js';
-import { initHashChangeScroll } from './functions/features/link-cards-generator.js';
-import { loadSupportedLangs, populateLanguageMenus, initLang } from './functions/core/i18n.js';
-import { initSkipButton } from './functions/core/accessibility.js';
-import { initAllScrollHints } from './functions/ui/scroll-hint.js';
-import { initNoCopyProtection } from './functions/core/no-copy.js';
+import { initPageContent } from './features/init-page-content.js';
+import { initTooltipI18nListener } from './ui/tooltips.js';
+import { initThemeTransitionOverlay, updateThemeToggleText, setActiveThemeItem } from './ui/theme.js';
+import { hideLoadingScreen } from './core/loading-screen.js';
+import { loadAllComponents } from './core/component-loader.js';
+import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
+import { initNavbarScrollBorder, initMobileNavbarBrandScroll, initDropdownMenuAnimation } from './ui/navbar.js';
+import { initSettingEventListeners, initSettingsModal } from './ui/settings.js';
+import { initPageTransitionLinkClicks, initPageTransitionPopState } from './features/page-transition.js';
+import { initExternalLinkConfirmation } from './features/external-link-confirmation.js';
+import { initHashChangeScroll } from './features/link-cards-generator.js';
+import { initQRCodeDelegation } from './features/qr-code.js';
+import { loadSupportedLangs, populateLanguageMenus, initLang } from './core/i18n.js';
+import { initSkipButton } from './core/accessibility.js';
+import { initAllScrollHints } from './ui/scroll-hint.js';
+import { initNoCopyProtection } from './core/no-copy.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         initSettingEventListeners();
         initExternalLinkConfirmation();
+        initQRCodeDelegation();
         initHashChangeScroll();
         initNoCopyProtection();
 
