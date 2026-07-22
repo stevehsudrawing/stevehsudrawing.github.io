@@ -1,0 +1,121 @@
+/* ========================================================================
+   Base Accessibility
+   ======================================================================== */
+
+/* --- Disable all transitions & animations --- */
+
+/* when browser/system prefers */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* when the user manually turns them off */
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* --- Disable Transparency --- */
+
+/* when browser/system prefers */
+@media (prefers-reduced-transparency: reduce) {
+
+    .tooltip {
+        --bs-tooltip-opacity: 1 !important;
+    }
+
+    .navbar {
+        backdrop-filter: none !important;
+        background-color: rgba(var(--bs-body-bg-rgb), 1) !important;
+    }
+
+    .modal-backdrop {
+        --bs-backdrop-bg-rgb: var(--shlh-transition-rgb);
+        opacity: 0;
+        backdrop-filter: none;
+    }
+
+    .modal-backdrop.show {
+        background-color: rgb(var(--bs-backdrop-bg-rgb));
+        opacity: 1;
+        backdrop-filter: none !important;
+    }
+
+    [data-bs-theme=dark] .modal-backdrop {
+        --bs-backdrop-bg-rgb: 0, 0, 0;
+    }
+}
+
+/* --- High Contrast --- */
+
+/* when browser/system prefers */
+@media (prefers-contrast: more) {
+
+    :root {
+        --bs-secondary: #000;
+        --bs-border-color-translucent: #000;
+        --bs-border-color: var(--bs-body-color);
+    }
+
+    [data-bs-theme=dark] {
+        --bs-secondary: #fff;
+        --bs-body-bg: #000;
+        --bs-body-bg-rgb: 0, 0, 0;
+        --bs-border-color-translucent: #fff;
+    }
+
+    hr {
+        opacity: 1;
+    }
+
+    .tooltip {
+        --bs-tooltip-opacity: 1 !important;
+    }
+
+    .navbar-scrolled {
+        box-shadow: 0 1px 0 rgb(var(--bs-body-color-rgb)) !important;
+    }
+
+    .btn-no-border {
+        --bs-btn-border-width: 1px !important; /* Invalidate */
+    }
+
+    [data-bs-theme=dark] .btn-outline-secondary {
+        --bs-btn-hover-color: #000;
+        --bs-btn-active-color: #000;
+    }
+}
+
+/* ========================================================================
+   Skip Button - Hides when the keyboard is not in use
+   ======================================================================== */
+
+#skip-button {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 1100;
+}
+
+#skip-button:focus-visible,
+html.user-input-keyboard #skip-button:focus {
+    position: fixed;
+    left: .5rem;
+    top: .5rem;
+    width: auto;
+    height: auto;
+    padding: .25rem .5rem;
+    overflow: visible;
+    clip: auto;
+}

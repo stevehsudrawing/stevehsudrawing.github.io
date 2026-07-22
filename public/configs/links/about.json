@@ -1,0 +1,145 @@
+[
+    {
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "properties": {
+                "dataI18n": "text-emails"
+            },
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Emails"
+                }
+            ]
+        },
+        "description": null,
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "type": "element",
+                    "tagName": "img",
+                    "properties": {
+                        "alt": "Quanto Series Team",
+                        "dataI18nAlt": "text-quanto-series-team",
+                        "src": "/images/webp/null.webp",
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/email.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
+                },
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "mailto:quantoseries@outlook.com",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-quanto-series-team"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Quanto Series Team"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "quantoseries@outlook.com | Steve Hsu / 什五 | "
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-quanto-series-team-email-description"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Only topics about the Quanto Series are allowed"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "available": true,
+                "icon": {
+                    "type": "element",
+                    "tagName": "img",
+                    "properties": {
+                        "alt": "My personal email",
+                        "dataI18nAlt": "text-my-personal-email",
+                        "src": "/images/webp/null.webp",
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/email.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
+                },
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "mailto:stevehsudrawing@outlook.com",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-my-personal-email"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "My personal email"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "stevehsudrawing@outlook.com | Steve Hsu / 什五"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

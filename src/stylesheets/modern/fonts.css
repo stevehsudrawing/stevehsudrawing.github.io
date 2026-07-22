@@ -1,0 +1,162 @@
+/* ========================================================================
+   Font Settings - CSS custom properties for multi-language font stacks
+   ======================================================================== */
+
+:root {
+    --shlh-font-emoji: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+    --shlh-font-monospace-fallback-en: 'Menlo', 'Monaco', 'DejaVu Sans Mono', 'Liberation Mono', 'Droid Sans Mono', 'FreeMono', 'Consolas', 'Lucida Console', 'Courier New', 'Courier';
+    --shlh-font-monospace-fallback-ja: 'Osaka', 'VL ゴシック', 'VL Gothic', 'IPA ゴシック', 'IPA Gothic', 'さざなみゴシック', 'Sazanami Gothic', 'ＭＳ ゴシック', 'MS Gothic';
+    --shlh-font-monospace-fallback-zh-Hans: '文泉驿等宽微米黑', 'WenQuanYi Micro Hei Mono', '文泉驿等宽正黑', 'WenQuanYi Zen Hei Mono', '黑体', 'SimHei', '新宋体', 'NSimSun';
+    --shlh-font-monospace-fallback-zh-Hant: '文泉驛等寬微米黑', 'WenQuanYi Micro Hei Mono', '文泉驛等寬正黑', 'WenQuanYi Zen Hei Mono', '細明體', 'MingLiU';
+    --shlh-font-monospace-major-en: 'Iosevka', 'SF Mono', 'San Francisco Mono', 'Roboto Mono', 'Noto Sans Mono', 'Cascadia Code', 'Cascadia Mono';
+    --shlh-font-monospace-major-ja: '更紗等幅ゴシック J', 'Sarasa Mono J', 'Noto Sans Mono CJK JP', '源ノ等幅', 'Source Han Mono';
+    --shlh-font-monospace-major-zh-Hans: '等距更纱黑体 SC', 'Sarasa Mono SC', 'Noto Sans Mono CJK SC', '思源等宽', 'Source Han Mono SC';
+    --shlh-font-monospace-major-zh-Hant: '等距更紗黑體 TC', 'Sarasa Mono TC', 'Noto Sans Mono CJK TC', '思源等寬', 'Source Han Mono TC';
+    --shlh-font-monospace-system: ui-monospace, monospace;
+
+    --shlh-font-sans-serif-text-fallback-en: 'Helvetica Neue', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', 'Droid Sans', 'Tahoma', 'Geneva', 'Verdana', 'Arial';
+    --shlh-font-sans-serif-text-fallback-ja: 'Osaka', 'VL Ｐゴシック', 'VL PGothic', 'IPA ゴシック', 'IPA Gothic', 'さざなみゴシック', 'Sazanami Gothic', 'Droid Sans Japanese', 'Droid Sans Fallback', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
+    --shlh-font-sans-serif-text-fallback-zh-Hans: '华文细黑', 'STXihei', '华文黑体', 'STHeiti', '黑体-简', 'Heiti SC', 'Hei', '文泉驿微米黑', 'WenQuanYi Micro Hei', '文泉驿正黑', 'WenQuanYi Zen Hei', 'Droid Sans Fallback', '黑体', 'SimHei', '宋体', 'SimSun';
+    --shlh-font-sans-serif-text-fallback-zh-Hant: '儷黑 Pro', 'LiHei Pro', '蘋果儷中黑', 'Apple LiGothic', '文泉驛微米黑', 'WenQuanYi Micro Hei', '文泉驛正黑', 'WenQuanYi Zen Hei', 'Droid Sans Fallback', '新細明體', 'PMingLiU';
+    --shlh-font-sans-serif-text-major-en: 'Inter Variable Text', 'InterVariable', 'Inter', 'SF Pro', 'SF Pro Text', 'SF Text', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Noto Sans', 'Segoe UI Variable Text', 'Segoe UI';
+    --shlh-font-sans-serif-text-major-ja: '更紗ゴシック J', 'Sarasa Gothic J', 'ヒラギノ角ゴシック', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Noto Sans CJK', '源ノ角ゴシック', 'Source Han Sans', 'Meiryo UI', 'メイリオ', 'Meiryo';
+    --shlh-font-sans-serif-text-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC', '苹方-简', 'PingFang SC', '苹方', 'PingFang', 'Noto Sans SC', 'Noto Sans CJK SC', '思源黑体', 'Source Han Sans SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
+    --shlh-font-sans-serif-text-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC', '蘋方-繁', 'PingFang TC', '蘋方', 'PingFang', 'Noto Sans TC', 'Noto Sans CJK TC', '思源黑體', 'Source Han Sans TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';
+    --shlh-font-sans-serif-text-system: -apple-system, ui-sans-serif, system-ui, sans-serif;
+
+    --shlh-font-sans-serif-display-en: 'Inter Display', 'InterDisplay', 'InterVariable', 'SF Pro Display', 'SF Display', 'San Francisco Display', 'SF Pro', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
+}
+
+/* --- Body --- */
+
+body {
+    font-family:
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-emoji);
+}
+
+html[lang='zh-Hans']>body {
+    font-family:
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-major-zh-Hans),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-emoji);
+}
+
+html[lang='zh-Hant']>body {
+    font-family:
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-major-zh-Hant),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-emoji);
+}
+
+/* --- Headings --- */
+
+h1,
+h2 {
+    font-family:
+        var(--shlh-font-sans-serif-display-en),
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-emoji) !important;
+}
+
+html[lang='zh-Hans'] h1,
+html[lang='zh-Hans'] h2 {
+    font-family:
+        var(--shlh-font-sans-serif-display-en),
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-major-zh-Hans),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-emoji) !important;
+}
+
+html[lang='zh-Hant'] h1,
+html[lang='zh-Hant'] h2 {
+    font-family:
+        var(--shlh-font-sans-serif-display-en),
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-major-zh-Hant),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-emoji) !important;
+}
+
+/* --- Code --- */
+
+code {
+    font-family:
+        var(--shlh-font-monospace-major-en),
+        var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-monospace-fallback-en),
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-emoji) !important;
+}
+
+html[lang='zh-Hans'] code {
+    font-family:
+        var(--shlh-font-monospace-major-en),
+        var(--shlh-font-monospace-major-zh-Hans),
+        var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-sans-serif-text-major-zh-Hans),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-monospace-fallback-zh-Hans),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hans),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-monospace-fallback-en),
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-emoji) !important;
+}
+
+html[lang='zh-Hant'] code {
+    font-family:
+        var(--shlh-font-monospace-major-en),
+        var(--shlh-font-monospace-major-zh-Hant),
+        var(--shlh-font-monospace-major-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-sans-serif-text-major-zh-Hant),
+        var(--shlh-font-sans-serif-text-major-ja),
+        var(--shlh-font-sans-serif-text-system),
+        var(--shlh-font-monospace-fallback-zh-Hant),
+        var(--shlh-font-monospace-fallback-ja),
+        var(--shlh-font-sans-serif-text-fallback-zh-Hant),
+        var(--shlh-font-sans-serif-text-fallback-ja),
+        var(--shlh-font-monospace-fallback-en),
+        var(--shlh-font-sans-serif-text-major-en),
+        var(--shlh-font-sans-serif-text-fallback-en),
+        var(--shlh-font-emoji) !important;
+}

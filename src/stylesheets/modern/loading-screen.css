@@ -1,0 +1,30 @@
+/* ========================================================================
+   Loading Screen - initial page load overlay
+   ======================================================================== */
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: var(--bs-body-bg);
+    transition: opacity .5s ease;
+}
+
+@supports not (inset: 0) {
+    .loading-screen {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}

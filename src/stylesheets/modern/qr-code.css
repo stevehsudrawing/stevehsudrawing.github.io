@@ -1,0 +1,117 @@
+/* ========================================================================
+   QR Code Modal
+   ======================================================================== */
+
+#qr-code-modal .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Share Card (captured by html-to-image for download) --- */
+
+#qr-share-card {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+}
+
+#qr-share-card-header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .5rem;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#qr-share-card-header-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+#qr-share-card-title {
+    font-size: 16.8px;
+    font-weight: 500;
+    color: var(--bs-body-color);
+    line-height: 1.2;
+}
+
+#qr-share-card-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: rgba(var(--bs-body-color-rgb), .8);
+    font-size: 12px;
+    border-top: 1px solid rgba(var(--bs-body-color-rgb), .8);
+    margin-top: .75rem;
+    padding-top: .5rem;
+}
+
+#qr-share-card-footer-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+#qr-share-card-logo-container {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#qr-share-card-logo {
+    display: block;
+    color: var(--bs-link-color);
+}
+
+#qr-share-card-brand {
+    font-size: 12.8px;
+    color: var(--bs-secondary-color);
+    white-space: nowrap;
+}
+
+#qr-code-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+#qr-code-icon-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    background-color: var(--bs-body-bg);
+    border-radius: var(--bs-border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px var(--bs-body-color);
+}
+
+#qr-code-icon {
+    display: block;
+}
+
+#qr-code-modal-link {
+    font-size: 13.6px;
+    word-break: break-all;
+    color: rgba(var(--bs-body-color-rgb), .9);
+    max-width: 100%;
+    line-height: 1.25;
+}

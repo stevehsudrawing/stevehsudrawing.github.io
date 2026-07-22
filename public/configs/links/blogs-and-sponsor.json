@@ -1,0 +1,146 @@
+[
+    {
+        "title": {
+            "type": "element",
+            "tagName": "span",
+            "properties": {
+                "dataI18n": "text-blogs-and-sponsor"
+            },
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Blogs & Sponsor"
+                }
+            ]
+        },
+        "description": {
+            "type": "root",
+            "children": [
+                {
+                    "type": "element",
+                    "tagName": "span",
+                    "properties": {
+                        "dataI18nHtml": "html-sponsorship-description"
+                    },
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": "Sponsorship is based on the principle of voluntariness."
+                        }
+                    ]
+                }
+            ]
+        },
+        "contents": [
+            {
+                "available": true,
+                "icon": {
+                    "type": "element",
+                    "tagName": "img",
+                    "properties": {
+                        "alt": "Patreon (Quanto Series)",
+                        "dataI18nAlt": "text-patreon-quanto-series",
+                        "src": "/images/webp/null.webp",
+                        "dataImgFeature": "colored",
+                        "dataSrcMask": "/images/webp/icons/patreon.webp",
+                        "dataColorVar": "bs-body-color"
+                    },
+                    "children": []
+                },
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.patreon.com/QuantoSeries",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-patreon-quanto-series"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Patreon (Quanto Series)"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "UID: QuantoSeries"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "available": true,
+                "icon": {
+                    "type": "element",
+                    "tagName": "img",
+                    "properties": {
+                        "alt": "Afdian",
+                        "dataI18nAlt": "text-afdian",
+                        "src": "/images/webp/icons/afdian.webp"
+                    },
+                    "children": []
+                },
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://afdian.com/a/stevehsu",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "properties": {
+                                "dataI18n": "text-afdian"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Afdian"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "UID: stevehsu"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

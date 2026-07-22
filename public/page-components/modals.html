@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+    <body>
+        <div class="modal fade" id="qr-code-modal" tabindex="-1" aria-labelledby="qr-code-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="qr-code-modal-label">
+                            <div data-i18n="text-qr-code">QR Code</div>
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div id="qr-share-card">
+                            <div id="qr-share-card-header">
+                                <div id="qr-share-card-header-text">
+                                    <span id="qr-share-card-title"></span>
+                                    <span id="qr-share-card-brand" data-i18n="text-from-steve-hsu-s-link-hub">from Steve Hsu's Link-Hub</span>
+                                </div>
+                            </div>
+                            <div id="qr-code-container" aria-label="QR code for link" class="no-copy"></div>
+                            <code class="mt-2 mb-0" id="qr-code-modal-link"></code>
+                            <div id="qr-share-card-footer">
+                                <div id="qr-share-card-footer-text">
+                                    <span data-i18n="text-learn-more-about-me">Learn more about me</span>
+                                    <code>https://stevehsudrawing.github.io</code>
+                                </div>
+                                <div id="qr-share-card-logo-container">
+                                    <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-width="25" data-height="21" data-color-var="bs-primary" class="no-copy"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary btn-no-border" id="qr-open-link-btn" aria-label="Open" data-i18n-aria-label="text-open" data-bs-toggle="tooltip" data-i18n-tooltip="text-open" data-bs-title="Open">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" id="qr-share-btn" aria-label="Share" data-i18n-aria-label="text-share" data-bs-toggle="tooltip" data-i18n-tooltip="text-share" data-bs-title="Share">
+                            <i class="bi bi-share-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border me-auto" id="qr-download-btn" aria-label="Download" data-i18n-aria-label="text-download" data-bs-toggle="tooltip" data-i18n-tooltip="text-download" data-bs-title="Download">
+                            <i class="bi bi-download"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="settings-modal-label" data-i18n="text-settings">Settings</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <label for="language-select" class="form-label fw-semibold" data-i18n="text-language">Language</label>
+                                <select class="form-select" id="language-select">
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="mb-2 fw-semibold" data-i18n="text-theme">Theme</div>
+                            <div class="btn-group d-flex flex-wrap" role="group">
+                                <button type="button" class="btn btn-outline-secondary theme-item flex-fill" data-theme="auto" data-i18n="text-auto">Auto</button>
+                                <button type="button" class="btn btn-outline-secondary theme-item flex-fill" data-theme="light" data-i18n="text-light">Light</button>
+                                <button type="button" class="btn btn-outline-secondary theme-item flex-fill" data-theme="dark" data-i18n="text-dark">Dark</button>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="external-links-new-tab-toggle">
+                            <label class="form-check-label" for="external-links-new-tab-toggle" data-i18n="text-always-open-external-links-in-a-new-tab">Always open external links in a new tab</label>
+                        </div>
+                        <div class="mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="enable-animations-toggle">
+                            <label class="form-check-label" for="enable-animations-toggle" data-i18n="text-enable-animations">Enable animations</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger btn-no-border me-auto" id="reset-btn" data-bs-toggle="modal" data-bs-target="#warning-reset-modal" data-i18n="text-reset">Reset</button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" data-bs-dismiss="modal" data-i18n="text-close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="warning-reset-modal" tabindex="-1" aria-labelledby="warning-reset-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="warning-reset-modal-label" data-i18n="text-warning">Warning</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p data-i18n="text-warning-reset-description">If you choose to continue, this will clear your preferences, including language and color scheme settings. After clearing, you will be redirected to the homepage.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-no-border" data-bs-toggle="modal" data-bs-target="#settings-modal" data-i18n="text-cancel">Cancel</button>
+                        <button type="button" class="btn btn-outline-danger btn-no-border" id="confirm-reset-btn" data-i18n="text-continue">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="external-link-confirmation-modal" tabindex="-1" aria-labelledby="external-link-confirmation-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="external-link-confirmation-modal-label" data-i18n="text-external-link">External Link</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-2" data-i18n="text-you-are-about-to-leave">You are about to leave this site:</p>
+                        <div class="d-flex align-items-start mb-3">
+                            <span id="external-link-icon-container" class="me-2 d-none"></span>
+                            <code class="d-block flex-grow-1" id="external-link-url-display"></code>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="external-link-new-tab-toggle">
+                            <label class="form-check-label" for="external-link-new-tab-toggle" data-i18n="text-open-in-new-tab">Open in new tab</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary btn-no-border me-auto" id="external-link-qr-btn" aria-label="Show QR Code" data-i18n-aria-label="text-show-qr-code" data-bs-toggle="tooltip" data-i18n-tooltip="text-show-qr-code" data-bs-title="Show QR Code">
+                            <i class="bi bi-qr-code"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-no-border" data-bs-dismiss="modal" data-i18n="text-cancel">Cancel</button>
+                        <button type="button" class="btn btn-outline-primary btn-no-border" id="external-link-open-btn" data-i18n="text-open">Open</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast-container" class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" aria-live="polite" aria-atomic="true">
+            <div class="toast align-items-center text-bg-danger border-0" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" id="error-toast-body"></div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

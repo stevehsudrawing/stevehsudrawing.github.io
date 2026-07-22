@@ -2,5 +2,19 @@
 /.vscode/*
 /.venv/*
 /test/*
+/tools/*
 *.cmd
 *.bat
+
+# Dependencies
+node_modules/
+
+# Vite build output
+dist/
+.vite/
+
+# Environment files
+*.local
+
+# Lock files (choose one)
+pnpm-lock.yaml
