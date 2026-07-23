@@ -19,13 +19,13 @@
     --shlh-font-sans-serif-text-fallback-ja: 'Osaka', 'VL Ｐゴシック', 'VL PGothic', 'IPA ゴシック', 'IPA Gothic', 'さざなみゴシック', 'Sazanami Gothic', 'Droid Sans Japanese', 'Droid Sans Fallback', 'ＭＳ Ｐゴシック', 'MS PGothic', 'Arial Unicode MS';
     --shlh-font-sans-serif-text-fallback-zh-Hans: '华文细黑', 'STXihei', '华文黑体', 'STHeiti', '黑体-简', 'Heiti SC', 'Hei', '文泉驿微米黑', 'WenQuanYi Micro Hei', '文泉驿正黑', 'WenQuanYi Zen Hei', 'Droid Sans Fallback', '黑体', 'SimHei', '宋体', 'SimSun';
     --shlh-font-sans-serif-text-fallback-zh-Hant: '儷黑 Pro', 'LiHei Pro', '蘋果儷中黑', 'Apple LiGothic', '文泉驛微米黑', 'WenQuanYi Micro Hei', '文泉驛正黑', 'WenQuanYi Zen Hei', 'Droid Sans Fallback', '新細明體', 'PMingLiU';
-    --shlh-font-sans-serif-text-major-en: 'Inter Variable Text', 'InterVariable', 'Inter', 'SF Pro', 'SF Pro Text', 'SF Text', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Noto Sans', 'Segoe UI Variable Text', 'Segoe UI';
+    --shlh-font-sans-serif-text-major-en: 'Inter Variable', 'Inter Variable Text', 'InterVariable', 'Inter', 'SF Pro', 'SF Pro Text', 'SF Text', 'San Francisco Text', 'San Francisco', 'Roboto Flex', 'Roboto', 'Noto Sans', 'Segoe UI Variable Text', 'Segoe UI';
     --shlh-font-sans-serif-text-major-ja: '更紗ゴシック J', 'Sarasa Gothic J', 'ヒラギノ角ゴシック', 'Hiragino Sans', 'Noto Sans JP', 'Noto Sans CJK JP', 'Noto Sans CJK', '源ノ角ゴシック', 'Source Han Sans', 'Meiryo UI', 'メイリオ', 'Meiryo';
     --shlh-font-sans-serif-text-major-zh-Hans: '更纱黑体 SC', 'Sarasa Gothic SC', '苹方-简', 'PingFang SC', '苹方', 'PingFang', 'Noto Sans SC', 'Noto Sans CJK SC', '思源黑体', 'Source Han Sans SC', 'Microsoft YaHei UI', '微软雅黑', 'Microsoft YaHei';
     --shlh-font-sans-serif-text-major-zh-Hant: '更紗黑體 TC', 'Sarasa Gothic TC', '蘋方-繁', 'PingFang TC', '蘋方', 'PingFang', 'Noto Sans TC', 'Noto Sans CJK TC', '思源黑體', 'Source Han Sans TC', 'Microsoft JhengHei UI', '微軟正黑體', 'Microsoft JhengHei';
     --shlh-font-sans-serif-text-system: -apple-system, ui-sans-serif, system-ui, sans-serif;
 
-    --shlh-font-sans-serif-display-en: 'Inter Display', 'InterDisplay', 'InterVariable', 'SF Pro Display', 'SF Display', 'San Francisco Display', 'SF Pro', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
+    --shlh-font-sans-serif-display-en: 'Inter Display', 'InterDisplay', 'Inter Variable', 'InterVariable', 'SF Pro Display', 'SF Display', 'San Francisco Display', 'SF Pro', 'Google Sans Flex', 'Roboto Flex', 'Segoe UI Variable Display';
 }
 
 /* --- Body --- */

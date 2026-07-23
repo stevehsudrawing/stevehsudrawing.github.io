@@ -116,11 +116,26 @@ Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0p
 | Variables             | `camelCase`            | `currentLang`, `supportedLangs`, `langData` |
 | Functions             | `camelCase`            | `loadAllComponents`, `updatePageText`       |
 | Constants (top-level) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`          |
+| Constants (`as const`) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES = [...] as const`           |
+| `const enum`          | `PascalCase`           | `StorageKey`, `AppEvent`                    |
 | DOM element refs      | `camelCase`            | `htmlElement`, `prefersColorScheme`         |
 | Interfaces            | `PascalCase`           | `HastProperties`, `LanguageItem`, `CardData`|
-| Type aliases          | `PascalCase`           | (avoid unless necessary; prefer interfaces) |
+| Type aliases          | `PascalCase`           | `Lang`, `ThemeChoice` (string literals)     |
 
-#### 2.3.1 Function Naming by Category
+#### 2.3.1 Import Path Conventions
+
+- All import paths must use **`.js` extensions** (not `.ts`), even when importing from TypeScript files. Vite's `moduleResolution: "bundler"` resolves `.js` → `.ts` automatically, but TypeScript 7 rejects `.ts` extensions unless `allowImportingTsExtensions` is enabled (which is not supported by Vite's esbuild).
+- Import shared types from `../../types/` using `import type` for type-only imports to ensure they are erased at build time.
+    ```ts
+    // Correct
+    import type { Lang, ThemeChoice } from '../../types/app.js';
+    import { StorageKey, AppEvent } from '../../types/app.js';
+
+    // Wrong — .ts extension rejected by tsc
+    import { StorageKey } from '../../types/app.ts';
+    ```
+
+#### 2.3.2 Function Naming by Category
 
 | Prefix       | Purpose                              | Examples                                                                                            |
 |--------------|--------------------------------------|-----------------------------------------------------------------------------------------------------|
@@ -144,7 +159,7 @@ Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0p
 
 > Prefer existing prefixes when adding new functions. If none fit, use a clear descriptive verb.
 
-#### 2.3.2 Batch Functions Must Delegate to Single-Element Functions
+#### 2.3.3 Batch Functions Must Delegate to Single-Element Functions
 
 A **batch function** is a function that queries multiple DOM elements and applies the same operation to each one. The per-element logic **must** be extracted into a reusable single-element function. The batch function then delegates to it.
 
@@ -153,7 +168,7 @@ A **batch function** is a function that queries multiple DOM elements and applie
 - The single-element function should be **idempotent** (safe to call multiple times on the same element).
 - Functions without a corresponding single-element function (pure event delegation, singleton initialization, etc.) do not need `All` in their name.
 
-#### 2.3.3 Single-Element Functions Must Have Symmetric Counterparts
+#### 2.3.4 Single-Element Functions Must Have Symmetric Counterparts
 
 Every single-element function that **adds, creates, or initializes** something on a DOM element **must** have a corresponding single-element function that **removes, destroys, or cleans up** the same thing. This ensures that:
 
@@ -210,13 +225,15 @@ Existing batch / single-element pairs:
 | Folder                            | Purpose                                                            | Where to Add New Code                                 |
 |-----------------------------------|--------------------------------------------------------------------|-------------------------------------------------------|
 | `.github/`                        | GitHub-specific configurations (Copilot instructions, CI)          | -                                                     |
-| `src/`                            | **Vite source** — all TS modules, CSS, and the Vite entry point   | See sub-folders below                                 |
-| `src/main.ts`                     | Vite entry point — imports all CSS, npm packages, and TS modules  | -                                                     |
+| `src/`                            | **Vite source** - all TS modules, CSS, and the Vite entry point    | See sub-folders below                                 |
+| `src/main.ts`                     | Vite entry point - full-feature pages (all except 404)             | -                                                     |
+| `src/main-lightweight.ts`         | Vite entry point - lightweight pages (404) without Page Transition | -                                                     |
+| `src/types/`                      | Shared TypeScript type definitions, enums, and module declarations | New shared type or enum                               |
 | `src/scripts/`                    | TS entry points (`init-*.ts`)                                      | New init script if a new page tier is needed          |
-| `src/scripts/functions/core/`     | **Core modules** — zero project imports, only npm or browser APIs | New core utility when it has no project dependencies  |
-| `src/scripts/functions/ui/`       | **UI modules** — depend on `core/`, may depend on each other      | New UI module when it uses `core/` modules            |
-| `src/scripts/functions/features/` | **Feature modules** — depend on `core/` + `ui/`, orchestrate UI   | New feature module for cross-cutting functionality    |
-| `src/stylesheets/`         | CSS modules using modern CSS specifications — for all pages       | New CSS module, or add to an existing file            |
+| `src/scripts/functions/core/`     | **Core modules** - zero project imports, only npm or browser APIs  | New core utility when it has no project dependencies  |
+| `src/scripts/functions/ui/`       | **UI modules** - depend on `core/`, may depend on each other       | New UI module when it uses `core/` modules            |
+| `src/scripts/functions/features/` | **Feature modules** - depend on `core/` + `ui/`, orchestrate UI    | New feature module for cross-cutting functionality    |
+| `src/stylesheets/`                | CSS modules using modern CSS specifications - for all pages        | New CSS module, or add to an existing file            |
 | `public/`                         | **Static assets** served as-is by Vite, no processing              | See sub-folders below                                 |
 | `public/configs/`                 | JSON configuration data for i18n and link cards                    | New JSON config files as needed                       |
 | `public/configs/i18n/`            | Translation JSON files, one per language                           | New translation file for each added language          |
@@ -225,13 +242,13 @@ Existing batch / single-element pairs:
 | `public/page-components/`         | HTML fragments loaded at runtime by the component loader           | New HTML fragment                                     |
 | `public/legacy/`                  | Broad-compatibility scripts/CSS (ES5, IE11) for error pages        | New legacy compatibility asset                        |
 | `public/*.xml`, `public/*.json`   | Sitemap, PWA manifest, and other static configs                    | -                                                     |
-| `tools/`                          | Migration helper scripts (Python) — temporary                     | -                                                     |
+| `tools/`                          | Migration helper scripts (Python) - temporary                      | -                                                     |
 | `test/`                           | Test pages for isolated feature validation                         | New test page                                         |
 | Root `*.html`                     | Page files (homepage, sub-pages, error pages)                      | New page file when adding a page                      |
-| `vite.config.js`                  | Vite configuration — multi-page input, dev server, build options  | -                                                     |
+| `vite.config.js`                  | Vite configuration - multi-page input, dev server, build options   | -                                                     |
 | `package.json`                    | npm dependencies and scripts (`dev`, `build`, `preview`)           | -                                                     |
 
-**Layered JS architecture (`src/scripts/functions/`):**
+**Layered TS architecture (`src/scripts/`):**
 
 ```
 core/     →  zero project imports (utils, i18n, img-utils, accessibility, etc.)
@@ -239,6 +256,9 @@ core/     →  zero project imports (utils, i18n, img-utils, accessibility, etc.
 ui/       →  depends on core/ (theme, navbar, tooltips, settings, etc.)
   ↑
 features/ → depends on core/ + ui/ (page-transition, link-cards, qr-code, etc.)
+
+types/    →  shared across all layers (app.ts, hast.ts, globals.d.ts, css.d.ts)
+  ↑        (importable by core/, ui/, and features/)
 ```
 
 | Layer       | May import from                | Must NOT import from     |
@@ -249,10 +269,15 @@ features/ → depends on core/ + ui/ (page-transition, link-cards, qr-code, etc.
 
 **File placement rules**:
 
-- Put TS modules in `src/scripts/functions/{core,ui,features}/` according to their dependency level.
+- Put TS modules in `src/scripts/{core,ui,features}/` according to their dependency level.
     - New modules with zero project imports → `core/`.
     - New modules depending only on `core/` → `ui/`.
     - New modules depending on `core/` + `ui/` (or orchestrating both) → `features/`.
+- Put shared TS types/enums in `src/types/`. These are importable by all layers.
+    - `app.ts` — Application-wide string literal types (`Lang`, `ThemeChoice`), enums (`StorageKey`, `AppEvent`).
+    - `hast.ts` — hast/node types used by link-cards and utils (`HastNode`, `HastProperties`, `CardData`, `GroupData`).
+    - `globals.d.ts` — Window interface extensions (`window.bootstrap`, `window.toHtml`, etc.).
+    - `css.d.ts` — Module declaration for `*.css` imports.
 - Put CSS in `src/stylesheets/` — either in a relevant existing file or a new file.
     - If a feature needs both JS and CSS, create matching file names (e.g., `foo.ts` + `foo.css`).
 - Put JSON configuration data in `public/configs/` under the appropriate sub-folder.
@@ -318,15 +343,15 @@ Both sub-folders use the same CSS commenting format:
 
 #### 3.2.4 `*.html`: Page Tiers
 
-- **Full Functionality Pages**: Use `init-final.ts`.
+- **Full Functionality Pages**: Reference `/src/main.ts` → `init-final.ts`.
     - `index`
     - `about`
     - `artworks-and-videos`
     - `blogs-and-sponsor`
     - `chatting`
     - `softwares`
-- **Error Pages**: Use `init-final-lightweight.ts`.
-    - `404`: The redirected page when an HTTP 404 occurs.
+- **Error Pages (Lightweight)**: Reference `/src/main-lightweight.ts` → `init-final-lightweight.ts`.
+    - `404`: The redirected page when an HTTP 404 occurs. Uses a cut-down entry point that excludes Page Transition, QR code, link-cards generator, and external-link confirmation to avoid layout conflicts when navigating back to full-feature pages.
 - **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
     - `unsupported-browser`
     - `javascript-disabled`
@@ -846,12 +871,12 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 <details>
 <summary><code>sans-serif-text-major</code> (body text preferred fonts)</summary>
 
-| Language  | Preferred                                       | Apple                                                                     | Chromium / Android / Linux                                                               | Windows                                                     |
-|-----------|-------------------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| `en`      | `Inter Variable Text`, `InterVariable`, `Inter` | `SF Pro`, `SF Pro Text`, `SF Text`, `San Francisco Text`, `San Francisco` | `Roboto Flex`, `Roboto`, `Noto Sans`                                                     | `Segoe UI Variable Text`, `Segoe UI`                        |
-| `ja`      | `更紗ゴシック J`, `Sarasa Gothic J`             | `ヒラギノ角ゴシック`, `Hiragino Sans`                                     | `Noto Sans JP`, `Noto Sans CJK JP`, `Noto Sans CJK`, `源ノ角ゴシック`, `Source Han Sans` | `Meiryo UI`, `メイリオ`, `Meiryo`                           |
-| `zh-Hans` | `更纱黑体 SC`, `Sarasa Gothic SC`               | `苹方-简`, `PingFang SC`, `苹方`, `PingFang`                              | `Noto Sans SC`, `Noto Sans CJK SC`, `思源黑体`, `Source Han Sans SC`                     | `Microsoft YaHei UI`, `微软雅黑`, `Microsoft YaHei`         |
-| `zh-Hant` | `更紗黑體 TC`, `Sarasa Gothic TC`               | `蘋方-繁`, `PingFang TC`, `蘋方`, `PingFang`                              | `Noto Sans TC`, `Noto Sans CJK TC`, `思源黑體`, `Source Han Sans TC`                     | `Microsoft JhengHei UI`, `微軟正黑體`, `Microsoft JhengHei` |
+| Language  | Preferred                                                         | Apple                                                                     | Chromium / Android / Linux                                                               | Windows                                                     |
+|-----------|-------------------------------------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| `en`      | `Inter Variable`, `Inter Variable Text`, `InterVariable`, `Inter` | `SF Pro`, `SF Pro Text`, `SF Text`, `San Francisco Text`, `San Francisco` | `Roboto Flex`, `Roboto`, `Noto Sans`                                                     | `Segoe UI Variable Text`, `Segoe UI`                        |
+| `ja`      | `更紗ゴシック J`, `Sarasa Gothic J`                               | `ヒラギノ角ゴシック`, `Hiragino Sans`                                     | `Noto Sans JP`, `Noto Sans CJK JP`, `Noto Sans CJK`, `源ノ角ゴシック`, `Source Han Sans` | `Meiryo UI`, `メイリオ`, `Meiryo`                           |
+| `zh-Hans` | `更纱黑体 SC`, `Sarasa Gothic SC`                                 | `苹方-简`, `PingFang SC`, `苹方`, `PingFang`                              | `Noto Sans SC`, `Noto Sans CJK SC`, `思源黑体`, `Source Han Sans SC`                     | `Microsoft YaHei UI`, `微软雅黑`, `Microsoft YaHei`         |
+| `zh-Hant` | `更紗黑體 TC`, `Sarasa Gothic TC`                                 | `蘋方-繁`, `PingFang TC`, `蘋方`, `PingFang`                              | `Noto Sans TC`, `Noto Sans CJK TC`, `思源黑體`, `Source Han Sans TC`                     | `Microsoft JhengHei UI`, `微軟正黑體`, `Microsoft JhengHei` |
 
 </details>
 
@@ -894,7 +919,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 <details>
 <summary><code>sans-serif-display</code> (<code>en</code> only, for headings)</summary>
 
-- Preferred: `Inter Display`, `InterDisplay`, `InterVariable`
+- Preferred: `Inter Display`, `InterDisplay`, `Inter Variable`, `InterVariable`
 - Apple: `SF Pro Display`, `SF Display`, `San Francisco Display`, `SF Pro`
 - Chromium / Android / Linux: `Google Sans Flex`, `Roboto Flex`
 - Windows: `Segoe UI Variable Display`
