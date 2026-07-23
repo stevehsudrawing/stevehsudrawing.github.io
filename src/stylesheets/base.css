@@ -6,7 +6,10 @@
     text-autospace: normal;
     font-family: inherit;
     font-optical-sizing: auto;
-    font-display: auto;
+}
+
+ruby {
+    text-autospace: no-autospace;
 }
 
 /* ========================================================================

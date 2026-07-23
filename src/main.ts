@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Self-hosted fonts (replaces CDN <link> tags)
+import '@fontsource-variable/inter/opsz.css';
 import '@fontsource-variable/inter/opsz-italic.css';
 
 // Project CSS (order matters: base → theme → layouts → components)
