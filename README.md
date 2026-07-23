@@ -4,7 +4,7 @@
 </div>
 <br>
 
-A personal link-hub website that consolidates links to all my profiles across various platforms. Built with vanilla HTML, CSS, and JavaScript, bundled by [Vite](https://vite.dev/), deployed via GitHub Pages.
+A personal link-hub website that consolidates links to all my profiles across various platforms. Built with vanilla HTML, CSS, and TypeScript, bundled by [Vite](https://vite.dev/), deployed via GitHub Pages.
 
 ---
 
@@ -38,6 +38,7 @@ For more details, read [this](.github/copilot-instructions.md#13-browser-baselin
 
 | Category        | Choice                                                                             |
 |-----------------|------------------------------------------------------------------------------------|
+| Language        | [TypeScript](https://www.typescriptlang.org/)                                      |
 | Build Tool      | [Vite 8](https://vite.dev/)                                                        |
 | Package Manager | [pnpm](https://pnpm.io/)                                                           |
 | Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                                       |

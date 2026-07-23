@@ -10,13 +10,13 @@ This document provides project-level context, conventions, and constraints for C
 
 - **HTML** 5
 - **CSS**
-- **JavaScript**: Vanilla JS (ES2020+)
+- **TypeScript**: Strict mode, compiled by Vite's esbuild (no separate tsc build step)
 - **Build Tool**: [Vite 8](https://vite.dev/)
 - **Package Manager**: [pnpm](https://pnpm.io/)
 
 ### 1.2 External Dependencies (npm, bundled by Vite)
 
-All dependencies are installed via pnpm and imported in [`src/main.js`](src/main.js).
+All dependencies are installed via pnpm and imported in [`src/main.ts`](src/main.ts).
 No CDN `<link>` or `<script>` tags are used.
 
 | Resource          | npm Package         | Role               | GitHub Repo                                                                         | Version |
@@ -29,6 +29,7 @@ No CDN `<link>` or `<script>` tags are used.
 | html-to-image     | `html-to-image`     | HTML -> Image      | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | 1.11.13 |
 | html2canvas       | `html2canvas`       | HTML -> Canvas     | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | 1.4.1   |
 | hast-util-to-html | `hast-util-to-html` | hast -> HTML       | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | 9.0.5   |
+| TypeScript (dev)  | `typescript`        | Type Checking      | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                   | 7.0.2   |
 | Vite (dev only)   | `vite`              | Build Tool         | [`vitejs/vite`](https://github.com/vitejs/vite)                                     | 8.1.5   |
 
 ### 1.3 Browser Baseline
@@ -72,7 +73,7 @@ The following browser features are required by this project. Their minimum brows
 | [WebP](https://caniuse.com/webp)                                                           | Image assets                              | 32     | 18     | 65      | 19     | **14** |
 | [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                           | 36     | 14     | 39      | 23     | 10     |
 | [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                     | 66     | 17     | 62      | 53     | 11     |
-| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | Vite entry point (`src/main.js`)          | 61     | 16     | 60      | 48     | 11     |
+| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | Vite entry point (`src/main.ts`)          | 61     | 16     | 60      | 48     | 11     |
 
 ### 1.4 Deployment
 
@@ -108,7 +109,7 @@ Prefix `--bs-*`. See [its documentation](https://getbootstrap.com/docs/5.3/custo
 
 Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0px, it's still best to choose the border-radius size according to Bootstrap conventions.
 
-### 2.3 JavaScript
+### 2.3 TypeScript
 
 | Category              | Convention             | Examples                                    |
 |-----------------------|------------------------|---------------------------------------------|
@@ -116,6 +117,8 @@ Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0p
 | Functions             | `camelCase`            | `loadAllComponents`, `updatePageText`       |
 | Constants (top-level) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`          |
 | DOM element refs      | `camelCase`            | `htmlElement`, `prefersColorScheme`         |
+| Interfaces            | `PascalCase`           | `HastProperties`, `LanguageItem`, `CardData`|
+| Type aliases          | `PascalCase`           | (avoid unless necessary; prefer interfaces) |
 
 #### 2.3.1 Function Naming by Category
 
@@ -171,13 +174,13 @@ Every single-element function that **adds, creates, or initializes** something o
 
 | Add / Create / Init                   | Remove / Destroy / Cleanup               | Module             |
 |---------------------------------------|------------------------------------------|--------------------|
-| `createTooltip(el)`                   | `disposeTooltip(el)`                     | `tooltips.js`      |
-| `initCopyLinkTooltip(link)`           | `disposeCopyLinkTooltip(link)`           | `tooltips.js`      |
-| `markImageLoaded(img)`                | `markImageUnloaded(img)`                 | `img-utils.js`     |
-| `addExternalLinkIndicator(link)`      | `removeExternalLinkIndicator(link)`      | `accessibility.js` |
-| `initTitleLinkAnchor(anchor)`         | `disposeTitleLinkAnchor(anchor)`         | `accessibility.js` |
-| `createScrollHint(group)`             | `removeScrollHint(group)`                | `scroll-hint.js`   |
-| `addExternalLinkTargetBehavior(link)` | `removeExternalLinkTargetBehavior(link)` | `settings.js`      |
+| `createTooltip(el)`                   | `disposeTooltip(el)`                     | `tooltips.ts`      |
+| `initCopyLinkTooltip(link)`           | `disposeCopyLinkTooltip(link)`           | `tooltips.ts`      |
+| `markImageLoaded(img)`                | `markImageUnloaded(img)`                 | `img-utils.ts`     |
+| `addExternalLinkIndicator(link)`      | `removeExternalLinkIndicator(link)`      | `accessibility.ts` |
+| `initTitleLinkAnchor(anchor)`         | `disposeTitleLinkAnchor(anchor)`         | `accessibility.ts` |
+| `createScrollHint(group)`             | `removeScrollHint(group)`                | `scroll-hint.ts`   |
+| `addExternalLinkTargetBehavior(link)` | `removeExternalLinkTargetBehavior(link)` | `settings.ts`      |
 
 **Handler extraction rule:** If an `init*` function uses `addEventListener` with an anonymous function, the handler **must** be extracted as a named `handle*` function so the corresponding `dispose*` function can call `removeEventListener` with the same reference.
 
@@ -185,18 +188,18 @@ Existing batch / single-element pairs:
 
 | Batch Function                         | Single-Element Function              | Module                |
 |----------------------------------------|--------------------------------------|-----------------------|
-| `initAllTooltips()`                    | `createTooltip(el)`                  | `tooltips.js`         |
-| `disposeAllTooltips()`                 | `disposeTooltip(el)`                 | `tooltips.js`         |
-| `initAllCopyLinkTooltips()`            | `initCopyLinkTooltip(link)`          | `tooltips.js`         |
-| `initAllColoredImages()`               | `applyColoredImage(img)`             | `img-utils.js`        |
-| `initAllImageLoadingOpacity()`         | `initImageLoadingOpacity(img)`       | `img-utils.js`        |
-| `applyAllThemeBasedImages()`           | `applyThemeBasedImage(img)`          | `theme.js`            |
-| `applyAllFaviconThemes()`              | `applyFaviconTheme(link)`            | `theme.js`            |
-| `addAllExternalLinkIndicators()`       | `addExternalLinkIndicator(link)`     | `accessibility.js`    |
-| `initAllTitleLinkAnchors()`            | `initTitleLinkAnchor(anchor)`        | `accessibility.js`    |
-| `initAllScrollHints()`                 | `createScrollHint(group)`            | `scroll-hint.js`      |
-| `applyAllExternalLinkTargetBehavior()` | `addExternalLinkTargetBehavior(link)`| `settings.js`         |
-| `loadAllComponents()`                  | `loadHTML(placeholder, name)`        | `component-loader.js` |
+| `initAllTooltips()`                    | `createTooltip(el)`                  | `tooltips.ts`         |
+| `disposeAllTooltips()`                 | `disposeTooltip(el)`                 | `tooltips.ts`         |
+| `initAllCopyLinkTooltips()`            | `initCopyLinkTooltip(link)`          | `tooltips.ts`         |
+| `initAllColoredImages()`               | `applyColoredImage(img)`             | `img-utils.ts`        |
+| `initAllImageLoadingOpacity()`         | `initImageLoadingOpacity(img)`       | `img-utils.ts`        |
+| `applyAllThemeBasedImages()`           | `applyThemeBasedImage(img)`          | `theme.ts`            |
+| `applyAllFaviconThemes()`              | `applyFaviconTheme(link)`            | `theme.ts`            |
+| `addAllExternalLinkIndicators()`       | `addExternalLinkIndicator(link)`     | `accessibility.ts`    |
+| `initAllTitleLinkAnchors()`            | `initTitleLinkAnchor(anchor)`        | `accessibility.ts`    |
+| `initAllScrollHints()`                 | `createScrollHint(group)`            | `scroll-hint.ts`      |
+| `applyAllExternalLinkTargetBehavior()` | `addExternalLinkTargetBehavior(link)`| `settings.ts`         |
+| `loadAllComponents()`                  | `loadHTML(placeholder, name)`        | `component-loader.ts` |
 
 ---
 
@@ -207,9 +210,9 @@ Existing batch / single-element pairs:
 | Folder                            | Purpose                                                            | Where to Add New Code                                 |
 |-----------------------------------|--------------------------------------------------------------------|-------------------------------------------------------|
 | `.github/`                        | GitHub-specific configurations (Copilot instructions, CI)          | -                                                     |
-| `src/`                            | **Vite source** — all JS modules, CSS, and the Vite entry point   | See sub-folders below                                 |
-| `src/main.js`                     | Vite entry point — imports all CSS, npm packages, and JS modules  | -                                                     |
-| `src/scripts/`                    | JS entry points (`init-*.js`)                                      | New init script if a new page tier is needed          |
+| `src/`                            | **Vite source** — all TS modules, CSS, and the Vite entry point   | See sub-folders below                                 |
+| `src/main.ts`                     | Vite entry point — imports all CSS, npm packages, and TS modules  | -                                                     |
+| `src/scripts/`                    | TS entry points (`init-*.ts`)                                      | New init script if a new page tier is needed          |
 | `src/scripts/functions/core/`     | **Core modules** — zero project imports, only npm or browser APIs | New core utility when it has no project dependencies  |
 | `src/scripts/functions/ui/`       | **UI modules** — depend on `core/`, may depend on each other      | New UI module when it uses `core/` modules            |
 | `src/scripts/functions/features/` | **Feature modules** — depend on `core/` + `ui/`, orchestrate UI   | New feature module for cross-cutting functionality    |
@@ -246,12 +249,12 @@ features/ → depends on core/ + ui/ (page-transition, link-cards, qr-code, etc.
 
 **File placement rules**:
 
-- Put JS modules in `src/scripts/functions/{core,ui,features}/` according to their dependency level.
+- Put TS modules in `src/scripts/functions/{core,ui,features}/` according to their dependency level.
     - New modules with zero project imports → `core/`.
     - New modules depending only on `core/` → `ui/`.
     - New modules depending on `core/` + `ui/` (or orchestrating both) → `features/`.
 - Put CSS in `src/stylesheets/` — either in a relevant existing file or a new file.
-    - If a feature needs both JS and CSS, create matching file names (e.g., `foo.js` + `foo.css`).
+    - If a feature needs both JS and CSS, create matching file names (e.g., `foo.ts` + `foo.css`).
 - Put JSON configuration data in `public/configs/` under the appropriate sub-folder.
 - Put reusable HTML fragments in `public/page-components/`.
 - Put broad-compatibility assets (ES5, IE11) in `public/legacy/`.
@@ -260,15 +263,15 @@ features/ → depends on core/ + ui/ (page-transition, link-cards, qr-code, etc.
 
 #### 3.2.1 `src/scripts/functions/`: Define Only, Never Execute
 
-- Files in `src/scripts/functions/` must **only define variables and functions**, using **ES2020** syntax. `var` should be avoided.
+- Files in `src/scripts/functions/` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
 - Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
-- All execution / wiring happens in the `init-*.js` entry points (see [§3.2.2](#322-srcscriptsinit-js-entry-points-wire-everything)).
+- All execution / wiring happens in the `init-*.ts` entry points (see [§3.2.2](#322-srcscriptsinit-ts-entry-points-wire-everything)).
 - **Exception**: `public/legacy/env-detection.js` is a classic script (not a module) that runs before `<head>` to perform browser/crawler detection. It DOES execute at the top level, but must still use **ES5** syntax for broad compatibility.
 
 ```js
-// In src/scripts/functions/core/example.js:
+// In src/scripts/functions/core/example.ts:
 
 // CORRECT:
 
@@ -286,13 +289,13 @@ doSomething();  // No top-level execution!
 document.addEventListener('DOMContentLoaded', doSomething);  // No!
 ```
 
-#### 3.2.2 `src/scripts/init-*.js`: Entry Points, Wire Everything
+#### 3.2.2 `src/scripts/init-*.ts`: Entry Points, Wire Everything
 
 - These files import functions from `src/scripts/functions/` and call them in the correct order.
-- `public/legacy/env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`.
-- `init-at-head.js`: Runs synchronously in `<head>`.
-- `init-final.js`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
-- `init-final-lightweight.js`: Cut-down version. Does not load the Page Transition System.
+- `public/legacy/env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`. (Kept as plain JS for ES5 compatibility.)
+- `init-at-head.ts`: Runs synchronously in `<head>`.
+- `init-final.ts`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
+- `init-final-lightweight.ts`: Cut-down version. Does not load the Page Transition System.
 
 #### 3.2.3 `stylesheets/`: Two Sub-Folders, One Commenting Convention
 
@@ -315,14 +318,14 @@ Both sub-folders use the same CSS commenting format:
 
 #### 3.2.4 `*.html`: Page Tiers
 
-- **Full Functionality Pages**: Use `init-final.js`.
+- **Full Functionality Pages**: Use `init-final.ts`.
     - `index`
     - `about`
     - `artworks-and-videos`
     - `blogs-and-sponsor`
     - `chatting`
     - `softwares`
-- **Error Pages**: Use `init-final-lightweight.js`.
+- **Error Pages**: Use `init-final-lightweight.ts`.
     - `404`: The redirected page when an HTTP 404 occurs.
 - **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
     - `unsupported-browser`
@@ -353,7 +356,7 @@ Both sub-folders use the same CSS commenting format:
 | File                                                    | Role                                                                                               |
 |---------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | `public/legacy/env-detection.js`                        | Runs before page load; performs basic environment checks, feature detection, and crawler whitelist |
-| `src/scripts/functions/core/bootstrap-css-detection.js` | Verifies Bootstrap CSS loaded successfully                                                         |
+| `src/scripts/functions/core/bootstrap-css-detection.ts` | Verifies Bootstrap CSS loaded successfully                                                         |
 | `error-unsupported-browser.html`                        | Fallback page for unsupported browsers                                                             |
 | `error-javascript-disabled.html`                        | Fallback page displayed when JavaScript is disabled                                                |
 
@@ -364,7 +367,7 @@ Both sub-folders use the same CSS commenting format:
 - `env-detection.js` first checks via `isBotOrCrawler()` whether the User-Agent belongs to a known crawler; if so, the browser is always treated as supported (see [§4.16.8](#4168-crawler-whitelist)).
 - For real users, `isFeatureSupported()` tests whether the JS engine can parse optional chaining syntax via `new Function('return 0?.x')`. If the test throws a SyntaxError, the browser is considered unsupported.
 - If unsupported: redirects to `error-unsupported-browser.html`.
-- `bootstrap-css-detection.js` checks that Bootstrap CSS is applied; shows a warning if not.
+- `bootstrap-css-detection.ts` checks that Bootstrap CSS is applied; shows a warning if not.
 
 **JavaScript Disabled Fallback**:
 
@@ -388,7 +391,7 @@ Both sub-folders use the same CSS commenting format:
 
 | File                                             | Role                                |
 |--------------------------------------------------|-------------------------------------|
-| `src/scripts/functions/core/component-loader.js` | Fetches and injects HTML fragments  |
+| `src/scripts/functions/core/component-loader.ts` | Fetches and injects HTML fragments  |
 | `public/page-components/header.html`             | Header fragment                     |
 | `public/page-components/footer.html`             | Footer fragment (full pages)        |
 | `public/page-components/footer-lightweight.html` | Footer fragment (lightweight pages) |
@@ -398,7 +401,7 @@ Both sub-folders use the same CSS commenting format:
 
 ```
 HTML: <div data-role="page-component" data-component-name="header"></div>
-        ↓ (component-loader.js at init time)
+        ↓ (component-loader.ts at init time)
       Reads data-component-name="header" → fetches /page-components/header.html → injects innerHTML
 ```
 
@@ -416,7 +419,7 @@ HTML: <div data-role="page-component" data-component-name="header"></div>
 
 | File                                 | Role                                                  |
 |--------------------------------------|-------------------------------------------------------|
-| `src/scripts/functions/core/i18n.js` | Language loading, text replacement, language switcher |
+| `src/scripts/functions/core/i18n.ts` | Language loading, text replacement, language switcher |
 | `public/configs/language-list.json`  | List of supported language codes                      |
 | `public/configs/i18n/{lang}.json`    | Translation key-value pairs for each language         |
 
@@ -424,7 +427,7 @@ HTML: <div data-role="page-component" data-component-name="header"></div>
 
 ```
 HTML: <span data-i18n="text-welcome">Welcome</span>
-        ↓ (i18n.js loads configs/i18n/{lang}.json)
+        ↓ (i18n.ts loads configs/i18n/{lang}.json)
       Replaces textContent with translated value
 
 Rich text: <span data-i18n-html="html-intro">Intro with <cite>Title</cite></span>
@@ -472,7 +475,7 @@ ARIA labels: <a aria-label="Settings" data-i18n-aria-label="text-settings"><i cl
 
 | File                                          | Role                                                                      |
 |-----------------------------------------------|---------------------------------------------------------------------------|
-| `src/scripts/functions/ui/theme.js`           | Theme initialization, switching, system theme listener, and favicon theme |
+| `src/scripts/functions/ui/theme.ts`           | Theme initialization, switching, system theme listener, and favicon theme |
 | `src/stylesheets/theme.css`                   | Theme-specific CSS custom property overrides                              |
 | `src/stylesheets/base.css`                    | Base styles including `--bs-border-radius` overrides and shared variables |
 | `public/images/svg/favicons/general.svg`      | Light-theme favicon (blue `#3c96ff`)                                      |
@@ -517,7 +520,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 | File                                                     | Role                                            |
 |----------------------------------------------------------|-------------------------------------------------|
-| `src/scripts/functions/features/link-cards-generator.js` | Generates link-card DOM elements from JSON data |
+| `src/scripts/functions/features/link-cards-generator.ts` | Generates link-card DOM elements from JSON data |
 | `public/configs/links/{page-name}.json`                  | Link-card group definitions for each page       |
 
 #### 4.5.1 JSON Structural Standards
@@ -535,7 +538,7 @@ The link-card JSON files use a **hybrid hast format**: the top-level structure d
 
 ##### 4.5.1.2 Property Naming (hast Convention)
 
-hast uses `className` (array) instead of `class` (string), and `data*` attributes are camelCase (e.g. `dataI18n` → `data-i18n`). `hast-util-to-html` and `setElementAttributes` (utils.js) both handle the kebab-case conversion automatically.
+hast uses `className` (array) instead of `class` (string), and `data*` attributes are camelCase (e.g. `dataI18n` → `data-i18n`). `hast-util-to-html` and `setElementAttributes` (utils.ts) both handle the kebab-case conversion automatically.
 
 ```json
 // hast properties:
@@ -642,7 +645,7 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 | File                                                | Role                                                          |
 |-----------------------------------------------------|---------------------------------------------------------------|
-| `src/scripts/functions/features/page-transition.js` | Intercepts internal link clicks, manages transition animation |
+| `src/scripts/functions/features/page-transition.ts` | Intercepts internal link clicks, manages transition animation |
 | `src/stylesheets/page-transition.css`               | Progress bar and content dimming styles                       |
 
 **How It Works**:
@@ -654,9 +657,9 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Interaction with Other Systems**:
 
-- **Utilities ([§4.15](#415-utilities))**: Depends on `isInternalPage()`, `normalizeInternalPath()`, `INTERNAL_PAGES`, and `EXCLUDED_PAGES` (defined in `utils.js`) for link classification and path resolution.
+- **Utilities ([§4.15](#415-utilities))**: Depends on `isInternalPage()`, `normalizeInternalPath()`, `INTERNAL_PAGES`, and `EXCLUDED_PAGES` (defined in `utils.ts`) for link classification and path resolution.
 - **Tooltips ([§4.12](#412-tooltips))**: Calls `disposeAllTooltips()` before each transition to prevent orphaned tooltip instances.
-- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: `shouldInterceptLink()` returns `false` for `.external-link` links, allowing the confirmation system to take over. The confirmation system uses `isInternalPage()` from `utils.js` to avoid false positives.
+- **External Link Confirmation ([§4.17](#417-external-link-confirmation))**: `shouldInterceptLink()` returns `false` for `.external-link` links, allowing the confirmation system to take over. The confirmation system uses `isInternalPage()` from `utils.ts` to avoid false positives.
 - **Settings ([§4.8](#48-settings--preferences))**: After a page transition, `initPageContent()` re-invokes `initSettingsModal()` to re-sync toggle states with the recreated DOM.
 - **i18n ([§4.3](#43-internationalization-i18n))**: After a page transition, `initPageContent()` calls `updatePageText()` and `updatePageTitle()` to apply translations to the new content.
 - **Initialization ([§4.7](#47-loading-screen))**: `navigateTo()` restores page content and completes the progress bar on success; on failure, falls back to a full browser navigation (`window.location.href`).
@@ -671,7 +674,7 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 | File                                           | Role                               |
 |------------------------------------------------|------------------------------------|
-| `src/scripts/functions/core/loading-screen.js` | Controls loading screen visibility |
+| `src/scripts/functions/core/loading-screen.ts` | Controls loading screen visibility |
 | `src/stylesheets/loading-screen.css`           | Loading screen overlay styles      |
 
 **Data Flow**:
@@ -691,7 +694,7 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 | File                                   | Role                                                             |
 |----------------------------------------|------------------------------------------------------------------|
-| `src/scripts/functions/ui/settings.js` | Preference read/write, toggle event handling, applying behaviors |
+| `src/scripts/functions/ui/settings.ts` | Preference read/write, toggle event handling, applying behaviors |
 
 **Preferences Managed**:
 
@@ -746,9 +749,9 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 | File                                          | Role                                                                                     |
 |-----------------------------------------------|------------------------------------------------------------------------------------------|
-| `src/scripts/functions/ui/navbar.js`          | Active nav item highlighting                                                             |
-| `src/scripts/functions/ui/scroll-hint.js`     | Scroll-down hint indicator                                                               |
-| `src/scripts/functions/core/accessibility.js` | Skip button, focus management, external link indicators, title link anchors              |
+| `src/scripts/functions/ui/navbar.ts`          | Active nav item highlighting                                                             |
+| `src/scripts/functions/ui/scroll-hint.ts`     | Scroll-down hint indicator                                                               |
+| `src/scripts/functions/core/accessibility.ts` | Skip button, focus management, external link indicators, title link anchors              |
 | `src/stylesheets/navbar.css`                  | Navbar styles                                                                            |
 | `src/stylesheets/scroll-hint.css`             | Scroll hint styles                                                                       |
 | `src/stylesheets/accessibility.css`           | Base accessibility rules (motion, transparency, contrast), skip button, and focus styles |
@@ -773,7 +776,7 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 
 | File                                        | Role                                                |
 |---------------------------------------------|-----------------------------------------------------|
-| `src/scripts/functions/features/qr-code.js` | QR code generation, share card assembly, PNG export |
+| `src/scripts/functions/features/qr-code.ts` | QR code generation, share card assembly, PNG export |
 | `src/stylesheets/qr-code.css`               | Share card layout styles                            |
 | `page-components/modals.html`               | QR code modal HTML (shared with other modals)       |
 
@@ -917,7 +920,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 | File                                   | Role                                                                                                                               |
 |----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `src/scripts/functions/ui/tooltips.js` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
+| `src/scripts/functions/ui/tooltips.ts` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
 
 **Key Functions**:
 
@@ -939,9 +942,9 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 | File                                      | Role                                                                                 |
 |-------------------------------------------|--------------------------------------------------------------------------------------|
-| `src/scripts/functions/core/img-utils.js` | Initializes `data-img-feature="colored"` images and image loading opacity            |
+| `src/scripts/functions/core/img-utils.ts` | Initializes `data-img-feature="colored"` images and image loading opacity            |
 | `src/stylesheets/img-utils.css`           | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
-| `src/scripts/functions/ui/theme.js`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
+| `src/scripts/functions/ui/theme.ts`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
 | `public/images/webp/null.webp`            | Placeholder image used with `data-img-feature="colored"`                             |
 | `public/images/README.md`                 | Copyright notice for image assets                                                    |
 
@@ -957,7 +960,7 @@ Swaps `src` between light and dark variants based on the current theme.
 - `data-src-light` — URL for the light-theme image (populated automatically if missing)
 - `data-src-dark` — URL for the dark-theme image
 
-Handled by `applyAllThemeBasedImages()` in `theme.js` (see [§4.4 Theme System](#44-theme-system)).
+Handled by `applyAllThemeBasedImages()` in `theme.ts` (see [§4.4 Theme System](#44-theme-system)).
 
 #### 4.13.3 `colored`
 
@@ -967,7 +970,7 @@ Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 - `data-src-mask` — path to the mask source image (e.g. `/images/webp/icons/email.webp`)
 - `data-color-var` — CSS variable name (without `--` prefix) for the fill color (e.g. `bs-body-color`, `shlh-primary-color`)
 
-Handled by `initAllColoredImages()` in `img-utils.js`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
+Handled by `initAllColoredImages()` in `img-utils.ts`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
 
 #### 4.13.4 `loading-opacity`
 
@@ -977,7 +980,7 @@ Renders `<img>` elements semi-transparent (`opacity: 0.5`) while their source is
 - **Loaded state**: When an image finishes loading (or is already cached), the `data-img-loaded` attribute is added, which sets `opacity: 1`.
 - **Error state**: Images that fail to load are also marked as loaded to prevent them from staying semi-transparent forever.
 
-**Key Functions** (in `img-utils.js`):
+**Key Functions** (in `img-utils.ts`):
 
 | Function                       | Role                                                                           |
 |--------------------------------|--------------------------------------------------------------------------------|
@@ -1012,14 +1015,14 @@ When `applyThemeBasedImage()` switches the `src` of a `follow-theme` image durin
 
 | File                                      | Role                                                                |
 |-------------------------------------------|---------------------------------------------------------------------|
-| `src/scripts/functions/core/svg-utils.js` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
+| `src/scripts/functions/core/svg-utils.ts` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
 | `public/images/svg/`                      | SVG source files (e.g. `steve-hsu.svg`)                             |
 
 **How It Works**:
 
 ```
 HTML: <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-width="32" data-height="28" data-color-var="bs-link-color"></span>
-        ↓ (svg-utils.js at init time)
+        ↓ (svg-utils.ts at init time)
       Fetch /images/svg/icons/steve-hsu.svg → replace fill="currentColor" with var(--bs-link-color)
         ↓
       Set width/height on <svg>, inject as innerHTML
@@ -1051,8 +1054,8 @@ HTML: <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-widt
 
 | File                                     | Role                                                                      |
 |------------------------------------------|---------------------------------------------------------------------------|
-| `src/scripts/functions/core/utils.js`    | Shared utility functions (path normalization, page name extraction, etc.) |
-| `src/scripts/functions/ui/page-title.js` | Page title management                                                     |
+| `src/scripts/functions/core/utils.ts`    | Shared utility functions (path normalization, page name extraction, etc.) |
+| `src/scripts/functions/ui/page-title.ts` | Page title management                                                     |
 
 ---
 
@@ -1125,7 +1128,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 - When the user switches language via the UI, `history.replaceState()` updates the URL with the new `?lang=` parameter without creating a browser history entry.
 - The Page Transition System ([§4.6](#46-page-transitions)) preserves the `?lang=` parameter across internal SPA navigations, so the user's chosen language persists through page transitions.
 - Hreflang `<link>` tags in `<head>` use the `?lang=` URLs to give each language a unique URL for search engines.
-- Language code normalization: a `normalizeLang()` function (in `src/scripts/functions/core/i18n.js`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
+- Language code normalization: a `normalizeLang()` function (in `src/scripts/functions/core/i18n.ts`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
     - `zh-HK`, `zh-MO`, `zh-TW`, `zh-Hant`, `zh-Hant-*` → `zh-Hant`
     - `zh-CN`, `zh-SG`, `zh`, `zh-Hans`, `zh-Hans-*` → `zh-Hans`
     - Other `zh-*` variants → `zh-Hans` (fallback)
@@ -1175,7 +1178,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 | File                                                           | Role                                               |
 |----------------------------------------------------------------|----------------------------------------------------|
-| `src/scripts/functions/features/external-link-confirmation.js` | Link interception, modal display, navigation logic |
+| `src/scripts/functions/features/external-link-confirmation.ts` | Link interception, modal display, navigation logic |
 | `stylesheets/external-link-confirmation.css`                   | Modal URL display styling                          |
 | `page-components/modals.html`                                  | Confirmation modal HTML (shared with other modals) |
 
@@ -1237,7 +1240,7 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 - `handleExternalLinkConfirm()` - Handles the [Open] button click.
 - `handleExternalLinkShowQR()` - Handles the [Show QR Code] button click. Hides the confirmation modal, then calls `showQRCodeModal` after the hide transition.
 - `handleExternalLinkToggleChange()` - Persists toggle changes to localStorage and applies the target behavior.
-- `initExternalLinkConfirmation()` - Sets up delegated event listeners on `document`. Called once from `init-final.js`.
+- `initExternalLinkConfirmation()` - Sets up delegated event listeners on `document`. Called once from `init-final.ts`.
 
 **Data Flow**:
 
@@ -1248,12 +1251,12 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 
 **Interaction with Other Systems**:
 
-- **Page Transition ([§4.6](#46-page-transitions))**: The confirmation system only intercepts `.external-link` links. Internal links continue to be handled by `page-transition.js` via `shouldInterceptLink()`.
+- **Page Transition ([§4.6](#46-page-transitions))**: The confirmation system only intercepts `.external-link` links. Internal links continue to be handled by `page-transition.ts` via `shouldInterceptLink()`.
 - **QR Code ([§4.10](#410-qr-code--export))**: The [Show QR Code] button and the QR modal's [Open Link] button form a cross-navigation pair. Both preserve `imgProperties` across the round-trip via DOM element storage.
-- **Settings ([§4.8](#48-settings--preferences))**: The new-tab toggle in the confirmation modal and the one in the settings modal share the same `localStorage` key. The `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyAllExternalLinkTargetBehavior()` functions from `settings.js` are called by the confirmation module.
+- **Settings ([§4.8](#48-settings--preferences))**: The new-tab toggle in the confirmation modal and the one in the settings modal share the same `localStorage` key. The `isExternalLinkNewTabEnabled()` / `setExternalLinkNewTabPreference()` / `applyAllExternalLinkTargetBehavior()` functions from `settings.ts` are called by the confirmation module.
 - **Link Cards ([§4.5](#45-link-cards))**: `buildCardItem` injects `data-link-img-props` on all title and description links within a card, using the card's icon properties.
 - **Image Utilities ([§4.13](#413-image-utilities))**: Coloured icons in the confirmation modal are processed via `applyColoredImage`.
-- **Utilities ([§4.15](#415-utilities))**: `isInternalPage()` (in `utils.js`) is used to avoid showing the confirmation for links that point to internal pages.
+- **Utilities ([§4.15](#415-utilities))**: `isInternalPage()` (in `utils.ts`) is used to avoid showing the confirmation for links that point to internal pages.
 - **Component Loading ([§4.2](#42-component-loading))**: The modal HTML is part of `modals.html`, loaded by the component loader during initial page load.
 
 ---
