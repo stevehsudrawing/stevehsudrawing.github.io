@@ -5,10 +5,10 @@
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
- * @param {string} pathname - e.g. "/", "", "/about.html"
- * @returns {string} - e.g. "/index.html", "/about.html"
+ * @param pathname - e.g. "/", "", "/about.html"
+ * @returns e.g. "/index.html", "/about.html"
  */
-export function normalizeInternalPath(pathname) {
+export function normalizeInternalPath(pathname: string): string {
     if (pathname === '/' || pathname === '') return '/index.html';
     return pathname;
 }
@@ -16,14 +16,24 @@ export function normalizeInternalPath(pathname) {
 /**
  * Extract the page name (without .html extension) from a pathname.
  * The root path maps to "index".
- * @param {string} pathname - e.g. "/", "/about.html", "/artworks-and-videos.html"
- * @returns {string} - e.g. "index", "about", "artworks-and-videos"
+ * @param pathname - e.g. "/", "/about.html", "/artworks-and-videos.html"
+ * @returns e.g. "index", "about", "artworks-and-videos"
  */
-export function extractPageName(pathname) {
+export function extractPageName(pathname: string): string {
     const normalized = normalizeInternalPath(pathname);
     // normalized is like "/index.html" or "/about.html"
     const filename = normalized.split('/').pop();
-    return filename.replace(/\.html$/, '');
+    return filename!.replace(/\.html$/, '');
+}
+
+/**
+ * Properties object for hast-style element attribute setting.
+ * Supports className (string or string[]), camelCase data* keys,
+ * and values of false/null/undefined are skipped.
+ */
+export interface HastProperties {
+    className?: string | string[];
+    [key: string]: unknown;
 }
 
 /**
@@ -31,14 +41,17 @@ export function extractPageName(pathname) {
  * Special handling: 'className' can be a string or array and is added via classList.
  * camelCase data* keys (hast convention) are converted to data-* kebab-case.
  * Values of false, null, or undefined are skipped.
- * @param {HTMLElement} element - The target element.
- * @param {Object} [properties={}] - Key/value pairs to set as attributes.
+ * @param element - The target element.
+ * @param properties - Key/value pairs to set as attributes.
  */
-export function setElementAttributes(element, properties = {}) {
+export function setElementAttributes(
+    element: HTMLElement,
+    properties: HastProperties = {}
+): void {
     Object.entries(properties).forEach(([key, value]) => {
         if (key === 'className') {
             if (Array.isArray(value)) {
-                value.forEach(cls => element.classList.add(cls));
+                (value as string[]).forEach(cls => element.classList.add(cls));
             }
             return;
         }
@@ -50,7 +63,7 @@ export function setElementAttributes(element, properties = {}) {
         // Convert camelCase data* keys to data-* kebab-case (hast convention).
         // e.g. dataImgFeature -> data-img-feature, dataI18n -> data-i18n.
         const attrName = /^data[A-Z]/.test(key)
-            ? key.replace(/^data([A-Z])/, (_, c) => 'data-' + c.toLowerCase())
+            ? key.replace(/^data([A-Z])/, (_, c: string) => 'data-' + c.toLowerCase())
                 .replace(/[A-Z]/g, m => '-' + m.toLowerCase())
             : key;
 
@@ -61,32 +74,32 @@ export function setElementAttributes(element, properties = {}) {
 /**
  * Show a brief error message using a Bootstrap toast.
  * Gracefully does nothing if the toast container is not present.
- * @param {string} message - The error message to display.
+ * @param message - The error message to display.
  */
-export function showErrorToast(message) {
+export function showErrorToast(message: string): void {
     const container = document.getElementById('toast-container');
     const toastEl = document.getElementById('error-toast');
     const bodyEl = document.getElementById('error-toast-body');
     if (!container || !toastEl || !bodyEl) return;
     bodyEl.textContent = message;
-    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    const toast = window.bootstrap.Toast.getOrCreateInstance(toastEl);
     toast.show();
 }
 
 /**
  * Extract a readable message from any rejection value.
- * @param {*} error - The rejection value.
- * @returns {string}
+ * @param error - The rejection value.
  */
-export function errMsg(error) {
-    return error && error.message ? error.message : JSON.stringify(error);
+export function errMsg(error: unknown): string {
+    return error && typeof error === 'object' && 'message' in error
+        ? String((error as { message: unknown }).message)
+        : JSON.stringify(error);
 }
 
 /**
  * List of internal page paths that support page transitions.
- * @constant {string[]}
  */
-export const INTERNAL_PAGES = [
+export const INTERNAL_PAGES: string[] = [
     '/index.html',
     '/about.html',
     '/artworks-and-videos.html',
@@ -98,9 +111,8 @@ export const INTERNAL_PAGES = [
 /**
  * List of page paths excluded from the page transition system.
  * These pages will always trigger a full browser navigation.
- * @constant {string[]}
  */
-export const EXCLUDED_PAGES = [
+export const EXCLUDED_PAGES: string[] = [
     '/404.html',
     '/error-javascript-disabled.html',
     '/error-unsupported-browser.html'
@@ -108,10 +120,10 @@ export const EXCLUDED_PAGES = [
 
 /**
  * Determine if a URL is an internal page that should be handled by the transition system.
- * @param {string} url - The URL to check, can be relative or absolute.
- * @returns {boolean} True if the URL points to an internal page eligible for transitions.
+ * @param url - The URL to check, can be relative or absolute.
+ * @returns True if the URL points to an internal page eligible for transitions.
  */
-export function isInternalPage(url) {
+export function isInternalPage(url: string): boolean {
     try {
         const target = new URL(url, window.location.origin);
         // Must be same origin

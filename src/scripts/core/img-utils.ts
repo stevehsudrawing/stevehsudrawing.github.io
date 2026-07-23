@@ -7,9 +7,9 @@
  * Apply colored (mask-based) styling to a single <img> element.
  * Reads data-src-mask and data-color-var attributes and sets the
  * --img-mask-url and --img-color CSS custom properties on the element.
- * @param {HTMLImageElement} img - The image element to style.
+ * @param img - The image element to style.
  */
-export function applyColoredImage(img) {
+export function applyColoredImage(img: HTMLImageElement): void {
     const maskSrc = img.getAttribute('data-src-mask');
     if (maskSrc) {
         img.style.setProperty('--img-mask-url', `url(${maskSrc})`);
@@ -25,24 +25,24 @@ export function applyColoredImage(img) {
  * Initialize all images with data-img-feature~="colored".
  * Delegates to applyColoredImage() for each matching element.
  */
-export function initAllColoredImages() {
-    document.querySelectorAll('img[data-img-feature~="colored"]').forEach(applyColoredImage);
+export function initAllColoredImages(): void {
+    document.querySelectorAll<HTMLImageElement>('img[data-img-feature~="colored"]').forEach(applyColoredImage);
 }
 
 /**
  * Mark an image as loaded by adding the data-img-loaded attribute.
- * @param {HTMLImageElement} img - The image element to mark as loaded.
+ * @param img - The image element to mark as loaded.
  */
-export function markImageLoaded(img) {
+export function markImageLoaded(img: HTMLImageElement): void {
     img.setAttribute('data-img-loaded', '');
 }
 
 /**
  * Mark an image as unloaded (loading) by removing the data-img-loaded attribute.
  * The image will revert to its default semi-transparent state via CSS.
- * @param {HTMLImageElement} img - The image element to mark as unloaded.
+ * @param img - The image element to mark as unloaded.
  */
-export function markImageUnloaded(img) {
+export function markImageUnloaded(img: HTMLImageElement): void {
     img.removeAttribute('data-img-loaded');
 }
 
@@ -51,9 +51,9 @@ export function markImageUnloaded(img) {
  * Skips colored images (they use CSS mask rendering).
  * For already-loaded (cached) images, marks them immediately.
  * For loading images, sets up load and error listeners to mark when ready.
- * @param {HTMLImageElement} img - The image element to initialize.
+ * @param img - The image element to initialize.
  */
-export function initImageLoadingOpacity(img) {
+export function initImageLoadingOpacity(img: HTMLImageElement): void {
     // Colored images use CSS mask rendering, not the image src
     if (img.matches('[data-img-feature~="colored"]')) {
         return;
@@ -76,6 +76,6 @@ export function initImageLoadingOpacity(img) {
  * Initialize image loading opacity for all <img> elements on the page.
  * Delegates to initImageLoadingOpacity() for each matching element.
  */
-export function initAllImageLoadingOpacity() {
-    document.querySelectorAll('img').forEach(initImageLoadingOpacity);
+export function initAllImageLoadingOpacity(): void {
+    document.querySelectorAll<HTMLImageElement>('img').forEach(initImageLoadingOpacity);
 }

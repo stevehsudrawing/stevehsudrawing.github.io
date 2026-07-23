@@ -5,9 +5,9 @@
 
 /**
  * Check whether Bootstrap CSS loaded successfully by testing for --bs-blue.
- * @returns {boolean} True if Bootstrap CSS is loaded.
+ * @returns True if Bootstrap CSS is loaded.
  */
-export function isBootstrapCSSLoaded() {
+export function isBootstrapCSSLoaded(): boolean {
     // Bootstrap 5 defines --bs-blue on :root. If the stylesheet failed
     // to load (or was blocked), this custom property will be empty.
     const bsBlue = getComputedStyle(document.documentElement).getPropertyValue('--bs-blue').trim();
@@ -17,7 +17,7 @@ export function isBootstrapCSSLoaded() {
 /**
  * Display a warning banner at the top of the page when Bootstrap CSS fails to load.
  */
-export function showBootstrapCSSWarning() {
+export function showBootstrapCSSWarning(): void {
     // Inline styles are used because Bootstrap CSS may not be available.
     const wrapper = document.createElement('div');
     wrapper.id = 'bootstrap-css-warning';
@@ -47,7 +47,7 @@ text-underline-offset:2px;
 /**
  * Initialize Bootstrap CSS detection; show a warning if the stylesheet didn't load.
  */
-export function initBootstrapCSSDetection() {
+export function initBootstrapCSSDetection(): void {
     if (!isBootstrapCSSLoaded()) {
         showBootstrapCSSWarning();
     }

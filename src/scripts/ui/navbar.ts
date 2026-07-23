@@ -10,7 +10,7 @@ import { extractPageName, normalizeInternalPath } from '../core/utils.js';
 /**
  * Highlight the navbar link that matches the current page path.
  */
-export function setActiveNavItem() {
+export function setActiveNavItem(): void {
     try {
         const currentPage = normalizeInternalPath(window.location.pathname);
 
@@ -39,9 +39,9 @@ export function setActiveNavItem() {
  * Wire up show/hide animation hooks on all Bootstrap dropdown menus
  * so they fade in/out smoothly instead of appearing instantly.
  */
-export function initDropdownMenuAnimation() {
+export function initDropdownMenuAnimation(): void {
     document.querySelectorAll('.dropdown').forEach(dropdown => {
-        const menu = dropdown.querySelector('.dropdown-menu');
+        const menu = dropdown.querySelector('.dropdown-menu') as HTMLElement | null;
         if (!menu) {
             return;
         }
@@ -56,7 +56,7 @@ export function initDropdownMenuAnimation() {
             menu.classList.remove('animating');
         });
 
-        dropdown.addEventListener('hide.bs.dropdown', event => {
+        dropdown.addEventListener('hide.bs.dropdown', (event: Event) => {
             if (menu.classList.contains('closing')) {
                 return;
             }
@@ -77,7 +77,7 @@ export function initDropdownMenuAnimation() {
                 }
             };
 
-            menu.addEventListener('transitionend', function handler(evt) {
+            menu.addEventListener('transitionend', function handler(evt: TransitionEvent) {
                 if (evt.target === menu && evt.propertyName === 'opacity') {
                     cleanup();
                     menu.removeEventListener('transitionend', handler);
@@ -101,7 +101,7 @@ export function initDropdownMenuAnimation() {
  * When JS is disabled the page-name slide stays hidden (CSS default)
  * so only the logo is visible.
  */
-export function initMobileNavbarBrandScroll() {
+export function initMobileNavbarBrandScroll(): void {
     const container = document.getElementById('navbar-brand-container');
     const logoTarget = document.getElementById('navbar-brand-logo-slide');
     const pageTarget = document.getElementById('navbar-brand-page-slide');
@@ -115,7 +115,7 @@ export function initMobileNavbarBrandScroll() {
      * e.g. /about.html  -> text-about
      *      /index.html  -> text-index
      */
-    function getPageI18nKey() {
+    function getPageI18nKey(): string {
         const pageName = extractPageName(window.location.pathname);
         return 'text-' + pageName;
     }
@@ -123,25 +123,25 @@ export function initMobileNavbarBrandScroll() {
     /**
      * Update slide transforms based on current scroll position and viewport width.
      */
-    function updateSlides() {
+    function updateSlides(): void {
         const isMobile = window.innerWidth < 992;
 
         if (isMobile) {
             // Ensure the page-name slide is visible (hidden by default CSS)
-            pageTarget.style.display = 'flex';
+            pageTarget!.style.display = 'flex';
 
             // Clamp progress to [0, 1] over the 0–64 px scroll range
             const progress = Math.min(Math.max(window.scrollY / 64, 0), 1);
 
             // Logo: 0 → -100 % (slides up out of view)
-            logoTarget.style.transform = 'translateY(-' + (progress * 100) + '%)';
+            logoTarget!.style.transform = 'translateY(-' + (progress * 100) + '%)';
             // Page name: 100 % → 0 (slides up into view from below)
-            pageTarget.style.transform = 'translateY(' + ((1 - progress) * 100) + '%)';
+            pageTarget!.style.transform = 'translateY(' + ((1 - progress) * 100) + '%)';
         } else {
             // Desktop: reset inline overrides so CSS defaults take over
-            logoTarget.style.transform = '';
-            pageTarget.style.transform = '';
-            pageTarget.style.display = '';
+            logoTarget!.style.transform = '';
+            pageTarget!.style.transform = '';
+            pageTarget!.style.display = '';
         }
     }
 
@@ -178,7 +178,7 @@ export function initMobileNavbarBrandScroll() {
  * Update the navbar-brand page-name text to reflect the current page.
  * Safe to call multiple times (e.g. after SPA page transitions).
  */
-export function updateNavbarBrandText() {
+export function updateNavbarBrandText(): void {
     const brandText = document.querySelector('#navbar-brand-page-slide .navbar-brand-text');
     if (!brandText) return;
 
@@ -195,7 +195,7 @@ export function updateNavbarBrandText() {
  * Add a subtle bottom border to the navbar when the page is scrolled
  * past the very top. Works at all viewport sizes.
  */
-export function initNavbarScrollBorder() {
+export function initNavbarScrollBorder(): void {
     const navbar = document.querySelector('.navbar');
     if (!navbar) return;
 

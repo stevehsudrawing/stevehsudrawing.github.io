@@ -12,16 +12,16 @@ import { showExternalLinkConfirmation } from './external-link-confirmation.js';
 import { translate } from '../core/i18n.js';
 import { initImageLoadingOpacity, applyColoredImage } from '../core/img-utils.js';
 import { initSvgInjection } from '../core/svg-utils.js';
-import { errMsg, isInternalPage, setElementAttributes, showErrorToast } from '../core/utils.js';
+import { errMsg, isInternalPage, setElementAttributes, showErrorToast, HastProperties } from '../core/utils.js';
 
-/** @type {boolean|undefined} Cached share-API availability; undefined = not yet checked. */
-export let shareApiSupported;
+/** Cached share-API availability; undefined = not yet checked. */
+export let shareApiSupported: boolean | undefined;
 
 /**
  * Trigger a file download from a Blob via a temporary anchor element.
- * @param {Blob} blob - The blob to download.
+ * @param blob - The blob to download.
  */
-export function downloadBlob(blob) {
+export function downloadBlob(blob: Blob): void {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -34,21 +34,24 @@ export function downloadBlob(blob) {
 
 /**
  * Generate a QR code for the specified URL and show it in a modal.
- * @param {string} linkUrl - The URL to encode in the QR code.
- * @param {Object} [imgProperties] - Key/value pairs to set as attributes on
+ * @param linkUrl - The URL to encode in the QR code.
+ * @param imgProperties - Key/value pairs to set as attributes on
  *   the center overlay <img> element. The 'className' key accepts a string or
  *   array of CSS class names. `width` and `height` are always forced to 32.
  */
-export async function showQRCodeModal(linkUrl, imgProperties) {
+export async function showQRCodeModal(
+    linkUrl: string,
+    imgProperties?: Record<string, unknown> | null
+): Promise<void> {
     const htmlElement = document.documentElement;
 
     const modalLink = document.getElementById('qr-code-modal-link');
     const qrCodeContainer = document.getElementById('qr-code-container');
     const modalElement = document.getElementById('qr-code-modal');
     const shareCard = document.getElementById('qr-share-card');
-    const shareBtn = document.getElementById('qr-share-btn');
-    const downloadBtn = document.getElementById('qr-download-btn');
-    const openLinkBtn = document.getElementById('qr-open-link-btn');
+    const shareBtn = document.getElementById('qr-share-btn') as HTMLButtonElement | null;
+    const downloadBtn = document.getElementById('qr-download-btn') as HTMLButtonElement | null;
+    const openLinkBtn = document.getElementById('qr-open-link-btn') as HTMLElement | null;
 
     if (!modalLink || !qrCodeContainer || !modalElement || !shareCard || !shareBtn || !downloadBtn) {
         console.warn('QR code modal elements not found.');
@@ -57,8 +60,8 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
 
     // Store the URL and icon properties on the modal element so the
     // "Open Link" button can pass them back to the confirmation modal.
-    modalElement._qrUrl = linkUrl;
-    modalElement._qrIconProps = imgProperties || null;
+    (modalElement as unknown as Record<string, unknown>)._qrUrl = linkUrl;
+    (modalElement as unknown as Record<string, unknown>)._qrIconProps = imgProperties || null;
 
     // Ensure the share card logo SVG is injected if not already.
     initSvgInjection();
@@ -81,7 +84,7 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
     });
 
     // --- Center overlay image ---
-    const defaultImgProperties = {
+    const defaultImgProperties: HastProperties = {
         id: 'qr-code-icon',
         alt: 'Link',
         src: '/images/webp/null.webp',
@@ -90,7 +93,7 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
         dataColorVar: 'bs-body-color'
     };
 
-    let mergedProperties = Object.assign({}, defaultImgProperties, imgProperties);
+    const mergedProperties: Record<string, unknown> = Object.assign({}, defaultImgProperties, imgProperties || {});
     mergedProperties.id = 'qr-code-icon';
     mergedProperties.width = 32;
     mergedProperties.height = 32;
@@ -119,34 +122,36 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
     // --- Set share card title from icon properties ---
     const titleEl = document.getElementById('qr-share-card-title');
     if (titleEl) {
-        const i18nAltKey = mergedProperties.dataI18nAlt;
-        const altText = i18nAltKey ? translate(i18nAltKey) : mergedProperties.alt;
+        const i18nAltKey = mergedProperties.dataI18nAlt as string | undefined;
+        const altText = i18nAltKey ? translate(i18nAltKey) : mergedProperties.alt as string | undefined;
         titleEl.textContent = altText ? altText : translate('text-link', 'Link');
     }
 
     const scale = 3;
+
     /**
      * Render the share card to a PNG blob.
      * Prefers html-to-image for pixel-perfect output; falls back to
      * html2canvas on environments where SVG foreignObject is not
      * supported (e.g., mobile browsers).
-     * @returns {Promise<Blob>}
      */
-    function renderShareCardBlob() {
-        return htmlToImage.toPng(shareCard, {
+    function renderShareCardBlob(): Promise<Blob> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const hti = window.htmlToImage as any;
+        return hti.toPng(shareCard!, {
             backgroundColor: pageBg,
             pixelRatio: scale
-        }).then(function (dataUrl) {
+        }).then(function (dataUrl: string) {
             return fetch(dataUrl).then(function (response) {
                 return response.blob();
             });
         }).catch(function () {
             // html-to-image failed (likely mobile), fall back to html2canvas
-            return html2canvas(shareCard, {
+            return window.html2canvas(shareCard!, {
                 backgroundColor: pageBg,
                 scale: scale
             }).then(function (canvas) {
-                return new Promise(function (resolve, reject) {
+                return new Promise<Blob>(function (resolve, reject) {
                     canvas.toBlob(function (blob) {
                         if (blob) {
                             resolve(blob);
@@ -162,10 +167,10 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
     /**
      * Run renderShareCardBlob, managing button disabled state during the
      * operation, then call onSuccess with the resulting blob.
-     * @param {Function} onSuccess - Called with the blob on success.
-     * @param {string} [errorLabel] - Label shown in the error toast on failure.
+     * @param onSuccess - Called with the blob on success.
+     * @param errorLabel - Label shown in the error toast on failure.
      */
-    function runWithSpinner(onSuccess, errorLabel) {
+    function runWithSpinner(onSuccess: (blob: Blob) => void, errorLabel?: string): void {
         setButtonsDisabled(true);
         renderShareCardBlob().then(function (blob) {
             setButtonsDisabled(false);
@@ -180,17 +185,17 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
 
     /**
      * Set both action buttons to a disabled/enabled state.
-     * @param {boolean} disabled - Whether to disable the buttons.
+     * @param disabled - Whether to disable the buttons.
      */
-    function setButtonsDisabled(disabled) {
-        shareBtn.disabled = disabled;
-        downloadBtn.disabled = disabled;
+    function setButtonsDisabled(disabled: boolean): void {
+        shareBtn!.disabled = disabled;
+        downloadBtn!.disabled = disabled;
     }
 
     // --- Detect share-API support (once) and hide button if unsupported ---
     if (typeof shareApiSupported === 'undefined') {
         const testFile = new File([new Blob([''], { type: 'image/png' })], 'test.png', { type: 'image/png' });
-        shareApiSupported = !!(navigator.share && navigator.canShare?.({ files: [testFile] }));
+        shareApiSupported = !!(navigator.canShare?.({ files: [testFile] }));
     }
     if (!shareApiSupported) {
         shareBtn.style.display = 'none';
@@ -208,7 +213,7 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
             openLinkBtn.onclick = function () {
                 // Hide the QR modal, then show the confirmation modal after
                 // the hide transition completes.
-                const qrInstance = bootstrap.Modal.getInstance(modalElement);
+                const qrInstance = window.bootstrap.Modal.getInstance(modalElement);
                 if (qrInstance) {
                     modalElement.addEventListener('hidden.bs.modal', function handler() {
                         modalElement.removeEventListener('hidden.bs.modal', handler);
@@ -231,7 +236,7 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
         runWithSpinner(function (blob) {
             const file = new File([blob], 'qr-code.png', { type: 'image/png' });
             navigator.share({ files: [file] }).catch(function (error) {
-                if (error.name !== 'AbortError') {
+                if ((error as DOMException).name !== 'AbortError') {
                     showErrorToast('Sharing failed: ' + errMsg(error));
                 }
             });
@@ -245,7 +250,7 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
         }, 'Failed to download QR code image');
     };
 
-    const bootstrapModal = new bootstrap.Modal(modalElement);
+    const bootstrapModal = new window.bootstrap.Modal(modalElement);
     bootstrapModal.show();
 }
 
@@ -258,9 +263,9 @@ export async function showQRCodeModal(linkUrl, imgProperties) {
  * Call once during page initialization. Uses event delegation on
  * `document`, so it survives SPA page transitions automatically.
  */
-export function initQRCodeDelegation() {
-    document.addEventListener('click', function (e) {
-        const trigger = e.target.closest('[data-qr-url]');
+export function initQRCodeDelegation(): void {
+    document.addEventListener('click', function (e: MouseEvent) {
+        const trigger = (e.target as HTMLElement).closest('[data-qr-url]');
         if (!trigger) return;
 
         e.preventDefault();
@@ -268,7 +273,7 @@ export function initQRCodeDelegation() {
         const url = trigger.getAttribute('data-qr-url');
         if (!url) return;
 
-        let iconProps = null;
+        let iconProps: Record<string, unknown> | null = null;
         const iconAttr = trigger.getAttribute('data-qr-icon');
         if (iconAttr) {
             try {

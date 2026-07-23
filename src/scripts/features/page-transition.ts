@@ -12,16 +12,15 @@ import { initPageContent } from './init-page-content.js';
 /**
  * Flag indicating whether a page transition is currently in progress.
  * Used to prevent concurrent transitions.
- * @type {boolean}
  */
 export let isTransitioning = false;
 
 /**
  * Check if a clicked link should be handled by the transition system.
- * @param {HTMLAnchorElement} link - The anchor element to check.
- * @returns {boolean} True if the link should be intercepted for page transition.
+ * @param link - The anchor element to check.
+ * @returns True if the link should be intercepted for page transition.
  */
-export function shouldInterceptLink(link) {
+export function shouldInterceptLink(link: HTMLAnchorElement | null): boolean {
     if (!link) return false;
 
     // For predefined links, a direct return is possible
@@ -62,21 +61,21 @@ export function shouldInterceptLink(link) {
 /**
  * Start the progress bar animation.
  */
-export function startProgress() {
+export function startProgress(): void {
     const bar = document.getElementById('page-transition-progress');
     if (!bar) return;
     // Reset
     bar.classList.remove('done');
     bar.style.display = '';
     // Force reflow so the reset takes effect before adding 'active'
-    void bar.offsetWidth;
+    void (bar as HTMLElement).offsetWidth;
     bar.classList.add('active');
 }
 
 /**
  * Complete the progress bar animation and hide it.
  */
-export function completeProgress() {
+export function completeProgress(): void {
     const bar = document.getElementById('page-transition-progress');
     if (!bar) return;
     bar.classList.add('done');
@@ -91,7 +90,7 @@ export function completeProgress() {
 /**
  * Dim the page content to indicate loading.
  */
-export function dimPageContent() {
+export function dimPageContent(): void {
     const content = document.getElementById('page-content');
     if (content) {
         content.classList.add('transitioning');
@@ -101,7 +100,7 @@ export function dimPageContent() {
 /**
  * Restore the page content opacity.
  */
-export function restorePageContent() {
+export function restorePageContent(): void {
     const content = document.getElementById('page-content');
     if (content) {
         content.classList.remove('transitioning');
@@ -111,11 +110,11 @@ export function restorePageContent() {
 /**
  * Close the offcanvas sidebar if it's open (mobile navigation).
  */
-export function closeOffcanvas() {
+export function closeOffcanvas(): void {
     try {
         const offcanvasEl = document.getElementById('navbar-offcanvas');
         if (offcanvasEl) {
-            const instance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+            const instance = window.bootstrap.Offcanvas.getInstance(offcanvasEl);
             if (instance) {
                 instance.hide();
             }
@@ -127,10 +126,10 @@ export function closeOffcanvas() {
 
 /**
  * Extract the #page-content inner HTML and <title> from a fetched HTML string.
- * @param {string} htmlString - The full HTML content of a fetched page.
- * @returns {{title: string, contentHTML: string}} An object containing the page title and the inner HTML of #page-content.
+ * @param htmlString - The full HTML content of a fetched page.
+ * @returns An object containing the page title and the inner HTML of #page-content.
  */
-export function extractPageContent(htmlString) {
+export function extractPageContent(htmlString: string): { title: string; contentHTML: string } {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
 
@@ -143,17 +142,17 @@ export function extractPageContent(htmlString) {
     }
 
     return {
-        title: newTitle,
+        title: newTitle || '',
         contentHTML: pageContent.innerHTML
     };
 }
 
 /**
  * Core navigation function.
- * @param {string} url - The target URL
- * @param {boolean} pushState - Whether to push a new history entry
+ * @param url - The target URL
+ * @param pushState - Whether to push a new history entry
  */
-export async function navigateTo(url, pushState = true) {
+export async function navigateTo(url: string, pushState = true): Promise<void> {
     // Preserve language query parameter across internal navigations
     const currentParams = new URLSearchParams(window.location.search);
     const currentLangParam = currentParams.get('lang');
@@ -172,7 +171,7 @@ export async function navigateTo(url, pushState = true) {
     }
 
     // Resolve the full URL to get the pathname for comparison
-    let resolvedPath;
+    let resolvedPath: string;
     try {
         const resolved = new URL(url, window.location.origin);
         resolvedPath = normalizeInternalPath(resolved.pathname);
@@ -231,7 +230,7 @@ export async function navigateTo(url, pushState = true) {
         if (window.location.hash) {
             scrollToHashTarget(window.location.hash, true);
         } else {
-            window.scrollTo({ top: 0, behavior: 'instant' });
+            window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
         }
 
         // 9. Complete progress bar and restore page content
@@ -253,16 +252,16 @@ export async function navigateTo(url, pushState = true) {
 
 /**
  * Handle click events on internal links.
- * @param {MouseEvent} e - The click event object.
+ * @param e - The click event object.
  */
-export function handleInternalLinkClick(e) {
+export function handleInternalLinkClick(e: MouseEvent): void {
     // Skip if user is holding modifier keys (open in new tab/window)
     if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
 
     // Skip if it's not a left-click
     if (e.button !== 0) return;
 
-    const link = e.target.closest('a');
+    const link = (e.target as HTMLElement).closest('a') as HTMLAnchorElement | null;
     if (!link) return;
 
     if (!shouldInterceptLink(link)) return;
@@ -274,15 +273,15 @@ export function handleInternalLinkClick(e) {
 /**
  * Initialize the click listener for internal link navigation.
  */
-export function initPageTransitionLinkClicks() {
+export function initPageTransitionLinkClicks(): void {
     document.addEventListener('click', handleInternalLinkClick);
 }
 
 /**
  * Handle browser back/forward navigation.
- * @param {PopStateEvent} e - The popstate event object.
+ * @param e - The popstate event object.
  */
-export function handlePopState(e) {
+export function handlePopState(_e: PopStateEvent): void {
     const currentPath = normalizeInternalPath(window.location.pathname);
     if (INTERNAL_PAGES.includes(currentPath)) {
         navigateTo(window.location.href, false);
@@ -293,6 +292,6 @@ export function handlePopState(e) {
 /**
  * Initialize the popstate listener for browser back/forward navigation.
  */
-export function initPageTransitionPopState() {
+export function initPageTransitionPopState(): void {
     window.addEventListener('popstate', handlePopState);
 }

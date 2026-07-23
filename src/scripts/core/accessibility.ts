@@ -6,10 +6,10 @@
 
 /**
  * Smooth-scroll the page to an element identified by a hash fragment.
- * @param {string} hash - The hash fragment (with or without leading '#').
- * @param {boolean} [instant=false] - If true, scroll instantly instead of smoothly.
+ * @param hash - The hash fragment (with or without leading '#').
+ * @param instant - If true, scroll instantly instead of smoothly.
  */
-export function scrollToHashTarget(hash, instant = false) {
+export function scrollToHashTarget(hash: string, instant = false): void {
     if (!hash) return;
     if (hash.startsWith('#')) {
         hash = hash.slice(1);
@@ -19,7 +19,7 @@ export function scrollToHashTarget(hash, instant = false) {
     if (!target) return;
 
     const offset = 64;
-    const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
     const scrollTop = Math.max(0, targetTop - offset);
     window.scrollTo({ top: scrollTop, behavior: instant ? 'auto' : 'smooth' });
 }
@@ -27,28 +27,30 @@ export function scrollToHashTarget(hash, instant = false) {
 /**
  * Click handler for .title-link-anchor elements.
  * Scrolls smoothly to the target heading and updates the URL hash via pushState.
- * @param {MouseEvent} e - The click event.
+ * @param e - The click event.
  */
-export function handleTitleLinkAnchorClick(e) {
+export function handleTitleLinkAnchorClick(e: MouseEvent): void {
     e.preventDefault();
-    const hash = e.currentTarget.getAttribute('href');
-    history.pushState(null, '', hash);
-    scrollToHashTarget(hash);
+    const hash = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+    if (hash) {
+        history.pushState(null, '', hash);
+        scrollToHashTarget(hash);
+    }
 }
 
 /**
  * Attach the click listener to a single .title-link-anchor element.
- * @param {HTMLAnchorElement} anchor - The anchor element to initialize.
+ * @param anchor - The anchor element to initialize.
  */
-export function initTitleLinkAnchor(anchor) {
+export function initTitleLinkAnchor(anchor: HTMLAnchorElement): void {
     anchor.addEventListener('click', handleTitleLinkAnchorClick);
 }
 
 /**
  * Remove the click listener from a single .title-link-anchor element.
- * @param {HTMLAnchorElement} anchor - The anchor element to dispose.
+ * @param anchor - The anchor element to dispose.
  */
-export function disposeTitleLinkAnchor(anchor) {
+export function disposeTitleLinkAnchor(anchor: HTMLAnchorElement): void {
     anchor.removeEventListener('click', handleTitleLinkAnchorClick);
 }
 
@@ -57,9 +59,9 @@ export function disposeTitleLinkAnchor(anchor) {
  * smoothly to the corresponding heading and update the URL hash via pushState.
  * Delegates to initTitleLinkAnchor() for each matching element.
  */
-export function initAllTitleLinkAnchors() {
+export function initAllTitleLinkAnchors(): void {
     try {
-        document.querySelectorAll('.title-link-anchor').forEach(initTitleLinkAnchor);
+        document.querySelectorAll<HTMLAnchorElement>('.title-link-anchor').forEach(initTitleLinkAnchor);
     } catch (error) {
         console.error('Failed to add event listener to title link anchors:', error);
     }
@@ -69,15 +71,15 @@ export function initAllTitleLinkAnchors() {
  * Activate the skip-to-main-content button and manage keyboard vs pointer
  * input mode classes on the root element for focus-visible styling.
  */
-export function initSkipButton() {
+export function initSkipButton(): void {
     const root = document.documentElement;
 
-    function setKeyboardMode() {
+    function setKeyboardMode(): void {
         root.classList.add('user-input-keyboard');
         root.classList.remove('user-input-pointer');
     }
 
-    function setPointerMode() {
+    function setPointerMode(): void {
         root.classList.remove('user-input-keyboard');
         root.classList.add('user-input-pointer');
     }
@@ -96,7 +98,7 @@ export function initSkipButton() {
 
     // Optional: on focus of skip button ensure keyboard class present for older browsers
     document.addEventListener('focusin', function (e) {
-        if (e.target?.id === 'skip-button') {
+        if ((e.target as HTMLElement)?.id === 'skip-button') {
             // If focus landed on the skip button but pointer mode is active, switch to keyboard mode
             if (!root.classList.contains('user-input-keyboard')) {
                 // Prefer :focus-visible in modern browsers; this is a safe fallback
@@ -111,11 +113,11 @@ export function initSkipButton() {
  * so users can visually identify links that leave the site.
  * Skips links with no visible text content. Idempotent: does nothing
  * if the icon already exists.
- * @param {HTMLAnchorElement} link - The link element to add the indicator to.
+ * @param link - The link element to add the indicator to.
  */
-export function addExternalLinkIndicator(link) {
+export function addExternalLinkIndicator(link: HTMLAnchorElement): void {
     // Skip links that have no visible text content
-    const textContent = link.textContent.trim();
+    const textContent = link.textContent?.trim();
     if (!textContent) return;
 
     // Avoid adding duplicate icons
@@ -130,9 +132,9 @@ export function addExternalLinkIndicator(link) {
 /**
  * Remove the arrow-up-right icon from a single .external-link anchor,
  * along with the space text node that precedes it.
- * @param {HTMLAnchorElement} link - The link element to remove the indicator from.
+ * @param link - The link element to remove the indicator from.
  */
-export function removeExternalLinkIndicator(link) {
+export function removeExternalLinkIndicator(link: HTMLAnchorElement): void {
     const icon = link.querySelector('i.bi-arrow-up-right');
     if (!icon) return;
 
@@ -148,9 +150,9 @@ export function removeExternalLinkIndicator(link) {
  * Append arrow-up-right icons to all .external-link anchors on the page.
  * Delegates to addExternalLinkIndicator() for each matching element.
  */
-export function addAllExternalLinkIndicators() {
+export function addAllExternalLinkIndicators(): void {
     try {
-        document.querySelectorAll('a.external-link').forEach(addExternalLinkIndicator);
+        document.querySelectorAll<HTMLAnchorElement>('a.external-link').forEach(addExternalLinkIndicator);
     } catch (error) {
         console.error('Failed to add external link indicators:', error);
     }

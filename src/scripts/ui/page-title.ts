@@ -12,7 +12,7 @@ import { extractPageName } from '../core/utils.js';
  * - Homepage (index.html): just the site name.
  * - Other pages: "Page Name - Site Name".
  */
-export function updatePageTitle() {
+export function updatePageTitle(): void {
     const pageName = extractPageName(window.location.pathname);
     const pageKey = 'text-' + pageName;
     const siteKey = 'text-steve-hsu-s-link-hub';

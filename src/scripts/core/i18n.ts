@@ -4,17 +4,21 @@
  * manages the language selector UI, and persists the user's preference.
  */
 
-export let supportedLangs = [];
-export let languageList = [];
+export interface LanguageItem {
+    code: string;
+    localizedName?: string;
+}
+
+export let supportedLangs: string[] = [];
+export let languageList: LanguageItem[] = [];
 export let currentLang = 'en';
-export let langData = {};
+export let langData: Record<string, string> = {};
 
 /**
  * Determine and load the preferred language.
  * Priority: ?lang= URL parameter → localStorage → default 'en'.
- * @returns {Promise<void>}
  */
-export async function initLang() {
+export async function initLang(): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
     const savedLang = urlLang || localStorage.getItem('preferredLang') || 'en';
@@ -25,10 +29,10 @@ export async function initLang() {
  * Normalize a language code to one of the site's supported languages.
  * Maps regional variants (zh-TW, zh-HK, etc.) to their canonical form,
  * and falls back to 'en' for any unrecognized code.
- * @param {string} lang - The raw language code (e.g. 'zh-TW', 'en-US').
- * @returns {string} The normalized language code ('en', 'zh-Hans', or 'zh-Hant').
+ * @param lang - The raw language code (e.g. 'zh-TW', 'en-US').
+ * @returns The normalized language code ('en', 'zh-Hans', or 'zh-Hant').
  */
-export function normalizeLang(lang) {
+export function normalizeLang(lang: string): string {
     if (!lang || typeof lang !== 'string') return 'en';
     const lower = lang.toLowerCase();
 
@@ -62,11 +66,11 @@ export function normalizeLang(lang) {
  * Safely retrieve a translated string from the global langData dictionary.
  * If langData is loaded and contains the given key, the translated value is returned;
  * otherwise the fallback text is returned.
- * @param {string} key - The i18n key to look up (e.g. 'text-welcome').
- * @param {string} [fallback=''] - Text to return when the key is not found.
- * @returns {string} The translated text, or the fallback if unavailable.
+ * @param key - The i18n key to look up (e.g. 'text-welcome').
+ * @param fallback - Text to return when the key is not found.
+ * @returns The translated text, or the fallback if unavailable.
  */
-export function translate(key, fallback) {
+export function translate(key: string, fallback?: string): string {
     if (typeof langData !== 'undefined' && langData[key]) {
         return langData[key];
     }
@@ -76,16 +80,15 @@ export function translate(key, fallback) {
 /**
  * Fetch the list of supported languages from /configs/language-list.json.
  * Falls back to ['en', 'zh-Hans', 'zh-Hant'] on error.
- * @returns {Promise<void>}
  */
-export async function loadSupportedLangs() {
+export async function loadSupportedLangs(): Promise<void> {
     try {
         const response = await fetch('/configs/language-list.json');
         if (!response.ok) throw new Error(`Failed to load language list: ${response.status}`);
-        const list = await response.json();
+        const list: LanguageItem[] = await response.json();
         if (Array.isArray(list)) {
             languageList = list;
-            supportedLangs = list.map(item => item?.code).filter(Boolean);
+            supportedLangs = list.map(item => item?.code).filter(Boolean) as string[];
         } else {
             languageList = [];
             supportedLangs = [];
@@ -102,10 +105,10 @@ export async function loadSupportedLangs() {
  * Dispatches a 'pageTextUpdated' event afterward so other modules
  * (e.g. tooltips) can react to the text change.
  */
-export function updatePageText() {
+export function updatePageText(): void {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        const translated = translate(key);
+        const translated = translate(key!);
         if (translated) {
             el.textContent = translated;
         } else {
@@ -117,7 +120,7 @@ export function updatePageText() {
     // so the translation string may contain inline markup (e.g. <cite>).
     document.querySelectorAll('[data-i18n-html]').forEach(el => {
         const key = el.getAttribute('data-i18n-html');
-        const translated = translate(key);
+        const translated = translate(key!);
         if (translated) {
             el.innerHTML = translated;
         } else {
@@ -130,7 +133,7 @@ export function updatePageText() {
     // and the translated text is written to the alt attribute.
     document.querySelectorAll('img[data-i18n-alt]').forEach(el => {
         const key = el.getAttribute('data-i18n-alt');
-        const translated = translate(key);
+        const translated = translate(key!);
         if (translated) {
             el.setAttribute('alt', translated);
         } else {
@@ -143,7 +146,7 @@ export function updatePageText() {
     // and the translated text is written to the aria-label attribute.
     document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
         const key = el.getAttribute('data-i18n-aria-label');
-        const translated = translate(key);
+        const translated = translate(key!);
         if (translated) {
             el.setAttribute('aria-label', translated);
         } else {
@@ -158,7 +161,7 @@ export function updatePageText() {
 /**
  * Highlight the active language item in the language switcher dropdown.
  */
-export function setActiveLangItem() {
+export function setActiveLangItem(): void {
     try {
         const langItems = document.querySelectorAll('.lang-item');
         if (langItems.length === 0) {
@@ -175,7 +178,7 @@ export function setActiveLangItem() {
                 item.classList.remove('active');
                 item.removeAttribute('aria-current');
             }
-        })
+        });
     } catch (error) {
         console.error('Failed to activate language item:', error);
     }
@@ -185,10 +188,9 @@ export function setActiveLangItem() {
  * Fetch the JSON translation file for a given language code,
  * store it in langData, update all page text, persist the preference,
  * and sync UI elements (lang attribute, dropdown, select).
- * @param {string} lang - The language code to load (e.g. 'en', 'zh-Hans').
- * @returns {Promise<void>}
+ * @param lang - The language code to load (e.g. 'en', 'zh-Hans').
  */
-export async function loadLang(lang) {
+export async function loadLang(lang: string): Promise<void> {
     // Normalize the language code before loading
     lang = normalizeLang(lang);
 
@@ -202,7 +204,7 @@ export async function loadLang(lang) {
         // Save preference
         localStorage.setItem('preferredLang', lang);
         // Update URL query parameter without reloading
-        const url = new URL(window.location);
+        const url = new URL(window.location.href);
         url.searchParams.set('lang', lang);
         history.replaceState(null, '', url);
         // Update 'lang' element
@@ -211,7 +213,7 @@ export async function loadLang(lang) {
         const { setActiveNavItem } = await import('../ui/navbar.js');
         setActiveNavItem();
         setActiveLangItem();
-        const languageSelect = document.getElementById('language-select');
+        const languageSelect = document.getElementById('language-select') as HTMLSelectElement | null;
         if (languageSelect) {
             languageSelect.value = currentLang;
         }
@@ -227,7 +229,7 @@ export async function loadLang(lang) {
  * Populate both the header language dropdown menu and the settings modal
  * language select with items from the loaded language list.
  */
-export function populateLanguageMenus() {
+export function populateLanguageMenus(): void {
     // Populate header language menu
     try {
         const langToggle = document.getElementById('lang-dropdown');
@@ -264,7 +266,7 @@ export function populateLanguageMenus() {
 
     // Populate settings modal select
     try {
-        const languageSelect = document.getElementById('language-select');
+        const languageSelect = document.getElementById('language-select') as HTMLSelectElement | null;
         if (languageSelect) {
             languageSelect.innerHTML = '';
             if (Array.isArray(languageList) && languageList.length > 0) {

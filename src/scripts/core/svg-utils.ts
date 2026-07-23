@@ -12,8 +12,8 @@
  * data-color-var, sets width/height from data-width/data-height,
  * and injects the result as innerHTML.
  */
-export async function initSvgInjection() {
-    const placeholders = document.querySelectorAll('[data-role="svg"]');
+export async function initSvgInjection(): Promise<void> {
+    const placeholders = document.querySelectorAll<HTMLElement>('[data-role="svg"]');
 
     for (const placeholder of placeholders) {
         // Skip if already injected (contains an <svg> child)

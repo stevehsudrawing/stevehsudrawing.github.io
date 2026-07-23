@@ -11,7 +11,7 @@ import { showErrorToast } from '../core/utils.js';
  * Create Bootstrap Tooltip instances for every element that has
  * the data-bs-toggle="tooltip" attribute.
  */
-export function initAllTooltips() {
+export function initAllTooltips(): void {
     document.querySelectorAll('[data-bs-toggle="tooltip"]')
         .forEach(el => createTooltip(el));
 }
@@ -20,7 +20,7 @@ export function initAllTooltips() {
  * Dispose all active Bootstrap Tooltip instances on the page.
  * Useful before page transitions to prevent orphaned tooltips.
  */
-export function disposeAllTooltips() {
+export function disposeAllTooltips(): void {
     document.querySelectorAll('[data-bs-toggle="tooltip"]')
         .forEach(el => disposeTooltip(el));
 }
@@ -28,20 +28,20 @@ export function disposeAllTooltips() {
 /**
  * Create a Bootstrap Tooltip instance on a single element.
  * Disposes any existing tooltip on the element first (idempotent).
- * @param {Element} element - The element to attach the tooltip to.
- * @returns {bootstrap.Tooltip} The new tooltip instance.
+ * @param element - The element to attach the tooltip to.
+ * @returns The new tooltip instance.
  */
-export function createTooltip(element) {
+export function createTooltip(element: Element): bootstrap.Tooltip {
     disposeTooltip(element);
-    return new bootstrap.Tooltip(element);
+    return new window.bootstrap.Tooltip(element);
 }
 
 /**
  * Dispose a Bootstrap Tooltip instance from a single element, if one exists.
- * @param {Element} element - The element to remove the tooltip from.
+ * @param element - The element to remove the tooltip from.
  */
-export function disposeTooltip(element) {
-    const instance = bootstrap.Tooltip.getInstance(element);
+export function disposeTooltip(element: Element): void {
+    const instance = window.bootstrap.Tooltip.getInstance(element);
     if (instance) {
         instance.dispose();
     }
@@ -51,16 +51,16 @@ export function disposeTooltip(element) {
  * Click handler for .copy-link elements.
  * Copies the text from data-copy-text to the clipboard, then shows
  * a "Copied!" tooltip for 3 seconds before restoring the original title.
- * @param {MouseEvent} e - The click event.
+ * @param e - The click event.
  */
-export function handleCopyLinkClick(e) {
+export function handleCopyLinkClick(e: MouseEvent): void {
     e.preventDefault();
-    const link = e.currentTarget;
+    const link = e.currentTarget as HTMLElement;
     const copyText = link.getAttribute('data-copy-text');
     if (!copyText) return;
 
     navigator.clipboard.writeText(copyText).then(function () {
-        const tooltipInstance = bootstrap.Tooltip.getInstance(link);
+        const tooltipInstance = window.bootstrap.Tooltip.getInstance(link);
         const copiedText = translate('text-copied', 'Copied!');
 
         if (tooltipInstance) {
@@ -85,9 +85,9 @@ export function handleCopyLinkClick(e) {
 /**
  * Initialize Bootstrap tooltip and click-to-copy behavior on a single .copy-link element.
  * Sets tooltip attributes, initial title, and attaches the copy click handler.
- * @param {HTMLAnchorElement} link - The .copy-link element to initialize.
+ * @param link - The .copy-link element to initialize.
  */
-export function initCopyLinkTooltip(link) {
+export function initCopyLinkTooltip(link: HTMLAnchorElement): void {
     link.setAttribute('data-bs-toggle', 'tooltip');
     link.setAttribute('data-bs-trigger', 'hover focus');
     link.setAttribute('data-i18n-tooltip', 'text-click-to-copy');
@@ -101,9 +101,9 @@ export function initCopyLinkTooltip(link) {
 /**
  * Dispose the Bootstrap tooltip and click-to-copy behavior from a single .copy-link element.
  * Removes the click handler, tooltip attributes, and disposes the Bootstrap Tooltip instance.
- * @param {HTMLAnchorElement} link - The .copy-link element to dispose.
+ * @param link - The .copy-link element to dispose.
  */
-export function disposeCopyLinkTooltip(link) {
+export function disposeCopyLinkTooltip(link: HTMLAnchorElement): void {
     link.removeEventListener('click', handleCopyLinkClick);
     link.removeAttribute('data-bs-toggle');
     link.removeAttribute('data-bs-trigger');
@@ -116,9 +116,9 @@ export function disposeCopyLinkTooltip(link) {
  * Initialize Bootstrap tooltips and click-to-copy behavior on all .copy-link elements.
  * Delegates to initCopyLinkTooltip() for each matching element.
  */
-export function initAllCopyLinkTooltips() {
+export function initAllCopyLinkTooltips(): void {
     try {
-        document.querySelectorAll('.copy-link').forEach(initCopyLinkTooltip);
+        document.querySelectorAll<HTMLAnchorElement>('.copy-link').forEach(initCopyLinkTooltip);
     } catch (error) {
         console.error('Failed to initialize copy link tooltips:', error);
     }
@@ -129,13 +129,13 @@ export function initAllCopyLinkTooltips() {
  * tooltip instances so they pick up the new title text.
  * Called automatically when the 'pageTextUpdated' event fires.
  */
-export function updateAllTooltipTitles() {
+export function updateAllTooltipTitles(): void {
     document.querySelectorAll('[data-bs-toggle="tooltip"][data-i18n-tooltip]').forEach(el => {
         const key = el.getAttribute('data-i18n-tooltip');
-        const translated = translate(key);
+        const translated = translate(key!);
         if (translated) {
             el.setAttribute('data-bs-title', translated);
-            if (bootstrap.Tooltip.getInstance(el)) {
+            if (window.bootstrap.Tooltip.getInstance(el)) {
                 createTooltip(el);
             }
         }
@@ -147,6 +147,6 @@ export function updateAllTooltipTitles() {
  * and refresh tooltip titles in response to language changes.
  * Call once during page initialization.
  */
-export function initTooltipI18nListener() {
+export function initTooltipI18nListener(): void {
     document.addEventListener('pageTextUpdated', updateAllTooltipTitles);
 }

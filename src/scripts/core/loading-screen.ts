@@ -9,7 +9,7 @@
  * Hide the loading screen with a fade-out animation.
  * The loading screen is removed from the DOM after the animation completes.
  */
-export function hideLoadingScreen() {
+export function hideLoadingScreen(): void {
     const loadingScreen = document.getElementById('loading-screen');
     if (!loadingScreen) return;
 

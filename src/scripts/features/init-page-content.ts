@@ -24,9 +24,8 @@ import { initAllScrollHints } from '../ui/scroll-hint.js';
  * Initialize page-content-specific elements.
  * Call after the #page-content DOM has been replaced (page transition)
  * or on the initial page load.
- * @returns {Promise<void>}
  */
-export async function initPageContent() {
+export async function initPageContent(): Promise<void> {
     updateNavbarBrandText();
 
     if (currentLang && Object.keys(langData).length > 0) {
@@ -34,7 +33,7 @@ export async function initPageContent() {
         updatePageTitle();
         setActiveNavItem();
         setActiveLangItem();
-        const languageSelect = document.getElementById('language-select');
+        const languageSelect = document.getElementById('language-select') as HTMLSelectElement | null;
         if (languageSelect) {
             languageSelect.value = currentLang;
         }

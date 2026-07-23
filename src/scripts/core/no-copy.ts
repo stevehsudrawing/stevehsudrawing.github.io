@@ -12,18 +12,18 @@
  * delegated listeners on the document, so dynamically added .no-copy
  * elements are covered automatically.
  */
-export function initNoCopyProtection() {
+export function initNoCopyProtection(): void {
     try {
         // Prevent right-click / long-press context menu
         document.addEventListener('contextmenu', function (e) {
-            if (e.target.closest('.no-copy')) {
+            if ((e.target as HTMLElement).closest('.no-copy')) {
                 e.preventDefault();
             }
         });
 
         // Prevent dragging images out of the page (e.g. to a new tab)
         document.addEventListener('dragstart', function (e) {
-            if (e.target.closest('.no-copy')) {
+            if ((e.target as HTMLElement).closest('.no-copy')) {
                 e.preventDefault();
             }
         });

@@ -10,14 +10,14 @@
  */
 
 import { scrollToHashTarget } from '../core/accessibility.js';
-import { extractPageName, setElementAttributes } from '../core/utils.js';
+import { extractPageName, setElementAttributes, HastProperties } from '../core/utils.js';
 
 /**
  * Determine which JSON file to load based on the current page or a
  * data-links-json attribute on the #links container.
- * @returns {string} The resolved JSON path (e.g. '/configs/links/about.json').
+ * @returns The resolved JSON path (e.g. '/configs/links/about.json').
  */
-export function resolveLinksJsonPath() {
+export function resolveLinksJsonPath(): string {
     const container = document.getElementById('links');
     if (container && container.dataset.linksJson) {
         return container.dataset.linksJson;
@@ -31,10 +31,10 @@ export function resolveLinksJsonPath() {
  * Convert arbitrary text to a URL-safe dash-case slug.
  * Strips special characters, replaces whitespace/underscores with hyphens,
  * and collapses consecutive hyphens.
- * @param {string} text - The input text.
- * @returns {string} The dash-case slug.
+ * @param text - The input text.
+ * @returns The dash-case slug.
  */
-export function toDashCase(text) {
+export function toDashCase(text: string): string {
     return String(text || '')
         .trim()
         .toLowerCase()
@@ -44,13 +44,19 @@ export function toDashCase(text) {
         .replace(/^-+|-+$/g, '');
 }
 
+interface HastNode {
+    type: string;
+    value?: string;
+    children?: HastNode[];
+}
+
 /**
  * Recursively extract all plain text from a hast node tree.
  * Used to derive title IDs from group-title hast subtrees.
- * @param {Object} node - A hast node.
- * @returns {string} Concatenated plain text.
+ * @param node - A hast node.
+ * @returns Concatenated plain text.
  */
-export function extractPlainText(node) {
+export function extractPlainText(node: HastNode | null): string {
     if (!node || typeof node !== 'object') return '';
     if (node.type === 'text') return node.value || '';
     if (node.type === 'comment') return '';
@@ -63,11 +69,11 @@ export function extractPlainText(node) {
 /**
  * Create a QR-code button element for a given link URL.
  * The button opens the QR code modal with an optional centre icon.
- * @param {string} href - The link URL to encode.
- * @param {Object} [iconProperties] - Icon properties to display in the QR modal.
- * @returns {HTMLAnchorElement} The QR button element.
+ * @param href - The link URL to encode.
+ * @param iconProperties - Icon properties to display in the QR modal.
+ * @returns The QR button element.
  */
-export function createQRButton(href, iconProperties) {
+export function createQRButton(href: string, iconProperties?: Record<string, unknown> | null): HTMLAnchorElement {
     const qrButton = document.createElement('a');
     qrButton.setAttribute('href', 'javascript:void(0)');
     qrButton.setAttribute('role', 'button');
@@ -94,11 +100,15 @@ export function createQRButton(href, iconProperties) {
  * Scan an element for external links: append QR-code buttons and inject
  * data-link-img-props for the confirmation modal icon.
  * Used as post-processing after hast subtrees are rendered via innerHTML.
- * @param {HTMLElement} container - The container to scan for links.
- * @param {Object} [iconProperties] - Icon properties for the QR modal centre icon.
- * @param {string} [propsJson] - JSON-stringified icon properties for data-link-img-props.
+ * @param container - The container to scan for links.
+ * @param iconProperties - Icon properties for the QR modal centre icon.
+ * @param propsJson - JSON-stringified icon properties for data-link-img-props.
  */
-export function addQRButtonsToElement(container, iconProperties, propsJson) {
+export function addQRButtonsToElement(
+    container: HTMLElement,
+    iconProperties?: Record<string, unknown> | null,
+    propsJson?: string | null
+): void {
     if (!container) return;
 
     container.querySelectorAll('a').forEach(link => {
@@ -120,12 +130,19 @@ export function addQRButtonsToElement(container, iconProperties, propsJson) {
     });
 }
 
+interface CardData {
+    available?: boolean;
+    icon?: HastNode;
+    title?: HastNode;
+    description?: HastNode;
+}
+
 /**
  * Build a single card column from card descriptor data.
- * @param {Object} cardData - Card descriptor with `available`, `icon`, `title`, `description`.
- * @returns {HTMLDivElement} The column element containing the card.
+ * @param cardData - Card descriptor with `available`, `icon`, `title`, `description`.
+ * @returns The column element containing the card.
  */
-export function buildCardItem(cardData) {
+export function buildCardItem(cardData: CardData): HTMLDivElement {
     const column = document.createElement('div');
     column.className = 'card-wrapper col-lg-6 col-xxl-4';
 
@@ -143,7 +160,7 @@ export function buildCardItem(cardData) {
     if (cardData.icon) {
         const iconWrapper = document.createElement('div');
         iconWrapper.className = 'link-icon-wrapper me-2';
-        iconWrapper.innerHTML = window.toHtml(cardData.icon);
+        iconWrapper.innerHTML = window.toHtml(cardData.icon as Parameters<typeof window.toHtml>[0]);
 
         // Ensure the <img> has the required Bootstrap classes.
         const img = iconWrapper.querySelector('img');
@@ -160,7 +177,7 @@ export function buildCardItem(cardData) {
         textContainer.className = 'flex-grow-1';
 
         // Card icon properties: used for QR buttons and confirmation-modal icon.
-        const iconProps = cardData.icon?.properties || null;
+        const iconProps = (cardData.icon as Record<string, unknown> | undefined)?.properties as Record<string, unknown> | null || null;
         const propsJson = iconProps ? JSON.stringify(iconProps) : null;
 
         if (cardData.title) {
@@ -170,12 +187,12 @@ export function buildCardItem(cardData) {
 
             // When the title is a single <a>, use flex layout for the QR button.
             const isSingleLink = titleHast.type === 'element'
-                && titleHast.tagName === 'a';
+                && (titleHast as unknown as Record<string, unknown>).tagName === 'a';
             if (isSingleLink) {
                 h6.classList.add('d-flex', 'align-items-center', 'justify-content-between');
             }
 
-            h6.innerHTML = window.toHtml(titleHast);
+            h6.innerHTML = window.toHtml(titleHast as Parameters<typeof window.toHtml>[0]);
 
             // Add QR buttons and icon properties for the title links.
             addQRButtonsToElement(h6, iconProps, propsJson);
@@ -186,7 +203,7 @@ export function buildCardItem(cardData) {
         if (cardData.description) {
             const p = document.createElement('p');
             p.className = 'card-text';
-            p.innerHTML = window.toHtml(cardData.description);
+            p.innerHTML = window.toHtml(cardData.description as Parameters<typeof window.toHtml>[0]);
 
             // Inject icon properties for the description links (no QR buttons).
             if (propsJson) {
@@ -208,12 +225,12 @@ export function buildCardItem(cardData) {
 
 /**
  * Add a hash anchor and copy-link button after an h4 group title.
- * @param {HTMLHeadingElement} h4 - The group title element.
- * @param {string} titleId - The dash-case ID derived from the title text.
- * @param {string} titleText - The raw title text (for aria-label).
+ * @param h4 - The group title element.
+ * @param titleId - The dash-case ID derived from the title text.
+ * @param titleText - The raw title text (for aria-label).
  */
-export function addTitleAnchors(h4, titleId, titleText) {
-    const titleContainer = h4.parentNode;
+export function addTitleAnchors(h4: HTMLHeadingElement, titleId: string, titleText: string): void {
+    const titleContainer = h4.parentNode as HTMLElement;
 
     // Hash anchor
     const titleAnchor = document.createElement('a');
@@ -234,12 +251,18 @@ export function addTitleAnchors(h4, titleId, titleText) {
     titleContainer.appendChild(copyAnchor);
 }
 
+interface GroupData {
+    title?: HastNode;
+    description?: HastNode;
+    contents?: CardData[];
+}
+
 /**
  * Build an entire link group section from group descriptor data.
- * @param {Object} groupData - Group descriptor with `title`, `description`, `contents`.
- * @returns {HTMLDivElement} The group wrapper element.
+ * @param groupData - Group descriptor with `title`, `description`, `contents`.
+ * @returns The group wrapper element.
  */
-export function buildLinkGroup(groupData) {
+export function buildLinkGroup(groupData: GroupData): HTMLDivElement {
     const groupWrapper = document.createElement('div');
     groupWrapper.className = 'link-hub-part';
 
@@ -256,7 +279,7 @@ export function buildLinkGroup(groupData) {
         if (titleId) {
             h4.id = titleId;
         }
-        h4.innerHTML = window.toHtml(groupData.title);
+        h4.innerHTML = window.toHtml(groupData.title as Parameters<typeof window.toHtml>[0]);
         titleContainer.appendChild(h4);
 
         if (titleId) {
@@ -270,7 +293,7 @@ export function buildLinkGroup(groupData) {
     if (groupData.description) {
         const p = document.createElement('p');
         p.className = 'card-text';
-        p.innerHTML = window.toHtml(groupData.description);
+        p.innerHTML = window.toHtml(groupData.description as Parameters<typeof window.toHtml>[0]);
         groupWrapper.appendChild(p);
     }
 
@@ -294,9 +317,8 @@ export function buildLinkGroup(groupData) {
  * Main entry point: fetch the links JSON, clear the #links container,
  * and rebuild all link groups and cards. Handles hash-target scrolling
  * after rendering.
- * @returns {Promise<void>}
  */
-export async function generateLinkCards() {
+export async function generateLinkCards(): Promise<void> {
     const container = document.getElementById('links');
     if (!container) {
         return;
@@ -315,7 +337,7 @@ export async function generateLinkCards() {
             throw new Error(`Failed to fetch ${linksJsonPath}: ${response.status}`);
         }
 
-        const groups = await response.json();
+        const groups: GroupData[] = await response.json();
         if (!Array.isArray(groups)) {
             throw new Error(`JSON data is not an array: ${linksJsonPath}`);
         }
@@ -342,7 +364,7 @@ export async function generateLinkCards() {
 /**
  * Listen for hashchange events and scroll to the targeted element.
  */
-export function initHashChangeScroll() {
+export function initHashChangeScroll(): void {
     window.addEventListener('hashchange', () => {
         scrollToHashTarget(window.location.hash, true);
     });

@@ -62,4 +62,4 @@ document.addEventListener('DOMContentLoaded', async function () {
         hideLoadingScreen();
         document.dispatchEvent(new CustomEvent('pageInitialized'));
     }
-})
+});

@@ -10,8 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Self-hosted fonts (replaces CDN <link> tags)
-import '@fontsource/inter/latin.css';     // Inter Latin subset, weights 100–900
-import '@fontsource/inter/latin-italic.css';
+import '@fontsource-variable/inter/opsz-italic.css';
 
 // Project CSS (order matters: base → theme → layouts → components)
 import './stylesheets/base.css';
@@ -38,7 +37,7 @@ import { toHtml } from 'hast-util-to-html';
 
 // Expose globals for legacy code that expects window.xxx
 window.bootstrap = bootstrap;
-window.htmlToImage = htmlToImage;
+window.htmlToImage = htmlToImage as unknown as Record<string, unknown>;
 window.html2canvas = html2canvas;
 window.toHtml = toHtml;
 
@@ -80,15 +79,16 @@ import './scripts/core/no-copy.js';
 // =========================================================================
 // Theme must be applied before the first paint to avoid flash.
 // initThemePreference reads localStorage, applyThemePreference sets data-bs-theme.
-if (typeof initThemePreference === 'function') {
-    initThemePreference();
-}
-if (typeof initSystemThemeListener === 'function') {
-    initSystemThemeListener();
-}
-if (typeof applyThemePreference === 'function' && typeof currentThemePreference !== 'undefined') {
-    applyThemePreference(currentThemePreference, false);
-}
+import {
+    initThemePreference,
+    initSystemThemeListener,
+    applyThemePreference,
+    currentThemePreference
+} from './scripts/ui/theme.js';
+
+initThemePreference();
+initSystemThemeListener();
+applyThemePreference(currentThemePreference, false);
 
 // =========================================================================
 // Full initialization (replaces init-final.js)
