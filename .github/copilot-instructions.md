@@ -19,18 +19,19 @@ This document provides project-level context, conventions, and constraints for C
 All dependencies are installed via pnpm and imported in [`src/main.ts`](src/main.ts).
 No CDN `<link>` or `<script>` tags are used.
 
-| Resource          | npm Package         | Role               | GitHub Repo                                                                         | Version |
-|-------------------|---------------------|--------------------|-------------------------------------------------------------------------------------|---------|
-| Bootstrap         | `bootstrap`         | Page Framework     | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                               | 5.3.8   |
-| Bootstrap Icons   | `bootstrap-icons`   | Icon Library       | [`twbs/icons`](https://github.com/twbs/icons)                                       | 1.11.3  |
-| @popperjs/core    | `@popperjs/core`    | Positioning Engine | [`vusion/popper.js`](https://github.com/vusion/popper.js/)                          | 2.11.8  |
-| Inter Font        | `@fontsource/inter` | Font Family        | [`rsms/inter`](https://github.com/rsms/inter)                                       | 5.3.0   |
-| qrcode            | `qrcode`            | QR Code Utility    | [`soldair/node-qrcode`](https://github.com/soldair/node-qrcode)                     | 1.5.4   |
-| html-to-image     | `html-to-image`     | HTML -> Image      | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | 1.11.13 |
-| html2canvas       | `html2canvas`       | HTML -> Canvas     | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | 1.4.1   |
-| hast-util-to-html | `hast-util-to-html` | HAST -> HTML       | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | 9.0.5   |
-| TypeScript (dev)  | `typescript`        | Type Checking      | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                   | 7.0.2   |
-| Vite (dev only)   | `vite`              | Build Tool         | [`vitejs/vite`](https://github.com/vitejs/vite)                                     | 8.1.5   |
+| Resource                   | npm Package            | Role               | GitHub Repo                                                                         | Version |
+|----------------------------|------------------------|--------------------|-------------------------------------------------------------------------------------|---------|
+| Bootstrap                  | `bootstrap`            | Page Framework     | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                               | 5.3.8   |
+| Bootstrap Icons            | `bootstrap-icons`      | Icon Library       | [`twbs/icons`](https://github.com/twbs/icons)                                       | 1.11.3  |
+| @popperjs/core             | `@popperjs/core`       | Positioning Engine | [`vusion/popper.js`](https://github.com/vusion/popper.js/)                          | 2.11.8  |
+| Inter Font                 | `@fontsource/inter`    | Font Family        | [`rsms/inter`](https://github.com/rsms/inter)                                       | 5.3.0   |
+| qrcode                     | `qrcode`               | QR Code Utility    | [`soldair/node-qrcode`](https://github.com/soldair/node-qrcode)                     | 1.5.4   |
+| html-to-image              | `html-to-image`        | HTML -> Image      | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | 1.11.13 |
+| html2canvas                | `html2canvas`          | HTML -> Canvas     | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | 1.4.1   |
+| hast-util-to-html          | `hast-util-to-html`    | HAST -> HTML       | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | 9.0.5   |
+| html-minifier-terser (dev) | `html-minifier-terser` | HTML Minifier      | [`terser/html-minifier-terser`](https://github.com/terser/html-minifier-terser)     | 7.2.0   |
+| TypeScript (dev)           | `typescript`           | Type Checking      | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                   | 7.0.2   |
+| Vite (dev only)            | `vite`                 | Build Tool         | [`vitejs/vite`](https://github.com/vitejs/vite)                                     | 8.1.5   |
 
 ### 1.3 Browser Baseline
 
@@ -111,16 +112,16 @@ Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0p
 
 ### 2.3 TypeScript
 
-| Category              | Convention             | Examples                                    |
-|-----------------------|------------------------|---------------------------------------------|
-| Variables             | `camelCase`            | `currentLang`, `supportedLangs`, `langData` |
-| Functions             | `camelCase`            | `loadAllComponents`, `updatePageText`       |
-| Constants (top-level) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`          |
+| Category               | Convention             | Examples                                    |
+|------------------------|------------------------|---------------------------------------------|
+| Variables              | `camelCase`            | `currentLang`, `supportedLangs`, `langData` |
+| Functions              | `camelCase`            | `loadAllComponents`, `updatePageText`       |
+| Constants (top-level)  | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`          |
 | Constants (`as const`) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES = [...] as const`           |
-| `const enum`          | `PascalCase`           | `StorageKey`, `AppEvent`                    |
-| DOM element refs      | `camelCase`            | `htmlElement`, `prefersColorScheme`         |
-| Interfaces            | `PascalCase`           | `HastProperties`, `LanguageItem`, `CardData`|
-| Type aliases          | `PascalCase`           | `Lang`, `ThemeChoice` (string literals)     |
+| `const enum`           | `PascalCase`           | `StorageKey`, `AppEvent`                    |
+| DOM element refs       | `camelCase`            | `htmlElement`, `prefersColorScheme`         |
+| Interfaces             | `PascalCase`           | `HastProperties`, `LanguageItem`, `CardData`|
+| Type aliases           | `PascalCase`           | `Lang`, `ThemeChoice` (string literals)     |
 
 #### 2.3.1 Import Path Conventions
 
@@ -222,31 +223,35 @@ Existing batch / single-element pairs:
 
 ### 3.1 Folder Overview
 
-| Folder                            | Purpose                                                            | Where to Add New Code                                 |
-|-----------------------------------|--------------------------------------------------------------------|-------------------------------------------------------|
-| `.github/`                        | GitHub-specific configurations (Copilot instructions, CI)          | -                                                     |
-| `src/`                            | **Vite source** - all TS modules, CSS, and the Vite entry point    | See sub-folders below                                 |
-| `src/main.ts`                     | Vite entry point - full-feature pages (all except 404)             | -                                                     |
-| `src/main-lightweight.ts`         | Vite entry point - lightweight pages (404) without Page Transition | -                                                     |
-| `src/types/`                      | Shared TypeScript type definitions, enums, and module declarations | New shared type or enum                               |
-| `src/scripts/`                    | TS entry points (`init-*.ts`)                                      | New init script if a new page tier is needed          |
-| `src/scripts/functions/core/`     | **Core modules** - zero project imports, only npm or browser APIs  | New core utility when it has no project dependencies  |
-| `src/scripts/functions/ui/`       | **UI modules** - depend on `core/`, may depend on each other       | New UI module when it uses `core/` modules            |
-| `src/scripts/functions/features/` | **Feature modules** - depend on `core/` + `ui/`, orchestrate UI    | New feature module for cross-cutting functionality    |
-| `src/stylesheets/`                | CSS modules using modern CSS specifications - for all pages        | New CSS module, or add to an existing file            |
-| `public/`                         | **Static assets** served as-is by Vite, no processing              | See sub-folders below                                 |
-| `public/configs/`                 | JSON configuration data for i18n and link cards                    | New JSON config files as needed                       |
-| `public/configs/i18n/`            | Translation JSON files, one per language                           | New translation file for each added language          |
-| `public/configs/links/`           | Link-card data JSON files, one per page                            | New link-card JSON when adding a page with link cards |
-| `public/images/`                  | Image assets organized by format (png, webp, svg) then by purpose  | New images in the appropriate sub-folder              |
-| `public/page-components/`         | HTML fragments loaded at runtime by the component loader           | New HTML fragment                                     |
-| `public/legacy/`                  | Broad-compatibility scripts/CSS (ES5, IE11) for error pages        | New legacy compatibility asset                        |
-| `public/*.xml`, `public/*.json`   | Sitemap, PWA manifest, and other static configs                    | -                                                     |
-| `tools/`                          | Migration helper scripts (Python) - temporary                      | -                                                     |
-| `test/`                           | Test pages for isolated feature validation                         | New test page                                         |
-| Root `*.html`                     | Page files (homepage, sub-pages, error pages)                      | New page file when adding a page                      |
-| `vite.config.js`                  | Vite configuration - multi-page input, dev server, build options   | -                                                     |
-| `package.json`                    | npm dependencies and scripts (`dev`, `build`, `preview`)           | -                                                     |
+| Folder                              | Purpose                                                            | Where to Add New Code                                 |
+|-------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------|
+| `.github/`                          | GitHub-specific configurations (Copilot instructions, CI)          | -                                                     |
+| `src/`                              | **Vite source** - all TS modules, CSS, and the Vite entry point    | See sub-folders below                                 |
+| `src/main.ts`                       | Vite entry point - full-feature pages (all except 404)             | -                                                     |
+| `src/main-lightweight.ts`           | Vite entry point - lightweight pages (404) without Page Transition | -                                                     |
+| `src/types/`                        | Shared TypeScript type definitions, enums, and module declarations | New shared type or enum                               |
+| `src/configs/`                      | Page-level build-time configuration (head tags, metadata)          | New page entry in page-meta.js                        |
+| `src/scripts/`                      | TS entry points (`init-*.ts`)                                      | New init script if a new page tier is needed          |
+| `src/scripts/functions/core/`       | **Core modules** - zero project imports, only npm or browser APIs  | New core utility when it has no project dependencies  |
+| `src/scripts/functions/ui/`         | **UI modules** - depend on `core/`, may depend on each other       | New UI module when it uses `core/` modules            |
+| `src/scripts/functions/features/`   | **Feature modules** - depend on `core/` + `ui/`, orchestrate UI    | New feature module for cross-cutting functionality    |
+| `src/stylesheets/`                  | CSS modules using modern CSS specifications - for all pages        | New CSS module, or add to an existing file            |
+| `public/`                           | **Static assets** served as-is by Vite, no processing              | See sub-folders below                                 |
+| `public/configs/`                   | JSON configuration data for i18n and link cards                    | New JSON config files as needed                       |
+| `public/configs/i18n/`              | Translation JSON files, one per language                           | New translation file for each added language          |
+| `public/configs/links/`             | Link-card data JSON files, one per page                            | New link-card JSON when adding a page with link cards |
+| `public/images/png/splash/`         | Apple PWA splash screen images (generated by python script)        | -                                                     |
+| `public/images/`                    | Image assets organized by format (png, webp, svg) then by purpose  | New images in the appropriate sub-folder              |
+| `public/page-components/`           | HTML fragments loaded at runtime by the component loader           | New HTML fragment                                     |
+| `public/legacy/`                    | Broad-compatibility scripts/CSS (ES5, IE11) for error pages        | New legacy compatibility asset                        |
+| `public/llms.txt`                   | Site overview for AI crawlers (llmstxt.org standard)               | -                                                     |
+| `public/*.xml`, `public/*.json`     | Sitemap, PWA manifest, and other static configs                    | -                                                     |
+| `tools/`                            | Build-time helper scripts (Python)                                 | -                                                     |
+| `tools/apple-pwa-splash-generator/` | Python script to generate PWA splash screens from prototype        | -                                                     |
+| `test/`                             | Test pages for isolated feature validation                         | New test page                                         |
+| Root `*.html`                       | Page files (homepage, sub-pages, error pages)                      | New page file when adding a page                      |
+| `vite.config.js`                    | Vite configuration - multi-page input, dev server, build options   | -                                                     |
+| `package.json`                      | npm dependencies and scripts (`dev`, `build`, `preview`)           | -                                                     |
 
 **Layered TS architecture (`src/scripts/`):**
 
@@ -688,6 +693,7 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 - **Settings ([§4.8](#48-settings--preferences))**: After a page transition, `initPageContent()` re-invokes `initSettingsModal()` to re-sync toggle states with the recreated DOM.
 - **i18n ([§4.3](#43-internationalization-i18n))**: After a page transition, `initPageContent()` calls `updatePageText()` and `updatePageTitle()` to apply translations to the new content.
 - **Initialization ([§4.7](#47-loading-screen))**: `navigateTo()` restores page content and completes the progress bar on success; on failure, falls back to a full browser navigation (`window.location.href`).
+- **Lightweight Pages ([§3.2.4](#324-html-page-tiers))**: The `404.html` page references `main-lightweight.ts` (not `main.ts`), which uses `init-final-lightweight.ts` and does not load the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.
 
 ---
 
@@ -818,7 +824,8 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Key Functions**:
 
-- `showQRCodeModal(linkUrl, imgProperties)` - Generates the QR code, renders the centre icon, and shows the modal.
+- `showQRCodeModal(linkUrl, imgProperties, hideOpenLink)` - Generates the QR code, renders the centre icon, and shows the modal. The optional `hideOpenLink` parameter suppresses the "Open Link" button.
+- `initQRCodeDelegation()` - Sets up delegated click listener for `[data-qr-url]` triggers. Reads the `data-no-open-link` attribute to suppress the "Open Link" button.
 
 ---
 
@@ -1259,9 +1266,9 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 **Key Functions**:
 
 - `shouldConfirmExternalLink(link)` - Determines whether a clicked link should trigger the confirmation modal.
-- `showExternalLinkConfirmation(url, imgProperties)` - Populates and displays the confirmation modal. `imgProperties` is an optional HAST-format icon properties object.
+- `showExternalLinkConfirmation(url, imgProperties, hideQRButton)` - Populates and displays the confirmation modal. The optional `hideQRButton` parameter suppresses the "Show QR Code" button.
 - `navigateToExternalUrl(url)` - Performs the actual navigation based on the toggle state.
-- `handleExternalLinkClick(e)` - Delegated click handler that intercepts `.external-link` clicks. Reads `data-link-img-props` and passes it to `showExternalLinkConfirmation`.
+- `handleExternalLinkClick(e)` - Delegated click handler that intercepts `.external-link` clicks. Reads `data-link-img-props` and `data-no-qr-code` (to suppress QR button) and passes them to `showExternalLinkConfirmation`.
 - `handleExternalLinkConfirm()` - Handles the [Open] button click.
 - `handleExternalLinkShowQR()` - Handles the [Show QR Code] button click. Hides the confirmation modal, then calls `showQRCodeModal` after the hide transition.
 - `handleExternalLinkToggleChange()` - Persists toggle changes to localStorage and applies the target behavior.
@@ -1283,6 +1290,135 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 - **Image Utilities ([§4.13](#413-image-utilities))**: Coloured icons in the confirmation modal are processed via `applyColoredImage`.
 - **Utilities ([§4.15](#415-utilities))**: `isInternalPage()` (in `utils.ts`) is used to avoid showing the confirmation for links that point to internal pages.
 - **Component Loading ([§4.2](#42-component-loading))**: The modal HTML is part of `modals.html`, loaded by the component loader during initial page load.
+
+---
+
+### 4.18 Head Tag Injection
+
+**Brief**: All `<head>` meta/link/script tags are injected at build time by a Vite `transformIndexHtml` plugin. Only `charset` and `viewport` remain in the source HTML files — everything else is generated programmatically from a central configuration.
+
+**Related Files**:
+
+| File                       | Role                                                                     |
+|----------------------------|--------------------------------------------------------------------------|
+| `vite.config.js`           | `injectHeadTags` plugin with `transformIndexHtml` hook                   |
+| `src/configs/page-meta.js` | Per-page metadata (title, description, path, robots, JSON-LD type, tier) |
+
+**How It Works**:
+
+```
+HTML source: <head><meta charset><meta viewport></head>
+  ↓ (transformIndexHtml hook, order: 'pre')
+Reads ctx.filename → extracts page name → looks up PAGE_META[pageName]
+  ↓
+Generates HtmlTagDescriptor[] from 7 tag functions:
+  commonTags()     — Apple PWA, author, favicons, noscript, env-detection
+  fullPageTags()   — manifest, sitemap, theme-color, splash screens
+  seoTags(meta)    — title, description, robots, canonical
+  hreflangTags(meta) — hreflang alternates for en/zh-Hans/zh-Hant/x-default
+  ogTags(meta)     — Open Graph tags
+  twitterTags(meta)— Twitter/X Card tags
+  structuredData(meta) — JSON-LD (Person+WebSite for homepage, BreadcrumbList for sub-pages)
+  ↓
+Tags injected into <head> → identical output as the previous hardcoded approach.
+```
+
+**Page Tiers**:
+
+| Tier | `PAGE_META.tier` | Entry Script | Pages |
+|------|-------------------|-------------|-------|
+| `full` | `'full'` | `/src/main.ts` | index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares |
+| `lightweight` | `'lightweight'` | `/src/main-lightweight.ts` | 404 — excludes manifest, sitemap, theme-color, splash screens |
+| `none` | (not in page-meta) | (none) | error-* pages — hand-written `<head>` |
+
+**Adding a New Page**:
+
+1. Create `new-page.html` with minimal `<head>` (charset + viewport only).
+2. Add an entry to `PAGE_META` in `src/configs/page-meta.js`.
+3. Add the HTML file to `rollupOptions.input` in `vite.config.js`.
+4. All `<head>` tags are generated automatically.
+
+---
+
+### 4.19 PWA Splash Screens
+
+**Brief**: Generates Apple PWA splash screen images for 23 device resolutions from a single square prototype image. The images are injected as `<link rel="apple-touch-startup-image">` tags in `fullPageTags()`.
+
+**Related Files**:
+
+| File                                                  | Role                                          |
+|-------------------------------------------------------|-----------------------------------------------|
+| `vite.config.js`                                      | `SPLASH_SCREENS` data table + `splashTags()`  |
+| `tools/apple-pwa-splash-generator/generate_splash.py` | Python script to generate splash images       |
+| `tools/apple-pwa-splash-generator/prototype.png`      | Source prototype (square, ≥ 1536×1536 px)     |
+| `public/images/png/splash/`                           | Generated output images (23 files)            |
+
+**How It Works**:
+
+```
+prototype.png (square, e.g. 2000×2000)
+  ↓ generate_splash.py
+For each of 23 unique device resolutions:
+  1. Create white (#ffffff) canvas at target pixel dimensions.
+  2. Scale prototype so its larger side = 50 % of canvas's smaller side.
+  3. Center scaled prototype on canvas.
+  4. Save as apple-splash-{width}-{height}.png.
+  ↓
+Images placed in public/images/png/splash/
+  ↓ splashTags() in vite.config.js
+Generates <link> tags with media queries:
+  <link rel="apple-touch-startup-image"
+        href="/images/png/splash/apple-splash-2064-2752.png"
+        media="(device-width: 1032px) and (device-height: 1376px)
+               and (-webkit-device-pixel-ratio: 2)
+               and (orientation: portrait)">
+```
+
+**SPLASH_SCREENS Table**: Each entry maps pixel dimensions → CSS point dimensions → pixel ratio, sourced from Apple's Human Interface Guidelines. Only unique pixel resolutions are listed (deduplicated across device models). Portrait orientation only.
+
+---
+
+### 4.20 Build-time Minification
+
+**Brief**: After Vite finishes bundling, a `closeBundle` hook walks the `dist/` directory and minifies all HTML, JSON, static CSS/JS, and XML files.
+
+**Related Files**:
+
+| File             | Role                                          |
+|------------------|-----------------------------------------------|
+| `vite.config.js` | `closeBundle` hook in `injectHeadTags` plugin |
+
+**Dependencies**: `html-minifier-terser` (dev).
+
+**How It Works**:
+
+```
+Vite build completes → closeBundle fires
+  ↓ walkDir(distDir, ['.html'])
+For each .html → minify() with collapseWhitespace, removeComments,
+  removeRedundantAttributes, minifyCSS, minifyJS.
+  JSON-LD blocks protected via ignoreCustomFragments.
+  <noscript> blocks protected via ignoreCustomFragments.
+  ↓ walkDir(distDir, ['.json'])
+For each .json → JSON.stringify(JSON.parse(...)) (compact single-line).
+  ↓ walkDir(distDir, ['.css']).filter(legacy only)
+For each legacy .css → regex: strip comments, collapse whitespace.
+  (Vite-built CSS bundles are already minified by esbuild — skipped.)
+  ↓ walkDir(distDir, ['.js']).filter(legacy only)
+For each legacy .js → regex: strip comments, collapse whitespace.
+  ↓ walkDir(distDir, ['.xml'])
+For each .xml → regex: remove whitespace between tags.
+```
+
+**Minification Functions**:
+
+| Function            | Target              | Method                                                      |
+|---------------------|---------------------|-------------------------------------------------------------|
+| `minifyHTML()`      | `*.html`            | `html-minifier-terser` with JSON-LD/`<noscript>` protection |
+| `minifyJSON()`      | `*.json`            | `JSON.stringify` compact output                             |
+| `minifyStaticCSS()` | `legacy/*.css` only | Regex: strip comments, collapse whitespace                  |
+| `minifyStaticJS()`  | `legacy/*.js` only  | Regex: strip comments, collapse whitespace                  |
+| `minifyXML()`       | `*.xml`             | Regex: remove inter-tag whitespace                          |
 
 ---
 

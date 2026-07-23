@@ -41,7 +41,8 @@ export function downloadBlob(blob: Blob): void {
  */
 export async function showQRCodeModal(
     linkUrl: string,
-    imgProperties?: Record<string, unknown> | null
+    imgProperties?: Record<string, unknown> | null,
+    hideOpenLink?: boolean
 ): Promise<void> {
     const htmlElement = document.documentElement;
 
@@ -201,12 +202,21 @@ export async function showQRCodeModal(
         shareBtn.style.display = 'none';
     }
 
+    // If this is an internal page (used to share this website elsewhere), hide the source to simplify the layout
+    if (linkUrl === 'https://' + window.location.hostname) {
+        const cardBrand = document.getElementById('qr-share-card-brand');
+        if (cardBrand) { cardBrand.style.display = 'none'; }
+
+        const cardSource = document.getElementById('qr-share-card-source');
+        if (cardSource) { cardSource.style.display = 'none'; }
+    }
+
     // --- "Open Link" button (bottom-left) ---
     // Hides the QR modal and opens the external link confirmation modal.
-    // Hidden for internal links (no confirmation needed).
+    // Hidden for internal links (no confirmation needed) or when explicitly suppressed.
     if (openLinkBtn) {
         const isInternal = typeof isInternalPage === 'function' && isInternalPage(linkUrl);
-        if (isInternal) {
+        if (isInternal || hideOpenLink) {
             openLinkBtn.style.display = 'none';
         } else {
             openLinkBtn.style.display = '';
@@ -273,6 +283,8 @@ export function initQRCodeDelegation(): void {
         const url = trigger.getAttribute('data-qr-url');
         if (!url) return;
 
+        const hideOpenLink = trigger.hasAttribute('data-no-open-link');
+
         let iconProps: Record<string, unknown> | null = null;
         const iconAttr = trigger.getAttribute('data-qr-icon');
         if (iconAttr) {
@@ -283,6 +295,6 @@ export function initQRCodeDelegation(): void {
             }
         }
 
-        showQRCodeModal(url, iconProps);
+        showQRCodeModal(url, iconProps, hideOpenLink);
     });
 }

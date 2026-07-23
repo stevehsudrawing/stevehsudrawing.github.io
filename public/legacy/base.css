@@ -1,7 +1,7 @@
 * {
     margin-top: 0;
     box-sizing: border-box;
-    font-family: 'Inter', 'Roboto', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Inter', 'Roboto', 'SF Pro', 'SF Text', 'San Francisco Pro', 'San Francisco Text', 'San Francisco', 'Segoe UI', sans-serif, 'Tahoma', 'Geneva', 'Verdana', 'Helvetica', 'Arial';
 }
 
 html,
@@ -56,6 +56,15 @@ a:hover {
     width: 100%;
     max-width: 1320px;
     margin: 0 auto;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.align-center {
+    text-align: center;
 }
 
 .centered-container {

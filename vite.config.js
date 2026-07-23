@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { join, extname } from 'path';
+import { minify } from 'html-minifier-terser';
 import {
     BASE_URL,
     OG_IMAGE,
@@ -222,7 +225,85 @@ function breadcrumbJSONLD(meta) {
 }
 
 // =========================================================================
-// Vite plugin: inject all <head> tags
+// Build-time asset minification (closeBundle hook)
+// =========================================================================
+
+/** Recursively collect file paths with the given extension(s). */
+function walkDir(dir, extensions) {
+    const results = [];
+    const list = readdirSync(dir);
+    for (const name of list) {
+        const full = join(dir, name);
+        if (statSync(full).isDirectory()) {
+            results.push(...walkDir(full, extensions));
+        } else if (extensions.includes(extname(name))) {
+            results.push(full);
+        }
+    }
+    return results;
+}
+
+/** Minify a single .html file — preserves JSON-LD structured data blocks. */
+async function minifyHTML(filePath) {
+    const original = readFileSync(filePath, 'utf-8');
+    const result = await minify(original, {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        minifyCSS: true,
+        minifyJS: true,
+        ignoreCustomFragments: [
+            /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+            /<noscript>[\s\S]*?<\/noscript>/,
+        ],
+    });
+    writeFileSync(filePath, result);
+}
+
+/** Minify .json → compact single-line output. */
+function minifyJSON(filePath) {
+    const original = readFileSync(filePath, 'utf-8');
+    const compact = JSON.stringify(JSON.parse(original));
+    writeFileSync(filePath, compact);
+}
+
+/** Minify static .css — strip comments and collapse whitespace. */
+function minifyStaticCSS(filePath) {
+    const original = readFileSync(filePath, 'utf-8');
+    const result = original
+        .replace(/\/\*[\s\S]*?\*\//g, '')       // remove comments
+        .replace(/[ \t]*\n[ \t]*/g, '\n')       // collapse blank lines
+        .replace(/;[ \t]+/g, ';')               // space after semicolons
+        .replace(/[ \t]*\{[ \t]*/g, '{')        // space before {
+        .replace(/\}[ \t]*\n/g, '}\n')          // space after }
+        .trim();
+    writeFileSync(filePath, result);
+}
+
+/** Minify static .js (legacy ES5) — strip comments and collapse whitespace. */
+function minifyStaticJS(filePath) {
+    const original = readFileSync(filePath, 'utf-8');
+    const result = original
+        .replace(/\/\/.*$/gm, '')                // single-line comments
+        .replace(/\/\*[\s\S]*?\*\//g, '')        // block comments
+        .replace(/[ \t]*\n[ \t]*/g, '\n')        // collapse blank lines
+        .replace(/\n{2,}/g, '\n')                // no more than 1 blank line
+        .trim();
+    writeFileSync(filePath, result);
+}
+
+/** Minify .xml — strip whitespace between tags. */
+function minifyXML(filePath) {
+    const original = readFileSync(filePath, 'utf-8');
+    const result = original
+        .replace(/>\s+</g, '><')
+        .replace(/^\s+/, '')
+        .trim();
+    writeFileSync(filePath, result);
+}
+
+// =========================================================================
+// Vite plugin: inject all <head> tags + minify dist output
 // =========================================================================
 
 function injectHeadTags() {
@@ -253,6 +334,30 @@ function injectHeadTags() {
 
                 return { html, tags };
             },
+        },
+
+        async closeBundle() {
+            const distDir = resolve(__dirname, 'dist');
+
+            // --- HTML ---
+            const htmlFiles = walkDir(distDir, ['.html']);
+            for (const f of htmlFiles) await minifyHTML(f);
+
+            // --- JSON ---
+            const jsonFiles = walkDir(distDir, ['.json']);
+            for (const f of jsonFiles) minifyJSON(f);
+
+            // --- Static CSS (legacy only; Vite bundles are already minified) ---
+            const cssFiles = walkDir(distDir, ['.css']).filter(f => f.includes('legacy'));
+            for (const f of cssFiles) minifyStaticCSS(f);
+
+            // --- Static JS (legacy only) ---
+            const jsFiles = walkDir(distDir, ['.js']).filter(f => f.includes('legacy'));
+            for (const f of jsFiles) minifyStaticJS(f);
+
+            // --- XML ---
+            const xmlFiles = walkDir(distDir, ['.xml']);
+            for (const f of xmlFiles) minifyXML(f);
         },
     };
 }

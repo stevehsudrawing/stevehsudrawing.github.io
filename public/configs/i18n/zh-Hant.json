@@ -117,7 +117,7 @@
     "text-you-are-about-to-leave": "您即將離開本站並前往：",
 
     "html-artworks-description": "偏好風格：Chibi、Pixel Art。主要創作原創作品，偶爾創作同人作品。目前<strong>不接受</strong>藝術作品的商業委託。",
-    "html-powered-by": "由<a href=\"https://vite.dev/\" data-link-img-props='{\"src\":\"/images/webp/icons/vite.webp\",\"alt\":\"Vite\"}' class=\"link external-link\">Vite</a>強力驅動",
+    "html-powered-by": "由<a href=\"https://vite.dev/\" data-link-img-props='{\"src\":\"/images/webp/icons/vite.webp\",\"alt\":\"Vite\"}' class=\"link external-link\" data-no-qr-code>Vite</a>強力驅動",
     "html-profile-part-7": "什五在<cite>《代號 Staub》</cite>世界觀中的角色設定：",
     "html-sponsorship-description": "贊助基於<strong>自願原則</strong>。",
     "html-steve-hsu-s-link-hub": "<strong class=\"color-primary\">Steve Hsu <ruby>什<rp>(</rp><rt>ㄕˊ</rt><rp>)</rp></ruby>五</strong>的連結中樞",

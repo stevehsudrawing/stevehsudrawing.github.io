@@ -53,7 +53,8 @@ export function shouldConfirmExternalLink(link: HTMLAnchorElement | null): boole
  */
 export function showExternalLinkConfirmation(
     url: string,
-    imgProperties?: Record<string, unknown> | null
+    imgProperties?: Record<string, unknown> | null,
+    hideQRButton?: boolean
 ): void {
     const modalElement = document.getElementById('external-link-confirmation-modal');
     if (!modalElement) {
@@ -99,6 +100,12 @@ export function showExternalLinkConfirmation(
         toggle.checked = typeof isExternalLinkNewTabEnabled === 'function'
             ? isExternalLinkNewTabEnabled()
             : true;
+    }
+
+    // Hide QR button when requested
+    const qrBtn = document.getElementById('external-link-qr-btn');
+    if (qrBtn) {
+        qrBtn.style.display = hideQRButton ? 'none' : '';
     }
 
     // Show the modal
@@ -183,7 +190,8 @@ export function handleExternalLinkClick(e: MouseEvent): void {
     // Read optional icon properties for the confirmation modal.
     const imgPropsJson = link.getAttribute('data-link-img-props');
     const imgProperties = imgPropsJson ? JSON.parse(imgPropsJson) : null;
-    showExternalLinkConfirmation(link.href, imgProperties);
+    const hideQR = link.hasAttribute('data-no-qr-code');
+    showExternalLinkConfirmation(link.href, imgProperties, hideQR);
 }
 
 /**
