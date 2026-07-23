@@ -24,6 +24,10 @@
     height: inherit;
 }
 
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    font-weight: 500;
+}
+
 /* --- Brand container --- */
 
 #navbar-brand-container {

@@ -48,38 +48,38 @@ window.toHtml = toHtml;
 // =========================================================================
 
 // --- Utilities ---
-import './scripts/core/utils.js';
-import './scripts/ui/page-title.js';
+import './core/utils.js';
+import './ui/page-title.js';
 
 // --- Core systems ---
-import './scripts/core/i18n.js';
-import './scripts/ui/theme.js';
+import './core/i18n.js';
+import './ui/theme.js';
 
 // --- UI features ---
-import './scripts/core/img-utils.js';
-import './scripts/ui/tooltips.js';
-import './scripts/core/component-loader.js';
-import './scripts/core/accessibility.js';
-import './scripts/ui/scroll-hint.js';
-import './scripts/core/loading-screen.js';
-import './scripts/core/svg-utils.js';
+import './core/img-utils.js';
+import './ui/tooltips.js';
+import './core/component-loader.js';
+import './core/accessibility.js';
+import './ui/scroll-hint.js';
+import './core/loading-screen.js';
+import './core/svg-utils.js';
 
 // --- Detection helpers ---
-import './scripts/core/bootstrap-css-detection.js';
-import './scripts/core/no-copy.js';
+import './core/bootstrap-css-detection.js';
+import './core/no-copy.js';
 
 // --- Link-cards (only for hash-change scroll support) ---
-import './scripts/features/link-cards-generator.js';
+import './features/link-cards-generator.js';
 
 // =========================================================================
-// Early initialization (replaces init-at-head.js)
+// Early initialization
 // =========================================================================
 import {
     initThemePreference,
     initSystemThemeListener,
     applyThemePreference,
     currentThemePreference
-} from './scripts/ui/theme.js';
+} from './ui/theme.js';
 
 initThemePreference();
 initSystemThemeListener();
@@ -88,4 +88,70 @@ applyThemePreference(currentThemePreference, false);
 // =========================================================================
 // Full initialization (lightweight — no Page Transition System)
 // =========================================================================
-import './scripts/init-final-lightweight.js';
+
+import { AppEvent } from './types/app.js';
+import { addAllExternalLinkIndicators } from './core/accessibility.js';
+import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
+import { loadAllComponents } from './core/component-loader.js';
+import { initLang } from './core/i18n.js';
+import { initAllImageLoadingOpacity } from './core/img-utils.js';
+import { initHashChangeScroll } from './features/link-cards-generator.js';
+import { hideLoadingScreen } from './core/loading-screen.js';
+import { initNoCopyProtection } from './core/no-copy.js';
+import { updatePageTitle } from './ui/page-title.js';
+import { initSvgInjection } from './core/svg-utils.js';
+import { applyAllThemeBasedImages, initThemeTransitionOverlay, setActiveThemeItem, updateThemeToggleText } from './ui/theme.js';
+import { initAllCopyLinkTooltips, initAllTooltips, initTooltipI18nListener } from './ui/tooltips.js';
+
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        initBootstrapCSSDetection();
+
+        await loadAllComponents();
+
+        // Initialize theme transition overlay (after header is loaded)
+        initThemeTransitionOverlay();
+
+        // Set up tooltip i18n listener BEFORE initLang()
+        initTooltipI18nListener();
+
+        // Load language file (URL query param takes priority over localStorage)
+        await initLang();
+
+        updateThemeToggleText();
+        setActiveThemeItem();
+        updatePageTitle();
+        initHashChangeScroll();
+        initNoCopyProtection();
+
+        // Add external link indicator icons
+        addAllExternalLinkIndicators();
+
+        // Set up copy-link tooltips before general tooltip activation
+        initAllCopyLinkTooltips();
+
+        // Apply theme-based images (dark/light variants)
+        applyAllThemeBasedImages();
+
+        // Initialize image loading opacity (semi-transparent until loaded)
+        initAllImageLoadingOpacity();
+
+        // Inject inline SVGs from external files
+        await initSvgInjection();
+
+        // Re-initialize Bootstrap tooltips in new content
+        initAllTooltips();
+
+        // Hide the loading screen now that everything is ready
+        hideLoadingScreen();
+
+        // Signal that page initialization is complete
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
+    } catch (error) {
+        console.error('Failed to initialize: ' + error);
+        // Still hide loading screen and signal completion even on error
+        hideLoadingScreen();
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
+    }
+});
+

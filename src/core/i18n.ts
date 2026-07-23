@@ -4,8 +4,8 @@
  * manages the language selector UI, and persists the user's preference.
  */
 
-import type { Lang } from '../../types/app.js';
-import { StorageKey, AppEvent } from '../../types/app.js';
+import type { Lang } from '../types/app.js';
+import { StorageKey, AppEvent } from '../types/app.js';
 
 export interface LanguageItem {
     code: string;

@@ -4,15 +4,21 @@
  * with click-to-copy clipboard behavior.
  */
 
-import { AppEvent } from '../../types/app.js';
+import { AppEvent } from '../types/app.js';
 import { translate } from '../core/i18n.js';
-import { showErrorToast } from '../core/utils.js';
+import { showToast } from '../core/utils.js';
+
+/** True when the primary input cannot hover (touchscreens). */
+const isTouchDevice = window.matchMedia('(any-hover: none)').matches;
 
 /**
  * Create Bootstrap Tooltip instances for every element that has
  * the data-bs-toggle="tooltip" attribute.
+ * Skipped on touch devices — tooltips cannot be dismissed on touchscreens
+ * and will persist as orphaned overlays blocking interaction.
  */
 export function initAllTooltips(): void {
+    if (isTouchDevice) return;
     document.querySelectorAll('[data-bs-toggle="tooltip"]')
         .forEach(el => createTooltip(el));
 }
@@ -51,7 +57,8 @@ export function disposeTooltip(element: Element): void {
 /**
  * Click handler for .copy-link elements.
  * Copies the text from data-copy-text to the clipboard, then shows
- * a "Copied!" tooltip for 3 seconds before restoring the original title.
+ * a success toast on both desktop and mobile (tooltip is unreliable
+ * on touchscreens and may persist as an orphaned overlay).
  * @param e - The click event.
  */
 export function handleCopyLinkClick(e: MouseEvent): void {
@@ -61,32 +68,36 @@ export function handleCopyLinkClick(e: MouseEvent): void {
     if (!copyText) return;
 
     navigator.clipboard.writeText(copyText).then(function () {
-        const tooltipInstance = window.bootstrap.Tooltip.getInstance(link);
         const copiedText = translate('text-copied', 'Copied!');
-
-        if (tooltipInstance) {
-            tooltipInstance.setContent({ '.tooltip-inner': copiedText });
-            tooltipInstance.show();
-
-            // Restore original tooltip text after 3 seconds
-            setTimeout(function () {
-                const originalText = translate('text-click-to-copy', 'Click to Copy');
-                if (tooltipInstance) {
-                    tooltipInstance.setContent({ '.tooltip-inner': originalText });
-                    tooltipInstance.hide();
-                }
-            }, 3000);
-        }
+        showToast('success', copiedText);
     }).catch(function (err) {
-        showErrorToast('Failed to copy text');
+        showToast('error', 'Failed to copy text');
         console.error('Failed to copy text:', err);
     });
 }
 
 /**
- * Initialize Bootstrap tooltip and click-to-copy behavior on a single .copy-link element.
- * Sets tooltip attributes, initial title, and attaches the copy click handler.
+ * Initialize the click-to-copy listener on a single .copy-link element.
+ * Separate from tooltip decoration so the copy behavior works on both
+ * desktop and mobile (tooltip is skipped on touchscreens).
  * @param link - The .copy-link element to initialize.
+ */
+export function initCopyLinkClick(link: HTMLAnchorElement): void {
+    link.addEventListener('click', handleCopyLinkClick);
+}
+
+/**
+ * Remove the click-to-copy listener from a single .copy-link element.
+ * @param link - The .copy-link element to dispose.
+ */
+export function disposeCopyLinkClick(link: HTMLAnchorElement): void {
+    link.removeEventListener('click', handleCopyLinkClick);
+}
+
+/**
+ * Decorate a single .copy-link element with Bootstrap tooltip attributes.
+ * Only called on desktop — touchscreens skip tooltip initialization.
+ * @param link - The .copy-link element to decorate.
  */
 export function initCopyLinkTooltip(link: HTMLAnchorElement): void {
     link.setAttribute('data-bs-toggle', 'tooltip');
@@ -95,17 +106,15 @@ export function initCopyLinkTooltip(link: HTMLAnchorElement): void {
 
     const initialTitle = translate('text-click-to-copy', 'Click to Copy');
     link.setAttribute('data-bs-title', initialTitle);
-
-    link.addEventListener('click', handleCopyLinkClick);
 }
 
 /**
- * Dispose the Bootstrap tooltip and click-to-copy behavior from a single .copy-link element.
- * Removes the click handler, tooltip attributes, and disposes the Bootstrap Tooltip instance.
+ * Remove Bootstrap tooltip decoration and click listener from a single
+ * .copy-link element.
  * @param link - The .copy-link element to dispose.
  */
 export function disposeCopyLinkTooltip(link: HTMLAnchorElement): void {
-    link.removeEventListener('click', handleCopyLinkClick);
+    disposeCopyLinkClick(link);
     link.removeAttribute('data-bs-toggle');
     link.removeAttribute('data-bs-trigger');
     link.removeAttribute('data-i18n-tooltip');
@@ -114,12 +123,19 @@ export function disposeCopyLinkTooltip(link: HTMLAnchorElement): void {
 }
 
 /**
- * Initialize Bootstrap tooltips and click-to-copy behavior on all .copy-link elements.
- * Delegates to initCopyLinkTooltip() for each matching element.
+ * Initialize click-to-copy behavior on all .copy-link elements.
+ * On desktop, also attaches tooltip decoration.
+ * Delegates to initCopyLinkClick() + initCopyLinkTooltip().
  */
 export function initAllCopyLinkTooltips(): void {
     try {
-        document.querySelectorAll<HTMLAnchorElement>('.copy-link').forEach(initCopyLinkTooltip);
+        const links = document.querySelectorAll<HTMLAnchorElement>('.copy-link');
+        // Copy behavior: all devices
+        links.forEach(initCopyLinkClick);
+        // Tooltip decoration: desktop only
+        if (!isTouchDevice) {
+            links.forEach(initCopyLinkTooltip);
+        }
     } catch (error) {
         console.error('Failed to initialize copy link tooltips:', error);
     }

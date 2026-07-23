@@ -59,30 +59,78 @@
 /* when browser/system prefers */
 @media (prefers-contrast: more) {
 
+    /* Base */
+
     :root {
         --bs-secondary: #000;
+        --bs-secondary-color: #000;
+        --bs-secondary-color-rgb: 0, 0, 0;
         --bs-border-color-translucent: #000;
         --bs-border-color: var(--bs-body-color);
+        --bs-tertiary-bg: #fff;
+        --bs-tertiary-bg-rgb: 255, 255, 255;
+        --bs-box-shadow: 0 0 0 2px var(--bs-body-color);
+        --bs-box-shadow-sm: 0 0 0 2px var(--bs-body-color);
+        --bs-box-shadow-lg: 0 0 0 2px var(--bs-body-color);
     }
 
     [data-bs-theme=dark] {
         --bs-secondary: #fff;
+        --bs-secondary-color: #fff;
+        --bs-secondary-color-rgb: 255, 255, 255;
         --bs-body-bg: #000;
         --bs-body-bg-rgb: 0, 0, 0;
         --bs-border-color-translucent: #fff;
+        --bs-tertiary-bg: #000;
+        --bs-tertiary-bg-rgb: 0, 0, 0;
     }
 
     hr {
         opacity: 1;
     }
 
-    .tooltip {
-        --bs-tooltip-opacity: 1 !important;
+    .opacity-75 {
+        opacity: 90%;
+    }
+
+    .opacity-50 {
+        opacity: 80%;
+    }
+
+    .opacity-25 {
+        opacity: 70%;
+    }
+
+    /* Navbar */
+
+    .navbar {
+        --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 1);
+        --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 1);
+        --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
+        --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb), 1);
     }
 
     .navbar-scrolled {
         box-shadow: 0 1px 0 rgb(var(--bs-body-color-rgb)) !important;
     }
+
+    .navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+        font-weight: bold !important;
+    }
+
+    /* Footer */
+
+    .footer {
+        border-top: 1px solid var(--bs-body-color);
+    }
+
+    /* Tooltip */
+
+    .tooltip {
+        --bs-tooltip-opacity: 1 !important;
+    }
+
+    /* Buttons */
 
     .btn-no-border {
         --bs-btn-border-width: 1px !important; /* Invalidate */
@@ -91,6 +139,26 @@
     [data-bs-theme=dark] .btn-outline-secondary {
         --bs-btn-hover-color: #000;
         --bs-btn-active-color: #000;
+    }
+
+    /* Links */
+
+    .link-secondary-shlh {
+        --shlh-link-color: #000;
+        --shlh-link-color-rgb: 0, 0, 0;
+        --shlh-link-hover-color: #444;
+        --shlh-link-active-color: #444;
+    }
+
+    [data-bs-theme=dark] .link-secondary-shlh {
+        --shlh-link-color: #fff;
+        --shlh-link-color-rgb: 255, 255, 255;
+        --shlh-link-hover-color: #bbb;
+        --shlh-link-active-color: #bbb;
+    }
+
+    .footer a {
+        font-weight: 500;
     }
 }
 

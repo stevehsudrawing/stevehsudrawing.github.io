@@ -47,36 +47,36 @@ window.toHtml = toHtml;
 // =========================================================================
 
 // --- Utilities (used by everything else) ---
-import './scripts/core/utils.js';
-import './scripts/ui/page-title.js';
+import './core/utils.js';
+import './ui/page-title.js';
 
 // --- Core systems ---
-import './scripts/core/i18n.js';
-import './scripts/ui/theme.js';
+import './core/i18n.js';
+import './ui/theme.js';
 
 // --- UI features ---
-import './scripts/core/img-utils.js';
-import './scripts/ui/tooltips.js';
-import './scripts/core/component-loader.js';
-import './scripts/ui/navbar.js';
-import './scripts/ui/scroll-hint.js';
-import './scripts/core/accessibility.js';
-import './scripts/ui/settings.js';
-import './scripts/core/loading-screen.js';
-import './scripts/features/page-transition.js';
-import './scripts/features/external-link-confirmation.js';
-import './scripts/core/svg-utils.js';
+import './core/img-utils.js';
+import './ui/tooltips.js';
+import './core/component-loader.js';
+import './ui/navbar.js';
+import './ui/scroll-hint.js';
+import './core/accessibility.js';
+import './ui/settings.js';
+import './core/loading-screen.js';
+import './features/page-transition.js';
+import './features/external-link-confirmation.js';
+import './core/svg-utils.js';
 
 // --- Code-dependent features ---
-import './scripts/features/qr-code.js';
-import './scripts/features/link-cards-generator.js';
+import './features/qr-code.js';
+import './features/link-cards-generator.js';
 
 // --- Detection helpers ---
-import './scripts/core/bootstrap-css-detection.js';
-import './scripts/core/no-copy.js';
+import './core/bootstrap-css-detection.js';
+import './core/no-copy.js';
 
 // =========================================================================
-// Early initialization (replaces init-at-head.js)
+// Early initialization
 // =========================================================================
 // Theme must be applied before the first paint to avoid flash.
 // initThemePreference reads localStorage, applyThemePreference sets data-bs-theme.
@@ -85,7 +85,7 @@ import {
     initSystemThemeListener,
     applyThemePreference,
     currentThemePreference
-} from './scripts/ui/theme.js';
+} from './ui/theme.js';
 
 initThemePreference();
 initSystemThemeListener();
@@ -97,4 +97,66 @@ applyThemePreference(currentThemePreference, false);
 // init-final.js self-registers a DOMContentLoaded listener.
 // Since Vite module scripts are deferred, DOMContentLoaded may already
 // have fired. We check and either call directly or wait.
-import './scripts/init-final.js';
+import { AppEvent } from './types/app.js';
+import { initPageContent } from './features/init-page-content.js';
+import { initTooltipI18nListener } from './ui/tooltips.js';
+import { initThemeTransitionOverlay, updateThemeToggleText, setActiveThemeItem } from './ui/theme.js';
+import { hideLoadingScreen } from './core/loading-screen.js';
+import { loadAllComponents } from './core/component-loader.js';
+import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
+import { initNavbarScrollBorder, initMobileNavbarBrandScroll, initDropdownMenuAnimation } from './ui/navbar.js';
+import { initSettingEventListeners, initSettingsModal } from './ui/settings.js';
+import { initPageTransitionLinkClicks, initPageTransitionPopState } from './features/page-transition.js';
+import { initExternalLinkConfirmation } from './features/external-link-confirmation.js';
+import { initHashChangeScroll } from './features/link-cards-generator.js';
+import { initQRCodeDelegation } from './features/qr-code.js';
+import { loadSupportedLangs, populateLanguageMenus, initLang } from './core/i18n.js';
+import { initSkipButton } from './core/accessibility.js';
+import { initAllScrollHints } from './ui/scroll-hint.js';
+import { initNoCopyProtection } from './core/no-copy.js';
+
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        initBootstrapCSSDetection();
+        await loadAllComponents();
+        initThemeTransitionOverlay();
+        await loadSupportedLangs();
+
+        initDropdownMenuAnimation();
+        initSkipButton();
+        initSettingsModal();
+        populateLanguageMenus();
+
+        // Set up tooltip i18n listener BEFORE initLang()
+        // so tooltip titles are updated when the first translation loads
+        initTooltipI18nListener();
+
+        await initLang();
+
+        initSettingEventListeners();
+        initExternalLinkConfirmation();
+        initQRCodeDelegation();
+        initHashChangeScroll();
+        initNoCopyProtection();
+
+        updateThemeToggleText();
+        setActiveThemeItem();
+
+        initPageTransitionLinkClicks();
+        initPageTransitionPopState();
+
+        await initPageContent();
+
+        hideLoadingScreen();
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
+    } catch (error) {
+        console.error('Failed to initialize: ' + error);
+        hideLoadingScreen();
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
+    }
+});
+
+document.addEventListener(AppEvent.PageInitialized, initNavbarScrollBorder);
+document.addEventListener(AppEvent.PageInitialized, initMobileNavbarBrandScroll);
+document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
+

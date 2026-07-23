@@ -3,11 +3,7 @@
  * Provides shared helpers for some logic used across multiple modules.
  */
 
-import type { HastProperties } from '../../types/hast.js';
-
-// Re-export for backward compatibility — other modules import from utils.ts
-// TODO: migrate consumers to import directly from ../../types/hast.ts
-export type { HastProperties };
+import type { HastProperties } from '../types/hast.js';
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
@@ -68,14 +64,14 @@ export function setElementAttributes(
 }
 
 /**
- * Show a brief error message using a Bootstrap toast.
- * Gracefully does nothing if the toast container is not present.
- * @param message - The error message to display.
+ * Show a Bootstrap toast message.
+ * @param type - 'error' or 'success' — determines which toast element to use.
+ * @param message - The message to display.
  */
-export function showErrorToast(message: string): void {
+export function showToast(type: 'error' | 'success', message: string): void {
     const container = document.getElementById('toast-container');
-    const toastEl = document.getElementById('error-toast');
-    const bodyEl = document.getElementById('error-toast-body');
+    const toastEl = document.getElementById(`${type}-toast`);
+    const bodyEl = document.getElementById(`${type}-toast-body`);
     if (!container || !toastEl || !bodyEl) return;
     bodyEl.textContent = message;
     const toast = window.bootstrap.Toast.getOrCreateInstance(toastEl);

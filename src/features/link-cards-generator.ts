@@ -9,7 +9,7 @@
  * - setElementAttributes (utils.js)
  */
 
-import type { HastProperties, HastNode, CardData, GroupData } from '../../types/hast.js';
+import type { HastProperties, HastNode, CardData, GroupData } from '../types/hast.js';
 import { scrollToHashTarget } from '../core/accessibility.js';
 import { extractPageName, setElementAttributes } from '../core/utils.js';
 

@@ -5,8 +5,8 @@
  * with a confirmation modal.
  */
 
-import type { ThemeChoice } from '../../types/app.js';
-import { StorageKey } from '../../types/app.js';
+import type { ThemeChoice } from '../types/app.js';
+import { StorageKey } from '../types/app.js';
 import { currentLang, loadLang, translate } from '../core/i18n.js';
 import { htmlElement, setThemePreference } from './theme.js';
 import { createTooltip, disposeTooltip } from './tooltips.js';

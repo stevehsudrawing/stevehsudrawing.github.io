@@ -68,13 +68,13 @@ The minimum browser versions are determined by both **npm dependencies** and **b
 
 The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
 
-| Feature                                                                                    | Used By                                   | Chrome | Edge   | Firefox | Opera  | Safari |
-|--------------------------------------------------------------------------------------------|-------------------------------------------|--------|--------|---------|--------|--------|
-| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any TS Scripts in `src/scripts/functions` | **80** | **80** | **74**  | **67** | 13.1   |
-| [WebP](https://caniuse.com/webp)                                                           | Image assets                              | 32     | 18     | 65      | 19     | **14** |
-| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                           | 36     | 14     | 39      | 23     | 10     |
-| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                     | 66     | 17     | 62      | 53     | 11     |
-| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | Vite entry point (`src/main.ts`)          | 61     | 16     | 60      | 48     | 11     |
+| Feature                                                                                    | Used By                          | Chrome | Edge   | Firefox | Opera  | Safari |
+|--------------------------------------------------------------------------------------------|----------------------------------|--------|--------|---------|--------|--------|
+| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any TS Scripts in `src/`         | **80** | **80** | **74**  | **67** | 13.1   |
+| [WebP](https://caniuse.com/webp)                                                           | Image assets                     | 32     | 18     | 65      | 19     | **14** |
+| [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                  | 36     | 14     | 39      | 23     | 10     |
+| [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                            | 66     | 17     | 62      | 53     | 11     |
+| [ES modules (`<script type="module">`)](https://caniuse.com/es6-module)                    | Vite entry point (`src/main.ts`) | 61     | 16     | 60      | 48     | 11     |
 
 ### 1.4 Deployment
 
@@ -126,37 +126,37 @@ Although all `--bs-border-radius*` settings in `src/stylesheets/base.css` are 0p
 #### 2.3.1 Import Path Conventions
 
 - All import paths must use **`.js` extensions** (not `.ts`), even when importing from TypeScript files. Vite's `moduleResolution: "bundler"` resolves `.js` → `.ts` automatically, but TypeScript 7 rejects `.ts` extensions unless `allowImportingTsExtensions` is enabled (which is not supported by Vite's esbuild).
-- Import shared types from `../../types/` using `import type` for type-only imports to ensure they are erased at build time.
+- Import shared types from `../types/` using `import type` for type-only imports to ensure they are erased at build time.
     ```ts
     // Correct
-    import type { Lang, ThemeChoice } from '../../types/app.js';
-    import { StorageKey, AppEvent } from '../../types/app.js';
+    import type { Lang, ThemeChoice } from '../types/app.js';
+    import { StorageKey, AppEvent } from '../types/app.js';
 
     // Wrong — .ts extension rejected by tsc
-    import { StorageKey } from '../../types/app.ts';
+    import { StorageKey } from '../types/app.ts';
     ```
 
 #### 2.3.2 Function Naming by Category
 
-| Prefix       | Purpose                              | Examples                                                                                            |
-|--------------|--------------------------------------|-----------------------------------------------------------------------------------------------------|
-| `init*`      | Initialize / set up listeners        | `initThemePreference`, `initSkipButton`, `initAllTooltips`, `initAllScrollHints`, `initPageContent` |
-| `dispose*`   | Tear down / remove listeners         | `disposeTooltip`, `disposeCopyLinkTooltip`, `disposeAllTooltips`                                    |
-| `create*`    | Create and inject a DOM element      | `createTooltip`, `createScrollHint`                                                                 |
-| `remove*`    | Remove a DOM element or attribute    | `removeScrollHint`, `removeExternalLinkIndicator`, `removeExternalLinkTargetBehavior`               |
-| `add*`       | Add a DOM element or attribute       | `addExternalLinkIndicator`, `addExternalLinkTargetBehavior`                                         |
-| `mark*`      | Set or clear a visual state marker   | `markImageLoaded`, `markImageUnloaded`                                                              |
-| `handle*`    | DOM event handler (named function)   | `handleCopyLinkClick`, `handleTitleLinkAnchorClick`                                                 |
-| `load*`      | Async data fetching                  | `loadSupportedLangs`, `loadLang`, `loadAllComponents`, `loadHTML`                                   |
-| `update*`    | Update existing DOM content          | `updatePageText`, `updatePageTitle`, `updateThemeToggleText`                                        |
-| `apply*`     | Apply a setting / style change       | `applyThemePreference`, `applyAllThemeBasedImages`, `applyAllExternalLinkTargetBehavior`            |
-| `get*`       | Retrieve / compute a value           | `getSystemTheme`                                                                                    |
-| `set*`       | Set a state / attribute              | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                       |
-| `populate*`  | Fill UI lists / menus                | `populateLanguageMenus`                                                                             |
-| `generate*`  | Create and inject DOM elements       | `generateLinkCards`                                                                                 |
-| `hide*`      | Hide an element                      | `hideLoadingScreen`                                                                                 |
-| `extract*`   | Parse / derive from input            | `extractPageName`                                                                                   |
-| `normalize*` | Normalize / sanitize input           | `normalizeInternalPath`                                                                             |
+| Prefix       | Purpose                            | Examples                                                                                            |
+|--------------|------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `init*`      | Initialize / set up listeners      | `initThemePreference`, `initSkipButton`, `initAllTooltips`, `initAllScrollHints`, `initPageContent` |
+| `dispose*`   | Tear down / remove listeners       | `disposeTooltip`, `disposeCopyLinkTooltip`, `disposeAllTooltips`                                    |
+| `create*`    | Create and inject a DOM element    | `createTooltip`, `createScrollHint`                                                                 |
+| `remove*`    | Remove a DOM element or attribute  | `removeScrollHint`, `removeExternalLinkIndicator`, `removeExternalLinkTargetBehavior`               |
+| `add*`       | Add a DOM element or attribute     | `addExternalLinkIndicator`, `addExternalLinkTargetBehavior`                                         |
+| `mark*`      | Set or clear a visual state marker | `markImageLoaded`, `markImageUnloaded`                                                              |
+| `handle*`    | DOM event handler (named function) | `handleCopyLinkClick`, `handleTitleLinkAnchorClick`                                                 |
+| `load*`      | Async data fetching                | `loadSupportedLangs`, `loadLang`, `loadAllComponents`, `loadHTML`                                   |
+| `update*`    | Update existing DOM content        | `updatePageText`, `updatePageTitle`, `updateThemeToggleText`                                        |
+| `apply*`     | Apply a setting / style change     | `applyThemePreference`, `applyAllThemeBasedImages`, `applyAllExternalLinkTargetBehavior`            |
+| `get*`       | Retrieve / compute a value         | `getSystemTheme`                                                                                    |
+| `set*`       | Set a state / attribute            | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                       |
+| `populate*`  | Fill UI lists / menus              | `populateLanguageMenus`                                                                             |
+| `generate*`  | Create and inject DOM elements     | `generateLinkCards`                                                                                 |
+| `hide*`      | Hide an element                    | `hideLoadingScreen`                                                                                 |
+| `extract*`   | Parse / derive from input          | `extractPageName`                                                                                   |
+| `normalize*` | Normalize / sanitize input         | `normalizeInternalPath`                                                                             |
 
 > Prefer existing prefixes when adding new functions. If none fit, use a clear descriptive verb.
 
@@ -231,10 +231,9 @@ Existing batch / single-element pairs:
 | `src/main-lightweight.ts`           | Vite entry point - lightweight pages (404) without Page Transition | -                                                     |
 | `src/types/`                        | Shared TypeScript type definitions, enums, and module declarations | New shared type or enum                               |
 | `src/configs/`                      | Page-level build-time configuration (head tags, metadata)          | New page entry in page-meta.js                        |
-| `src/scripts/`                      | TS entry points (`init-*.ts`)                                      | New init script if a new page tier is needed          |
-| `src/scripts/functions/core/`       | **Core modules** - zero project imports, only npm or browser APIs  | New core utility when it has no project dependencies  |
-| `src/scripts/functions/ui/`         | **UI modules** - depend on `core/`, may depend on each other       | New UI module when it uses `core/` modules            |
-| `src/scripts/functions/features/`   | **Feature modules** - depend on `core/` + `ui/`, orchestrate UI    | New feature module for cross-cutting functionality    |
+| `src/core/`                         | **Core modules** - zero project imports, only npm or browser APIs  | New core utility when it has no project dependencies  |
+| `src/ui/`                           | **UI modules** - depend on `core/`, may depend on each other       | New UI module when it uses `core/` modules            |
+| `src/features/`                     | **Feature modules** - depend on `core/` + `ui/`, orchestrate UI    | New feature module for cross-cutting functionality    |
 | `src/stylesheets/`                  | CSS modules using modern CSS specifications - for all pages        | New CSS module, or add to an existing file            |
 | `public/`                           | **Static assets** served as-is by Vite, no processing              | See sub-folders below                                 |
 | `public/configs/`                   | JSON configuration data for i18n and link cards                    | New JSON config files as needed                       |
@@ -253,7 +252,7 @@ Existing batch / single-element pairs:
 | `vite.config.js`                    | Vite configuration - multi-page input, dev server, build options   | -                                                     |
 | `package.json`                      | npm dependencies and scripts (`dev`, `build`, `preview`)           | -                                                     |
 
-**Layered TS architecture (`src/scripts/`):**
+**Layered TS architecture (`src/`):**
 
 ```
 core/     →  zero project imports (utils, i18n, img-utils, accessibility, etc.)
@@ -274,7 +273,7 @@ types/    →  shared across all layers (app.ts, hast.ts, globals.d.ts, css.d.ts
 
 **File placement rules**:
 
-- Put TS modules in `src/scripts/{core,ui,features}/` according to their dependency level.
+- Put TS modules in `src/{core,ui,features}/` according to their dependency level.
     - New modules with zero project imports → `core/`.
     - New modules depending only on `core/` → `ui/`.
     - New modules depending on `core/` + `ui/` (or orchestrating both) → `features/`.
@@ -291,17 +290,17 @@ types/    →  shared across all layers (app.ts, hast.ts, globals.d.ts, css.d.ts
 
 ### 3.2 General File Rules
 
-#### 3.2.1 `src/scripts/functions/`: Define Only, Never Execute
+#### 3.2.1 `src/`: Define Only, Never Execute
 
-- Files in `src/scripts/functions/` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
+- Files in `src/` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
 - Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
-- All execution / wiring happens in the `init-*.ts` entry points (see [§3.2.2](#322-srcscriptsinit-ts-entry-points-wire-everything)).
+- All execution / wiring happens in the `main.ts` or `main-lightweight.ts` entry points (see [§3.2.2](#322-srcmaints--srcmain-lightweightts-entry-points-wire-everything)).
 - **Exception**: `public/legacy/env-detection.js` is a classic script (not a module) that runs before `<head>` to perform browser/crawler detection. It DOES execute at the top level, but must still use **ES5** syntax for broad compatibility.
 
 ```js
-// In src/scripts/functions/core/example.ts:
+// In src/core/example.ts:
 
 // CORRECT:
 
@@ -319,13 +318,11 @@ doSomething();  // No top-level execution!
 document.addEventListener('DOMContentLoaded', doSomething);  // No!
 ```
 
-#### 3.2.2 `src/scripts/init-*.ts`: Entry Points, Wire Everything
+#### 3.2.2 `src/main.ts` & `src/main-lightweight.ts`: Entry Points, Wire Everything
 
-- These files import functions from `src/scripts/functions/` and call them in the correct order.
+- `main.ts`: Full-feature entry point. Imports all CSS, npm dependencies, and project modules. Performs early theme initialization (before first paint). Loads all components, i18n, settings, page transitions, QR code, link cards, etc. on `DOMContentLoaded`.
+- `main-lightweight.ts`: Lightweight entry point for error pages (404). Same CSS and npm imports, but excludes Page Transition, QR code, link-cards generator, and external link confirmation. Loads a reduced set of modules on `DOMContentLoaded`.
 - `public/legacy/env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`. (Kept as plain JS for ES5 compatibility.)
-- `init-at-head.ts`: Runs synchronously in `<head>`.
-- `init-final.ts`: Full initialization on `DOMContentLoaded`. Loads components, i18n, settings, page transitions, etc.
-- `init-final-lightweight.ts`: Cut-down version. Does not load the Page Transition System.
 
 #### 3.2.3 `stylesheets/`: Two Sub-Folders, One Commenting Convention
 
@@ -348,14 +345,14 @@ Both sub-folders use the same CSS commenting format:
 
 #### 3.2.4 `*.html`: Page Tiers
 
-- **Full Functionality Pages**: Reference `/src/main.ts` → `init-final.ts`.
+- **Full Functionality Pages**: Reference `/src/main.ts`.
     - `index`
     - `about`
     - `artworks-and-videos`
     - `blogs-and-sponsor`
     - `chatting`
     - `softwares`
-- **Error Pages (Lightweight)**: Reference `/src/main-lightweight.ts` → `init-final-lightweight.ts`.
+- **Error Pages (Lightweight)**: Reference `/src/main-lightweight.ts`.
     - `404`: The redirected page when an HTTP 404 occurs. Uses a cut-down entry point that excludes Page Transition, QR code, link-cards generator, and external-link confirmation to avoid layout conflicts when navigating back to full-feature pages.
 - **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
     - `unsupported-browser`
@@ -383,12 +380,12 @@ Both sub-folders use the same CSS commenting format:
 
 **Related Files**:
 
-| File                                                    | Role                                                                                               |
-|---------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| `public/legacy/env-detection.js`                        | Runs before page load; performs basic environment checks, feature detection, and crawler whitelist |
-| `src/scripts/functions/core/bootstrap-css-detection.ts` | Verifies Bootstrap CSS loaded successfully                                                         |
-| `error-unsupported-browser.html`                        | Fallback page for unsupported browsers                                                             |
-| `error-javascript-disabled.html`                        | Fallback page displayed when JavaScript is disabled                                                |
+| File                                  | Role                                                                                               |
+|---------------------------------------|----------------------------------------------------------------------------------------------------|
+| `public/legacy/env-detection.js`      | Runs before page load; performs basic environment checks, feature detection, and crawler whitelist |
+| `src/core/bootstrap-css-detection.ts` | Verifies Bootstrap CSS loaded successfully                                                         |
+| `error-unsupported-browser.html`      | Fallback page for unsupported browsers                                                             |
+| `error-javascript-disabled.html`      | Fallback page displayed when JavaScript is disabled                                                |
 
 > `env-detection.js` is executed first among all scripts. It uses `new Function()` to test ES2020 syntax support without causing a SyntaxError on older engines. Written in ES5 for broad compatibility.
 
@@ -421,7 +418,7 @@ Both sub-folders use the same CSS commenting format:
 
 | File                                             | Role                                |
 |--------------------------------------------------|-------------------------------------|
-| `src/scripts/functions/core/component-loader.ts` | Fetches and injects HTML fragments  |
+| `src/core/component-loader.ts`                   | Fetches and injects HTML fragments  |
 | `public/page-components/header.html`             | Header fragment                     |
 | `public/page-components/footer.html`             | Footer fragment (full pages)        |
 | `public/page-components/footer-lightweight.html` | Footer fragment (lightweight pages) |
@@ -447,11 +444,11 @@ HTML: <div data-role="page-component" data-component-name="header"></div>
 
 **Related Files**:
 
-| File                                 | Role                                                  |
-|--------------------------------------|-------------------------------------------------------|
-| `src/scripts/functions/core/i18n.ts` | Language loading, text replacement, language switcher |
-| `public/configs/language-list.json`  | List of supported language codes                      |
-| `public/configs/i18n/{lang}.json`    | Translation key-value pairs for each language         |
+| File                                | Role                                                  |
+|-------------------------------------|-------------------------------------------------------|
+| `src/core/i18n.ts`                  | Language loading, text replacement, language switcher |
+| `public/configs/language-list.json` | List of supported language codes                      |
+| `public/configs/i18n/{lang}.json`   | Translation key-value pairs for each language         |
 
 **How It Works**:
 
@@ -505,7 +502,7 @@ ARIA labels: <a aria-label="Settings" data-i18n-aria-label="text-settings"><i cl
 
 | File                                          | Role                                                                      |
 |-----------------------------------------------|---------------------------------------------------------------------------|
-| `src/scripts/functions/ui/theme.ts`           | Theme initialization, switching, system theme listener, and favicon theme |
+| `src/ui/theme.ts`                             | Theme initialization, switching, system theme listener, and favicon theme |
 | `src/stylesheets/theme.css`                   | Theme-specific CSS custom property overrides                              |
 | `src/stylesheets/base.css`                    | Base styles including `--bs-border-radius` overrides and shared variables |
 | `public/images/svg/favicons/general.svg`      | Light-theme favicon (blue `#3c96ff`)                                      |
@@ -548,10 +545,10 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                                                     | Role                                            |
-|----------------------------------------------------------|-------------------------------------------------|
-| `src/scripts/functions/features/link-cards-generator.ts` | Generates link-card DOM elements from JSON data |
-| `public/configs/links/{page-name}.json`                  | Link-card group definitions for each page       |
+| File                                    | Role                                            |
+|-----------------------------------------|-------------------------------------------------|
+| `src/features/link-cards-generator.ts`  | Generates link-card DOM elements from JSON data |
+| `public/configs/links/{page-name}.json` | Link-card group definitions for each page       |
 
 #### 4.5.1 JSON Structural Standards
 
@@ -673,10 +670,10 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                                | Role                                                          |
-|-----------------------------------------------------|---------------------------------------------------------------|
-| `src/scripts/functions/features/page-transition.ts` | Intercepts internal link clicks, manages transition animation |
-| `src/stylesheets/page-transition.css`               | Progress bar and content dimming styles                       |
+| File                                  | Role                                                          |
+|---------------------------------------|---------------------------------------------------------------|
+| `src/features/page-transition.ts`     | Intercepts internal link clicks, manages transition animation |
+| `src/stylesheets/page-transition.css` | Progress bar and content dimming styles                       |
 
 **How It Works**:
 
@@ -693,7 +690,7 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 - **Settings ([§4.8](#48-settings--preferences))**: After a page transition, `initPageContent()` re-invokes `initSettingsModal()` to re-sync toggle states with the recreated DOM.
 - **i18n ([§4.3](#43-internationalization-i18n))**: After a page transition, `initPageContent()` calls `updatePageText()` and `updatePageTitle()` to apply translations to the new content.
 - **Initialization ([§4.7](#47-loading-screen))**: `navigateTo()` restores page content and completes the progress bar on success; on failure, falls back to a full browser navigation (`window.location.href`).
-- **Lightweight Pages ([§3.2.4](#324-html-page-tiers))**: The `404.html` page references `main-lightweight.ts` (not `main.ts`), which uses `init-final-lightweight.ts` and does not load the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.
+- **Lightweight Pages ([§3.2.4](#324-html-page-tiers))**: The `404.html` page references `main-lightweight.ts` (not `main.ts`), which does not load the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.
 
 ---
 
@@ -703,10 +700,10 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                           | Role                               |
-|------------------------------------------------|------------------------------------|
-| `src/scripts/functions/core/loading-screen.ts` | Controls loading screen visibility |
-| `src/stylesheets/loading-screen.css`           | Loading screen overlay styles      |
+| File                                 | Role                               |
+|--------------------------------------|------------------------------------|
+| `src/core/loading-screen.ts`         | Controls loading screen visibility |
+| `src/stylesheets/loading-screen.css` | Loading screen overlay styles      |
 
 **Data Flow**:
 
@@ -723,9 +720,9 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                   | Role                                                             |
-|----------------------------------------|------------------------------------------------------------------|
-| `src/scripts/functions/ui/settings.ts` | Preference read/write, toggle event handling, applying behaviors |
+| File                 | Role                                                             |
+|----------------------|------------------------------------------------------------------|
+| `src/ui/settings.ts` | Preference read/write, toggle event handling, applying behaviors |
 
 **Preferences Managed**:
 
@@ -778,14 +775,14 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                          | Role                                                                                     |
-|-----------------------------------------------|------------------------------------------------------------------------------------------|
-| `src/scripts/functions/ui/navbar.ts`          | Active nav item highlighting                                                             |
-| `src/scripts/functions/ui/scroll-hint.ts`     | Scroll-down hint indicator                                                               |
-| `src/scripts/functions/core/accessibility.ts` | Skip button, focus management, external link indicators, title link anchors              |
-| `src/stylesheets/navbar.css`                  | Navbar styles                                                                            |
-| `src/stylesheets/scroll-hint.css`             | Scroll hint styles                                                                       |
-| `src/stylesheets/accessibility.css`           | Base accessibility rules (motion, transparency, contrast), skip button, and focus styles |
+| File                                | Role                                                                                     |
+|-------------------------------------|------------------------------------------------------------------------------------------|
+| `src/ui/navbar.ts`                  | Active nav item highlighting                                                             |
+| `src/ui/scroll-hint.ts`             | Scroll-down hint indicator                                                               |
+| `src/core/accessibility.ts`         | Skip button, focus management, external link indicators, title link anchors              |
+| `src/stylesheets/navbar.css`        | Navbar styles                                                                            |
+| `src/stylesheets/scroll-hint.css`   | Scroll hint styles                                                                       |
+| `src/stylesheets/accessibility.css` | Base accessibility rules (motion, transparency, contrast), skip button, and focus styles |
 
 **Features**:
 
@@ -805,11 +802,11 @@ HAST uses `className` (array) instead of `class` (string), and `data*` attribute
 
 **Related Files**:
 
-| File                                        | Role                                                |
-|---------------------------------------------|-----------------------------------------------------|
-| `src/scripts/functions/features/qr-code.ts` | QR code generation, share card assembly, PNG export |
-| `src/stylesheets/qr-code.css`               | Share card layout styles                            |
-| `page-components/modals.html`               | QR code modal HTML (shared with other modals)       |
+| File                          | Role                                                |
+|-------------------------------|-----------------------------------------------------|
+| `src/features/qr-code.ts`     | QR code generation, share card assembly, PNG export |
+| `src/stylesheets/qr-code.css` | Share card layout styles                            |
+| `page-components/modals.html` | QR code modal HTML (shared with other modals)       |
 
 **How It Works**:
 
@@ -950,9 +947,9 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                                   | Role                                                                                                                               |
-|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `src/scripts/functions/ui/tooltips.ts` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
+| File                 | Role                                                                                                                               |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `src/ui/tooltips.ts` | Tooltip lifecycle: `initAllTooltips()`, `disposeAllTooltips()`, `createTooltip()`, `disposeTooltip()`, `initAllCopyLinkTooltips()` |
 
 **Key Functions**:
 
@@ -972,13 +969,13 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 **Related Files**:
 
-| File                                      | Role                                                                                 |
-|-------------------------------------------|--------------------------------------------------------------------------------------|
-| `src/scripts/functions/core/img-utils.ts` | Initializes `data-img-feature="colored"` images and image loading opacity            |
-| `src/stylesheets/img-utils.css`           | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
-| `src/scripts/functions/ui/theme.ts`       | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `public/images/webp/null.webp`            | Placeholder image used with `data-img-feature="colored"`                             |
-| `public/images/README.md`                 | Copyright notice for image assets                                                    |
+| File                            | Role                                                                                 |
+|---------------------------------|--------------------------------------------------------------------------------------|
+| `src/core/img-utils.ts`         | Initializes `data-img-feature="colored"` images and image loading opacity            |
+| `src/stylesheets/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
+| `src/ui/theme.ts`               | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
+| `public/images/webp/null.webp`  | Placeholder image used with `data-img-feature="colored"`                             |
+| `public/images/README.md`       | Copyright notice for image assets                                                    |
 
 #### 4.13.1 `data-img-feature` Attribute
 
@@ -1045,10 +1042,10 @@ When `applyThemeBasedImage()` switches the `src` of a `follow-theme` image durin
 
 **Related Files**:
 
-| File                                      | Role                                                                |
-|-------------------------------------------|---------------------------------------------------------------------|
-| `src/scripts/functions/core/svg-utils.ts` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
-| `public/images/svg/`                      | SVG source files (e.g. `steve-hsu.svg`)                             |
+| File                    | Role                                                                |
+|-------------------------|---------------------------------------------------------------------|
+| `src/core/svg-utils.ts` | `initSvgInjection()` — fetches SVG files and injects as inline DOM |
+| `public/images/svg/`    | SVG source files (e.g. `steve-hsu.svg`)                             |
 
 **How It Works**:
 
@@ -1084,10 +1081,10 @@ HTML: <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-widt
 
 **Related Files**:
 
-| File                                     | Role                                                                      |
-|------------------------------------------|---------------------------------------------------------------------------|
-| `src/scripts/functions/core/utils.ts`    | Shared utility functions (path normalization, page name extraction, etc.) |
-| `src/scripts/functions/ui/page-title.ts` | Page title management                                                     |
+| File                   | Role                                                                      |
+|------------------------|---------------------------------------------------------------------------|
+| `src/core/utils.ts`    | Shared utility functions (path normalization, page name extraction, etc.) |
+| `src/ui/page-title.ts` | Page title management                                                     |
 
 ---
 
@@ -1160,7 +1157,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 - When the user switches language via the UI, `history.replaceState()` updates the URL with the new `?lang=` parameter without creating a browser history entry.
 - The Page Transition System ([§4.6](#46-page-transitions)) preserves the `?lang=` parameter across internal SPA navigations, so the user's chosen language persists through page transitions.
 - Hreflang `<link>` tags in `<head>` use the `?lang=` URLs to give each language a unique URL for search engines.
-- Language code normalization: a `normalizeLang()` function (in `src/scripts/functions/core/i18n.ts`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
+- Language code normalization: a `normalizeLang()` function (in `src/core/i18n.ts`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
     - `zh-HK`, `zh-MO`, `zh-TW`, `zh-Hant`, `zh-Hant-*` → `zh-Hant`
     - `zh-CN`, `zh-SG`, `zh`, `zh-Hans`, `zh-Hans-*` → `zh-Hans`
     - Other `zh-*` variants → `zh-Hans` (fallback)
@@ -1208,11 +1205,11 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 **Related Files**:
 
-| File                                                           | Role                                               |
-|----------------------------------------------------------------|----------------------------------------------------|
-| `src/scripts/functions/features/external-link-confirmation.ts` | Link interception, modal display, navigation logic |
-| `stylesheets/external-link-confirmation.css`                   | Modal URL display styling                          |
-| `page-components/modals.html`                                  | Confirmation modal HTML (shared with other modals) |
+| File                                         | Role                                               |
+|----------------------------------------------|----------------------------------------------------|
+| `src/features/external-link-confirmation.ts` | Link interception, modal display, navigation logic |
+| `stylesheets/external-link-confirmation.css` | Modal URL display styling                          |
+| `page-components/modals.html`                | Confirmation modal HTML (shared with other modals) |
 
 **How It Works**:
 
@@ -1272,7 +1269,7 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 - `handleExternalLinkConfirm()` - Handles the [Open] button click.
 - `handleExternalLinkShowQR()` - Handles the [Show QR Code] button click. Hides the confirmation modal, then calls `showQRCodeModal` after the hide transition.
 - `handleExternalLinkToggleChange()` - Persists toggle changes to localStorage and applies the target behavior.
-- `initExternalLinkConfirmation()` - Sets up delegated event listeners on `document`. Called once from `init-final.ts`.
+- `initExternalLinkConfirmation()` - Sets up delegated event listeners on `document`. Called once during page initialization in `main.ts`.
 
 **Data Flow**:
 

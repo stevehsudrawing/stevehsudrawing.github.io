@@ -12,7 +12,8 @@ import { showExternalLinkConfirmation } from './external-link-confirmation.js';
 import { translate } from '../core/i18n.js';
 import { initImageLoadingOpacity, applyColoredImage } from '../core/img-utils.js';
 import { initSvgInjection } from '../core/svg-utils.js';
-import { errMsg, isInternalPage, setElementAttributes, showErrorToast, HastProperties } from '../core/utils.js';
+import { errMsg, isInternalPage, setElementAttributes, showToast } from '../core/utils.js';
+import { HastProperties } from '../types/hast.js';
 
 /** Cached share-API availability; undefined = not yet checked. */
 export let shareApiSupported: boolean | undefined;
@@ -179,7 +180,7 @@ export async function showQRCodeModal(
         }).catch(function (error) {
             setButtonsDisabled(false);
             const label = errorLabel || 'Failed to generate QR code image';
-            showErrorToast(label + ': ' + errMsg(error));
+            showToast('error', label + ': ' + errMsg(error));
             console.error(label + ':', error);
         });
     }
@@ -200,15 +201,6 @@ export async function showQRCodeModal(
     }
     if (!shareApiSupported) {
         shareBtn.style.display = 'none';
-    }
-
-    // If this is an internal page (used to share this website elsewhere), hide the source to simplify the layout
-    if (linkUrl === 'https://' + window.location.hostname) {
-        const cardBrand = document.getElementById('qr-share-card-brand');
-        if (cardBrand) { cardBrand.style.display = 'none'; }
-
-        const cardSource = document.getElementById('qr-share-card-source');
-        if (cardSource) { cardSource.style.display = 'none'; }
     }
 
     // --- "Open Link" button (bottom-left) ---
@@ -247,7 +239,7 @@ export async function showQRCodeModal(
             const file = new File([blob], 'qr-code.png', { type: 'image/png' });
             navigator.share({ files: [file] }).catch(function (error) {
                 if ((error as DOMException).name !== 'AbortError') {
-                    showErrorToast('Sharing failed: ' + errMsg(error));
+                    showToast('error', 'Sharing failed: ' + errMsg(error));
                 }
             });
         }, 'Failed to generate QR code image for sharing');
