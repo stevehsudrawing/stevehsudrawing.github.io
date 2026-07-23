@@ -60,4 +60,4 @@ pnpm preview    # Preview production build locally
 
 ## 5. Copyright
 
-All original artworks in `images/` (including covers, icons, and stickers) are created by **Steve Hsu (什五)**. See [images/README.md](images/README.md) for the full copyright notice and usage restrictions.
+All original artworks in `public/images/` (including covers, icons, and stickers) are created by **Steve Hsu (什五)**. See [public/images/README.md](public/images/README.md) for the full copyright notice and usage restrictions.
