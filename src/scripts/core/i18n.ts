@@ -4,6 +4,9 @@
  * manages the language selector UI, and persists the user's preference.
  */
 
+import type { Lang } from '../../types/app.js';
+import { StorageKey, AppEvent } from '../../types/app.js';
+
 export interface LanguageItem {
     code: string;
     localizedName?: string;
@@ -11,7 +14,7 @@ export interface LanguageItem {
 
 export let supportedLangs: string[] = [];
 export let languageList: LanguageItem[] = [];
-export let currentLang = 'en';
+export let currentLang: Lang = 'en';
 export let langData: Record<string, string> = {};
 
 /**
@@ -21,7 +24,7 @@ export let langData: Record<string, string> = {};
 export async function initLang(): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
-    const savedLang = urlLang || localStorage.getItem('preferredLang') || 'en';
+    const savedLang = urlLang || localStorage.getItem(StorageKey.Lang) || 'en';
     await loadLang(savedLang);
 }
 
@@ -32,7 +35,7 @@ export async function initLang(): Promise<void> {
  * @param lang - The raw language code (e.g. 'zh-TW', 'en-US').
  * @returns The normalized language code ('en', 'zh-Hans', or 'zh-Hant').
  */
-export function normalizeLang(lang: string): string {
+export function normalizeLang(lang: string): Lang {
     if (!lang || typeof lang !== 'string') return 'en';
     const lower = lang.toLowerCase();
 
@@ -155,7 +158,7 @@ export function updatePageText(): void {
     });
 
     // Notify other modules that page text has been updated
-    document.dispatchEvent(new CustomEvent('pageTextUpdated'));
+    document.dispatchEvent(new CustomEvent(AppEvent.PageTextUpdated));
 }
 
 /**
@@ -190,9 +193,9 @@ export function setActiveLangItem(): void {
  * and sync UI elements (lang attribute, dropdown, select).
  * @param lang - The language code to load (e.g. 'en', 'zh-Hans').
  */
-export async function loadLang(lang: string): Promise<void> {
+export async function loadLang(rawLang: string): Promise<void> {
     // Normalize the language code before loading
-    lang = normalizeLang(lang);
+    const lang: Lang = normalizeLang(rawLang);
 
     try {
         const response = await fetch(`/configs/i18n/${lang}.json`);
@@ -202,7 +205,7 @@ export async function loadLang(lang: string): Promise<void> {
 
         updatePageText();
         // Save preference
-        localStorage.setItem('preferredLang', lang);
+        localStorage.setItem(StorageKey.Lang, lang);
         // Update URL query parameter without reloading
         const url = new URL(window.location.href);
         url.searchParams.set('lang', lang);

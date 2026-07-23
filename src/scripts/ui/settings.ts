@@ -5,6 +5,8 @@
  * with a confirmation modal.
  */
 
+import type { ThemeChoice } from '../../types/app.js';
+import { StorageKey } from '../../types/app.js';
 import { currentLang, loadLang, translate } from '../core/i18n.js';
 import { htmlElement, setThemePreference } from './theme.js';
 import { createTooltip, disposeTooltip } from './tooltips.js';
@@ -52,10 +54,10 @@ export function initSettingEventListeners(): void {
         // Button of confirming reset
         if (target && target.id === 'confirm-reset-btn') {
             try {
-                localStorage.removeItem('preferredLang');
-                localStorage.removeItem('bsTheme');
-                localStorage.removeItem('openExternalLinksInNewTab');
-                localStorage.removeItem('enableAnimations');
+                localStorage.removeItem(StorageKey.Lang);
+                localStorage.removeItem(StorageKey.Theme);
+                localStorage.removeItem(StorageKey.OpenInNewTab);
+                localStorage.removeItem(StorageKey.EnableAnimations);
             } catch (err) {
                 console.warn('Failed to clear some preferences:', err);
             }
@@ -90,7 +92,7 @@ export function initSettingEventListeners(): void {
             e.preventDefault();
             const selectedTheme = themeItem.getAttribute('data-theme');
             if (selectedTheme) {
-                setThemePreference(selectedTheme);
+                setThemePreference(selectedTheme as ThemeChoice);
             }
         }
     });
@@ -101,7 +103,7 @@ export function initSettingEventListeners(): void {
  * @returns True if external links should open in a new tab.
  */
 export function isExternalLinkNewTabEnabled(): boolean {
-    return localStorage.getItem('openExternalLinksInNewTab') !== 'false';
+    return localStorage.getItem(StorageKey.OpenInNewTab) !== 'false';
 }
 
 /**
@@ -109,7 +111,7 @@ export function isExternalLinkNewTabEnabled(): boolean {
  * @param enabled - Whether external links should open in a new tab.
  */
 export function setExternalLinkNewTabPreference(enabled: boolean): void {
-    localStorage.setItem('openExternalLinksInNewTab', enabled ? 'true' : 'false');
+    localStorage.setItem(StorageKey.OpenInNewTab, enabled ? 'true' : 'false');
 }
 
 /**
@@ -153,7 +155,7 @@ export function applyAllExternalLinkTargetBehavior(): void {
  * @returns True if animations should be enabled.
  */
 export function isAnimationEnabled(): boolean {
-    return localStorage.getItem('enableAnimations') !== 'false';
+    return localStorage.getItem(StorageKey.EnableAnimations) !== 'false';
 }
 
 /**
@@ -161,7 +163,7 @@ export function isAnimationEnabled(): boolean {
  * @param enabled - Whether animations should be enabled.
  */
 export function setAnimationPreference(enabled: boolean): void {
-    localStorage.setItem('enableAnimations', enabled ? 'true' : 'false');
+    localStorage.setItem(StorageKey.EnableAnimations, enabled ? 'true' : 'false');
 }
 
 /**

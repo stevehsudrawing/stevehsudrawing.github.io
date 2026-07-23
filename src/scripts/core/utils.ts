@@ -3,6 +3,12 @@
  * Provides shared helpers for some logic used across multiple modules.
  */
 
+import type { HastProperties } from '../../types/hast.js';
+
+// Re-export for backward compatibility — other modules import from utils.ts
+// TODO: migrate consumers to import directly from ../../types/hast.ts
+export type { HastProperties };
+
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
  * @param pathname - e.g. "/", "", "/about.html"
@@ -24,16 +30,6 @@ export function extractPageName(pathname: string): string {
     // normalized is like "/index.html" or "/about.html"
     const filename = normalized.split('/').pop();
     return filename!.replace(/\.html$/, '');
-}
-
-/**
- * Properties object for hast-style element attribute setting.
- * Supports className (string or string[]), camelCase data* keys,
- * and values of false/null/undefined are skipped.
- */
-export interface HastProperties {
-    className?: string | string[];
-    [key: string]: unknown;
 }
 
 /**
@@ -99,24 +95,24 @@ export function errMsg(error: unknown): string {
 /**
  * List of internal page paths that support page transitions.
  */
-export const INTERNAL_PAGES: string[] = [
+export const INTERNAL_PAGES = [
     '/index.html',
     '/about.html',
     '/artworks-and-videos.html',
     '/blogs-and-sponsor.html',
     '/chatting.html',
     '/softwares.html'
-];
+] as const;
 
 /**
  * List of page paths excluded from the page transition system.
  * These pages will always trigger a full browser navigation.
  */
-export const EXCLUDED_PAGES: string[] = [
+export const EXCLUDED_PAGES = [
     '/404.html',
     '/error-javascript-disabled.html',
     '/error-unsupported-browser.html'
-];
+] as const;
 
 /**
  * Determine if a URL is an internal page that should be handled by the transition system.
@@ -130,7 +126,7 @@ export function isInternalPage(url: string): boolean {
         if (target.origin !== window.location.origin) return false;
         // Must be one of our known internal pages
         const path = target.pathname;
-        return INTERNAL_PAGES.includes(path) && !EXCLUDED_PAGES.includes(path);
+        return (INTERNAL_PAGES as readonly string[]).includes(path) && !(EXCLUDED_PAGES as readonly string[]).includes(path);
     } catch {
         return false;
     }

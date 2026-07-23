@@ -283,7 +283,7 @@ export function initPageTransitionLinkClicks(): void {
  */
 export function handlePopState(_e: PopStateEvent): void {
     const currentPath = normalizeInternalPath(window.location.pathname);
-    if (INTERNAL_PAGES.includes(currentPath)) {
+    if ((INTERNAL_PAGES as readonly string[]).includes(currentPath)) {
         navigateTo(window.location.href, false);
     }
     // If the popped state is not an internal page, let the browser handle it normally

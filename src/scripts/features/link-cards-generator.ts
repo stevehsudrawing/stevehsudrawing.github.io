@@ -9,8 +9,9 @@
  * - setElementAttributes (utils.js)
  */
 
+import type { HastProperties, HastNode, CardData, GroupData } from '../../types/hast.js';
 import { scrollToHashTarget } from '../core/accessibility.js';
-import { extractPageName, setElementAttributes, HastProperties } from '../core/utils.js';
+import { extractPageName, setElementAttributes } from '../core/utils.js';
 
 /**
  * Determine which JSON file to load based on the current page or a
@@ -42,12 +43,6 @@ export function toDashCase(text: string): string {
         .replace(/[\s_]+/g, '-')
         .replace(/-{2,}/g, '-')
         .replace(/^-+|-+$/g, '');
-}
-
-interface HastNode {
-    type: string;
-    value?: string;
-    children?: HastNode[];
 }
 
 /**
@@ -128,13 +123,6 @@ export function addQRButtonsToElement(
         const qrButton = createQRButton(href, iconProperties);
         link.after(' ', qrButton);
     });
-}
-
-interface CardData {
-    available?: boolean;
-    icon?: HastNode;
-    title?: HastNode;
-    description?: HastNode;
 }
 
 /**
@@ -249,12 +237,6 @@ export function addTitleAnchors(h4: HTMLHeadingElement, titleId: string, titleTe
     copyAnchor.setAttribute('data-copy-text', copyUrl);
     copyAnchor.innerHTML = '<i class="bi bi-link-45deg"></i>';
     titleContainer.appendChild(copyAnchor);
-}
-
-interface GroupData {
-    title?: HastNode;
-    description?: HastNode;
-    contents?: CardData[];
 }
 
 /**

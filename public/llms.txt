@@ -1,0 +1,20 @@
+# Steve Hsu (什五)'s Link-Hub
+
+> Personal multi-language link-hub consolidating profiles across creative,
+> social, and development platforms. Built with TypeScript + Vite, deployed on GitHub Pages.
+> Supports English, Simplified Chinese (zh-Hans), and Traditional Chinese (zh-Hant).
+
+## Core Pages
+
+- [Home](https://stevehsudrawing.github.io/): Landing page with featured links and site overview.
+- [About](https://stevehsudrawing.github.io/about.html): Biography, skills, tools, and contact info.
+- [Artworks & Videos](https://stevehsudrawing.github.io/artworks-and-videos.html): Portfolio — illustrations, animations, and video works across platforms.
+- [Blogs & Sponsor](https://stevehsudrawing.github.io/blogs-and-sponsor.html): Writing platforms, donation links, and sponsorship.
+- [Chatting](https://stevehsudrawing.github.io/chatting.html): Social media and instant messaging profiles.
+- [Softwares](https://stevehsudrawing.github.io/softwares.html): Software projects, development tools, and code-hosting profiles.
+
+## Project
+
+- [Source Code](https://github.com/stevehsudrawing/stevehsudrawing.github.io): GitHub repository.
+- [Image Copyright](https://stevehsudrawing.github.io/images/README.md): Artwork copyright notice and usage restrictions.
+- [Sitemap](https://stevehsudrawing.github.io/sitemap.xml): Full site structure for crawlers.

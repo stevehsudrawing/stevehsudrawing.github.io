@@ -4,6 +4,7 @@
  * before navigating away from the site.
  */
 
+import { StorageKey } from '../../types/app.js';
 import { applyColoredImage, markImageLoaded } from '../core/img-utils.js';
 import { showQRCodeModal } from './qr-code.js';
 import { applyAllExternalLinkTargetBehavior, isExternalLinkNewTabEnabled, setExternalLinkNewTabPreference } from '../ui/settings.js';

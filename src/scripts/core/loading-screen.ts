@@ -2,7 +2,7 @@
  * Loading Screen System
  * Shows a full-screen loading overlay on initial page load,
  * fades out once DOMContentLoaded has completed.
- * Does NOT appear during SPA page transitions (page-transition.js).
+ * Does NOT appear during SPA page transitions (page-transition.ts).
  */
 
 /**

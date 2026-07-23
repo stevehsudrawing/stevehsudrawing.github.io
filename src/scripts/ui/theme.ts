@@ -5,13 +5,15 @@
  * theme-aware image swapping, and UI toggle synchronization.
  */
 
+import type { ThemeChoice, EffectiveTheme } from '../../types/app.js';
+import { StorageKey } from '../../types/app.js';
 import { translate } from '../core/i18n.js';
 import { initImageLoadingOpacity, markImageUnloaded } from '../core/img-utils.js';
 
 export const htmlElement: HTMLElement = document.documentElement;
 
-export let currentThemePreference = 'auto';
-export const supportedThemes: string[] = ['auto', 'light', 'dark'];
+export let currentThemePreference: ThemeChoice = 'auto';
+export const supportedThemes = ['auto', 'light', 'dark'] as const;
 
 /** Monotonic counter to cancel superseded transition callbacks. */
 export let themeTransitionId = 0;
@@ -21,9 +23,9 @@ export let themeTransitionId = 0;
  */
 export function initThemePreference(): void {
     // Get preference if it exists
-    const savedTheme = localStorage.getItem('bsTheme');
-    if (savedTheme && supportedThemes.includes(savedTheme)) {
-        currentThemePreference = savedTheme;
+    const savedTheme = localStorage.getItem(StorageKey.Theme);
+    if (savedTheme && (supportedThemes as readonly string[]).includes(savedTheme)) {
+        currentThemePreference = savedTheme as ThemeChoice;
     }
 }
 
@@ -33,7 +35,7 @@ export const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark
  * Query the OS-level color scheme preference.
  * @returns The current system theme.
  */
-export function getSystemTheme(): 'light' | 'dark' {
+export function getSystemTheme(): EffectiveTheme {
     return prefersColorScheme.matches ? 'dark' : 'light';
 }
 
@@ -43,9 +45,9 @@ export function getSystemTheme(): 'light' | 'dark' {
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  * @returns The effective theme.
  */
-export function getEffectiveTheme(themeChoice: string): 'light' | 'dark' {
+export function getEffectiveTheme(themeChoice: ThemeChoice): EffectiveTheme {
     if (themeChoice === 'auto') return getSystemTheme();
-    return themeChoice as 'light' | 'dark';
+    return themeChoice as EffectiveTheme;
 }
 
 /**
@@ -88,11 +90,11 @@ export function applyThemeChange(theme: string): void {
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  * @param save - Whether to persist the choice to localStorage.
  */
-export function applyThemePreference(themeChoice: string, save = true): void {
-    const theme = supportedThemes.includes(themeChoice) ? themeChoice : 'auto';
+export function applyThemePreference(themeChoice: ThemeChoice, save = true): void {
+    const theme: ThemeChoice = (supportedThemes as readonly string[]).includes(themeChoice) ? themeChoice : 'auto';
 
     if (save) {
-        localStorage.setItem('bsTheme', theme);
+        localStorage.setItem(StorageKey.Theme, theme);
     }
 
     const overlay = document.querySelector('.theme-transition-overlay');
@@ -240,18 +242,18 @@ export function initSystemThemeListener(): void {
 /**
  * Theme metadata: i18n keys and English labels.
  */
-export const THEME_META: Record<string, { i18n: string; label: string }> = {
-    'light': { i18n: 'text-light', label: 'Light' },
-    'dark':  { i18n: 'text-dark',  label: 'Dark' },
-    'auto':  { i18n: 'text-auto',  label: 'Auto' }
-};
+export const THEME_META = {
+    'light': { i18n: 'text-light' as const, label: 'Light' },
+    'dark':  { i18n: 'text-dark' as const,  label: 'Dark' },
+    'auto':  { i18n: 'text-auto' as const,  label: 'Auto' },
+} as const satisfies Record<ThemeChoice, { i18n: string; label: string }>;
 
 /**
  * Map a theme value to its i18n key for display in the theme toggle.
  * @param theme - One of 'auto', 'light', or 'dark'.
  * @returns The i18n key (e.g. 'text-auto').
  */
-export function getThemeI18nKey(theme: string): string {
+export function getThemeI18nKey(theme: ThemeChoice): string {
     return (THEME_META[theme] || THEME_META['auto']).i18n;
 }
 
@@ -260,7 +262,7 @@ export function getThemeI18nKey(theme: string): string {
  * @param theme - One of 'auto', 'light', or 'dark'.
  * @returns The label (e.g. 'Auto').
  */
-export function getThemeLabel(theme: string): string {
+export function getThemeLabel(theme: ThemeChoice): string {
     return (THEME_META[theme] || THEME_META['auto']).label;
 }
 
@@ -303,10 +305,10 @@ export function setActiveThemeItem(): void {
  * dropdown close animation, so no special deferral is needed.
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  */
-export function setThemePreference(themeChoice: string): void {
+export function setThemePreference(themeChoice: ThemeChoice): void {
     // Persist and update UI immediately for responsiveness.
     currentThemePreference = themeChoice;
-    localStorage.setItem('bsTheme', themeChoice);
+    localStorage.setItem(StorageKey.Theme, themeChoice);
     updateThemeToggleText();
     setActiveThemeItem();
     applyThemePreference(themeChoice, false);

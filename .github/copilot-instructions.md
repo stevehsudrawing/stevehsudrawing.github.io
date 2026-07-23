@@ -69,7 +69,7 @@ The following browser features are required by this project. Their minimum brows
 
 | Feature                                                                                    | Used By                                   | Chrome | Edge   | Firefox | Opera  | Safari |
 |--------------------------------------------------------------------------------------------|-------------------------------------------|--------|--------|---------|--------|--------|
-| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any JS Scripts in `src/scripts/functions` | **80** | **80** | **74**  | **67** | 13.1   |
+| [Optional chaining (`?.`)](https://caniuse.com/mdn-javascript_operators_optional_chaining) | Any TS Scripts in `src/scripts/functions` | **80** | **80** | **74**  | **67** | 13.1   |
 | [WebP](https://caniuse.com/webp)                                                           | Image assets                              | 32     | 18     | 65      | 19     | **14** |
 | [WOFF 2](https://caniuse.com/woff2)                                                        | Bootstrap Icons                           | 36     | 14     | 39      | 23     | 10     |
 | [Variable fonts](https://caniuse.com/variable-fonts)                                       | Inter                                     | 66     | 17     | 62      | 53     | 11     |

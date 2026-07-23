@@ -1,3 +1,4 @@
+import { AppEvent } from '../types/app.js';
 import { initPageContent } from './features/init-page-content.js';
 import { initTooltipI18nListener } from './ui/tooltips.js';
 import { initThemeTransitionOverlay, updateThemeToggleText, setActiveThemeItem } from './ui/theme.js';
@@ -48,14 +49,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         await initPageContent();
 
         hideLoadingScreen();
-        document.dispatchEvent(new CustomEvent('pageInitialized'));
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
     } catch (error) {
         console.error('Failed to initialize: ' + error);
         hideLoadingScreen();
-        document.dispatchEvent(new CustomEvent('pageInitialized'));
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
     }
 });
 
-document.addEventListener('pageInitialized', initNavbarScrollBorder);
-document.addEventListener('pageInitialized', initMobileNavbarBrandScroll);
-document.addEventListener('pageInitialized', initAllScrollHints);
+document.addEventListener(AppEvent.PageInitialized, initNavbarScrollBorder);
+document.addEventListener(AppEvent.PageInitialized, initMobileNavbarBrandScroll);
+document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);

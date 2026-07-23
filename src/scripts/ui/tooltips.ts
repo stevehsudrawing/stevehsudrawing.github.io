@@ -4,6 +4,7 @@
  * with click-to-copy clipboard behavior.
  */
 
+import { AppEvent } from '../../types/app.js';
 import { translate } from '../core/i18n.js';
 import { showErrorToast } from '../core/utils.js';
 
@@ -148,5 +149,5 @@ export function updateAllTooltipTitles(): void {
  * Call once during page initialization.
  */
 export function initTooltipI18nListener(): void {
-    document.addEventListener('pageTextUpdated', updateAllTooltipTitles);
+    document.addEventListener(AppEvent.PageTextUpdated, updateAllTooltipTitles);
 }

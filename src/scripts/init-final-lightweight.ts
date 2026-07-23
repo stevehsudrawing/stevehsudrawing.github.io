@@ -1,4 +1,5 @@
 
+import { AppEvent } from '../types/app.js';
 import { addAllExternalLinkIndicators } from './core/accessibility.js';
 import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
 import { loadAllComponents } from './core/component-loader.js';
@@ -55,11 +56,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         hideLoadingScreen();
 
         // Signal that page initialization is complete
-        document.dispatchEvent(new CustomEvent('pageInitialized'));
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
     } catch (error) {
         console.error('Failed to initialize: ' + error);
         // Still hide loading screen and signal completion even on error
         hideLoadingScreen();
-        document.dispatchEvent(new CustomEvent('pageInitialized'));
+        document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
     }
 });
