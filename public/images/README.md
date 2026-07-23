@@ -1,7 +1,7 @@
 # Copyright Notice - Original Artworks
 
 **Author:** Steve Hsu (什五) \
-**Last updated:** 2026-07-20
+**Last updated:** 2026-07-23
 
 ---
 
@@ -21,6 +21,7 @@ All files listed in this section are **original artworks** created by me, Steve 
 | `*/icons/steve-hsu.*`                         | My personal signature                                                  |
 | `*/icons/sticker-collection-series-*-vol-*.*` | Icons for individual sticker collection volumes                        |
 | `*/icons/sticker-collections.*`               | Icon for sticker collections                                           |
+| `*/splash/*`                                  | Splash screen images for Apple Safari PWA                              |
 | `*/stickers/*`                                | All sticker artwork files in the stickers directory                    |
 
 These works are provided **for display purposes only** on this website. The following actions are **strictly prohibited** without my prior written permission:

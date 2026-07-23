@@ -28,7 +28,7 @@ No CDN `<link>` or `<script>` tags are used.
 | qrcode            | `qrcode`            | QR Code Utility    | [`soldair/node-qrcode`](https://github.com/soldair/node-qrcode)                     | 1.5.4   |
 | html-to-image     | `html-to-image`     | HTML -> Image      | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                   | 1.11.13 |
 | html2canvas       | `html2canvas`       | HTML -> Canvas     | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                   | 1.4.1   |
-| hast-util-to-html | `hast-util-to-html` | hast -> HTML       | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | 9.0.5   |
+| hast-util-to-html | `hast-util-to-html` | HAST -> HTML       | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html) | 9.0.5   |
 | TypeScript (dev)  | `typescript`        | Type Checking      | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                   | 7.0.2   |
 | Vite (dev only)   | `vite`              | Build Tool         | [`vitejs/vite`](https://github.com/vitejs/vite)                                     | 8.1.5   |
 
@@ -275,7 +275,7 @@ types/    →  shared across all layers (app.ts, hast.ts, globals.d.ts, css.d.ts
     - New modules depending on `core/` + `ui/` (or orchestrating both) → `features/`.
 - Put shared TS types/enums in `src/types/`. These are importable by all layers.
     - `app.ts` — Application-wide string literal types (`Lang`, `ThemeChoice`), enums (`StorageKey`, `AppEvent`).
-    - `hast.ts` — hast/node types used by link-cards and utils (`HastNode`, `HastProperties`, `CardData`, `GroupData`).
+    - `hast.ts` — HAST/node types used by link-cards and utils (`HastNode`, `HastProperties`, `CardData`, `GroupData`).
     - `globals.d.ts` — Window interface extensions (`window.bootstrap`, `window.toHtml`, etc.).
     - `css.d.ts` — Module declaration for `*.css` imports.
 - Put CSS in `src/stylesheets/` — either in a relevant existing file or a new file.
@@ -539,7 +539,7 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 ### 4.5 Link Cards
 
-**Brief**: Renders link-card groups from JSON configuration files in a hybrid hast format. Content subtrees are rendered via `hast-util-to-html`; card scaffolding is built with `document.createElement`. QR buttons and title anchors are added via post-processing.
+**Brief**: Renders link-card groups from JSON configuration files in a hybrid HAST format. Content subtrees are rendered via `hast-util-to-html`; card scaffolding is built with `document.createElement`. QR buttons and title anchors are added via post-processing.
 
 **Related Files**:
 
@@ -550,9 +550,9 @@ See [§2.2.1](#221-project-specific) for the overall `--shlh-*` prefix definitio
 
 #### 4.5.1 JSON Structural Standards
 
-The link-card JSON files use a **hybrid hast format**: the top-level structure defines semantic groupings (Link Card Groups, Link Cards), while content values inside them use [hast](https://github.com/syntax-tree/hast) (Hypertext Abstract Syntax Tree) nodes. Content subtrees are rendered via `hast-util-to-html` (`window.toHtml`), while the card scaffolding (Bootstrap grid, card wrappers) is built with `document.createElement`.
+The link-card JSON files use a **hybrid HAST format**: the top-level structure defines semantic groupings (Link Card Groups, Link Cards), while content values inside them use [HAST](https://github.com/syntax-tree/hast) (Hypertext Abstract Syntax Tree) nodes. Content subtrees are rendered via `hast-util-to-html` (`window.toHtml`), while the card scaffolding (Bootstrap grid, card wrappers) is built with `document.createElement`.
 
-##### 4.5.1.1 hast Node Types Used
+##### 4.5.1.1 HAST Node Types Used
 
 | Node type | JSON shape                                                                        | Rendered as                       |
 |-----------|-----------------------------------------------------------------------------------|-----------------------------------|
@@ -561,12 +561,12 @@ The link-card JSON files use a **hybrid hast format**: the top-level structure d
 | `text`    | `{ "type": "text", "value": "..." }`                                              | Text node                         |
 | `comment` | `{ "type": "comment", "value": "..." }`                                           | HTML comment                      |
 
-##### 4.5.1.2 Property Naming (hast Convention)
+##### 4.5.1.2 Property Naming (HAST Convention)
 
-hast uses `className` (array) instead of `class` (string), and `data*` attributes are camelCase (e.g. `dataI18n` → `data-i18n`). `hast-util-to-html` and `setElementAttributes` (utils.ts) both handle the kebab-case conversion automatically.
+HAST uses `className` (array) instead of `class` (string), and `data*` attributes are camelCase (e.g. `dataI18n` → `data-i18n`). `hast-util-to-html` and `setElementAttributes` (utils.ts) both handle the kebab-case conversion automatically.
 
 ```json
-// hast properties:
+// HAST properties:
 {
     "className": ["external-link"],
     "href": "https://example.com",
@@ -604,8 +604,8 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 }
 ```
 
-- `title`: A hast node (usually a `<span>` with `dataI18n`) — rendered inside an `<h4>`.
-- `description`: A hast node (`null` if absent) — rendered inside a `<p>`.
+- `title`: A HAST node (usually a `<span>` with `dataI18n`) — rendered inside an `<h4>`.
+- `description`: A HAST node (`null` if absent) — rendered inside a `<p>`.
 - `contents`: Array of Link Cards.
 
 ##### 4.5.1.4 Link Card
@@ -647,13 +647,13 @@ hast uses `className` (array) instead of `class` (string), and `data*` attribute
 ```
 
 - `available`: Boolean. When not `true`, the card gets class `opacity-75`.
-- `icon`: A hast `<img>` element (`null` if absent). Its `properties` are also passed to `showQRCodeModal()` for the centre icon.
-- `title`: A hast node — rendered inside an `<h6>`. When it is a single `<a>`, the `<h6>` gets `d-flex align-items-center justify-content-between` for QR button layout. External links in the title automatically get QR-code buttons.
-- `description`: A hast node (`null` if absent) — rendered inside a `<p>`.
+- `icon`: A HAST `<img>` element (`null` if absent). Its `properties` are also passed to `showQRCodeModal()` for the centre icon.
+- `title`: A HAST node — rendered inside an `<h6>`. When it is a single `<a>`, the `<h6>` gets `d-flex align-items-center justify-content-between` for QR button layout. External links in the title automatically get QR-code buttons.
+- `description`: A HAST node (`null` if absent) — rendered inside a `<p>`.
 
 **Interaction with Other Systems**:
 
-- **i18n ([§4.3](#43-internationalization-i18n))**: hast properties use camelCase `dataI18n` / `dataI18nHtml` / `dataI18nAlt`. `toHtml()` converts them to kebab-case HTML attributes. `updatePageText()` is called after card generation.
+- **i18n ([§4.3](#43-internationalization-i18n))**: HAST properties use camelCase `dataI18n` / `dataI18nHtml` / `dataI18nAlt`. `toHtml()` converts them to kebab-case HTML attributes. `updatePageText()` is called after card generation.
 - **QR Code ([§4.10](#410-qr-code--export))**: External links (`<a>` with `href`) inside card titles automatically get adjacent QR-code buttons via post-processing (`addQRButtonsToElement`). The card's icon properties are passed to `showQRCodeModal()`.
 - **Image Utilities ([§4.13](#413-image-utilities))**: Card icons use `dataImgFeature` (`"colored"` or `"follow-theme"`) — see [§4.13.1](#4131-data-img-feature-attribute). `setElementAttributes` converts camelCase to kebab-case.
 - **Utilities ([§4.15](#415-utilities))**: Uses `extractPageName()` to resolve the JSON config path and `toDashCase()` / `extractPlainText()` for group title IDs.
@@ -1241,7 +1241,7 @@ navigateToExternalUrl():
 
 #### 4.17.1 `data-link-img-props` Attribute
 
-External links (`a.external-link`) may carry a `data-link-img-props` attribute containing a JSON-serialized hast-format icon properties object. When present, the confirmation modal displays the icon next to the URL.
+External links (`a.external-link`) may carry a `data-link-img-props` attribute containing a JSON-serialized HAST-format icon properties object. When present, the confirmation modal displays the icon next to the URL.
 
 ```html
 <a href="https://pixiv.net/..."
@@ -1251,7 +1251,7 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 </a>
 ```
 
-- The value is a JSON string using hast property conventions (`className`, `dataImgFeature`, `dataSrcMask`, `dataColorVar`, `dataI18nAlt` — see [§4.5.1.2](#4512-property-naming-hast-convention)).
+- The value is a JSON string using HAST property conventions (`className`, `dataImgFeature`, `dataSrcMask`, `dataColorVar`, `dataI18nAlt` — see [§4.5.1.2](#4512-property-naming-hast-convention)).
 - Link cards automatically inject this attribute on title and description links (using the card's icon properties) during `buildCardItem`.
 - Static HTML links can carry it manually; use single quotes for the attribute value to avoid escaping double-quote JSON.
 - `handleExternalLinkClick` reads the attribute via `JSON.parse` and passes the result as the second argument to `showExternalLinkConfirmation`.
@@ -1259,7 +1259,7 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 **Key Functions**:
 
 - `shouldConfirmExternalLink(link)` - Determines whether a clicked link should trigger the confirmation modal.
-- `showExternalLinkConfirmation(url, imgProperties)` - Populates and displays the confirmation modal. `imgProperties` is an optional hast-format icon properties object.
+- `showExternalLinkConfirmation(url, imgProperties)` - Populates and displays the confirmation modal. `imgProperties` is an optional HAST-format icon properties object.
 - `navigateToExternalUrl(url)` - Performs the actual navigation based on the toggle state.
 - `handleExternalLinkClick(e)` - Delegated click handler that intercepts `.external-link` clicks. Reads `data-link-img-props` and passes it to `showExternalLinkConfirmation`.
 - `handleExternalLinkConfirm()` - Handles the [Open] button click.
@@ -1272,7 +1272,7 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 | Mechanism      | Key                         | Purpose                                                                                      |
 |----------------|-----------------------------|----------------------------------------------------------------------------------------------|
 | `localStorage` | `openExternalLinksInNewTab` | Shared preference with settings modal ([§4.8](#48-settings--preferences)) for new-tab toggle |
-| DOM attribute  | `data-link-img-props`       | JSON-serialized hast icon properties for the confirmation modal icon                         |
+| DOM attribute  | `data-link-img-props`       | JSON-serialized HAST icon properties for the confirmation modal icon                         |
 
 **Interaction with Other Systems**:
 
