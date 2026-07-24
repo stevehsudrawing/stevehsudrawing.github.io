@@ -79,7 +79,7 @@ import {
 
 initThemePreference();
 initSystemThemeListener();
-applyThemePreference(currentThemePreference, false);
+applyThemePreference(currentThemePreference, false, false);
 
 // =========================================================================
 // Full initialization (lightweight — no Page Transition System)

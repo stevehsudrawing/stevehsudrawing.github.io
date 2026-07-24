@@ -87,7 +87,7 @@ import {
 
 initThemePreference();
 initSystemThemeListener();
-applyThemePreference(currentThemePreference, false);
+applyThemePreference(currentThemePreference, false, false);
 
 // =========================================================================
 // Full initialization (replaces init-final.js)

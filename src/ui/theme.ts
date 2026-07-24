@@ -89,8 +89,9 @@ export function applyThemeChange(theme: string): void {
  * Skips the overlay for users who prefer reduced motion.
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  * @param save - Whether to persist the choice to localStorage.
+ * @param useOverlay - When false, skip the transition overlay (used during initial page load).
  */
-export function applyThemePreference(themeChoice: ThemeChoice, save = true): void {
+export function applyThemePreference(themeChoice: ThemeChoice, save = true, useOverlay = true): void {
     const theme: ThemeChoice = (supportedThemes as readonly string[]).includes(themeChoice) ? themeChoice : 'auto';
 
     if (save) {
@@ -102,8 +103,10 @@ export function applyThemePreference(themeChoice: ThemeChoice, save = true): voi
     // Skip the overlay (instant switch) when:
     // - User prefers reduced motion, or
     // - The effective theme does not actually change, or
-    // - The overlay is not yet in the DOM (initial load from <head>).
+    // - The overlay is not yet in the DOM (initial load from <head>), or
+    // - useOverlay is explicitly false (e.g. initial page load).
     const skipOverlay =
+        !useOverlay ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
         htmlElement.getAttribute('data-bs-theme') === getEffectiveTheme(theme) ||
         !overlay;
