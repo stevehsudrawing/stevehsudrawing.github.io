@@ -2,8 +2,10 @@
  * Per-page metadata for <head> tag injection.
  * Only the fields that differ between pages are defined here.
  * Common tags (icons, PWA, theme-color, etc.) are generated automatically
- * by the Vite plugin in vite.config.js.
+ * by the head-tags-plugin.
  */
+
+import type { PageMetaMap } from '../types.js';
 
 export const SITE_NAME = "Steve Hsu (什五)'s Link-Hub";
 export const SITE_AUTHOR = 'Steve Hsu (什五)';
@@ -11,20 +13,7 @@ export const BASE_URL = 'https://stevehsudrawing.github.io';
 export const OG_IMAGE = `${BASE_URL}/images/png/banner.png`;
 export const TWITTER_CREATOR = '@stevehsudrawing';
 
-/** @typedef {'full' | 'lightweight' | 'none'} PageTier */
-
-/**
- * @type {Record<string, {
- *   title: string,
- *   description: string,
- *   pagePath: string,
- *   robots: string,
- *   jsonLDType: 'homepage' | 'breadcrumb',
- *   jsonLDPageName?: string,
- *   tier: PageTier,
- * }>}
- */
-export const PAGE_META = {
+export const PAGE_META: PageMetaMap = {
     index: {
         title: SITE_NAME,
         description: "A curated collection of links to Steve Hsu (什五)'s artworks, software projects, social media, and more. Find all of Steve Hsu (什五)'s online presence in one place.",
@@ -87,13 +76,3 @@ export const PAGE_META = {
         tier: 'lightweight',
     },
 };
-
-/**
- * Extract page name from the HTML file path.
- * @param {string} filename - Vite's ctx.filename (absolute path).
- * @returns {string} e.g. "index", "about"
- */
-export function getPageName(filename) {
-    const name = filename.replace(/\\/g, '/').split('/').pop().replace('.html', '');
-    return PAGE_META[name] ? name : 'index';
-}

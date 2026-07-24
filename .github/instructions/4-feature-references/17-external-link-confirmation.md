@@ -85,6 +85,6 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 - **Link Cards ([§4.5](5-link-cards.md#45-link-cards))**: `buildCardItem` injects `data-link-img-props` on all title and description links within a card, using the card's icon properties.
 - **Image Utilities ([§4.13](13-image-utilities.md#413-image-utilities))**: Coloured icons in the confirmation modal are processed via `applyColoredImage`.
 - **Utilities ([§4.15](15-utilities.md#415-utilities))**: `isInternalPage()` (in `utils.ts`) is used to avoid showing the confirmation for links that point to internal pages.
-- **Component Loading ([§4.2](2-component-loading.md#42-component-loading))**: The modal HTML is part of `modals.html`, loaded by the component loader during initial page load.
+- **Build-time Injection ([§4.2](2-build-time-injection.md#42-build-time-injection))**: The modal HTML is part of `modals.html`, pre-injected into pages at build time by the content-injection-plugin.
 
 

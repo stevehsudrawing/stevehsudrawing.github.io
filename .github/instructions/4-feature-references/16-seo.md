@@ -77,7 +77,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 #### 4.16.5 Noscript SEO Fallback
 
 - Each full-functionality page includes a `<noscript>` block at the top of `<body>`.
-- Contains the page title (`<h2 class="pseudo-h1">`) and a descriptive paragraph (`<p>`). The `<h2>` avoids conflicting with the page's sole `<h1>` (see [§4.16.6](16-seo.md#4166-heading-hierarchy)).
+- Contains the page title (`<h2 class="h1">`) and a descriptive paragraph (`<p>`). The `<h2>` avoids conflicting with the page's sole `<h1>` (see [§4.16.6](#4166-heading-hierarchy)).
 - The homepage noscript additionally includes a `<ul>` of key platform links.
 - This is purely for search engine crawlers; users without JS are redirected by the `<head>` noscript before seeing this content.
 
@@ -85,8 +85,8 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 - **Every page must have exactly one `<h1>`**. This is the primary SEO heading signal. Multiple `<h1>`s dilute ranking and are flagged as critical issues by SEO tools.
 - The `<h1>` must be **pure text** — no `<a>` links, no inline markup beyond semantic phrasing elements. Links dilute the heading keyword signal.
-- **Sub-section headings** (e.g. \"My Softwares\", \"Blogs & Sponsor\") use `<h2 class="pseudo-h1">`. The `.pseudo-h1` class (defined in `src/stylesheets/base.css`) applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
-- **`<noscript>` fallback headings** use `<h2 class="pseudo-h1">` to avoid creating a second `<h1>` that search engines would count against the page.
+- **Sub-section headings** (e.g. "My Softwares", "Blogs & Sponsor") use `<h2 class="h1">`. The `.h1` class applies the same font size as `<h1>` while preserving correct heading hierarchy for SEO and accessibility.
+- **`<noscript>` fallback headings** use `<h2 class="h1">` to avoid creating a second `<h1>` that search engines would count against the page.
 
 #### 4.16.7 Homepage H1 Rich Text
 

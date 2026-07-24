@@ -1,26 +1,27 @@
-import { defineConfig } from 'vite';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
-import { join, extname } from 'path';
-import { minify } from 'html-minifier-terser';
+/**
+ * Vite plugin: inject <head> tags.
+ *
+ * Content injection (page components, link cards) is handled by the
+ * separate content-injection-plugin.ts.
+ */
+
 import {
     BASE_URL,
     OG_IMAGE,
     SITE_AUTHOR,
     SITE_NAME,
     TWITTER_CREATOR,
-    getPageName,
     PAGE_META,
-} from './src/configs/page-meta.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+} from './configs/page-meta.js';
+import { getPageName } from './utils.js';
+import type { IndexHtmlTransformContext, IndexHtmlTransformResult, HtmlTagDescriptor } from 'vite';
+import type { PageMetaEntry } from './types.js';
 
 // =========================================================================
 // Shared tags that are identical across ALL pages
 // =========================================================================
 
-function commonTags() {
+function commonTags(): HtmlTagDescriptor[] {
     return [
         // Apple PWA
         { tag: 'meta', attrs: { name: 'mobile-web-app-capable', content: 'yes' } },
@@ -50,11 +51,11 @@ function commonTags() {
 // Tags for full-feature pages only
 // =========================================================================
 
-// Apple PWA splash screen definitions.
-// Each entry maps pixel dimensions → CSS point dimensions + pixel ratio.
-// Data source: Apple Human Interface Guidelines — Device Screen Sizes.
-const SPLASH_SCREENS = [
-    // --- iPads (@2x) ---
+interface SplashScreen {
+    w: number; h: number; pw: number; ph: number; r: number;
+}
+
+const SPLASH_SCREENS: SplashScreen[] = [
     { w: 2064, h: 2752, pw: 1032, ph: 1376, r: 2 },
     { w: 2048, h: 2732, pw: 1024, ph: 1366, r: 2 },
     { w: 1668, h: 2420, pw: 834,  ph: 1210, r: 2 },
@@ -64,7 +65,6 @@ const SPLASH_SCREENS = [
     { w: 1620, h: 2160, pw: 810,  ph: 1080, r: 2 },
     { w: 1536, h: 2048, pw: 768,  ph: 1024, r: 2 },
     { w: 1488, h: 2266, pw: 744,  ph: 1133, r: 2 },
-    // --- iPhones (@3x) ---
     { w: 1320, h: 2868, pw: 440, ph: 956, r: 3 },
     { w: 1290, h: 2796, pw: 430, ph: 932, r: 3 },
     { w: 1284, h: 2778, pw: 428, ph: 926, r: 3 },
@@ -75,14 +75,13 @@ const SPLASH_SCREENS = [
     { w: 1170, h: 2532, pw: 390, ph: 844, r: 3 },
     { w: 1125, h: 2436, pw: 375, ph: 812, r: 3 },
     { w: 1080, h: 2340, pw: 360, ph: 780, r: 3 },
-    // --- iPhones (mixed ratios) ---
-    { w: 1080, h: 1920, pw: 414, ph: 736, r: 3 },  // Plus models (downsampled)
-    { w: 828,  h: 1792, pw: 414, ph: 896, r: 2 },  // iPhone 11 / XR
-    { w: 750,  h: 1334, pw: 375, ph: 667, r: 2 },  // iPhone 6/7/8 / SE
-    { w: 640,  h: 1136, pw: 320, ph: 568, r: 2 },  // iPhone SE (1st) / iPod touch
+    { w: 1080, h: 1920, pw: 414, ph: 736, r: 3 },
+    { w: 828,  h: 1792, pw: 414, ph: 896, r: 2 },
+    { w: 750,  h: 1334, pw: 375, ph: 667, r: 2 },
+    { w: 640,  h: 1136, pw: 320, ph: 568, r: 2 },
 ];
 
-function splashTags() {
+function splashTags(): HtmlTagDescriptor[] {
     return SPLASH_SCREENS.map(({ w, h, pw, ph, r }) => ({
         tag: 'link',
         attrs: {
@@ -93,13 +92,11 @@ function splashTags() {
     }));
 }
 
-function fullPageTags() {
+function fullPageTags(): HtmlTagDescriptor[] {
     return [
         ...splashTags(),
         { tag: 'link', attrs: { rel: 'manifest', href: '/manifest.json' } },
         { tag: 'link', attrs: { rel: 'sitemap', type: 'application/xml', title: 'Sitemap', href: '/sitemap.xml' } },
-
-        // Browser UI theme-color
         { tag: 'meta', attrs: { name: 'theme-color', content: '#212529', media: '(prefers-color-scheme: dark)' } },
         { tag: 'meta', attrs: { name: 'theme-color', content: '#ffffff', media: '(prefers-color-scheme: light)' } },
     ];
@@ -109,7 +106,7 @@ function fullPageTags() {
 // Per-page tags
 // =========================================================================
 
-function ogTags(meta) {
+function ogTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [
         { tag: 'meta', attrs: { property: 'og:type', content: 'website' } },
         { tag: 'meta', attrs: { property: 'og:url', content: `${BASE_URL}${meta.pagePath}` } },
@@ -125,7 +122,7 @@ function ogTags(meta) {
     ];
 }
 
-function twitterTags(meta) {
+function twitterTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [
         { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
         { tag: 'meta', attrs: { name: 'twitter:title', content: meta.title } },
@@ -135,7 +132,7 @@ function twitterTags(meta) {
     ];
 }
 
-function hreflangTags(meta) {
+function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     const url = `${BASE_URL}${meta.pagePath}`;
     return [
         { tag: 'link', attrs: { rel: 'alternate', hreflang: 'en', href: `${url}?lang=en` } },
@@ -145,7 +142,7 @@ function hreflangTags(meta) {
     ];
 }
 
-function seoTags(meta) {
+function seoTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [
         { tag: 'title', children: meta.title },
         { tag: 'meta', attrs: { name: 'description', content: meta.description } },
@@ -154,7 +151,7 @@ function seoTags(meta) {
     ];
 }
 
-function structuredData(meta) {
+function structuredData(meta: PageMetaEntry): HtmlTagDescriptor[] {
     if (meta.jsonLDType === 'homepage') {
         return [
             { tag: 'script', attrs: { type: 'application/ld+json' }, children: homepageJSONLD() },
@@ -169,7 +166,7 @@ function structuredData(meta) {
     return [];
 }
 
-function homepageJSONLD() {
+function homepageJSONLD(): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Person',
@@ -194,7 +191,7 @@ function homepageJSONLD() {
     });
 }
 
-function websiteJSONLD() {
+function websiteJSONLD(): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
@@ -213,7 +210,7 @@ function websiteJSONLD() {
     });
 }
 
-function breadcrumbJSONLD(meta) {
+function breadcrumbJSONLD(meta: PageMetaEntry): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -225,93 +222,15 @@ function breadcrumbJSONLD(meta) {
 }
 
 // =========================================================================
-// Build-time asset minification (closeBundle hook)
+// Plugin export
 // =========================================================================
 
-/** Recursively collect file paths with the given extension(s). */
-function walkDir(dir, extensions) {
-    const results = [];
-    const list = readdirSync(dir);
-    for (const name of list) {
-        const full = join(dir, name);
-        if (statSync(full).isDirectory()) {
-            results.push(...walkDir(full, extensions));
-        } else if (extensions.includes(extname(name))) {
-            results.push(full);
-        }
-    }
-    return results;
-}
-
-/** Minify a single .html file — preserves JSON-LD structured data blocks. */
-async function minifyHTML(filePath) {
-    const original = readFileSync(filePath, 'utf-8');
-    const result = await minify(original, {
-        collapseWhitespace: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        minifyCSS: true,
-        minifyJS: true,
-        ignoreCustomFragments: [
-            /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
-            /<noscript>[\s\S]*?<\/noscript>/,
-        ],
-    });
-    writeFileSync(filePath, result);
-}
-
-/** Minify .json → compact single-line output. */
-function minifyJSON(filePath) {
-    const original = readFileSync(filePath, 'utf-8');
-    const compact = JSON.stringify(JSON.parse(original));
-    writeFileSync(filePath, compact);
-}
-
-/** Minify static .css — strip comments and collapse whitespace. */
-function minifyStaticCSS(filePath) {
-    const original = readFileSync(filePath, 'utf-8');
-    const result = original
-        .replace(/\/\*[\s\S]*?\*\//g, '')       // remove comments
-        .replace(/[ \t]*\n[ \t]*/g, '\n')       // collapse blank lines
-        .replace(/;[ \t]+/g, ';')               // space after semicolons
-        .replace(/[ \t]*\{[ \t]*/g, '{')        // space before {
-        .replace(/\}[ \t]*\n/g, '}\n')          // space after }
-        .trim();
-    writeFileSync(filePath, result);
-}
-
-/** Minify static .js (legacy ES5) — strip comments and collapse whitespace. */
-function minifyStaticJS(filePath) {
-    const original = readFileSync(filePath, 'utf-8');
-    const result = original
-        .replace(/\/\/.*$/gm, '')                // single-line comments
-        .replace(/\/\*[\s\S]*?\*\//g, '')        // block comments
-        .replace(/[ \t]*\n[ \t]*/g, '\n')        // collapse blank lines
-        .replace(/\n{2,}/g, '\n')                // no more than 1 blank line
-        .trim();
-    writeFileSync(filePath, result);
-}
-
-/** Minify .xml — strip whitespace between tags. */
-function minifyXML(filePath) {
-    const original = readFileSync(filePath, 'utf-8');
-    const result = original
-        .replace(/>\s+</g, '><')
-        .replace(/^\s+/, '')
-        .trim();
-    writeFileSync(filePath, result);
-}
-
-// =========================================================================
-// Vite plugin: inject all <head> tags + minify dist output
-// =========================================================================
-
-function injectHeadTags() {
+export function headTagsPlugin() {
     return {
-        name: 'inject-head-tags',
+        name: 'head-tags-plugin',
         transformIndexHtml: {
-            order: 'pre',
-            handler(html, ctx) {
+            order: 'pre' as const,
+            handler(html: string, ctx: IndexHtmlTransformContext): IndexHtmlTransformResult {
                 const pageName = getPageName(ctx.filename);
                 const meta = PAGE_META[pageName];
                 if (!meta) return html;
@@ -335,61 +254,5 @@ function injectHeadTags() {
                 return { html, tags };
             },
         },
-
-        async closeBundle() {
-            const distDir = resolve(__dirname, 'dist');
-
-            // --- HTML ---
-            const htmlFiles = walkDir(distDir, ['.html']);
-            for (const f of htmlFiles) await minifyHTML(f);
-
-            // --- JSON ---
-            const jsonFiles = walkDir(distDir, ['.json']);
-            for (const f of jsonFiles) minifyJSON(f);
-
-            // --- Static CSS (legacy only; Vite bundles are already minified) ---
-            const cssFiles = walkDir(distDir, ['.css']).filter(f => f.includes('legacy'));
-            for (const f of cssFiles) minifyStaticCSS(f);
-
-            // --- Static JS (legacy only) ---
-            const jsFiles = walkDir(distDir, ['.js']).filter(f => f.includes('legacy'));
-            for (const f of jsFiles) minifyStaticJS(f);
-
-            // --- XML ---
-            const xmlFiles = walkDir(distDir, ['.xml']);
-            for (const f of xmlFiles) minifyXML(f);
-        },
     };
 }
-
-// =========================================================================
-// Main config
-// =========================================================================
-
-export default defineConfig({
-    base: '/',
-
-    plugins: [injectHeadTags()],
-
-    server: {
-        port: 5173,
-        open: true,
-    },
-
-    publicDir: 'public',
-
-    build: {
-        outDir: 'dist',
-        rollupOptions: {
-            input: {
-                main: resolve(__dirname, 'index.html'),
-                about: resolve(__dirname, 'about.html'),
-                'artworks-and-videos': resolve(__dirname, 'artworks-and-videos.html'),
-                'blogs-and-sponsor': resolve(__dirname, 'blogs-and-sponsor.html'),
-                chatting: resolve(__dirname, 'chatting.html'),
-                softwares: resolve(__dirname, 'softwares.html'),
-                '404': resolve(__dirname, '404.html'),
-            },
-        },
-    },
-});

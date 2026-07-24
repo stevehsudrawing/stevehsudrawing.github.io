@@ -1,48 +1,58 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+  </head>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    </head>
+  <body>
+    <noscript>
+      <div style="padding: 2rem; font-family: sans-serif">
+        <h2 class="h1">Chatting - Steve Hsu (什五)'s Link-Hub</h2>
+        <p>
+          Join Steve Hsu (什五)'s community on QQ, Discord, and other social
+          platforms. Connect and chat with like-minded people.
+        </p>
+      </div>
+    </noscript>
 
-    <body>
-        <noscript>
-            <div style="padding:2rem;font-family:sans-serif;">
-                <h2 class="pseudo-h1">Chatting - Steve Hsu (什五)'s Link-Hub</h2>
-                <p>Join Steve Hsu (什五)'s community on QQ, Discord, and other social platforms. Connect and chat with like-minded people.</p>
-            </div>
-        </noscript>
+    <div id="loading-screen" class="loading-screen">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
-        <div id="loading-screen" class="loading-screen">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+    <div data-role="page-component" data-component-name="header"></div>
+
+    <div id="page-content">
+      <div class="container py-4 link-hub-part">
+        <div class="d-flex align-items-center flex-wrap">
+          <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
+            <h1 data-i18n="text-chatting">Chatting</h1>
+            <p data-i18n="text-chatting-description">
+              Welcome to join my chat room for interaction!
+            </p>
+          </div>
+          <div
+            class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0"
+          >
+            <img
+              alt="Chatting"
+              data-i18n-alt="text-chatting"
+              src="/images/webp/covers/chatting.webp"
+              class="img-fluid img-fit rounded"
+            />
+          </div>
         </div>
+      </div>
+      <hr />
+      <div class="container" id="links"></div>
+    </div>
 
-        <div data-role="page-component" data-component-name="header"></div>
-
-        <div id="page-content">
-            <div class="container py-4 link-hub-part">
-                <div class="d-flex align-items-center flex-wrap">
-                    <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-                        <h1 data-i18n="text-chatting">Chatting</h1>
-                        <p data-i18n="text-chatting-description">
-                            Welcome to join my chat room for interaction!
-                        </p>
-                    </div>
-                    <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
-                        <img alt="Chatting" data-i18n-alt="text-chatting" src="/images/webp/covers/chatting.webp" class="img-fluid img-fit rounded">
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="container" id="links"></div>
-        </div>
-
-        <div data-role="page-component" data-component-name="footer"></div>
-        <div data-role="page-component" data-component-name="modals"></div>
-
-    </body>
-
+    <div data-role="page-component" data-component-name="footer"></div>
+    <div data-role="page-component" data-component-name="modals"></div>
+  </body>
 </html>

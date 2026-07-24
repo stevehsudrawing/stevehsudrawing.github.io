@@ -1,6 +1,9 @@
 /**
  * Shared hast (Hypertext Abstract Syntax Tree) types.
- * Used by link-cards-generator.ts and utils.ts.
+ * Used by src/core/utils.ts and src/features/qr-code.ts.
+ *
+ * Link-card types (CardData, GroupData) have been moved to build/types.ts
+ * since they are only used at build time.
  */
 
 /**
@@ -25,21 +28,4 @@ export interface HastNode {
 export interface HastProperties {
     className?: string | string[];
     [key: string]: unknown;
-}
-
-/**
- * Link-card related types used by the link-cards generator.
- */
-
-export interface CardData {
-    available?: boolean;
-    icon?: HastNode;
-    title?: HastNode;
-    description?: HastNode;
-}
-
-export interface GroupData {
-    title?: HastNode;
-    description?: HastNode;
-    contents?: CardData[];
 }

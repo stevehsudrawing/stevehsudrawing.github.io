@@ -11,8 +11,7 @@
 import { currentLang, langData, updatePageText, setActiveLangItem } from '../core/i18n.js';
 import { updateNavbarBrandText, setActiveNavItem } from '../ui/navbar.js';
 import { updatePageTitle } from '../ui/page-title.js';
-import { generateLinkCards } from './link-cards-generator.js';
-import { initAllCopyLinkTooltips, initAllTooltips } from '../ui/tooltips.js';
+import { initAllCopyLinkBehavior, initAllTooltips } from '../ui/tooltips.js';
 import { initAllTitleLinkAnchors, addAllExternalLinkIndicators } from '../core/accessibility.js';
 import { applyAllThemeBasedImages } from '../ui/theme.js';
 import { initAllColoredImages, initAllImageLoadingOpacity } from '../core/img-utils.js';
@@ -39,13 +38,7 @@ export async function initPageContent(): Promise<void> {
         }
     }
 
-    await generateLinkCards();
-
-    if (currentLang && Object.keys(langData).length > 0) {
-        updatePageText();
-    }
-
-    initAllCopyLinkTooltips();
+    initAllCopyLinkBehavior();
     initAllTooltips();
     initAllTitleLinkAnchors();
     applyAllThemeBasedImages();

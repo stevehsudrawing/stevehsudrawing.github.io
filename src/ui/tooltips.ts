@@ -127,7 +127,7 @@ export function disposeCopyLinkTooltip(link: HTMLAnchorElement): void {
  * On desktop, also attaches tooltip decoration.
  * Delegates to initCopyLinkClick() + initCopyLinkTooltip().
  */
-export function initAllCopyLinkTooltips(): void {
+export function initAllCopyLinkBehavior(): void {
     try {
         const links = document.querySelectorAll<HTMLAnchorElement>('.copy-link');
         // Copy behavior: all devices

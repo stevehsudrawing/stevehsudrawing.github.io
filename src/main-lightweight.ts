@@ -58,7 +58,6 @@ import './ui/theme.js';
 // --- UI features ---
 import './core/img-utils.js';
 import './ui/tooltips.js';
-import './core/component-loader.js';
 import './core/accessibility.js';
 import './ui/scroll-hint.js';
 import './core/loading-screen.js';
@@ -67,9 +66,6 @@ import './core/svg-utils.js';
 // --- Detection helpers ---
 import './core/bootstrap-css-detection.js';
 import './core/no-copy.js';
-
-// --- Link-cards (only for hash-change scroll support) ---
-import './features/link-cards-generator.js';
 
 // =========================================================================
 // Early initialization
@@ -92,10 +88,9 @@ applyThemePreference(currentThemePreference, false);
 import { AppEvent } from './types/app.js';
 import { addAllExternalLinkIndicators } from './core/accessibility.js';
 import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
-import { loadAllComponents } from './core/component-loader.js';
 import { initLang } from './core/i18n.js';
 import { initAllImageLoadingOpacity } from './core/img-utils.js';
-import { initHashChangeScroll } from './features/link-cards-generator.js';
+import { initHashChangeScroll } from './core/accessibility.js';
 import { hideLoadingScreen } from './core/loading-screen.js';
 import { initNoCopyProtection } from './core/no-copy.js';
 import { updatePageTitle } from './ui/page-title.js';
@@ -107,9 +102,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
         initBootstrapCSSDetection();
 
-        await loadAllComponents();
-
-        // Initialize theme transition overlay (after header is loaded)
+        // Initialize theme transition overlay
         initThemeTransitionOverlay();
 
         // Set up tooltip i18n listener BEFORE initLang()

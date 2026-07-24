@@ -1,8 +1,8 @@
 ### 3.2 General File Rules
 
-#### 3.2.1 `src/`: Define Only, Never Execute
+#### 3.2.1 `src/{core,ui,features}/*`: Define Only, Never Execute
 
-- Files in `src/` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
+- Files in `src/{core,ui,features}/*` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
 - Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', doSomething);  // No!
 - `main-lightweight.ts`: Lightweight entry point for error pages (404). Same CSS and npm imports, but excludes Page Transition, QR code, link-cards generator, and external link confirmation. Loads a reduced set of modules on `DOMContentLoaded`.
 - `public/legacy/env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`. (Kept as plain JS for ES5 compatibility.)
 
-#### 3.2.3 `stylesheets/`: Two Sub-Folders, One Commenting Convention
+#### 3.2.3 `src/stylesheets/` & `public/legacy/*.css`: Commenting Convention
 
 - **`src/stylesheets/`** — CSS modules for all normal pages. Uses modern CSS specifications.
-- **`public/legacy/`** — Broad compatibility CSS for error pages (`base.css`, supports IE 11).
+- **`public/legacy/*.css`** — Broad compatibility CSS for error pages (`base.css`, supports IE 11).
 
 Both sub-folders use the same CSS commenting format:
 

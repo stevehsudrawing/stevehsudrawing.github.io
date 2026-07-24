@@ -57,7 +57,6 @@ import './ui/theme.js';
 // --- UI features ---
 import './core/img-utils.js';
 import './ui/tooltips.js';
-import './core/component-loader.js';
 import './ui/navbar.js';
 import './ui/scroll-hint.js';
 import './core/accessibility.js';
@@ -69,7 +68,6 @@ import './core/svg-utils.js';
 
 // --- Code-dependent features ---
 import './features/qr-code.js';
-import './features/link-cards-generator.js';
 
 // --- Detection helpers ---
 import './core/bootstrap-css-detection.js';
@@ -102,23 +100,20 @@ import { initPageContent } from './features/init-page-content.js';
 import { initTooltipI18nListener } from './ui/tooltips.js';
 import { initThemeTransitionOverlay, updateThemeToggleText, setActiveThemeItem } from './ui/theme.js';
 import { hideLoadingScreen } from './core/loading-screen.js';
-import { loadAllComponents } from './core/component-loader.js';
 import { initBootstrapCSSDetection } from './core/bootstrap-css-detection.js';
 import { initNavbarScrollBorder, initMobileNavbarBrandScroll, initDropdownMenuAnimation } from './ui/navbar.js';
 import { initSettingEventListeners, initSettingsModal } from './ui/settings.js';
 import { initPageTransitionLinkClicks, initPageTransitionPopState } from './features/page-transition.js';
 import { initExternalLinkConfirmation } from './features/external-link-confirmation.js';
-import { initHashChangeScroll } from './features/link-cards-generator.js';
 import { initQRCodeDelegation } from './features/qr-code.js';
 import { loadSupportedLangs, populateLanguageMenus, initLang } from './core/i18n.js';
-import { initSkipButton } from './core/accessibility.js';
+import { initHashChangeScroll, initSkipButton } from './core/accessibility.js';
 import { initAllScrollHints } from './ui/scroll-hint.js';
 import { initNoCopyProtection } from './core/no-copy.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         initBootstrapCSSDetection();
-        await loadAllComponents();
         initThemeTransitionOverlay();
         await loadSupportedLangs();
 

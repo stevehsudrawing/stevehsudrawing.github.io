@@ -1,4 +1,4 @@
-### 4.19 PWA Splash Screens
+### 4.18 PWA Splash Screens
 
 **Brief**: Generates Apple PWA splash screen images for 23 device resolutions from a single square prototype image. The images are injected as `<link rel="apple-touch-startup-image">` tags in `fullPageTags()`.
 

@@ -1,0 +1,101 @@
+### 4.2 Build-time Injection
+
+**Brief**: All dynamic content that was previously fetched or built at runtime (page components, link cards) is now pre-rendered into static HTML at build time by Vite plugins. This improves SEO and eliminates runtime fetch calls.
+
+#### 4.2.1 Head Tag Injection
+
+**Plugin**: `build/head-tags-plugin.ts`
+**Config**: `build/configs/page-meta.ts`
+
+All `<head>` meta/link/script tags are injected by a `transformIndexHtml` plugin (`order: 'pre'`). Only `charset` and `viewport` remain in the source HTML files.
+
+Tag functions:
+- `commonTags()` — Apple PWA, author, favicons, noscript fallback, env-detection
+- `fullPageTags()` — manifest, sitemap, theme-color, splash screens (full-tier pages only)
+- `seoTags(meta)` — `<title>`, description, robots, canonical
+- `hreflangTags(meta)` — hreflang alternates for en/zh-Hans/zh-Hant/x-default
+- `ogTags(meta)` — Open Graph tags
+- `twitterTags(meta)` — Twitter/X Card tags
+- `structuredData(meta)` — JSON-LD (Person+WebSite for homepage, BreadcrumbList for sub-pages)
+
+**Page Tiers**:
+
+| Tier          | Entry Script               | Pages                                                                     |
+|---------------|----------------------------|---------------------------------------------------------------------------|
+| `full`        | `/src/main.ts`             | index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares |
+| `lightweight` | `/src/main-lightweight.ts` | 404 — excludes manifest, sitemap, theme-color, splash screens            |
+
+**Adding a New Page**:
+1. Create `new-page.html` with minimal `<head>` (charset + viewport only).
+2. Add an entry to `PAGE_META` in `build/configs/page-meta.ts`.
+3. Add the HTML file to `rollupOptions.input` in `vite.config.ts`.
+
+#### 4.2.2 Page Component Injection
+
+**Plugin**: `build/content-injection-plugin.ts`
+**Source fragments**: `build/page-components/*.html`
+
+Placeholder `<div>` elements marked with `data-role="page-component"` and `data-component-name` are replaced at build time with the actual component HTML. The runtime `component-loader.ts` has been removed — components are now part of the delivered HTML.
+
+**How It Works**:
+```
+HTML source: <div data-role="page-component" data-component-name="header"></div>
+  ↓ (content-injection-plugin, transformIndexHtml order: 'pre')
+Parses body content with fromHtml() → walks HAST tree → finds dataRole === 'page-component'
+  ↓
+Reads build/page-components/{name}.html → extracts inner <body> content
+  ↓
+Replaces placeholder children with component content, removes dataRole/dataComponentName attrs
+  ↓
+Serializes back to HTML with toHtml()
+```
+
+The `dataRole` and `dataComponentName` attributes are removed after injection — this prevents any residual runtime loader from attempting to re-fetch and overwrite the pre-rendered content.
+
+#### 4.2.3 Link Card Injection
+
+**Plugin**: `build/content-injection-plugin.ts` (calls `build/link-cards-builder.ts`)
+**Config**: `build/configs/links/*.json` (HAST format)
+
+Link cards are pre-rendered from HAST JSON configs and injected into the `#links` container. No runtime DOM construction or JSON fetching is needed.
+
+**How It Works**:
+```
+buildLinkCardsHTML(pageName)
+  ↓ Reads build/configs/links/{pageName}.json
+  ↓ For each group:
+      - Builds group title with hash/copy anchors (h() + toHtml)
+      - Processes description HAST
+      - For each card:
+          * Adds data-link-img-props to all <a> elements
+          * Appends QR buttons to title <a> elements only (not description links)
+          * Ensures img-fluid img-fit classes on icon images
+  ↓ Returns serialized HTML string
+  ↓ content-injection-plugin finds #links container in HAST tree → replaces children
+```
+
+All operations are performed on HAST node trees using `hastscript` (`h()`) and `hast-util-to-html` (`toHtml`). The `fromHtml` function is used for parsing HTML strings into HAST trees for manipulation. No regex-based HTML string replacement is used.
+
+**Related Files**:
+
+| File                                | Role                                                           |
+|-------------------------------------|----------------------------------------------------------------|
+| `build/link-cards-builder.ts`       | HAST-based card/group HTML generator                           |
+| `build/content-injection-plugin.ts` | Vite plugin — calls link-cards-builder, injects into `#links` |
+| `build/configs/links/{page}.json`   | HAST JSON card definitions                                     |
+| `build/types.ts`                    | `CardData`, `GroupData` interfaces                             |
+
+#### 4.2.4 Asset Minification
+
+**Plugin**: `build/minify-plugin.ts`
+**Dependency**: `html-minifier-terser` (dev)
+
+After Vite finishes bundling, the `closeBundle` hook walks `dist/` and minifies all static assets:
+
+| Type           | Method                                                                                                                                                |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `*.html`       | `html-minifier-terser` - collapseWhitespace, removeComments, removeRedundantAttributes; protects JSON-LD and `<noscript>` via `ignoreCustomFragments` |
+| `*.json`       | `JSON.stringify(JSON.parse(...))` - compact single-line                                                                                               |
+| `legacy/*.css` | Regex: strip comments, collapse whitespace (Vite-bundled CSS already minified)                                                                        |
+| `legacy/*.js`  | Regex: strip comments, collapse whitespace (Vite-bundled JS already minified)                                                                         |
+| `*.xml`        | Regex: remove inter-tag whitespace                                                                                                                    |

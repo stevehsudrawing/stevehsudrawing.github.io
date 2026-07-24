@@ -157,3 +157,13 @@ export function addAllExternalLinkIndicators(): void {
         console.error('Failed to add external link indicators:', error);
     }
 }
+
+/**
+ * Listen for hashchange events and scroll to the targeted element.
+ * Used for in-page navigation via title-link-anchors and direct hash links.
+ */
+export function initHashChangeScroll(): void {
+    window.addEventListener('hashchange', () => {
+        scrollToHashTarget(window.location.hash, true);
+    });
+}

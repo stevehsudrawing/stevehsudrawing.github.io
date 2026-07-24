@@ -1,48 +1,62 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+  </head>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    </head>
+  <body>
+    <noscript>
+      <div style="padding: 2rem; font-family: sans-serif">
+        <h2 class="h1">Artworks &amp; Videos - Steve Hsu (什五)'s Link-Hub</h2>
+        <p>
+          Explore Steve Hsu (什五)'s artworks and video creations. Links to
+          Pixiv, DeviantArt, MediBang, and video channels.
+        </p>
+      </div>
+    </noscript>
 
-    <body>
-        <noscript>
-            <div style="padding:2rem;font-family:sans-serif;">
-                <h2 class="pseudo-h1">Artworks &amp; Videos - Steve Hsu (什五)'s Link-Hub</h2>
-                <p>Explore Steve Hsu (什五)'s artworks and video creations. Links to Pixiv, DeviantArt, MediBang, and video channels.</p>
-            </div>
-        </noscript>
+    <div id="loading-screen" class="loading-screen">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
-        <div id="loading-screen" class="loading-screen">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+    <div data-role="page-component" data-component-name="header"></div>
+
+    <div id="page-content">
+      <div class="container py-4 link-hub-part">
+        <div class="d-flex align-items-center flex-wrap">
+          <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
+            <h1 data-i18n="text-artworks-and-videos">Artworks & Videos</h1>
+            <p data-i18n="text-artworks-and-videos-description">
+              Welcome to view my personal artworks and videos through other
+              platforms!
+            </p>
+          </div>
+          <div
+            class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0"
+          >
+            <img
+              alt="Artworks"
+              data-i18n-alt="text-artworks"
+              src="/images/webp/covers/artworks-light.webp"
+              data-img-feature="follow-theme"
+              data-src-light="/images/webp/covers/artworks-light.webp"
+              data-src-dark="/images/webp/covers/artworks-dark.webp"
+              class="img-fluid img-fit rounded no-copy solid-bg"
+            />
+          </div>
         </div>
+      </div>
+      <hr />
+      <div class="container" id="links"></div>
+    </div>
 
-        <div data-role="page-component" data-component-name="header"></div>
-
-        <div id="page-content">
-            <div class="container py-4 link-hub-part">
-                <div class="d-flex align-items-center flex-wrap">
-                    <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-                        <h1 data-i18n="text-artworks-and-videos">Artworks & Videos</h1>
-                        <p data-i18n="text-artworks-and-videos-description">
-                            Welcome to view my personal artworks and videos through other platforms!
-                        </p>
-                    </div>
-                    <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
-                        <img alt="Artworks" data-i18n-alt="text-artworks" src="/images/webp/covers/artworks-light.webp" data-img-feature="follow-theme" data-src-light="/images/webp/covers/artworks-light.webp" data-src-dark="/images/webp/covers/artworks-dark.webp" class="img-fluid img-fit rounded no-copy solid-bg">
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="container" id="links"></div>
-        </div>
-
-        <div data-role="page-component" data-component-name="footer"></div>
-        <div data-role="page-component" data-component-name="modals"></div>
-
-    </body>
-
+    <div data-role="page-component" data-component-name="footer"></div>
+    <div data-role="page-component" data-component-name="modals"></div>
+  </body>
 </html>
