@@ -37,7 +37,7 @@ Font-related CSS custom properties use the `--shlh-*` prefix with the following 
 
 Font stacks are assembled per-element (body, h1, code) and per-lang (`html[lang='zh-Hans']`, etc.) in `src/stylesheets/fonts.css`. See that file for the exact composition of each stack.
 
-See [§2.2.1](../../copilot-instructions.md#221-project-specific) for the overall `--shlh-*` prefix definition.
+See [§2.2.1](../2-general-naming-conventions/2-css-custom-properties.md#221-project-specific) for the overall `--shlh-*` prefix definition.
 
 #### 4.11.2 Font Stack Design
 

@@ -32,7 +32,7 @@ Color-related CSS custom properties use the `--shlh-*` prefix with the following
     - **Brightness**: A number from 100–900 (bright to dark).
     - **Full examples**: `--shlh-primary-500`, `--shlh-primary-500-rgb`.
 
-See [§2.2.1](../../copilot-instructions.md#221-project-specific) for the overall `--shlh-*` prefix definition.
+See [§2.2.1](../2-general-naming-conventions/2-css-custom-properties.md#221-project-specific) for the overall `--shlh-*` prefix definition.
 
 **Data Flow**:
 

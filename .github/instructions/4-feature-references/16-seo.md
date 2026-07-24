@@ -77,7 +77,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 #### 4.16.5 Noscript SEO Fallback
 
 - Each full-functionality page includes a `<noscript>` block at the top of `<body>`.
-- Contains the page title (`<h2 class="pseudo-h1">`) and a descriptive paragraph (`<p>`). The `<h2>` avoids conflicting with the page's sole `<h1>` (see [§4.16.6](#4166-heading-hierarchy)).
+- Contains the page title (`<h2 class="pseudo-h1">`) and a descriptive paragraph (`<p>`). The `<h2>` avoids conflicting with the page's sole `<h1>` (see [§4.16.6](16-seo.md#4166-heading-hierarchy)).
 - The homepage noscript additionally includes a `<ul>` of key platform links.
 - This is purely for search engine crawlers; users without JS are redirected by the `<head>` noscript before seeing this content.
 

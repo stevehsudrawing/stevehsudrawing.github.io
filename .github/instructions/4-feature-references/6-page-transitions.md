@@ -24,6 +24,6 @@
 - **Settings ([§4.8](8-settings-preferences.md#48-settings--preferences))**: After a page transition, `initPageContent()` re-invokes `initSettingsModal()` to re-sync toggle states with the recreated DOM.
 - **i18n ([§4.3](3-internationalization-i18n.md#43-internationalization-i18n))**: After a page transition, `initPageContent()` calls `updatePageText()` and `updatePageTitle()` to apply translations to the new content.
 - **Initialization ([§4.7](7-loading-screen.md#47-loading-screen))**: `navigateTo()` restores page content and completes the progress bar on success; on failure, falls back to a full browser navigation (`window.location.href`).
-- **Lightweight Pages ([§3.2.4](../../copilot-instrutions.md#324-html-page-tiers))**: The `404.html` page references `main-lightweight.ts` (not `main.ts`), which does not load the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.
+- **Lightweight Pages ([§3.2.4](../3-project-structural-constraints/2-general-file-rules.md#324-html-page-tiers))**: The `404.html` page references `main-lightweight.ts` (not `main.ts`), which does not load the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.
 
 
