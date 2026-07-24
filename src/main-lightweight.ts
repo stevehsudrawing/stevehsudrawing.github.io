@@ -96,7 +96,7 @@ import { initNoCopyProtection } from './core/no-copy.js';
 import { updatePageTitle } from './ui/page-title.js';
 import { initSvgInjection } from './core/svg-utils.js';
 import { applyAllThemeBasedImages, initThemeTransitionOverlay, setActiveThemeItem, updateThemeToggleText } from './ui/theme.js';
-import { initAllCopyLinkTooltips, initAllTooltips, initTooltipI18nListener } from './ui/tooltips.js';
+import { initAllTooltips, initTooltipI18nListener } from './ui/tooltips.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {
@@ -119,9 +119,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Add external link indicator icons
         addAllExternalLinkIndicators();
-
-        // Set up copy-link tooltips before general tooltip activation
-        initAllCopyLinkTooltips();
 
         // Apply theme-based images (dark/light variants)
         applyAllThemeBasedImages();
