@@ -1,20 +1,23 @@
-/.idea/*
-/.vscode/*
-/.venv/*
-/test/*
-/tools/*
-*.cmd
-*.bat
+# IDE / Text Editors: Settings
+.idea/
+.vscode/
 
-# Dependencies
+# Python: Environments
+.venv**
+
+# Node.js Dependencies
 node_modules/
 
-# Vite build output
+# Vite: Build output
 dist/
 .vite/
 
-# Environment files
+# Vite: Environment files
 *.local
 
-# Lock files (choose one)
+# Vite: Lock files (choose one)
 pnpm-lock.yaml
+
+# Local only test files and tools
+test/
+tools/
