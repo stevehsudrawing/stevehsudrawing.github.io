@@ -80,12 +80,12 @@ All operations are performed on HAST node trees using `hastscript` (`h()`) and `
 
 **Related Files**:
 
-| File                                     | Role                                                           |
-|------------------------------------------|----------------------------------------------------------------|
-| `build/builders/link-cards.ts`           | HAST-based card/group HTML generator                           |
-| `build/content-injection-plugin.ts`      | Vite plugin — calls link-cards builder, injects into `#links`  |
-| `build/configs/link-cards/{page}.json`   | HAST JSON card definitions                                     |
-| `build/types.ts`                         | `CardData`, `GroupData` interfaces                             |
+| File                                   | Role                                                          |
+|----------------------------------------|---------------------------------------------------------------|
+| `build/builders/link-cards.ts`         | HAST-based card/group HTML generator                          |
+| `build/content-injection-plugin.ts`    | Vite plugin - calls link-cards builder, injects into `#links` |
+| `build/configs/link-cards/{page}.json` | HAST JSON card definitions                                    |
+| `build/types.ts`                       | `CardData`, `GroupData` interfaces                            |
 
 #### 4.2.5 Link Button Group Injection
 
@@ -116,12 +116,12 @@ buildLinkButtonGroupHTML(pageName, groupId)
 
 **Related Files**:
 
-| File                                           | Role                                                             |
-|------------------------------------------------|------------------------------------------------------------------|
-| `build/builders/link-button-groups.ts`         | Builds button-group HTML from simplified JSON configs            |
-| `build/content-injection-plugin.ts`            | Vite plugin — calls builder, injects into placeholders           |
-| `build/configs/link-button-groups/{page}.json` | Simplified button-group definitions (one per page)               |
-| `build/types.ts`                               | `LinkButtonData`, `LinkButtonGroupData` interfaces               |
+| File                                           | Role                                                   |
+|------------------------------------------------|--------------------------------------------------------|
+| `build/builders/link-button-groups.ts`         | Builds button-group HTML from simplified JSON configs  |
+| `build/content-injection-plugin.ts`            | Vite plugin - calls builder, injects into placeholders |
+| `build/configs/link-button-groups/{page}.json` | Simplified button-group definitions (one per page)     |
+| `build/types.ts`                               | `LinkButtonData`, `LinkButtonGroupData` interfaces     |
 
 #### 4.2.4 Asset Minification
 

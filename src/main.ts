@@ -12,6 +12,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 // Self-hosted fonts (replaces CDN <link> tags)
 import '@fontsource-variable/inter/opsz.css';
 import '@fontsource-variable/inter/opsz-italic.css';
+import '@fontsource/iosevka';
 
 // Project CSS (order matters: base → theme → layouts → components)
 import './stylesheets/base.css';

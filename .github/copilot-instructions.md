@@ -41,6 +41,7 @@ This is a table of contents; please read as needed. Sections marked as **"MUST R
     - 3.3.1 Browser Types (`src/types/`)
     - 3.3.2 Build-time Types (`build/types.ts`)
     - 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
+    - 3.3.4 Link-button-group JSON Format (`build/configs/link-button-groups/*.json`)
 
 ## 4. Feature Reference
 
@@ -50,6 +51,7 @@ This is a table of contents; please read as needed. Sections marked as **"MUST R
     - 4.2.2 Page Component Injection
     - 4.2.3 Link Card Injection
     - 4.2.4 Asset Minification
+    - 4.2.5 Link Button Group Injection
 - [**4.3 Internationalization (i18n)**](./instructions/4-feature-references/3-internationalization-i18n.md)
     - 4.3.1 i18n Key Naming Conventions
 - [**4.4 Theme System**](./instructions/4-feature-references/4-theme-system.md)
@@ -85,6 +87,7 @@ This is a table of contents; please read as needed. Sections marked as **"MUST R
 - [**4.17 External Link Confirmation**](./instructions/4-feature-references/17-external-link-confirmation.md)
     - 4.17.1 `data-link-img-props` Attribute
 - [**4.18 PWA Splash Screens**](./instructions/4-feature-references/18-pwa-splash-screens.md)
+- [**4.19 Link Button Groups**](./instructions/4-feature-references/19-link-button-groups.md)
 
 ---
 
