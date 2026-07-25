@@ -13,10 +13,10 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { toHtml } from 'hast-util-to-html';
 import { h } from 'hastscript';
-import { BASE_URL, PAGE_META } from './configs/page-meta.js';
-import { toDashCase, extractPlainText, cloneNode } from './utils.js';
-import type { HastProperties } from '../src/types/hast.js';
-import type { Node, CardData, GroupData } from './types.js';
+import { BASE_URL, PAGE_META } from '../configs/page-meta.js';
+import { toDashCase, extractPlainText, cloneNode } from '../utils.js';
+import type { HastProperties } from '../../src/types/hast.js';
+import type { Node, CardData, GroupData } from '../types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -145,19 +145,19 @@ function buildCardNode(cardData: CardData): Node {
             processLinkNodes(titleNode, iconProps, true);
             const isSingleLink = cardData.title.type === 'element'
                 && cardData.title.tagName === 'a';
-            const titleClass = 'card-title'
+            const titleClass = 'card-title h6'
                 + (isSingleLink ? ' d-flex align-items-center justify-content-between' : '');
 
-            const h6Children: Node[] = [titleNode];
+            const cardTitleChildren: Node[] = [titleNode];
             if (isSingleLink) {
                 const href = titleNode.properties?.href as string || '';
                 if (shouldAddQR(href, titleNode.properties)) {
-                    h6Children.push({ type: 'text', value: ' ' });
-                    h6Children.push(buildQRNode(href, iconProps));
+                    cardTitleChildren.push({ type: 'text', value: ' ' });
+                    cardTitleChildren.push(buildQRNode(href, iconProps));
                 }
             }
 
-            textChildren.push(h('h6' + (titleClass ? `.${titleClass.replace(/\s+/g, '.')}` : ''), ...h6Children));
+            textChildren.push(h('span' + (titleClass ? `.${titleClass.replace(/\s+/g, '.')}` : ''), ...cardTitleChildren));
         }
 
         if (cardData.description) {
@@ -187,16 +187,16 @@ function buildGroupNode(groupData: GroupData, pagePath: string): Node {
         const titleId = toDashCase(titleText);
         const titleNode = cloneNode(groupData.title);
 
-        const h4Attrs: Record<string, string> = { class: 'title-link-group' };
-        if (titleId) h4Attrs.id = titleId;
+        const h2Attrs: Record<string, string> = { class: 'title-link-group h4' };
+        if (titleId) h2Attrs.id = titleId;
         const wrapperChildren: Node[] = [
-            h(`h4`, h4Attrs, titleNode),
+            h(`h2`, h2Attrs, titleNode),
         ];
 
         if (titleId) {
             const copyUrl = `${BASE_URL}${pagePath}#${titleId}`;
             wrapperChildren.push(
-                h('a.title-link-anchor', { href: `#${titleId}`, 'aria-label': `Link to ${titleText}` }, [h('i.bi.bi-hash')]),
+                h('a.title-link-anchor', { href: `#${titleId}`, 'aria-label': `Link to ${titleText}`, 'data-bs-toggle': 'tooltip', 'data-bs-title': 'Anchor', 'data-i18n-tooltip': 'text-anchor' }, [h('i.bi.bi-paragraph')]),
             );
             wrapperChildren.push(
                 h('a.link.title-link-anchor.copy-link', { href: '#', 'aria-label': `Copy the link to ${titleText}`, 'data-copy-text': copyUrl }, [h('i.bi.bi-link-45deg')]),
@@ -232,7 +232,7 @@ function buildGroupNode(groupData: GroupData, pagePath: string): Node {
  * @returns The pre-rendered HTML for the #links container, or '' if the page has no links config.
  */
 export function buildLinkCardsHTML(pageName: string): string {
-    const jsonPath = resolve(__dirname, 'configs', 'links', `${pageName}.json`);
+    const jsonPath = resolve(__dirname, '..', 'configs', 'link-cards', `${pageName}.json`);
 
     let groups: GroupData[];
     try {

@@ -56,15 +56,15 @@ Additionally, the language menus (`#lang-dropdown-menu` in the header and `#lang
 
 #### 4.2.3 Link Card Injection
 
-**Plugin**: `build/content-injection-plugin.ts` (calls `build/link-cards-builder.ts`)
-**Config**: `build/configs/links/*.json` (HAST format)
+**Plugin**: `build/content-injection-plugin.ts` (calls `build/builders/link-cards.ts`)
+**Config**: `build/configs/link-cards/*.json` (HAST format)
 
 Link cards are pre-rendered from HAST JSON configs and injected into the `#links` container. No runtime DOM construction or JSON fetching is needed.
 
 **How It Works**:
 ```
 buildLinkCardsHTML(pageName)
-  ↓ Reads build/configs/links/{pageName}.json
+  ↓ Reads build/configs/link-cards/{pageName}.json
   ↓ For each group:
       - Builds group title with hash/copy anchors (h() + toHtml)
       - Processes description HAST
@@ -80,12 +80,48 @@ All operations are performed on HAST node trees using `hastscript` (`h()`) and `
 
 **Related Files**:
 
-| File                                | Role                                                           |
-|-------------------------------------|----------------------------------------------------------------|
-| `build/link-cards-builder.ts`       | HAST-based card/group HTML generator                           |
-| `build/content-injection-plugin.ts` | Vite plugin — calls link-cards-builder, injects into `#links` |
-| `build/configs/links/{page}.json`   | HAST JSON card definitions                                     |
-| `build/types.ts`                    | `CardData`, `GroupData` interfaces                             |
+| File                                     | Role                                                           |
+|------------------------------------------|----------------------------------------------------------------|
+| `build/builders/link-cards.ts`           | HAST-based card/group HTML generator                           |
+| `build/content-injection-plugin.ts`      | Vite plugin — calls link-cards builder, injects into `#links`  |
+| `build/configs/link-cards/{page}.json`   | HAST JSON card definitions                                     |
+| `build/types.ts`                         | `CardData`, `GroupData` interfaces                             |
+
+#### 4.2.5 Link Button Group Injection
+
+**Plugin**: `build/content-injection-plugin.ts` (calls `build/builders/link-button-groups.ts`)
+**Config**: `build/configs/link-button-groups/*.json` (simplified format)
+
+Link button groups are pre-rendered from simplified JSON configs (not full HAST) and injected into placeholder elements. Each button is defined by `externalLink`, `linkHref`, and `iconProps` — the builder converts these into HAST `<a>` elements with `<img>` children.
+
+**How It Works**:
+```
+buildLinkButtonGroupHTML(pageName, groupId)
+  ↓ Reads build/configs/link-button-groups/{pageName}.json
+  ↓ Finds the group with matching groupId
+  ↓ For each button:
+      - Derives data-bs-title from iconProps.alt
+      - Derives data-i18n-tooltip from iconProps.dataI18nAlt
+      - Sets data-link-img-props (external links) or data-no-qr-code (internal links)
+      - Builds <a> with btn btn-outline-secondary link-btn-img-wrapper classes
+  ↓ Wraps all buttons in <div class="btn-group link-button-group">
+  ↓ Returns serialized HTML string
+  ↓ content-injection-plugin finds data-role="link-button-group" → replaces children
+```
+
+**Placeholder format** (in source HTML):
+```html
+<div data-role="link-button-group" data-group-id="artworks"></div>
+```
+
+**Related Files**:
+
+| File                                           | Role                                                             |
+|------------------------------------------------|------------------------------------------------------------------|
+| `build/builders/link-button-groups.ts`         | Builds button-group HTML from simplified JSON configs            |
+| `build/content-injection-plugin.ts`            | Vite plugin — calls builder, injects into placeholders           |
+| `build/configs/link-button-groups/{page}.json` | Simplified button-group definitions (one per page)               |
+| `build/types.ts`                               | `LinkButtonData`, `LinkButtonGroupData` interfaces               |
 
 #### 4.2.4 Asset Minification
 

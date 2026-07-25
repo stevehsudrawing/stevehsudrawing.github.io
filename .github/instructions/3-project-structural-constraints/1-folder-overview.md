@@ -3,9 +3,11 @@
 | Folder                              | Purpose                                                            | Where to Add New Code                                 | Local Only (Excluded from Remote Repo) |
 |-------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------|----------------------------------------|
 | `.github/`                          | GitHub-specific configurations (Copilot instructions, CI)          | -                                                     |                                        |
-| `build/`                            | **Build-time scripts** - Vite plugins, configs, link-card builder  | See sub-folders below                                 |                                        |
+| `build/`                            | **Build-time scripts** - Vite plugins, configs, builders           | See sub-folders below                                 |                                        |
+| `build/builders/`                   | Build-time HTML generators (link-cards, link-button-groups)        | New builder when adding a new injection type          |                                        |
 | `build/configs/`                    | Build-time configuration data (page meta, link-card JSON)          | New page meta entry or link-card JSON                 |                                        |
-| `build/configs/links/`              | Link-card HAST JSON definitions, one per page                      | New link-card JSON when adding a page with link cards |                                        |
+| `build/configs/link-cards/`         | Link-card HAST JSON definitions, one per page                      | New link-card JSON when adding a page with link cards |                                        |
+| `build/configs/link-button-groups/` | Link-button-group JSON definitions, one per page                   | New button-group JSON when adding button groups       |                                        |
 | `src/`                              | **Vite source** - all TS modules, CSS, and the Vite entry point    | See sub-folders below                                 |                                        |
 | `src/main.ts`                       | Vite entry point - full-feature pages (all except 404)             | -                                                     |                                        |
 | `src/main-lightweight.ts`           | Vite entry point - lightweight pages (404) without Page Transition | -                                                     |                                        |

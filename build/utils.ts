@@ -1,6 +1,6 @@
 /**
  * Shared build-time utilities.
- * Used by multiple build scripts (link-cards-builder, minify-plugin, etc.).
+ * Used by multiple build scripts (link-cards, minify-plugin, etc.).
  */
 
 import { readdirSync, statSync } from 'node:fs';

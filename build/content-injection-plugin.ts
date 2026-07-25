@@ -12,7 +12,8 @@ import { fromHtml } from 'hast-util-from-html';
 import { toHtml } from 'hast-util-to-html';
 import { getPageName } from './utils.js';
 import { PAGE_META } from './configs/page-meta.js';
-import { buildLinkCardsHTML } from './link-cards-builder.js';
+import { buildLinkCardsHTML } from './builders/link-cards.js';
+import { buildLinkButtonGroupHTML } from './builders/link-button-groups.js';
 import type { IndexHtmlTransformContext } from 'vite';
 import type { Node } from './types.js';
 
@@ -123,6 +124,21 @@ function processContentTree(node: Node, pageName: string): void {
         if (linksHTML) {
             const parsed = fromHtml(linksHTML, { fragment: true });
             node.children = parsed.children || [];
+        }
+    }
+
+    // --- Replace link-button-group placeholders ---
+    if (node.type === 'element' && node.properties && (node.properties as Record<string, unknown>).dataRole === 'link-button-group') {
+        const props = node.properties as Record<string, unknown>;
+        const groupId = props.dataGroupId as string | undefined;
+        if (groupId && node.children) {
+            const groupHTML = buildLinkButtonGroupHTML(pageName, groupId);
+            if (groupHTML) {
+                const parsed = fromHtml(groupHTML, { fragment: true });
+                node.children = parsed.children || [];
+                delete props.dataRole;
+                delete props.dataGroupId;
+            }
         }
     }
 

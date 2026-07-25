@@ -2,7 +2,7 @@
 
 This document provides project-level context, conventions, and constraints for Copilot when working in this repository.
 
-This is a table of contents; please read as needed.
+This is a table of contents; please read as needed. Sections marked as **"MUST READ FIRST"** must be read at the beginning of each session.
 
 ---
 
@@ -18,8 +18,8 @@ This is a table of contents; please read as needed.
 
 ## 2. General Naming Conventions
 
-- [**2.1 HTML / CSS**](./instructions/2-general-naming-conventions/1-html-css.md)
-- [**2.2 CSS Custom Properties**](./instructions/2-general-naming-conventions/2-css-custom-properties.md)
+- [**2.1 HTML / CSS**](./instructions/2-general-naming-conventions/1-html-css.md) **(MUST READ FIRST)**
+- [**2.2 CSS Custom Properties**](./instructions/2-general-naming-conventions/2-css-custom-properties.md) **(MUST READ FIRST)**
     - 2.2.1 Project-specific
     - 2.2.2 Bootstrap overrides
 - [**2.3 TypeScript**](./instructions/2-general-naming-conventions/3-typescript.md) **(MUST READ FIRST)**
@@ -40,7 +40,7 @@ This is a table of contents; please read as needed.
 - [**3.3 Type Definitions**](./instructions/3-project-structural-constraints/3-type-definitions.md) **(MUST READ FIRST)**
     - 3.3.1 Browser Types (`src/types/`)
     - 3.3.2 Build-time Types (`build/types.ts`)
-    - 3.3.3 Link-card JSON Format (`build/configs/links/*.json`)
+    - 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
 
 ## 4. Feature Reference
 

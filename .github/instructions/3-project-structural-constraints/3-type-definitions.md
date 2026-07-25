@@ -48,10 +48,12 @@ Located in `build/types.ts` and used by Vite plugins and build scripts. Type-che
 | `JsonLDType`    | `'homepage' \| 'breadcrumb' \| 'none'` — determines JSON-LD structured data format       |
 | `CardData`      | Link-card descriptor (`available`, `icon`, `title`, `description`)                        |
 | `GroupData`     | Link-card group descriptor (`title`, `description`, `contents`)                           |
+| `LinkButtonData`     | Link-button descriptor (`externalLink`, `linkHref`, `iconProps`, `primary?`)        |
+| `LinkButtonGroupData`| Link-button-group descriptor (`groupId`, `buttons`)                                 |
 
 Build-time types may import from npm packages, Node.js APIs, and `src/types/`. They exist only at build time — never bundled into browser output.
 
-#### 3.3.3 Link-card JSON Format (`build/configs/links/*.json`)
+#### 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
 
 Each page's link cards are defined as a JSON array of **Link Card Groups** (`GroupData[]`). Groups contain cards; cards contain HAST subtrees for icon, title, and description.
 
@@ -65,7 +67,7 @@ Each page's link cards are defined as a JSON array of **Link Card Groups** (`Gro
 }
 ```
 
-- `title`: A HAST node (usually `<span>` with `dataI18n`) — rendered inside `<h4 class="title-link-group">` with hash/copy anchors.
+- `title`: A HAST node (usually `<span>` with `dataI18n`) — rendered inside `<h2 class="title-link-group h4">` with hash/copy anchors.
 - `description`: A HAST node (`null` if absent) — rendered inside `<p class="card-text">`.
 - `contents`: Array of Link Cards.
 
@@ -93,7 +95,44 @@ Each page's link cards are defined as a JSON array of **Link Card Groups** (`Gro
 
 - `available`: Boolean. When not `true`, the card gets `opacity-75`.
 - `icon`: A HAST `<img>` element (`null` if absent). Its `properties` are used as the card's icon props — injected into title/description links as `data-link-img-props`, and passed to the QR code modal for the centre icon.
-- `title`: A HAST node — rendered inside `<h6 class="card-title">`. When it is a single `<a>`, the h6 gets `d-flex align-items-center justify-content-between` and a QR button is appended. Title links get both `data-link-img-props` and QR buttons.
+- `title`: A HAST node — rendered inside `<span class="card-title h6">`. When it is a single `<a>`, the h6 gets `d-flex align-items-center justify-content-between` and a QR button is appended. Title links get both `data-link-img-props` and QR buttons.
 - `description`: A HAST node (`null` if absent) — rendered inside `<p class="card-text">`. Links in descriptions get `data-link-img-props` but **no** QR buttons.
 
 For how cards are rendered and injected, see §4.2.3 Link Card Injection in the [Build-time Injection](../4-feature-references/2-build-time-injection.md#423-link-card-injection) documentation.
+
+#### 3.3.4 Link-button-group JSON Format (`build/configs/link-button-groups/*.json`)
+
+Each page's link button groups are defined as a JSON array of **Link Button Groups** (`LinkButtonGroupData[]`). Unlike link cards, these use a simplified data format — the builder converts them into HAST.
+
+**Top-level: Link Button Group**
+
+```json
+{
+    "groupId": "artworks",
+    "buttons": [ /* array of Link Buttons */ ]
+}
+```
+
+- `groupId`: String identifier matching the `data-group-id` attribute of the placeholder in HTML.
+- `buttons`: Array of Link Buttons.
+
+**Link Button**
+
+```json
+{
+    "externalLink": true,
+    "linkHref": "https://www.pixiv.net/users/70732361",
+    "primary": true,
+    "iconProps": {
+        "alt": "Pixiv",
+        "src": "/images/webp/icons/pixiv.webp"
+    }
+}
+```
+
+- `externalLink`: Boolean. `true` → `external-link` class + `data-link-img-props`; `false` → `internal-link` class + `data-no-qr-code`.
+- `linkHref`: The link URL.
+- `primary`: Optional boolean placeholder (currently unused — all buttons use `btn-outline-secondary`).
+- `iconProps`: `HastProperties` for the `<img>` child. `alt` is also used to derive `data-bs-title`; `dataI18nAlt` is used to derive `data-i18n-tooltip`.
+
+For how button groups are rendered and injected, see §4.2.5 Link Button Group Injection in the [Build-time Injection](../4-feature-references/2-build-time-injection.md#425-link-button-group-injection) documentation.

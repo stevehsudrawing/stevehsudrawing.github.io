@@ -68,7 +68,7 @@ export function handleCopyLinkClick(e: MouseEvent): void {
     if (!copyText) return;
 
     navigator.clipboard.writeText(copyText).then(function () {
-        const copiedText = translate('text-copied', 'Copied!');
+        const copiedText = translate('text-copied-text', 'Copied text') + ': ' + copyText;
         showToast('success', copiedText);
     }).catch(function (err) {
         showToast('error', 'Failed to copy text');

@@ -1,14 +1,14 @@
 ### 4.5 Link Cards
 
-**Brief**: Link-card groups are pre-rendered into static HTML at build time from HAST-format JSON configs. For the JSON data format (node types, property naming, group/card structure), see [§3.3](../3-project-structural-constraints/3-type-definitions.md#333-link-card-json-format-buildconfigslinksjson). For how cards are rendered and injected into pages, see [§4.2.3](2-build-time-injection.md#423-link-card-injection).
+**Brief**: Link-card groups are pre-rendered into static HTML at build time from HAST-format JSON configs. For the JSON data format (node types, property naming, group/card structure), see [§3.3](../3-project-structural-constraints/3-type-definitions.md#333-link-card-json-format-buildconfigslink-cardsjson). For how cards are rendered and injected into pages, see [§4.2.3](2-build-time-injection.md#423-link-card-injection).
 
 **Related Files**:
 
 | File                                    | Role                                                      |
 |-----------------------------------------|-----------------------------------------------------------|
-| `build/link-cards-builder.ts`           | Build-time HTML generator from HAST JSON configs          |
+| `build/builders/link-cards.ts`          | Build-time HTML generator from HAST JSON configs          |
 | `build/content-injection-plugin.ts`     | Vite plugin that injects pre-rendered cards into `#links` |
-| `build/configs/links/{page-name}.json`  | Link-card group definitions for each page                 |
+| `build/configs/link-cards/{page-name}.json`  | Link-card group definitions for each page            |
 | `src/core/accessibility.ts`             | `initHashChangeScroll()` for hash-based navigation        |
 
 **Interaction with Other Systems**:
