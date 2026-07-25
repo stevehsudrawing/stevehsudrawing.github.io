@@ -337,6 +337,72 @@
                         }
                     ]
                 }
+            },
+            {
+                "available": true,
+                "icon": {
+                    "type": "element",
+                    "tagName": "img",
+                    "properties": {
+                        "alt": "Rednote",
+                        "dataI18nAlt": "text-rednote",
+                        "src": "/images/webp/icons/rednote.webp"
+                    },
+                    "children": []
+                },
+                "title": {
+                    "type": "element",
+                    "tagName": "a",
+                    "properties": {
+                        "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000",
+                        "className": [
+                            "external-link"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Rednote"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-rednote"
+                            }
+                        }
+                    ]
+                },
+                "description": {
+                    "type": "root",
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "Name"
+                                }
+                            ],
+                            "properties": {
+                                "dataI18n": "text-name"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "span",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": ": SteveHsu什五 | UID: 63069652143"
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     },
@@ -1444,75 +1510,6 @@
                                 {
                                     "type": "text",
                                     "value": ": SteveHsu什五 | UID: 10398496"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "available": true,
-                "icon": {
-                    "type": "element",
-                    "tagName": "img",
-                    "properties": {
-                        "alt": "Rednote",
-                        "dataI18nAlt": "text-rednote",
-                        "src": "/images/webp/null.webp",
-                        "dataImgFeature": "colored",
-                        "dataSrcMask": "/images/webp/icons/link.webp",
-                        "dataColorVar": "bs-body-color"
-                    },
-                    "children": []
-                },
-                "title": {
-                    "type": "element",
-                    "tagName": "a",
-                    "properties": {
-                        "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000",
-                        "className": [
-                            "external-link"
-                        ]
-                    },
-                    "children": [
-                        {
-                            "type": "element",
-                            "tagName": "span",
-                            "children": [
-                                {
-                                    "type": "text",
-                                    "value": "Rednote"
-                                }
-                            ],
-                            "properties": {
-                                "dataI18n": "text-rednote"
-                            }
-                        }
-                    ]
-                },
-                "description": {
-                    "type": "root",
-                    "children": [
-                        {
-                            "type": "element",
-                            "tagName": "span",
-                            "children": [
-                                {
-                                    "type": "text",
-                                    "value": "Name"
-                                }
-                            ],
-                            "properties": {
-                                "dataI18n": "text-name"
-                            }
-                        },
-                        {
-                            "type": "element",
-                            "tagName": "span",
-                            "children": [
-                                {
-                                    "type": "text",
-                                    "value": ": SteveHsu什五 | UID: 63069652143"
                                 }
                             ]
                         }

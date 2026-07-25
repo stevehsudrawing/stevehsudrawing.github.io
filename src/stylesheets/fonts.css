@@ -9,7 +9,7 @@
     --shlh-font-monospace-fallback-ja: 'Osaka', 'VL ゴシック', 'VL Gothic', 'IPA ゴシック', 'IPA Gothic', 'さざなみゴシック', 'Sazanami Gothic', 'ＭＳ ゴシック', 'MS Gothic';
     --shlh-font-monospace-fallback-zh-Hans: '文泉驿等宽微米黑', 'WenQuanYi Micro Hei Mono', '文泉驿等宽正黑', 'WenQuanYi Zen Hei Mono', '黑体', 'SimHei', '新宋体', 'NSimSun';
     --shlh-font-monospace-fallback-zh-Hant: '文泉驛等寬微米黑', 'WenQuanYi Micro Hei Mono', '文泉驛等寬正黑', 'WenQuanYi Zen Hei Mono', '細明體', 'MingLiU';
-    --shlh-font-monospace-major-en: 'Iosevka', 'SF Mono', 'San Francisco Mono', 'Roboto Mono', 'Noto Sans Mono', 'Cascadia Code', 'Cascadia Mono';
+    --shlh-font-monospace-major-en: 'Roboto Mono Variable', 'SF Mono', 'San Francisco Mono', 'Noto Sans Mono', 'Cascadia Code', 'Cascadia Mono';
     --shlh-font-monospace-major-ja: '更紗等幅ゴシック J', 'Sarasa Mono J', 'Noto Sans Mono CJK JP', '源ノ等幅', 'Source Han Mono';
     --shlh-font-monospace-major-zh-Hans: '等距更纱黑体 SC', 'Sarasa Mono SC', 'Noto Sans Mono CJK SC', '思源等宽', 'Source Han Mono SC';
     --shlh-font-monospace-major-zh-Hant: '等距更紗黑體 TC', 'Sarasa Mono TC', 'Noto Sans Mono CJK TC', '思源等寬', 'Source Han Mono TC';

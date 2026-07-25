@@ -73,7 +73,7 @@ See [§2.2.1](../2-general-naming-conventions/2-css-custom-properties.md#221-pro
 
 | Language  | Preferred                             | Apple                           | Chromium / Android / Linux                                | Windows                          |
 |-----------|---------------------------------------|---------------------------------|-----------------------------------------------------------|----------------------------------|
-| `en`      | `Iosevka`                             | `SF Mono`, `San Francisco Mono` | `Roboto Mono`, `Noto Sans Mono`                           | `Cascadia Code`, `Cascadia Mono` |
+| `en`      | `Roboto Mono Variable`                | `SF Mono`, `San Francisco Mono` | `Noto Sans Mono`                                          | `Cascadia Code`, `Cascadia Mono` |
 | `ja`      | `更紗等幅ゴシック J`, `Sarasa Mono J` | -                               | `Noto Sans Mono CJK JP`, `源ノ等幅`, `Source Han Mono`    | -                                |
 | `zh-Hans` | `等距更纱黑体 SC`, `Sarasa Mono SC`   | -                               | `Noto Sans Mono CJK SC`, `思源等宽`, `Source Han Mono SC` | -                                |
 | `zh-Hant` | `等距更紗黑體 TC`, `Sarasa Mono TC`   | -                               | `Noto Sans Mono CJK TC`, `思源等寬`, `Source Han Mono TC` | -                                |
