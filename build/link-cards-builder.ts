@@ -16,13 +16,7 @@ import { h } from 'hastscript';
 import { BASE_URL, PAGE_META } from './configs/page-meta.js';
 import { toDashCase, extractPlainText, cloneNode } from './utils.js';
 import type { HastProperties } from '../src/types/hast.js';
-import type { CardData, GroupData } from './types.js';
-
-// Internal HAST node type: 'any' is used because hastscript and toHtml
-// use specific literal types that are incompatible with our JSON-derived
-// generic Node interface. All node data originates from validated JSON.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Node = any;
+import type { Node, CardData, GroupData } from './types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

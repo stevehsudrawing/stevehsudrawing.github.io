@@ -5,9 +5,9 @@
 
 // Internal HAST node alias: 'any' is used because hastscript and toHtml use
 // specific literal types that are incompatible with our JSON-derived generic
-// HastNode interface. All node data originates from validated JSON configs.
+// Node interface. All node data originates from validated JSON configs.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Node = any;
+export type Node = any;
 
 // ---------------------------------------------------------------------------
 // Page metadata

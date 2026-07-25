@@ -14,10 +14,7 @@ import { getPageName } from './utils.js';
 import { PAGE_META } from './configs/page-meta.js';
 import { buildLinkCardsHTML } from './link-cards-builder.js';
 import type { IndexHtmlTransformContext } from 'vite';
-
-// Internal HAST node type: see link-cards-builder.ts for rationale.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Node = any;
+import type { Node } from './types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
