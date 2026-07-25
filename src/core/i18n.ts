@@ -1,19 +1,13 @@
 /**
  * Internationalization (i18n) module.
- * Loads language-list and translation JSON files, updates page text,
- * manages the language selector UI, and persists the user's preference.
+ * Translates page text from JSON files, manages the language selector UI,
+ * and persists the user's preference. The language list itself is
+ * pre-rendered at build time by the content-injection-plugin.
  */
 
 import type { Lang } from '../types/app.js';
 import { StorageKey, AppEvent } from '../types/app.js';
 
-export interface LanguageItem {
-    code: string;
-    localizedName?: string;
-}
-
-export let supportedLangs: string[] = [];
-export let languageList: LanguageItem[] = [];
 export let currentLang: Lang = 'en';
 export let langData: Record<string, string> = {};
 
@@ -78,28 +72,6 @@ export function translate(key: string, fallback?: string): string {
         return langData[key];
     }
     return fallback !== undefined ? fallback : '';
-}
-
-/**
- * Fetch the list of supported languages from /configs/language-list.json.
- * Falls back to ['en', 'zh-Hans', 'zh-Hant'] on error.
- */
-export async function loadSupportedLangs(): Promise<void> {
-    try {
-        const response = await fetch('/configs/language-list.json');
-        if (!response.ok) throw new Error(`Failed to load language list: ${response.status}`);
-        const list: LanguageItem[] = await response.json();
-        if (Array.isArray(list)) {
-            languageList = list;
-            supportedLangs = list.map(item => item?.code).filter(Boolean) as string[];
-        } else {
-            languageList = [];
-            supportedLangs = [];
-        }
-    } catch (error) {
-        console.error('Failed to load language list:', error);
-        supportedLangs = ['en', 'zh-Hans', 'zh-Hant'];
-    }
 }
 
 /**
@@ -225,70 +197,5 @@ export async function loadLang(rawLang: string): Promise<void> {
         updatePageTitle();
     } catch (error) {
         console.error('Failed to load language file:', error);
-    }
-}
-
-/**
- * Populate both the header language dropdown menu and the settings modal
- * language select with items from the loaded language list.
- */
-export function populateLanguageMenus(): void {
-    // Populate header language menu
-    try {
-        const langToggle = document.getElementById('lang-dropdown');
-        const langMenu = langToggle ? langToggle.parentElement?.querySelector('.dropdown-menu') : null;
-        if (langMenu) {
-            langMenu.innerHTML = '';
-            if (Array.isArray(languageList) && languageList.length > 0) {
-                languageList.forEach(item => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.className = 'dropdown-item lang-item';
-                    a.href = '#';
-                    a.setAttribute('data-lang', item.code);
-                    a.textContent = item.localizedName || item.code;
-                    li.appendChild(a);
-                    langMenu.appendChild(li);
-                });
-            } else if (Array.isArray(supportedLangs)) {
-                supportedLangs.forEach(code => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.className = 'dropdown-item lang-item';
-                    a.href = '#';
-                    a.setAttribute('data-lang', code);
-                    a.textContent = code;
-                    li.appendChild(a);
-                    langMenu.appendChild(li);
-                });
-            }
-        }
-    } catch (e) {
-        console.warn('Failed to populate header language menu:', e);
-    }
-
-    // Populate settings modal select
-    try {
-        const languageSelect = document.getElementById('language-select') as HTMLSelectElement | null;
-        if (languageSelect) {
-            languageSelect.innerHTML = '';
-            if (Array.isArray(languageList) && languageList.length > 0) {
-                languageList.forEach(item => {
-                    const opt = document.createElement('option');
-                    opt.value = item.code;
-                    opt.textContent = item.localizedName || item.code;
-                    languageSelect.appendChild(opt);
-                });
-            } else if (Array.isArray(supportedLangs)) {
-                supportedLangs.forEach(code => {
-                    const opt = document.createElement('option');
-                    opt.value = code;
-                    opt.textContent = code;
-                    languageSelect.appendChild(opt);
-                });
-            }
-        }
-    } catch (e) {
-        console.warn('Failed to populate settings language select:', e);
     }
 }

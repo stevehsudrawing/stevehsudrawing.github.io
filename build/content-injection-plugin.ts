@@ -35,6 +35,29 @@ function readPageComponent(name: string): string {
 }
 
 // =========================================================================
+// Language menu pre-rendering
+// =========================================================================
+
+interface LanguageItem {
+    code: string;
+    localizedName?: string;
+}
+
+let _cachedLanguageItems: LanguageItem[] | null = null;
+
+function readLanguageItems(): LanguageItem[] {
+    if (_cachedLanguageItems) return _cachedLanguageItems;
+    const filePath = resolve(__dirname, 'configs', 'language-list.json');
+    try {
+        const raw = readFileSync(filePath, 'utf-8');
+        _cachedLanguageItems = JSON.parse(raw) as LanguageItem[];
+    } catch {
+        _cachedLanguageItems = [];
+    }
+    return _cachedLanguageItems;
+}
+
+// =========================================================================
 // HAST tree operations
 // =========================================================================
 
@@ -54,6 +77,42 @@ function processContentTree(node: Node, pageName: string): void {
                 node.children = parsed.children || [];
                 delete props.dataRole;
                 delete props.dataComponentName;
+            }
+        }
+    }
+
+    // --- Fill language menus ---
+    if (node.type === 'element' && node.properties) {
+        const props = node.properties as Record<string, unknown>;
+        const langItems = readLanguageItems();
+
+        if (langItems.length > 0) {
+            // Header dropdown: <ul id="lang-dropdown-menu">
+            if (props.id === 'lang-dropdown-menu' && node.children) {
+                const listItems: Node[] = [];
+                for (const item of langItems) {
+                    listItems.push({
+                        type: 'element', tagName: 'li', properties: {}, children: [{
+                            type: 'element', tagName: 'a',
+                            properties: { className: ['dropdown-item', 'lang-item'], href: '#', dataLang: item.code },
+                            children: [{ type: 'text', value: item.localizedName || item.code }],
+                        }],
+                    });
+                }
+                node.children = listItems;
+            }
+
+            // Settings modal: <select id="language-select">
+            if (props.id === 'language-select' && node.children) {
+                const options: Node[] = [];
+                for (const item of langItems) {
+                    options.push({
+                        type: 'element', tagName: 'option',
+                        properties: { value: item.code },
+                        children: [{ type: 'text', value: item.localizedName || item.code }],
+                    });
+                }
+                node.children = options;
             }
         }
     }

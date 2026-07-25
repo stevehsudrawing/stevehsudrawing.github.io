@@ -106,7 +106,7 @@ import { initSettingEventListeners, initSettingsModal } from './ui/settings.js';
 import { initPageTransitionLinkClicks, initPageTransitionPopState } from './features/page-transition.js';
 import { initExternalLinkConfirmation } from './features/external-link-confirmation.js';
 import { initQRCodeDelegation } from './features/qr-code.js';
-import { loadSupportedLangs, populateLanguageMenus, initLang } from './core/i18n.js';
+import { initLang } from './core/i18n.js';
 import { initHashChangeScroll, initSkipButton } from './core/accessibility.js';
 import { initAllScrollHints } from './ui/scroll-hint.js';
 import { initNoCopyProtection } from './core/no-copy.js';
@@ -115,12 +115,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
         initBootstrapCSSDetection();
         initThemeTransitionOverlay();
-        await loadSupportedLangs();
-
         initDropdownMenuAnimation();
         initSkipButton();
         initSettingsModal();
-        populateLanguageMenus();
 
         // Set up tooltip i18n listener BEFORE initLang()
         // so tooltip titles are updated when the first translation loads

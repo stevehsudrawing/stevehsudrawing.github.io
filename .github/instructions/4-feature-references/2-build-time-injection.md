@@ -1,6 +1,6 @@
 ### 4.2 Build-time Injection
 
-**Brief**: All dynamic content that was previously fetched or built at runtime (page components, link cards) is now pre-rendered into static HTML at build time by Vite plugins. This improves SEO and eliminates runtime fetch calls.
+**Brief**: All dynamic content that was previously fetched or built at runtime (page components, link cards, language menus) is now pre-rendered into static HTML at build time by Vite plugins. This improves SEO and eliminates runtime fetch calls.
 
 #### 4.2.1 Head Tag Injection
 
@@ -51,6 +51,8 @@ Serializes back to HTML with toHtml()
 ```
 
 The `dataRole` and `dataComponentName` attributes are removed after injection — this prevents any residual runtime loader from attempting to re-fetch and overwrite the pre-rendered content.
+
+Additionally, the language menus (`#lang-dropdown-menu` in the header and `#language-select` in the settings modal) are populated at build time from `build/configs/language-list.json`. The runtime `loadSupportedLangs()` and `populateLanguageMenus()` functions in `i18n.ts` have been removed. Language switching still works at runtime via `loadLang()` and `setActiveLangItem()` — only the static menu population is pre-rendered.
 
 #### 4.2.3 Link Card Injection
 

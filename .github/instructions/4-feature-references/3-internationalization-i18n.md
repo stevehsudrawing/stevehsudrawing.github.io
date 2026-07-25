@@ -4,17 +4,20 @@
 
 **Related Files**:
 
-| File                                | Role                                                  |
-|-------------------------------------|-------------------------------------------------------|
-| `src/core/i18n.ts`                  | Language loading, text replacement, language switcher |
-| `public/configs/language-list.json` | List of supported language codes                      |
-| `public/configs/i18n/{lang}.json`   | Translation key-value pairs for each language         |
+| File                               | Role                                                          |
+|------------------------------------|---------------------------------------------------------------|
+| `src/core/i18n.ts`                 | Translation loading, text replacement, language switcher      |
+| `build/configs/language-list.json` | List of supported language codes (pre-rendered at build time) |
+| `public/configs/i18n/{lang}.json`  | Translation key-value pairs for each language                 |
 
 **How It Works**:
 
 ```
+Language menus (#lang-dropdown-menu, #language-select) are pre-rendered at build time
+by the content-injection-plugin from build/configs/language-list.json.
+↓
 HTML: <span data-i18n="text-welcome">Welcome</span>
-        ↓ (i18n.ts loads configs/i18n/{lang}.json)
+        ↓ (i18n.ts loads configs/i18n/{lang}.json at runtime)
       Replaces textContent with translated value
 
 Rich text: <span data-i18n-html="html-intro">Intro with <cite>Title</cite></span>
