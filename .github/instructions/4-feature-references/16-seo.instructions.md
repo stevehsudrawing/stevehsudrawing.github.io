@@ -114,7 +114,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.8 Crawler Whitelist
 
-- `public/legacy/env-detection.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function. Bots are identified by UA string matching because some crawlers run limited JS engines that may not support optional chaining.
+- `public/legacy/env-detection.js` must whitelist known search engine bots and SEO crawlers via the `isBotOrCrawler()` function. Bots are identified by UA string matching because some crawlers run limited JS engines that may not support ES modules.
 - Without this whitelist, crawlers with User-Agents that do not match recognized browser patterns are detected as \"unsupported\" and redirected to `error-unsupported-browser.html`, which has `robots: noindex`. This would prevent the site from being indexed.
 - The whitelist covers:
   - **Search engines**: Googlebot, Bingbot, Baiduspider, Yandex, DuckDuckGo, Yahoo Slurp, Sogou, 360Spider

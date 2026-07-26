@@ -26,10 +26,10 @@ A personal link-hub website that consolidates links to all my profiles across va
 
 | Browser | Min Version |
 | ------- | ----------- |
-| Chrome  | ≥ 80        |
-| Edge    | ≥ 80        |
-| Firefox | ≥ 74        |
-| Opera   | ≥ 67        |
+| Chrome  | ≥ 61        |
+| Edge    | ≥ 79        |
+| Firefox | ≥ 60        |
+| Opera   | ≥ 48        |
 | Safari  | ≥ 14        |
 
 For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseline.md).

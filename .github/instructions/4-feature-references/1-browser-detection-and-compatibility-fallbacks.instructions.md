@@ -1,6 +1,6 @@
 ﻿---
 description: >
-  Browser detection and compatibility fallbacks: feature detection via optional chaining test
+  Browser detection and compatibility fallbacks: feature detection via ES modules (noModule) test
   in env-detection.js, crawler/bot whitelist via UA matching, Bootstrap CSS loaded verification,
   JavaScript-disabled noscript redirect, unsupported browser redirect to error page.
   Use when: modifying env-detection.js, bootstrap-css-detection.ts, error pages, or noscript fallbacks.
@@ -14,7 +14,7 @@ applyTo: >
 
 ### 4.1 Browser Detection & Compatibility Fallbacks
 
-**Brief**: Uses feature detection (testing optional chaining support via `new Function()`) to verify the browser meets the minimum baseline, and redirects to `error-unsupported-browser.html` if not. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`. Known search engine bots, crawlers, and SEO tools are whitelisted via `isBotOrCrawler()` by UA matching to prevent SEO-impacting false negatives (see [§4.16.8](16-seo.instructions.md#4168-crawler-whitelist)).
+**Brief**: Uses feature detection (testing ES module support via `'noModule' in HTMLScriptElement`) to verify the browser meets the minimum baseline, and redirects to `error-unsupported-browser.html` if not. Modern JS syntax (optional chaining, etc.) is downleveled to ES2015 at build time by Vite and is no longer a browser requirement. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`. Known search engine bots, crawlers, and SEO tools are whitelisted via `isBotOrCrawler()` by UA matching to prevent SEO-impacting false negatives (see [§4.16.8](16-seo.instructions.md#4168-crawler-whitelist)).
 
 **Related Files**:
 
@@ -25,12 +25,12 @@ applyTo: >
 | `error-unsupported-browser.html`    | Fallback page for unsupported browsers                                                             |
 | `error-javascript-disabled.html`    | Fallback page displayed when JavaScript is disabled                                                |
 
-> `env-detection.js` is executed first among all scripts. It uses `new Function()` to test ES2020 syntax support without causing a SyntaxError on older engines. Written in ES5 for broad compatibility.
+> `env-detection.js` is executed first among all scripts. It uses `'noModule' in HTMLScriptElement` to test ES module support without causing errors on older engines. Written in ES5 for broad compatibility.
 
 **Data Flow**:
 
 - `env-detection.js` first checks via `isBotOrCrawler()` whether the User-Agent belongs to a known crawler; if so, the browser is always treated as supported (see [§4.16.8](16-seo.instructions.md#4168-crawler-whitelist)).
-- For real users, `isFeatureSupported()` tests whether the JS engine can parse optional chaining syntax via `new Function('return 0?.x')`. If the test throws a SyntaxError, the browser is considered unsupported.
+- For real users, `isFeatureSupported()` tests whether the browser supports ES modules by checking `'noModule' in document.createElement('script')`. If the check fails, the browser is considered unsupported.
 - If unsupported: redirects to `error-unsupported-browser.html`.
 - `bootstrap-css-detection.ts` checks that Bootstrap CSS is applied; shows a warning if not.
 

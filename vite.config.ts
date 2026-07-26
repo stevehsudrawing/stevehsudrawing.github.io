@@ -20,6 +20,7 @@ export default defineConfig({
   publicDir: "public",
 
   build: {
+    target: 'es2015',
     outDir: "dist",
     rollupOptions: {
       input: {

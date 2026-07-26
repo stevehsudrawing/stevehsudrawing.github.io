@@ -1,6 +1,6 @@
 /**
  * Browser support detection via feature testing.
- * Uses feature detection (optional chaining) rather than UA string
+ * Uses feature detection (ES modules) rather than UA string
  * parsing, which is inherently fragile. Crawlers are whitelisted by UA
  * to prevent SEO-impacting false negatives.
  * Written in ES5 for compatibility with older browsers.
@@ -80,15 +80,15 @@ function isBotOrCrawler() {
 }
 
 /**
- * Test whether the browser's JavaScript engine supports ES2020 optional chaining (?.).
- * Uses new Function() so that the syntax is parsed at runtime rather than at
- * script load time - this avoids a SyntaxError for older engines.
- * @returns {boolean} True if optional chaining syntax is supported.
+ * Test whether the browser's JavaScript engine supports ES modules.
+ * Creates a script element and checks for the noModule property -
+ * browsers that support ES modules expose `noModule` on HTMLScriptElement.
+ * @returns {boolean} True if ES modules are supported.
  */
 function isFeatureSupported() {
   try {
-    new Function("return 0?.x");
-    return true;
+    var script = document.createElement('script');
+    return 'noModule' in script;
   } catch (e) {
     return false;
   }
@@ -97,7 +97,7 @@ function isFeatureSupported() {
 /**
  * Check whether the browser is supported.
  * Crawlers always pass. For real users, the JS engine must support
- * optional chaining - the feature that currently constrains our baseline.
+ * ES modules - the feature that currently constrains our baseline.
  * @returns {boolean} True if the browser is supported.
  */
 function isBrowserSupported() {
