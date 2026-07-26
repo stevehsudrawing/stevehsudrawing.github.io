@@ -73,14 +73,14 @@ Both sub-folders use the same CSS commenting format:
 
 #### 3.2.4 `*.html`: Page Tiers
 
-- **Full Functionality Pages**: Reference `/src/main.ts`.
+- **Full Functionality Pages**: Reference `/main.ts`.
   - `index`
   - `about`
   - `artworks-and-videos`
   - `blogs-and-sponsor`
   - `chatting`
   - `softwares`
-- **Error Pages (Lightweight)**: Reference `/src/main-lightweight.ts`.
+- **Error Pages (Lightweight)**: Reference `/main-lightweight.ts`.
   - `404`: The redirected page when an HTTP 404 occurs. Uses a cut-down entry point that excludes Page Transition, QR code, link-cards generator, and external-link confirmation to avoid layout conflicts when navigating back to full-feature pages.
 - **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
   - `unsupported-browser`

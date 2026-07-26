@@ -32,7 +32,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 | Opera   | ≥ 48        |
 | Safari  | ≥ 14        |
 
-For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseline.md).
+For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseline.instructions.md).
 
 ## 3. Tech Stack
 

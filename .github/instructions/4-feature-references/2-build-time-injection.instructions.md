@@ -34,14 +34,14 @@ Tag functions:
 
 **Page Tiers**:
 
-| Tier          | Entry Script               | Pages                                                                     |
-| ------------- | -------------------------- | ------------------------------------------------------------------------- |
-| `full`        | `/src/main.ts`             | index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares |
-| `lightweight` | `/src/main-lightweight.ts` | 404 - excludes manifest, sitemap, theme-color, splash screens             |
+| Tier          | Entry Script           | Pages                                                                     |
+| ------------- | ---------------------- | ------------------------------------------------------------------------- |
+| `full`        | `/main.ts`             | index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares |
+| `lightweight` | `/main-lightweight.ts` | 404 - excludes manifest, sitemap, theme-color, splash screens             |
 
 **Adding a New Page**:
 
-1. Create `new-page.html` with minimal `<head>` (charset + viewport only).
+1. Create `src/new-page.html` with minimal `<head>` (charset + viewport only).
 2. Add an entry to `PAGE_META` in `build/configs/page-meta.ts`.
 3. Add the HTML file to `rollupOptions.input` in `vite.config.ts`.
 

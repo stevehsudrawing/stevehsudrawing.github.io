@@ -420,9 +420,9 @@ export function headTagsPlugin() {
           meta.tier === "lightweight"
             ? {
                 tag: "script",
-                attrs: { type: "module", src: "/src/main-lightweight.ts" },
+                attrs: { type: "module", src: "/main-lightweight.ts" },
               }
-            : { tag: "script", attrs: { type: "module", src: "/src/main.ts" } };
+            : { tag: "script", attrs: { type: "module", src: "/main.ts" } };
 
         const tags = [
           ...commonTags(),
