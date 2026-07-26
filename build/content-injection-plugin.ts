@@ -23,6 +23,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Page component loading
 // =========================================================================
 
+/**
+ * Read a page component HTML fragment from build/page-components/.
+ * Extracts the inner `<body>` content, falling back to raw content if no body tag is found.
+ * @param name - Component file name without extension (e.g. "header", "footer").
+ * @returns The component's HTML content, or '' if the file cannot be read.
+ */
 function readPageComponent(name: string): string {
     const filePath = resolve(__dirname, 'page-components', `${name}.html`);
     try {
@@ -39,13 +45,20 @@ function readPageComponent(name: string): string {
 // Language menu pre-rendering
 // =========================================================================
 
+/** Entry in the language-list.json config, used to pre-render language menus. */
 interface LanguageItem {
+    /** ISO language code (e.g. "en", "zh-Hans"). */
     code: string;
+    /** Human-readable name in the language itself (e.g. "English", "简体中文"). */
     localizedName?: string;
 }
 
 let _cachedLanguageItems: LanguageItem[] | null = null;
 
+/**
+ * Read and cache the language list from build/configs/language-list.json.
+ * @returns Array of language items, or [] if the file cannot be read.
+ */
 function readLanguageItems(): LanguageItem[] {
     if (_cachedLanguageItems) return _cachedLanguageItems;
     const filePath = resolve(__dirname, 'configs', 'language-list.json');
@@ -62,6 +75,15 @@ function readLanguageItems(): LanguageItem[] {
 // HAST tree operations
 // =========================================================================
 
+/**
+ * Walk a HAST tree and perform all content injection operations in one pass.
+ *
+ * Handles: page-component placeholder replacement, language menu population,
+ * link-card injection into #links, and link-button-group placeholder replacement.
+ * Mutates the tree in place.
+ * @param node - The root HAST node of the body content.
+ * @param pageName - Page name (e.g. "index", "about") for resolving config paths.
+ */
 function processContentTree(node: Node, pageName: string): void {
     if (!node || typeof node !== 'object') return;
     if (node.type !== 'element' && node.type !== 'root') return;
@@ -154,6 +176,14 @@ function processContentTree(node: Node, pageName: string): void {
 // Plugin export
 // =========================================================================
 
+/**
+ * Vite plugin that pre-renders page content at build time.
+ *
+ * Injects page components (header, footer, modals), pre-populates language
+ * menus, replaces link-card and link-button-group placeholders with
+ * pre-rendered HTML, all via HAST tree manipulation.
+ * @returns A Vite plugin object with a transformIndexHtml hook.
+ */
 export function contentInjectionPlugin() {
     return {
         name: 'content-injection-plugin',

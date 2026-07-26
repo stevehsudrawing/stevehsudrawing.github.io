@@ -21,6 +21,11 @@ import type { PageMetaEntry } from './types.js';
 // Shared tags that are identical across ALL pages
 // =========================================================================
 
+/**
+ * Generate tags shared across all pages: Apple PWA, author, favicons,
+ * JavaScript-disabled noscript fallback, and browser detection script.
+ * @returns Array of HTML tag descriptors injected into every page `<head>`.
+ */
 function commonTags(): HtmlTagDescriptor[] {
     return [
         // Apple PWA
@@ -51,10 +56,21 @@ function commonTags(): HtmlTagDescriptor[] {
 // Tags for full-feature pages only
 // =========================================================================
 
+/** Apple PWA splash screen spec: pixel dimensions, CSS point dimensions, and pixel ratio. */
 interface SplashScreen {
-    w: number; h: number; pw: number; ph: number; r: number;
+    /** Output image width in pixels. */
+    w: number;
+    /** Output image height in pixels. */
+    h: number;
+    /** CSS point width (device-width / pixelRatio). */
+    pw: number;
+    /** CSS point height (device-height / pixelRatio). */
+    ph: number;
+    /** Device pixel ratio. */
+    r: number;
 }
 
+/** Unique Apple device resolutions for PWA splash screens (deduplicated, portrait only). */
 const SPLASH_SCREENS: SplashScreen[] = [
     { w: 2064, h: 2752, pw: 1032, ph: 1376, r: 2 },
     { w: 2048, h: 2732, pw: 1024, ph: 1366, r: 2 },
@@ -65,22 +81,23 @@ const SPLASH_SCREENS: SplashScreen[] = [
     { w: 1620, h: 2160, pw: 810,  ph: 1080, r: 2 },
     { w: 1536, h: 2048, pw: 768,  ph: 1024, r: 2 },
     { w: 1488, h: 2266, pw: 744,  ph: 1133, r: 2 },
-    { w: 1320, h: 2868, pw: 440, ph: 956, r: 3 },
-    { w: 1290, h: 2796, pw: 430, ph: 932, r: 3 },
-    { w: 1284, h: 2778, pw: 428, ph: 926, r: 3 },
-    { w: 1260, h: 2736, pw: 420, ph: 912, r: 3 },
-    { w: 1242, h: 2688, pw: 414, ph: 896, r: 3 },
-    { w: 1206, h: 2622, pw: 402, ph: 874, r: 3 },
-    { w: 1179, h: 2556, pw: 393, ph: 852, r: 3 },
-    { w: 1170, h: 2532, pw: 390, ph: 844, r: 3 },
-    { w: 1125, h: 2436, pw: 375, ph: 812, r: 3 },
-    { w: 1080, h: 2340, pw: 360, ph: 780, r: 3 },
-    { w: 1080, h: 1920, pw: 414, ph: 736, r: 3 },
-    { w: 828,  h: 1792, pw: 414, ph: 896, r: 2 },
-    { w: 750,  h: 1334, pw: 375, ph: 667, r: 2 },
-    { w: 640,  h: 1136, pw: 320, ph: 568, r: 2 },
+    { w: 1320, h: 2868, pw: 440,  ph: 956,  r: 3 },
+    { w: 1290, h: 2796, pw: 430,  ph: 932,  r: 3 },
+    { w: 1284, h: 2778, pw: 428,  ph: 926,  r: 3 },
+    { w: 1260, h: 2736, pw: 420,  ph: 912,  r: 3 },
+    { w: 1242, h: 2688, pw: 414,  ph: 896,  r: 3 },
+    { w: 1206, h: 2622, pw: 402,  ph: 874,  r: 3 },
+    { w: 1179, h: 2556, pw: 393,  ph: 852,  r: 3 },
+    { w: 1170, h: 2532, pw: 390,  ph: 844,  r: 3 },
+    { w: 1125, h: 2436, pw: 375,  ph: 812,  r: 3 },
+    { w: 1080, h: 2340, pw: 360,  ph: 780,  r: 3 },
+    { w: 1080, h: 1920, pw: 414,  ph: 736,  r: 3 },
+    { w: 828,  h: 1792, pw: 414,  ph: 896,  r: 2 },
+    { w: 750,  h: 1334, pw: 375,  ph: 667,  r: 2 },
+    { w: 640,  h: 1136, pw: 320,  ph: 568,  r: 2 },
 ];
 
+/** Generate `<link rel="apple-touch-startup-image">` tags for all splash screen resolutions. */
 function splashTags(): HtmlTagDescriptor[] {
     return SPLASH_SCREENS.map(({ w, h, pw, ph, r }) => ({
         tag: 'link',
@@ -92,6 +109,7 @@ function splashTags(): HtmlTagDescriptor[] {
     }));
 }
 
+/** Generate tags exclusive to full-tier pages: splash screens, manifest, sitemap, theme-color. */
 function fullPageTags(): HtmlTagDescriptor[] {
     return [
         ...splashTags(),
@@ -106,6 +124,7 @@ function fullPageTags(): HtmlTagDescriptor[] {
 // Per-page tags
 // =========================================================================
 
+/** Generate Open Graph meta tags for social sharing previews. */
 function ogTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [
         { tag: 'meta', attrs: { property: 'og:type', content: 'website' } },
@@ -122,6 +141,7 @@ function ogTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     ];
 }
 
+/** Generate Twitter/X Card meta tags (summary_large_image format). */
 function twitterTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [
         { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
@@ -132,6 +152,7 @@ function twitterTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     ];
 }
 
+/** Generate hreflang `<link>` tags for en, zh-Hans, zh-Hant, and x-default. */
 function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     const url = `${BASE_URL}${meta.pagePath}`;
     return [
@@ -142,6 +163,7 @@ function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     ];
 }
 
+/** Generate basic SEO tags: `<title>`, description, robots, and canonical URL. */
 function seoTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [
         { tag: 'title', children: meta.title },
@@ -151,6 +173,7 @@ function seoTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
     ];
 }
 
+/** Generate JSON-LD structured data `<script>` tags based on the page's jsonLDType. */
 function structuredData(meta: PageMetaEntry): HtmlTagDescriptor[] {
     if (meta.jsonLDType === 'homepage') {
         return [
@@ -166,6 +189,7 @@ function structuredData(meta: PageMetaEntry): HtmlTagDescriptor[] {
     return [];
 }
 
+/** Generate JSON-LD Person schema for the homepage with sameAs social links. */
 function homepageJSONLD(): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
@@ -191,6 +215,7 @@ function homepageJSONLD(): string {
     });
 }
 
+/** Generate JSON-LD WebSite schema with SearchAction for the homepage. */
 function websiteJSONLD(): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
@@ -210,6 +235,7 @@ function websiteJSONLD(): string {
     });
 }
 
+/** Generate JSON-LD BreadcrumbList schema for sub-pages (Home -> Page Name). */
 function breadcrumbJSONLD(meta: PageMetaEntry): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
@@ -225,6 +251,15 @@ function breadcrumbJSONLD(meta: PageMetaEntry): string {
 // Plugin export
 // =========================================================================
 
+/**
+ * Vite plugin that injects all `<head>` tags at build time.
+ *
+ * Generates SEO meta tags (title, description, robots, canonical), Open Graph,
+ * Twitter Cards, hreflang alternates, JSON-LD structured data, favicons, PWA
+ * tags, splash screens, and the appropriate entry script based on page tier.
+ * Only charset and viewport remain in source HTML files.
+ * @returns A Vite plugin object with a transformIndexHtml hook.
+ */
 export function headTagsPlugin() {
     return {
         name: 'head-tags-plugin',

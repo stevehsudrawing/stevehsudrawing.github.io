@@ -1,3 +1,15 @@
+---
+description: >
+  Internationalization (i18n): multi-language support via data-i18n attributes (textContent, innerHTML,
+  tooltip, alt, aria-label), JSON translation files per language, i18n key naming conventions (text-*
+  prefix for plain text, html-* prefix for rich text). Language menus pre-rendered at build time.
+  Use when: adding translations, modifying i18n.ts, creating i18n keys, or working with language switching.
+applyTo: >
+  src/core/i18n.ts;
+  public/configs/i18n/**;
+  build/configs/language-list.json
+---
+
 ### 4.3 Internationalization (i18n)
 
 **Brief**: Provides multi-language support for all user-facing text. Translations are stored in JSON files and applied at runtime by rewriting DOM elements with `data-i18n` attributes.

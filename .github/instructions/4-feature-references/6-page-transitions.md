@@ -1,3 +1,15 @@
+---
+description: >
+  Page transitions: SPA-style animated navigation between internal pages (.internal-link), progress
+  bar animation, content dimming, interaction with tooltips (dispose before transition), settings
+  (re-init after transition), i18n (re-apply translations), loading screen (restore content).
+  Not loaded on lightweight/404 pages.
+  Use when: modifying page-transition.ts, page-transition.css, or internal link navigation behavior.
+applyTo: >
+  src/features/page-transition.ts;
+  src/stylesheets/page-transition.css
+---
+
 ### 4.6 Page Transitions
 
 **Brief**: Provides SPA-style animated transitions when navigating between internal pages.

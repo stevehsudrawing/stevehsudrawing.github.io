@@ -1,3 +1,16 @@
+---
+description: >
+  Build-time injection: Vite plugins for head tag injection (meta/SEO/OG/twitter/hreflang/JSON-LD),
+  page component injection (header/footer/modals from build/page-components/), link card injection
+  from HAST JSON, asset minification, link button group injection. Language menus pre-rendered at
+  build time from language-list.json.
+  Use when: modifying Vite plugins, build configs, page components, or adding new injection types.
+applyTo: >
+  build/**;
+  vite.config.ts;
+  build/configs/page-meta.ts
+---
+
 ### 4.2 Build-time Injection
 
 **Brief**: All dynamic content that was previously fetched or built at runtime (page components, link cards, language menus) is now pre-rendered into static HTML at build time by Vite plugins. This improves SEO and eliminates runtime fetch calls.

@@ -1,3 +1,16 @@
+---
+description: >
+  Image utilities: unified data-img-feature attribute system for image behaviors - follow-theme
+  (theme-based src swapping between light/dark variants), colored (CSS mask-based monochrome
+  coloring via --shlh-* color variables), loading-opacity (semi-transparent while loading, fade
+  to opaque on load).
+  Use when: modifying img-utils.ts, img-utils.css, theme.ts, or adding data-img-feature attributes.
+applyTo: >
+  src/core/img-utils.ts;
+  src/stylesheets/img-utils.css;
+  src/ui/theme.ts
+---
+
 ### 4.13 Image Utilities
 
 **Brief**: Provides a unified `data-img-feature` attribute system for image behaviors such as theme-following source swapping, CSS mask-based monochrome coloring, and loading-state opacity control.

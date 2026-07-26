@@ -1,3 +1,14 @@
+---
+description: >
+  Tooltips: Bootstrap tooltip initialization and lifecycle management (initAllTooltips,
+  disposeAllTooltips, createTooltip, disposeTooltip - idempotent create, symmetric dispose),
+  copy-link tooltips with named handleCopyLinkClick handler, ARIA attributes. Tooltips are
+  disposed before page transitions to prevent orphans.
+  Use when: modifying tooltips.ts or adding tooltip elements.
+applyTo: >
+  src/ui/tooltips.ts
+---
+
 ### 4.12 Tooltips
 
 **Brief**: Initializes Bootstrap tooltips with proper ARIA attributes. Provides reusable utility functions for single-element tooltip creation and disposal.

@@ -1,3 +1,20 @@
+---
+description: >
+  SEO: meta tags, structured data (JSON-LD Person schema with sameAs for homepage, WebSite with
+  SearchAction, BreadcrumbList for sub-pages), sitemap.xml with hreflang alternates, hreflang link
+  tags (en/zh-Hans/zh-Hant/x-default), Open Graph tags, Twitter/X Card tags (summary_large_image),
+  PWA manifest, noscript SEO fallback in body, heading hierarchy, crawler whitelist. SEO elements
+  vary by page tier (full/lightweight/error).
+  Use when: modifying head-tags-plugin.ts, page-meta.ts, sitemap.xml, robots.txt, or page metadata.
+applyTo: >
+  build/head-tags-plugin.ts;
+  build/configs/page-meta.ts;
+  public/robots.txt;
+  public/sitemap.xml;
+  public/manifest.json;
+  *.html
+---
+
 ### 4.16 SEO
 
 **Brief**: Search engine optimization via meta tags, structured data (JSON-LD), sitemap, hreflang, Open Graph, Twitter Cards, and PWA manifest. Applied across all full-functionality pages and the 404 page.

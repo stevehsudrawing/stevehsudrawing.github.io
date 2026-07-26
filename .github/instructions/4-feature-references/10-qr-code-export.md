@@ -1,3 +1,15 @@
+---
+description: >
+  QR code and export: branded QR code share card generation via qrcode library, PNG download via
+  html-to-image with html2canvas fallback for mobile, centre overlay icon rendered from HAST
+  imgProperties, modal footer buttons (Open Link/Share/Download/Close), Web Share API integration.
+  Use when: modifying qr-code.ts, qr-code.css, or QR code modal behavior.
+applyTo: >
+  src/features/qr-code.ts;
+  src/stylesheets/qr-code.css;
+  build/page-components/modals.html
+---
+
 ### 4.10 QR Code & Export
 
 **Brief**: Generates a branded QR code share card and allows downloading it as a PNG image. The modal also provides an "Open Link" button that switches to the external link confirmation modal for cross-navigation.

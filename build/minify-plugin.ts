@@ -14,6 +14,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Minifiers
 // =========================================================================
 
+/**
+ * Minify an HTML file using html-minifier-terser.
+ * Preserves JSON-LD and noscript content via ignoreCustomFragments.
+ * @param filePath - Absolute path to the HTML file (read and overwritten in place).
+ */
 async function minifyHTML(filePath: string): Promise<void> {
     const original = readFileSync(filePath, 'utf-8');
     const result = await minify(original, {
@@ -30,12 +35,14 @@ async function minifyHTML(filePath: string): Promise<void> {
     writeFileSync(filePath, result);
 }
 
+/** Minify a JSON file by re-serializing with JSON.stringify (no whitespace). */
 function minifyJSON(filePath: string): void {
     const original = readFileSync(filePath, 'utf-8');
     const compact = JSON.stringify(JSON.parse(original));
     writeFileSync(filePath, compact);
 }
 
+/** Minify legacy CSS files by removing comments and collapsing whitespace. */
 function minifyStaticCSS(filePath: string): void {
     const original = readFileSync(filePath, 'utf-8');
     const result = original
@@ -48,6 +55,7 @@ function minifyStaticCSS(filePath: string): void {
     writeFileSync(filePath, result);
 }
 
+/** Minify legacy JS files by removing line comments, block comments, and blank lines. */
 function minifyStaticJS(filePath: string): void {
     const original = readFileSync(filePath, 'utf-8');
     const result = original
@@ -59,6 +67,7 @@ function minifyStaticJS(filePath: string): void {
     writeFileSync(filePath, result);
 }
 
+/** Minify an XML file by removing whitespace between tags. */
 function minifyXML(filePath: string): void {
     const original = readFileSync(filePath, 'utf-8');
     const result = original
@@ -72,6 +81,14 @@ function minifyXML(filePath: string): void {
 // Plugin export
 // =========================================================================
 
+/**
+ * Vite plugin that minifies static assets after build.
+ *
+ * Minifies HTML (collapseWhitespace, removeComments via html-minifier-terser),
+ * JSON (compact via JSON.stringify), legacy CSS/JS (comment removal, whitespace
+ * collapse), and XML (whitespace between tags).
+ * @returns A Vite plugin object with a closeBundle hook.
+ */
 export function minifyPlugin() {
     return {
         name: 'minify-plugin',

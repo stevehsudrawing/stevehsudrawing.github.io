@@ -1,3 +1,16 @@
+---
+description: >
+  External link confirmation: intercepts .external-link clicks (with modifier key bypass), shows
+  confirmation modal with link icon (from data-link-img-props JSON attribute using HAST property
+  conventions), target URL display, Open in new tab toggle synced with settings localStorage, Show
+  QR Code button switching to QR modal, Open button navigating via window.open or location.href.
+  Use when: modifying external-link-confirmation.ts, external-link-confirmation.css, or external link behavior.
+applyTo: >
+  src/features/external-link-confirmation.ts;
+  src/stylesheets/external-link-confirmation.css;
+  build/page-components/modals.html
+---
+
 ### 4.17 External Link Confirmation
 
 **Brief**: Intercepts clicks on external links (`.external-link`) and shows a confirmation modal before navigating away from the site. Displays an optional link icon, allows switching to the QR code modal, and lets the user choose whether to open the link in a new tab.

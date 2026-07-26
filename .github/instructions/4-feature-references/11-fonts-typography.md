@@ -1,3 +1,14 @@
+---
+description: >
+  Fonts and typography: comprehensive font stacks via --shlh-font-* CSS custom properties
+  (sans-serif-text/display, monospace, emoji), per-language per-platform font preferences (Inter,
+  SF Pro, Roboto, Segoe UI, CJK fonts like Sarasa Gothic, Hiragino Sans, PingFang, Noto Sans CJK),
+  variable font naming convention: --shlh-font-{category}-{priority}-{language}.
+  Use when: modifying fonts.css, font stacks, or typography settings.
+applyTo: >
+  src/stylesheets/fonts.css
+---
+
 ### 4.11 Fonts & Typography
 
 **Brief**: Defines comprehensive font stacks for body text, headings, monospace code, and emoji across all supported languages. The actual font stacks are assembled in `stylesheets/fonts.css` using `--shlh-font-*` CSS custom properties.

@@ -1,3 +1,16 @@
+---
+description: >
+  External npm dependencies (Bootstrap, Bootstrap Icons, Popper, Inter font, qrcode, html-to-image,
+  html2canvas, HAST utilities, html-minifier-terser, TypeScript, Vite) and the dependency principle:
+  prefer well-maintained lightweight libraries over hand-rolled workarounds.
+  Use when: adding/removing/updating dependencies, evaluating new libraries, or modifying package.json.
+applyTo: >
+  package.json;
+  pnpm-lock.yaml;
+  src/main.ts;
+  src/main-lightweight.ts
+---
+
 ### 1.2 External Dependencies
 
 All dependencies are installed via pnpm and imported in [`src/main.ts`](src/main.ts). No CDN `<link>` or `<script>` tags are used.

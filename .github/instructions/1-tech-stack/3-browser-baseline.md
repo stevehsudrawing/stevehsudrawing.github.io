@@ -1,3 +1,14 @@
+---
+description: >
+  Browser baseline: minimum browser versions (Chrome 80+, Edge 80+, Firefox 74+, Opera 67+, Safari 14+),
+  per-dependency browser requirements (Bootstrap, qrcode, html-to-image, html2canvas, Popper, HAST),
+  and required browser features (optional chaining, WebP, WOFF2, variable fonts, ES modules).
+  Use when: evaluating browser compatibility, modifying env-detection.js, or changing feature requirements.
+applyTo: >
+  public/legacy/env-detection.js;
+  src/core/bootstrap-css-detection.ts
+---
+
 ### 1.3 Browser Baseline
 
 The minimum browser versions are determined by both **npm dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection (`new Function('return 0?.x')`) in `public/legacy/env-detection.js` to verify that the JS engine supports optional chaining.

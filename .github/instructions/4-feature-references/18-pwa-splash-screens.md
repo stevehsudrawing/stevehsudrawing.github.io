@@ -1,3 +1,17 @@
+---
+description: >
+  PWA splash screens: Apple PWA splash screen image generation for 23 device resolutions from a
+  single square prototype image via Python script (generate_splash.py), injected as
+  apple-touch-startup-image link tags with media queries in fullPageTags(). SPLASH_SCREENS table
+  in vite.config.ts maps pixel dimensions to CSS point dimensions.
+  Use when: modifying splash screen generator, splash images, or vite.config.ts splash screen config.
+applyTo: >
+  vite.config.ts;
+  tools/apple-pwa-splash-generator/**;
+  public/images/png/splash/**;
+  public/manifest.json
+---
+
 ### 4.18 PWA Splash Screens
 
 **Brief**: Generates Apple PWA splash screen images for 23 device resolutions from a single square prototype image. The images are injected as `<link rel="apple-touch-startup-image">` tags in `fullPageTags()`.

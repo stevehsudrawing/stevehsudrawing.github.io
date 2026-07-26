@@ -1,3 +1,19 @@
+---
+description: >
+  Navigation and accessibility: navbar active state highlighting, scroll hint indicator with
+  create/remove lifecycle, skip-to-content button for keyboard users, keyboard vs mouse focus
+  distinction (.user-input-keyboard), CSS accessibility adaptations (reduced motion, reduced
+  transparency, high contrast media queries).
+  Use when: modifying navbar, scroll hints, skip button, or accessibility CSS.
+applyTo: >
+  src/ui/navbar.ts;
+  src/ui/scroll-hint.ts;
+  src/core/accessibility.ts;
+  src/stylesheets/navbar.css;
+  src/stylesheets/scroll-hint.css;
+  src/stylesheets/accessibility.css
+---
+
 ### 4.9 Navigation & Accessibility
 
 **Brief**: Handles navbar active state, scroll hint indicator, skip-to-content button, keyboard/mouse focus distinction, and CSS-based accessibility adaptations (reduced motion, reduced transparency, high contrast).

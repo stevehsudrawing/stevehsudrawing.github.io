@@ -1,3 +1,17 @@
+---
+description: >
+  Link button groups: build-time pre-rendered inline button groups from simplified JSON configs
+  (LinkButtonData), placeholder injection via data-role=link-button-group with data-group-id matching.
+  Key differences from link cards: simplified config format (not full HAST), inline btn-group layout,
+  primary button handling with automatic colored image transformation for visibility on btn-primary
+  background.
+  Use when: creating/modifying link-button-group JSON configs, the button-groups builder, or button injection logic.
+applyTo: >
+  build/builders/link-button-groups.ts;
+  build/configs/link-button-groups/**;
+  build/content-injection-plugin.ts
+---
+
 ### 4.19 Link Button Groups
 
 **Brief**: Link button groups are pre-rendered into static HTML at build time from simplified JSON configs (not full HAST). Unlike link cards (§4.5) which use HAST JSON for maximum flexibility, button groups use a purpose-built data structure (`LinkButtonData`) that the builder converts into HAST internally. For the JSON data format, see [§3.3.4](../3-project-structural-constraints/3-type-definitions.md#334-link-button-group-json-format-buildconfigslink-button-groupsjson). For how they are rendered and injected, see [§4.2.5](2-build-time-injection.md#425-link-button-group-injection).

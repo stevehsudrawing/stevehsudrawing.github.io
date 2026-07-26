@@ -1,3 +1,15 @@
+---
+description: >
+  SVG injection: runtime SVG file fetching and inline DOM injection replacing span placeholders
+  (data-role=svg), dynamic dimension control (data-width/data-height), color control via CSS
+  variable replacement (data-color-var replaces fill=currentColor in SVG source). SVG files must
+  use fill=currentColor as placeholder, include viewBox, and not hardcode width/height.
+  Use when: modifying svg-utils.ts, adding SVG assets, or using SVG placeholders in HTML.
+applyTo: >
+  src/core/svg-utils.ts;
+  public/images/svg/**
+---
+
 ### 4.14 SVG Injection
 
 **Brief**: Replaces `<span>` placeholders with inline SVG fetched from files at runtime, avoiding hardcoded SVG markup in HTML. Supports dynamic dimension and color control via data attributes.

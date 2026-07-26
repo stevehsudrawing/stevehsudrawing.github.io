@@ -1,4 +1,18 @@
-﻿### 4.1 Browser Detection & Compatibility Fallbacks
+﻿---
+description: >
+  Browser detection and compatibility fallbacks: feature detection via optional chaining test
+  in env-detection.js, crawler/bot whitelist via UA matching, Bootstrap CSS loaded verification,
+  JavaScript-disabled noscript redirect, unsupported browser redirect to error page.
+  Use when: modifying env-detection.js, bootstrap-css-detection.ts, error pages, or noscript fallbacks.
+applyTo: >
+  public/legacy/env-detection.js;
+  src/core/bootstrap-css-detection.ts;
+  error-unsupported-browser.html;
+  error-javascript-disabled.html;
+  *.html
+---
+
+### 4.1 Browser Detection & Compatibility Fallbacks
 
 **Brief**: Uses feature detection (testing optional chaining support via `new Function()`) to verify the browser meets the minimum baseline, and redirects to `error-unsupported-browser.html` if not. Verifies that Bootstrap CSS loaded correctly. Also handles the case where JavaScript is disabled by redirecting to `error-javascript-disabled.html`. Known search engine bots, crawlers, and SEO tools are whitelisted via `isBotOrCrawler()` by UA matching to prevent SEO-impacting false negatives (see [§4.16.8](16-seo.md#4168-crawler-whitelist)).
 

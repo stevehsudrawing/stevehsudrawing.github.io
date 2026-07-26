@@ -1,3 +1,16 @@
+---
+description: >
+  TypeScript naming conventions: camelCase variables/functions, SCREAMING_SNAKE_CASE constants,
+  PascalCase interfaces/types/enums. Import conventions (.js extensions, import type, Direct Import
+  Principle). Function naming prefixes (init/dispose/create/remove/add/mark/handle/load/update/apply/
+  get/set/populate/generate/hide/extract/normalize). Batch functions must delegate to single-element
+  functions; single-element functions must have symmetric counterparts (add/remove, init/dispose,
+  create/remove). Use when: writing or refactoring TypeScript code.
+applyTo: >
+  build/**/*.ts;
+  src/**/*.ts
+---
+
 ### 2.3 TypeScript
 
 | Category               | Convention             | Examples                                    |
@@ -28,24 +41,24 @@
 
     - Correct:
     ```ts
-    // In src/core/module.ts:
+    // In src/core/module-a.ts:
     export function doSomething(): void { /* ... */ }
 
-    // In src/feature/module.ts:
-    import { doSomething } from '../core/module.js';
+    // In src/feature/module-c.ts:
+    import { doSomething } from '../core/module-a.js';
     ```
 
     - Wrong:
     ```ts
-    // In src/core/module.ts:
+    // In src/core/module-a.ts:
     export function doSomething(): void { /* ... */ }
 
-    // In src/ui/module.ts:
-    import { doSomething } from '../core/module.js';
+    // In src/ui/module-b.ts:
+    import { doSomething } from '../core/module-a.js';
     export { doSomething };
 
-    // In src/feature/module.ts:
-    import { doSomething } from '../ui/module.js';
+    // In src/feature/module-c.ts:
+    import { doSomething } from '../ui/module-b.js';
     ```
 
 #### 2.3.2 Function Naming by Category
@@ -128,3 +141,20 @@ Existing batch / single-element pairs:
 | `initAllScrollHints()`                 | `createScrollHint(group)`            | `scroll-hint.ts`      |
 | `applyAllExternalLinkTargetBehavior()` | `addExternalLinkTargetBehavior(link)`| `settings.ts`         |
 | `initAllScrollHints()`                 | `createScrollHint(group)`            | `scroll-hint.ts`      |
+
+#### 2.3.5 TSDoc Requirement
+
+Every exported variable, function, interface, and type alias **must** have a standard TSDoc comment (`/** ... */`) that describes its purpose, parameters, and return value.
+
+```ts
+// Correct
+/**
+ * Initializes all Bootstrap tooltips on the page.
+ * Delegates to {@link createTooltip} for each element.
+ * @returns {void}
+ */
+export function initAllTooltips(): void { /* ... */ }
+
+// Wrong — missing TSDoc
+export function initAllTooltips(): void { /* ... */ }
+```

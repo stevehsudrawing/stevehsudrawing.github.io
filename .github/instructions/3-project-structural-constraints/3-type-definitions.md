@@ -1,3 +1,17 @@
+---
+description: >
+  TypeScript type definitions: browser types (src/types/ - app.ts, hast.ts, globals.d.ts, css.d.ts)
+  vs build-time types (build/types.ts). HAST node types (root/element/text/comment) and property
+  naming conventions (className, camelCase data* attributes). Link-card JSON format (GroupData/CardData)
+  and Link-button-group JSON format (LinkButtonData/LinkButtonGroupData).
+  Use when: defining new types, modifying HAST structures, or creating link-card/link-button-group configs.
+applyTo: >
+  src/types/**;
+  build/types.ts;
+  build/configs/link-cards/**;
+  build/configs/link-button-groups/**
+---
+
 ### 3.3 Type Definitions
 
 TypeScript type definitions are split into two groups: browser types (used by `src/`) and build-time types (used by `build/` and `vite.config.ts`).

@@ -1,3 +1,18 @@
+---
+description: >
+  General file rules: src/{core,ui,features} define only (no top-level execution),
+  main.ts/main-lightweight.ts wire everything, CSS commenting conventions, HTML page tiers
+  (full/lightweight/error with minimal external reference), Markdown document writing standards
+  (numbered headings, section cross-references).
+  Use when: adding new modules, entry points, CSS, HTML pages, or markdown docs.
+applyTo: >
+  src/**/*.ts;
+  src/stylesheets/**;
+  public/legacy/*.css;
+  *.html;
+  *.md
+---
+
 ### 3.2 General File Rules
 
 #### 3.2.1 `src/{core,ui,features}/*`: Define Only, Never Execute

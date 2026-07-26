@@ -7,12 +7,18 @@
 
 import type { PageMetaMap } from '../types.js';
 
+/** Site name used in `<title>`, OG tags, JSON-LD, and PWA manifest. */
 export const SITE_NAME = "Steve Hsu (什五)'s Link-Hub";
+/** Site author used in `<meta name="author">`. */
 export const SITE_AUTHOR = 'Steve Hsu (什五)';
+/** Canonical base URL of the deployed site. */
 export const BASE_URL = 'https://stevehsudrawing.github.io';
+/** Absolute URL of the Open Graph / Twitter Card share image (1200x630). */
 export const OG_IMAGE = `${BASE_URL}/images/png/banner.png`;
+/** Twitter/X handle for `twitter:creator` meta tag. */
 export const TWITTER_CREATOR = '@stevehsudrawing';
 
+/** Per-page metadata map that drives head-tag generation and page tier selection. */
 export const PAGE_META: PageMetaMap = {
     index: {
         title: SITE_NAME,

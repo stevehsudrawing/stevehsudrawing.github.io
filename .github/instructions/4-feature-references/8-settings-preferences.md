@@ -1,3 +1,16 @@
+---
+description: >
+  Settings and preferences: user-configurable preferences persisted in localStorage
+  (openExternalLinksInNewTab default enabled, enableAnimations default enabled), toggle event
+  handling in settings modal, animation preference with OS reduced-motion detection (disables
+  toggle when system prefers reduced motion). Interaction with external link confirmation and
+  page transitions.
+  Use when: modifying settings.ts, adding new preferences, or working with the settings modal.
+applyTo: >
+  src/ui/settings.ts;
+  build/page-components/modals.html
+---
+
 ### 4.8 Settings & Preferences
 
 **Brief**: Manages user-configurable preferences persisted in `localStorage`.

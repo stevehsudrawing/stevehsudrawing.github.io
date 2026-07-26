@@ -1,3 +1,16 @@
+---
+description: >
+  Theme system: light/dark/auto color themes via Bootstrap data-bs-theme attribute, --shlh-* CSS
+  custom properties for brand colors with brightness scale (100-900), favicon switching between
+  light/dark SVG variants, system theme detection via matchMedia.
+  Use when: modifying theme colors, theme.ts, theme.css, base.css, or favicon assets.
+applyTo: >
+  src/ui/theme.ts;
+  src/stylesheets/theme.css;
+  src/stylesheets/base.css;
+  public/images/svg/favicons/**
+---
+
 ### 4.4 Theme System
 
 **Brief**: Supports light, dark, and auto (follow OS) color themes using Bootstrap's `data-bs-theme` attribute. Custom brand colors are defined via `--shlh-*` CSS custom properties. Also handles favicon switching between light/dark variants when the theme changes.

@@ -1,3 +1,14 @@
+---
+description: >
+  Project folder structure: src/ layered architecture (types -> core -> ui -> features),
+  build/ for build-time scripts, public/ for static assets, file placement rules per layer.
+  Use when: creating new files, organizing modules, or determining where to place new code.
+applyTo: >
+  src/**/*.ts;
+  src/stylesheets/**;
+  build/**/*.ts
+---
+
 ### 3.1 Folder Overview
 
 | Folder                              | Purpose                                                            | Where to Add New Code                                 | Local Only (Excluded from Remote Repo) |
