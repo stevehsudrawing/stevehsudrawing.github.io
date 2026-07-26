@@ -1,192 +1,192 @@
 [
-    {
-        "groupId": "artworks",
-        "buttons": [
-            {
-                "externalLink": true,
-                "linkHref": "https://www.pixiv.net/users/70732361",
-                "primary": true,
-                "iconProps": {
-                    "alt": "Pixiv",
-                    "src": "/images/webp/icons/pixiv.webp"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://www.deviantart.com/stevehsudrawing",
-                "iconProps": {
-                    "alt": "DeviantArt",
-                    "src": "/images/webp/icons/deviant-art.webp"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://x.com/stevehsudrawing",
-                "iconProps": {
-                    "alt": "X",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/x-twitter.webp",
-                    "dataColorVar": "bs-body-color"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://weibo.com/stevehsudrawing",
-                "iconProps": {
-                    "alt": "Weibo",
-                    "dataI18nAlt": "text-weibo",
-                    "src": "/images/webp/icons/weibo.webp"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://youtube.com/@stevehsu4277",
-                "iconProps": {
-                    "alt": "Youtube",
-                    "src": "/images/webp/icons/youtube.webp"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://space.bilibili.com/298733903",
-                "iconProps": {
-                    "alt": "Bilibili",
-                    "dataI18nAlt": "text-bilibili",
-                    "src": "/images/webp/icons/bilibili.webp"
-                }
-            },
-            {
-                "externalLink": false,
-                "linkHref": "/artworks-and-videos.html#sticker-collections",
-                "iconProps": {
-                    "alt": "Sticker Collections",
-                    "dataI18nAlt": "text-sticker-collections",
-                    "src": "/images/webp/icons/sticker-collections.webp",
-                    "className": ["no-copy"]
-                }
-            },
-            {
-                "externalLink": false,
-                "linkHref": "/artworks-and-videos.html",
-                "iconProps": {
-                    "alt": "More links",
-                    "dataI18nAlt": "text-more-links",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/more.webp",
-                    "dataColorVar": "bs-secondary"
-                }
-            }
-        ]
-    },
-    {
-        "groupId": "softwares",
-        "buttons": [
-            {
-                "externalLink": true,
-                "linkHref": "https://github.com/stevehsudrawing",
-                "primary": true,
-                "iconProps": {
-                    "alt": "Github",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/github.webp",
-                    "dataColorVar": "bs-body-color"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://github.com/stevehsudrawing/QuantoUlt",
-                "iconProps": {
-                    "alt": "Quanto Ult",
-                    "src": "/images/webp/icons/quanto-ult.webp"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://github.com/stevehsudrawing/quantoflx",
-                "iconProps": {
-                    "alt": "Quanto Flx",
-                    "src": "/images/webp/icons/quanto-flx.webp"
-                }
-            },
-            {
-                "externalLink": false,
-                "linkHref": "/softwares.html",
-                "iconProps": {
-                    "alt": "More links",
-                    "dataI18nAlt": "text-more-links",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/more.webp",
-                    "dataColorVar": "bs-secondary"
-                }
-            }
-        ]
-    },
-    {
-        "groupId": "blogs-and-sponsor",
-        "buttons": [
-            {
-                "externalLink": true,
-                "linkHref": "https://www.patreon.com/QuantoSeries",
-                "iconProps": {
-                    "alt": "Patreon (Quanto Series)",
-                    "dataI18nAlt": "text-patreon-quanto-series",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/patreon.webp",
-                    "dataColorVar": "bs-body-color"
-                }
-            },
-            {
-                "externalLink": true,
-                "linkHref": "https://afdian.com/a/stevehsu",
-                "iconProps": {
-                    "alt": "Afdian",
-                    "dataI18nAlt": "text-afdian",
-                    "src": "/images/webp/icons/afdian.webp"
-                }
-            },
-            {
-                "externalLink": false,
-                "linkHref": "/blogs-and-sponsor.html",
-                "iconProps": {
-                    "alt": "More links",
-                    "dataI18nAlt": "text-more-links",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/more.webp",
-                    "dataColorVar": "bs-secondary"
-                }
-            }
-        ]
-    },
-    {
-        "groupId": "chatting",
-        "buttons": [
-            {
-                "externalLink": false,
-                "linkHref": "/chatting.html#qq-groups",
-                "iconProps": {
-                    "alt": "QQ Groups",
-                    "dataI18nAlt": "text-qq-groups",
-                    "src": "/images/webp/icons/qq.webp"
-                }
-            },
-            {
-                "externalLink": false,
-                "linkHref": "/chatting.html",
-                "iconProps": {
-                    "alt": "More links",
-                    "dataI18nAlt": "text-more-links",
-                    "src": "/images/webp/null.webp",
-                    "dataImgFeature": "colored",
-                    "dataSrcMask": "/images/webp/icons/more.webp",
-                    "dataColorVar": "bs-secondary"
-                }
-            }
-        ]
-    }
+  {
+    "groupId": "artworks",
+    "buttons": [
+      {
+        "externalLink": true,
+        "linkHref": "https://www.pixiv.net/users/70732361",
+        "primary": true,
+        "iconProps": {
+          "alt": "Pixiv",
+          "src": "/images/webp/icons/pixiv.webp"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://www.deviantart.com/stevehsudrawing",
+        "iconProps": {
+          "alt": "DeviantArt",
+          "src": "/images/webp/icons/deviant-art.webp"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://x.com/stevehsudrawing",
+        "iconProps": {
+          "alt": "X",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/x-twitter.webp",
+          "dataColorVar": "bs-body-color"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://weibo.com/stevehsudrawing",
+        "iconProps": {
+          "alt": "Weibo",
+          "dataI18nAlt": "text-weibo",
+          "src": "/images/webp/icons/weibo.webp"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://youtube.com/@stevehsu4277",
+        "iconProps": {
+          "alt": "Youtube",
+          "src": "/images/webp/icons/youtube.webp"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://space.bilibili.com/298733903",
+        "iconProps": {
+          "alt": "Bilibili",
+          "dataI18nAlt": "text-bilibili",
+          "src": "/images/webp/icons/bilibili.webp"
+        }
+      },
+      {
+        "externalLink": false,
+        "linkHref": "/artworks-and-videos.html#sticker-collections",
+        "iconProps": {
+          "alt": "Sticker Collections",
+          "dataI18nAlt": "text-sticker-collections",
+          "src": "/images/webp/icons/sticker-collections.webp",
+          "className": ["no-copy"]
+        }
+      },
+      {
+        "externalLink": false,
+        "linkHref": "/artworks-and-videos.html",
+        "iconProps": {
+          "alt": "More links",
+          "dataI18nAlt": "text-more-links",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/more.webp",
+          "dataColorVar": "bs-secondary"
+        }
+      }
+    ]
+  },
+  {
+    "groupId": "softwares",
+    "buttons": [
+      {
+        "externalLink": true,
+        "linkHref": "https://github.com/stevehsudrawing",
+        "primary": true,
+        "iconProps": {
+          "alt": "Github",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/github.webp",
+          "dataColorVar": "bs-body-color"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://github.com/stevehsudrawing/QuantoUlt",
+        "iconProps": {
+          "alt": "Quanto Ult",
+          "src": "/images/webp/icons/quanto-ult.webp"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://github.com/stevehsudrawing/quantoflx",
+        "iconProps": {
+          "alt": "Quanto Flx",
+          "src": "/images/webp/icons/quanto-flx.webp"
+        }
+      },
+      {
+        "externalLink": false,
+        "linkHref": "/softwares.html",
+        "iconProps": {
+          "alt": "More links",
+          "dataI18nAlt": "text-more-links",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/more.webp",
+          "dataColorVar": "bs-secondary"
+        }
+      }
+    ]
+  },
+  {
+    "groupId": "blogs-and-sponsor",
+    "buttons": [
+      {
+        "externalLink": true,
+        "linkHref": "https://www.patreon.com/QuantoSeries",
+        "iconProps": {
+          "alt": "Patreon (Quanto Series)",
+          "dataI18nAlt": "text-patreon-quanto-series",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/patreon.webp",
+          "dataColorVar": "bs-body-color"
+        }
+      },
+      {
+        "externalLink": true,
+        "linkHref": "https://afdian.com/a/stevehsu",
+        "iconProps": {
+          "alt": "Afdian",
+          "dataI18nAlt": "text-afdian",
+          "src": "/images/webp/icons/afdian.webp"
+        }
+      },
+      {
+        "externalLink": false,
+        "linkHref": "/blogs-and-sponsor.html",
+        "iconProps": {
+          "alt": "More links",
+          "dataI18nAlt": "text-more-links",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/more.webp",
+          "dataColorVar": "bs-secondary"
+        }
+      }
+    ]
+  },
+  {
+    "groupId": "chatting",
+    "buttons": [
+      {
+        "externalLink": false,
+        "linkHref": "/chatting.html#qq-groups",
+        "iconProps": {
+          "alt": "QQ Groups",
+          "dataI18nAlt": "text-qq-groups",
+          "src": "/images/webp/icons/qq.webp"
+        }
+      },
+      {
+        "externalLink": false,
+        "linkHref": "/chatting.html",
+        "iconProps": {
+          "alt": "More links",
+          "dataI18nAlt": "text-more-links",
+          "src": "/images/webp/null.webp",
+          "dataImgFeature": "colored",
+          "dataSrcMask": "/images/webp/icons/more.webp",
+          "dataColorVar": "bs-secondary"
+        }
+      }
+    ]
+  }
 ]

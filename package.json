@@ -1,34 +1,34 @@
 {
-    "name": "stevehsudrawing-link-hub",
-    "private": true,
-    "version": "2.2.5",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "typecheck": "tsc --noEmit"
-    },
-    "devDependencies": {
-        "@types/bootstrap": "^5.2.11",
-        "@types/html-minifier-terser": "^7.0.2",
-        "@types/node": "^26.1.1",
-        "@types/qrcode": "^1.5.6",
-        "html-minifier-terser": "^7.2.0",
-        "typescript": "^7.0.2",
-        "vite": "^8.1.5"
-    },
-    "dependencies": {
-        "@fontsource-variable/inter": "^5.3.0",
-        "@fontsource-variable/roboto-mono": "^5.3.0",
-        "@popperjs/core": "^2.11.8",
-        "bootstrap": "^5.3.8",
-        "bootstrap-icons": "^1.11.3",
-        "hast-util-from-html": "^2.0.3",
-        "hast-util-to-html": "^9.0.5",
-        "hastscript": "^9.0.1",
-        "html-to-image": "^1.11.13",
-        "html2canvas": "^1.4.1",
-        "qrcode": "^1.5.4"
-    }
+  "name": "stevehsudrawing-link-hub",
+  "private": true,
+  "version": "2.3.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.11",
+    "@types/html-minifier-terser": "^7.0.2",
+    "@types/node": "^26.1.1",
+    "@types/qrcode": "^1.5.6",
+    "html-minifier-terser": "^7.2.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/roboto-mono": "^5.3.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.11.3",
+    "hast-util-from-html": "^2.0.3",
+    "hast-util-to-html": "^9.0.5",
+    "hastscript": "^9.0.1",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
+    "qrcode": "^1.5.4"
+  }
 }

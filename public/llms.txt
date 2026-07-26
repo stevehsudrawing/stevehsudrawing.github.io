@@ -8,7 +8,7 @@
 
 - [Home](https://stevehsudrawing.github.io/): Landing page with featured links and site overview.
 - [About](https://stevehsudrawing.github.io/about.html): Biography, skills, tools, and contact info.
-- [Artworks & Videos](https://stevehsudrawing.github.io/artworks-and-videos.html): Portfolio — illustrations, animations, and video works across platforms.
+- [Artworks & Videos](https://stevehsudrawing.github.io/artworks-and-videos.html): Portfolio - illustrations, animations, and video works across platforms.
 - [Blogs & Sponsor](https://stevehsudrawing.github.io/blogs-and-sponsor.html): Writing platforms, donation links, and sponsorship.
 - [Chatting](https://stevehsudrawing.github.io/chatting.html): Social media and instant messaging profiles.
 - [Softwares](https://stevehsudrawing.github.io/softwares.html): Software projects, development tools, and code-hosting profiles.

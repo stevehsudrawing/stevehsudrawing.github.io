@@ -3,7 +3,7 @@
  * Provides shared helpers for some logic used across multiple modules.
  */
 
-import type { HastProperties } from '../types/hast.js';
+import type { HastProperties } from "../types/hast.js";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
@@ -11,8 +11,8 @@ import type { HastProperties } from '../types/hast.js';
  * @returns e.g. "/index.html", "/about.html"
  */
 export function normalizeInternalPath(pathname: string): string {
-    if (pathname === '/' || pathname === '') return '/index.html';
-    return pathname;
+  if (pathname === "/" || pathname === "") return "/index.html";
+  return pathname;
 }
 
 /**
@@ -22,10 +22,10 @@ export function normalizeInternalPath(pathname: string): string {
  * @returns e.g. "index", "about", "artworks-and-videos"
  */
 export function extractPageName(pathname: string): string {
-    const normalized = normalizeInternalPath(pathname);
-    // normalized is like "/index.html" or "/about.html"
-    const filename = normalized.split('/').pop();
-    return filename!.replace(/\.html$/, '');
+  const normalized = normalizeInternalPath(pathname);
+  // normalized is like "/index.html" or "/about.html"
+  const filename = normalized.split("/").pop();
+  return filename!.replace(/\.html$/, "");
 }
 
 /**
@@ -37,45 +37,31 @@ export function extractPageName(pathname: string): string {
  * @param properties - Key/value pairs to set as attributes.
  */
 export function setElementAttributes(
-    element: HTMLElement,
-    properties: HastProperties = {}
+  element: HTMLElement,
+  properties: HastProperties = {},
 ): void {
-    Object.entries(properties).forEach(([key, value]) => {
-        if (key === 'className') {
-            if (Array.isArray(value)) {
-                (value as string[]).forEach(cls => element.classList.add(cls));
-            }
-            return;
-        }
+  Object.entries(properties).forEach(([key, value]) => {
+    if (key === "className") {
+      if (Array.isArray(value)) {
+        (value as string[]).forEach((cls) => element.classList.add(cls));
+      }
+      return;
+    }
 
-        if (value === false || value === null || value === undefined) {
-            return;
-        }
+    if (value === false || value === null || value === undefined) {
+      return;
+    }
 
-        // Convert camelCase data* keys to data-* kebab-case (hast convention).
-        // e.g. dataImgFeature -> data-img-feature, dataI18n -> data-i18n.
-        const attrName = /^data[A-Z]/.test(key)
-            ? key.replace(/^data([A-Z])/, (_, c: string) => 'data-' + c.toLowerCase())
-                .replace(/[A-Z]/g, m => '-' + m.toLowerCase())
-            : key;
+    // Convert camelCase data* keys to data-* kebab-case (hast convention).
+    // e.g. dataImgFeature -> data-img-feature, dataI18n -> data-i18n.
+    const attrName = /^data[A-Z]/.test(key)
+      ? key
+          .replace(/^data([A-Z])/, (_, c: string) => "data-" + c.toLowerCase())
+          .replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())
+      : key;
 
-        element.setAttribute(attrName, String(value));
-    });
-}
-
-/**
- * Show a Bootstrap toast message.
- * @param type - 'error' or 'success' — determines which toast element to use.
- * @param message - The message to display.
- */
-export function showToast(type: 'error' | 'success', message: string): void {
-    const container = document.getElementById('toast-container');
-    const toastEl = document.getElementById(`${type}-toast`);
-    const bodyEl = document.getElementById(`${type}-toast-body`);
-    if (!container || !toastEl || !bodyEl) return;
-    bodyEl.textContent = message;
-    const toast = window.bootstrap.Toast.getOrCreateInstance(toastEl);
-    toast.show();
+    element.setAttribute(attrName, String(value));
+  });
 }
 
 /**
@@ -83,21 +69,21 @@ export function showToast(type: 'error' | 'success', message: string): void {
  * @param error - The rejection value.
  */
 export function errMsg(error: unknown): string {
-    return error && typeof error === 'object' && 'message' in error
-        ? String((error as { message: unknown }).message)
-        : JSON.stringify(error);
+  return error && typeof error === "object" && "message" in error
+    ? String((error as { message: unknown }).message)
+    : JSON.stringify(error);
 }
 
 /**
  * List of internal page paths that support page transitions.
  */
 export const INTERNAL_PAGES = [
-    '/index.html',
-    '/about.html',
-    '/artworks-and-videos.html',
-    '/blogs-and-sponsor.html',
-    '/chatting.html',
-    '/softwares.html'
+  "/index.html",
+  "/about.html",
+  "/artworks-and-videos.html",
+  "/blogs-and-sponsor.html",
+  "/chatting.html",
+  "/softwares.html",
 ] as const;
 
 /**
@@ -105,9 +91,9 @@ export const INTERNAL_PAGES = [
  * These pages will always trigger a full browser navigation.
  */
 export const EXCLUDED_PAGES = [
-    '/404.html',
-    '/error-javascript-disabled.html',
-    '/error-unsupported-browser.html'
+  "/404.html",
+  "/error-javascript-disabled.html",
+  "/error-unsupported-browser.html",
 ] as const;
 
 /**
@@ -116,14 +102,17 @@ export const EXCLUDED_PAGES = [
  * @returns True if the URL points to an internal page eligible for transitions.
  */
 export function isInternalPage(url: string): boolean {
-    try {
-        const target = new URL(url, window.location.origin);
-        // Must be same origin
-        if (target.origin !== window.location.origin) return false;
-        // Must be one of our known internal pages
-        const path = target.pathname;
-        return (INTERNAL_PAGES as readonly string[]).includes(path) && !(EXCLUDED_PAGES as readonly string[]).includes(path);
-    } catch {
-        return false;
-    }
+  try {
+    const target = new URL(url, window.location.origin);
+    // Must be same origin
+    if (target.origin !== window.location.origin) return false;
+    // Must be one of our known internal pages
+    const path = target.pathname;
+    return (
+      (INTERNAL_PAGES as readonly string[]).includes(path) &&
+      !(EXCLUDED_PAGES as readonly string[]).includes(path)
+    );
+  } catch {
+    return false;
+  }
 }

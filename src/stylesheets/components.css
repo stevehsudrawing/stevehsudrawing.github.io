@@ -3,9 +3,9 @@
    ======================================================================== */
 
 .external-link-icon {
-    font-size: 0.6rem;
-    vertical-align: top;
-    transform: translateX(-.1rem);
+  font-size: 0.6rem;
+  vertical-align: top;
+  transform: translateX(-0.1rem);
 }
 
 /* ========================================================================
@@ -13,7 +13,7 @@
    ======================================================================== */
 
 .btn-no-border {
-    --bs-btn-border-width: 0;
+  --bs-btn-border-width: 0;
 }
 
 /* ========================================================================
@@ -21,7 +21,7 @@
    ======================================================================== */
 
 .card-wrapper {
-    display: flex;
+  display: flex;
 }
 
 /* ========================================================================
@@ -29,7 +29,7 @@
    ======================================================================== */
 
 .larger-link {
-    font-size: calc(1rem + .2vw);
+  font-size: calc(1rem + 0.2vw);
 }
 
 /* ========================================================================
@@ -37,47 +37,47 @@
    ======================================================================== */
 
 .title-link-group {
-    margin-top: 10px;
-    margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .title-link-group-wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .title-link-anchor {
-    transition:
-        opacity .2s ease,
-        visibility .2s ease;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
 }
 
 /* --- Mobile (< 992px) --- */
 
 @media (max-width: 991.98px) {
-    .title-link-anchor {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
+  .title-link-anchor {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 /* --- Desktop (>= 992px) --- */
 
 @media (min-width: 992px) {
-    .title-link-anchor {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-    }
+  .title-link-anchor {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 
-    .title-link-group-wrapper:hover .title-link-anchor,
-    .title-link-group-wrapper:focus-within .title-link-anchor {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
+  .title-link-group-wrapper:hover .title-link-anchor,
+  .title-link-group-wrapper:focus-within .title-link-anchor {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 /* ========================================================================
@@ -85,38 +85,38 @@
    ======================================================================== */
 
 .img-fit {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: opacity .2s ease;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: opacity 0.2s ease;
 }
 
 /* --- Sub Cover Wrapper --- */
 
 .sub-cover-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
-    align-content: space-around;
-    flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-content: space-around;
+  flex-grow: 1;
 }
 
-.sub-cover-wrapper>img {
-    width: 240px;
+.sub-cover-wrapper > img {
+  width: 240px;
 }
 
 /* Mobile (< 768px) */
 @media (max-width: 767.98px) {
-    .sub-cover-wrapper>img {
-        width: 50%;
-    }
+  .sub-cover-wrapper > img {
+    width: 50%;
+  }
 }
 
 /* --- Link Icon Wrapper --- */
 
 .link-icon-wrapper {
-    width: 40px;
-    min-width: 40px;
+  width: 40px;
+  min-width: 40px;
 }
 
 /* ========================================================================
@@ -124,35 +124,35 @@
    ======================================================================== */
 
 .btn-group {
-    max-width: 100%;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
-.link-button-group>.btn-outline-secondary {
-    --bs-btn-hover-color: #6c757d;
-    --bs-btn-hover-bg: rgba(108, 117, 125, .2);
-    --bs-btn-active-color: #6c757d;
-    --bs-btn-active-bg: rgba(108, 117, 125, .2);
+.link-button-group > .btn-outline-secondary {
+  --bs-btn-hover-color: #6c757d;
+  --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
+  --bs-btn-active-color: #6c757d;
+  --bs-btn-active-bg: rgba(108, 117, 125, 0.2);
 }
 
 /* --- Link Icons in Button Groups --- */
 
 .link-btn-img-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.link-btn-img-wrapper>img {
-    width: 40px;
-    height: 40px;
+.link-btn-img-wrapper > img {
+  width: 40px;
+  height: 40px;
 }
 
-.link-btn-img-wrapper>i {
-    font-size: larger;
+.link-btn-img-wrapper > i {
+  font-size: larger;
 }
 
 /* ========================================================================
@@ -160,7 +160,7 @@
    ======================================================================== */
 
 .footer {
-    font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 /* ========================================================================
@@ -168,11 +168,11 @@
    ======================================================================== */
 
 .notice-container {
-    text-align: center;
-    color: var(--bs-body-color);
-    padding: 0 1rem;
+  text-align: center;
+  color: var(--bs-body-color);
+  padding: 0 1rem;
 }
 
 .notice-container p {
-    margin-bottom: 0.25rem;
+  margin-bottom: 0.25rem;
 }

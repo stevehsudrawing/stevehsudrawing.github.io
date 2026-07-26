@@ -4,23 +4,24 @@
  * with click-to-copy clipboard behavior.
  */
 
-import { AppEvent } from '../types/app.js';
-import { translate } from '../core/i18n.js';
-import { showToast } from '../core/utils.js';
+import { AppEvent } from "../types/app.js";
+import { translate } from "../core/i18n.js";
+import { showToast } from "./toast.js";
 
 /** True when the primary input cannot hover (touchscreens). */
-const isTouchDevice = window.matchMedia('(any-hover: none)').matches;
+const isTouchDevice = window.matchMedia("(any-hover: none)").matches;
 
 /**
  * Create Bootstrap Tooltip instances for every element that has
  * the data-bs-toggle="tooltip" attribute.
- * Skipped on touch devices — tooltips cannot be dismissed on touchscreens
+ * Skipped on touch devices - tooltips cannot be dismissed on touchscreens
  * and will persist as orphaned overlays blocking interaction.
  */
 export function initAllTooltips(): void {
-    if (isTouchDevice) return;
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        .forEach(el => createTooltip(el));
+  if (isTouchDevice) return;
+  document
+    .querySelectorAll('[data-bs-toggle="tooltip"]')
+    .forEach((el) => createTooltip(el));
 }
 
 /**
@@ -28,8 +29,9 @@ export function initAllTooltips(): void {
  * Useful before page transitions to prevent orphaned tooltips.
  */
 export function disposeAllTooltips(): void {
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        .forEach(el => disposeTooltip(el));
+  document
+    .querySelectorAll('[data-bs-toggle="tooltip"]')
+    .forEach((el) => disposeTooltip(el));
 }
 
 /**
@@ -39,8 +41,8 @@ export function disposeAllTooltips(): void {
  * @returns The new tooltip instance.
  */
 export function createTooltip(element: Element): bootstrap.Tooltip {
-    disposeTooltip(element);
-    return new window.bootstrap.Tooltip(element);
+  disposeTooltip(element);
+  return new window.bootstrap.Tooltip(element);
 }
 
 /**
@@ -48,10 +50,10 @@ export function createTooltip(element: Element): bootstrap.Tooltip {
  * @param element - The element to remove the tooltip from.
  */
 export function disposeTooltip(element: Element): void {
-    const instance = window.bootstrap.Tooltip.getInstance(element);
-    if (instance) {
-        instance.dispose();
-    }
+  const instance = window.bootstrap.Tooltip.getInstance(element);
+  if (instance) {
+    instance.dispose();
+  }
 }
 
 /**
@@ -62,17 +64,21 @@ export function disposeTooltip(element: Element): void {
  * @param e - The click event.
  */
 export function handleCopyLinkClick(e: MouseEvent): void {
-    e.preventDefault();
-    const link = e.currentTarget as HTMLElement;
-    const copyText = link.getAttribute('data-copy-text');
-    if (!copyText) return;
+  e.preventDefault();
+  const link = e.currentTarget as HTMLElement;
+  const copyText = link.getAttribute("data-copy-text");
+  if (!copyText) return;
 
-    navigator.clipboard.writeText(copyText).then(function () {
-        const copiedText = translate('text-copied-text', 'Copied text') + ': ' + copyText;
-        showToast('success', copiedText);
-    }).catch(function (err) {
-        showToast('error', 'Failed to copy text');
-        console.error('Failed to copy text:', err);
+  navigator.clipboard
+    .writeText(copyText)
+    .then(function () {
+      const copiedText =
+        translate("text-copied-text", "Copied text") + ": " + copyText;
+      showToast("success", copiedText);
+    })
+    .catch(function (err) {
+      showToast("error", "Failed to copy text");
+      console.error("Failed to copy text:", err);
     });
 }
 
@@ -83,7 +89,7 @@ export function handleCopyLinkClick(e: MouseEvent): void {
  * @param link - The .copy-link element to initialize.
  */
 export function initCopyLinkClick(link: HTMLAnchorElement): void {
-    link.addEventListener('click', handleCopyLinkClick);
+  link.addEventListener("click", handleCopyLinkClick);
 }
 
 /**
@@ -91,21 +97,21 @@ export function initCopyLinkClick(link: HTMLAnchorElement): void {
  * @param link - The .copy-link element to dispose.
  */
 export function disposeCopyLinkClick(link: HTMLAnchorElement): void {
-    link.removeEventListener('click', handleCopyLinkClick);
+  link.removeEventListener("click", handleCopyLinkClick);
 }
 
 /**
  * Decorate a single .copy-link element with Bootstrap tooltip attributes.
- * Only called on desktop — touchscreens skip tooltip initialization.
+ * Only called on desktop - touchscreens skip tooltip initialization.
  * @param link - The .copy-link element to decorate.
  */
 export function initCopyLinkTooltip(link: HTMLAnchorElement): void {
-    link.setAttribute('data-bs-toggle', 'tooltip');
-    link.setAttribute('data-bs-trigger', 'hover focus');
-    link.setAttribute('data-i18n-tooltip', 'text-click-to-copy');
+  link.setAttribute("data-bs-toggle", "tooltip");
+  link.setAttribute("data-bs-trigger", "hover focus");
+  link.setAttribute("data-i18n-tooltip", "text-click-to-copy");
 
-    const initialTitle = translate('text-click-to-copy', 'Click to Copy');
-    link.setAttribute('data-bs-title', initialTitle);
+  const initialTitle = translate("text-click-to-copy", "Click to Copy");
+  link.setAttribute("data-bs-title", initialTitle);
 }
 
 /**
@@ -114,12 +120,12 @@ export function initCopyLinkTooltip(link: HTMLAnchorElement): void {
  * @param link - The .copy-link element to dispose.
  */
 export function disposeCopyLinkTooltip(link: HTMLAnchorElement): void {
-    disposeCopyLinkClick(link);
-    link.removeAttribute('data-bs-toggle');
-    link.removeAttribute('data-bs-trigger');
-    link.removeAttribute('data-i18n-tooltip');
-    link.removeAttribute('data-bs-title');
-    disposeTooltip(link);
+  disposeCopyLinkClick(link);
+  link.removeAttribute("data-bs-toggle");
+  link.removeAttribute("data-bs-trigger");
+  link.removeAttribute("data-i18n-tooltip");
+  link.removeAttribute("data-bs-title");
+  disposeTooltip(link);
 }
 
 /**
@@ -128,17 +134,17 @@ export function disposeCopyLinkTooltip(link: HTMLAnchorElement): void {
  * Delegates to initCopyLinkClick() + initCopyLinkTooltip().
  */
 export function initAllCopyLinkBehavior(): void {
-    try {
-        const links = document.querySelectorAll<HTMLAnchorElement>('.copy-link');
-        // Copy behavior: all devices
-        links.forEach(initCopyLinkClick);
-        // Tooltip decoration: desktop only
-        if (!isTouchDevice) {
-            links.forEach(initCopyLinkTooltip);
-        }
-    } catch (error) {
-        console.error('Failed to initialize copy link tooltips:', error);
+  try {
+    const links = document.querySelectorAll<HTMLAnchorElement>(".copy-link");
+    // Copy behavior: all devices
+    links.forEach(initCopyLinkClick);
+    // Tooltip decoration: desktop only
+    if (!isTouchDevice) {
+      links.forEach(initCopyLinkTooltip);
     }
+  } catch (error) {
+    console.error("Failed to initialize copy link tooltips:", error);
+  }
 }
 
 /**
@@ -147,15 +153,17 @@ export function initAllCopyLinkBehavior(): void {
  * Called automatically when the 'pageTextUpdated' event fires.
  */
 export function updateAllTooltipTitles(): void {
-    document.querySelectorAll('[data-bs-toggle="tooltip"][data-i18n-tooltip]').forEach(el => {
-        const key = el.getAttribute('data-i18n-tooltip');
-        const translated = translate(key!);
-        if (translated) {
-            el.setAttribute('data-bs-title', translated);
-            if (window.bootstrap.Tooltip.getInstance(el)) {
-                createTooltip(el);
-            }
+  document
+    .querySelectorAll('[data-bs-toggle="tooltip"][data-i18n-tooltip]')
+    .forEach((el) => {
+      const key = el.getAttribute("data-i18n-tooltip");
+      const translated = translate(key!);
+      if (translated) {
+        el.setAttribute("data-bs-title", translated);
+        if (window.bootstrap.Tooltip.getInstance(el)) {
+          createTooltip(el);
         }
+      }
     });
 }
 
@@ -165,5 +173,5 @@ export function updateAllTooltipTitles(): void {
  * Call once during page initialization.
  */
 export function initTooltipI18nListener(): void {
-    document.addEventListener(AppEvent.PageTextUpdated, updateAllTooltipTitles);
+  document.addEventListener(AppEvent.PageTextUpdated, updateAllTooltipTitles);
 }

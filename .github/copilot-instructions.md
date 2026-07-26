@@ -10,7 +10,7 @@ description: >
 
 This document provides project-level context, conventions, and constraints for Copilot when working in this repository.
 
-Details for each topic live in `instructions/` subdirectories — those files are loaded automatically when relevant (via `applyTo` globs in their YAML frontmatter). The Quick Reference below distills the most critical conventions that apply to every session.
+Details for each topic live in `instructions/` subdirectories - those files are loaded automatically when relevant (via `applyTo` globs in their YAML frontmatter). The Quick Reference below distills the most critical conventions that apply to every session.
 
 ---
 
@@ -53,26 +53,36 @@ Details for each topic live in `instructions/` subdirectories — those files ar
 
 ### 0.4 Project Structure
 
+**Layered architecture with semantic constraints:**
+
 ```
-types/    → shared across all layers (no project imports)
+types/    → shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts)
   ↑
-core/     → zero project imports; only npm or browser APIs
+core/     → foundation utilities and global state (i18n.ts, utils.ts)
+            NO DOM manipulation, NO event listeners - pure logic only.
   ↑
-ui/       → depends only on core/ and types/
+ui/       → reusable UI components and behaviors (theme, navbar, accessibility, toast, etc.)
+            DOM manipulation, event binding, Bootstrap wrappers.
   ↑
-features/ → depends on core/ + ui/ + features/; orchestrates behaviour
+features/ → cross-cutting feature orchestration (page-transition, lang-switcher, qr-code, etc.)
+            Coordinates multiple core + ui modules into user-facing features.
 ```
 
-| Layer       | May import from                           | Must NOT import from           |
-| ----------- | ----------------------------------------- | ------------------------------ |
-| `types/`    | npm, browser APIs                         | `core/*`, `ui/*`, `features/*` |
-| `core/`     | `types/*`                                 | `ui/*`, `features/*`           |
-| `ui/`       | `types/*`, `core/*`                       | `features/*`                   |
-| `features/` | `types/*`, `core/*`, `ui/*`, `features/*` | —                              |
+| Layer       | Semantics                                                                                                                                                                                                                                | May import from                           | Must NOT import from           |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------ |
+| `types/`    | Shared type definitions                                                                                                                                                                                                                  | npm, browser APIs                         | `core/*`, `ui/*`, `features/*` |
+| `core/`     | Foundation logic & state - pure functions, data transforms, global state. **No UI-component-specific DOM ops, no events.** Infrastructure-level DOM (e.g. `[data-i18n]` text replacement, `document.documentElement.lang`) is permitted. | `types/*`                                 | `ui/*`, `features/*`           |
+| `ui/`       | Reusable UI components - DOM manipulation, event listeners, Bootstrap wrappers. One concern per module.                                                                                                                                  | `types/*`, `core/*`                       | `features/*`                   |
+| `features/` | Feature orchestration - coordinates core + ui modules into user-facing workflows.                                                                                                                                                        | `types/*`, `core/*`, `ui/*`, `features/*` | -                              |
+
+**Decoupling patterns (when import would violate hierarchy):**
+
+- **Event-driven**: `ui/` cannot import `features/`. Use `CustomEvent` via `AppEvent` enum - the ui module dispatches, the feature module listens. (See `LangSwitchRequested` in `settings.ts` → `lang-switcher.ts`.)
+- **Extract shared module**: When multiple features need the same UI behavior, extract it to `ui/`. (See `loading-bar.ts` shared by `page-transition` and `lang-switcher`.)
 
 ### 0.5 File Rules
 
-- **`src/{core,ui,features}/*`**: define only — no top-level function calls or self-executing code. All wiring happens in entry points.
+- **`src/{core,ui,features}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points.
 - **Entry points**: `src/main.ts` (full-feature pages: index, about, artworks, blogs, chatting, softwares), `src/main-lightweight.ts` (404 page)
 - **CSS comments**: `/* ====...==== Component - description */` banners; `/* --- Child --- */` sub-sections
 - **HTML page tiers**: `full` (`src/main.ts`) / `lightweight` (`src/main-lightweight.ts`, 404) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
@@ -91,21 +101,21 @@ The remainder of this document links to detailed reference files in `instruction
 
 ## 1. Tech Stack
 
-- [**1.1 Base**](./instructions/1-tech-stack/1-base.md)
-- [**1.2 External Dependencies**](./instructions/1-tech-stack/2-external-dependencies.md)
+- [**1.1 Base**](./instructions/1-tech-stack/1-base.instructions.md)
+- [**1.2 External Dependencies**](./instructions/1-tech-stack/2-external-dependencies.instructions.md)
   - 1.2.1 Dependency Principle
-- [**1.3 Browser Baseline**](./instructions/1-tech-stack/3-browser-baseline.md)
+- [**1.3 Browser Baseline**](./instructions/1-tech-stack/3-browser-baseline.instructions.md)
   - 1.3.1 Per-Dependency Minimum Browser Versions
   - 1.3.2 Browser Feature Requirements
-- [**1.4 Deployment**](./instructions/1-tech-stack/4-deployment.md)
+- [**1.4 Deployment**](./instructions/1-tech-stack/4-deployment.instructions.md)
 
 ## 2. General Naming Conventions
 
-- [**2.1 HTML / CSS**](./instructions/2-general-naming-conventions/1-html-css.md) **(MUST READ FIRST)**
-- [**2.2 CSS Custom Properties**](./instructions/2-general-naming-conventions/2-css-custom-properties.md) **(MUST READ FIRST)**
+- [**2.1 HTML / CSS**](./instructions/2-general-naming-conventions/1-html-css.instructions.md)
+- [**2.2 CSS Custom Properties**](./instructions/2-general-naming-conventions/2-css-custom-properties.instructions.md)
   - 2.2.1 Project-specific
   - 2.2.2 Bootstrap overrides
-- [**2.3 TypeScript**](./instructions/2-general-naming-conventions/3-typescript.md) **(MUST READ FIRST)**
+- [**2.3 TypeScript**](./instructions/2-general-naming-conventions/3-typescript.instructions.md)
   - 2.3.1 Import Conventions
   - 2.3.2 Function Naming by Category
   - 2.3.3 Batch Functions Must Delegate to Single-Element Functions
@@ -114,14 +124,14 @@ The remainder of this document links to detailed reference files in `instruction
 
 ## 3. Project Structural Constraints
 
-- [**3.1 Folder Overview**](./instructions/3-project-structural-constraints/1-folder-overview.md) **(MUST READ FIRST)**
-- [**3.2 General File Rules**](./instructions/3-project-structural-constraints/2-general-file-rules.md) **(MUST READ FIRST)**
+- [**3.1 Folder Overview**](./instructions/3-project-structural-constraints/1-folder-overview.instructions.md)
+- [**3.2 General File Rules**](./instructions/3-project-structural-constraints/2-general-file-rules.instructions.md)
   - 3.2.1 `src/{core,ui,features}/*`: Define Only, Never Execute
   - 3.2.2 `src/main.ts` & `src/main-lightweight.ts`: Entry Points, Wire Everything
   - 3.2.3 `src/stylesheets/` & `public/legacy/*.css`: Commenting Convention
   - 3.2.4 `*.html`: Page Tiers
   - 3.2.5 `*.md`: Document Writing Standards
-- [**3.3 Type Definitions**](./instructions/3-project-structural-constraints/3-type-definitions.md) **(MUST READ FIRST)**
+- [**3.3 Type Definitions**](./instructions/3-project-structural-constraints/3-type-definitions.instructions.md)
   - 3.3.1 Browser Types (`src/types/`)
   - 3.3.2 Build-time Types (`build/types.ts`)
   - 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
@@ -129,35 +139,35 @@ The remainder of this document links to detailed reference files in `instruction
 
 ## 4. Feature Reference
 
-- [**4.1 Browser Detection & Compatibility Fallbacks**](./instructions/4-feature-references/1-browser-detection-and-compatibility-fallbacks.md)
-- [**4.2 Build-time Injection**](./instructions/4-feature-references/2-build-time-injection.md)
+- [**4.1 Browser Detection & Compatibility Fallbacks**](./instructions/4-feature-references/1-browser-detection-and-compatibility-fallbacks.instructions.md)
+- [**4.2 Build-time Injection**](./instructions/4-feature-references/2-build-time-injection.instructions.md)
   - 4.2.1 Head Tag Injection
   - 4.2.2 Page Component Injection
   - 4.2.3 Link Card Injection
   - 4.2.4 Asset Minification
   - 4.2.5 Link Button Group Injection
-- [**4.3 Internationalization (i18n)**](./instructions/4-feature-references/3-internationalization-i18n.md)
+- [**4.3 Internationalization (i18n)**](./instructions/4-feature-references/3-internationalization-i18n.instructions.md)
   - 4.3.1 i18n Key Naming Conventions
-- [**4.4 Theme System**](./instructions/4-feature-references/4-theme-system.md)
+- [**4.4 Theme System**](./instructions/4-feature-references/4-theme-system.instructions.md)
   - 4.4.1 Color Variable Naming
-- [**4.5 Link Cards**](./instructions/4-feature-references/5-link-cards.md)
-- [**4.6 Page Transitions**](./instructions/4-feature-references/6-page-transitions.md)
-- [**4.7 Loading Screen**](./instructions/4-feature-references/7-loading-screen.md)
-- [**4.8 Settings & Preferences**](./instructions/4-feature-references/8-settings-preferences.md)
-- [**4.9 Navigation & Accessibility**](./instructions/4-feature-references/9-navigation-accessibility.md)
-- [**4.10 QR Code & Export**](./instructions/4-feature-references/10-qr-code-export.md)
-- [**4.11 Fonts & Typography**](./instructions/4-feature-references/11-fonts-typography.md)
+- [**4.5 Link Cards**](./instructions/4-feature-references/5-link-cards.instructions.md)
+- [**4.6 Page Transitions**](./instructions/4-feature-references/6-page-transitions.instructions.md)
+- [**4.7 Loading Screen**](./instructions/4-feature-references/7-loading-screen.instructions.md)
+- [**4.8 Settings & Preferences**](./instructions/4-feature-references/8-settings-preferences.instructions.md)
+- [**4.9 Navigation & Accessibility**](./instructions/4-feature-references/9-navigation-accessibility.instructions.md)
+- [**4.10 QR Code & Export**](./instructions/4-feature-references/10-qr-code-export.instructions.md)
+- [**4.11 Fonts & Typography**](./instructions/4-feature-references/11-fonts-typography.instructions.md)
   - 4.11.1 Font Variable Naming
   - 4.11.2 Font Stack Design
-- [**4.12 Tooltips**](./instructions/4-feature-references/12-tooltips.md)
-- [**4.13 Image Utilities**](./instructions/4-feature-references/13-image-utilities.md)
+- [**4.12 Tooltips**](./instructions/4-feature-references/12-tooltips.instructions.md)
+- [**4.13 Image Utilities**](./instructions/4-feature-references/13-image-utilities.instructions.md)
   - 4.13.1 `data-img-feature` Attribute
   - 4.13.2 `follow-theme`
   - 4.13.3 `colored`
   - 4.13.4 `loading-opacity`
-- [**4.14 SVG Injection**](./instructions/4-feature-references/14-svg-injection.md)
-- [**4.15 Utilities**](./instructions/4-feature-references/15-utilities.md)
-- [**4.16 SEO**](./instructions/4-feature-references/16-seo.md)
+- [**4.14 SVG Injection**](./instructions/4-feature-references/14-svg-injection.instructions.md)
+- [**4.15 Utilities**](./instructions/4-feature-references/15-utilities.instructions.md)
+- [**4.16 SEO**](./instructions/4-feature-references/16-seo.instructions.md)
   - 4.16.1 SEO Elements by Page Tier
   - 4.16.2 Structured Data (JSON-LD)
     - 4.16.2.1 Homepage (`index.html`)
@@ -168,10 +178,10 @@ The remainder of this document links to detailed reference files in `instruction
   - 4.16.6 Heading Hierarchy
   - 4.16.7 Homepage H1 Rich Text
   - 4.16.8 Crawler Whitelist
-- [**4.17 External Link Confirmation**](./instructions/4-feature-references/17-external-link-confirmation.md)
+- [**4.17 External Link Confirmation**](./instructions/4-feature-references/17-external-link-confirmation.instructions.md)
   - 4.17.1 `data-link-img-props` Attribute
-- [**4.18 PWA Splash Screens**](./instructions/4-feature-references/18-pwa-splash-screens.md)
-- [**4.19 Link Button Groups**](./instructions/4-feature-references/19-link-button-groups.md)
+- [**4.18 PWA Splash Screens**](./instructions/4-feature-references/18-pwa-splash-screens.instructions.md)
+- [**4.19 Link Button Groups**](./instructions/4-feature-references/19-link-button-groups.instructions.md)
 
 ---
 

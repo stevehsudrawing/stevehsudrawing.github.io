@@ -5,15 +5,15 @@
  * theme-aware image swapping, and UI toggle synchronization.
  */
 
-import type { ThemeChoice, EffectiveTheme } from '../types/app.js';
-import { StorageKey } from '../types/app.js';
-import { translate } from '../core/i18n.js';
-import { initImageLoadingOpacity, markImageUnloaded } from '../core/img-utils.js';
+import type { ThemeChoice, EffectiveTheme } from "../types/app.js";
+import { StorageKey } from "../types/app.js";
+import { translate } from "../core/i18n.js";
+import { initImageLoadingOpacity, markImageUnloaded } from "./img-utils.js";
 
 export const htmlElement: HTMLElement = document.documentElement;
 
-export let currentThemePreference: ThemeChoice = 'auto';
-export const supportedThemes = ['auto', 'light', 'dark'] as const;
+export let currentThemePreference: ThemeChoice = "auto";
+export const supportedThemes = ["auto", "light", "dark"] as const;
 
 /** Monotonic counter to cancel superseded transition callbacks. */
 export let themeTransitionId = 0;
@@ -22,21 +22,26 @@ export let themeTransitionId = 0;
  * Restore the saved theme preference from localStorage, defaulting to 'auto'.
  */
 export function initThemePreference(): void {
-    // Get preference if it exists
-    const savedTheme = localStorage.getItem(StorageKey.Theme);
-    if (savedTheme && (supportedThemes as readonly string[]).includes(savedTheme)) {
-        currentThemePreference = savedTheme as ThemeChoice;
-    }
+  // Get preference if it exists
+  const savedTheme = localStorage.getItem(StorageKey.Theme);
+  if (
+    savedTheme &&
+    (supportedThemes as readonly string[]).includes(savedTheme)
+  ) {
+    currentThemePreference = savedTheme as ThemeChoice;
+  }
 }
 
-export const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+export const prefersColorScheme = window.matchMedia(
+  "(prefers-color-scheme: dark)",
+);
 
 /**
  * Query the OS-level color scheme preference.
  * @returns The current system theme.
  */
 export function getSystemTheme(): EffectiveTheme {
-    return prefersColorScheme.matches ? 'dark' : 'light';
+  return prefersColorScheme.matches ? "dark" : "light";
 }
 
 /**
@@ -46,8 +51,8 @@ export function getSystemTheme(): EffectiveTheme {
  * @returns The effective theme.
  */
 export function getEffectiveTheme(themeChoice: ThemeChoice): EffectiveTheme {
-    if (themeChoice === 'auto') return getSystemTheme();
-    return themeChoice as EffectiveTheme;
+  if (themeChoice === "auto") return getSystemTheme();
+  return themeChoice as EffectiveTheme;
 }
 
 /**
@@ -55,17 +60,20 @@ export function getEffectiveTheme(themeChoice: ThemeChoice): EffectiveTheme {
  * Must be called after header.html has been loaded into the DOM.
  */
 export function initThemeTransitionOverlay(): void {
-    const overlay = document.querySelector('.theme-transition-overlay');
-    if (!overlay) return;
+  const overlay = document.querySelector(".theme-transition-overlay");
+  if (!overlay) return;
 
-    // Clean up fade-out class after the fade-out transition ends,
-    // so the overlay is ready for the next use.
-    overlay.addEventListener('transitionend', function (e: Event) {
-        const te = e as TransitionEvent;
-        if (te.propertyName === 'opacity' && overlay.classList.contains('fade-out')) {
-            overlay.classList.remove('fade-out');
-        }
-    });
+  // Clean up fade-out class after the fade-out transition ends,
+  // so the overlay is ready for the next use.
+  overlay.addEventListener("transitionend", function (e: Event) {
+    const te = e as TransitionEvent;
+    if (
+      te.propertyName === "opacity" &&
+      overlay.classList.contains("fade-out")
+    ) {
+      overlay.classList.remove("fade-out");
+    }
+  });
 }
 
 /**
@@ -74,13 +82,13 @@ export function initThemeTransitionOverlay(): void {
  * @param theme - The resolved theme value ('light', 'dark', or 'auto').
  */
 export function applyThemeChange(theme: string): void {
-    if (theme === 'auto') {
-        htmlElement.setAttribute('data-bs-theme', getSystemTheme());
-    } else {
-        htmlElement.setAttribute('data-bs-theme', theme);
-    }
-    applyAllThemeBasedImages();
-    applyAllFaviconThemes();
+  if (theme === "auto") {
+    htmlElement.setAttribute("data-bs-theme", getSystemTheme());
+  } else {
+    htmlElement.setAttribute("data-bs-theme", theme);
+  }
+  applyAllThemeBasedImages();
+  applyAllFaviconThemes();
 }
 
 /**
@@ -91,58 +99,66 @@ export function applyThemeChange(theme: string): void {
  * @param save - Whether to persist the choice to localStorage.
  * @param useOverlay - When false, skip the transition overlay (used during initial page load).
  */
-export function applyThemePreference(themeChoice: ThemeChoice, save = true, useOverlay = true): void {
-    const theme: ThemeChoice = (supportedThemes as readonly string[]).includes(themeChoice) ? themeChoice : 'auto';
+export function applyThemePreference(
+  themeChoice: ThemeChoice,
+  save = true,
+  useOverlay = true,
+): void {
+  const theme: ThemeChoice = (supportedThemes as readonly string[]).includes(
+    themeChoice,
+  )
+    ? themeChoice
+    : "auto";
 
-    if (save) {
-        localStorage.setItem(StorageKey.Theme, theme);
-    }
+  if (save) {
+    localStorage.setItem(StorageKey.Theme, theme);
+  }
 
-    const overlay = document.querySelector('.theme-transition-overlay');
+  const overlay = document.querySelector(".theme-transition-overlay");
 
-    // Skip the overlay (instant switch) when:
-    // - User prefers reduced motion, or
-    // - The effective theme does not actually change, or
-    // - The overlay is not yet in the DOM (initial load from <head>), or
-    // - useOverlay is explicitly false (e.g. initial page load).
-    const skipOverlay =
-        !useOverlay ||
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        htmlElement.getAttribute('data-bs-theme') === getEffectiveTheme(theme) ||
-        !overlay;
+  // Skip the overlay (instant switch) when:
+  // - User prefers reduced motion, or
+  // - The effective theme does not actually change, or
+  // - The overlay is not yet in the DOM (initial load from <head>), or
+  // - useOverlay is explicitly false (e.g. initial page load).
+  const skipOverlay =
+    !useOverlay ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    htmlElement.getAttribute("data-bs-theme") === getEffectiveTheme(theme) ||
+    !overlay;
 
-    if (skipOverlay) {
-        applyThemeChange(theme);
-        return;
-    }
+  if (skipOverlay) {
+    applyThemeChange(theme);
+    return;
+  }
 
-    // Increment ID to cancel any pending callback from rapid toggling.
-    const thisId = ++themeTransitionId;
+  // Increment ID to cancel any pending callback from rapid toggling.
+  const thisId = ++themeTransitionId;
 
-    // Phase 1: Fade in the overlay over ~500 ms.
-    overlay.classList.add('active');
-    overlay.classList.remove('fade-out');
+  // Phase 1: Fade in the overlay over ~500 ms.
+  overlay.classList.add("active");
+  overlay.classList.remove("fade-out");
 
-    // Phase 2: After fade-in completes, switch theme behind the opaque overlay.
-    setTimeout(function () {
-        if (thisId !== themeTransitionId) return; // Superseded
+  // Phase 2: After fade-in completes, switch theme behind the opaque overlay.
+  setTimeout(function () {
+    if (thisId !== themeTransitionId) return; // Superseded
 
-        applyThemeChange(theme);
+    applyThemeChange(theme);
 
-        // Phase 3: Fade out the overlay to reveal the new theme.
-        overlay.classList.remove('active');
-        overlay.classList.add('fade-out');
-    }, 500);
+    // Phase 3: Fade out the overlay to reveal the new theme.
+    overlay.classList.remove("active");
+    overlay.classList.add("fade-out");
+  }, 500);
 }
 
 /**
  * Called when the system color scheme changes. If the user has chosen 'auto',
  * update the data-bs-theme attribute and refresh theme-based images.
- * No overlay is used — system-initiated changes should be subtle.
+ * No overlay is used - system-initiated changes should be subtle.
  */
 export function updateAutoThemeOnSystemChange(): void {
-    if (currentThemePreference !== 'auto') return;
-    applyThemeChange('auto');
+  if (currentThemePreference !== "auto") return;
+  applyThemeChange("auto");
 }
 
 /**
@@ -153,27 +169,27 @@ export function updateAutoThemeOnSystemChange(): void {
  * @param img - The image element to update.
  */
 export function applyThemeBasedImage(img: HTMLImageElement): void {
-    if (!img.hasAttribute('data-src-light')) {
-        img.setAttribute('data-src-light', img.getAttribute('src') || '');
+  if (!img.hasAttribute("data-src-light")) {
+    img.setAttribute("data-src-light", img.getAttribute("src") || "");
+  }
+
+  // Remove loaded marker so the image appears semi-transparent while
+  // the new theme variant loads (see img-utils.js loading opacity).
+  markImageUnloaded(img);
+
+  const currentTheme = htmlElement.getAttribute("data-bs-theme");
+  if (currentTheme === "dark") {
+    img.setAttribute("src", img.getAttribute("data-src-dark") || "");
+  } else {
+    const lightSrc = img.getAttribute("data-src-light");
+    if (lightSrc) {
+      img.setAttribute("src", lightSrc);
     }
+  }
 
-    // Remove loaded marker so the image appears semi-transparent while
-    // the new theme variant loads (see img-utils.js loading opacity).
-    markImageUnloaded(img);
-
-    const currentTheme = htmlElement.getAttribute('data-bs-theme');
-    if (currentTheme === 'dark') {
-        img.setAttribute('src', img.getAttribute('data-src-dark') || '');
-    } else {
-        const lightSrc = img.getAttribute('data-src-light');
-        if (lightSrc) {
-            img.setAttribute('src', lightSrc);
-        }
-    }
-
-    // Re-mark as loaded once the new src finishes loading.
-    // Delegates to img-utils.js which handles both cached and loading images.
-    initImageLoadingOpacity(img);
+  // Re-mark as loaded once the new src finishes loading.
+  // Delegates to img-utils.js which handles both cached and loading images.
+  initImageLoadingOpacity(img);
 }
 
 /**
@@ -183,12 +199,15 @@ export function applyThemeBasedImage(img: HTMLImageElement): void {
  * Delegates to applyThemeBasedImage() for each matching element.
  */
 export function applyAllThemeBasedImages(): void {
-    try {
-        document.querySelectorAll<HTMLImageElement>('img[data-img-feature~="follow-theme"]')
-            .forEach(applyThemeBasedImage);
-    } catch (error) {
-        console.error('Failed to apply theme-based images:', error);
-    }
+  try {
+    document
+      .querySelectorAll<HTMLImageElement>(
+        'img[data-img-feature~="follow-theme"]',
+      )
+      .forEach(applyThemeBasedImage);
+  } catch (error) {
+    console.error("Failed to apply theme-based images:", error);
+  }
 }
 
 /**
@@ -198,24 +217,24 @@ export function applyAllThemeBasedImages(): void {
  * @param link - The favicon link element to update.
  */
 export function applyFaviconTheme(link: HTMLLinkElement): void {
-    const href = link.getAttribute('href');
-    if (!href) return;
+  const href = link.getAttribute("href");
+  if (!href) return;
 
-    const currentTheme = htmlElement.getAttribute('data-bs-theme');
+  const currentTheme = htmlElement.getAttribute("data-bs-theme");
 
-    if (currentTheme === 'dark') {
-        // Switch to dark variant: general.ext -> general-dark.ext
-        const darkHref = href.replace(/general(?=\.[a-z]+$)/, 'general-dark');
-        if (darkHref !== href) {
-            link.setAttribute('href', darkHref);
-        }
-    } else {
-        // Switch to light variant: general-dark.ext -> general.ext
-        const lightHref = href.replace(/general-dark(?=\.[a-z]+$)/, 'general');
-        if (lightHref !== href) {
-            link.setAttribute('href', lightHref);
-        }
+  if (currentTheme === "dark") {
+    // Switch to dark variant: general.ext -> general-dark.ext
+    const darkHref = href.replace(/general(?=\.[a-z]+$)/, "general-dark");
+    if (darkHref !== href) {
+      link.setAttribute("href", darkHref);
     }
+  } else {
+    // Switch to light variant: general-dark.ext -> general.ext
+    const lightHref = href.replace(/general-dark(?=\.[a-z]+$)/, "general");
+    if (lightHref !== href) {
+      link.setAttribute("href", lightHref);
+    }
+  }
 }
 
 /**
@@ -223,11 +242,13 @@ export function applyFaviconTheme(link: HTMLLinkElement): void {
  * Delegates to applyFaviconTheme() for each matching element.
  */
 export function applyAllFaviconThemes(): void {
-    try {
-        document.querySelectorAll<HTMLLinkElement>('link[rel="icon"]').forEach(applyFaviconTheme);
-    } catch (error) {
-        console.error('Failed to apply favicon themes:', error);
-    }
+  try {
+    document
+      .querySelectorAll<HTMLLinkElement>('link[rel="icon"]')
+      .forEach(applyFaviconTheme);
+  } catch (error) {
+    console.error("Failed to apply favicon themes:", error);
+  }
 }
 
 /**
@@ -235,20 +256,33 @@ export function applyAllFaviconThemes(): void {
  * when the user's preference is 'auto'.
  */
 export function initSystemThemeListener(): void {
-    if (typeof prefersColorScheme.addEventListener === 'function') {
-        prefersColorScheme.addEventListener('change', updateAutoThemeOnSystemChange);
-    } else if (typeof (prefersColorScheme as MediaQueryList & { addListener: (cb: () => void) => void }).addListener === 'function') {
-        (prefersColorScheme as MediaQueryList & { addListener: (cb: () => void) => void }).addListener(updateAutoThemeOnSystemChange);
-    }
+  if (typeof prefersColorScheme.addEventListener === "function") {
+    prefersColorScheme.addEventListener(
+      "change",
+      updateAutoThemeOnSystemChange,
+    );
+  } else if (
+    typeof (
+      prefersColorScheme as MediaQueryList & {
+        addListener: (cb: () => void) => void;
+      }
+    ).addListener === "function"
+  ) {
+    (
+      prefersColorScheme as MediaQueryList & {
+        addListener: (cb: () => void) => void;
+      }
+    ).addListener(updateAutoThemeOnSystemChange);
+  }
 }
 
 /**
  * Theme metadata: i18n keys and English labels.
  */
 export const THEME_META = {
-    'light': { i18n: 'text-light' as const, label: 'Light' },
-    'dark':  { i18n: 'text-dark' as const,  label: 'Dark' },
-    'auto':  { i18n: 'text-auto' as const,  label: 'Auto' },
+  light: { i18n: "text-light" as const, label: "Light" },
+  dark: { i18n: "text-dark" as const, label: "Dark" },
+  auto: { i18n: "text-auto" as const, label: "Auto" },
 } as const satisfies Record<ThemeChoice, { i18n: string; label: string }>;
 
 /**
@@ -257,7 +291,7 @@ export const THEME_META = {
  * @returns The i18n key (e.g. 'text-auto').
  */
 export function getThemeI18nKey(theme: ThemeChoice): string {
-    return (THEME_META[theme] || THEME_META['auto']).i18n;
+  return (THEME_META[theme] || THEME_META["auto"]).i18n;
 }
 
 /**
@@ -266,40 +300,41 @@ export function getThemeI18nKey(theme: ThemeChoice): string {
  * @returns The label (e.g. 'Auto').
  */
 export function getThemeLabel(theme: ThemeChoice): string {
-    return (THEME_META[theme] || THEME_META['auto']).label;
+  return (THEME_META[theme] || THEME_META["auto"]).label;
 }
 
 /**
  * Update all .themeCurrentText elements to display the current theme name.
  */
 export function updateThemeToggleText(): void {
-    const themeTextElements = document.querySelectorAll('.themeCurrentText');
-    if (themeTextElements.length === 0) {
-        return;
-    }
+  const themeTextElements = document.querySelectorAll(".themeCurrentText");
+  if (themeTextElements.length === 0) {
+    return;
+  }
 
-    const key = getThemeI18nKey(currentThemePreference);
-    themeTextElements.forEach(themeTextElement => {
-        themeTextElement.setAttribute('data-i18n', key);
-        themeTextElement.textContent = translate(key) || getThemeLabel(currentThemePreference);
-    });
+  const key = getThemeI18nKey(currentThemePreference);
+  themeTextElements.forEach((themeTextElement) => {
+    themeTextElement.setAttribute("data-i18n", key);
+    themeTextElement.textContent =
+      translate(key) || getThemeLabel(currentThemePreference);
+  });
 }
 
 /**
  * Mark the currently selected theme item as active in the theme dropdown.
  */
 export function setActiveThemeItem(): void {
-    const themeItems = document.querySelectorAll('.theme-item');
-    themeItems.forEach(item => {
-        const itemTheme = item.getAttribute('data-theme');
-        if (itemTheme === currentThemePreference) {
-            item.classList.add('active');
-            item.setAttribute('aria-current', 'true');
-        } else {
-            item.classList.remove('active');
-            item.removeAttribute('aria-current');
-        }
-    });
+  const themeItems = document.querySelectorAll(".theme-item");
+  themeItems.forEach((item) => {
+    const itemTheme = item.getAttribute("data-theme");
+    if (itemTheme === currentThemePreference) {
+      item.classList.add("active");
+      item.setAttribute("aria-current", "true");
+    } else {
+      item.classList.remove("active");
+      item.removeAttribute("aria-current");
+    }
+  });
 }
 
 /**
@@ -309,10 +344,10 @@ export function setActiveThemeItem(): void {
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  */
 export function setThemePreference(themeChoice: ThemeChoice): void {
-    // Persist and update UI immediately for responsiveness.
-    currentThemePreference = themeChoice;
-    localStorage.setItem(StorageKey.Theme, themeChoice);
-    updateThemeToggleText();
-    setActiveThemeItem();
-    applyThemePreference(themeChoice, false);
+  // Persist and update UI immediately for responsiveness.
+  currentThemePreference = themeChoice;
+  localStorage.setItem(StorageKey.Theme, themeChoice);
+  updateThemeToggleText();
+  setActiveThemeItem();
+  applyThemePreference(themeChoice, false);
 }

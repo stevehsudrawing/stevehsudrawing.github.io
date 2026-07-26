@@ -9,23 +9,23 @@
 // =========================================================================
 
 /** Supported language codes. */
-export type Lang = 'en' | 'zh-Hans' | 'zh-Hant';
+export type Lang = "en" | "zh-Hans" | "zh-Hant";
 
 /** User-selectable theme choices. */
-export type ThemeChoice = 'auto' | 'light' | 'dark';
+export type ThemeChoice = "auto" | "light" | "dark";
 
-/** Effective (resolved) theme — always light or dark. */
-export type EffectiveTheme = 'light' | 'dark';
+/** Effective (resolved) theme - always light or dark. */
+export type EffectiveTheme = "light" | "dark";
 
 // =========================================================================
 // localStorage keys
 // =========================================================================
 
 export const enum StorageKey {
-    Theme = 'bsTheme',
-    Lang = 'preferredLang',
-    OpenInNewTab = 'openExternalLinksInNewTab',
-    EnableAnimations = 'enableAnimations',
+  Theme = "bsTheme",
+  Lang = "preferredLang",
+  OpenInNewTab = "openExternalLinksInNewTab",
+  EnableAnimations = "enableAnimations",
 }
 
 // =========================================================================
@@ -33,6 +33,8 @@ export const enum StorageKey {
 // =========================================================================
 
 export const enum AppEvent {
-    PageTextUpdated = 'pageTextUpdated',
-    PageInitialized = 'pageInitialized',
+  PageTextUpdated = "pageTextUpdated",
+  PageInitialized = "pageInitialized",
+  /** Dispatched when the user requests a language switch via UI. detail = { lang: string } */
+  LangSwitchRequested = "langSwitchRequested",
 }

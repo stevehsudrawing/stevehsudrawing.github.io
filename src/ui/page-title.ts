@@ -4,8 +4,8 @@
  * Format: "Page Name - Site Name" (except homepage which shows only site name).
  */
 
-import { translate } from '../core/i18n.js';
-import { extractPageName } from '../core/utils.js';
+import { translate } from "../core/i18n.js";
+import { extractPageName } from "../core/utils.js";
 
 /**
  * Update the document title according to the current page and language.
@@ -13,23 +13,23 @@ import { extractPageName } from '../core/utils.js';
  * - Other pages: "Page Name - Site Name".
  */
 export function updatePageTitle(): void {
-    const pageName = extractPageName(window.location.pathname);
-    const pageKey = 'text-' + pageName;
-    const siteKey = 'text-steve-hsu-s-link-hub';
+  const pageName = extractPageName(window.location.pathname);
+  const pageKey = "text-" + pageName;
+  const siteKey = "text-steve-hsu-s-link-hub";
 
-    const pageTitle = translate(pageKey);
-    const siteTitle = translate(siteKey);
+  const pageTitle = translate(pageKey);
+  const siteTitle = translate(siteKey);
 
-    if (pageName === 'index') {
-        // Homepage: show site name only
-        document.title = siteTitle || 'Steve Hsu\'s Link-Hub';
-    } else if (pageTitle && siteTitle) {
-        document.title = pageTitle + ' - ' + siteTitle;
-    } else if (siteTitle) {
-        // Fallback: page name key missing, show site name only
-        document.title = siteTitle;
-    } else {
-        // Ultimate fallback
-        document.title = 'Steve Hsu\'s Link-Hub';
-    }
+  if (pageName === "index") {
+    // Homepage: show site name only
+    document.title = siteTitle || "Steve Hsu's Link-Hub";
+  } else if (pageTitle && siteTitle) {
+    document.title = pageTitle + " - " + siteTitle;
+  } else if (siteTitle) {
+    // Fallback: page name key missing, show site name only
+    document.title = siteTitle;
+  } else {
+    // Ultimate fallback
+    document.title = "Steve Hsu's Link-Hub";
+  }
 }

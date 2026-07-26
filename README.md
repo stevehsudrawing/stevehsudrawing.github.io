@@ -15,7 +15,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 - ⚙️ **Customizable settings**: Toggle external links to always open in new tabs, and enable or disable animations. Preferences are saved locally.
 - ✨ **SPA-style page transitions**: Smooth animated transitions between internal pages with a progress bar, no front-end framework required.
 - 📱 **Responsive layout**: Adapts to all screen sizes, powered by Bootstrap 5.3.
-- 📋 **Config-driven link cards**: Link cards are defined in JSON config files and rendered at runtime — add or update links without touching HTML.
+- 📋 **Config-driven link cards**: Link cards and link button groups are defined in JSON config files and rendered at runtime - add or update links without touching HTML.
 - 📲 **QR code sharing**: Generate branded QR codes for any link, with one-click download as a PNG image.
 - ♿ **Accessibility**: Skip-to-content button, ARIA attributes, keyboard-friendly focus management, and tooltips.
 - 🛡️ **Browser compatibility guard**: Unsupported browsers are detected early and redirected to a fallback page. JavaScript-disabled users are also redirected to a dedicated error page.
@@ -25,7 +25,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 ## 2. Browser Baseline
 
 | Browser | Min Version |
-|---------|-------------|
+| ------- | ----------- |
 | Chrome  | ≥ 80        |
 | Edge    | ≥ 80        |
 | Firefox | ≥ 74        |
@@ -37,7 +37,7 @@ For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseli
 ## 3. Tech Stack
 
 | Category        | Choice                                                                             |
-|-----------------|------------------------------------------------------------------------------------|
+| --------------- | ---------------------------------------------------------------------------------- |
 | Language        | [TypeScript](https://www.typescriptlang.org/)                                      |
 | Build Tool      | [Vite 8](https://vite.dev/)                                                        |
 | Package Manager | [pnpm](https://pnpm.io/)                                                           |

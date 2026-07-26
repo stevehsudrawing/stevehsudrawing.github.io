@@ -7,19 +7,19 @@
  * The `hast-util-to-html` package ships its own types.
  */
 
-import type * as BootstrapNS from 'bootstrap';
-import type { toHtml as ToHtmlFn } from 'hast-util-to-html';
+import type * as BootstrapNS from "bootstrap";
+import type { toHtml as ToHtmlFn } from "hast-util-to-html";
 
 declare global {
-    interface Window {
-        bootstrap: typeof BootstrapNS;
-        htmlToImage: Record<string, unknown>;
-        html2canvas: (
-            element: HTMLElement,
-            options?: Record<string, unknown>
-        ) => Promise<HTMLCanvasElement>;
-        toHtml: typeof ToHtmlFn;
-    }
+  interface Window {
+    bootstrap: typeof BootstrapNS;
+    htmlToImage: Record<string, unknown>;
+    html2canvas: (
+      element: HTMLElement,
+      options?: Record<string, unknown>,
+    ) => Promise<HTMLCanvasElement>;
+    toHtml: typeof ToHtmlFn;
+  }
 }
 
 export {};

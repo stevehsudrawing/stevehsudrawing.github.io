@@ -3,8 +3,8 @@
  * Used by multiple build scripts (link-cards, minify-plugin, etc.).
  */
 
-import { readdirSync, statSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { readdirSync, statSync } from "node:fs";
+import { join, extname } from "node:path";
 
 // ---------------------------------------------------------------------------
 // HAST utilities
@@ -16,13 +16,13 @@ import { join, extname } from 'node:path';
  * @returns A lowercase, dash-separated slug with special characters removed.
  */
 export function toDashCase(text: string | undefined | null): string {
-    return String(text || '')
-        .trim()
-        .toLowerCase()
-        .replace(/[^\p{L}\p{N}\s-]+/gu, '')
-        .replace(/[\s_]+/g, '-')
-        .replace(/-{2,}/g, '-')
-        .replace(/^-+|-+$/g, '');
+  return String(text || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]+/gu, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 /**
@@ -31,14 +31,14 @@ export function toDashCase(text: string | undefined | null): string {
  * @returns The concatenated plain text content, or '' for non-text nodes.
  */
 export function extractPlainText(node: unknown): string {
-    if (!node || typeof node !== 'object') return '';
-    const n = node as Record<string, unknown>;
-    if (n.type === 'text') return String(n.value || '');
-    if (n.type === 'comment') return '';
-    if (Array.isArray(n.children)) {
-        return n.children.map(extractPlainText).join('');
-    }
-    return '';
+  if (!node || typeof node !== "object") return "";
+  const n = node as Record<string, unknown>;
+  if (n.type === "text") return String(n.value || "");
+  if (n.type === "comment") return "";
+  if (Array.isArray(n.children)) {
+    return n.children.map(extractPlainText).join("");
+  }
+  return "";
 }
 
 /**
@@ -47,7 +47,7 @@ export function extractPlainText(node: unknown): string {
  * @returns A deep copy of the node, independent of the original.
  */
 export function cloneNode<T>(node: T): T {
-    return JSON.parse(JSON.stringify(node)) as T;
+  return JSON.parse(JSON.stringify(node)) as T;
 }
 
 /**
@@ -56,7 +56,7 @@ export function cloneNode<T>(node: T): T {
  * @returns e.g. "index", "about"
  */
 export function getPageName(filename: string): string {
-    return filename.replace(/\\/g, '/').split('/').pop()!.replace('.html', '');
+  return filename.replace(/\\/g, "/").split("/").pop()!.replace(".html", "");
 }
 
 // ---------------------------------------------------------------------------
@@ -70,15 +70,15 @@ export function getPageName(filename: string): string {
  * @returns Array of absolute file paths matching the given extensions.
  */
 export function walkDir(dir: string, extensions: string[]): string[] {
-    const results: string[] = [];
-    const list = readdirSync(dir);
-    for (const name of list) {
-        const full = join(dir, name);
-        if (statSync(full).isDirectory()) {
-            results.push(...walkDir(full, extensions));
-        } else if (extensions.includes(extname(name))) {
-            results.push(full);
-        }
+  const results: string[] = [];
+  const list = readdirSync(dir);
+  for (const name of list) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      results.push(...walkDir(full, extensions));
+    } else if (extensions.includes(extname(name))) {
+      results.push(full);
     }
-    return results;
+  }
+  return results;
 }

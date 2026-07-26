@@ -7,16 +7,16 @@
  */
 
 /**
- * A hast node — can be root, element, text, or comment.
+ * A hast node - can be root, element, text, or comment.
  * The `hast-util-to-html` library uses a more precise union type;
  * this is a simplified version for our JSON configs.
  */
 export interface HastNode {
-    type: string;
-    value?: string;
-    tagName?: string;
-    properties?: HastProperties;
-    children?: HastNode[];
+  type: string;
+  value?: string;
+  tagName?: string;
+  properties?: HastProperties;
+  children?: HastNode[];
 }
 
 /**
@@ -26,6 +26,6 @@ export interface HastNode {
  * and arbitrary attribute values.
  */
 export interface HastProperties {
-    className?: string | string[];
-    [key: string]: unknown;
+  className?: string | string[];
+  [key: string]: unknown;
 }
