@@ -36,18 +36,19 @@ For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseli
 
 ## 3. Tech Stack
 
-| Category        | Choice                                                                             |
-| --------------- | ---------------------------------------------------------------------------------- |
-| Language        | [TypeScript](https://www.typescriptlang.org/)                                      |
-| Build Tool      | [Vite 8](https://vite.dev/)                                                        |
-| Package Manager | [pnpm](https://pnpm.io/)                                                           |
-| Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                                       |
-| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                 |
-| Font            | [Inter](https://github.com/rsms/inter) (via [Fontsource](https://fontsource.org/)) |
-| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                   |
-| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                           |
-| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                             |
-| Hosting         | [GitHub Pages](https://pages.github.com/)                                          |
+| Category        | Choice                                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------------------------- |
+| Language        | [TypeScript](https://www.typescriptlang.org/)                                                                 |
+| Build Tool      | [Vite 8](https://vite.dev/)                                                                                   |
+| Package Manager | [pnpm](https://pnpm.io/)                                                                                      |
+| Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                                                                  |
+| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                                            |
+| Font            | [Inter](https://github.com/rsms/inter) (via [Fontsource](https://fontsource.org/))                            |
+| Monospace Font  | [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono) (via [Fontsource](https://fontsource.org/)) |
+| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                                              |
+| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                                                      |
+| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                                                        |
+| Hosting         | [GitHub Pages](https://pages.github.com/)                                                                     |
 
 ## 4. Development
 

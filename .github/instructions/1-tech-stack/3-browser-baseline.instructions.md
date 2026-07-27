@@ -11,12 +11,12 @@ applyTo: >
 
 ### 1.3 Browser Baseline
 
-The minimum browser versions are determined by both **npm dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection in `public/legacy/env-detection.js` to verify that the browser supports (1) ES modules (`'noModule' in HTMLScriptElement`) and (2) WebP image format (`canvas.toDataURL('image/webp')`). Modern JS syntax (optional chaining, nullish coalescing, etc.) is downleveled to ES2015 by Vite at build time, so they are no longer a browser requirement.
+The minimum browser versions are determined by both **npm dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection in `public/legacy/env-detection.js` to verify that the browser supports (1) ES modules (`'noModule' in HTMLScriptElement`) and (2) WebP image format (`canvas.toDataURL('image/webp')`). Modern JS syntax (optional chaining, nullish coalescing, etc.) is down-leveled to ES2015 by Vite at build time, so they are no longer a browser requirement.
 
 | Browser | Min Version | Release Date | Constrained By          |
 | ------- | ----------- | ------------ | ----------------------- |
 | Chrome  | ≥ 61        | 2016-09-13   | ES modules (`noModule`) |
-| Edge    | ≥ 79        | 2020-01-15   | Bootstrap CSS/JS; WebP  |
+| Edge    | ≥ 79        | 2020-01-15   | Bootstrap; Popper; WebP |
 | Firefox | ≥ 60        | 2018-05-09   | ES modules (`noModule`) |
 | Opera   | ≥ 48        | 2017-07-27   | ES modules (`noModule`) |
 | Safari  | ≥ 14        | 2020-09-16   | WebP                    |
@@ -50,6 +50,6 @@ The following browser features are required by this project. Their minimum brows
 | ✓       | [ES modules (`<script type="module">`)](https://caniuse.com/es6-module) | Vite entry point (`src/main.ts`) | **61** | 16       | 60      | **48** | 11     |
 | ✓       | [WebP](https://caniuse.com/webp)                                        | Image assets                     | 32     | **79**\* | **65**  | 19     | **14** |
 |          | [WOFF 2](https://caniuse.com/woff2)                                     | Bootstrap Icons                  | 36     | 14       | 39      | 23     | 10     |
-|          | [Variable fonts](https://caniuse.com/variable-fonts)                    | Inter                            | _66_   | 17       | _62_    | _53_   | 11     |
+|          | [Variable fonts](https://caniuse.com/variable-fonts)                    | Font display                     | _66_   | 17       | _62_    | _53_   | 11     |
 
-> In "Can I Use", it is claimed that Edge 18 supports WebP, but practical tests have shown that **it does not**.
+> "Can I Use" website claims that Edge 18 supports WebP, but practical tests have shown that **it does not**.
