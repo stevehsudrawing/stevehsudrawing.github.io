@@ -11,7 +11,10 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-lg">
           <div class="modal-header">
-            <h5 class="modal-title" id="qr-code-modal-label">
+            <h5
+              class="modal-title"
+              id="qr-code-modal-label"
+            >
               <div data-i18n="text-qr-code">QR Code</div>
             </h5>
           </div>
@@ -33,7 +36,10 @@
                 data-i18n-aria-label="text-qr-code"
                 class="no-copy"
               ></div>
-              <code class="mt-2 mb-0" id="qr-code-modal-link"></code>
+              <code
+                class="mt-2 mb-0"
+                id="qr-code-modal-link"
+              ></code>
               <div id="qr-share-card-footer">
                 <div id="qr-share-card-footer-text">
                   <span data-i18n="text-learn-more-about-me"
@@ -83,7 +89,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-outline-primary btn-no-border me-auto"
+              class="btn btn-outline-primary btn-no-border"
               id="qr-download-btn"
               aria-label="Download"
               data-i18n-aria-label="text-download"
@@ -92,6 +98,18 @@
               data-bs-title="Download"
             >
               <i class="bi bi-download"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-no-border me-auto"
+              id="qr-copy-btn"
+              aria-label="Copy"
+              data-i18n-aria-label="text-copy"
+              data-bs-toggle="tooltip"
+              data-i18n-tooltip="text-copy"
+              data-bs-title="Copy"
+            >
+              <i class="bi bi-clipboard"></i>
             </button>
             <button
               type="button"
@@ -133,12 +151,22 @@
                   data-i18n="text-language"
                   >Language</label
                 >
-                <select class="form-select" id="language-select">
+                <select
+                  class="form-select"
+                  id="language-select"
+                >
                   <!-- Options will be populated dynamically -->
                 </select>
               </div>
-              <div class="mb-2 fw-semibold" data-i18n="text-theme">Theme</div>
-              <div class="btn-group d-flex flex-wrap" role="group">
+              <div
+                class="mb-2 fw-semibold"
+                data-i18n="text-theme"
+                >Theme</div
+              >
+              <div
+                class="btn-group d-flex flex-wrap"
+                role="group"
+              >
                 <button
                   type="button"
                   class="btn btn-outline-secondary theme-item flex-fill"
@@ -283,7 +311,10 @@
             </h5>
           </div>
           <div class="modal-body">
-            <p class="mb-2" data-i18n="text-you-are-about-to-leave">
+            <p
+              class="mb-2"
+              data-i18n="text-you-are-about-to-leave"
+            >
               You are about to leave this site:
             </p>
             <div class="d-flex align-items-start mb-3">
@@ -313,7 +344,7 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-outline-primary btn-no-border me-auto"
+              class="btn btn-outline-primary btn-no-border"
               id="external-link-qr-btn"
               aria-label="Show QR Code"
               data-i18n-aria-label="text-show-qr-code"
@@ -322,6 +353,18 @@
               data-bs-title="Show QR Code"
             >
               <i class="bi bi-qr-code"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-no-border me-auto"
+              id="external-link-copy-btn"
+              aria-label="Copy"
+              data-i18n-aria-label="text-copy"
+              data-bs-toggle="tooltip"
+              data-i18n-tooltip="text-copy"
+              data-bs-title="Copy"
+            >
+              <i class="bi bi-clipboard"></i>
             </button>
             <button
               type="button"
@@ -358,7 +401,10 @@
         aria-atomic="true"
       >
         <div class="d-flex">
-          <div class="toast-body" id="error-toast-body"></div>
+          <div
+            class="toast-body"
+            id="error-toast-body"
+          ></div>
           <button
             type="button"
             class="btn-close btn-close-white me-2 m-auto"
@@ -376,7 +422,10 @@
         aria-atomic="true"
       >
         <div class="d-flex">
-          <div class="toast-body" id="success-toast-body"></div>
+          <div
+            class="toast-body"
+            id="success-toast-body"
+          ></div>
           <button
             type="button"
             class="btn-close btn-close-white me-2 m-auto"

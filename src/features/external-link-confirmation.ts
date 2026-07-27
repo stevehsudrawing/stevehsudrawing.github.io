@@ -12,6 +12,8 @@ import {
   setExternalLinkNewTabPreference,
 } from "../ui/external-link-behavior.js";
 import { isInternalPage, setElementAttributes } from "../core/utils.js";
+import { translate } from "../core/i18n.js";
+import { showToast } from "../ui/toast.js";
 
 /**
  * Check if a link is an external link that should trigger the confirmation modal.
@@ -252,6 +254,34 @@ export function handleExternalLinkShowQR(): void {
 }
 
 /**
+ * Handle the "Copy" button click in the external link confirmation modal.
+ * Copies the stored URL to the clipboard and shows a success toast.
+ */
+export function handleExternalLinkCopy(): void {
+  const modalElement = document.getElementById(
+    "external-link-confirmation-modal",
+  );
+  const url = modalElement
+    ? ((modalElement as unknown as Record<string, unknown>)._confirmUrl as
+        | string
+        | undefined)
+    : undefined;
+  if (!url) return;
+
+  navigator.clipboard
+    .writeText(url)
+    .then(function () {
+      const copiedText =
+        translate("text-copied-text", "Copied text") + ": " + url;
+      showToast("success", copiedText);
+    })
+    .catch(function (err) {
+      showToast("error", "Failed to copy text");
+      console.error("Failed to copy text:", err);
+    });
+}
+
+/**
  * Initialize the external link confirmation system.
  * Sets up the delegated click listener and modal event handlers.
  */
@@ -274,10 +304,17 @@ export function initExternalLinkConfirmation(): void {
     }
   });
 
+  // "Copy" button click handler inside the confirmation modal
+  document.addEventListener("click", function (e: MouseEvent) {
+    if ((e.target as HTMLElement).closest("#external-link-copy-btn")) {
+      e.preventDefault();
+      handleExternalLinkCopy();
+    }
+  });
+
   // "Show QR Code" button click handler inside the confirmation modal
   document.addEventListener("click", function (e: MouseEvent) {
-    const qrBtn = (e.target as HTMLElement).closest("#external-link-qr-btn");
-    if (qrBtn) {
+    if ((e.target as HTMLElement).closest("#external-link-qr-btn")) {
       e.preventDefault();
       handleExternalLinkShowQR();
     }

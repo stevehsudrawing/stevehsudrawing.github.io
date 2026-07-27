@@ -58,6 +58,9 @@ export async function showQRCodeModal(
   const downloadBtn = document.getElementById(
     "qr-download-btn",
   ) as HTMLButtonElement | null;
+  const copyBtn = document.getElementById(
+    "qr-copy-btn",
+  ) as HTMLButtonElement | null;
   const openLinkBtn = document.getElementById(
     "qr-open-link-btn",
   ) as HTMLElement | null;
@@ -68,7 +71,8 @@ export async function showQRCodeModal(
     !modalElement ||
     !shareCard ||
     !shareBtn ||
-    !downloadBtn
+    !downloadBtn ||
+    !copyBtn
   ) {
     console.warn("QR code modal elements not found.");
     return;
@@ -225,6 +229,7 @@ export async function showQRCodeModal(
   function setButtonsDisabled(disabled: boolean): void {
     shareBtn!.disabled = disabled;
     downloadBtn!.disabled = disabled;
+    copyBtn!.disabled = disabled;
   }
 
   // --- Detect share-API support (once) and hide button if unsupported ---
@@ -288,6 +293,25 @@ export async function showQRCodeModal(
     runWithSpinner(function (blob) {
       downloadBlob(blob);
     }, "Failed to download QR code image");
+  };
+
+  // --- Copy handler (copy share card image to clipboard) ---
+  copyBtn.onclick = function () {
+    runWithSpinner(function (blob) {
+      navigator.clipboard
+        .write([new ClipboardItem({ "image/png": blob })])
+        .then(function () {
+          const label = translate(
+            "text-copied-image",
+            "Copied image. You can paste it into a supported input field.",
+          );
+          showToast("success", label);
+        })
+        .catch(function (error) {
+          showToast("error", "Failed to copy image: " + errMsg(error));
+          console.error("Failed to copy QR code image:", error);
+        });
+    }, "Failed to copy QR code image");
   };
 
   const bootstrapModal = new window.bootstrap.Modal(modalElement);
