@@ -26,7 +26,7 @@ applyTo: >
 
 #### 2.3.1 Import Conventions
 
-- All import paths must use **`.js` extensions** (not `.ts`), even when importing from TypeScript files. Vite's `moduleResolution: "bundler"` resolves `.js` → `.ts` automatically, but TypeScript 7 rejects `.ts` extensions unless `allowImportingTsExtensions` is enabled (which is not supported by Vite's esbuild).
+- All import paths must use **`.js` extensions** (not `.ts`), even when importing from TypeScript files. Vite's `moduleResolution: "bundler"` resolves `.js` -> `.ts` automatically, but TypeScript 7 rejects `.ts` extensions unless `allowImportingTsExtensions` is enabled (which is not supported by Vite's esbuild).
 - Import shared types from `../types/` using `import type` for type-only imports to ensure they are erased at build time.
 
   ```ts

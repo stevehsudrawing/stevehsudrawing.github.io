@@ -73,16 +73,31 @@
             ></div>
           </div>
           <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
-            <img
-              alt="Illustration"
-              data-i18n-alt="text-illustration"
-              src="/images/webp/covers/illustration-light.webp"
-              data-img-feature="follow-theme"
-              data-src-light="/images/webp/covers/illustration-light.webp"
-              data-src-dark="/images/webp/covers/illustration-dark.webp"
-              class="img-fluid img-fit rounded no-copy solid-bg"
-              fetchpriority="high"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcset="/images/avif/covers/illustration-light.avif"
+                data-img-feature="follow-theme"
+                data-src-light="/images/avif/covers/illustration-light.avif"
+                data-src-dark="/images/avif/covers/illustration-dark.avif"
+                fetchpriority="high"
+              />
+              <source
+                type="image/webp"
+                srcset="/images/webp/covers/illustration-light.webp"
+                data-img-feature="follow-theme"
+                data-src-light="/images/webp/covers/illustration-light.webp"
+                data-src-dark="/images/webp/covers/illustration-dark.webp"
+                fetchpriority="high"
+              />
+              <img
+                alt="Illustration"
+                data-i18n-alt="text-illustration"
+                src="/images/png/covers/illustration-light.png"
+                class="img-fluid img-fit rounded no-copy solid-bg"
+                fetchpriority="high"
+              />
+            </picture>
           </div>
         </div>
       </div>
@@ -106,12 +121,18 @@
             ></div>
           </div>
           <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
-            <img
-              alt="Softwares"
-              data-i18n-alt="text-softwares"
-              src="/images/webp/covers/projects.webp"
-              class="img-fluid img-fit rounded"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcset="/images/avif/covers/projects.avif"
+              />
+              <img
+                alt="Softwares"
+                data-i18n-alt="text-softwares"
+                src="/images/webp/covers/projects.webp"
+                class="img-fluid img-fit rounded"
+              />
+            </picture>
           </div>
         </div>
       </div>
@@ -136,12 +157,18 @@
           <div
             class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0"
           >
-            <img
-              alt="Blogs & Sponsor"
-              data-i18n-alt="text-blogs-and-sponsor"
-              src="/images/webp/covers/blogs.webp"
-              class="img-fluid img-fit rounded"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcset="/images/avif/covers/blogs.avif"
+              />
+              <img
+                alt="Blogs & Sponsor"
+                data-i18n-alt="text-blogs-and-sponsor"
+                src="/images/webp/covers/blogs.webp"
+                class="img-fluid img-fit rounded"
+              />
+            </picture>
           </div>
         </div>
       </div>
@@ -165,29 +192,44 @@
           <div
             class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0"
           >
-            <img
-              alt="Chatting"
-              data-i18n-alt="text-chatting"
-              src="/images/webp/covers/chatting.webp"
-              class="img-fluid img-fit rounded"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcset="/images/avif/covers/chatting.avif"
+              />
+              <img
+                alt="Chatting"
+                data-i18n-alt="text-chatting"
+                src="/images/webp/covers/chatting.webp"
+                class="img-fluid img-fit rounded"
+              />
+            </picture>
           </div>
         </div>
       </div>
       <hr />
       <div class="container">
         <div class="py-4 d-flex flex-column align-items-center">
-          <img
-            alt="Sticker (Thumb)"
-            data-i18n-alt="text-sticker-of-thumb"
-            src="/images/webp/stickers/light/thumb.webp"
-            data-img-feature="follow-theme"
-            data-src-light="/images/webp/stickers/light/thumb.webp"
-            data-src-dark="/images/webp/stickers/dark/thumb.webp"
-            width="150"
-            height="150"
-            class="no-copy solid-bg"
-          />
+          <picture>
+            <source
+              type="image/avif"
+              srcset="/images/avif/stickers/light/thumb.avif"
+              data-img-feature="follow-theme"
+              data-src-light="/images/avif/stickers/light/thumb.avif"
+              data-src-dark="/images/avif/stickers/dark/thumb.avif"
+            />
+            <img
+              alt="Sticker (Thumb)"
+              data-i18n-alt="text-sticker-of-thumb"
+              src="/images/webp/stickers/light/thumb.webp"
+              data-img-feature="follow-theme"
+              data-src-light="/images/webp/stickers/light/thumb.webp"
+              data-src-dark="/images/webp/stickers/dark/thumb.webp"
+              width="150"
+              height="150"
+              class="no-copy solid-bg"
+            />
+          </picture>
           <a
             class="link link-hover-change-background link-secondary-shlh internal-link fw-semibold mt-3"
             href="/about.html"

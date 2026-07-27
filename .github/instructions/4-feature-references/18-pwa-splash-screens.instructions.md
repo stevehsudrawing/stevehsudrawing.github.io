@@ -46,4 +46,4 @@ Generates <link> tags with media queries:
                and (orientation: portrait)">
 ```
 
-**SPLASH_SCREENS Table**: Each entry maps pixel dimensions → CSS point dimensions → pixel ratio, sourced from Apple's Human Interface Guidelines. Only unique pixel resolutions are listed (deduplicated across device models). Portrait orientation only.
+**SPLASH_SCREENS Table**: Each entry maps pixel dimensions -> CSS point dimensions -> pixel ratio, sourced from Apple's Human Interface Guidelines. Only unique pixel resolutions are listed (deduplicated across device models). Portrait orientation only.

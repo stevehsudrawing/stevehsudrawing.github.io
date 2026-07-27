@@ -48,7 +48,7 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 | `get*` / `set*`      | Retrieve / set value or state | `populate*` / `generate*` | Fill UI lists / inject DOM    |
 | `hide*`              | Hide an element               | `extract*` / `normalize*` | Parse / sanitize input        |
 
-- **Batch functions** must include `All` and delegate to an idempotent single-element function: `initAllTooltips()` → `createTooltip(el)`
+- **Batch functions** must include `All` and delegate to an idempotent single-element function: `initAllTooltips()` -> `createTooltip(el)`
 - **Symmetric pairs**: every add/create/init must have a matching remove/destroy/dispose counterpart
 
 ### 0.4 Project Structure
@@ -56,15 +56,15 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 **Layered architecture with semantic constraints:**
 
 ```
-types/    → shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts)
+types/    -> shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts)
   ↑
-core/     → foundation utilities and global state (i18n.ts, utils.ts)
+core/     -> foundation utilities and global state (i18n.ts, utils.ts)
             NO DOM manipulation, NO event listeners - pure logic only.
   ↑
-ui/       → reusable UI components and behaviors (theme, navbar, accessibility, toast, etc.)
+ui/       -> reusable UI components and behaviors (theme, navbar, accessibility, toast, etc.)
             DOM manipulation, event binding, Bootstrap wrappers.
   ↑
-features/ → cross-cutting feature orchestration (page-transition, lang-switcher, qr-code, etc.)
+features/ -> cross-cutting feature orchestration (page-transition, lang-switcher, qr-code, etc.)
             Coordinates multiple core + ui modules into user-facing features.
 ```
 
@@ -77,7 +77,7 @@ features/ → cross-cutting feature orchestration (page-transition, lang-switche
 
 **Decoupling patterns (when import would violate hierarchy):**
 
-- **Event-driven**: `ui/` cannot import `features/`. Use `CustomEvent` via `AppEvent` enum - the ui module dispatches, the feature module listens. (See `LangSwitchRequested` in `settings.ts` → `lang-switcher.ts`.)
+- **Event-driven**: `ui/` cannot import `features/`. Use `CustomEvent` via `AppEvent` enum - the ui module dispatches, the feature module listens. (See `LangSwitchRequested` in `settings.ts` -> `lang-switcher.ts`.)
 - **Extract shared module**: When multiple features need the same UI behavior, extract it to `ui/`. (See `loading-bar.ts` shared by `page-transition` and `lang-switcher`.)
 
 ### 0.5 File Rules
@@ -162,9 +162,9 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.12 Tooltips**](./instructions/4-feature-references/12-tooltips.instructions.md)
 - [**4.13 Image Utilities**](./instructions/4-feature-references/13-image-utilities.instructions.md)
   - 4.13.1 `data-img-feature` Attribute
-  - 4.13.2 `follow-theme`
-  - 4.13.3 `colored`
-  - 4.13.4 `loading-opacity`
+    - 4.13.1.1 `follow-theme`
+    - 4.13.1.2 `colored`
+  - 4.13.2 Loading Opacity
 - [**4.14 SVG Injection**](./instructions/4-feature-references/14-svg-injection.instructions.md)
 - [**4.15 Utilities**](./instructions/4-feature-references/15-utilities.instructions.md)
 - [**4.16 SEO**](./instructions/4-feature-references/16-seo.instructions.md)
@@ -192,6 +192,6 @@ When generating responses for this project, Copilot should:
 1. **Think in English**: Internal reasoning and analysis should be in English.
 2. **Read the necessary documents**: Instructions are organized in the form of folders. Before generating a response, Copilot should first read the relevant documents in `.github/instructions` according to the user's requirements to understand the specifications of this project.
 3. **Respond using the language that the user is using**: For example, if the user is conversing in Chinese, responses should be in Chinese.
-4. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `-`, using `->` instead of `→`.
+4. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `-`, using `->` instead of `->`.
 5. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 6. **Priority of norms/standards**: If there are more normative or standard practices, priority should be given to norms or standards, even if refactoring is required.

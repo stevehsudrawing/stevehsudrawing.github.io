@@ -38,7 +38,7 @@ Located in `src/types/` and bundled into the browser output. Type-checked by the
 | `text`    | `{ "type": "text", "value": "..." }`                                              | Text node                         |
 | `comment` | `{ "type": "comment", "value": "..." }`                                           | HTML comment                      |
 
-**HAST Property Naming**: HAST uses `className` (string or array) instead of `class`, and `data*` attributes are camelCase (e.g. `dataI18n` → `data-i18n`). Both `hast-util-to-html` and `setElementAttributes` (in `utils.ts`) handle kebab-case conversion automatically.
+**HAST Property Naming**: HAST uses `className` (string or array) instead of `class`, and `data*` attributes are camelCase (e.g. `dataI18n` -> `data-i18n`). Both `hast-util-to-html` and `setElementAttributes` (in `utils.ts`) handle kebab-case conversion automatically.
 
 ```json
 {
@@ -49,7 +49,7 @@ Located in `src/types/` and bundled into the browser output. Type-checked by the
 }
 ```
 
-→ `<a class="external-link" href="https://example.com" data-i18n="text-foo" data-img-feature="colored">`
+-> `<a class="external-link" href="https://example.com" data-i18n="text-foo" data-img-feature="colored">`
 
 #### 3.3.2 Build-time Types (`build/types.ts`)
 
@@ -161,7 +161,7 @@ Each page's link button groups are defined as a JSON array of **Link Button Grou
 }
 ```
 
-- `externalLink`: Boolean. `true` → `external-link` class + `data-link-img-props`; `false` → `internal-link` class + `data-no-qr-code`.
+- `externalLink`: Boolean. `true` -> `external-link` class + `data-link-img-props`; `false` -> `internal-link` class + `data-no-qr-code`.
 - `linkHref`: The link URL.
 - `primary`: Optional boolean placeholder (currently unused - all buttons use `btn-outline-secondary`).
 - `iconProps`: `HastProperties` for the `<img>` child. `alt` is also used to derive `data-bs-title`; `dataI18nAlt` is used to derive `data-i18n-tooltip`.

@@ -17,29 +17,33 @@ applyTo: >
 
 **Related Files**:
 
-| File                            | Role                                                                                 |
-| ------------------------------- | ------------------------------------------------------------------------------------ |
-| `src/ui/img-utils.ts`           | Initializes `data-img-feature="colored"` images and image loading opacity            |
-| `src/stylesheets/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity |
-| `src/ui/theme.ts`               | `applyAllThemeBasedImages()` handles `data-img-feature~="follow-theme"` images       |
-| `public/images/webp/null.webp`  | Placeholder image used with `data-img-feature="colored"`                             |
-| `public/images/README.md`       | Copyright notice for image assets                                                    |
+| File                            | Role                                                                                                                                            |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/ui/img-utils.ts`           | Initializes `data-img-feature="colored"` images and image loading opacity                                                                       |
+| `src/stylesheets/img-utils.css` | CSS rules for `[data-img-feature~="colored"]` mask-based styling and loading opacity                                                            |
+| `src/ui/theme.ts`               | `applyAllThemeBasedImages()` and `applyAllThemeBasedSources()` handle `data-img-feature~="follow-theme"` on `<img>` and `<source>` respectively |
+| `public/images/webp/null.webp`  | Placeholder image used with `data-img-feature="colored"`                                                                                        |
+| `public/images/README.md`       | Copyright notice for image assets                                                                                                               |
 
 #### 4.13.1 `data-img-feature` Attribute
 
-The `data-img-feature` attribute on `<img>` elements declares which image features apply. Multiple features are space-separated (e.g. `data-img-feature="follow-theme colored"`).
+The `data-img-feature` attribute declares which image features apply to an element. It can be placed on `<img>` elements (all features) or `<source>` elements inside `<picture>` (`follow-theme` only). Multiple features are space-separated (e.g. `data-img-feature="follow-theme colored"` on `<img>`).
 
-#### 4.13.2 `follow-theme`
+##### 4.13.1.1 `follow-theme`
 
-Swaps `src` between light and dark variants based on the current theme.
+Swaps the image source between light and dark variants based on the current theme.
 
 - `data-img-feature="follow-theme"` - enables theme-based source swapping
 - `data-src-light` - URL for the light-theme image (populated automatically if missing)
 - `data-src-dark` - URL for the dark-theme image
 
-Handled by `applyAllThemeBasedImages()` in `theme.ts` (see [§4.4 Theme System](4-theme-system.instructions.md#44-theme-system)).
+**On `<img>`**: Swaps the `src` attribute. Handled by `applyAllThemeBasedImages()` which delegates to `applyThemeBasedImage()`. Also manages loading opacity via `markImageUnloaded()` / `initImageLoadingOpacity()` during swaps.
 
-#### 4.13.3 `colored`
+**On `<source>`** (inside `<picture>`): Swaps the `srcset` attribute. Handled by `applyAllThemeBasedSources()` which delegates to `applyThemeBasedSource()`. No loading opacity handling needed (`<source>` elements are not rendered).
+
+When using `<picture>` with multiple `<source>` format alternatives (e.g. AVIF + WebP), each `<source>` that needs theme-switching must carry its own `data-img-feature="follow-theme"` with format-appropriate `data-src-light` / `data-src-dark` paths (see [§4.4 Theme System](4-theme-system.instructions.md#44-theme-system)).
+
+##### 4.13.1.2 `colored`
 
 Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 
@@ -49,9 +53,11 @@ Renders monochrome icons via CSS `mask-image`, colored by a CSS custom property.
 
 Handled by `initAllColoredImages()` in `img-utils.ts`, which sets `--img-mask-url` and `--img-color` CSS custom properties on each element. The generic CSS in `img-utils.css` applies `background-color` and `mask` based on these properties.
 
-#### 4.13.4 `loading-opacity`
+> **Note**: `colored` applies only to `<img>` elements. Placing it on a `<source>` has no effect because `<source>` elements are not rendered (CSS `mask` and `background-color` do not apply).
 
-Renders `<img>` elements semi-transparent (`opacity: 0.5`) while their source is loading, then fades to fully opaque (`opacity: 1`) once the image has loaded. Colored images (`data-img-feature~="colored"`) are excluded because their visual comes from CSS `mask` / `background-color` rather than the `src`.
+#### 4.13.2 Loading Opacity
+
+Renders `<img>` elements semi-transparent (`opacity: 0.5`) while their source is loading, then fades to fully opaque (`opacity: 1`) once the image has loaded. Does not apply to `<source>` elements (not rendered). Colored images (`data-img-feature~="colored"`) are excluded because their visual comes from CSS `mask` / `background-color` rather than the `src`.
 
 - **Default state**: All `<img>` elements are `opacity: 0.5` with `transition: opacity .2s ease`.
 - **Loaded state**: When an image finishes loading (or is already cached), the `data-img-loaded` attribute is added, which sets `opacity: 1`.
@@ -61,8 +67,8 @@ Renders `<img>` elements semi-transparent (`opacity: 0.5`) while their source is
 
 | Function                       | Role                                                                           |
 | ------------------------------ | ------------------------------------------------------------------------------ |
-| `markImageLoaded(img)`         | Adds `data-img-loaded` attribute → `opacity: 1`                                |
-| `markImageUnloaded(img)`       | Removes `data-img-loaded` attribute → `opacity: 0.5`                           |
+| `markImageLoaded(img)`         | Adds `data-img-loaded` attribute -> `opacity: 1`                               |
+| `markImageUnloaded(img)`       | Removes `data-img-loaded` attribute -> `opacity: 0.5`                          |
 | `initImageLoadingOpacity(img)` | Checks if image is cached (mark immediately) or binds `load`/`error` listeners |
 | `initAllImageLoadingOpacity()` | Batch function: calls `initImageLoadingOpacity()` on every `<img>`             |
 

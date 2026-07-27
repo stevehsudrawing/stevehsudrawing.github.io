@@ -21,7 +21,7 @@ import {
   initAllTitleLinkAnchors,
   addAllExternalLinkIndicators,
 } from "../ui/accessibility.js";
-import { applyAllThemeBasedImages } from "../ui/theme.js";
+import { applyAllThemeBasedImages, applyAllThemeBasedSources } from "../ui/theme.js";
 import {
   initAllColoredImages,
   initAllImageLoadingOpacity,
@@ -55,6 +55,7 @@ export async function initPageContent(): Promise<void> {
   initAllTooltips();
   initAllTitleLinkAnchors();
   applyAllThemeBasedImages();
+  applyAllThemeBasedSources();
   initAllColoredImages();
   initAllImageLoadingOpacity();
   await initSvgInjection();

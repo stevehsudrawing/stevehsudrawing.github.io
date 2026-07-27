@@ -14,7 +14,7 @@ import "@fontsource-variable/inter/opsz.css";
 import "@fontsource-variable/inter/opsz-italic.css";
 import "@fontsource-variable/roboto-mono/wght.css";
 
-// Project CSS (order matters: base → theme → layouts → components)
+// Project CSS (order matters: base -> theme -> layouts -> components)
 import "./stylesheets/base.css";
 import "./stylesheets/theme.css";
 import "./stylesheets/fonts.css";

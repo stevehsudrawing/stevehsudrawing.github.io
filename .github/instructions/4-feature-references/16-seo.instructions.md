@@ -29,24 +29,24 @@ applyTo: >
 
 #### 4.16.1 SEO Elements by Page Tier
 
-| Element                   | Full-Functionality Pages                                | 404 (Lightweight) | Error Pages (Minimal) |
-| ------------------------- | ------------------------------------------------------- | ----------------- | --------------------- |
-| `meta description`        | ✓ Unique per page                                       | ✓                 | ✓                     |
-| `meta author`             | ✓                                                       | ✓                 | ✓                     |
-| `meta robots`             | ✓ `index, follow`                                       | ✓ `noindex`       | ✓ `noindex`           |
-| `link canonical`          | ✓                                                       | ✓                 | ✓                     |
-| `<title>`                 | ✓ `{Page} - Steve Hsu (什五)'s Link-Hub`                | ✓                 | ✓                     |
-| `link favicon`            | ✓                                                       | ✓                 | ✓                     |
-| `link manifest`           | ✓                                                       | ✗                 | ✗                     |
-| Apple PWA meta tags       | ✓ `apple-mobile-web-app-capable` + others               | ✓                 | ✓                     |
-| `link sitemap`            | ✓                                                       | ✗                 | ✗                     |
-| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default                       | ✓                 | ✗                     |
-| Open Graph tags           | ✓                                                       | ✓                 | ✓                     |
-| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                                | ✓                 | ✗                     |
-| Twitter/X Card tags       | ✓ `summary_large_image`                                 | ✓                 | ✓                     |
-| Multiple `theme-color`    | ✓                                                       | ✓                 | ✗                     |
+| Element                   | Full-Functionality Pages                                             | 404 (Lightweight) | Error Pages (Minimal) |
+| ------------------------- | -------------------------------------------------------------------- | ----------------- | --------------------- |
+| `meta description`        | ✓ Unique per page                                                    | ✓                 | ✓                     |
+| `meta author`             | ✓                                                                    | ✓                 | ✓                     |
+| `meta robots`             | ✓ `index, follow`                                                    | ✓ `noindex`       | ✓ `noindex`           |
+| `link canonical`          | ✓                                                                    | ✓                 | ✓                     |
+| `<title>`                 | ✓ `{Page} - Steve Hsu (什五)'s Link-Hub`                             | ✓                 | ✓                     |
+| `link favicon`            | ✓                                                                    | ✓                 | ✓                     |
+| `link manifest`           | ✓                                                                    | ✗                 | ✗                     |
+| Apple PWA meta tags       | ✓ `apple-mobile-web-app-capable` + others                            | ✓                 | ✓                     |
+| `link sitemap`            | ✓                                                                    | ✗                 | ✗                     |
+| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default                                    | ✓                 | ✗                     |
+| Open Graph tags           | ✓                                                                    | ✓                 | ✓                     |
+| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                                             | ✓                 | ✗                     |
+| Twitter/X Card tags       | ✓ `summary_large_image`                                              | ✓                 | ✓                     |
+| Multiple `theme-color`    | ✓                                                                    | ✓                 | ✗                     |
 | JSON-LD (inline)          | ✓ See [§4.16.2](16-seo.instructions.md#4162-structured-data-json-ld) | ✗                 | ✗                     |
-| `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links                    | ✗                 | ✗                     |
+| `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links                                 | ✗                 | ✗                     |
 
 **Error pages do not need SEO optimization** beyond basic `description`, `canonical`, `robots: noindex`, and existing OG/Twitter tags. They must not appear in the sitemap.
 
@@ -62,7 +62,7 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 ##### 4.16.2.2 Sub-Pages
 
-- **`BreadcrumbList`** schema only: `Home → {Current Page Name}`.
+- **`BreadcrumbList`** schema only: `Home -> {Current Page Name}`.
 - Duplicate `Person` or `WebSite` across sub-pages is unnecessary; the homepage already declares them.
 
 #### 4.16.3 Sitemap
@@ -80,15 +80,15 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
   - `?lang=zh-Hans` - Simplified Chinese
   - `?lang=zh-Hant` - Traditional Chinese
 - The `x-default` hreflang points to the parameter-less URL, signaling that the page does not specifically target any one language and will auto-detect based on saved preference.
-- Language detection priority: `?lang=` query parameter → `localStorage` (`preferredLang`) → default `'en'`.
+- Language detection priority: `?lang=` query parameter -> `localStorage` (`preferredLang`) -> default `'en'`.
 - When the user switches language via the UI, `history.replaceState()` updates the URL with the new `?lang=` parameter without creating a browser history entry.
 - The Page Transition System ([§4.6](6-page-transitions.instructions.md#46-page-transitions)) preserves the `?lang=` parameter across internal SPA navigations, so the user's chosen language persists through page transitions.
 - Hreflang `<link>` tags in `<head>` use the `?lang=` URLs to give each language a unique URL for search engines.
 - Language code normalization: a `normalizeLang()` function (in `src/core/i18n.ts`) maps common regional variants to the site's three supported codes. This is called at the entry of `loadLang()`, ensuring all language inputs (URL parameters, localStorage values, UI selections) are canonicalized before translation files are loaded:
-  - `zh-HK`, `zh-MO`, `zh-TW`, `zh-Hant`, `zh-Hant-*` → `zh-Hant`
-  - `zh-CN`, `zh-SG`, `zh`, `zh-Hans`, `zh-Hans-*` → `zh-Hans`
-  - Other `zh-*` variants → `zh-Hans` (fallback)
-  - `en`, `en-*`, any unrecognized code → `en` (default)
+  - `zh-HK`, `zh-MO`, `zh-TW`, `zh-Hant`, `zh-Hant-*` -> `zh-Hant`
+  - `zh-CN`, `zh-SG`, `zh`, `zh-Hans`, `zh-Hans-*` -> `zh-Hans`
+  - Other `zh-*` variants -> `zh-Hans` (fallback)
+  - `en`, `en-*`, any unrecognized code -> `en` (default)
 - Hreflang tags only declare these three canonical codes; regional variants are not listed to avoid false duplicate-content signals.
 
 #### 4.16.5 Noscript SEO Fallback

@@ -16,7 +16,7 @@ import { showToast } from "../ui/toast.js";
 
 /**
  * Determine and load the preferred language.
- * Priority: ?lang= URL parameter → localStorage → default 'en'.
+ * Priority: ?lang= URL parameter -> localStorage -> default 'en'.
  */
 export async function initLang(): Promise<void> {
   const urlParams = new URLSearchParams(window.location.search);

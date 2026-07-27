@@ -24,31 +24,31 @@ A personal link-hub website that consolidates links to all my profiles across va
 
 ## 2. Browser Baseline
 
-| Browser | Min Version |
-| ------- | ----------- |
-| Chrome  | ≥ 61        |
-| Edge    | ≥ 79        |
-| Firefox | ≥ 60        |
-| Opera   | ≥ 48        |
-| Safari  | ≥ 14        |
+| Browser | Min Version | Best Experience |
+| ------- | ----------- | --------------- |
+| Chrome  | ≥ 61        | ≥ 85            |
+| Edge    | ≥ 79        | ≥ 121           |
+| Firefox | ≥ 60        | ≥ 93            |
+| Opera   | ≥ 48        | ≥ 71            |
+| Safari  | ≥ 14        | ≥ 16.1          |
 
 For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseline.instructions.md).
 
 ## 3. Tech Stack
 
-| Category        | Choice                                                                                                        |
-| --------------- | ------------------------------------------------------------------------------------------------------------- |
-| Language        | [TypeScript](https://www.typescriptlang.org/)                                                                 |
-| Build Tool      | [Vite 8](https://vite.dev/)                                                                                   |
-| Package Manager | [pnpm](https://pnpm.io/)                                                                                      |
-| Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                                                                  |
-| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                                            |
-| Font            | [Inter](https://github.com/rsms/inter) (via [Fontsource](https://fontsource.org/))                            |
-| Monospace Font  | [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono) (via [Fontsource](https://fontsource.org/)) |
-| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                                              |
-| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                                                      |
-| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                                                        |
-| Hosting         | [GitHub Pages](https://pages.github.com/)                                                                     |
+| Category        | Choice                                                            |
+| --------------- | ----------------------------------------------------------------- |
+| Language        | [TypeScript](https://www.typescriptlang.org/)                     |
+| Build Tool      | [Vite 8](https://vite.dev/)                                       |
+| Package Manager | [pnpm](https://pnpm.io/)                                          |
+| Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                      |
+| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                |
+| Font            | [Inter](https://github.com/rsms/inter)                            |
+| Monospace Font  | [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono) |
+| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                  |
+| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)          |
+| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)            |
+| Hosting         | [GitHub Pages](https://pages.github.com/)                         |
 
 ## 4. Development
 

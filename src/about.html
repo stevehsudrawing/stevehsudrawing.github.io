@@ -48,12 +48,18 @@
           <div
             class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0"
           >
-            <img
-              alt="Artworks"
-              data-i18n-alt="text-artworks"
-              src="/images/webp/covers/about.webp"
-              class="img-fluid img-fit rounded no-copy solid-bg"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcset="/images/avif/covers/about.avif"
+              />
+              <img
+                alt="Artworks"
+                data-i18n-alt="text-artworks"
+                src="/images/webp/covers/about.webp"
+                class="img-fluid img-fit rounded no-copy solid-bg"
+              />
+            </picture>
           </div>
         </div>
       </div>
@@ -220,17 +226,26 @@
       <hr />
       <div class="container">
         <div class="py-4 d-flex flex-column align-items-center">
-          <img
-            alt="Sticker (Thanks)"
-            data-i18n-alt="text-sticker-of-thanks"
-            src="/images/webp/stickers/light/thanks.webp"
-            data-img-feature="follow-theme"
-            data-src-light="/images/webp/stickers/light/thanks.webp"
-            data-src-dark="/images/webp/stickers/dark/thanks.webp"
-            width="150"
-            height="150"
-            class="no-copy solid-bg"
-          />
+          <picture>
+            <source
+              type="image/avif"
+              srcset="/images/avif/stickers/light/thanks.avif"
+              data-img-feature="follow-theme"
+              data-src-light="/images/avif/stickers/light/thanks.avif"
+              data-src-dark="/images/avif/stickers/dark/thanks.avif"
+            />
+            <img
+              alt="Sticker (Thanks)"
+              data-i18n-alt="text-sticker-of-thanks"
+              src="/images/webp/stickers/light/thanks.webp"
+              data-img-feature="follow-theme"
+              data-src-light="/images/webp/stickers/light/thanks.webp"
+              data-src-dark="/images/webp/stickers/dark/thanks.webp"
+              width="150"
+              height="150"
+              class="no-copy solid-bg"
+            />
+          </picture>
           <p class="opacity-75 mt-3">
             <span data-i18n="text-thanks-for-your-visiting"
               >Thanks for your visiting!</span

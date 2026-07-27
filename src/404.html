@@ -25,17 +25,26 @@
       id="page-content"
       class="container d-flex flex-column justify-content-center align-items-center text-center"
     >
-      <img
-        class="no-copy solid-bg"
-        alt="Sticker (Observing)"
-        data-i18n-alt="text-sticker-of-observing"
-        src="/images/webp/stickers/light/observing.webp"
-        data-img-feature="follow-theme"
-        data-src-light="/images/webp/stickers/light/observing.webp"
-        data-src-dark="/images/webp/stickers/dark/observing.webp"
-        width="150"
-        height="150"
-      />
+      <picture>
+        <source
+          type="image/avif"
+          srcset="/images/avif/stickers/light/observing.avif"
+          data-img-feature="follow-theme"
+          data-src-light="/images/avif/stickers/light/observing.avif"
+          data-src-dark="/images/avif/stickers/dark/observing.avif"
+        />
+        <img
+          class="no-copy solid-bg"
+          alt="Sticker (Observing)"
+          data-i18n-alt="text-sticker-of-observing"
+          src="/images/webp/stickers/light/observing.webp"
+          data-img-feature="follow-theme"
+          data-src-light="/images/webp/stickers/light/observing.webp"
+          data-src-dark="/images/webp/stickers/dark/observing.webp"
+          width="150"
+          height="150"
+        />
+      </picture>
       <h1 class="h3">HTTP 404</h1>
       <div class="notice-container pb-2">
         <p><b data-i18n="text-http-404-description">Page not found</b></p>

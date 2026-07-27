@@ -1,7 +1,7 @@
 /**
  * Navbar and dropdown behaviors.
  * Provides active nav-item highlighting, dropdown menu animations,
- * and mobile navbar-brand scroll swapping (logo → page name).
+ * and mobile navbar-brand scroll swapping (logo -> page name).
  */
 
 import { translate } from "../core/i18n.js";
@@ -139,9 +139,9 @@ export function initMobileNavbarBrandScroll(): void {
       // Clamp progress to [0, 1] over the 0–64 px scroll range
       const progress = Math.min(Math.max(window.scrollY / 64, 0), 1);
 
-      // Logo: 0 → -100 % (slides up out of view)
+      // Logo: 0 -> -100 % (slides up out of view)
       logoTarget!.style.transform = "translateY(-" + progress * 100 + "%)";
-      // Page name: 100 % → 0 (slides up into view from below)
+      // Page name: 100 % -> 0 (slides up into view from below)
       pageTarget!.style.transform = "translateY(" + (1 - progress) * 100 + "%)";
     } else {
       // Desktop: reset inline overrides so CSS defaults take over

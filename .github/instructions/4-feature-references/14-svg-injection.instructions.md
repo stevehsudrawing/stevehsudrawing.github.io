@@ -26,7 +26,7 @@ applyTo: >
 ```
 HTML: <span data-role="svg" data-src="/images/svg/icons/steve-hsu.svg" data-width="32" data-height="28" data-color-var="bs-link-color"></span>
         ↓ (svg-utils.ts at init time)
-      Fetch /images/svg/icons/steve-hsu.svg → replace fill="currentColor" with var(--bs-link-color)
+      Fetch /images/svg/icons/steve-hsu.svg -> replace fill="currentColor" with var(--bs-link-color)
         ↓
       Set width/height on <svg>, inject as innerHTML
 ```

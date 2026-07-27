@@ -57,9 +57,9 @@ Placeholder `<div>` elements marked with `data-role="page-component"` and `data-
 ```
 HTML source: <div data-role="page-component" data-component-name="header"></div>
   ↓ (content-injection-plugin, transformIndexHtml order: 'pre')
-Parses body content with fromHtml() → walks HAST tree → finds dataRole === 'page-component'
+Parses body content with fromHtml() -> walks HAST tree -> finds dataRole === 'page-component'
   ↓
-Reads build/page-components/{name}.html → extracts inner <body> content
+Reads build/page-components/{name}.html -> extracts inner <body> content
   ↓
 Replaces placeholder children with component content, removes dataRole/dataComponentName attrs
   ↓
@@ -90,7 +90,7 @@ buildLinkCardsHTML(pageName)
           * Appends QR buttons to title <a> elements only (not description links)
           * Ensures img-fluid img-fit classes on icon images
   ↓ Returns serialized HTML string
-  ↓ content-injection-plugin finds #links container in HAST tree → replaces children
+  ↓ content-injection-plugin finds #links container in HAST tree -> replaces children
 ```
 
 All operations are performed on HAST node trees using `hastscript` (`h()`) and `hast-util-to-html` (`toHtml`). The `fromHtml` function is used for parsing HTML strings into HAST trees for manipulation. No regex-based HTML string replacement is used.
@@ -124,7 +124,7 @@ buildLinkButtonGroupHTML(pageName, groupId)
       - Builds <a> with btn btn-outline-secondary link-btn-img-wrapper classes
   ↓ Wraps all buttons in <div class="btn-group link-button-group">
   ↓ Returns serialized HTML string
-  ↓ content-injection-plugin finds data-role="link-button-group" → replaces children
+  ↓ content-injection-plugin finds data-role="link-button-group" -> replaces children
 ```
 
 **Placeholder format** (in source HTML):

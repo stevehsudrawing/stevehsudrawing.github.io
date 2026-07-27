@@ -101,13 +101,13 @@
   flex-grow: 1;
 }
 
-.sub-cover-wrapper > img {
+.sub-cover-wrapper picture {
   width: 240px;
 }
 
 /* Mobile (< 768px) */
 @media (max-width: 767.98px) {
-  .sub-cover-wrapper > img {
+  .sub-cover-wrapper picture {
     width: 50%;
   }
 }

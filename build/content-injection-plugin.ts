@@ -1,7 +1,7 @@
 /**
  * Vite plugin: pre-render page content at build time.
  *
- * Uses HAST tree manipulation (fromHtml → walk → toHtml) rather than
+ * Uses HAST tree manipulation (fromHtml -> walk -> toHtml) rather than
  * regex-based HTML string replacement.
  */
 

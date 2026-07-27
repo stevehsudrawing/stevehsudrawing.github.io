@@ -88,6 +88,7 @@ export function applyThemeChange(theme: string): void {
     htmlElement.setAttribute("data-bs-theme", theme);
   }
   applyAllThemeBasedImages();
+  applyAllThemeBasedSources();
   applyAllFaviconThemes();
 }
 
@@ -207,6 +208,50 @@ export function applyAllThemeBasedImages(): void {
       .forEach(applyThemeBasedImage);
   } catch (error) {
     console.error("Failed to apply theme-based images:", error);
+  }
+}
+
+/**
+ * Apply the current theme's image source to a single <source> element
+ * that has data-img-feature~="follow-theme".
+ * Ensures data-src-light is populated on first call so the light
+ * source is always recoverable.
+ * @param source - The source element to update.
+ */
+export function applyThemeBasedSource(source: HTMLSourceElement): void {
+  if (!source.hasAttribute("data-src-light")) {
+    source.setAttribute(
+      "data-src-light",
+      source.getAttribute("srcset") || "",
+    );
+  }
+
+  const currentTheme = htmlElement.getAttribute("data-bs-theme");
+  if (currentTheme === "dark") {
+    source.setAttribute("srcset", source.getAttribute("data-src-dark") || "");
+  } else {
+    const lightSrc = source.getAttribute("data-src-light");
+    if (lightSrc) {
+      source.setAttribute("srcset", lightSrc);
+    }
+  }
+}
+
+/**
+ * Swap source[srcset] with source[data-src-dark] when the current theme is dark,
+ * and restore the original light source when switching back.
+ * Targets <source> elements with data-img-feature~="follow-theme".
+ * Delegates to applyThemeBasedSource() for each matching element.
+ */
+export function applyAllThemeBasedSources(): void {
+  try {
+    document
+      .querySelectorAll<HTMLSourceElement>(
+        'source[data-img-feature~="follow-theme"]',
+      )
+      .forEach(applyThemeBasedSource);
+  } catch (error) {
+    console.error("Failed to apply theme-based sources:", error);
   }
 }
 

@@ -47,14 +47,14 @@ applyTo: >
 **Layered TS architecture (`src/`):**
 
 ```
-types/    → shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts)
+types/    -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts)
   ↑
-core/     → foundation logic & global state - pure functions, no DOM (i18n.ts, utils.ts)
+core/     -> foundation logic & global state - pure functions, no DOM (i18n.ts, utils.ts)
   ↑
-ui/       → reusable UI components - DOM ops and event binding (theme, navbar, accessibility,
+ui/       -> reusable UI components - DOM ops and event binding (theme, navbar, accessibility,
             loading-bar, toast, tooltips, img-utils, svg-utils, etc.)
   ↑
-features/ → cross-cutting orchestration (page-transition, lang-switcher, qr-code,
+features/ -> cross-cutting orchestration (page-transition, lang-switcher, qr-code,
             external-link-confirmation, page-content-initializer)
 ```
 
@@ -73,9 +73,9 @@ features/ → cross-cutting orchestration (page-transition, lang-switcher, qr-co
 **File placement rules**:
 
 - Put TS modules in `src/{core,ui,features}/` according to their **semantic role**:
-  - Pure logic, data transforms, global state (no UI-component-specific DOM ops, no events; infrastructure DOM is permitted) → `core/`.
-  - DOM manipulation, event listeners, Bootstrap wrappers → `ui/`.
-  - Cross-module orchestration (coordinates core + ui) → `features/`.
+  - Pure logic, data transforms, global state (no UI-component-specific DOM ops, no events; infrastructure DOM is permitted) -> `core/`.
+  - DOM manipulation, event listeners, Bootstrap wrappers -> `ui/`.
+  - Cross-module orchestration (coordinates core + ui) -> `features/`.
 - Put shared TS types/enums in `src/types/`. These are importable by all layers.
   - `app.ts` - Application-wide string literal types (`Lang`, `ThemeChoice`), enums (`StorageKey`, `AppEvent`).
   - `hast.ts` - HAST/node types used by link-cards and utils (`HastNode`, `HastProperties`, `CardData`, `GroupData`).
