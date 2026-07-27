@@ -1,6 +1,6 @@
 /**
  * Browser support detection via feature testing.
- * Uses feature detection (ES modules) rather than UA string
+ * Uses feature detection (ES modules, WebP) rather than UA string
  * parsing, which is inherently fragile. Crawlers are whitelisted by UA
  * to prevent SEO-impacting false negatives.
  * Written in ES5 for compatibility with older browsers.
@@ -85,10 +85,26 @@ function isBotOrCrawler() {
  * browsers that support ES modules expose `noModule` on HTMLScriptElement.
  * @returns {boolean} True if ES modules are supported.
  */
-function isFeatureSupported() {
+function isESModuleSupported() {
   try {
-    var script = document.createElement('script');
-    return 'noModule' in script;
+    var script = document.createElement("script");
+    return "noModule" in script;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Test whether the browser supports the WebP image format.
+ * Uses canvas.toDataURL('image/webp') - browsers without WebP
+ * encoding support fall back to PNG, so the result will start
+ * with "data:image/png" instead of "data:image/webp".
+ * @returns {boolean} True if WebP is supported.
+ */
+function isWebPSupported() {
+  try {
+    var canvas = document.createElement("canvas");
+    return canvas.toDataURL("image/webp").indexOf("data:image/webp") === 0;
   } catch (e) {
     return false;
   }
@@ -97,14 +113,15 @@ function isFeatureSupported() {
 /**
  * Check whether the browser is supported.
  * Crawlers always pass. For real users, the JS engine must support
- * ES modules - the feature that currently constrains our baseline.
+ * both ES modules and WebP - the features that currently constrain
+ * our baseline.
  * @returns {boolean} True if the browser is supported.
  */
 function isBrowserSupported() {
   // Search engine bots and crawlers are always treated as supported
   if (isBotOrCrawler()) return true;
 
-  return isFeatureSupported();
+  return isESModuleSupported() && isWebPSupported();
 }
 
 var isEnvSupported = isBrowserSupported();
