@@ -50,6 +50,20 @@
   [data-bs-theme="dark"] .modal-backdrop {
     --bs-backdrop-bg-rgb: 0, 0, 0;
   }
+
+  .offcanvas-backdrop {
+    --bs-backdrop-bg-rgb: var(--shlh-transition-rgb);
+    opacity: 0;
+  }
+
+  .offcanvas-backdrop.show {
+    background-color: rgb(var(--bs-backdrop-bg-rgb));
+    opacity: 1;
+  }
+
+  [data-bs-theme="dark"] .offcanvas-backdrop {
+    --bs-backdrop-bg-rgb: 0, 0, 0;
+  }
 }
 
 /* --- High Contrast --- */
@@ -59,6 +73,7 @@
   /* Base */
 
   :root {
+    --bs-body-font-weight: 500;
     --bs-secondary: #000;
     --bs-secondary-color: #000;
     --bs-secondary-color-rgb: 0, 0, 0;
@@ -113,7 +128,7 @@
 
   .navbar-nav .nav-link.active,
   .navbar-nav .nav-link.show {
-    font-weight: bold !important;
+    font-weight: calc(var(--bs-body-font-weight) + 200) !important;
   }
 
   /* Footer */
@@ -156,7 +171,7 @@
   }
 
   .footer a {
-    font-weight: 500;
+    font-weight: calc(var(--bs-body-font-weight) + 100);
   }
 }
 

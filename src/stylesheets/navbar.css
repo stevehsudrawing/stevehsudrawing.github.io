@@ -26,7 +26,7 @@
 
 .navbar-nav .nav-link.active,
 .navbar-nav .nav-link.show {
-  font-weight: 500;
+  font-weight: calc(var(--bs-body-font-weight) + 100);
 }
 
 /* --- Brand container --- */
@@ -63,7 +63,7 @@
 
 .navbar-brand-text {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: calc(var(--bs-body-font-weight) + 100);
   white-space: nowrap;
 }
 

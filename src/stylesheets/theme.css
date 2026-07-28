@@ -87,6 +87,76 @@
     var(--shlh-focus-ring-color);
 }
 
+/* --- High Contrast Theme --- */
+@media (prefers-contrast: more) {
+  /* Light Theme - Darker */
+  :root,
+  [data-bs-theme="light"] {
+    --shlh-primary: #3078cc;
+    --shlh-primary-rgb: 60, 150, 255;
+
+    --shlh-primary-100: #b1d5ff;
+    --shlh-primary-200: #8ac0ff;
+    --shlh-primary-300: #63abff;
+    --shlh-primary-400: #3c96ff;
+    --shlh-primary-500: var(--shlh-primary);
+    --shlh-primary-600: #245a99;
+    --shlh-primary-700: #183c66;
+    --shlh-primary-800: #0c1e33;
+    --shlh-primary-900: #000;
+
+    --shlh-primary-100-rgb: 177, 213, 255;
+    --shlh-primary-200-rgb: 138, 192, 255;
+    --shlh-primary-300-rgb: 99, 171, 255;
+    --shlh-primary-400-rgb: 60, 150, 255;
+    --shlh-primary-500-rgb: var(--shlh-primary-rgb);
+    --shlh-primary-600-rgb: 36, 90, 153;
+    --shlh-primary-700-rgb: 24, 60, 102;
+    --shlh-primary-800-rgb: 12, 30, 51;
+    --shlh-primary-900-rgb: 0, 0, 0;
+  }
+
+  /* Dark Theme - Lighter */
+  [data-bs-theme="dark"] {
+    --shlh-primary: #47c4ee;
+    --shlh-primary-rgb: 71, 196, 238;
+
+    --shlh-primary-100: #fff;
+    --shlh-primary-200: #daf3fc;
+    --shlh-primary-300: #b5e7f8;
+    --shlh-primary-400: #a7e3f7;
+    --shlh-primary-500: #89d9f4;
+    --shlh-primary-600: #47c4ee;
+    --shlh-primary-700: #56a6c1;
+    --shlh-primary-800: #417d91;
+    --shlh-primary-900: #1c4e5f;
+
+    --shlh-primary-100-rgb: 255, 255, 255;
+    --shlh-primary-200-rgb: 218, 243, 252;
+    --shlh-primary-300-rgb: 181, 231, 248;
+    --shlh-primary-400-rgb: 167, 227, 247;
+    --shlh-primary-500-rgb: 137, 217, 244;
+    --shlh-primary-600-rgb: 71, 196, 238;
+    --shlh-primary-700-rgb: 86, 166, 193;
+    --shlh-primary-800-rgb: 65, 125, 145;
+    --shlh-primary-900-rgb: 28, 78, 95;
+  }
+}
+
+/* ========================================================================
+   CSS Reset
+   ======================================================================== */
+
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.user-input-keyboard *:focus {
+  outline: none !important;
+  box-shadow: var(--shlh-focus-shadow) !important;
+}
+
 /* ========================================================================
    Bootstrap Overrides
    ======================================================================== */
@@ -192,13 +262,6 @@ a {
   outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 1) !important;
 }
 
-/* --- Navbar Link --- */
-
-/* Both */
-.nav-link:focus-visible {
-  box-shadow: var(--shlh-focus-shadow);
-}
-
 /* --- Footer Link --- */
 
 /* Both */
@@ -229,7 +292,28 @@ a {
 
 .form-select:focus {
   border-color: var(--shlh-primary-300);
-  box-shadow: var(--shlh-focus-shadow);
+}
+
+.form-check-input:focus {
+  border-color: var(--shlh-primary-500);
+}
+
+/* Light */
+.form-switch .form-check-input:focus {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%233c96ff'/%3e%3c/svg%3e");
+}
+
+.form-switch .form-check-input:checked {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+/* Dark */
+[data-bs-theme="dark"] .form-switch .form-check-input:focus {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2347c4ee'/%3e%3c/svg%3e");
+}
+
+[data-bs-theme="dark"] .form-switch .form-check-input:checked {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23000'/%3e%3c/svg%3e");
 }
 
 /* --- Dropdown Menu --- */
@@ -268,14 +352,7 @@ a {
 
 /* Both */
 .btn-close {
-  --bs-btn-close-focus-shadow: var(--shlh-close-btn-focus-shadow);
-}
-
-/* --- Navbar Toggler --- */
-
-/* Both */
-.navbar-toggler:focus {
-  box-shadow: var(--shlh-focus-shadow);
+  --bs-btn-close-focus-shadow: var(--shlh-close-btn-focus-shadow) !important;
 }
 
 /* ========================================================================

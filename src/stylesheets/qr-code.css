@@ -39,7 +39,7 @@
 
 #qr-share-card-title {
   font-size: 16.8px;
-  font-weight: 500;
+  font-weight: calc(var(--bs-body-font-weight) + 100);
   color: var(--bs-body-color);
   line-height: 1.2;
 }
