@@ -13,13 +13,13 @@ applyTo: >
 
 The minimum browser versions are determined by both **npm dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection in `public/legacy/env-detection.js` to verify that the browser supports (1) ES modules (`'noModule' in HTMLScriptElement`) and (2) WebP image format (`canvas.toDataURL('image/webp')`). Modern JS syntax (optional chaining, nullish coalescing, etc.) is down-leveled to ES2015 by Vite at build time, so they are no longer a browser requirement.
 
-| Browser | Min Version       | Constrained By          | Best Experience     |
-| ------- | ----------------- | ----------------------- | ------------------- |
-| Chrome  | ≥ 61 (2016-09-13) | ES modules (`noModule`) | ≥ 85 (2020-08-25)   |
-| Edge    | ≥ 79 (2020-01-15) | Bootstrap; Popper; WebP | ≥ 121 (2024-01-26)  |
-| Firefox | ≥ 60 (2018-05-09) | ES modules (`noModule`) | ≥ 93 (2021-10-05)   |
-| Opera   | ≥ 48 (2017-07-27) | ES modules (`noModule`) | ≥ 71 (2020-09-15)   |
-| Safari  | ≥ 14 (2020-09-16) | WebP                    | ≥ 16.1 (2022-10-24) |
+| Browser | Min Version       | Constrained By          | Best Experience     | Benefiting from |
+| ------- | ----------------- | ----------------------- | ------------------- | --------------- |
+| Chrome  | ≥ 61 (2016-09-13) | ES modules              | ≥ 85 (2020-08-25)   | AVIF            |
+| Edge    | ≥ 79 (2020-01-15) | Bootstrap; Popper; WebP | ≥ 121 (2024-01-26)  | AVIF            |
+| Firefox | ≥ 65 (2019-01-29) | WebP                    | ≥ 93 (2021-10-05)   | AVIF            |
+| Opera   | ≥ 48 (2017-07-27) | ES modules              | ≥ 71 (2020-09-15)   | AVIF            |
+| Safari  | ≥ 14 (2020-09-16) | WebP                    | ≥ 16.1 (2022-10-24) | AVIF            |
 
 #### 1.3.1 Per-Dependency Minimum Browser Versions
 

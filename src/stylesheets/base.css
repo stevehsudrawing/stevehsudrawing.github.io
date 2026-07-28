@@ -9,10 +9,6 @@
   word-break: break-word;
 }
 
-ruby {
-  text-autospace: no-autospace;
-}
-
 /* ========================================================================
    Page Layout
    ======================================================================== */
@@ -71,6 +67,10 @@ html[lang="zh-Hans"] cite {
 
 html[lang="zh-Hant"] cite {
   font-style: normal;
+}
+
+ruby {
+  text-autospace: no-autospace;
 }
 
 /* ========================================================================

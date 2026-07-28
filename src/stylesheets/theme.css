@@ -298,6 +298,7 @@ a {
   background-color: rgb(144, 146, 148);
   backdrop-filter: blur(15px);
   pointer-events: auto;
+  cursor: wait;
 }
 
 .theme-transition-overlay.fade-out {
