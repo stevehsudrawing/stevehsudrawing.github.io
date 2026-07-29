@@ -1,5 +1,20 @@
 ﻿<div align="center">
-	<img alt="Icon of Steve Hsu's Link-Hub" src="public/images/png/favicons/general.png" width="64" height="64"><br>
+	<picture>
+		<source
+      srcset="public/images/png/favicons/general.png"
+      media="(prefers-color-scheme: light)"
+    >
+		<source
+      srcset="public/images/png/favicons/general-dark.png"
+      media="(prefers-color-scheme: dark)"
+    >
+		<img
+      alt="Icon of Steve Hsu's Link-Hub"
+      src="public/images/png/favicons/general.png"
+      width="64"
+      height="64"
+    >
+	</picture><br>
 	<a href="https://stevehsudrawing.github.io">Steve Hsu's Link-Hub</a>
 </div>
 <br>

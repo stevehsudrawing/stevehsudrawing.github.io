@@ -21,3 +21,6 @@ pnpm-lock.yaml
 # Local only test files and tools
 test/
 tools/
+
+# Photoshop files
+*.psd
