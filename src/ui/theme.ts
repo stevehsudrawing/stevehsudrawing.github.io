@@ -220,10 +220,7 @@ export function applyAllThemeBasedImages(): void {
  */
 export function applyThemeBasedSource(source: HTMLSourceElement): void {
   if (!source.hasAttribute("data-src-light")) {
-    source.setAttribute(
-      "data-src-light",
-      source.getAttribute("srcset") || "",
-    );
+    source.setAttribute("data-src-light", source.getAttribute("srcset") || "");
   }
 
   const currentTheme = htmlElement.getAttribute("data-bs-theme");

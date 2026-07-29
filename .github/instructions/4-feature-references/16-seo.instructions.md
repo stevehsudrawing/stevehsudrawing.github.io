@@ -21,11 +21,11 @@ applyTo: >
 
 **Related Files**:
 
-| File                     | Role                                                                           |
-| ------------------------ | ------------------------------------------------------------------------------ |
-| `build/sitemap-plugin.ts` | Build-time Vite plugin that auto-generates `sitemap.xml` from `PAGE_META`     |
-| `manifest.json`          | PWA web app manifest for mobile install experience                             |
-| `robots.txt`             | Crawler directives; blocks AI bots from `/images/`; references sitemap         |
+| File                      | Role                                                                      |
+| ------------------------- | ------------------------------------------------------------------------- |
+| `build/sitemap-plugin.ts` | Build-time Vite plugin that auto-generates `sitemap.xml` from `PAGE_META` |
+| `manifest.json`           | PWA web app manifest for mobile install experience                        |
+| `robots.txt`              | Crawler directives; blocks AI bots from `/images/`; references sitemap    |
 
 #### 4.16.1 SEO Elements by Page Tier
 

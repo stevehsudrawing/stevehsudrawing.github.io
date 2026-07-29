@@ -12,7 +12,12 @@ export default defineConfig({
   base: "/",
   root: resolve(__dirname, "src"),
 
-  plugins: [contentInjectionPlugin(), headTagsPlugin(), minifyPlugin(), sitemapPlugin()],
+  plugins: [
+    contentInjectionPlugin(),
+    headTagsPlugin(),
+    minifyPlugin(),
+    sitemapPlugin(),
+  ],
 
   server: {
     port: 5173,
@@ -22,14 +27,22 @@ export default defineConfig({
   publicDir: resolve(__dirname, "public"),
 
   build: {
-    target: 'es2015',
+    target: "es2015",
     outDir: resolve(__dirname, "dist"),
     rollupOptions: {
       input: {
         main: resolve(__dirname, "src", "index.html"),
         about: resolve(__dirname, "src", "about.html"),
-        "artworks-and-videos": resolve(__dirname, "src", "artworks-and-videos.html"),
-        "blogs-and-sponsor": resolve(__dirname, "src", "blogs-and-sponsor.html"),
+        "artworks-and-videos": resolve(
+          __dirname,
+          "src",
+          "artworks-and-videos.html",
+        ),
+        "blogs-and-sponsor": resolve(
+          __dirname,
+          "src",
+          "blogs-and-sponsor.html",
+        ),
         chatting: resolve(__dirname, "src", "chatting.html"),
         softwares: resolve(__dirname, "src", "softwares.html"),
         "404": resolve(__dirname, "src", "404.html"),

@@ -12,7 +12,7 @@ All files listed in this section are **original artworks** created by me, Steve 
 ### 1.1 Restricted Works - All Rights Reserved
 
 | Path / Pattern                                | Description                                                            |
-|-----------------------------------------------|------------------------------------------------------------------------|
+| --------------------------------------------- | ---------------------------------------------------------------------- |
 | `*/banner.*`                                  | Website preview banner                                                 |
 | `*/covers/about.*`                            | Cover image for the About page                                         |
 | `*/covers/artworks-*.*`                       | Cover images for the Artworks & Videos page (light & dark variants)    |
@@ -35,7 +35,7 @@ These works are provided **for display purposes only** on this website. The foll
 ### 1.2 Open-Licensed Works - CC BY-NC 4.0
 
 | Path / Pattern        | Description                              |
-|-----------------------|------------------------------------------|
+| --------------------- | ---------------------------------------- |
 | `*/covers/blogs.*`    | Cover image for the Blogs & Sponsor page |
 | `*/covers/chatting.*` | Cover image for the Chatting page        |
 | `*/covers/projects.*` | Cover image for the Softwares page       |

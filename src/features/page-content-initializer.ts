@@ -21,7 +21,10 @@ import {
   initAllTitleLinkAnchors,
   addAllExternalLinkIndicators,
 } from "../ui/accessibility.js";
-import { applyAllThemeBasedImages, applyAllThemeBasedSources } from "../ui/theme.js";
+import {
+  applyAllThemeBasedImages,
+  applyAllThemeBasedSources,
+} from "../ui/theme.js";
 import {
   initAllColoredImages,
   initAllImageLoadingOpacity,

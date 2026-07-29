@@ -108,6 +108,11 @@ The remainder of this document links to detailed reference files in `instruction
   - 1.3.1 Per-Dependency Minimum Browser Versions
   - 1.3.2 Browser Feature Requirements
 - [**1.4 Deployment**](./instructions/1-tech-stack/4-deployment.instructions.md)
+- [**1.5 Git Hooks**](./instructions/1-tech-stack/5-git-hooks.instructions.md)
+  - 1.5.1 Toolchain
+  - 1.5.2 Pre-commit Hook
+  - 1.5.3 Configuration
+  - 1.5.4 Developer Workflow
 
 ## 2. General Naming Conventions
 

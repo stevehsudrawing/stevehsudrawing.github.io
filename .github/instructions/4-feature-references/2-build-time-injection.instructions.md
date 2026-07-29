@@ -130,10 +130,7 @@ buildLinkButtonGroupHTML(pageName, groupId)
 **Placeholder format** (in source HTML):
 
 ```html
-<div
-  data-role="link-button-group"
-  data-group-id="artworks"
-></div>
+<div data-role="link-button-group" data-group-id="artworks"></div>
 ```
 
 **Related Files**:

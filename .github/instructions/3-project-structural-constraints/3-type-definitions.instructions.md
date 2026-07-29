@@ -138,9 +138,7 @@ Each page's link button groups are defined as a JSON array of **Link Button Grou
 ```json
 {
   "groupId": "artworks",
-  "buttons": [
-    /* array of Link Buttons */
-  ]
+  "buttons": [/* array of Link Buttons */]
 }
 ```
 

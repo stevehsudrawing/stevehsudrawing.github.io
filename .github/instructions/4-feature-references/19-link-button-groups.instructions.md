@@ -38,10 +38,7 @@ applyTo: >
 **Placeholder format** (in source HTML):
 
 ```html
-<div
-  data-role="link-button-group"
-  data-group-id="artworks"
-></div>
+<div data-role="link-button-group" data-group-id="artworks"></div>
 ```
 
 The `data-group-id` must match a `groupId` in the page's JSON config. Both `data-role` and `data-group-id` are removed after injection.

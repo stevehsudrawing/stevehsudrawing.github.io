@@ -41,7 +41,7 @@ applyTo: >
 | `test/`                             | Test pages for isolated feature validation                                                                                                                         | New test page                                                        | ✓                                      |
 | `tools/`                            | Build-time helper scripts                                                                                                                                          | -                                                                    | ✓                                      |
 | `package.json`                      | npm dependencies and scripts (`dev`, `build`, `preview`)                                                                                                           | -                                                                    |                                        |
-| `vite.config.js`                    | Vite configuration - multi-page input, dev server, build options                                                                                                   | -                                                                    |                                        |
+| `vite.config.ts`                    | Vite configuration - multi-page input, dev server, build options                                                                                                   | -                                                                    |                                        |
 
 **Layered TS architecture (`src/`):**
 

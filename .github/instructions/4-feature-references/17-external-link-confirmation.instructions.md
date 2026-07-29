@@ -87,10 +87,10 @@ External links (`a.external-link`) may carry a `data-link-img-props` attribute c
 
 **Data Flow**:
 
-| Mechanism      | Key                         | Purpose                                                                                                               |
-| -------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Mechanism      | Key                         | Purpose                                                                                                                            |
+| -------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `localStorage` | `openExternalLinksInNewTab` | Shared preference with settings modal ([§4.8](8-settings-preferences.instructions.md#48-settings--preferences)) for new-tab toggle |
-| DOM attribute  | `data-link-img-props`       | JSON-serialized HAST icon properties for the confirmation modal icon                                                  |
+| DOM attribute  | `data-link-img-props`       | JSON-serialized HAST icon properties for the confirmation modal icon                                                               |
 
 **Interaction with Other Systems**:
 

@@ -134,8 +134,7 @@ ruby {
   border: none;
   margin: calc(var(--bs-card-border-width) / 2);
   outline: var(--bs-card-border-width) solid var(--bs-card-border-color);
-  transition:
-    outline 0.1s ease-in-out;
+  transition: outline 0.1s ease-in-out;
 }
 
 .card:hover {

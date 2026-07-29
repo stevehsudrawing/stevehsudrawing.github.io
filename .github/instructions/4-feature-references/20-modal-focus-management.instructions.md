@@ -57,25 +57,24 @@ A project-specific convention class (no CSS rules — purely a JS selector) that
 
 ```html
 <!-- Settings modal: focus the language dropdown -->
-<select
-  class="form-select default-keyboard-focus"
-  id="language-select"
->
+<select class="form-select default-keyboard-focus" id="language-select">
   <!-- External link confirmation: focus the primary action -->
   <button
     class="btn btn-outline-primary btn-no-border default-keyboard-focus"
     id="external-link-open-btn"
-    >Open</button
   >
+    Open
+  </button>
 
   <!-- Warning-reset modal: focus the safe default -->
   <button
     class="btn btn-outline-secondary btn-no-border default-keyboard-focus"
     data-bs-toggle="modal"
     data-bs-target="#settings-modal"
-    >Cancel</button
-  ></select
->
+  >
+    Cancel
+  </button>
+</select>
 ```
 
 **Rules**:

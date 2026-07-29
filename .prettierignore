@@ -1,0 +1,23 @@
+# Ignore artifacts:
+build
+coverage
+
+# Python: Environments
+.venv**
+
+# Node.js Dependencies
+node_modules/
+
+# Vite: Build output
+dist/
+.vite/
+
+# Vite: Environment files
+*.local
+
+# Vite: Lock files (choose one)
+pnpm-lock.yaml
+
+# Local only test files and tools
+test/
+tools/

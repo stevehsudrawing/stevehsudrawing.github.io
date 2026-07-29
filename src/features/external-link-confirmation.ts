@@ -159,8 +159,7 @@ export function handleExternalLinkConfirm(): void {
   );
   const url = modalElement
     ? ((modalElement as unknown as Record<string, unknown>)._confirmUrl as
-        | string
-        | undefined)
+        string | undefined)
     : undefined;
   if (!modalElement || !url) return;
 
@@ -263,8 +262,7 @@ export function handleExternalLinkCopy(): void {
   );
   const url = modalElement
     ? ((modalElement as unknown as Record<string, unknown>)._confirmUrl as
-        | string
-        | undefined)
+        string | undefined)
     : undefined;
   if (!url) return;
 

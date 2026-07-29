@@ -47,8 +47,8 @@ The following browser features are required by this project. Their minimum brows
 
 | Enforced | Feature                                                                 | Used By                          | Chrome | Edge      | Firefox | Opera  | Safari |
 | -------- | ----------------------------------------------------------------------- | -------------------------------- | ------ | --------- | ------- | ------ | ------ |
-| ✓       | [ES modules (`<script type="module">`)](https://caniuse.com/es6-module) | Vite entry point (`src/main.ts`) | **61** | 16        | 60      | **48** | 11     |
-| ✓       | [WebP](https://caniuse.com/webp)                                        | Image assets                     | 32     | **79**\*1 | **65**  | 19     | **14** |
+| ✓        | [ES modules (`<script type="module">`)](https://caniuse.com/es6-module) | Vite entry point (`src/main.ts`) | **61** | 16        | 60      | **48** | 11     |
+| ✓        | [WebP](https://caniuse.com/webp)                                        | Image assets                     | 32     | **79**\*1 | **65**  | 19     | **14** |
 |          | [WOFF 2](https://caniuse.com/woff2)                                     | Bootstrap Icons                  | 36     | 14        | 39      | 23     | 10     |
 |          | [Variable fonts](https://caniuse.com/variable-fonts)                    | Font display                     | 66     | 17        | 62      | 53     | 11     |
 |          | [AVIF](https://caniuse.com/avif)                                        | Image assets (optional)          | _85_   | _121_     | _93_    | _71_   | _16.1_ |
