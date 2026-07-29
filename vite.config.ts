@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { headTagsPlugin } from "./build/head-tags-plugin.js";
 import { contentInjectionPlugin } from "./build/content-injection-plugin.js";
 import { minifyPlugin } from "./build/minify-plugin.js";
+import { sitemapPlugin } from "./build/sitemap-plugin.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -11,7 +12,7 @@ export default defineConfig({
   base: "/",
   root: resolve(__dirname, "src"),
 
-  plugins: [contentInjectionPlugin(), headTagsPlugin(), minifyPlugin()],
+  plugins: [contentInjectionPlugin(), headTagsPlugin(), minifyPlugin(), sitemapPlugin()],
 
   server: {
     port: 5173,

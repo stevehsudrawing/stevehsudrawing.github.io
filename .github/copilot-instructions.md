@@ -182,6 +182,11 @@ The remainder of this document links to detailed reference files in `instruction
   - 4.17.1 `data-link-img-props` Attribute
 - [**4.18 PWA Splash Screens**](./instructions/4-feature-references/18-pwa-splash-screens.instructions.md)
 - [**4.19 Link Button Groups**](./instructions/4-feature-references/19-link-button-groups.instructions.md)
+- [**4.20 Modal Focus Management**](./instructions/4-feature-references/20-modal-focus-management.instructions.md)
+  - 4.20.1 `.default-keyboard-focus` CSS Class
+  - 4.20.2 Current Default-Focus Assignments
+  - 4.20.3 Key Function
+  - 4.20.4 Interaction with Other Systems
 
 ---
 

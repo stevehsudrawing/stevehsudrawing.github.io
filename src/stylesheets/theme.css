@@ -24,6 +24,8 @@
 
 :root,
 [data-bs-theme="light"] {
+  --bs-card-border-color: var(--bs-gray-300);
+
   --shlh-primary: #3c96ff;
   --shlh-primary-rgb: 60, 150, 255;
 
@@ -57,6 +59,8 @@
 /* --- Dark Theme --- */
 
 [data-bs-theme="dark"] {
+  --bs-card-border-color: var(--bs-gray-500);
+
   --shlh-primary: #47c4ee;
   --shlh-primary-rgb: 71, 196, 238;
 

@@ -123,6 +123,7 @@ import { initLang } from "./features/lang-switcher.js";
 import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
 import { initAllScrollHints } from "./ui/scroll-hint.js";
 import { initNoCopyProtection } from "./ui/no-copy.js";
+import { initModalFocusManagement } from "./ui/modal.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
@@ -130,6 +131,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     initThemeTransitionOverlay();
     initDropdownMenuAnimation();
     initSkipButton();
+    initModalFocusManagement();
     initSettingsModal();
 
     // Set up tooltip i18n listener BEFORE initLang()

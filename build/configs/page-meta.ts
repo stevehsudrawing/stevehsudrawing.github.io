@@ -28,6 +28,8 @@ export const PAGE_META: PageMetaMap = {
     robots: "index, follow",
     jsonLDType: "homepage",
     tier: "full",
+    changefreq: "weekly",
+    priority: 1.0,
   },
   about: {
     title: `About - ${SITE_NAME}`,
@@ -38,6 +40,8 @@ export const PAGE_META: PageMetaMap = {
     jsonLDType: "breadcrumb",
     jsonLDPageName: "About",
     tier: "full",
+    changefreq: "monthly",
+    priority: 0.8,
   },
   "artworks-and-videos": {
     title: `Artworks & Videos - ${SITE_NAME}`,
@@ -48,6 +52,8 @@ export const PAGE_META: PageMetaMap = {
     jsonLDType: "breadcrumb",
     jsonLDPageName: "Artworks & Videos",
     tier: "full",
+    changefreq: "monthly",
+    priority: 0.8,
   },
   "blogs-and-sponsor": {
     title: `Blogs & Sponsor - ${SITE_NAME}`,
@@ -58,6 +64,8 @@ export const PAGE_META: PageMetaMap = {
     jsonLDType: "breadcrumb",
     jsonLDPageName: "Blogs & Sponsor",
     tier: "full",
+    changefreq: "monthly",
+    priority: 0.7,
   },
   chatting: {
     title: `Chatting - ${SITE_NAME}`,
@@ -68,6 +76,8 @@ export const PAGE_META: PageMetaMap = {
     jsonLDType: "breadcrumb",
     jsonLDPageName: "Chatting",
     tier: "full",
+    changefreq: "monthly",
+    priority: 0.7,
   },
   softwares: {
     title: `Softwares - ${SITE_NAME}`,
@@ -78,6 +88,8 @@ export const PAGE_META: PageMetaMap = {
     jsonLDType: "breadcrumb",
     jsonLDPageName: "Softwares",
     tier: "full",
+    changefreq: "monthly",
+    priority: 0.7,
   },
   "404": {
     title: `HTTP 404 - ${SITE_NAME}`,

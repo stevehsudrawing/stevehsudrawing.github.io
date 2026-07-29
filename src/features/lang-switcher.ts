@@ -13,6 +13,8 @@ import {
   hideLoadingBar,
 } from "../ui/loading-bar.js";
 import { showToast } from "../ui/toast.js";
+import { setActiveNavItem } from "../ui/navbar.js";
+import { updatePageTitle } from "../ui/page-title.js";
 
 /**
  * Determine and load the preferred language.
@@ -53,10 +55,7 @@ export async function switchLang(rawLang: string): Promise<void> {
     applyLangData(lang, data);
 
     // Sync UI elements that depend on ui/ modules
-    const { setActiveNavItem } = await import("../ui/navbar.js");
     setActiveNavItem();
-
-    const { updatePageTitle } = await import("../ui/page-title.js");
     updatePageTitle();
 
     completeLoadingBar();

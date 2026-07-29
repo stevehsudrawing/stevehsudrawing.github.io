@@ -25,6 +25,9 @@ export type PageTier = "full" | "lightweight" | "none";
 /** JSON-LD structured data format type for a page. */
 export type JsonLDType = "homepage" | "breadcrumb" | "none";
 
+/** Sitemap change frequency values per the sitemaps.org protocol. */
+export type Changefreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+
 /** Metadata for a single page, used by the head-tags plugin for SEO tag generation. */
 export interface PageMetaEntry {
   /** Page title (already includes site name suffix). */
@@ -41,6 +44,10 @@ export interface PageMetaEntry {
   jsonLDPageName?: string;
   /** Page tier that controls which features and scripts are loaded. */
   tier: PageTier;
+  /** Change frequency for sitemap.xml. Only needed for indexable pages. */
+  changefreq?: Changefreq;
+  /** Priority for sitemap.xml (0.0 to 1.0). Only needed for indexable pages. */
+  priority?: number;
 }
 
 /** Map of page names to their metadata entries; the shape of PAGE_META in page-meta.ts. */

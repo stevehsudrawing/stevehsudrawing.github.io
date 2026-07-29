@@ -1,16 +1,16 @@
 ---
 description: >
   SEO: meta tags, structured data (JSON-LD Person schema with sameAs for homepage, WebSite with
-  SearchAction, BreadcrumbList for sub-pages), sitemap.xml with hreflang alternates, hreflang link
-  tags (en/zh-Hans/zh-Hant/x-default), Open Graph tags, Twitter/X Card tags (summary_large_image),
-  PWA manifest, noscript SEO fallback in body, heading hierarchy, crawler whitelist. SEO elements
-  vary by page tier (full/lightweight/error).
-  Use when: modifying head-tags-plugin.ts, page-meta.ts, sitemap.xml, robots.txt, or page metadata.
+  SearchAction, BreadcrumbList for sub-pages), build-time sitemap.xml generation with hreflang
+  alternates, hreflang link tags (en/zh-Hans/zh-Hant/x-default), Open Graph tags, Twitter/X Card
+  tags (summary_large_image), PWA manifest, noscript SEO fallback in body, heading hierarchy,
+  crawler whitelist. SEO elements vary by page tier (full/lightweight/error).
+  Use when: modifying head-tags-plugin.ts, sitemap-plugin.ts, page-meta.ts, robots.txt, or page metadata.
 applyTo: >
   build/head-tags-plugin.ts;
+  build/sitemap-plugin.ts;
   build/configs/page-meta.ts;
   public/robots.txt;
-  public/sitemap.xml;
   public/manifest.json;
   *.html
 ---
@@ -21,11 +21,11 @@ applyTo: >
 
 **Related Files**:
 
-| File            | Role                                                                   |
-| --------------- | ---------------------------------------------------------------------- |
-| `sitemap.xml`   | XML sitemap listing all indexable pages with hreflang                  |
-| `manifest.json` | PWA web app manifest for mobile install experience                     |
-| `robots.txt`    | Crawler directives; blocks AI bots from `/images/`; references sitemap |
+| File                     | Role                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| `build/sitemap-plugin.ts` | Build-time Vite plugin that auto-generates `sitemap.xml` from `PAGE_META`     |
+| `manifest.json`          | PWA web app manifest for mobile install experience                             |
+| `robots.txt`             | Crawler directives; blocks AI bots from `/images/`; references sitemap         |
 
 #### 4.16.1 SEO Elements by Page Tier
 
@@ -67,10 +67,16 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.3 Sitemap
 
-- All 6 full-functionality pages are listed in `sitemap.xml`.
+- `sitemap.xml` is **auto-generated at build time** by `build/sitemap-plugin.ts` — there is no static `public/sitemap.xml`.
+- Data sources:
+  - `PAGE_META` in `build/configs/page-meta.ts` — page paths, `changefreq`, and `priority` per page.
+  - `build/configs/language-list.json` — supported language codes for hreflang alternates.
+  - `BASE_URL` from `page-meta.ts` — site root URL.
+- `lastmod` is always set to the **current build date** (YYYY-MM-DD); it is never stored in config.
+- Only pages with `robots: "index, follow"` (and both `changefreq` and `priority` defined) are included; 404 and error pages are automatically excluded.
 - Each `<url>` includes `xhtml:link` hreflang alternates for `en`, `zh-Hans`, `zh-Hant`, and `x-default`.
-- `lastmod`, `changefreq`, and `priority` are set per page.
-- Error pages and 404 must NOT be included.
+- When adding a new indexable page, update `PAGE_META` with `changefreq` and `priority` — the sitemap picks it up automatically.
+- The generated file is written to `dist/sitemap.xml` during `writeBundle`, then minified by `minify-plugin.ts` along with other XML assets.
 - `robots.txt` references the sitemap via `Sitemap: https://stevehsudrawing.github.io/sitemap.xml`.
 
 #### 4.16.4 Hreflang
