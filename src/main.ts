@@ -96,7 +96,9 @@ applyThemePreference(currentThemePreference, false, false);
 // Feature initialization is now orchestrated by App.vue's onMounted.
 // =========================================================================
 import { createApp } from "vue";
+import { i18nPlugin } from "./plugins/i18n.js";
 import App from "./App.vue";
 
 const app = createApp(App);
+app.use(i18nPlugin);
 app.mount("#app");

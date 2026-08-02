@@ -82,43 +82,40 @@ src/stylesheets/
 
 ---
 
-## Phase 2 - Composables Layer
+## Phase 2 - Composables Layer ✅
 
 > **Goal:** Extract reactive state from `core/` and `ui/` modules into Vue composables.
 > Existing imperative modules keep working; composables sit alongside them until consumers are migrated.
 
 ### 2.1 Prerequisite composable
 
-- [ ] Create `src/composables/useLocalStorage.ts`
+- [x] Create `src/composables/useLocalStorage.ts`
   - Reactive `ref<T>` that auto-syncs with `localStorage`
-  - Will replace scattered `localStorage.getItem` / `setItem` across theme, i18n, settings, external-link
+  - Handles legacy plain-string values (try/catch `JSON.parse` fallback)
 
 ### 2.2 Theme composable
 
-- [ ] Create `src/composables/useTheme.ts`
+- [x] Create `src/composables/useTheme.ts`
   - `preference` ref (auto / light / dark, synced to `StorageKey.Theme`)
   - `effectiveTheme` computed (resolves "auto" → system preference)
-  - `isTransitioning` ref (overlay cross-fade state)
-  - `switchWithTransition(choice)` async function
-  - System theme listener via `matchMedia("(prefers-color-scheme: dark)")`
-  - `updateThemeToggleText`, `setActiveThemeItem` as computed-driven helpers
-- [ ] Wire `useTheme` into `App.vue` (replace direct `import { ... } from "./ui/theme.js"`)
-- [ ] Keep `ui/theme.ts` in place for `main-lightweight.ts` consumers until that page is migrated
-- [ ] `pnpm typecheck`
+  - `setPreference(choice)` delegates to `ui/theme.ts` for overlay + DOM
+  - System theme listener via `matchMedia` in `onMounted` / `onUnmounted`
+- [x] Wire `useTheme` into `App.vue` (coexists with existing init*() imports)
+- [x] Keep `ui/theme.ts` in place for `main-lightweight.ts` consumers until that page is migrated
+- [x] `pnpm typecheck`
 
 ### 2.3 I18n composable + plugin
 
-- [ ] Create `src/plugins/i18n.ts` - Vue plugin
+- [x] Create `src/plugins/i18n.ts` - Vue plugin
   - Provide `locale` ref + `messages` ref via `app.provide`
   - Register `$t(key, fallback?)` global method
-- [ ] Create `src/composables/useI18n.ts`
+- [x] Create `src/composables/useI18n.ts`
   - `t(key, fallback?)` function (reads from provided `messages`)
-  - `setLocale(rawLang)` async function (fetch JSON → update `messages`)
-  - Will replace: `currentLang`, `langData`, `normalizeLang`, `translate`, `applyLangData`
-- [ ] Wire `i18n` plugin into `main.ts` (`app.use(i18n)`)
-- [ ] Wire `useI18n` into `App.vue`
-- [ ] Keep `core/i18n.ts` in place for `main-lightweight.ts` consumers
-- [ ] `pnpm typecheck`
+  - `setLocale(rawLang)` async function (fetch JSON → update `messages` + call `applyLangData`)
+- [x] Wire `i18n` plugin into `main.ts` (`app.use(i18nPlugin)`)
+- [x] Wire `useI18n` into `App.vue` (coexists with existing `initLang()`)
+- [x] Keep `core/i18n.ts` in place for `main-lightweight.ts` consumers
+- [x] `pnpm typecheck`
 
 ---
 

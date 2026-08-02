@@ -9,6 +9,27 @@
 import { onMounted } from "vue";
 
 // =========================================================================
+// Composables — reactive state layer (Phase 2)
+// These establish reactive theme / i18n state that future Vue components
+// will consume.  They coexist with the imperative init*() calls below.
+// =========================================================================
+import { useTheme } from "./composables/useTheme.js";
+import { useI18n } from "./composables/useI18n.js";
+import { useLocalStorage } from "./composables/useLocalStorage.js";
+
+// Reactive theme state (auto / light / dark + resolved effective theme).
+// The watch inside useTheme syncs data-bs-theme + images via ui/theme.ts.
+useTheme();
+
+// Reactive i18n state (locale + messages + $t).
+// The reactive messages ref is backed by the i18nPlugin registered in main.ts.
+useI18n();
+
+// Shared reactive preferences — will be consumed by SettingsModal in Phase 3.
+useLocalStorage("openExternalLinksInNewTab", true);
+useLocalStorage("enableAnimations", true);
+
+// =========================================================================
 // Init function imports (mirrors main.ts DOMContentLoaded handler)
 // =========================================================================
 import { AppEvent } from "./types/app.js";
