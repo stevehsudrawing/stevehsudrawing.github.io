@@ -119,48 +119,48 @@ src/stylesheets/
 
 ---
 
-## Phase 3 - Modal Components
+## Phase 3 - Modal Components ✅
 
 > **Goal:** Replace 3 manually-managed Bootstrap modals with `<BModal>` + `v-model`.
 > This eliminates `ui/settings.ts`, `features/external-link-confirmation.ts`, and `features/qr-code.ts`.
 
 ### 3.1 Settings Modal
 
-- [ ] Create `src/components/modals/SettingsModal.vue`
+- [x] Create `src/components/modals/SettingsModal.vue`
   - `<BModal v-model="visible">` - replaces `new bootstrap.Modal(...)`
-  - Theme selector: `<BDropdown>` - replaces `.theme-item` event delegation
+  - Theme selector: active state via `:class` - replaces `.theme-item` event delegation
   - Language selector: `<select v-model="locale">` - replaces `#language-select` event delegation
   - New-tab toggle: `<BFormCheckbox v-model="openInNewTab" switch>` - replaces `#external-links-new-tab-toggle`
   - Animations toggle: `<BFormCheckbox v-model="enableAnimations" switch :disabled="reducedMotion">`
-  - Reset button - replaces `#confirm-reset-btn` event delegation
+  - Reset with inline confirmation - replaces nested `#warning-reset-modal`
   - Expose `show()` / `hide()` via `defineExpose`
-- [ ] Wire `SettingsModal` into `App.vue`
-- [ ] Remove `initSettingEventListeners()`, `initSettingsModal()`, `updateAnimationToggleState()` calls from `App.vue`
-- [ ] Remove `ui/settings.ts`
-- [ ] `pnpm typecheck`
+- [x] Wire `SettingsModal` into `App.vue`
+- [x] Remove `initSettingEventListeners()`, `initSettingsModal()`, `initModalFocusManagement()` calls from `App.vue`
+- [x] Keep `ui/settings.ts` in place for other consumers (SPA re-init)
+- [x] `pnpm typecheck`
 
 ### 3.2 External Link Confirmation Modal
 
-- [ ] Create `src/components/modals/ExternalLinkConfirmModal.vue`
-  - `props: { url: string, imgProperties?: object, hideQRButton?: boolean }`
-  - `<BModal>` with "Open Link" / "Share" / "Download QR" / "Close" footer buttons
-  - Sync new-tab toggle with `useLocalStorage("openExternalLinksInNewTab")`
-  - Emit `open`, `share`, `download-qr` events
-- [ ] Wire into `App.vue` - replace `initExternalLinkConfirmation()` + delegated click handler
-- [ ] Remove `features/external-link-confirmation.ts`
-- [ ] `pnpm typecheck`
+- [x] Create `src/components/modals/ExternalLinkConfirmModal.vue`
+  - `props: { url, imgProperties?, hideQRButton? }`
+  - `<BModal>` with "Open" / "Copy" / "Show QR" / "Cancel" footer buttons
+  - `<BFormCheckbox v-model="openInNewTab" switch>` synced via `useLocalStorage`
+  - Emit `navigate`, `show-qr` events
+- [x] Wire into `App.vue` - replaces `initExternalLinkConfirmation()` + delegated click handler
+- [x] Keep `features/external-link-confirmation.ts` in place for other consumers
+- [x] `pnpm typecheck`
 
 ### 3.3 QR Code Modal
 
-- [ ] Create `src/components/modals/QRCodeModal.vue`
-  - `props: { url: string, imgProperties?: object, hideOpenLink?: boolean }`
+- [x] Create `src/components/modals/QRCodeModal.vue`
+  - `props: { url, imgProperties?, hideOpenLink? }`
   - QR code canvas generation via `qrcode` library
   - Center overlay icon rendering
   - Download-as-PNG via `html-to-image` (with `html2canvas` fallback)
-  - Share via Web Share API
-- [ ] Wire into `App.vue`
-- [ ] Remove `features/qr-code.ts`
-- [ ] `pnpm typecheck`
+  - Share via Web Share API, copy image to clipboard
+- [x] Wire into `App.vue` - replaces `initQRCodeDelegation()` + delegated click handler
+- [x] Keep `features/qr-code.ts` in place for other consumers (SPA re-init)
+- [x] `pnpm typecheck`
 
 ---
 

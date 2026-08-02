@@ -22,6 +22,8 @@ export function useI18n(): {
   t: (key: string, fallback?: string) => string;
   /** Fetch the JSON file for a given language and apply it. */
   setLocale: (rawLang: string) => Promise<void>;
+  /** Sync the Vue messages ref from legacy core/i18n.ts langData. */
+  syncFromLangData: () => Promise<void>;
 } {
   const locale = inject<Ref<Lang>>(I18N_LOCALE_KEY)!;
   const messages = inject<Ref<Record<string, string>>>(I18N_MESSAGES_KEY)!;
@@ -53,5 +55,16 @@ export function useI18n(): {
     applyLangData(lang, data);
   }
 
-  return { locale, messages, t, setLocale };
+  /**
+   * Sync the Vue plugin's `messages` ref from the legacy `langData`
+   * global in core/i18n.ts.  Necessary after `initLang()` (which calls
+   * `applyLangData` directly without going through `setLocale`).
+   */
+  async function syncFromLangData(): Promise<void> {
+    const { langData, currentLang } = await import("../core/i18n.js");
+    locale.value = currentLang;
+    messages.value = { ...langData };
+  }
+
+  return { locale, messages, t, setLocale, syncFromLangData };
 }

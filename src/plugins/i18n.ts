@@ -16,6 +16,8 @@ import type { Lang } from "../types/app.js";
 
 /** Key used for provide/inject. */
 export const I18N_LOCALE_KEY = Symbol("i18nLocale");
+
+/** Key used for provide/inject. */
 export const I18N_MESSAGES_KEY = Symbol("i18nMessages");
 
 /**

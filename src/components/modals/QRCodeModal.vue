@@ -1,0 +1,496 @@
+<!--
+  QRCodeModal.vue — QR code generation + branded share card.
+  Replaces features/qr-code.ts imperative DOM manipulation.
+  Uses qrcode for canvas generation and html-to-image/html2canvas for PNG export.
+-->
+<script setup lang="ts">
+import { ref, watch, nextTick, computed } from "vue";
+import QRCode from "qrcode";
+import { useI18n } from "../../composables/useI18n.js";
+import { useTheme } from "../../composables/useTheme.js";
+
+// =========================================================================
+// Props
+// =========================================================================
+
+/**
+ * Props for QRCodeModal.
+ *
+ * @property url - The URL to encode in the QR code.
+ * @property imgProperties - Optional HAST-format icon properties for the
+ *   centre overlay image (src, alt, dataI18nAlt, etc.).
+ * @property hideOpenLink - When true, the \"Open Link\" button is hidden.
+ */
+const props = defineProps<{
+  url: string;
+  imgProperties?: Record<string, unknown> | null;
+  hideOpenLink?: boolean;
+}>();
+
+/**
+ * Emits for QRCodeModal.
+ *
+ * - open-link: User clicked \"Open Link\" — parent switches to
+ *   ExternalLinkConfirmModal with the same URL + icon properties.
+ */
+const emit = defineEmits<{
+  (
+    e: "open-link",
+    url: string,
+    imgProperties: Record<string, unknown> | null,
+  ): void;
+}>();
+
+// =========================================================================
+// Reactive state
+// =========================================================================
+
+const visible = ref(false);
+const { t } = useI18n();
+const { effectiveTheme } = useTheme();
+
+const qrCanvas = ref<HTMLCanvasElement | null>(null);
+const centerIconSrc = ref("");
+const centerIconAlt = ref("Link");
+const buttonsDisabled = ref(false);
+
+// =========================================================================
+// Computed
+// =========================================================================
+
+const isInternal = computed(() => {
+  try {
+    const u = new URL(props.url, window.location.origin);
+    return u.origin === window.location.origin;
+  } catch {
+    return false;
+  }
+});
+
+const shareApiSupported = computed(() => {
+  const testFile = new File(
+    [new Blob([""], { type: "image/png" })],
+    "test.png",
+    { type: "image/png" },
+  );
+  return !!navigator.canShare?.({ files: [testFile] });
+});
+
+const qrColors = computed(() => {
+  const htmlEl = document.documentElement;
+  const cs = getComputedStyle(htmlEl);
+  return {
+    dark: cs.getPropertyValue("--bs-body-color").trim() || "#000000",
+    light: cs.getPropertyValue("--bs-body-bg").trim() || "#ffffff",
+  };
+});
+
+const cardTitle = computed(() => {
+  if (props.imgProperties) {
+    const i18nAltKey = props.imgProperties.dataI18nAlt as string | undefined;
+    return i18nAltKey
+      ? t(i18nAltKey)
+      : (props.imgProperties.alt as string) || t("text-link", "Link");
+  }
+  return t("text-link", "Link");
+});
+
+// =========================================================================
+// QR code generation
+// =========================================================================
+
+let prevUrl = "";
+
+async function generateQR(): Promise<void> {
+  if (!qrCanvas.value || props.url === prevUrl) return;
+  prevUrl = props.url;
+
+  const { dark, light } = qrColors.value;
+  await QRCode.toCanvas(qrCanvas.value, props.url, {
+    width: 250,
+    margin: 0,
+    color: { dark, light },
+    errorCorrectionLevel: "Q",
+  });
+}
+
+watch(visible, async (v) => {
+  if (v) {
+    await nextTick();
+
+    // Resolve center icon
+    if (props.imgProperties && props.imgProperties.src) {
+      centerIconSrc.value = props.imgProperties.src as string;
+      centerIconAlt.value = (props.imgProperties.alt as string) || "Link";
+    } else {
+      centerIconSrc.value = "/images/webp/icons/link.webp";
+      centerIconAlt.value = t("text-link", "Link");
+    }
+
+    await generateQR();
+  }
+});
+
+// Re-generate on theme change
+watch(effectiveTheme, async () => {
+  if (visible.value) {
+    prevUrl = ""; // force re-generate
+    await nextTick();
+    await generateQR();
+  }
+});
+
+// =========================================================================
+// Share card → PNG export
+// =========================================================================
+
+async function renderShareCardBlob(): Promise<Blob> {
+  const shareCard = document.getElementById("qr-share-card");
+  if (!shareCard) throw new Error("Share card element not found");
+
+  const hti = window.htmlToImage as Record<string, unknown>;
+  const toPng = hti.toPng as (
+    el: HTMLElement,
+    opts?: Record<string, unknown>,
+  ) => Promise<string>;
+
+  try {
+    const dataUrl = await toPng(shareCard, {
+      backgroundColor: qrColors.value.light,
+      pixelRatio: 3,
+    });
+    const resp = await fetch(dataUrl);
+    return await resp.blob();
+  } catch {
+    // Fallback to html2canvas
+    const canvas = await window.html2canvas(shareCard, {
+      backgroundColor: qrColors.value.light,
+      scale: 3,
+    });
+    return await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error("canvas.toBlob returned null"));
+      }, "image/png");
+    });
+  }
+}
+
+async function runWithBlob(
+  onSuccess: (blob: Blob) => void,
+  errorLabel?: string,
+): Promise<void> {
+  buttonsDisabled.value = true;
+  try {
+    const blob = await renderShareCardBlob();
+    buttonsDisabled.value = false;
+    onSuccess(blob);
+  } catch (error) {
+    buttonsDisabled.value = false;
+    const label = errorLabel || "Failed to generate QR code image";
+    console.error(label, error);
+    // Toast via global (still uses legacy showToast for now)
+    const { showToast } = await import("../../ui/toast.js");
+    showToast("error", `${label}: ${(error as Error).message}`);
+  }
+}
+
+async function downloadPNG(): Promise<void> {
+  await runWithBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "qr-code.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, "Failed to download QR code image");
+}
+
+async function shareImage(): Promise<void> {
+  await runWithBlob((blob) => {
+    const file = new File([blob], "qr-code.png", { type: "image/png" });
+    navigator.share({ files: [file] }).catch((err) => {
+      if ((err as DOMException).name !== "AbortError") {
+        console.error("Sharing failed", err);
+      }
+    });
+  }, "Failed to generate QR code image for sharing");
+}
+
+async function copyImage(): Promise<void> {
+  await runWithBlob(async (blob) => {
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+    const { showToast } = await import("../../ui/toast.js");
+    showToast(
+      "success",
+      t(
+        "text-copied-image",
+        "Copied image. You can paste it into a supported input field.",
+      ),
+    );
+  }, "Failed to copy QR code image");
+}
+
+async function copyURL(): Promise<void> {
+  await navigator.clipboard.writeText(props.url);
+  const { showToast } = await import("../../ui/toast.js");
+  showToast("success", `${t("text-copied-text", "Copied text")}: ${props.url}`);
+}
+
+function openLink(): void {
+  visible.value = false;
+  emit("open-link", props.url, props.imgProperties ?? null);
+}
+
+/** Expose show/hide for imperative callers (parent App.vue). */
+defineExpose({
+  show: () => {
+    visible.value = true;
+  },
+  hide: () => {
+    visible.value = false;
+  },
+});
+</script>
+
+<template>
+  <BModal
+    v-model="visible"
+    :title="$t('text-qr-code', 'QR Code')"
+    header-class="h5 modal-title"
+    title-tag="span"
+    no-header-close
+    centered
+    hide-footer
+  >
+    <div class="d-flex justify-content-center">
+      <!-- ==== QR share card (exact DOM structure for html-to-image) ==== -->
+      <div id="qr-share-card">
+        <div id="qr-share-card-header">
+          <div id="qr-share-card-header-text">
+            <span id="qr-share-card-title">{{ cardTitle }}</span>
+            <span id="qr-share-card-brand">
+              {{
+                $t(
+                  "text-from-steve-hsu-s-link-hub",
+                  "from Steve Hsu's Link-Hub",
+                )
+              }}
+            </span>
+          </div>
+        </div>
+
+        <div
+          id="qr-code-container"
+          class="no-copy position-relative d-inline-block"
+        >
+          <canvas ref="qrCanvas"></canvas>
+          <!-- Center overlay icon -->
+          <span
+            v-if="centerIconSrc"
+            id="qr-code-icon-bg"
+            class="position-absolute top-50 start-50 translate-middle rounded-2 d-flex align-items-center justify-content-center"
+          >
+            <img
+              id="qr-code-icon"
+              :src="centerIconSrc"
+              :alt="centerIconAlt"
+              width="32"
+              height="32"
+            />
+          </span>
+        </div>
+
+        <code class="mt-2 mb-0 d-block">{{ url }}</code>
+
+        <div id="qr-share-card-footer">
+          <div id="qr-share-card-footer-text">
+            <span>{{
+              $t("text-learn-more-about-me", "Learn more about me")
+            }}</span>
+            <code id="qr-share-card-source"
+              >https://stevehsudrawing.github.io</code
+            >
+          </div>
+          <div id="qr-share-card-logo-container">
+            <span
+              data-role="svg"
+              data-src="/images/svg/icons/steve-hsu.svg"
+              data-width="25"
+              data-height="21"
+              data-color-var="bs-primary"
+              class="no-copy"
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <template #footer>
+      <div class="w-100 d-flex gap-1">
+        <button
+          v-if="!isInternal && !hideOpenLink"
+          type="button"
+          class="btn btn-outline-primary btn-no-border"
+          :aria-label="$t('text-open', 'Open')"
+          v-b-tooltip="t('text-open', 'Open')"
+          @click="openLink"
+        >
+          <i class="bi bi-box-arrow-up-right"></i>
+        </button>
+        <button
+          v-if="shareApiSupported"
+          type="button"
+          class="btn btn-outline-primary btn-no-border"
+          :aria-label="$t('text-share', 'Share')"
+          v-b-tooltip="t('text-share', 'Share')"
+          :disabled="buttonsDisabled"
+          @click="shareImage"
+        >
+          <i class="bi bi-share"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-no-border"
+          :aria-label="$t('text-download', 'Download')"
+          v-b-tooltip="t('text-download', 'Download')"
+          :disabled="buttonsDisabled"
+          @click="downloadPNG"
+        >
+          <i class="bi bi-download"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-no-border me-auto"
+          :aria-label="$t('text-copy', 'Copy')"
+          v-b-tooltip="t('text-copy', 'Copy')"
+          :disabled="buttonsDisabled"
+          @click="copyImage"
+        >
+          <i class="bi bi-clipboard"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-no-border"
+          @click="visible = false"
+        >
+          {{ $t("text-close", "Close") }}
+        </button>
+      </div>
+    </template>
+  </BModal>
+</template>
+
+<style scoped>
+/* --- QR share card (captured by html-to-image for PNG export) --- */
+
+#qr-share-card {
+  background-color: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
+
+#qr-share-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#qr-share-card-header-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+#qr-share-card-title {
+  font-size: 16.8px;
+  font-weight: calc(var(--bs-body-font-weight) + 100);
+  color: var(--bs-body-color);
+  line-height: 1.2;
+}
+
+#qr-share-card-brand {
+  font-size: 12.8px;
+  color: var(--bs-secondary-color);
+  white-space: nowrap;
+}
+
+#qr-share-card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: rgba(var(--bs-body-color-rgb), 0.8);
+  font-size: 12px;
+  border-top: 1px solid rgba(var(--bs-body-color-rgb), 0.8);
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+#qr-share-card-footer-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+#qr-share-card-logo-container {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#qr-share-card-logo {
+  display: block;
+  color: var(--bs-link-color);
+}
+
+/* --- QR code container + centre icon --- */
+
+#qr-code-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+#qr-code-icon-bg {
+  width: 32px;
+  height: 32px;
+  background-color: var(--bs-body-bg);
+  border-radius: var(--bs-border-radius-sm);
+  box-shadow: 0 0 0 2px var(--bs-body-color);
+}
+
+#qr-code-icon {
+  display: block;
+}
+
+#qr-code-modal-link {
+  font-size: 13.6px;
+  word-break: break-all;
+  color: rgba(var(--bs-body-color-rgb), 0.9);
+  max-width: 100%;
+  line-height: 1.25;
+}
+
+/* --- BModal body centering --- */
+:deep(.modal-body) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>

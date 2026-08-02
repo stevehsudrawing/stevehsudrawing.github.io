@@ -56,12 +56,12 @@ interface LanguageItem {
 let _cachedLanguageItems: LanguageItem[] | null = null;
 
 /**
- * Read and cache the language list from build/configs/language-list.json.
+ * Read and cache the language list from src/configs/language-list.json.
  * @returns Array of language items, or [] if the file cannot be read.
  */
 function readLanguageItems(): LanguageItem[] {
   if (_cachedLanguageItems) return _cachedLanguageItems;
-  const filePath = resolve(__dirname, "configs", "language-list.json");
+  const filePath = resolve(__dirname, "..", "src", "configs", "language-list.json");
   try {
     const raw = readFileSync(filePath, "utf-8");
     _cachedLanguageItems = JSON.parse(raw) as LanguageItem[];

@@ -25,10 +25,8 @@ import "./stylesheets/components/scroll-hint.css";
 import "./stylesheets/components/loading-screen.css";
 import "./stylesheets/components/loading-bar.css";
 import "./stylesheets/components/page-transition.css";
-import "./stylesheets/components/qr-code.css";
 import "./stylesheets/components/img-utils.css";
 import "./stylesheets/components/components.css";
-import "./stylesheets/components/external-link-confirmation.css";
 import "./stylesheets/components/no-copy.css";
 
 // =========================================================================
