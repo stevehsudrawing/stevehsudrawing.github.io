@@ -195,11 +195,14 @@ src/stylesheets/
 
 ### 4.4 Toast Notifications
 
-- [ ] Create `src/components/ui/ToastStack.vue`
+- [x] Create `src/components/ui/ToastStack.vue`
   - `<BToast>` with reactive `toasts[]` array
   - `<TransitionGroup>` for enter/leave animations
-  - Remove `ui/toast.ts`
-- [ ] `pnpm typecheck`
+  - `showToast()` exposed via `provide`/`inject` + `useToast()` composable
+- [x] Fix `ExternalLinkConfirmModal.copyUrl()` — now shows success/error toast
+- [x] Fix `QRCodeModal` — replaces 3 dynamic `import("../../ui/toast.js")` calls with `useToast()`
+- [ ] Keep `ui/toast.ts` in place for legacy SPA re-init consumers
+- [x] `pnpm typecheck`
 
 ### 4.5 Scroll Hint
 

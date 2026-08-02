@@ -8,6 +8,7 @@ import { ref, watch, nextTick, computed } from "vue";
 import QRCode from "qrcode";
 import { useI18n } from "../../composables/useI18n.js";
 import { useTheme } from "../../composables/useTheme.js";
+import { useToast } from "../../composables/useToast.js";
 
 // =========================================================================
 // Props
@@ -48,6 +49,7 @@ const emit = defineEmits<{
 const visible = ref(false);
 const { t } = useI18n();
 const { effectiveTheme } = useTheme();
+const { showToast } = useToast();
 
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const centerIconSrc = ref("");
@@ -144,10 +146,18 @@ watch(effectiveTheme, async () => {
 // Share card → PNG export
 // =========================================================================
 
+/**
+ * Render the QR share card to a PNG blob.
+ *
+ * Uses the same two-tier fallback as the original features/qr-code.ts:
+ * 1. html-to-image toPng (primary — canvas via SVG foreignObject)
+ * 2. html2canvas (fallback for mobile / environments without foreignObject)
+ */
 async function renderShareCardBlob(): Promise<Blob> {
   const shareCard = document.getElementById("qr-share-card");
   if (!shareCard) throw new Error("Share card element not found");
 
+  const bg = qrColors.value.light;
   const hti = window.htmlToImage as Record<string, unknown>;
   const toPng = hti.toPng as (
     el: HTMLElement,
@@ -156,41 +166,44 @@ async function renderShareCardBlob(): Promise<Blob> {
 
   try {
     const dataUrl = await toPng(shareCard, {
-      backgroundColor: qrColors.value.light,
+      backgroundColor: bg,
       pixelRatio: 3,
     });
     const resp = await fetch(dataUrl);
-    return await resp.blob();
+    const blob = await resp.blob();
+    if (blob.size > 0) return blob;
   } catch {
-    // Fallback to html2canvas
-    const canvas = await window.html2canvas(shareCard, {
-      backgroundColor: qrColors.value.light,
-      scale: 3,
-    });
-    return await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob);
-        else reject(new Error("canvas.toBlob returned null"));
-      }, "image/png");
-    });
+    // html-to-image failed (likely mobile / no foreignObject), fall through to html2canvas
   }
+
+  // html2canvas fallback
+  const canvas = await window.html2canvas(shareCard, {
+    backgroundColor: bg,
+    scale: 3,
+  });
+  const dataUrl = canvas.toDataURL("image/png");
+  const resp = await fetch(dataUrl);
+  const blob = await resp.blob();
+  if (blob.size > 0) return blob;
+
+  throw new Error(
+    "QR export failed: both html-to-image and html2canvas produced empty output",
+  );
 }
 
 async function runWithBlob(
-  onSuccess: (blob: Blob) => void,
+  onSuccess: (blob: Blob) => Promise<void>,
   errorLabel?: string,
 ): Promise<void> {
   buttonsDisabled.value = true;
   try {
     const blob = await renderShareCardBlob();
     buttonsDisabled.value = false;
-    onSuccess(blob);
+    await onSuccess(blob);
   } catch (error) {
     buttonsDisabled.value = false;
     const label = errorLabel || "Failed to generate QR code image";
     console.error(label, error);
-    // Toast via global (still uses legacy showToast for now)
-    const { showToast } = await import("../../ui/toast.js");
     showToast("error", `${label}: ${(error as Error).message}`);
   }
 }
@@ -221,21 +234,30 @@ async function shareImage(): Promise<void> {
 
 async function copyImage(): Promise<void> {
   await runWithBlob(async (blob) => {
-    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-    const { showToast } = await import("../../ui/toast.js");
-    showToast(
-      "success",
-      t(
-        "text-copied-image",
-        "Copied image. You can paste it into a supported input field.",
-      ),
-    );
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": blob }),
+      ]);
+      showToast(
+        "success",
+        t(
+          "text-copied-image",
+          "Copied image. You can paste it into a supported input field.",
+        ),
+      );
+    } catch {
+      // ClipboardItem("image/png") not supported — fall back to copying the URL
+      await navigator.clipboard.writeText(props.url);
+      showToast(
+        "success",
+        `${t("text-copied-text", "Copied text")}: ${props.url}`,
+      );
+    }
   }, "Failed to copy QR code image");
 }
 
 async function copyURL(): Promise<void> {
   await navigator.clipboard.writeText(props.url);
-  const { showToast } = await import("../../ui/toast.js");
   showToast("success", `${t("text-copied-text", "Copied text")}: ${props.url}`);
 }
 

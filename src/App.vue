@@ -8,7 +8,7 @@
   event-delegation + DOM-mutation approach.
 -->
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, provide } from "vue";
 
 // =========================================================================
 // Composables — reactive state layer (Phase 2)
@@ -16,6 +16,7 @@ import { ref, onMounted, nextTick } from "vue";
 import { useTheme } from "./composables/useTheme.js";
 import { useI18n } from "./composables/useI18n.js";
 import { useLocalStorage } from "./composables/useLocalStorage.js";
+import { SHOW_TOAST_KEY } from "./composables/useToast.js";
 
 useTheme();
 const { syncFromLangData } = useI18n();
@@ -28,11 +29,22 @@ useLocalStorage("enableAnimations", true);
 import SettingsModal from "./components/modals/SettingsModal.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
+import ToastStack from "./components/ui/ToastStack.vue";
 
 /** Template refs for imperative show/hide via defineExpose. */
 const settingsModalRef = ref<InstanceType<typeof SettingsModal>>();
 const extLinkModalRef = ref<InstanceType<typeof ExternalLinkConfirmModal>>();
 const qrCodeModalRef = ref<InstanceType<typeof QRCodeModal>>();
+const toastStackRef = ref<InstanceType<typeof ToastStack>>();
+
+/**
+ * Provide a global showToast function to all descendant components.
+ * Delegates to ToastStack once it is mounted.  This is needed because
+ * ToastStack is a sibling, not an ancestor, of the modal components.
+ */
+provide(SHOW_TOAST_KEY, (type: "success" | "error", message: string) => {
+  toastStackRef.value?.showToast(type, message);
+});
 
 /** Reactive props passed to modal components. */
 const extLinkUrl = ref("");
@@ -229,6 +241,7 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
     Phase 3: Modal components are mounted here.  They render nothing
     until their internal `visible` ref is toggled via defineExpose.
   -->
+  <ToastStack ref="toastStackRef" />
   <SettingsModal ref="settingsModalRef" />
   <ExternalLinkConfirmModal
     ref="extLinkModalRef"

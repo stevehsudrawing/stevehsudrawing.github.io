@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BFormCheckbox: typeof import('bootstrap-vue-next/components/BFormCheckbox')['BFormCheckbox']
     BModal: typeof import('bootstrap-vue-next/components/BModal')['BModal']
+    BToast: typeof import('bootstrap-vue-next/components/BToast')['BToast']
   }
   export interface GlobalDirectives {
     vBTooltip: typeof import('bootstrap-vue-next/directives/BTooltip')['vBTooltip']

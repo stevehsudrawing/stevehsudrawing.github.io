@@ -7,6 +7,7 @@
 import { ref, watch } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { useLocalStorage } from "../../composables/useLocalStorage.js";
+import { useToast } from "../../composables/useToast.js";
 
 // =========================================================================
 // Props
@@ -48,6 +49,7 @@ const emit = defineEmits<{
 const visible = ref(false);
 const openInNewTab = useLocalStorage("openExternalLinksInNewTab", true);
 const { t } = useI18n();
+const { showToast } = useToast();
 
 // Re-render icon when imgProperties changes
 const iconHtml = ref("");
@@ -84,9 +86,12 @@ function showQR(): void {
 async function copyUrl(): Promise<void> {
   try {
     await navigator.clipboard.writeText(props.url);
-    // Toast handled by parent via global toast system
+    showToast(
+      "success",
+      `${t("text-copied-text", "Copied text")}: ${props.url}`,
+    );
   } catch {
-    console.error("Failed to copy URL");
+    showToast("error", "Failed to copy URL");
   }
 }
 
