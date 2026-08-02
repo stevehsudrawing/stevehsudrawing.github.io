@@ -11,17 +11,17 @@
 
 ---
 
-## Phase 0 — Vue 3 Shell ✅
+## Phase 0 - Vue 3 Shell ✅
 
 > **Goal:** Introduce Vue 3 runtime + `bootstrap-vue-next` without breaking existing functionality.
 
 - [x] Install `vue` + `bootstrap-vue-next` (dependencies)
 - [x] Install `@vitejs/plugin-vue` + `unplugin-vue-components` (devDependencies)
-- [x] Create `src/types/vue-shims.d.ts` — `.vue` module type declaration
+- [x] Create `src/types/vue-shims.d.ts` - `.vue` module type declaration
 - [x] Update `vite.config.ts`
   - [x] Add `vue()` plugin
   - [x] Add `Components({ resolvers: [BootstrapVueNextResolver()], dts: true, directives: true })`
-- [x] Update `tsconfig.json` — add `src/**/*.vue` and `components.d.ts` to `include`
+- [x] Update `tsconfig.json` - add `src/**/*.vue` and `components.d.ts` to `include`
 - [x] Create `src/App.vue`
   - [x] Migrate `DOMContentLoaded` handler to `<script setup>` `onMounted`
   - [x] Migrate `AppEvent.PageInitialized` listeners
@@ -34,11 +34,11 @@
   - [x] Add `<script type="module" src="./main.ts"></script>` before `</body>`
 - [x] `pnpm typecheck` passes
 - [x] `pnpm dev` starts successfully
-- [ ] **Verify in browser:** open `http://localhost:5173/` and spot-check all pages
+- [x] **Verify in browser:** open `http://localhost:5173/` and spot-check all pages
 
 ---
 
-## Phase 1 — Stylesheets Reorganization
+## Phase 1 - Stylesheets Reorganization ✅
 
 > **Goal:** Separate global CSS from component-scoped CSS. Component CSS will eventually
 > migrate into `<style scoped>` blocks inside `.vue` files; global CSS stays in `stylesheets/`.
@@ -47,13 +47,13 @@
 
 ```
 src/stylesheets/
-├── global/                          # Never migrating — always global
+├── global/                          # Never migrating - always global
 │   ├── base.css                     #   :root, body, Bootstrap overrides
 │   ├── theme.css                    #   --shlh-* variables, [data-bs-theme]
 │   ├── fonts.css                    #   @font-face, font stacks
 │   └── accessibility.css            #   prefers-reduced-*, .user-input-keyboard, .skip-to-content
 │
-└── components/                      # Temporary — will migrate to Vue <style scoped>
+└── components/                      # Temporary - will migrate to Vue <style scoped>
     ├── navbar.css                   #   → AppNavbar.vue
     ├── scroll-hint.css              #   → ScrollHint.vue
     ├── loading-screen.css           #   → LoadingScreen.vue
@@ -68,21 +68,21 @@ src/stylesheets/
 
 ### 1.2 Tasks
 
-- [ ] Create `src/stylesheets/global/` directory
-- [ ] Create `src/stylesheets/components/` directory
-- [ ] Move `base.css` → `stylesheets/global/base.css`
-- [ ] Move `theme.css` → `stylesheets/global/theme.css`
-- [ ] Move `fonts.css` → `stylesheets/global/fonts.css`
-- [ ] Move `accessibility.css` → `stylesheets/global/accessibility.css`
-- [ ] Move remaining 10 CSS files → `stylesheets/components/`
-- [ ] Update import paths in `src/main.ts` (14 lines)
-- [ ] Update import paths in `src/main-lightweight.ts`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm dev` — verify visual appearance unchanged
+- [x] Create `src/stylesheets/global/` directory
+- [x] Create `src/stylesheets/components/` directory
+- [x] Move `base.css` → `stylesheets/global/base.css`
+- [x] Move `theme.css` → `stylesheets/global/theme.css`
+- [x] Move `fonts.css` → `stylesheets/global/fonts.css`
+- [x] Move `accessibility.css` → `stylesheets/global/accessibility.css`
+- [x] Move remaining 10 CSS files → `stylesheets/components/`
+- [x] Update import paths in `src/main.ts` (14 lines)
+- [x] Update import paths in `src/main-lightweight.ts`
+- [x] `pnpm typecheck`
+- [x] `pnpm dev` - verify visual appearance unchanged
 
 ---
 
-## Phase 2 — Composables Layer
+## Phase 2 - Composables Layer
 
 > **Goal:** Extract reactive state from `core/` and `ui/` modules into Vue composables.
 > Existing imperative modules keep working; composables sit alongside them until consumers are migrated.
@@ -108,7 +108,7 @@ src/stylesheets/
 
 ### 2.3 I18n composable + plugin
 
-- [ ] Create `src/plugins/i18n.ts` — Vue plugin
+- [ ] Create `src/plugins/i18n.ts` - Vue plugin
   - Provide `locale` ref + `messages` ref via `app.provide`
   - Register `$t(key, fallback?)` global method
 - [ ] Create `src/composables/useI18n.ts`
@@ -122,7 +122,7 @@ src/stylesheets/
 
 ---
 
-## Phase 3 — Modal Components
+## Phase 3 - Modal Components
 
 > **Goal:** Replace 3 manually-managed Bootstrap modals with `<BModal>` + `v-model`.
 > This eliminates `ui/settings.ts`, `features/external-link-confirmation.ts`, and `features/qr-code.ts`.
@@ -130,12 +130,12 @@ src/stylesheets/
 ### 3.1 Settings Modal
 
 - [ ] Create `src/components/modals/SettingsModal.vue`
-  - `<BModal v-model="visible">` — replaces `new bootstrap.Modal(...)`
-  - Theme selector: `<BDropdown>` — replaces `.theme-item` event delegation
-  - Language selector: `<select v-model="locale">` — replaces `#language-select` event delegation
-  - New-tab toggle: `<BFormCheckbox v-model="openInNewTab" switch>` — replaces `#external-links-new-tab-toggle`
+  - `<BModal v-model="visible">` - replaces `new bootstrap.Modal(...)`
+  - Theme selector: `<BDropdown>` - replaces `.theme-item` event delegation
+  - Language selector: `<select v-model="locale">` - replaces `#language-select` event delegation
+  - New-tab toggle: `<BFormCheckbox v-model="openInNewTab" switch>` - replaces `#external-links-new-tab-toggle`
   - Animations toggle: `<BFormCheckbox v-model="enableAnimations" switch :disabled="reducedMotion">`
-  - Reset button — replaces `#confirm-reset-btn` event delegation
+  - Reset button - replaces `#confirm-reset-btn` event delegation
   - Expose `show()` / `hide()` via `defineExpose`
 - [ ] Wire `SettingsModal` into `App.vue`
 - [ ] Remove `initSettingEventListeners()`, `initSettingsModal()`, `updateAnimationToggleState()` calls from `App.vue`
@@ -149,7 +149,7 @@ src/stylesheets/
   - `<BModal>` with "Open Link" / "Share" / "Download QR" / "Close" footer buttons
   - Sync new-tab toggle with `useLocalStorage("openExternalLinksInNewTab")`
   - Emit `open`, `share`, `download-qr` events
-- [ ] Wire into `App.vue` — replace `initExternalLinkConfirmation()` + delegated click handler
+- [ ] Wire into `App.vue` - replace `initExternalLinkConfirmation()` + delegated click handler
 - [ ] Remove `features/external-link-confirmation.ts`
 - [ ] `pnpm typecheck`
 
@@ -167,7 +167,7 @@ src/stylesheets/
 
 ---
 
-## Phase 4 — UI Components
+## Phase 4 - UI Components
 
 > **Goal:** Componentize remaining `ui/*.ts` modules and migrate corresponding CSS
 > from `stylesheets/components/` into `<style scoped>` blocks.
@@ -243,24 +243,24 @@ src/stylesheets/
 
 ---
 
-## Phase 5 — Cleanup
+## Phase 5 - Cleanup
 
 > **Goal:** Remove dead code after all consumers have been migrated.
 
 - [ ] Delete `src/stylesheets/components/` folder (all CSS migrated to `<style scoped>`)
-- [ ] Remove `window.bootstrap` global exposure in `main.ts` (no longer needed — `bootstrap-vue-next` handles all JS behavior)
+- [ ] Remove `window.bootstrap` global exposure in `main.ts` (no longer needed - `bootstrap-vue-next` handles all JS behavior)
 - [ ] Remove `@types/bootstrap` from `devDependencies` (if bootstrap JS is no longer needed)
-- [ ] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files — delete any that have no remaining consumers
-- [ ] Audit `build/page-components/modals.html` — may be removable if all modals are now Vue SFCs
-- [ ] `pnpm typecheck` — ensure zero errors
-- [ ] `pnpm build` — verify production build succeeds
+- [ ] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files - delete any that have no remaining consumers
+- [ ] Audit `build/page-components/modals.html` - may be removable if all modals are now Vue SFCs
+- [ ] `pnpm typecheck` - ensure zero errors
+- [ ] `pnpm build` - verify production build succeeds
 
 ---
 
-## Phase 6 — SPA Migration (Future)
+## Phase 6 - SPA Migration (Future)
 
 > **Goal:** Replace MPA with Vue Router for SPA-style navigation.
-> **Status:** Deferred — evaluate after Phases 1–5 are complete.
+> **Status:** Deferred - evaluate after Phases 1–5 are complete.
 
 - [ ] Evaluate trade-offs (SEO impact, build-time injection compatibility, bundle size)
 - [ ] If proceeding:
@@ -298,7 +298,7 @@ src/
 ├── plugins/                            # Vue plugins (global provide / inject)
 │   └── i18n.ts                         #   app.provide locale + messages; register $t()
 │
-├── components/                         # Vue SFCs — PascalCase filenames
+├── components/                         # Vue SFCs - PascalCase filenames
 │   ├── layout/
 │   │   └── AppNavbar.vue               #   nav links, dropdown menus, mobile brand scroll
 │   ├── ui/
@@ -323,9 +323,9 @@ src/
 │
 ├── App.vue                             # Root component: init orchestration + modal mounting
 ├── main.ts                             # Entry: CSS imports + globals + side-effects + createApp
-├── main-lightweight.ts                 # 404 entry (no Vue — stays as vanilla TS)
+├── main-lightweight.ts                 # 404 entry (no Vue - stays as vanilla TS)
 │
-├── index.html                          # MPA pages — <div id="app"> + <script type="module">
+├── index.html                          # MPA pages - <div id="app"> + <script type="module">
 ├── about.html
 ├── artworks-and-videos.html
 ├── blogs-and-sponsor.html

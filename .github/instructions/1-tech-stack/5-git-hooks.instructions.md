@@ -16,35 +16,35 @@ Git hooks are managed by [Husky](https://github.com/typicode/husky) and run auto
 
 | Tool        | Role                                                |
 | ----------- | --------------------------------------------------- |
-| Husky       | Git hook manager — triggers scripts on Git events   |
+| Husky       | Git hook manager - triggers scripts on Git events   |
 | lint-staged | Runs tasks on **staged files only** (not full repo) |
-| Prettier    | Code formatter — auto-fixes style on commit         |
+| Prettier    | Code formatter - auto-fixes style on commit         |
 
 #### 1.5.2 Pre-commit Hook
 
 The pre-commit hook (`.husky/pre-commit`) performs two checks sequentially:
 
-1. **Type check** — `pnpm typecheck` (runs `tsc --noEmit`)
-2. **Format staged files** — `pnpm exec lint-staged` (triggers Prettier on staged files)
+1. **Format staged files** - `pnpm exec lint-staged` (triggers Prettier on staged files)
+2. **Type check** - `pnpm typecheck` (runs `tsc --noEmit`)
 
 If either step fails, the commit is blocked.
 
 ```mermaid
 flowchart LR
-    A[git commit] --> B[Husky pre-commit]
-    B --> C[pnpm typecheck]
-    C -->|pass| D[pnpm exec lint-staged]
-    C -->|fail| X[Commit blocked]
-    D --> E[prettier --write on staged files]
-    E -->|pass| F[Commit proceeds]
-    E -->|fail| X
+  A[git commit] --> B[Husky pre-commit]
+  B --> C[pnpm exec lint-staged]
+  C --> D[prettier --write on staged files]
+  D --> |pass| E[pnpm typecheck]
+  D --> |fail| X[Commit blocked]
+  E --> |pass| F[Commit proceeds]
+  E --> |fail| X
 ```
 
 #### 1.5.3 Configuration
 
-**Husky** — hook scripts in `.husky/` directory, installed via `pnpm prepare` (which runs `husky`).
+**Husky** - hook scripts in `.husky/` directory, installed via `pnpm prepare` (which runs `husky`).
 
-**lint-staged** — configured in `package.json`:
+**lint-staged** - configured in `package.json`:
 
 ```json
 "lint-staged": {
@@ -56,9 +56,9 @@ This runs Prettier on **every staged file** regardless of type; `--ignore-unknow
 
 #### 1.5.4 Developer Workflow
 
-- **Normal commit** — just `git commit` as usual; formatting and type checking happen automatically.
-- **Skipping hooks** — `git commit --no-verify` (use sparingly; only when the hook itself is broken).
-- **Manual format** — `pnpm format` runs Prettier on the entire project (not just staged files).
+- **Normal commit** - just `git commit` as usual; formatting and type checking happen automatically.
+- **Skipping hooks** - `git commit --no-verify` (use sparingly; only when the hook itself is broken).
+- **Manual format** - `pnpm format` runs Prettier on the entire project (not just staged files).
 
 #### 1.5.5 Adding New Hooks
 

@@ -18,7 +18,7 @@ applyTo: >
   2. Setup Node.js 22 (`actions/setup-node@v4`)
   3. Install pnpm (`pnpm/action-setup@v4`, latest)
   4. Install dependencies (`pnpm install --no-frozen-lockfile`)
-  5. Build (`pnpm run build` — Vite bundles to `dist/`)
+  5. Build (`pnpm run build` - Vite bundles to `dist/`)
   6. Setup Pages (`actions/configure-pages@v4`)
   7. Upload artifact (`actions/upload-pages-artifact@v3`, `path: ./dist`)
   8. Deploy to GitHub Pages (`actions/deploy-pages@v4`)

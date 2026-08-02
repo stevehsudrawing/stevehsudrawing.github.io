@@ -1,5 +1,5 @@
 <!--
-  App.vue — Vue application root shell.
+  App.vue - Vue application root shell.
   Handles initialization orchestration that was previously in
   main.ts's DOMContentLoaded handler.  No visible template yet;
   interactive components (modals, toasts) will be rendered here

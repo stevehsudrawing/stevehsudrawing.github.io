@@ -51,7 +51,7 @@ hidden.bs.modal (document delegated)
 
 #### 4.20.1 `.default-keyboard-focus` CSS Class
 
-A project-specific convention class (no CSS rules — purely a JS selector) that marks which element in a modal should receive focus when the modal opens.
+A project-specific convention class (no CSS rules - purely a JS selector) that marks which element in a modal should receive focus when the modal opens.
 
 **Usage** (in `build/page-components/modals.html`):
 
@@ -80,7 +80,7 @@ A project-specific convention class (no CSS rules — purely a JS selector) that
 **Rules**:
 
 - Only one element per modal should carry this class.
-- The class has no visual effect — it is only used as a query selector.
+- The class has no visual effect - it is only used as a query selector.
 - If no element in a modal has this class (e.g., QR code modal), no auto-focus occurs.
 - Naming follows `dash-case` convention, consistent with other project behavior classes like `.no-copy`.
 
@@ -95,11 +95,11 @@ A project-specific convention class (no CSS rules — purely a JS selector) that
 
 #### 4.20.3 Key Function
 
-- `initModalFocusManagement()` — Registers the three delegated event listeners on `document`. Called once in `src/main.ts` during application initialization, before any modal can be opened. Has no corresponding `dispose*` function since it persists for the lifetime of the page.
+- `initModalFocusManagement()` - Registers the three delegated event listeners on `document`. Called once in `src/main.ts` during application initialization, before any modal can be opened. Has no corresponding `dispose*` function since it persists for the lifetime of the page.
 
 #### 4.20.4 Interaction with Other Systems
 
-- **External Link Confirmation ([§4.17](17-external-link-confirmation.instructions.md#417-external-link-confirmation))**: No longer manages its own focus — the `hidden.bs.modal` and `shown.bs.modal` listeners in `showExternalLinkConfirmation()` have been removed in favor of the centralized system.
-- **QR Code ([§4.10](10-qr-code-export.instructions.md#410-qr-code--export))**: Same — own focus-restore listener removed.
-- **Settings ([§4.8](8-settings-preferences.instructions.md#48-settings--preferences))**: Same — own focus-restore and auto-focus listeners removed. The warning-reset modal's auto-focus listener in `initSettingsModal()` has also been removed.
+- **External Link Confirmation ([§4.17](17-external-link-confirmation.instructions.md#417-external-link-confirmation))**: No longer manages its own focus - the `hidden.bs.modal` and `shown.bs.modal` listeners in `showExternalLinkConfirmation()` have been removed in favor of the centralized system.
+- **QR Code ([§4.10](10-qr-code-export.instructions.md#410-qr-code--export))**: Same - own focus-restore listener removed.
+- **Settings ([§4.8](8-settings-preferences.instructions.md#48-settings--preferences))**: Same - own focus-restore and auto-focus listeners removed. The warning-reset modal's auto-focus listener in `initSettingsModal()` has also been removed.
 - **Navigation & Accessibility ([§4.9](9-navigation-accessibility.instructions.md#49-navigation--accessibility))**: Complements the skip-button and keyboard-mode detection; together they form the keyboard accessibility layer.

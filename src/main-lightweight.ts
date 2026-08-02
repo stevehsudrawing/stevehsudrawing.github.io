@@ -18,17 +18,17 @@ import "@fontsource-variable/inter/opsz.css";
 import "@fontsource-variable/inter/opsz-italic.css";
 
 // Project CSS - only the stylesheets used by lightweight pages
-import "./stylesheets/base.css";
-import "./stylesheets/theme.css";
-import "./stylesheets/fonts.css";
-import "./stylesheets/accessibility.css";
-import "./stylesheets/navbar.css";
-import "./stylesheets/scroll-hint.css";
-import "./stylesheets/loading-screen.css";
-import "./stylesheets/loading-bar.css";
-import "./stylesheets/img-utils.css";
-import "./stylesheets/components.css";
-import "./stylesheets/no-copy.css";
+import "./stylesheets/global/base.css";
+import "./stylesheets/global/theme.css";
+import "./stylesheets/global/fonts.css";
+import "./stylesheets/global/accessibility.css";
+import "./stylesheets/components/navbar.css";
+import "./stylesheets/components/scroll-hint.css";
+import "./stylesheets/components/loading-screen.css";
+import "./stylesheets/components/loading-bar.css";
+import "./stylesheets/components/img-utils.css";
+import "./stylesheets/components/components.css";
+import "./stylesheets/components/no-copy.css";
 
 // =========================================================================
 // npm package imports (replaces CDN <script> tags)

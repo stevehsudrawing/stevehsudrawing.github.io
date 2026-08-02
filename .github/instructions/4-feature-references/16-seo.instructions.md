@@ -67,15 +67,15 @@ All JSON-LD scripts are **inline** (not external `src`) for maximum search engin
 
 #### 4.16.3 Sitemap
 
-- `sitemap.xml` is **auto-generated at build time** by `build/sitemap-plugin.ts` — there is no static `public/sitemap.xml`.
+- `sitemap.xml` is **auto-generated at build time** by `build/sitemap-plugin.ts` - there is no static `public/sitemap.xml`.
 - Data sources:
-  - `PAGE_META` in `build/configs/page-meta.ts` — page paths, `changefreq`, and `priority` per page.
-  - `build/configs/language-list.json` — supported language codes for hreflang alternates.
-  - `BASE_URL` from `page-meta.ts` — site root URL.
+  - `PAGE_META` in `build/configs/page-meta.ts` - page paths, `changefreq`, and `priority` per page.
+  - `build/configs/language-list.json` - supported language codes for hreflang alternates.
+  - `BASE_URL` from `page-meta.ts` - site root URL.
 - `lastmod` is always set to the **current build date** (YYYY-MM-DD); it is never stored in config.
 - Only pages with `robots: "index, follow"` (and both `changefreq` and `priority` defined) are included; 404 and error pages are automatically excluded.
 - Each `<url>` includes `xhtml:link` hreflang alternates for `en`, `zh-Hans`, `zh-Hant`, and `x-default`.
-- When adding a new indexable page, update `PAGE_META` with `changefreq` and `priority` — the sitemap picks it up automatically.
+- When adding a new indexable page, update `PAGE_META` with `changefreq` and `priority` - the sitemap picks it up automatically.
 - The generated file is written to `dist/sitemap.xml` during `writeBundle`, then minified by `minify-plugin.ts` along with other XML assets.
 - `robots.txt` references the sitemap via `Sitemap: https://stevehsudrawing.github.io/sitemap.xml`.
 
