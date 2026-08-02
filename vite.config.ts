@@ -1,6 +1,9 @@
 import { defineConfig } from "vite";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import vue from "@vitejs/plugin-vue";
+import Components from "unplugin-vue-components/vite";
+import { BootstrapVueNextResolver } from "bootstrap-vue-next/resolvers";
 import { headTagsPlugin } from "./build/head-tags-plugin.js";
 import { contentInjectionPlugin } from "./build/content-injection-plugin.js";
 import { minifyPlugin } from "./build/minify-plugin.js";
@@ -13,6 +16,12 @@ export default defineConfig({
   root: resolve(__dirname, "src"),
 
   plugins: [
+    vue(),
+    Components({
+      resolvers: [BootstrapVueNextResolver()],
+      dts: true,
+      directives: true,
+    }),
     contentInjectionPlugin(),
     headTagsPlugin(),
     minifyPlugin(),

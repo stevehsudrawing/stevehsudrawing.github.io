@@ -1,6 +1,7 @@
 /**
- * Vite entry point.
- * Replaces all CDN <link> + <script> tags with ESM imports.
+ * Vite entry point (Vue 3 shell).
+ * CSS imports, global npm exposures, and early theme initialization
+ * remain here.  Feature initialization has moved to App.vue's onMounted.
  */
 
 // =========================================================================
@@ -46,6 +47,7 @@ window.toHtml = toHtml;
 
 // =========================================================================
 // Project JS modules (order matters: dependencies before dependents)
+// These side-effect imports register global handlers / extend prototypes.
 // =========================================================================
 
 // --- Utilities (used by everything else) ---
@@ -76,10 +78,8 @@ import "./ui/bootstrap-css-detection.js";
 import "./ui/no-copy.js";
 
 // =========================================================================
-// Early initialization
+// Early initialization (before Vue mounts — prevents theme flash)
 // =========================================================================
-// Theme must be applied before the first paint to avoid flash.
-// initThemePreference reads localStorage, applyThemePreference sets data-bs-theme.
 import {
   initThemePreference,
   initSystemThemeListener,
@@ -92,80 +92,11 @@ initSystemThemeListener();
 applyThemePreference(currentThemePreference, false, false);
 
 // =========================================================================
-// Full initialization (replaces init-final.js)
+// Vue 3 application bootstrap
+// Feature initialization is now orchestrated by App.vue's onMounted.
 // =========================================================================
-// init-final.js self-registers a DOMContentLoaded listener.
-// Since Vite module scripts are deferred, DOMContentLoaded may already
-// have fired. We check and either call directly or wait.
-import { AppEvent } from "./types/app.js";
-import { initPageContent } from "./features/page-content-initializer.js";
-import { initTooltipI18nListener } from "./ui/tooltips.js";
-import {
-  initThemeTransitionOverlay,
-  updateThemeToggleText,
-  setActiveThemeItem,
-} from "./ui/theme.js";
-import { hideLoadingScreen } from "./ui/loading-screen.js";
-import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection.js";
-import {
-  initNavbarScrollBorder,
-  initMobileNavbarBrandScroll,
-  initDropdownMenuAnimation,
-} from "./ui/navbar.js";
-import { initSettingEventListeners, initSettingsModal } from "./ui/settings.js";
-import {
-  initPageTransitionLinkClicks,
-  initPageTransitionPopState,
-} from "./features/page-transition.js";
-import { initExternalLinkConfirmation } from "./features/external-link-confirmation.js";
-import { initQRCodeDelegation } from "./features/qr-code.js";
-import { initLang } from "./features/lang-switcher.js";
-import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
-import { initAllScrollHints } from "./ui/scroll-hint.js";
-import { initNoCopyProtection } from "./ui/no-copy.js";
-import { initModalFocusManagement } from "./ui/modal.js";
+import { createApp } from "vue";
+import App from "./App.vue";
 
-document.addEventListener("DOMContentLoaded", async function () {
-  try {
-    initBootstrapCSSDetection();
-    initThemeTransitionOverlay();
-    initDropdownMenuAnimation();
-    initSkipButton();
-    initModalFocusManagement();
-    initSettingsModal();
-
-    // Set up tooltip i18n listener BEFORE initLang()
-    // so tooltip titles are updated when the first translation loads
-    initTooltipI18nListener();
-
-    await initLang();
-
-    initSettingEventListeners();
-    initExternalLinkConfirmation();
-    initQRCodeDelegation();
-    initHashChangeScroll();
-    initNoCopyProtection();
-
-    updateThemeToggleText();
-    setActiveThemeItem();
-
-    initPageTransitionLinkClicks();
-    initPageTransitionPopState();
-
-    await initPageContent();
-
-    hideLoadingScreen();
-    document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
-  } catch (error) {
-    console.error("Failed to initialize: " + error);
-    hideLoadingScreen();
-    document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
-  }
-});
-
-document.addEventListener(AppEvent.PageInitialized, initNavbarScrollBorder);
-document.addEventListener(
-  AppEvent.PageInitialized,
-  initMobileNavbarBrandScroll,
-);
-document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
+const app = createApp(App);
+app.mount("#app");

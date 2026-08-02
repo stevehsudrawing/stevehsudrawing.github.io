@@ -13,6 +13,11 @@
     "checkJs": false,
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue",
+    "components.d.ts"
+  ],
   "exclude": ["node_modules", "dist", "public"]
 }
