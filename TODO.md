@@ -168,32 +168,57 @@ src/stylesheets/
 
 > **Goal:** Componentize remaining `ui/*.ts` modules and migrate corresponding CSS
 > from `stylesheets/components/` into `<style scoped>` blocks.
+>
+> **Ordered easiest → hardest:**
 
-### 4.1 Navbar
+### 4.1 Loading Screen ⭐ ✅
 
-- [ ] Create `src/components/layout/AppNavbar.vue`
-  - Active item highlighting → `:class="{ active: ... }"` computed
-  - `<BDropdown>` for theme + language menus
-  - Mobile brand scroll swap → `@scroll` + computed `transform`
-  - Offcanvas toggle for mobile
-  - Remove `ui/navbar.ts` + `stylesheets/components/navbar.css`
+- [x] Create `src/components/ui/LoadingScreen.vue`
+  - Static HTML in each page for instant display (no flash)
+  - Vue component manages fade-out lifecycle via `defineExpose({ hide })`
+  - CSS migrated from `loading-screen.css` to non-scoped `<style>` block
+- [x] Remove `ui/loading-screen.ts` + `stylesheets/components/loading-screen.css` imports
+- [x] `pnpm typecheck`
+
+### 4.2 Loading Bar ⭐ ✅
+
+- [x] Create `src/components/ui/LoadingBar.vue`
+  - Controls static HTML `#page-transition-progress` (injected via header.html)
+  - Reactive `show()` / `complete()` / `hide()` via `defineExpose`
+  - CSS migrated from `loading-bar.css` to non-scoped `<style>` block
+- [x] Rewrite `ui/loading-bar.ts` as bridge → delegates to `window.__loadingBar`
+- [x] Remove `stylesheets/components/loading-bar.css` import
+- [x] `pnpm typecheck`
+
+### 4.3 Scroll Hint ⭐ ✅
+
+- [x] Create `src/components/ui/ScrollHint.vue`
+  - Controls `.link-button-group` hint elements (build-time injected HTML)
+  - Exposes `createHint` / `removeHint` / `updateAllHints` / `initAllHints`
+  - CSS migrated from `scroll-hint.css` to non-scoped `<style>` block
+  - Resize listener lifecycle managed via `onBeforeUnmount`
+- [x] Rewrite `ui/scroll-hint.ts` as bridge → delegates to `window.__scrollHint`
+- [x] Remove `stylesheets/components/scroll-hint.css` import
+- [x] `pnpm typecheck`
+
+### 4.4 Copy-Protected Image ⭐ ✅
+
+- [x] Create `src/components/ui/CopyProtectedImg.vue`
+  - Document-level event delegation (contextmenu + dragstart)
+  - Self-initializing on mount, cleanup on unmount
+  - CSS migrated from `no-copy.css` to non-scoped `<style>` block
+- [x] Rewrite `ui/no-copy.ts` as hybrid bridge (Vue delegate + lightweight fallback)
+- [x] Remove `initNoCopyProtection()` call from `App.vue` (component handles it)
+- [x] Remove `stylesheets/components/no-copy.css` import
+- [x] `pnpm typecheck`
+
+### 4.5 Tooltips ⭐⭐
+
+- [ ] Replace all `createTooltip` / `disposeTooltip` calls with `v-b-tooltip` directive
+- [ ] Remove `ui/tooltips.ts`
 - [ ] `pnpm typecheck`
 
-### 4.2 Loading Screen
-
-- [ ] Create `src/components/ui/LoadingScreen.vue`
-  - `v-if="!appReady"` with spinner + fade-out transition
-  - Remove `ui/loading-screen.ts` + `stylesheets/components/loading-screen.css`
-- [ ] `pnpm typecheck`
-
-### 4.3 Loading Bar
-
-- [ ] Create `src/components/ui/LoadingBar.vue`
-  - Reactive progress bar (show / complete / hide)
-  - Remove `ui/loading-bar.ts` + `stylesheets/components/loading-bar.css`
-- [ ] `pnpm typecheck`
-
-### 4.4 Toast Notifications
+### 4.6 Toast Notifications ✅
 
 - [x] Create `src/components/ui/ToastStack.vue`
   - `<BToast>` with reactive `toasts[]` array
@@ -204,14 +229,15 @@ src/stylesheets/
 - [ ] Keep `ui/toast.ts` in place for legacy SPA re-init consumers
 - [x] `pnpm typecheck`
 
-### 4.5 Scroll Hint
+### 4.7 Inline SVG ⭐⭐⭐
 
-- [ ] Create `src/components/ui/ScrollHint.vue`
-  - Replaces manual create/remove lifecycle
-  - Remove `ui/scroll-hint.ts` + `stylesheets/components/scroll-hint.css`
+- [ ] Create `src/components/ui/InlineSvg.vue`
+  - Fetches external SVG → injects inline
+  - Dynamic `width` / `height` / `color-var` control
+  - Remove `ui/svg-utils.ts`
 - [ ] `pnpm typecheck`
 
-### 4.6 Theme-Aware Image
+### 4.8 Theme-Aware Image ⭐⭐⭐
 
 - [ ] Create `src/components/ui/ThemeAwareImg.vue`
   - `props: { lightSrc, darkSrc, feature?, ...attrs }`
@@ -220,25 +246,14 @@ src/stylesheets/
   - Remove `ui/img-utils.ts` + `stylesheets/components/img-utils.css`
 - [ ] `pnpm typecheck`
 
-### 4.7 Copy-Protected Image
+### 4.9 Navbar ⭐⭐⭐⭐⭐
 
-- [ ] Create `src/components/ui/CopyProtectedImg.vue`
-  - No-copy overlay + CSS protection
-  - Remove `ui/no-copy.ts` + `stylesheets/components/no-copy.css`
-- [ ] `pnpm typecheck`
-
-### 4.8 Inline SVG
-
-- [ ] Create `src/components/ui/InlineSvg.vue`
-  - Fetches external SVG → injects inline
-  - Dynamic `width` / `height` / `color-var` control
-  - Remove `ui/svg-utils.ts`
-- [ ] `pnpm typecheck`
-
-### 4.9 Tooltips
-
-- [ ] Replace all `createTooltip` / `disposeTooltip` calls with `v-b-tooltip` directive
-- [ ] Remove `ui/tooltips.ts`
+- [ ] Create `src/components/layout/AppNavbar.vue`
+  - Active item highlighting → `:class="{ active: ... }"` computed
+  - `<BDropdown>` for theme + language menus
+  - Mobile brand scroll swap → `@scroll` + computed `transform`
+  - Offcanvas toggle for mobile
+  - Remove `ui/navbar.ts` + `stylesheets/components/navbar.css`
 - [ ] `pnpm typecheck`
 
 ---

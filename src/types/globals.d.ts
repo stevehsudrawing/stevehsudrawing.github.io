@@ -19,6 +19,23 @@ declare global {
       options?: Record<string, unknown>,
     ) => Promise<HTMLCanvasElement>;
     toHtml: typeof ToHtmlFn;
+    /** Bridge: Vue LoadingBar instance for legacy TS consumers. */
+    __loadingBar?: {
+      show: () => void;
+      complete: () => void;
+      hide: () => void;
+    };
+    /** Bridge: Vue ScrollHint instance for legacy TS consumers. */
+    __scrollHint?: {
+      createHint: (group: HTMLElement) => void;
+      removeHint: (group: HTMLElement) => void;
+      updateAllHints: () => void;
+      initAllHints: () => void;
+    };
+    /** Bridge: Vue CopyProtectedImg instance for legacy TS consumers. */
+    __noCopy?: {
+      init: () => void;
+    };
   }
 }
 

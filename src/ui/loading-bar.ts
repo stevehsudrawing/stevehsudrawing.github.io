@@ -1,47 +1,33 @@
 /**
- * Loading bar UI component.
- * Manages a thin progress bar at the top of the viewport.
- * Used by both language switching and page transitions.
+ * Loading bar bridge — delegates to the Vue LoadingBar component.
+ *
+ * The static HTML (#page-transition-progress) is injected at build time
+ * via build/page-components/header.html.  The Vue LoadingBar component
+ * owns the CSS and reactive state; this module provides a thin bridge
+ * for legacy TS consumers (lang-switcher.ts, page-transition.ts).
  */
+
+function getBar(): NonNullable<Window["__loadingBar"]> | null {
+  return window.__loadingBar ?? null;
+}
 
 /**
  * Show the progress bar and animate it to ~85 %.
- * Call {@link completeLoadingBar} when the operation finishes,
- * or {@link hideLoadingBar} to dismiss it immediately on error.
  */
 export function showLoadingBar(): void {
-  const bar = document.getElementById("page-transition-progress");
-  if (!bar) return;
-  // Reset
-  bar.classList.remove("done");
-  bar.style.display = "";
-  // Force reflow so the reset takes effect before adding 'active'
-  void (bar as HTMLElement).offsetWidth;
-  bar.classList.add("active");
+  getBar()?.show();
 }
 
 /**
  * Complete the progress bar: animate to 100 % then fade out.
  */
 export function completeLoadingBar(): void {
-  const bar = document.getElementById("page-transition-progress");
-  if (!bar) return;
-  bar.classList.add("done");
-  bar.classList.remove("active");
-  // Hide after the completion transition (350 ms)
-  setTimeout(() => {
-    bar.classList.remove("done");
-    bar.style.display = "none";
-  }, 350);
+  getBar()?.complete();
 }
 
 /**
  * Immediately hide the progress bar without the completion animation.
- * Used when an operation fails and the bar should disappear instantly.
  */
 export function hideLoadingBar(): void {
-  const bar = document.getElementById("page-transition-progress");
-  if (!bar) return;
-  bar.classList.remove("active", "done");
-  bar.style.display = "none";
+  getBar()?.hide();
 }

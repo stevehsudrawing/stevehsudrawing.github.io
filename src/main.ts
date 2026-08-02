@@ -21,12 +21,9 @@ import "./stylesheets/global/theme.css";
 import "./stylesheets/global/fonts.css";
 import "./stylesheets/global/accessibility.css";
 import "./stylesheets/components/navbar.css";
-import "./stylesheets/components/scroll-hint.css";
-import "./stylesheets/components/loading-screen.css";
-import "./stylesheets/components/loading-bar.css";
 import "./stylesheets/components/page-transition.css";
 import "./stylesheets/components/img-utils.css";
-import "./stylesheets/components/components.css";
+
 import "./stylesheets/components/no-copy.css";
 
 // =========================================================================
@@ -63,7 +60,6 @@ import "./ui/navbar.js";
 import "./ui/scroll-hint.js";
 import "./ui/accessibility.js";
 import "./ui/settings.js";
-import "./ui/loading-screen.js";
 import "./features/page-transition.js";
 import "./features/external-link-confirmation.js";
 import "./ui/svg-utils.js";

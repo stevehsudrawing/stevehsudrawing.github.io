@@ -29,12 +29,20 @@ useLocalStorage("enableAnimations", true);
 import SettingsModal from "./components/modals/SettingsModal.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
+import LoadingScreen from "./components/ui/LoadingScreen.vue";
+import LoadingBar from "./components/ui/LoadingBar.vue";
+import ScrollHint from "./components/ui/ScrollHint.vue";
+import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 /** Template refs for imperative show/hide via defineExpose. */
 const settingsModalRef = ref<InstanceType<typeof SettingsModal>>();
 const extLinkModalRef = ref<InstanceType<typeof ExternalLinkConfirmModal>>();
 const qrCodeModalRef = ref<InstanceType<typeof QRCodeModal>>();
+const loadingScreenRef = ref<InstanceType<typeof LoadingScreen>>();
+const loadingBarRef = ref<InstanceType<typeof LoadingBar>>();
+const scrollHintRef = ref<InstanceType<typeof ScrollHint>>();
+const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
 /**
@@ -163,7 +171,6 @@ import {
   updateThemeToggleText,
   setActiveThemeItem,
 } from "./ui/theme.js";
-import { hideLoadingScreen } from "./ui/loading-screen.js";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection.js";
 import {
   initNavbarScrollBorder,
@@ -177,7 +184,6 @@ import {
 import { initLang } from "./features/lang-switcher.js";
 import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
 import { initAllScrollHints } from "./ui/scroll-hint.js";
-import { initNoCopyProtection } from "./ui/no-copy.js";
 
 // =========================================================================
 // Initialization orchestration
@@ -205,7 +211,6 @@ onMounted(async () => {
     document.addEventListener("click", onQRTrigger);
 
     initHashChangeScroll();
-    initNoCopyProtection();
 
     updateThemeToggleText();
     setActiveThemeItem();
@@ -215,11 +220,40 @@ onMounted(async () => {
 
     await initPageContent();
 
-    hideLoadingScreen();
+    loadingScreenRef.value?.hide();
+
+    // Bridge: expose LoadingBar to legacy TS modules (lang-switcher, page-transition)
+    if (loadingBarRef.value) {
+      window.__loadingBar = loadingBarRef.value;
+    }
+
+    // Bridge: expose ScrollHint to legacy TS consumers
+    if (scrollHintRef.value) {
+      window.__scrollHint = scrollHintRef.value;
+    }
+
+    // Bridge: expose CopyProtectedImg to legacy TS consumers
+    if (copyProtectedImgRef.value) {
+      window.__noCopy = copyProtectedImgRef.value;
+    }
+
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   } catch (error) {
     console.error("Failed to initialize: " + error);
-    hideLoadingScreen();
+    loadingScreenRef.value?.hide();
+
+    if (loadingBarRef.value) {
+      window.__loadingBar = loadingBarRef.value;
+    }
+
+    if (scrollHintRef.value) {
+      window.__scrollHint = scrollHintRef.value;
+    }
+
+    if (copyProtectedImgRef.value) {
+      window.__noCopy = copyProtectedImgRef.value;
+    }
+
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   }
 });
@@ -241,6 +275,10 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
     Phase 3: Modal components are mounted here.  They render nothing
     until their internal `visible` ref is toggled via defineExpose.
   -->
+  <LoadingScreen ref="loadingScreenRef" />
+  <LoadingBar ref="loadingBarRef" />
+  <ScrollHint ref="scrollHintRef" />
+  <CopyProtectedImg ref="copyProtectedImgRef" />
   <ToastStack ref="toastStackRef" />
   <SettingsModal ref="settingsModalRef" />
   <ExternalLinkConfirmModal

@@ -192,7 +192,7 @@ async function renderShareCardBlob(): Promise<Blob> {
 }
 
 async function runWithBlob(
-  onSuccess: (blob: Blob) => Promise<void>,
+  onSuccess: (blob: Blob) => void | Promise<void>,
   errorLabel?: string,
 ): Promise<void> {
   buttonsDisabled.value = true;

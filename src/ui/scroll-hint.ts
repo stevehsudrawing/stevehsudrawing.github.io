@@ -1,94 +1,29 @@
 /**
- * Horizontal scroll hint.
- * Detects overflowing .link-button-group containers and shows a
- * "Scroll Horizontally" hint below them so users know they can swipe.
+ * Scroll hint bridge — delegates to the Vue ScrollHint component.
+ *
+ * The .link-button-group elements are build-time injected HTML.
+ * The Vue ScrollHint component owns the CSS and logic; this module
+ * provides a thin bridge for legacy TS consumers.
  */
 
-import { translate } from "../core/i18n.js";
+function getHint(): NonNullable<Window["__scrollHint"]> | null {
+  return window.__scrollHint ?? null;
+}
 
 export let scrollHintResizeSetup = false;
 
-/**
- * Show or hide the horizontal scroll hint below each .link-button-group
- * depending on whether it overflows its container.
- */
 export function updateScrollHints(): void {
-  document
-    .querySelectorAll<HTMLElement>(".link-button-group")
-    .forEach((group) => {
-      const hint = group.nextElementSibling;
-      if (!hint || !hint.classList.contains("scroll-hint")) return;
-      const overflows = group.scrollWidth > group.clientWidth;
-      if (overflows) {
-        hint.classList.add("visible");
-      } else {
-        hint.classList.remove("visible");
-      }
-    });
+  getHint()?.updateAllHints();
 }
 
-/**
- * Create a "Scroll Horizontally" hint element after a single .link-button-group.
- * Idempotent: does nothing if a hint already exists after the group.
- * @param group - The .link-button-group container.
- */
 export function createScrollHint(group: HTMLElement): void {
-  let hint = group.nextElementSibling;
-  if (hint && hint.classList.contains("scroll-hint")) return;
-
-  hint = document.createElement("div");
-  hint.className = "scroll-hint";
-  hint.setAttribute("aria-hidden", "true");
-  hint.innerHTML =
-    '<i class="bi bi-chevron-left"></i> <span data-i18n="text-scroll-horizontally">Scroll Horizontally</span> <i class="bi bi-chevron-right"></i>';
-  group.insertAdjacentElement("afterend", hint);
-
-  // Manually set translated text since updatePageText() has already run
-  const span = hint.querySelector("[data-i18n]");
-  if (span) {
-    const translated = translate("text-scroll-horizontally");
-    if (translated) {
-      span.textContent = translated;
-    }
-  }
+  getHint()?.createHint(group);
 }
 
-/**
- * Remove the scroll hint element after a single .link-button-group.
- * @param group - The .link-button-group container.
- */
 export function removeScrollHint(group: HTMLElement): void {
-  const hint = group.nextElementSibling;
-  if (hint && hint.classList.contains("scroll-hint")) {
-    hint.remove();
-  }
+  getHint()?.removeHint(group);
 }
 
-/**
- * Create scroll hint elements after every .link-button-group on the page
- * and listen for resize events to toggle their visibility.
- * Delegates to createScrollHint() for each matching element.
- */
 export function initAllScrollHints(): void {
-  const buttonGroups =
-    document.querySelectorAll<HTMLElement>(".link-button-group");
-  if (buttonGroups.length === 0) return;
-
-  buttonGroups.forEach(createScrollHint);
-  updateScrollHints();
-
-  // Set up resize listener only once globally
-  if (!scrollHintResizeSetup) {
-    scrollHintResizeSetup = true;
-    let resizeTicking = false;
-    window.addEventListener("resize", function () {
-      if (!resizeTicking) {
-        requestAnimationFrame(function () {
-          updateScrollHints();
-          resizeTicking = false;
-        });
-        resizeTicking = true;
-      }
-    });
-  }
+  getHint()?.initAllHints();
 }
