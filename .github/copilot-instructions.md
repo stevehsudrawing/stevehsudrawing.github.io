@@ -56,33 +56,45 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 **Layered architecture with semantic constraints:**
 
 ```
-types/    -> shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts)
+types/       -> shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
+  ↑            vue-shims.d.ts, vue-augment.d.ts)
+  ｜
+core/        -> foundation utilities and global state (i18n.ts, utils.ts)
+  ↑            NO DOM manipulation, NO event listeners - pure logic only.
+  ｜
+composables/ -> Vue composables (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
+  ↑ ui/           Reactive state + side-effects, extracted from core/ui modules.
+  ｜               Coexists with legacy ui/ layer during migration.
+  ｜
+components/  -> Vue SFCs (layout/*.vue, ui/*.vue, modals/*.vue)
+  ↑               PascalCase filenames, <script setup> + <style scoped>.
+  ｜ features/ -> Feature orchestration (page-transition, lang-switcher, etc.)
+  ｜               Legacy TS modules — decreasing as components take over.
+  ｜
+plugins/     -> Vue plugins (i18n.ts) - loaded via app.use() in main.ts
   ↑
-core/     -> foundation utilities and global state (i18n.ts, utils.ts)
-            NO DOM manipulation, NO event listeners - pure logic only.
-  ↑
-ui/       -> reusable UI components and behaviors (theme, navbar, accessibility, toast, etc.)
-            DOM manipulation, event binding, Bootstrap wrappers.
-  ↑
-features/ -> cross-cutting feature orchestration (page-transition, lang-switcher, qr-code, etc.)
-            Coordinates multiple core + ui modules into user-facing features.
+main.ts      -> Entry point: CSS imports + globals + createApp + mount
 ```
 
-| Layer       | Semantics                                                                                                                                                                                                                                | May import from                           | Must NOT import from           |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------ |
-| `types/`    | Shared type definitions                                                                                                                                                                                                                  | npm, browser APIs                         | `core/*`, `ui/*`, `features/*` |
-| `core/`     | Foundation logic & state - pure functions, data transforms, global state. **No UI-component-specific DOM ops, no events.** Infrastructure-level DOM (e.g. `[data-i18n]` text replacement, `document.documentElement.lang`) is permitted. | `types/*`                                 | `ui/*`, `features/*`           |
-| `ui/`       | Reusable UI components - DOM manipulation, event listeners, Bootstrap wrappers. One concern per module.                                                                                                                                  | `types/*`, `core/*`                       | `features/*`                   |
-| `features/` | Feature orchestration - coordinates core + ui modules into user-facing workflows.                                                                                                                                                        | `types/*`, `core/*`, `ui/*`, `features/*` | -                              |
+| Layer          | Semantics                                                                                                                | May import from                                            | Must NOT import from                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | --------------------------------------------------------------- |
+| `types/`       | Shared type definitions                                                                                                  | npm, browser APIs                                          | `core/*`, `ui/*`, `composables/*`, `components/*`, `features/*` |
+| `core/`        | Pure functions, data transforms, global state. **No UI-specific DOM ops, no events.**                                    | `types/*`                                                  | `ui/*`, `composables/*`, `components/*`, `features/*`           |
+| `composables/` | Vue reactive state + side-effects. May call `inject()` but must not trigger DOM side effects at top level.               | `types/*`, `core/*`, `ui/*` (bridges only)                 | `components/*`, `features/*`                                    |
+| `ui/`          | Legacy DOM manipulation, event listeners, Bootstrap wrappers, **bridge modules** (`window.__xxx`). One concern per file. | `types/*`, `core/*`                                        | `composables/*`, `features/*`                                   |
+| `components/`  | Vue SFCs. Own their own template + styles. May use composables, core utils, and legacy ui bridges.                       | `types/*`, `core/*`, `composables/*`, `ui/*` (bridges)     | `features/*` (unless init helper)                               |
+| `features/`    | Legacy feature orchestration — coordinates core + ui + components modules into user-facing workflows.                    | `types/*`, `core/*`, `ui/*`, `composables/*`, `features/*` | -                                                               |
+| `plugins/`     | Vue plugins — global provide/inject registrations.                                                                       | `types/*`, `core/*`                                        | `ui/*`, `composables/*`, `components/*`, `features/*`           |
 
 **Decoupling patterns (when import would violate hierarchy):**
 
-- **Event-driven**: `ui/` cannot import `features/`. Use `CustomEvent` via `AppEvent` enum - the ui module dispatches, the feature module listens. (See `LangSwitchRequested` in `settings.ts` -> `lang-switcher.ts`.)
-- **Extract shared module**: When multiple features need the same UI behavior, extract it to `ui/`. (See `loading-bar.ts` shared by `page-transition` and `lang-switcher`.)
+- **Event-driven**: `ui/` cannot import `features/`. Use `CustomEvent` via `AppEvent` enum - the ui module dispatches, the feature module listens.
+- **Extract shared module**: When multiple features need the same UI behavior, extract it to `ui/` (for legacy) or `composables/` (for Vue).
+- **Bridge pattern**: When legacy code needs a Vue component's API, use `window.__xxx` bridge (see [§0.7](#07-vue-component-conventions)).
 
 ### 0.5 File Rules
 
-- **`src/{core,ui,features}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points.
+- **`src/{core,ui,features,composables}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points. (Vue composables may call `inject()` but must not trigger side effects.)
 - **Entry points**: `src/main.ts` (full-feature pages: index, about, artworks, blogs, chatting, softwares)
 - **CSS comments**: `/* ====...==== Component - description */` banners; `/* --- Child --- */` sub-sections
 - **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
@@ -92,6 +104,36 @@ features/ -> cross-cutting feature orchestration (page-transition, lang-switcher
 
 - JSON properties use **camelCase** (`className`, `dataI18n`, `dataImgFeature`); automatically converted to kebab-case HTML (`class`, `data-i18n`, `data-img-feature`)
 - Node types: `root` (has `children`), `element` (has `tagName`, `properties`, `children`), `text` (has `value`), `comment` (has `value`)
+
+### 0.7 Vue Component Conventions
+
+**Naming** (see [§2.3.6](./instructions/2-general-naming-conventions/3-typescript.instructions.md#236-vue-specific-naming)):
+
+| Context      | Convention   | Examples                                          |
+| ------------ | ------------ | ------------------------------------------------- |
+| `.vue` files | `PascalCase` | `AppNavbar.vue`, `SettingsModal.vue`              |
+| Composables  | `useXxx.ts`  | `useI18n.ts`, `useTheme.ts`, `useLocalStorage.ts` |
+
+**`<script setup>` section order** (see [§3.4.5](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#345-script-setup-langts-section-conventions)):
+
+```
+Types → Props → State → Actions → Expose
+```
+
+Sections use `// ====...==== Name` banners; sub-sections use `// ----...---- Name`.
+
+**CSS style blocks** (see [§3.4.1](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#341-css-style-block-taxonomy)):
+
+| Block                  | When                                          |
+| ---------------------- | --------------------------------------------- |
+| `<style scoped>`       | Owned by one component                        |
+| `<style>` (non-scoped) | Targets static HTML outside Vue's render tree |
+| `:deep(.sel)`          | Penetrate child component boundary            |
+| `global/*.css`         | Truly global styles                           |
+
+**Bridge pattern**: Legacy TS consumers use `window.__xxx` → bridge module → Vue component via `defineExpose` (see [§3.4.3](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#343-legacy-bridge-pattern-window__xxx)).
+
+**Static HTML coexistence**: `onMounted` + `document.getElementById` + non-scoped `<style>` + `defineExpose` (see [§3.4.4](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#344-static-html-coexistence)).
 
 ---
 
@@ -131,7 +173,7 @@ The remainder of this document links to detailed reference files in `instruction
 
 - [**3.1 Folder Overview**](./instructions/3-project-structural-constraints/1-folder-overview.instructions.md)
 - [**3.2 General File Rules**](./instructions/3-project-structural-constraints/2-general-file-rules.instructions.md)
-  - 3.2.1 `src/{core,ui,features}/*`: Define Only, Never Execute
+  - 3.2.1 `src/{core,ui,features,composables}/*`: Define Only, Never Execute
   - 3.2.2 `src/main.ts`: Entry Points, Wire Everything
   - 3.2.3 `src/stylesheets/` & `public/legacy/*.css`: Commenting Convention
   - 3.2.4 `*.html`: Page Tiers
@@ -142,11 +184,11 @@ The remainder of this document links to detailed reference files in `instruction
   - 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
   - 3.3.4 Link-button-group JSON Format (`build/configs/link-button-groups/*.json`)
 - [**3.4 Vue Component Conventions**](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md)
-  - CSS Style Block Taxonomy
-  - CSS Ownership Comments
-  - Legacy Bridge Pattern
-  - Static HTML Coexistence
-  - `<script setup>` Section Conventions
+  - 3.4.1 CSS Style Block Taxonomy
+  - 3.4.2 CSS Ownership Comments
+  - 3.4.3 Legacy Bridge Pattern
+  - 3.4.4 Static HTML Coexistence
+  - 3.4.5 `<script setup>` Section Conventions
 
 ## 4. Feature Reference
 

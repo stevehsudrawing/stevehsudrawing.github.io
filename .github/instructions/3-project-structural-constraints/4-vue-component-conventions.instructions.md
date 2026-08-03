@@ -13,9 +13,9 @@ applyTo: >
   src/ui/no-copy.ts
 ---
 
-## 4.VC Vue Component Conventions
+### 3.4 Vue Component Conventions
 
-### A. CSS Style Block Taxonomy
+#### 3.4.1 CSS Style Block Taxonomy
 
 | Style block               | Use case                                                                                                 | Example                                       |
 | ------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -24,7 +24,7 @@ applyTo: >
 | `:deep(.selector)`        | Target elements inside a child component (e.g. BModal's `.modal-body`)                                   | `:deep(.modal-body) { display: flex; }`       |
 | `src/stylesheets/global/` | Truly global styles: CSS reset, typography, Bootstrap variable overrides, build-time injected components | `base.css`, `theme.css`, `fonts.css`          |
 
-### B. CSS Ownership Comments in `base.css`
+#### 3.4.2 CSS Ownership Comments in `base.css`
 
 When a global CSS selector belongs to a known Vue component, annotate with
 a `TODO:` comment:
@@ -46,7 +46,7 @@ When a selector is explicitly NOT owned by any Vue component, document the reaso
    ======================================================================== */
 ```
 
-### C. Legacy Bridge Pattern (`window.__xxx`)
+#### 3.4.3 Legacy Bridge Pattern (`window.__xxx`)
 
 When a Vue component replaces a legacy TS module that still has consumers
 outside the Vue tree, use a **bridge module**:
@@ -88,7 +88,7 @@ export function publicAPI(): void {
 }
 ```
 
-### D. Static HTML Coexistence
+#### 3.4.4 Static HTML Coexistence
 
 Some Vue components control static HTML elements that exist in each `.html`
 page or are rendered in `App.vue`'s template. These components:
@@ -103,7 +103,7 @@ page or are rendered in `App.vue`'s template. These components:
 - `LoadingBar.vue` -- controls `#loading-bar` (rendered in own template)
 - `ScrollHint.vue` -- creates/removes `.scroll-hint` elements
 
-### E. `<script setup lang="ts">` Section Conventions
+#### 3.4.5 `<script setup lang="ts">` Section Conventions
 
 Every `<script setup>` block **MUST** follow the five sections below, in
 this exact order. Any section not used by the component is omitted -- but

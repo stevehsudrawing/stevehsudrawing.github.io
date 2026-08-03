@@ -8,12 +8,7 @@
  * because it depends on nearly every other module.
  */
 
-import {
-  currentLang,
-  langData,
-  updatePageText,
-  setActiveLangItem,
-} from "../core/i18n";
+import { currentLang, langData, updatePageText } from "../core/i18n";
 import { AppEvent } from "../types/app";
 import { updateNavbarBrandText, setActiveNavItem } from "../ui/navbar";
 import { updatePageTitle } from "../ui/page-title";
@@ -47,7 +42,6 @@ export async function initPageContent(): Promise<void> {
     updatePageText();
     updatePageTitle();
     setActiveNavItem();
-    setActiveLangItem();
     const languageSelect = document.getElementById(
       "language-select",
     ) as HTMLSelectElement | null;

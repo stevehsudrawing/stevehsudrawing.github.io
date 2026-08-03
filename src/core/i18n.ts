@@ -134,32 +134,6 @@ export function updatePageText(): void {
 }
 
 /**
- * Highlight the active language item in the language switcher dropdown.
- */
-export function setActiveLangItem(): void {
-  try {
-    const langItems = document.querySelectorAll(".lang-item");
-    if (langItems.length === 0) {
-      console.warn("Cannot find language items!");
-      return;
-    }
-
-    langItems.forEach((item) => {
-      const itemDataLang = item.getAttribute("data-lang");
-      if (itemDataLang === currentLang) {
-        item.classList.add("active");
-        item.setAttribute("aria-current", "true");
-      } else {
-        item.classList.remove("active");
-        item.removeAttribute("aria-current");
-      }
-    });
-  } catch (error) {
-    console.error("Failed to activate language item:", error);
-  }
-}
-
-/**
  * Apply already-loaded translation data to the page.
  * Stores the data, updates all [data-i18n] text, persists the preference,
  * and syncs core UI elements (lang attribute, dropdown highlight, select).
@@ -183,7 +157,6 @@ export function applyLangData(lang: Lang, data: Record<string, unknown>): void {
   // Update <html lang>
   document.documentElement.lang = lang;
 
-  setActiveLangItem();
   const languageSelect = document.getElementById(
     "language-select",
   ) as HTMLSelectElement | null;

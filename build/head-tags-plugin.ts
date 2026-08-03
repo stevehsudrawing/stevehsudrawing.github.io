@@ -105,7 +105,7 @@ function commonTags(): HtmlTagDescriptor[] {
     // Browser detection (runs before page load; ES5 for broad compatibility)
     {
       tag: "script",
-      attrs: { type: "text/javascript", src: "/legacy/env-detection" },
+      attrs: { type: "text/javascript", src: "/legacy/env-detection.js" },
     },
   ];
 }
