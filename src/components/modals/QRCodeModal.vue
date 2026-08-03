@@ -6,10 +6,10 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, computed, toRef, type Ref } from "vue";
 import QRCode from "qrcode";
-import { useI18n } from "../../composables/useI18n.js";
-import { useTheme } from "../../composables/useTheme.js";
-import { useToast } from "../../composables/useToast.js";
-import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
+import { useI18n } from "../../composables/useI18n";
+import { useTheme } from "../../composables/useTheme";
+import { useToast } from "../../composables/useToast";
+import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 

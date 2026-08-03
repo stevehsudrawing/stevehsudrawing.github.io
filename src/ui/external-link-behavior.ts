@@ -4,7 +4,7 @@
  * and applies/removes target="_blank" on all .external-link anchors.
  */
 
-import { StorageKey } from "../types/app.js";
+import { StorageKey } from "../types/app";
 
 /**
  * Read the "open external links in new tab" preference from localStorage.

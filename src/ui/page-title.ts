@@ -4,8 +4,8 @@
  * Format: "Page Name - Site Name" (except homepage which shows only site name).
  */
 
-import { translate } from "../core/i18n.js";
-import { extractPageName } from "../core/utils.js";
+import { translate } from "../core/i18n";
+import { extractPageName } from "../core/utils";
 
 /**
  * Update the document title according to the current page and language.

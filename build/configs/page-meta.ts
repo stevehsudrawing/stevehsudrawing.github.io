@@ -5,7 +5,7 @@
  * by the head-tags-plugin.
  */
 
-import type { PageMetaMap } from "../types.js";
+import type { PageMetaMap } from "../types";
 
 /** Site name used in `<title>`, OG tags, JSON-LD, and PWA manifest. */
 export const SITE_NAME = "Steve Hsu (什五)'s Link-Hub";

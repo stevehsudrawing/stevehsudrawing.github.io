@@ -3,7 +3,7 @@
  * Provides shared helpers for some logic used across multiple modules.
  */
 
-import type { HastProperties } from "../types/hast.js";
+import type { HastProperties } from "../types/hast";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.

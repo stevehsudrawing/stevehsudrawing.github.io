@@ -13,7 +13,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { toHtml } from "hast-util-to-html";
 import { h } from "hastscript";
-import type { Node, LinkButtonData, LinkButtonGroupData } from "../types.js";
+import type { Node, LinkButtonData, LinkButtonGroupData } from "../types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

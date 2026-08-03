@@ -7,9 +7,9 @@
  */
 
 import { inject, type Ref } from "vue";
-import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../plugins/i18n.js";
-import { SHOW_TOAST_KEY } from "../composables/useToast.js";
-import type { Lang } from "../types/app.js";
+import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../plugins/i18n";
+import { SHOW_TOAST_KEY } from "../composables/useToast";
+import type { Lang } from "../types/app";
 
 /**
  * Reactive i18n composable.
@@ -45,7 +45,7 @@ export function useI18n(): {
    * data-i18n elements.
    */
   async function setLocale(rawLang: string): Promise<void> {
-    const { normalizeLang, applyLangData } = await import("../core/i18n.js");
+    const { normalizeLang, applyLangData } = await import("../core/i18n");
 
     const lang: Lang = normalizeLang(rawLang);
 
@@ -84,7 +84,7 @@ export function useI18n(): {
    * `applyLangData` directly without going through `setLocale`).
    */
   async function syncFromLangData(): Promise<void> {
-    const { langData, currentLang } = await import("../core/i18n.js");
+    const { langData, currentLang } = await import("../core/i18n");
     locale.value = currentLang;
     messages.value = { ...langData };
   }

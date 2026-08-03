@@ -42,23 +42,23 @@ window.toHtml = toHtml;
 // =========================================================================
 
 // --- Utilities (used by everything else) ---
-import "./core/utils.js";
-import "./ui/page-title.js";
+import "./core/utils";
+import "./ui/page-title";
 
 // --- Core systems ---
-import "./core/i18n.js";
-import "./ui/theme.js";
+import "./core/i18n";
+import "./ui/theme";
 
 // --- UI features ---
-import "./ui/img-utils.js";
-import "./ui/tooltips.js";
-import "./ui/scroll-hint.js";
-import "./ui/accessibility.js";
-import "./features/page-transition.js";
+import "./ui/img-utils";
+import "./ui/tooltips";
+import "./ui/scroll-hint";
+import "./ui/accessibility";
+import "./features/page-transition";
 
 // --- Detection helpers ---
-import "./ui/bootstrap-css-detection.js";
-import "./ui/no-copy.js";
+import "./ui/bootstrap-css-detection";
+import "./ui/no-copy";
 
 // =========================================================================
 // Early initialization (before Vue mounts - prevents theme flash)
@@ -68,7 +68,7 @@ import {
   initSystemThemeListener,
   applyThemePreference,
   currentThemePreference,
-} from "./ui/theme.js";
+} from "./ui/theme";
 
 initThemePreference();
 initSystemThemeListener();
@@ -79,7 +79,7 @@ applyThemePreference(currentThemePreference, false, false);
 // Feature initialization is now orchestrated by App.vue's onMounted.
 // =========================================================================
 import { createApp } from "vue";
-import { i18nPlugin } from "./plugins/i18n.js";
+import { i18nPlugin } from "./plugins/i18n";
 import App from "./App.vue";
 
 const app = createApp(App);

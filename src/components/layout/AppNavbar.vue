@@ -12,9 +12,9 @@
 -->
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { useI18n } from "../../composables/useI18n.js";
-import { useTheme } from "../../composables/useTheme.js";
-import { normalizeInternalPath, extractPageName } from "../../core/utils.js";
+import { useI18n } from "../../composables/useI18n";
+import { useTheme } from "../../composables/useTheme";
+import { normalizeInternalPath, extractPageName } from "../../core/utils";
 import OffcanvasNav from "./OffcanvasNav.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
 
@@ -270,7 +270,11 @@ defineExpose({
               class="nav-link internal-link"
               :class="{ active: isActive(item.href) }"
               :href="item.href"
-              :aria-current="isActive(item.href) ? 'page' : undefined"
+              :aria-current="
+                props.currentPage === normalizeInternalPath(item.href)
+                  ? 'page'
+                  : undefined
+              "
               :data-i18n="item.i18nKey"
               >{{ item.label }}</a
             >

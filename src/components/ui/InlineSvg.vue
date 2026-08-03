@@ -8,7 +8,7 @@
 -->
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { injectSVG } from "../../composables/useSvgInjection.js";
+import { injectSVG } from "../../composables/useSvgInjection";
 
 // =========================================================================
 // Props

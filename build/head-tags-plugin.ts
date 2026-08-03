@@ -12,14 +12,14 @@ import {
   SITE_NAME,
   TWITTER_CREATOR,
   PAGE_META,
-} from "./configs/page-meta.js";
-import { getPageName } from "./utils.js";
+} from "./configs/page-meta";
+import { getPageName } from "./utils";
 import type {
   IndexHtmlTransformContext,
   IndexHtmlTransformResult,
   HtmlTagDescriptor,
 } from "vite";
-import type { PageMetaEntry } from "./types.js";
+import type { PageMetaEntry } from "./types";
 
 // =========================================================================
 // Shared tags that are identical across ALL pages
@@ -105,7 +105,7 @@ function commonTags(): HtmlTagDescriptor[] {
     // Browser detection (runs before page load; ES5 for broad compatibility)
     {
       tag: "script",
-      attrs: { type: "text/javascript", src: "/legacy/env-detection.js" },
+      attrs: { type: "text/javascript", src: "/legacy/env-detection" },
     },
   ];
 }

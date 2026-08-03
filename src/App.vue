@@ -15,10 +15,10 @@ import { ref, onMounted, nextTick, provide } from "vue";
 // =========================================================================
 
 // Composables
-import { useTheme } from "./composables/useTheme.js";
-import { useI18n } from "./composables/useI18n.js";
-import { useLocalStorage } from "./composables/useLocalStorage.js";
-import { SHOW_TOAST_KEY } from "./composables/useToast.js";
+import { useTheme } from "./composables/useTheme";
+import { useI18n } from "./composables/useI18n";
+import { useLocalStorage } from "./composables/useLocalStorage";
+import { SHOW_TOAST_KEY } from "./composables/useToast";
 
 // UI components (template refs)
 import SettingsModal from "./components/modals/SettingsModal.vue";
@@ -35,23 +35,23 @@ import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 // Legacy modules (init*() -- Phase 7 will eliminate these)
-import { AppEvent, StorageKey } from "./types/app.js";
-import { initPageContent } from "./features/page-content-initializer.js";
-import { initTooltipI18nListener } from "./ui/tooltips.js";
+import { AppEvent, StorageKey } from "./types/app";
+import { initPageContent } from "./features/page-content-initializer";
+import { initTooltipI18nListener } from "./ui/tooltips";
 import {
   initThemeTransitionOverlay,
   updateThemeToggleText,
   setActiveThemeItem,
-} from "./ui/theme.js";
-import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection.js";
+} from "./ui/theme";
+import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
 import {
   initPageTransitionLinkClicks,
   initPageTransitionPopState,
-} from "./features/page-transition.js";
-import { initLang } from "./features/lang-switcher.js";
-import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
-import { initAllScrollHints } from "./ui/scroll-hint.js";
-import { normalizeInternalPath } from "./core/utils.js";
+} from "./features/page-transition";
+import { initLang } from "./features/lang-switcher";
+import { initHashChangeScroll, initSkipButton } from "./ui/accessibility";
+import { initAllScrollHints } from "./ui/scroll-hint";
+import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
 // State

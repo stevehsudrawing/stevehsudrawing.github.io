@@ -5,8 +5,8 @@
  * Copy-link behavior has been extracted to copy-link.ts (§4.5 Phase A).
  */
 
-import { AppEvent } from "../types/app.js";
-import { translate } from "../core/i18n.js";
+import { AppEvent } from "../types/app";
+import { translate } from "../core/i18n";
 
 /** True when the primary input cannot hover (touchscreens). */
 const isTouchDevice = window.matchMedia("(any-hover: none)").matches;

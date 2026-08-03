@@ -11,7 +11,7 @@ import {
   markImageLoaded,
   markImageUnloaded,
   initImageLoadingOpacity,
-} from "../composables/useImgFeatures.js";
+} from "../composables/useImgFeatures";
 
 export function applyColoredImage(img: HTMLImageElement): void {
   const maskSrc = img.getAttribute("data-src-mask");

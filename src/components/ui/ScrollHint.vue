@@ -9,7 +9,7 @@
 -->
 <script setup lang="ts">
 import { onBeforeUnmount } from "vue";
-import { useI18n } from "../../composables/useI18n.js";
+import { useI18n } from "../../composables/useI18n";
 
 // =========================================================================
 // State

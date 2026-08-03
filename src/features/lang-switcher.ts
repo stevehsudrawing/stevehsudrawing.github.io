@@ -4,17 +4,17 @@
  * to provide a polished language-switching experience.
  */
 
-import type { Lang } from "../types/app.js";
-import { AppEvent, StorageKey } from "../types/app.js";
-import { normalizeLang, applyLangData } from "../core/i18n.js";
+import type { Lang } from "../types/app";
+import { AppEvent, StorageKey } from "../types/app";
+import { normalizeLang, applyLangData } from "../core/i18n";
 import {
   showLoadingBar,
   completeLoadingBar,
   hideLoadingBar,
-} from "../ui/loading-bar.js";
-import { showToast } from "../ui/toast.js";
-import { setActiveNavItem } from "../ui/navbar.js";
-import { updatePageTitle } from "../ui/page-title.js";
+} from "../ui/loading-bar";
+import { showToast } from "../ui/toast";
+import { setActiveNavItem } from "../ui/navbar";
+import { updatePageTitle } from "../ui/page-title";
 
 /**
  * Determine and load the preferred language.

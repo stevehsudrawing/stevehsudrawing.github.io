@@ -6,4 +6,4 @@
  * (page-content-initializer.ts, qr-code.ts).
  */
 
-export { initSvgInjection } from "../composables/useSvgInjection.js";
+export { initSvgInjection } from "../composables/useSvgInjection";

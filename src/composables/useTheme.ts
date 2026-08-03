@@ -14,9 +14,9 @@
  */
 
 import { ref, computed, watch, onMounted, onUnmounted, type Ref } from "vue";
-import { useLocalStorage } from "./useLocalStorage.js";
-import type { ThemeChoice, EffectiveTheme } from "../types/app.js";
-import { StorageKey } from "../types/app.js";
+import { useLocalStorage } from "./useLocalStorage";
+import type { ThemeChoice, EffectiveTheme } from "../types/app";
+import { StorageKey } from "../types/app";
 
 /** Reactive localStorage-backed theme preference. */
 export function useTheme(): {
@@ -69,7 +69,7 @@ export function useTheme(): {
 
     // Delegate to ui/theme.ts for image swapping, favicon updates, etc.
     // Dynamic import avoids circular dependency with the existing module.
-    import("../ui/theme.js").then(
+    import("../ui/theme").then(
       ({
         applyAllThemeBasedImages,
         applyAllThemeBasedSources,
@@ -94,7 +94,7 @@ export function useTheme(): {
 
     // Also update the legacy mutable state and run the overlay
     // transition via the existing imperative module.
-    import("../ui/theme.js").then(({ setThemePreference }) => {
+    import("../ui/theme").then(({ setThemePreference }) => {
       setThemePreference(choice);
     });
   }

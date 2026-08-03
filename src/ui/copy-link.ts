@@ -8,9 +8,9 @@
  * which sets data-bs-* attributes consumed by initAllTooltips().
  */
 
-import { translate } from "../core/i18n.js";
-import { showToast } from "./toast.js";
-import { disposeTooltip } from "./tooltips.js";
+import { translate } from "../core/i18n";
+import { showToast } from "./toast";
+import { disposeTooltip } from "./tooltips";
 
 /** True when the primary input cannot hover (touchscreens). */
 const isTouchDevice = window.matchMedia("(any-hover: none)").matches;

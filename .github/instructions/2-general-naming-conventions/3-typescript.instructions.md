@@ -26,13 +26,12 @@ applyTo: >
 
 #### 2.3.1 Import Conventions
 
-- All import paths must use **`.js` extensions** (not `.ts`), even when importing from TypeScript files. Vite's `moduleResolution: "bundler"` resolves `.js` -> `.ts` automatically, but TypeScript 7 rejects `.ts` extensions unless `allowImportingTsExtensions` is enabled (which is not supported by Vite's esbuild).
 - Import shared types from `../types/` using `import type` for type-only imports to ensure they are erased at build time.
 
   ```ts
   // Correct
-  import type { Lang, ThemeChoice } from "../types/app.js";
-  import { StorageKey, AppEvent } from "../types/app.js";
+  import type { Lang, ThemeChoice } from "../types/app";
+  import { StorageKey, AppEvent } from "../types/app";
 
   // Wrong - .ts extension rejected by tsc
   import { StorageKey } from "../types/app.ts";
@@ -48,7 +47,7 @@ applyTo: >
   }
 
   // In src/feature/module-c.ts:
-  import { doSomething } from "../core/module-a.js";
+  import { doSomething } from "../core/module-a";
   ```
 
   - Wrong:
@@ -60,11 +59,11 @@ applyTo: >
   }
 
   // In src/ui/module-b.ts:
-  import { doSomething } from "../core/module-a.js";
+  import { doSomething } from "../core/module-a";
   export { doSomething };
 
   // In src/feature/module-c.ts:
-  import { doSomething } from "../ui/module-b.js";
+  import { doSomething } from "../ui/module-b";
   ```
 
 #### 2.3.2 Function Naming by Category

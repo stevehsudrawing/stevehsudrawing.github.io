@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { minify } from "html-minifier-terser";
-import { walkDir } from "./utils.js";
+import { walkDir } from "./utils";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -103,7 +103,7 @@ export function minifyPlugin() {
       );
       for (const f of cssFiles) minifyStaticCSS(f);
 
-      const jsFiles = walkDir(distDir, [".js"]).filter((f) =>
+      const jsFiles = walkDir(distDir, [""]).filter((f) =>
         f.includes("legacy"),
       );
       for (const f of jsFiles) minifyStaticJS(f);

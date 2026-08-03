@@ -5,10 +5,10 @@
 -->
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from "vue";
-import { useI18n } from "../../composables/useI18n.js";
-import { useTheme } from "../../composables/useTheme.js";
-import { useLocalStorage } from "../../composables/useLocalStorage.js";
-import { StorageKey } from "../../types/app.js";
+import { useI18n } from "../../composables/useI18n";
+import { useTheme } from "../../composables/useTheme";
+import { useLocalStorage } from "../../composables/useLocalStorage";
+import { StorageKey } from "../../types/app";
 import ResetWarningModal from "./ResetWarningModal.vue";
 import languageList from "../../configs/language-list.json";
 

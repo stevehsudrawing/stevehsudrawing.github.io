@@ -150,7 +150,7 @@
           "className": ["link", "external-link"],
           "dataNoQrCode": true
         },
-        "children": [{ "type": "text", "value": "Vue.js" }]
+        "children": [{ "type": "text", "value": "Vue" }]
       }
     ]
   },

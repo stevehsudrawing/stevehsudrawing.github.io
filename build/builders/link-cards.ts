@@ -13,10 +13,10 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { toHtml } from "hast-util-to-html";
 import { h } from "hastscript";
-import { BASE_URL, PAGE_META } from "../configs/page-meta.js";
-import { toDashCase, extractPlainText, cloneNode } from "../utils.js";
-import type { HastProperties } from "../../src/types/hast.js";
-import type { Node, CardData, GroupData } from "../types.js";
+import { BASE_URL, PAGE_META } from "../configs/page-meta";
+import { toDashCase, extractPlainText, cloneNode } from "../utils";
+import type { HastProperties } from "../../src/types/hast";
+import type { Node, CardData, GroupData } from "../types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

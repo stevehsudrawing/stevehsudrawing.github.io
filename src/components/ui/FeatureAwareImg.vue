@@ -9,7 +9,7 @@
 -->
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
-import { useTheme } from "../../composables/useTheme.js";
+import { useTheme } from "../../composables/useTheme";
 
 // =========================================================================
 // Props

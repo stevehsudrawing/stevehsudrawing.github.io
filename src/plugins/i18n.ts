@@ -12,7 +12,7 @@
 
 import type { App } from "vue";
 import { ref, type Ref } from "vue";
-import type { Lang } from "../types/app.js";
+import type { Lang } from "../types/app";
 
 /** Key used for provide/inject. */
 export const I18N_LOCALE_KEY = Symbol("i18nLocale");

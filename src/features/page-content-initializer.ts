@@ -13,27 +13,27 @@ import {
   langData,
   updatePageText,
   setActiveLangItem,
-} from "../core/i18n.js";
-import { AppEvent } from "../types/app.js";
-import { updateNavbarBrandText, setActiveNavItem } from "../ui/navbar.js";
-import { updatePageTitle } from "../ui/page-title.js";
-import { initAllTooltips } from "../ui/tooltips.js";
-import { initAllCopyLinkBehavior } from "../ui/copy-link.js";
+} from "../core/i18n";
+import { AppEvent } from "../types/app";
+import { updateNavbarBrandText, setActiveNavItem } from "../ui/navbar";
+import { updatePageTitle } from "../ui/page-title";
+import { initAllTooltips } from "../ui/tooltips";
+import { initAllCopyLinkBehavior } from "../ui/copy-link";
 import {
   initAllTitleLinkAnchors,
   addAllExternalLinkIndicators,
-} from "../ui/accessibility.js";
+} from "../ui/accessibility";
 import {
   applyAllThemeBasedImages,
   applyAllThemeBasedSources,
-} from "../ui/theme.js";
+} from "../ui/theme";
 import {
   initAllColoredImages,
   initAllImageLoadingOpacity,
-} from "../ui/img-utils.js";
-import { initSvgInjection } from "../ui/svg-utils.js";
-import { applyAllExternalLinkTargetBehavior } from "../ui/external-link-behavior.js";
-import { initAllScrollHints } from "../ui/scroll-hint.js";
+} from "../ui/img-utils";
+import { initSvgInjection } from "../ui/svg-utils";
+import { applyAllExternalLinkTargetBehavior } from "../ui/external-link-behavior";
+import { initAllScrollHints } from "../ui/scroll-hint";
 
 /**
  * Initialize page-content-specific elements.

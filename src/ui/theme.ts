@@ -5,10 +5,10 @@
  * theme-aware image swapping, and UI toggle synchronization.
  */
 
-import type { ThemeChoice, EffectiveTheme } from "../types/app.js";
-import { StorageKey } from "../types/app.js";
-import { translate } from "../core/i18n.js";
-import { initImageLoadingOpacity, markImageUnloaded } from "./img-utils.js";
+import type { ThemeChoice, EffectiveTheme } from "../types/app";
+import { StorageKey } from "../types/app";
+import { translate } from "../core/i18n";
+import { initImageLoadingOpacity, markImageUnloaded } from "./img-utils";
 
 export const htmlElement: HTMLElement = document.documentElement;
 

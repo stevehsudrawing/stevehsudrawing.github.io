@@ -10,8 +10,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Plugin, ResolvedConfig } from "vite";
-import { PAGE_META, BASE_URL } from "./configs/page-meta.js";
-import type { PageMetaEntry } from "./types.js";
+import { PAGE_META, BASE_URL } from "./configs/page-meta";
+import type { PageMetaEntry } from "./types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

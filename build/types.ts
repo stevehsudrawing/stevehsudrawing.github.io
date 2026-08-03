@@ -13,7 +13,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Node = any;
 
-import type { HastProperties } from "../src/types/hast.js";
+import type { HastProperties } from "../src/types/hast";
 
 // ---------------------------------------------------------------------------
 // Page metadata

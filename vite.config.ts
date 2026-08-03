@@ -4,10 +4,10 @@ import { fileURLToPath } from "node:url";
 import vue from "@vitejs/plugin-vue";
 import Components from "unplugin-vue-components/vite";
 import { BootstrapVueNextResolver } from "bootstrap-vue-next/resolvers";
-import { headTagsPlugin } from "./build/head-tags-plugin.js";
-import { contentInjectionPlugin } from "./build/content-injection-plugin.js";
-import { minifyPlugin } from "./build/minify-plugin.js";
-import { sitemapPlugin } from "./build/sitemap-plugin.js";
+import { headTagsPlugin } from "./build/head-tags-plugin";
+import { contentInjectionPlugin } from "./build/content-injection-plugin";
+import { minifyPlugin } from "./build/minify-plugin";
+import { sitemapPlugin } from "./build/sitemap-plugin";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

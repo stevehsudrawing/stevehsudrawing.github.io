@@ -4,15 +4,15 @@
  * by fetching and replacing only the #page-content element.
  */
 
-import { scrollToHashTarget } from "../ui/accessibility.js";
-import { disposeAllTooltips } from "../ui/tooltips.js";
-import { showLoadingBar, completeLoadingBar } from "../ui/loading-bar.js";
+import { scrollToHashTarget } from "../ui/accessibility";
+import { disposeAllTooltips } from "../ui/tooltips";
+import { showLoadingBar, completeLoadingBar } from "../ui/loading-bar";
 import {
   INTERNAL_PAGES,
   isInternalPage,
   normalizeInternalPath,
-} from "../core/utils.js";
-import { initPageContent } from "./page-content-initializer.js";
+} from "../core/utils";
+import { initPageContent } from "./page-content-initializer";
 
 /**
  * Flag indicating whether a page transition is currently in progress.

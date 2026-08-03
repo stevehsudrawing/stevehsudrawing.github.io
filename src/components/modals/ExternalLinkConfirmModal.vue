@@ -5,11 +5,11 @@
 -->
 <script setup lang="ts">
 import { ref, computed, toRef, type Ref } from "vue";
-import { useI18n } from "../../composables/useI18n.js";
-import { useLocalStorage } from "../../composables/useLocalStorage.js";
-import { StorageKey } from "../../types/app.js";
-import { useToast } from "../../composables/useToast.js";
-import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
+import { useI18n } from "../../composables/useI18n";
+import { useLocalStorage } from "../../composables/useLocalStorage";
+import { StorageKey } from "../../types/app";
+import { useToast } from "../../composables/useToast";
+import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
 // =========================================================================

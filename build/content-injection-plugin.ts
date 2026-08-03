@@ -7,12 +7,12 @@
 
 import { fromHtml } from "hast-util-from-html";
 import { toHtml } from "hast-util-to-html";
-import { getPageName } from "./utils.js";
-import { PAGE_META } from "./configs/page-meta.js";
-import { buildLinkCardsHTML } from "./builders/link-cards.js";
-import { buildLinkButtonGroupHTML } from "./builders/link-button-groups.js";
+import { getPageName } from "./utils";
+import { PAGE_META } from "./configs/page-meta";
+import { buildLinkCardsHTML } from "./builders/link-cards";
+import { buildLinkButtonGroupHTML } from "./builders/link-button-groups";
 import type { IndexHtmlTransformContext } from "vite";
-import type { Node } from "./types.js";
+import type { Node } from "./types";
 
 // =========================================================================
 // HAST tree operations

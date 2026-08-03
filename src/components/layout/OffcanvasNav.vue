@@ -7,6 +7,8 @@
   - navItems: shared link data from AppNavbar
 -->
 <script setup lang="ts">
+import { normalizeInternalPath } from "../../core/utils";
+
 // =========================================================================
 // Types
 // =========================================================================
@@ -53,6 +55,11 @@ defineProps<{
             class="nav-link internal-link"
             :href="item.href"
             :data-i18n="item.i18nKey"
+            :aria-current="
+              currentPage === normalizeInternalPath(item.href)
+                ? 'page'
+                : undefined
+            "
             >{{ item.label }}</a
           >
         </li>

@@ -5,8 +5,8 @@
  * pre-rendered at build time by the content-injection-plugin.
  */
 
-import type { Lang } from "../types/app.js";
-import { StorageKey, AppEvent } from "../types/app.js";
+import type { Lang } from "../types/app";
+import { StorageKey, AppEvent } from "../types/app";
 
 export let currentLang: Lang = "en";
 export let langData: Record<string, unknown> = {};
