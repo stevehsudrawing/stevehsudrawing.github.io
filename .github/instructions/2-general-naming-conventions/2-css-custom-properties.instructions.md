@@ -14,8 +14,8 @@ applyTo: >
 
 Prefix `--shlh-*` (short for **S**teve **H**su's **L**ink-**H**ub). These variables cover two domains; their detailed naming conventions are documented in the relevant feature sections:
 
-- **Color variables** - naming and brightness scale defined in [§4.4 Theme System](../4-feature-references/4-theme-system.instructions.md).
-- **Font variables** - naming, categories, priorities, and languages defined in [§4.11 Fonts & Typography](../4-feature-references/11-fonts-typography.instructions.md).
+- **Color variables** - naming and brightness scale defined in [§4.1.2 Theme System](../4-feature-references/01-core-systems/02-theme.instructions.md).
+- **Font variables** - naming, categories, priorities, and languages defined in [§4.1.4 Fonts & Typography](../4-feature-references/01-core-systems/04-fonts.instructions.md).
 
 #### 2.2.2 Bootstrap overrides
 

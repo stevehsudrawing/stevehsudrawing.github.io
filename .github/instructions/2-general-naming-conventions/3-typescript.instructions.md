@@ -85,7 +85,7 @@ applyTo: >
 | `set*`       | Set a state / attribute            | `setActiveNavItem`, `setActiveLangItem`, `setActiveThemeItem`                                       |
 | `populate*`  | Fill UI lists / menus              | `populateLanguageMenus`                                                                             |
 | `generate*`  | Create and inject DOM elements     | `generateLinkCards`                                                                                 |
-| `hide*`      | Hide an element                    | `hideLoadingScreen`                                                                                 |
+| `hide*`      | Hide an element                    | `hideLoadingBar`                                                                                    |
 | `extract*`   | Parse / derive from input          | `extractPageName`                                                                                   |
 | `normalize*` | Normalize / sanitize input         | `normalizeInternalPath`                                                                             |
 
@@ -168,3 +168,12 @@ export function initAllTooltips(): void {
   /* ... */
 }
 ```
+
+#### 2.3.6 Vue-Specific Naming
+
+| Context              | Convention     | Examples                                               |
+| -------------------- | -------------- | ------------------------------------------------------ |
+| `.vue` files         | `PascalCase`   | `AppNavbar.vue`, `SettingsModal.vue`, `ToastStack.vue` |
+| Composable files     | `useXxx.ts`    | `useI18n.ts`, `useTheme.ts`, `useLocalStorage.ts`      |
+| Composable functions | `useXxx()`     | `useI18n()`, `useTheme()`, `useLocalStorage()`         |
+| Vue plugin files     | `camelCase.ts` | `i18n.ts`                                              |

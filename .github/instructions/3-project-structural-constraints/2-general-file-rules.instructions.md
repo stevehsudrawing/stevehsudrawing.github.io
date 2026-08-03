@@ -15,14 +15,14 @@ applyTo: >
 
 ### 3.2 General File Rules
 
-#### 3.2.1 `src/{core,ui,features}/*`: Define Only, Never Execute
+#### 3.2.1 `src/{core,ui,features,composables}/*` + `src/plugins/*`: Define Only, Never Execute
 
-- Files in `src/{core,ui,features}/*` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
+- Files in `src/{core,ui,features,composables}/*` and `src/plugins/*` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
 - Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
 - All execution / wiring happens in the `main.ts` entry point (see [§3.2.2](#322-srcmaints-entry-point-wires-everything)).
-- **Exception**: `public/legacy/env-detection.js` is a classic script (not a module) that runs before `<head>` to perform browser/crawler detection. It DOES execute at the top level, but must still use **ES5** syntax for broad compatibility.
+- **Exception**: Vue composables (`src/composables/`) may call `inject()` and other Vue runtime APIs at the top level — this is necessary for the Composition API pattern. They still must not trigger side effects (DOM manipulation, event listeners) at the top level.
 - **Exception**: `src/ui/theme.ts` evaluates `document.documentElement` and `window.matchMedia(...)` at the top level. This is necessary to apply the theme before the first paint and avoid a flash of incorrect theme. Other modules must not follow this pattern.
 
 ```ts
@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", doSomething); // No!
 
 - **`src/stylesheets/`** - CSS modules for all normal pages. Uses modern CSS specifications.
 - **`public/legacy/*.css`** - Broad compatibility CSS for error pages (`base.css`, supports IE 11).
+- **Vue `<style scoped>` / `<style>` blocks** inside `.vue` files do NOT use the `====` banner convention — each style block belongs to exactly one component, so the component's file name serves as the implicit banner.
 
 Both sub-folders use the same CSS commenting format:
 

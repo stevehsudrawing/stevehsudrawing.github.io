@@ -40,7 +40,7 @@ Handles legacy plain-string values via try/catch `JSON.parse`.
 ```
 SettingsModal.vue
   ├─ visible: ref<boolean>  (defineExpose: show/hide)
-  ├─ locale: Ref<Lang>        -> useI18n()
+  ├─ locale: Ref<Lang>         -> useI18n()
   ├─ themePreference           -> useTheme()
   ├─ openInNewTab              -> useLocalStorage(StorageKey.OpenInNewTab)
   ├─ enableAnimations          -> useLocalStorage(StorageKey.EnableAnimations)

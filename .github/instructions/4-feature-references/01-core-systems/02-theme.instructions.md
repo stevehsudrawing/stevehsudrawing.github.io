@@ -19,7 +19,7 @@ useTheme() composable          ui/theme.ts (legacy bridge)
   ├─ effectiveTheme: Computed       ├─ applyThemePreference()
   └─ setPreference(choice)          ├─ setThemePreference()
        │                            ├─ initSystemThemeListener()
-       └──► delegates to             └─ initThemeTransitionOverlay()
+       └──► delegates to           └─ initThemeTransitionOverlay()
             ui/theme.ts
 ```
 

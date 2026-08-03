@@ -194,15 +194,6 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.5.2 SEO & PWA**](./instructions/4-feature-references/05-build-infrastructure/02-seo-pwa.instructions.md)
 - [**4.5.3 Utilities**](./instructions/4-feature-references/05-build-infrastructure/03-utilities.instructions.md)
 
-### 4.VC Vue Component Conventions
-
-- [**4.VC Vue Component Conventions**](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md)
-  - CSS Style Block Taxonomy
-  - CSS Ownership Comments
-  - Legacy Bridge Pattern (`window.__xxx`)
-  - Static HTML Coexistence
-  - `<script setup>` Section Conventions
-
 ---
 
 ## 5. Response Conventions for Copilot
@@ -222,4 +213,5 @@ When generating responses for this project, Copilot should:
 
 When the user asks to create, edit, or visualize a diagram, follow the
 instructions in `.github/instructions/mermaid.instructions.md`.
+
 <!-- mermaid-ai-skills:end -->
