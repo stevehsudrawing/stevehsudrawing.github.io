@@ -535,24 +535,70 @@ or is a general-purpose helper used by multiple sub-sections, it belongs in
   strength of keeping related concerns together, without fragmenting the
   top-level structure.
 
-### 6.2 Files to Update
+### 6.2 `4-feature-references/` Restructuring
 
-- [ ] Create `.github/instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md`
-  - CSS style block taxonomy (§A)
-  - CSS ownership comments (§B)
-  - Legacy bridge pattern (§C)
-  - Static HTML coexistence (§D)
-  - `<script setup>` section conventions (§E)
-- [ ] Update `.github/instructions/1-tech-stack/1-base.instructions.md`
-  - Add Vue 3 + `bootstrap-vue-next` to tech stack
-- [ ] Update `.github/instructions/2-general-naming-conventions/3-typescript.instructions.md`
-  - Add `.vue` file naming convention (PascalCase)
-  - Add `composables/` naming convention (`useXxx.ts`)
-- [ ] Update `.github/instructions/3-project-structural-constraints/1-folder-overview.instructions.md`
-  - Add `src/components/` (layout, ui, modals)
-  - Add `src/composables/`
-  - Add `src/plugins/`
-- [ ] `pnpm typecheck` (docs only — no code changes expected)
+> **Goal:** Replace the old flat 1–20 numbering with a functional-domain
+> subdirectory structure. Each file uses `####` (4 hashtags) as its top-level
+> heading with full decimal numbering (e.g. `4.1.1.1`). YAML `applyTo` globs
+> auto-load relevant files.
+
+#### 6.2.1 New Directory Tree
+
+```
+.github/instructions/4-feature-references/
+│
+├── 01-core-systems/
+│   ├── 01-i18n.instructions.md                         ← merged from old 3-
+│   ├── 02-theme.instructions.md                        ← updated from old 4-
+│   ├── 03-settings.instructions.md                     ← updated from old 8-
+│   ├── 04-fonts.instructions.md                        ← kept from old 11-
+│   └── 05-browser-detection.instructions.md            ← kept from old 1-
+│
+├── 02-ui-components/
+│   ├── 01-navbar.instructions.md                       ← new
+│   ├── 02-footer.instructions.md                       ← new
+│   ├── 03-loading.instructions.md                      ← merged from old 7- + LoadingBar
+│   ├── 04-feature-aware-img.instructions.md            ← updated from old 13-
+│   ├── 05-inline-svg.instructions.md                   ← updated from old 14-
+│   ├── 06-scroll-hint.instructions.md                  ← new
+│   ├── 07-tooltips-toast.instructions.md               ← merged from old 12- + Toast
+│   └── 08-copy-protection.instructions.md              ← new
+│
+├── 03-modals/
+│   ├── 01-external-link.instructions.md                ← updated from old 17-
+│   └── 02-qr-code.instructions.md                      ← updated from old 10-
+│
+├── 04-navigation-accessibility/
+│   ├── 01-accessibility.instructions.md                ← merged from old 9- + 20-
+│   └── 02-page-transitions.instructions.md             ← updated from old 6-
+│
+└── 05-build-infrastructure/
+    ├── 01-build-injection.instructions.md              ← merged from old 2- + 5- + 19-
+    ├── 02-seo-pwa.instructions.md                      ← merged from old 16- + 18-
+    └── 03-utilities.instructions.md                    ← updated from old 15-
+```
+
+#### 6.2.2 Heading Convention
+
+All files use `####` (4 hashtags) as the top-level heading with full decimal
+numbering mirroring the `copilot-instructions.md` index:
+
+```markdown
+#### 4.1.1 I18n (Internationalization)
+
+##### 4.1.1.1 Architecture
+
+##### 4.1.1.2 i18n Key Naming
+
+##### 4.1.1.3 setLocale() Flow
+```
+
+#### 6.2.3 Execution Checklist
+
+- [x] Delete all 20 old files
+- [x] Create 5 subdirectories + 20 new files
+- [x] Update `copilot-instructions.md` §4 index + numbering description
+- [x] `pnpm typecheck`
 
 ---
 

@@ -141,57 +141,67 @@ The remainder of this document links to detailed reference files in `instruction
   - 3.3.2 Build-time Types (`build/types.ts`)
   - 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
   - 3.3.4 Link-button-group JSON Format (`build/configs/link-button-groups/*.json`)
+- [**3.4 Vue Component Conventions**](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md)
+  - CSS Style Block Taxonomy
+  - CSS Ownership Comments
+  - Legacy Bridge Pattern
+  - Static HTML Coexistence
+  - `<script setup>` Section Conventions
 
 ## 4. Feature Reference
 
-- [**4.1 Browser Detection & Compatibility Fallbacks**](./instructions/4-feature-references/1-browser-detection-and-compatibility-fallbacks.instructions.md)
-- [**4.2 Build-time Injection**](./instructions/4-feature-references/2-build-time-injection.instructions.md)
-  - 4.2.1 Head Tag Injection
-  - 4.2.2 Page Component Injection
-  - 4.2.3 Link Card Injection
-  - 4.2.4 Asset Minification
-  - 4.2.5 Link Button Group Injection
-- [**4.3 Internationalization (i18n)**](./instructions/4-feature-references/3-internationalization-i18n.instructions.md)
-  - 4.3.1 i18n Key Naming Conventions
-- [**4.4 Theme System**](./instructions/4-feature-references/4-theme-system.instructions.md)
-  - 4.4.1 Color Variable Naming
-- [**4.5 Link Cards**](./instructions/4-feature-references/5-link-cards.instructions.md)
-- [**4.6 Page Transitions**](./instructions/4-feature-references/6-page-transitions.instructions.md)
-- [**4.7 Loading Screen**](./instructions/4-feature-references/7-loading-screen.instructions.md)
-- [**4.8 Settings & Preferences**](./instructions/4-feature-references/8-settings-preferences.instructions.md)
-- [**4.9 Navigation & Accessibility**](./instructions/4-feature-references/9-navigation-accessibility.instructions.md)
-- [**4.10 QR Code & Export**](./instructions/4-feature-references/10-qr-code-export.instructions.md)
-- [**4.11 Fonts & Typography**](./instructions/4-feature-references/11-fonts-typography.instructions.md)
-  - 4.11.1 Font Variable Naming
-  - 4.11.2 Font Stack Design
-- [**4.12 Tooltips**](./instructions/4-feature-references/12-tooltips.instructions.md)
-- [**4.13 Image Utilities**](./instructions/4-feature-references/13-image-utilities.instructions.md)
-  - 4.13.1 `data-img-feature` Attribute
-    - 4.13.1.1 `follow-theme`
-    - 4.13.1.2 `colored`
-  - 4.13.2 Loading Opacity
-- [**4.14 SVG Injection**](./instructions/4-feature-references/14-svg-injection.instructions.md)
-- [**4.15 Utilities**](./instructions/4-feature-references/15-utilities.instructions.md)
-- [**4.16 SEO**](./instructions/4-feature-references/16-seo.instructions.md)
-  - 4.16.1 SEO Elements by Page Tier
-  - 4.16.2 Structured Data (JSON-LD)
-    - 4.16.2.1 Homepage (`index.html`)
-    - 4.16.2.2 Sub-Pages
-  - 4.16.3 Sitemap
-  - 4.16.4 Hreflang
-  - 4.16.5 Noscript SEO Fallback
-  - 4.16.6 Heading Hierarchy
-  - 4.16.7 Homepage H1 Rich Text
-  - 4.16.8 Crawler Whitelist
-- [**4.17 External Link Confirmation**](./instructions/4-feature-references/17-external-link-confirmation.instructions.md)
-  - 4.17.1 `data-link-img-props` Attribute
-- [**4.18 PWA Splash Screens**](./instructions/4-feature-references/18-pwa-splash-screens.instructions.md)
-- [**4.19 Link Button Groups**](./instructions/4-feature-references/19-link-button-groups.instructions.md)
-- [**4.20 Modal Focus Management**](./instructions/4-feature-references/20-modal-focus-management.instructions.md)
-  - 4.20.1 `.default-keyboard-focus` CSS Class
-  - 4.20.2 Current Default-Focus Assignments
-  - 4.20.3 Key Function
-  - 4.20.4 Interaction with Other Systems
+> Files in `4-feature-references/` are organized into five functional
+> subdirectories. Within each directory, files use a `NN-topic.instructions.md`
+> naming scheme — the two-digit prefix defines the reading order. To add a
+> new file, pick the next available number in the appropriate directory, or
+> create a new directory if no existing group fits.
+>
+> **Directories**: 01-core-systems · 02-ui-components · 03-modals ·
+> 04-navigation-accessibility · 05-build-infrastructure
+
+### 4.1 Core Systems
+
+- [**4.1.1 I18n**](./instructions/4-feature-references/01-core-systems/01-i18n.instructions.md)
+- [**4.1.2 Theme**](./instructions/4-feature-references/01-core-systems/02-theme.instructions.md)
+- [**4.1.3 Settings**](./instructions/4-feature-references/01-core-systems/03-settings.instructions.md)
+- [**4.1.4 Fonts**](./instructions/4-feature-references/01-core-systems/04-fonts.instructions.md)
+- [**4.1.5 Browser Detection**](./instructions/4-feature-references/01-core-systems/05-browser-detection.instructions.md)
+
+### 4.2 UI Components
+
+- [**4.2.1 Navbar**](./instructions/4-feature-references/02-ui-components/01-navbar.instructions.md)
+- [**4.2.2 Footer**](./instructions/4-feature-references/02-ui-components/02-footer.instructions.md)
+- [**4.2.3 Loading**](./instructions/4-feature-references/02-ui-components/03-loading.instructions.md)
+- [**4.2.4 Feature-Aware Image**](./instructions/4-feature-references/02-ui-components/04-feature-aware-img.instructions.md)
+- [**4.2.5 Inline SVG**](./instructions/4-feature-references/02-ui-components/05-inline-svg.instructions.md)
+- [**4.2.6 Scroll Hint**](./instructions/4-feature-references/02-ui-components/06-scroll-hint.instructions.md)
+- [**4.2.7 Tooltips & Toast**](./instructions/4-feature-references/02-ui-components/07-tooltips-toast.instructions.md)
+- [**4.2.8 Copy Protection**](./instructions/4-feature-references/02-ui-components/08-copy-protection.instructions.md)
+
+### 4.3 Modals
+
+- [**4.3.1 External Link Confirmation**](./instructions/4-feature-references/03-modals/01-external-link.instructions.md)
+- [**4.3.2 QR Code**](./instructions/4-feature-references/03-modals/02-qr-code.instructions.md)
+
+### 4.4 Navigation & Accessibility
+
+- [**4.4.1 Accessibility**](./instructions/4-feature-references/04-navigation-accessibility/01-accessibility.instructions.md)
+- [**4.4.2 Page Transitions**](./instructions/4-feature-references/04-navigation-accessibility/02-page-transitions.instructions.md)
+
+### 4.5 Build & Infrastructure
+
+- [**4.5.1 Build-time Injection**](./instructions/4-feature-references/05-build-infrastructure/01-build-injection.instructions.md)
+- [**4.5.2 SEO & PWA**](./instructions/4-feature-references/05-build-infrastructure/02-seo-pwa.instructions.md)
+- [**4.5.3 Utilities**](./instructions/4-feature-references/05-build-infrastructure/03-utilities.instructions.md)
+
+### 4.VC Vue Component Conventions
+
+- [**4.VC Vue Component Conventions**](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md)
+  - CSS Style Block Taxonomy
+  - CSS Ownership Comments
+  - Legacy Bridge Pattern (`window.__xxx`)
+  - Static HTML Coexistence
+  - `<script setup>` Section Conventions
 
 ---
 
