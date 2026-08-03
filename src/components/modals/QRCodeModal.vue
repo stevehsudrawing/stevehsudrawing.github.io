@@ -10,6 +10,7 @@ import { useI18n } from "../../composables/useI18n.js";
 import { useTheme } from "../../composables/useTheme.js";
 import { useToast } from "../../composables/useToast.js";
 import InlineSvg from "../ui/InlineSvg.vue";
+import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
 // =========================================================================
 // Props
@@ -53,9 +54,46 @@ const { effectiveTheme } = useTheme();
 const { showToast } = useToast();
 
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
-const centerIconSrc = ref("");
-const centerIconAlt = ref("Link");
 const buttonsDisabled = ref(false);
+
+// =========================================================================
+// Center icon (derived from imgProperties HAST)
+// =========================================================================
+
+const centerIconSrc = computed(() => {
+  if (props.imgProperties?.src) {
+    return props.imgProperties.src as string;
+  }
+  return "/images/webp/icons/link.webp";
+});
+
+const centerIconAlt = computed(() => {
+  if (props.imgProperties?.alt) {
+    return props.imgProperties.alt as string;
+  }
+  return t("text-link", "Link");
+});
+
+const centerIconFeature = computed(() => {
+  if (props.imgProperties?.dataImgFeature) {
+    return props.imgProperties.dataImgFeature as string;
+  }
+  return undefined;
+});
+
+const centerIconColorVar = computed(() => {
+  if (props.imgProperties?.dataColorVar) {
+    return props.imgProperties.dataColorVar as string;
+  }
+  return undefined;
+});
+
+const centerIconColorMaskSrc = computed(() => {
+  if (props.imgProperties?.dataSrcMask) {
+    return props.imgProperties.dataSrcMask as string;
+  }
+  return undefined;
+});
 
 // =========================================================================
 // Computed
@@ -120,16 +158,6 @@ async function generateQR(): Promise<void> {
 watch(visible, async (v) => {
   if (v) {
     await nextTick();
-
-    // Resolve center icon
-    if (props.imgProperties && props.imgProperties.src) {
-      centerIconSrc.value = props.imgProperties.src as string;
-      centerIconAlt.value = (props.imgProperties.alt as string) || "Link";
-    } else {
-      centerIconSrc.value = "/images/webp/icons/link.webp";
-      centerIconAlt.value = t("text-link", "Link");
-    }
-
     await generateQR();
   }
 });
@@ -257,11 +285,6 @@ async function copyImage(): Promise<void> {
   }, "Failed to copy QR code image");
 }
 
-async function copyURL(): Promise<void> {
-  await navigator.clipboard.writeText(props.url);
-  showToast("success", `${t("text-copied-text", "Copied text")}: ${props.url}`);
-}
-
 function openLink(): void {
   visible.value = false;
   emit("open-link", props.url, props.imgProperties ?? null);
@@ -312,16 +335,18 @@ defineExpose({
           <canvas ref="qrCanvas"></canvas>
           <!-- Center overlay icon -->
           <span
-            v-if="centerIconSrc"
             id="qr-code-icon-bg"
             class="position-absolute top-50 start-50 translate-middle rounded-2 d-flex align-items-center justify-content-center"
           >
-            <img
+            <FeatureAwareImg
               id="qr-code-icon"
-              :src="centerIconSrc"
+              :light-src="centerIconSrc"
               :alt="centerIconAlt"
-              width="32"
-              height="32"
+              :feature="centerIconFeature"
+              :color-var="centerIconColorVar"
+              :color-mask-src="centerIconColorMaskSrc"
+              :width="32"
+              :height="32"
             />
           </span>
         </div>

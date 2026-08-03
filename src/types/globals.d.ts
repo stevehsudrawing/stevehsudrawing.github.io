@@ -40,6 +40,12 @@ declare global {
     __svgInjection?: {
       initAll: () => Promise<void>;
     };
+    /** Bridge: Vue FeatureAwareImg instance for legacy TS consumers. */
+    __imgUtils?: {
+      initAll: () => Promise<void>;
+      initAllColoredImages: () => void;
+      initAllImageLoadingOpacity: () => void;
+    };
   }
 }
 

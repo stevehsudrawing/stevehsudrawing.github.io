@@ -34,6 +34,7 @@ import LoadingBar from "./components/ui/LoadingBar.vue";
 import ScrollHint from "./components/ui/ScrollHint.vue";
 import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
 import InlineSvg from "./components/ui/InlineSvg.vue";
+import FeatureAwareImg from "./components/ui/FeatureAwareImg.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 /** Template refs for imperative show/hide via defineExpose. */
@@ -45,6 +46,7 @@ const loadingBarRef = ref<InstanceType<typeof LoadingBar>>();
 const scrollHintRef = ref<InstanceType<typeof ScrollHint>>();
 const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
 const inlineSvgRef = ref<InstanceType<typeof InlineSvg>>();
+const featureAwareImgRef = ref<InstanceType<typeof FeatureAwareImg>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
 /**
@@ -244,6 +246,11 @@ onMounted(async () => {
       window.__svgInjection = inlineSvgRef.value;
     }
 
+    // Bridge: expose FeatureAwareImg to legacy TS consumers
+    if (featureAwareImgRef.value) {
+      window.__imgUtils = featureAwareImgRef.value;
+    }
+
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   } catch (error) {
     console.error("Failed to initialize: " + error);
@@ -263,6 +270,10 @@ onMounted(async () => {
 
     if (inlineSvgRef.value) {
       window.__svgInjection = inlineSvgRef.value;
+    }
+
+    if (featureAwareImgRef.value) {
+      window.__imgUtils = featureAwareImgRef.value;
     }
 
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
@@ -291,6 +302,7 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
   <ScrollHint ref="scrollHintRef" />
   <CopyProtectedImg ref="copyProtectedImgRef" />
   <InlineSvg ref="inlineSvgRef" />
+  <FeatureAwareImg ref="featureAwareImgRef" />
   <ToastStack ref="toastStackRef" />
   <SettingsModal ref="settingsModalRef" />
   <ExternalLinkConfirmModal

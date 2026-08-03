@@ -4,10 +4,11 @@
   (_confirmUrl, _confirmIconProps) with clean props + emits.
 -->
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { useLocalStorage } from "../../composables/useLocalStorage.js";
 import { useToast } from "../../composables/useToast.js";
+import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
 // =========================================================================
 // Props
@@ -52,22 +53,40 @@ const { t } = useI18n();
 const { showToast } = useToast();
 
 // Re-render icon when imgProperties changes
-const iconHtml = ref("");
+const iconSrc = computed(() => {
+  if (props.imgProperties?.src) {
+    return props.imgProperties.src as string;
+  }
+  return null;
+});
 
-watch(
-  () => props.imgProperties,
-  (props) => {
-    if (props) {
-      // Build a simple <img> tag for the icon display
-      const src = (props.src as string) || "/images/webp/null.webp";
-      const alt = (props.alt as string) || "Link";
-      iconHtml.value = `<img src="${src}" alt="${alt}" width="32" height="32" class="img-fluid" />`;
-    } else {
-      iconHtml.value = "";
-    }
-  },
-  { immediate: true },
-);
+const iconAlt = computed(() => {
+  if (props.imgProperties?.alt) {
+    return props.imgProperties.alt as string;
+  }
+  return t("text-link", "Link");
+});
+
+const iconFeature = computed(() => {
+  if (props.imgProperties?.dataImgFeature) {
+    return props.imgProperties.dataImgFeature as string;
+  }
+  return undefined;
+});
+
+const iconColorVar = computed(() => {
+  if (props.imgProperties?.dataColorVar) {
+    return props.imgProperties.dataColorVar as string;
+  }
+  return undefined;
+});
+
+const iconColorMaskSrc = computed(() => {
+  if (props.imgProperties?.dataSrcMask) {
+    return props.imgProperties.dataSrcMask as string;
+  }
+  return undefined;
+});
 
 // =========================================================================
 // Actions
@@ -126,7 +145,17 @@ defineExpose({
     </p>
 
     <div class="d-flex align-items-start mb-3">
-      <span v-if="imgProperties" class="me-2" v-html="iconHtml"></span>
+      <FeatureAwareImg
+        v-if="iconSrc"
+        :light-src="iconSrc"
+        :alt="iconAlt"
+        :feature="iconFeature"
+        :color-var="iconColorVar"
+        :color-mask-src="iconColorMaskSrc"
+        :width="32"
+        :height="32"
+        class="me-2 img-fluid"
+      />
       <code class="d-block bg-body-tertiary p-2 flex-grow-1">{{ url }}</code>
     </div>
 

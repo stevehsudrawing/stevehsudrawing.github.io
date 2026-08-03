@@ -271,7 +271,8 @@ code {
 
 /* ========================================================================
    Image Utilities
-   TODO: §4.8 → ThemeAwareImg.vue
+   (Migrated to FeatureAwareImg.vue — §4.8.  Remaining .img-fit and
+   .sub-cover-wrapper selectors are used by build-time injected HTML.)
    ======================================================================== */
 
 .img-fit {

@@ -22,7 +22,6 @@ import "./stylesheets/global/fonts.css";
 import "./stylesheets/global/accessibility.css";
 import "./stylesheets/components/navbar.css";
 import "./stylesheets/components/page-transition.css";
-import "./stylesheets/components/img-utils.css";
 
 import "./stylesheets/components/no-copy.css";
 

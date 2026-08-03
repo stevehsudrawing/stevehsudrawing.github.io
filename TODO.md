@@ -249,23 +249,47 @@ src/stylesheets/
 - [x] Remove `stylesheets/components/` (no CSS file for svg-utils)
 - [x] `pnpm typecheck`
 
-### 4.8 Theme-Aware Image ⭐⭐⭐
+### 4.8 Theme-Aware Image ⭐⭐⭐ ✅
 
-- [ ] Create `src/components/ui/ThemeAwareImg.vue`
-  - `props: { lightSrc, darkSrc, feature?, ...attrs }`
-  - Auto-swap `src` on theme change
-  - Loading-opacity behavior
-  - Remove `ui/img-utils.ts` + `stylesheets/components/img-utils.css`
-- [ ] `pnpm typecheck`
+- [x] Create `src/components/ui/FeatureAwareImg.vue` (renamed from `ThemeAwareImg`)
+  - **Three features**: `follow-theme` (src swap), `colored` (CSS mask), `loading-opacity` (fade on load)
+  - Vue template: `<FeatureAwareImg light-src="..." feature="colored" color-var="..." color-mask-src="..." />`
+  - Global scan: `initAll()` processes build-time `[data-img-feature]` images
+  - CSS migrated from `img-utils.css` to non-scoped `<style>` block
+- [x] Replace `<img>` in `QRCodeModal.vue` + `ExternalLinkConfirmModal.vue` with `<FeatureAwareImg>`
+  - Pass through all HAST properties: `dataImgFeature` → `feature`, `dataColorVar` → `colorVar`, `dataSrcMask` → `colorMaskSrc`
+- [x] Rewrite `ui/img-utils.ts` as hybrid bridge (single-element ops direct + batch ops delegate)
+- [x] Remove `stylesheets/components/img-utils.css` import
+- [x] `pnpm typecheck`
 
 ### 4.9 Navbar ⭐⭐⭐⭐⭐
 
-- [ ] Create `src/components/layout/AppNavbar.vue`
+- [ ] Create `src/components/layout/AppNavbar.vue` — one-shot Vue render (no bridge controller)
   - Active item highlighting → `:class="{ active: ... }"` computed
-  - `<BDropdown>` for theme + language menus
-  - Mobile brand scroll swap → `@scroll` + computed `transform`
-  - Offcanvas toggle for mobile
-  - Remove `ui/navbar.ts` + `stylesheets/components/navbar.css`
+  - `<BDropdown>` for theme + language menus — replaces `initDropdownMenuAnimation()`
+  - Mobile brand scroll swap → `@scroll` + computed `transform` — replaces `initMobileNavbarBrandScroll()`
+  - Scroll border → `@scroll` + `:class` — replaces `initNavbarScrollBorder()`
+  - CSS migrated from `navbar.css` (250 lines) → `<style scoped>`
+- [ ] Create `src/components/layout/OffcanvasNav.vue` — mobile sidebar
+  - `props: { navItems }` — shares link data with AppNavbar
+  - Bootstrap offcanvas via `data-bs-toggle` (no JS needed)
+- [ ] Rewrite `ui/navbar.ts` as bridge → `window.__navbar` (`setActiveNavItem`, `updateNavbarBrandText`)
+- [ ] Update `build/page-components/header.html` — remove `<nav>`, keep overlay/progress/skip-button
+- [ ] Remove `<div data-role="page-component" data-component-name="header">` from 6 HTML pages
+- [ ] Remove `stylesheets/components/navbar.css` import
+- [ ] `pnpm typecheck`
+
+### 4.10 Footer ⭐⭐
+
+- [ ] Create `src/components/layout/FooterNav.vue` — replaces `build/page-components/footer.html`
+  - Copyright with internal link (`/about.html`, i18n, `v-b-tooltip`)
+  - "Powered by Vite" external link (`data-link-img-props`, `data-no-qr-code`)
+  - "Report an Issue" / "Artwork Copyright" — external links with `colored` icons
+  - "Share this website!" — QR trigger (`data-qr-url` + `data-qr-icon`)
+  - "View Code" — external link with `colored` icon + `v-b-tooltip`
+  - CSS from `base.css` `.footer` selector → `<style scoped>`
+- [ ] Remove `<div data-role="page-component" data-component-name="footer">` from 6 HTML pages
+- [ ] Delete `build/page-components/footer.html`
 - [ ] `pnpm typecheck`
 
 ---
@@ -275,10 +299,18 @@ src/stylesheets/
 > **Goal:** Remove dead code after all consumers have been migrated.
 
 - [ ] Delete `src/stylesheets/components/` folder (all CSS migrated to `<style scoped>`)
+- [ ] Delete `build/page-components/` folder — all components now Vue SFCs:
+  - `header.html` → `AppNavbar.vue` + `OffcanvasNav.vue`
+  - `footer.html` → `FooterNav.vue`
+  - `footer-lightweight.html` → already deleted (§4.4a)
+  - `modals.html` → already commented out (§3.1–§3.3)
+- [ ] Simplify `build/content-injection-plugin.ts` — remove page component injection logic
+  - No more `data-role="page-component"` placeholders to resolve
+  - `readPageComponent()` and related walk logic can be removed
+  - Link card / link button group injection stays (build-time HAST → not yet Vue-ified)
 - [ ] Remove `window.bootstrap` global exposure in `main.ts` (no longer needed - `bootstrap-vue-next` handles all JS behavior)
 - [ ] Remove `@types/bootstrap` from `devDependencies` (if bootstrap JS is no longer needed)
 - [ ] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files - delete any that have no remaining consumers
-- [ ] Audit `build/page-components/modals.html` - may be removable if all modals are now Vue SFCs
 - [ ] `pnpm typecheck` - ensure zero errors
 - [ ] `pnpm build` - verify production build succeeds
 
