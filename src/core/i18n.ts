@@ -9,7 +9,7 @@ import type { Lang } from "../types/app.js";
 import { StorageKey, AppEvent } from "../types/app.js";
 
 export let currentLang: Lang = "en";
-export let langData: Record<string, string> = {};
+export let langData: Record<string, unknown> = {};
 
 /**
  * Normalize a language code to one of the site's supported languages.
@@ -68,7 +68,8 @@ export function normalizeLang(lang: string): Lang {
  */
 export function translate(key: string, fallback?: string): string {
   if (typeof langData !== "undefined" && langData[key]) {
-    return langData[key];
+    const v = langData[key];
+    return typeof v === "string" ? v : (fallback ?? "");
   }
   return fallback !== undefined ? fallback : "";
 }
@@ -167,7 +168,7 @@ export function setActiveLangItem(): void {
  * @param lang - The normalized language code.
  * @param data - The parsed translation JSON object.
  */
-export function applyLangData(lang: Lang, data: Record<string, string>): void {
+export function applyLangData(lang: Lang, data: Record<string, unknown>): void {
   langData = data;
   currentLang = lang;
 

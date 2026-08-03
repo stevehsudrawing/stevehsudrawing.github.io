@@ -30,13 +30,19 @@ export const I18N_MESSAGES_KEY = Symbol("i18nMessages");
 export const i18nPlugin = {
   install(app: App): void {
     const locale = ref<Lang>("en");
-    const messages = ref<Record<string, string>>({});
+    const messages = ref<Record<string, unknown>>({});
 
     app.provide(I18N_LOCALE_KEY, locale);
     app.provide(I18N_MESSAGES_KEY, messages);
 
-    // Global template helper — mirrors vue-i18n's $t signature
-    app.config.globalProperties.$t = (key: string, fallback?: string): string =>
-      messages.value[key] ?? fallback ?? "";
+    // Global template helper — mirrors vue-i18n's $t signature.
+    // Only returns string values; HAST nodes use useI18n().h() instead.
+    app.config.globalProperties.$t = (
+      key: string,
+      fallback?: string,
+    ): string => {
+      const v = messages.value[key];
+      return typeof v === "string" ? v : (fallback ?? "");
+    };
   },
 };

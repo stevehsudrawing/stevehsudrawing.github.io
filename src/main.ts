@@ -20,10 +20,7 @@ import "./stylesheets/global/base.css";
 import "./stylesheets/global/theme.css";
 import "./stylesheets/global/fonts.css";
 import "./stylesheets/global/accessibility.css";
-import "./stylesheets/components/navbar.css";
 import "./stylesheets/components/page-transition.css";
-
-import "./stylesheets/components/no-copy.css";
 
 // =========================================================================
 // npm package imports (replaces CDN <script> tags)
@@ -55,7 +52,6 @@ import "./ui/theme.js";
 // --- UI features ---
 import "./ui/img-utils.js";
 import "./ui/tooltips.js";
-import "./ui/navbar.js";
 import "./ui/scroll-hint.js";
 import "./ui/accessibility.js";
 import "./ui/settings.js";

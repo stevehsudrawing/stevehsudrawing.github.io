@@ -164,7 +164,7 @@ defineExpose({
     </BFormCheckbox>
 
     <template #footer>
-      <div class="w-100 d-flex gap-1">
+      <div class="w-100 d-flex">
         <button
           v-if="!hideQRButton"
           type="button"

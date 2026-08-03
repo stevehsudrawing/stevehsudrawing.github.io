@@ -35,6 +35,8 @@ import ScrollHint from "./components/ui/ScrollHint.vue";
 import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
 import InlineSvg from "./components/ui/InlineSvg.vue";
 import FeatureAwareImg from "./components/ui/FeatureAwareImg.vue";
+import AppNavbar from "./components/layout/AppNavbar.vue";
+import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 /** Template refs for imperative show/hide via defineExpose. */
@@ -47,7 +49,11 @@ const scrollHintRef = ref<InstanceType<typeof ScrollHint>>();
 const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
 const inlineSvgRef = ref<InstanceType<typeof InlineSvg>>();
 const featureAwareImgRef = ref<InstanceType<typeof FeatureAwareImg>>();
+const appNavbarRef = ref<InstanceType<typeof AppNavbar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
+
+/** Reactive current page path — drives AppNavbar active state + brand text. */
+const currentPage = ref(normalizeInternalPath(window.location.pathname));
 
 /**
  * Provide a global showToast function to all descendant components.
@@ -177,17 +183,13 @@ import {
 } from "./ui/theme.js";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection.js";
 import {
-  initNavbarScrollBorder,
-  initMobileNavbarBrandScroll,
-  initDropdownMenuAnimation,
-} from "./ui/navbar.js";
-import {
   initPageTransitionLinkClicks,
   initPageTransitionPopState,
 } from "./features/page-transition.js";
 import { initLang } from "./features/lang-switcher.js";
 import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
 import { initAllScrollHints } from "./ui/scroll-hint.js";
+import { normalizeInternalPath } from "./core/utils.js";
 
 // =========================================================================
 // Initialization orchestration
@@ -197,7 +199,6 @@ onMounted(async () => {
   try {
     initBootstrapCSSDetection();
     initThemeTransitionOverlay();
-    initDropdownMenuAnimation();
     initSkipButton();
 
     // Set up tooltip i18n listener BEFORE initLang()
@@ -251,6 +252,11 @@ onMounted(async () => {
       window.__imgUtils = featureAwareImgRef.value;
     }
 
+    // Bridge: expose AppNavbar to legacy TS consumers
+    if (appNavbarRef.value) {
+      window.__navbar = appNavbarRef.value;
+    }
+
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   } catch (error) {
     console.error("Failed to initialize: " + error);
@@ -276,6 +282,10 @@ onMounted(async () => {
       window.__imgUtils = featureAwareImgRef.value;
     }
 
+    if (appNavbarRef.value) {
+      window.__navbar = appNavbarRef.value;
+    }
+
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   }
 });
@@ -284,11 +294,10 @@ onMounted(async () => {
 // Post-initialization listeners
 // =========================================================================
 
-document.addEventListener(AppEvent.PageInitialized, initNavbarScrollBorder);
-document.addEventListener(
-  AppEvent.PageInitialized,
-  initMobileNavbarBrandScroll,
-);
+document.addEventListener(AppEvent.PageInitialized, () => {
+  currentPage.value = normalizeInternalPath(window.location.pathname);
+});
+
 document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
 </script>
 
@@ -297,6 +306,7 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
     Phase 3: Modal components are mounted here.  They render nothing
     until their internal `visible` ref is toggled via defineExpose.
   -->
+  <AppNavbar ref="appNavbarRef" :current-page="currentPage" />
   <LoadingScreen ref="loadingScreenRef" />
   <LoadingBar ref="loadingBarRef" />
   <ScrollHint ref="scrollHintRef" />
@@ -320,4 +330,5 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
     :hide-open-link="qrHideOpenLink"
     @open-link="onQROpenLink"
   />
+  <FooterNav />
 </template>

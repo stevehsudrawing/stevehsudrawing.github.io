@@ -262,35 +262,34 @@ src/stylesheets/
 - [x] Remove `stylesheets/components/img-utils.css` import
 - [x] `pnpm typecheck`
 
-### 4.9 Navbar ⭐⭐⭐⭐⭐
+### 4.9 Navbar ⭐⭐⭐⭐⭐ ✅
 
-- [ ] Create `src/components/layout/AppNavbar.vue` — one-shot Vue render (no bridge controller)
-  - Active item highlighting → `:class="{ active: ... }"` computed
-  - `<BDropdown>` for theme + language menus — replaces `initDropdownMenuAnimation()`
-  - Mobile brand scroll swap → `@scroll` + computed `transform` — replaces `initMobileNavbarBrandScroll()`
-  - Scroll border → `@scroll` + `:class` — replaces `initNavbarScrollBorder()`
+- [x] Create `src/components/layout/AppNavbar.vue` — one-shot Vue render (no bridge controller)
+  - Active item highlighting → `:class` computed from `normalizeInternalPath()`
+  - `<BDropdown>` for theme + language — replaces `initDropdownMenuAnimation()`
+  - Mobile brand scroll swap → `@scroll` + `brandProgress` computed
+  - Scroll border → `@scroll` + `:class="scrolled"`
   - CSS migrated from `navbar.css` (250 lines) → `<style scoped>`
-- [ ] Create `src/components/layout/OffcanvasNav.vue` — mobile sidebar
-  - `props: { navItems }` — shares link data with AppNavbar
+- [x] Create `src/components/layout/OffcanvasNav.vue` — mobile sidebar
+  - `props: { navItems }` — shared link data
   - Bootstrap offcanvas via `data-bs-toggle` (no JS needed)
-- [ ] Rewrite `ui/navbar.ts` as bridge → `window.__navbar` (`setActiveNavItem`, `updateNavbarBrandText`)
-- [ ] Update `build/page-components/header.html` — remove `<nav>`, keep overlay/progress/skip-button
-- [ ] Remove `<div data-role="page-component" data-component-name="header">` from 6 HTML pages
-- [ ] Remove `stylesheets/components/navbar.css` import
-- [ ] `pnpm typecheck`
+- [x] Rewrite `ui/navbar.ts` as bridge → `window.__navbar` (26 lines, down from 230)
+- [x] Update `build/page-components/header.html` — removed `<nav>`, kept overlay/progress/skip-button
+- [x] Remove `<div data-role="page-component" data-component-name="header|footer">` from 6 HTML pages
+- [x] Remove `stylesheets/components/navbar.css` + `.no-copy.css` imports
+- [x] `pnpm typecheck`
 
-### 4.10 Footer ⭐⭐
+### 4.10 Footer ⭐⭐ ✅
 
-- [ ] Create `src/components/layout/FooterNav.vue` — replaces `build/page-components/footer.html`
+- [x] Create `src/components/layout/FooterNav.vue` — replaces `build/page-components/footer.html`
   - Copyright with internal link (`/about.html`, i18n, `v-b-tooltip`)
   - "Powered by Vite" external link (`data-link-img-props`, `data-no-qr-code`)
   - "Report an Issue" / "Artwork Copyright" — external links with `colored` icons
-  - "Share this website!" — QR trigger (`data-qr-url` + `data-qr-icon`)
+  - "Share this website!" — QR trigger (`data-qr-url` + `data-qr-icon` + `v-b-tooltip`)
   - "View Code" — external link with `colored` icon + `v-b-tooltip`
-  - CSS from `base.css` `.footer` selector → `<style scoped>`
-- [ ] Remove `<div data-role="page-component" data-component-name="footer">` from 6 HTML pages
-- [ ] Delete `build/page-components/footer.html`
-- [ ] `pnpm typecheck`
+  - CSS from `base.css` `.footer` → `<style scoped>`
+- [x] Delete `build/page-components/footer.html`
+- [x] `pnpm typecheck`
 
 ---
 

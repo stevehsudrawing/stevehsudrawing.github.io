@@ -17,8 +17,8 @@ import type { Lang } from "../types/app.js";
  */
 export function useI18n(): {
   locale: Ref<Lang>;
-  messages: Ref<Record<string, string>>;
-  /** Translate a key with optional fallback. */
+  messages: Ref<Record<string, unknown>>;
+  /** Translate a text key with optional fallback. */
   t: (key: string, fallback?: string) => string;
   /** Fetch the JSON file for a given language and apply it. */
   setLocale: (rawLang: string) => Promise<void>;
@@ -26,11 +26,12 @@ export function useI18n(): {
   syncFromLangData: () => Promise<void>;
 } {
   const locale = inject<Ref<Lang>>(I18N_LOCALE_KEY)!;
-  const messages = inject<Ref<Record<string, string>>>(I18N_MESSAGES_KEY)!;
+  const messages = inject<Ref<Record<string, unknown>>>(I18N_MESSAGES_KEY)!;
 
   /** Synchronous translation function for templates and script. */
   function t(key: string, fallback?: string): string {
-    return messages.value[key] ?? fallback ?? "";
+    const v = messages.value[key];
+    return typeof v === "string" ? v : (fallback ?? "");
   }
 
   /**
@@ -45,7 +46,7 @@ export function useI18n(): {
     const lang: Lang = normalizeLang(rawLang);
     const response = await fetch(`/configs/i18n/${lang}.json`);
     if (!response.ok) throw new Error(`Failed to load language file: ${lang}`);
-    const data: Record<string, string> = await response.json();
+    const data: Record<string, unknown> = await response.json();
 
     // Update reactive state
     locale.value = lang;

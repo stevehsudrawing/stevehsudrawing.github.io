@@ -1,4 +1,6 @@
 {
+  "text-current-language": "中文 (简体)",
+
   "text-404": "HTTP 404",
   "text-about-description": "通过此页面进一步了解我！",
   "text-about-me-and-my-emails": "关于我与我的电子邮箱",
@@ -34,7 +36,6 @@
   "text-copy": "复制",
   "text-copyright-part-1": "版权所有",
   "text-copyright-part-2": "。保留所有权利。",
-  "text-current-language": "中文 (简体)",
   "text-dark": "昏暗",
   "text-douyin": "抖音",
   "text-download": "下载",
@@ -126,6 +127,34 @@
 
   "html-artworks-description": "偏好风格：Q 版、像素艺术。主要创作原创作品，偶尔创作同人作品。目前<strong>不接受</strong>艺术作品的商业委托。",
   "html-powered-by": "由<a href=\"https://vite.dev/\" data-link-img-props='{\"src\":\"/images/webp/icons/vite.webp\",\"alt\":\"Vite\"}' class=\"link external-link\" data-no-qr-code>Vite</a>强力驱动",
+  "hast-powered-by": {
+    "type": "root",
+    "children": [
+      { "type": "text", "value": "由 " },
+      {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+          "href": "https://vite.dev/",
+          "className": ["link", "external-link"],
+          "dataNoQrCode": true
+        },
+        "children": [{ "type": "text", "value": "Vite" }]
+      },
+      { "type": "text", "value": " 和 " },
+      {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+          "href": "https://vuejs.org/",
+          "className": ["link", "external-link"],
+          "dataNoQrCode": true
+        },
+        "children": [{ "type": "text", "value": "Vue.js" }]
+      },
+      { "type": "text", "value": " 强力驱动" }
+    ]
+  },
   "html-profile-part-7": "什五在<cite>《代号 Staub》</cite>世界观中的角色设定：",
   "html-sponsorship-description": "赞助基于<strong>自愿原则</strong>。",
   "html-steve-hsu-s-link-hub": "<strong class=\"color-primary\">Steve Hsu <ruby>什<rp>(</rp><rt>shí</rt><rp>)</rp></ruby>五</strong>的链接中枢",

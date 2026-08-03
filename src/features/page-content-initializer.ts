@@ -14,6 +14,7 @@ import {
   updatePageText,
   setActiveLangItem,
 } from "../core/i18n.js";
+import { AppEvent } from "../types/app.js";
 import { updateNavbarBrandText, setActiveNavItem } from "../ui/navbar.js";
 import { updatePageTitle } from "../ui/page-title.js";
 import { initAllTooltips } from "../ui/tooltips.js";
@@ -66,4 +67,7 @@ export async function initPageContent(): Promise<void> {
   applyAllExternalLinkTargetBehavior();
   addAllExternalLinkIndicators();
   initAllScrollHints();
+
+  // Notify Vue components that page content has been replaced
+  document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
 }

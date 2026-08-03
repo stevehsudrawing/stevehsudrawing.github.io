@@ -102,7 +102,7 @@ ruby {
   border-top: none !important;
 }
 
-/* TODO: §4.9 → AppNavbar.vue */
+/* (Migrated to AppNavbar.vue — §4.9) */
 .nav-link {
   transition:
     color 0.1s ease-in-out,
@@ -349,8 +349,7 @@ code {
 
 /* ========================================================================
    Footer
-   (Build-time injected via build/page-components/footer.html — not yet
-   in Vue migration plan.)
+   (Migrated to FooterNav.vue — §4.10)
    ======================================================================== */
 
 .footer {

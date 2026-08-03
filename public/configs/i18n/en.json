@@ -1,4 +1,6 @@
 {
+  "text-current-language": "English",
+
   "text-404": "HTTP 404",
   "text-about-description": "Learn more about me through this page!",
   "text-about-me-and-my-emails": "About me & my emails",
@@ -34,7 +36,6 @@
   "text-copy": "Copy",
   "text-copyright-part-1": "Copyright",
   "text-copyright-part-2": ". All rights reserved. ",
-  "text-current-language": "English",
   "text-dark": "Dark",
   "text-douyin": "Douyin",
   "text-download": "Download",
@@ -126,6 +127,33 @@
 
   "html-artworks-description": "Preferred styles: Chibi, Pixel Art. I mainly create original works, and occasionally fan-art. Commercial commissions for artworks are <strong>unavailable</strong> at this time.",
   "html-powered-by": "Powered by <a href=\"https://vite.dev/\" data-link-img-props='{\"src\":\"/images/webp/icons/vite.webp\",\"alt\":\"Vite\"}' class=\"link external-link\" data-no-qr-code>Vite</a>",
+  "hast-powered-by": {
+    "type": "root",
+    "children": [
+      { "type": "text", "value": "Powered by " },
+      {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+          "href": "https://vite.dev/",
+          "className": ["link", "external-link"],
+          "dataNoQrCode": true
+        },
+        "children": [{ "type": "text", "value": "Vite" }]
+      },
+      { "type": "text", "value": " and " },
+      {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+          "href": "https://vuejs.org/",
+          "className": ["link", "external-link"],
+          "dataNoQrCode": true
+        },
+        "children": [{ "type": "text", "value": "Vue.js" }]
+      }
+    ]
+  },
   "html-profile-part-7": "Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:",
   "html-sponsorship-description": "Sponsorship is based on <strong>the principle of voluntariness</strong>.",
   "html-steve-hsu-s-link-hub": "<strong class=\"color-primary\">Steve Hsu <small>什五</small></strong>'s Link-Hub",

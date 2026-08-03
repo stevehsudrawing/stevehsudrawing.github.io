@@ -376,7 +376,7 @@ defineExpose({
     </div>
 
     <template #footer>
-      <div class="w-100 d-flex gap-1">
+      <div class="w-100 d-flex">
         <button
           v-if="!isInternal && !hideOpenLink"
           type="button"

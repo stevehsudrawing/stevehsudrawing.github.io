@@ -46,6 +46,11 @@ declare global {
       initAllColoredImages: () => void;
       initAllImageLoadingOpacity: () => void;
     };
+    /** Bridge: Vue AppNavbar instance for legacy TS consumers. */
+    __navbar?: {
+      setActiveNavItem: () => void;
+      updateNavbarBrandText: () => void;
+    };
   }
 }
 
