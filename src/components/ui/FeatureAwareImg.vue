@@ -1,5 +1,5 @@
 <!--
-  FeatureAwareImg.vue — <img> with multiple feature modes: theme-swap,
+  FeatureAwareImg.vue -- <img> with multiple feature modes: theme-swap,
   colored mask, and loading opacity.
 
   Props: lightSrc, darkSrc?, feature?, colorMaskSrc?, colorVar?, alt?, width?, height?, class?
@@ -119,7 +119,7 @@ onMounted(() => {
 </template>
 
 <style>
-/* ==== Image Utilities — data-img-feature based styling ==== */
+/* ==== Image Utilities -- data-img-feature based styling ==== */
 
 /* --- Image loading opacity --- */
 

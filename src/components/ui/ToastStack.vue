@@ -1,5 +1,5 @@
 <!--
-  ToastStack.vue — Reactive toast notification stack.
+  ToastStack.vue -- Reactive toast notification stack.
   Replaces ui/toast.ts imperative DOM manipulation.
   Exposes showToast() via provide/inject so any descendant component
   can trigger a toast without importing legacy modules.

@@ -1,5 +1,5 @@
 <!--
-  QRCodeModal.vue — QR code generation + branded share card.
+  QRCodeModal.vue -- QR code generation + branded share card.
   Replaces features/qr-code.ts imperative DOM manipulation.
   Uses qrcode for canvas generation and html-to-image/html2canvas for PNG export.
 -->
@@ -34,7 +34,7 @@ const props = defineProps<{
 /**
  * Emits for QRCodeModal.
  *
- * - open-link: User clicked \"Open Link\" — parent switches to
+ * - open-link: User clicked \"Open Link\" -- parent switches to
  *   ExternalLinkConfirmModal with the same URL + icon properties.
  */
 const emit = defineEmits<{
@@ -161,14 +161,14 @@ watch(effectiveTheme, async () => {
 });
 
 // -------------------------------------------------------------------------
-// Share card → PNG export
+// Share card -> PNG export
 // -------------------------------------------------------------------------
 
 /**
  * Render the QR share card to a PNG blob.
  *
  * Uses the same two-tier fallback as the original features/qr-code.ts:
- * 1. html-to-image toPng (primary — canvas via SVG foreignObject)
+ * 1. html-to-image toPng (primary -- canvas via SVG foreignObject)
  * 2. html2canvas (fallback for mobile / environments without foreignObject)
  */
 async function renderShareCardBlob(): Promise<Blob> {
@@ -264,7 +264,7 @@ async function copyImage(): Promise<void> {
         ),
       );
     } catch {
-      // ClipboardItem("image/png") not supported — fall back to copying the URL
+      // ClipboardItem("image/png") not supported -- fall back to copying the URL
       await navigator.clipboard.writeText(props.url);
       showToast(
         "success",

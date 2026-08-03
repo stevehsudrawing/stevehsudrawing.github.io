@@ -1,5 +1,5 @@
 <!--
-  InlineSvg.vue — fetches an external SVG and injects it inline.
+  InlineSvg.vue -- fetches an external SVG and injects it inline.
 
   Props: src, width?, height?, colorVar?
   Global scan: useSvgInjection.ts (composable).

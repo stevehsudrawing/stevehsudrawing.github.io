@@ -152,7 +152,7 @@ The remainder of this document links to detailed reference files in `instruction
 
 > Files in `4-feature-references/` are organized into five functional
 > subdirectories. Within each directory, files use a `NN-topic.instructions.md`
-> naming scheme — the two-digit prefix defines the reading order. To add a
+> naming scheme -- the two-digit prefix defines the reading order. To add a
 > new file, pick the next available number in the appropriate directory, or
 > create a new directory if no existing group fits.
 >

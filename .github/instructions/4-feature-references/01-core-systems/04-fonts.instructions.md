@@ -26,9 +26,9 @@ applyTo: >
 Font stacks are assembled from individual variables to produce per-platform
 per-language preferences:
 
-- **English text**: Inter → SF Pro → Roboto → Segoe UI → system-ui
-- **CJK text**: Sarasa Gothic → Hiragino Sans → PingFang → Noto Sans CJK
-- **Monospace**: Roboto Mono → SF Mono → Consolas → monospace
+- **English text**: Inter -> SF Pro -> Roboto -> Segoe UI -> system-ui
+- **CJK text**: Sarasa Gothic -> Hiragino Sans -> PingFang -> Noto Sans CJK
+- **Monospace**: Roboto Mono -> SF Mono -> Consolas -> monospace
 
 ##### 4.1.4.3 @font-face
 

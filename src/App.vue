@@ -1,5 +1,5 @@
 <!--
-  App.vue — Vue application root shell.
+  App.vue -- Vue application root shell.
   Handles initialization orchestration that was previously in
   main.ts's DOMContentLoaded handler.
 
@@ -34,7 +34,7 @@ import AppNavbar from "./components/layout/AppNavbar.vue";
 import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
-// Legacy modules (init*() — Phase 7 will eliminate these)
+// Legacy modules (init*() -- Phase 7 will eliminate these)
 import { AppEvent, StorageKey } from "./types/app.js";
 import { initPageContent } from "./features/page-content-initializer.js";
 import { initTooltipI18nListener } from "./ui/tooltips.js";
@@ -73,7 +73,7 @@ const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
 const appNavbarRef = ref<InstanceType<typeof AppNavbar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
-/** Reactive current page path — drives AppNavbar active state + brand text. */
+/** Reactive current page path -- drives AppNavbar active state + brand text. */
 const currentPage = ref(normalizeInternalPath(window.location.pathname));
 
 /**

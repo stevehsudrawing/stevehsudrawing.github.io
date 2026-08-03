@@ -13,16 +13,16 @@ applyTo: >
 ##### 4.2.8.1 CopyProtectedImg.vue
 
 ```
-onMounted → init()
+onMounted -> init()
   └─ document.addEventListener("contextmenu", handler)
   └─ document.addEventListener("dragstart", handler)
 
-onBeforeUnmount → removeEventListener for both
+onBeforeUnmount -> removeEventListener for both
 ```
 
-Event handlers check `(e.target).closest(".no-copy")` — if matched, `e.preventDefault()`.
+Event handlers check `(e.target).closest(".no-copy")` -- if matched, `e.preventDefault()`.
 
-Expose: `defineExpose({ init })` — idempotent re-init for SPA transitions.
+Expose: `defineExpose({ init })` -- idempotent re-init for SPA transitions.
 
 ##### 4.2.8.2 no-copy.ts Bridge
 

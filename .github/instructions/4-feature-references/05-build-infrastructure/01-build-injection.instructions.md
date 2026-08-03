@@ -1,7 +1,7 @@
 ---
 description: >
   Build-time Injection: contentInjectionPlugin() Vite plugin, HAST tree manipulation,
-  link-card builder (HAST JSON → HTML), link-button-group builder.  Replaces #links containers,
+  link-card builder (HAST JSON -> HTML), link-button-group builder.  Replaces #links containers,
   data-role="link-button-group" placeholders at build time.
   Use when: modifying Vite plugins, link-card/link-button-group JSON configs, or build-time injection.
 applyTo: >
@@ -17,7 +17,7 @@ applyTo: >
 ##### 4.5.1.1 contentInjectionPlugin()
 
 Vite plugin with `transformIndexHtml` hook (order: `pre`). Extracts body
-content → HAST tree → walk → toHtml.
+content -> HAST tree -> walk -> toHtml.
 
 ##### 4.5.1.2 processContentTree() Operations
 
@@ -31,12 +31,12 @@ content → HAST tree → walk → toHtml.
 ##### 4.5.1.3 Link Cards
 
 Config: `build/configs/link-cards/{pageName}.json` (HAST JSON format).
-Builder: `build/builders/link-cards.ts` → `buildLinkCardsHTML(pageName)`.
+Builder: `build/builders/link-cards.ts` -> `buildLinkCardsHTML(pageName)`.
 
 ##### 4.5.1.4 Link Button Groups
 
 Config: `build/configs/link-button-groups/{groupName}.json` (LinkButtonData format).
-Builder: `build/builders/link-button-groups.ts` → `buildLinkButtonGroupHTML(pageName, groupId)`.
+Builder: `build/builders/link-button-groups.ts` -> `buildLinkButtonGroupHTML(pageName, groupId)`.
 
 ##### 4.5.1.5 Future (Phase 7)
 

@@ -1,6 +1,6 @@
 ---
 description: >
-  Inline SVG: InlineSvg.vue (fetch SVG → inject inline), useSvgInjection.ts composable
+  Inline SVG: InlineSvg.vue (fetch SVG -> inject inline), useSvgInjection.ts composable
   (global document scan).  SVG conventions: fill="currentColor" placeholder, include viewBox.
   Use when: adding SVG assets, modifying SVG injection logic, or using SVG placeholders.
 applyTo: >
@@ -34,7 +34,7 @@ Usage:
 Shared between `InlineSvg.vue` and `useSvgInjection.ts` (composable exports it):
 
 1. Guard: skip if `<svg>` already injected
-2. `fetch(src)` → `response.text()`
+2. `fetch(src)` -> `response.text()`
 3. If `colorVar`: replace `fill="currentColor"` with `fill="var(--{colorVar})"`
 4. Set `width`/`height` on `<svg>` tag
 5. Set `innerHTML` of placeholder

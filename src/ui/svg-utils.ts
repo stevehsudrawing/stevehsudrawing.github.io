@@ -1,5 +1,5 @@
 /**
- * SVG injection bridge — delegates to the composable.
+ * SVG injection bridge -- delegates to the composable.
  *
  * The useSvgInjection composable handles the global document scan.
  * This module provides a thin bridge for legacy TS consumers

@@ -26,9 +26,9 @@ CSS uses this for conditional focus outlines.
 
 CSS media queries in `accessibility.css`:
 
-- `prefers-reduced-motion: reduce` — disables animations
-- `prefers-reduced-transparency: reduce` — removes transparency
-- `prefers-contrast: high` / `more` — increases contrast
+- `prefers-reduced-motion: reduce` -- disables animations
+- `prefers-reduced-transparency: reduce` -- removes transparency
+- `prefers-contrast: high` / `more` -- increases contrast
 
 ##### 4.4.1.4 Modal Focus Management
 

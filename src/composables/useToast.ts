@@ -1,5 +1,5 @@
 /**
- * Toast composable — inject the global showToast function.
+ * Toast composable -- inject the global showToast function.
  *
  * Relies on ToastStack.vue having provided the SHOW_TOAST_KEY
  * via `provide`.  Must be called inside a component that is a
@@ -11,7 +11,7 @@ import { inject } from "vue";
 export const SHOW_TOAST_KEY = Symbol("showToast");
 
 /**
- * @returns showToast(type, message) — call this to display a notification.
+ * @returns showToast(type, message) -- call this to display a notification.
  */
 export function useToast(): {
   showToast: (type: "success" | "error", message: string) => void;

@@ -1,5 +1,5 @@
 <!--
-  FooterNav.vue — site footer with copyright, external links, and QR share trigger.
+  FooterNav.vue -- site footer with copyright, external links, and QR share trigger.
 
   Replaces build/page-components/footer.html.
   Links use data-link-img-props / data-qr-url for App.vue event delegation.
@@ -33,7 +33,7 @@ const poweredByHtml = computed(() => renderHast("hast-powered-by", null));
 // =========================================================================
 // Actions
 // =========================================================================
-// (none — footer links use App.vue event delegation)
+// (none -- footer links use App.vue event delegation)
 </script>
 
 <template>

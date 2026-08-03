@@ -1,5 +1,5 @@
 <!--
-  OffcanvasNav.vue — mobile sidebar navigation.
+  OffcanvasNav.vue -- mobile sidebar navigation.
   Rendered inside AppNavbar.vue; toggled via
   data-bs-toggle="offcanvas" + data-bs-target="#navbar-offcanvas".
 

@@ -1,5 +1,5 @@
 /**
- * Loading bar bridge — delegates to the Vue LoadingBar component.
+ * Loading bar bridge -- delegates to the Vue LoadingBar component.
  *
  * The Vue LoadingBar component renders #loading-bar in its own template
  * and exposes show / complete / hide.  This module provides a thin bridge

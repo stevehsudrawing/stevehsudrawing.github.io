@@ -1,5 +1,5 @@
 <!--
-  CopyProtectedImg.vue — no-copy protection controller.
+  CopyProtectedImg.vue -- no-copy protection controller.
 
   Sets up document-level event delegation (contextmenu + dragstart) to
   prevent copying .no-copy elements.  Owns the CSS (no-copy.css).
@@ -25,7 +25,7 @@ function onDragStart(e: DragEvent): void {
   }
 }
 
-/** Set up delegated event listeners. Idempotent — safe to call multiple times. */
+/** Set up delegated event listeners. Idempotent -- safe to call multiple times. */
 function init(): void {
   // Remove first to prevent duplicates if called again
   document.removeEventListener("contextmenu", onContextMenu);
@@ -56,7 +56,7 @@ defineExpose({ init });
 </template>
 
 <style>
-/* ==== No-copy — make elements unselectable and undraggable ==== */
+/* ==== No-copy -- make elements unselectable and undraggable ==== */
 
 .no-copy {
   user-select: none;

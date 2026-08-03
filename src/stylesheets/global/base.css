@@ -92,7 +92,7 @@ ruby {
   border-radius: var(--bs-border-radius);
 }
 
-/* TODO: §4.9 → AppNavbar.vue — modal-header/footer overrides used by all BModal components;
+/* TODO: §4.9 -> AppNavbar.vue -- modal-header/footer overrides used by all BModal components;
    could be extracted to a shared modal-base.css or kept as global Bootstrap tweaks. */
 .modal-header {
   border-bottom: none !important;
@@ -102,7 +102,7 @@ ruby {
   border-top: none !important;
 }
 
-/* (Migrated to AppNavbar.vue — §4.9) */
+/* (Migrated to AppNavbar.vue -- §4.9) */
 .nav-link {
   transition:
     color 0.1s ease-in-out,
@@ -110,7 +110,7 @@ ruby {
     border-color 0.1s ease-in-out;
 }
 
-/* TODO: §3.1 → SettingsModal.vue (form-select transition) */
+/* TODO: §3.1 -> SettingsModal.vue (form-select transition) */
 .form-select {
   transition: inherit;
 }
@@ -154,7 +154,7 @@ code {
   color: inherit;
 }
 
-/* TODO: §4.5 → v-b-tooltip (Bootstrap tooltip font inheritance; may stay global) */
+/* TODO: §4.5 -> v-b-tooltip (Bootstrap tooltip font inheritance; may stay global) */
 .tooltip {
   font-family: inherit;
 }
@@ -184,7 +184,7 @@ code {
 
 /* ========================================================================
    External Link Icon
-   (Used by accessibility.ts addExternalLinkIndicator — global, not
+   (Used by accessibility.ts addExternalLinkIndicator -- global, not
    owned by any single component.)
    ======================================================================== */
 
@@ -206,7 +206,7 @@ code {
 
 /* ========================================================================
    Cards
-   (Build-time injected link cards — not owned by any Vue component.)
+   (Build-time injected link cards -- not owned by any Vue component.)
    ======================================================================== */
 
 .card-wrapper {
@@ -271,7 +271,7 @@ code {
 
 /* ========================================================================
    Image Utilities
-   (Migrated to FeatureAwareImg.vue — §4.8.  Remaining .img-fit and
+   (Migrated to FeatureAwareImg.vue -- §4.8.  Remaining .img-fit and
    .sub-cover-wrapper selectors are used by build-time injected HTML.)
    ======================================================================== */
 
@@ -312,7 +312,7 @@ code {
 
 /* ========================================================================
    Button Groups
-   (Build-time injected link button groups — not owned by any Vue component.)
+   (Build-time injected link button groups -- not owned by any Vue component.)
    ======================================================================== */
 
 .btn-group {
@@ -349,7 +349,7 @@ code {
 
 /* ========================================================================
    Footer
-   (Migrated to FooterNav.vue — §4.10)
+   (Migrated to FooterNav.vue -- §4.10)
    ======================================================================== */
 
 .footer {

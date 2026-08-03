@@ -80,7 +80,7 @@ Both sub-folders use the same CSS commenting format:
   - `chatting`
   - `softwares`
 - **Error Pages with Minimal External Reference (`public/`)**: These pages (in `public/`) don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
-  - `404` — HTTP 404 page (static, no JS framework)
+  - `404` -- HTTP 404 page (static, no JS framework)
   - `error-unsupported-browser`
   - `error-javascript-disabled`
 

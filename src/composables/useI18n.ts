@@ -1,5 +1,5 @@
 /**
- * I18n composable — reactive translation state for Vue 3.
+ * I18n composable -- reactive translation state for Vue 3.
  *
  * Provides locale, messages, and a translation function.  Delegates
  * DOM updates (querySelectorAll walks for [data-i18n]) to core/i18n.ts

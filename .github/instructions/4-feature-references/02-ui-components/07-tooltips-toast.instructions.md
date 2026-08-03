@@ -13,13 +13,13 @@ applyTo: >
 
 #### 4.2.7 Tooltips & Toast
 
-##### 4.2.7.1 Tooltips — Legacy (tooltips.ts)
+##### 4.2.7.1 Tooltips -- Legacy (tooltips.ts)
 
 `createTooltip(el)`, `disposeTooltip(el)`, `initAllTooltips()`,
 `initTooltipI18nListener()` for build-time injected elements.
 Uses `window.bootstrap.Tooltip` directly.
 
-##### 4.2.7.2 Tooltips — Vue (v-b-tooltip)
+##### 4.2.7.2 Tooltips -- Vue (v-b-tooltip)
 
 For Vue-rendered elements, use `v-b-tooltip` from `bootstrap-vue-next`:
 
@@ -30,7 +30,7 @@ For Vue-rendered elements, use `v-b-tooltip` from `bootstrap-vue-next`:
 When link cards/button groups are Vue-ified (Phase 7), all tooltip management
 migrates to `v-b-tooltip`.
 
-##### 4.2.7.3 Toast — Architecture
+##### 4.2.7.3 Toast -- Architecture
 
 ```
 App.vue

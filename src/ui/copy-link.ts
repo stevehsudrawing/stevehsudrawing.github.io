@@ -1,5 +1,5 @@
 /**
- * Copy-link behavior — click-to-copy with Toast feedback.
+ * Copy-link behavior -- click-to-copy with Toast feedback.
  *
  * Extracted from tooltips.ts (§4.5 Phase A).
  * Copy-link was originally coupled with tooltip decoration;
@@ -64,12 +64,12 @@ export function disposeCopyLinkClick(link: HTMLAnchorElement): void {
 }
 
 // =========================================================================
-// Tooltip decoration (desktop only — optional)
+// Tooltip decoration (desktop only -- optional)
 // =========================================================================
 
 /**
  * Decorate a single .copy-link element with Bootstrap tooltip attributes.
- * Only called on desktop — touchscreens skip tooltip initialization.
+ * Only called on desktop -- touchscreens skip tooltip initialization.
  * The actual Bootstrap Tooltip instance is created later by
  * {@link initAllTooltips} (in tooltips.ts).
  * @param link - The .copy-link element to decorate.

@@ -18,7 +18,7 @@ ScrollHint.vue
   ├─ Actions: createHint(), removeHint(), updateAllHints(), initAllHints()
   └─ Expose: { createHint, removeHint, updateAllHints, initAllHints }
        │
-       └── scroll-hint.ts (bridge → window.__scrollHint)
+       └── scroll-hint.ts (bridge -> window.__scrollHint)
 ```
 
 ##### 4.2.6.2 API
@@ -36,5 +36,5 @@ Managed via `requestAnimationFrame` throttle. Cleaned up in `onBeforeUnmount`.
 
 ##### 4.2.6.4 CSS
 
-Non-scoped `<style>` block — targets `.scroll-hint` elements outside Vue's
+Non-scoped `<style>` block -- targets `.scroll-hint` elements outside Vue's
 render tree. `.scroll-hint.visible` toggles `display: block`.

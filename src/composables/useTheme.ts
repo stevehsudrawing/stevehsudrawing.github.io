@@ -1,5 +1,5 @@
 /**
- * Theme composable — reactive theme state for Vue 3.
+ * Theme composable -- reactive theme state for Vue 3.
  *
  * Provides a single source of truth for the user's theme preference
  * (auto / light / dark) and the resolved effective theme.
@@ -22,7 +22,7 @@ import { StorageKey } from "../types/app.js";
 export function useTheme(): {
   /** User-chosen theme: 'auto', 'light', or 'dark'. */
   preference: Ref<ThemeChoice>;
-  /** Resolved theme: 'light' or 'dark' (auto → system preference). */
+  /** Resolved theme: 'light' or 'dark' (auto -> system preference). */
   effectiveTheme: Ref<EffectiveTheme>;
   /** Directly set the preference and apply it via ui/theme.ts. */
   setPreference: (choice: ThemeChoice) => void;
@@ -63,7 +63,7 @@ export function useTheme(): {
     }
   });
 
-  // --- Sync effectiveTheme → DOM via existing imperative module ---
+  // --- Sync effectiveTheme -> DOM via existing imperative module ---
   watch(effectiveTheme, (theme) => {
     document.documentElement.setAttribute("data-bs-theme", theme);
 

@@ -1,5 +1,5 @@
 /**
- * Scroll hint bridge — delegates to the Vue ScrollHint component.
+ * Scroll hint bridge -- delegates to the Vue ScrollHint component.
  *
  * The .link-button-group elements are build-time injected HTML.
  * The Vue ScrollHint component owns the CSS and logic; this module

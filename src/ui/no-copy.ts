@@ -1,5 +1,5 @@
 /**
- * No-copy protection bridge — delegates to the Vue CopyProtectedImg component.
+ * No-copy protection bridge -- delegates to the Vue CopyProtectedImg component.
  *
  * When Vue is active (window.__noCopy exists), delegates to the
  * CopyProtectedImg component.  Otherwise, sets up event listeners directly
@@ -25,10 +25,10 @@ function onDragStart(e: DragEvent): void {
 export function initNoCopyProtection(): void {
   try {
     if (window.__noCopy) {
-      // Vue path — delegate to the component
+      // Vue path -- delegate to the component
       window.__noCopy.init();
     } else {
-      // Fallback — set up listeners directly
+      // Fallback -- set up listeners directly
       document.removeEventListener("contextmenu", onContextMenu);
       document.removeEventListener("dragstart", onDragStart);
       document.addEventListener("contextmenu", onContextMenu);

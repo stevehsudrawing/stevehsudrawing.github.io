@@ -13,7 +13,7 @@ applyTo: >
 
 ```
 FooterNav.vue
-  ├─ State: useI18n() → messages, renderHast()
+  ├─ State: useI18n() -> messages, renderHast()
   └─ Template-only (no Actions / Expose)
 ```
 

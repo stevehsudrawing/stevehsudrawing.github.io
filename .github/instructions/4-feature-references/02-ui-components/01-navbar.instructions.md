@@ -25,7 +25,7 @@ AppNavbar.vue (one-shot Vue render)
        │     ├─ Types: NavItem interface
        │     └─ Props: navItems, currentPage
        │
-       └── navbar.ts (bridge → window.__navbar)
+       └── navbar.ts (bridge -> window.__navbar)
 ```
 
 ##### 4.2.1.2 Active Nav-Item
@@ -37,7 +37,7 @@ Uses `:class="{ active: isActive(item.href) }"` and `:aria-current`.
 
 On mobile screens (< 992 px):
 
-- `brandProgress` computed (0→1 over first 64 px of scroll)
+- `brandProgress` computed (0->1 over first 64 px of scroll)
 - Logo slides up, page name slides in from below
 
 ##### 4.2.1.4 Dropdowns

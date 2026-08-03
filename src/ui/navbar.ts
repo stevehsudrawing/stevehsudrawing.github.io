@@ -1,5 +1,5 @@
 /**
- * Navbar bridge — delegates to the Vue AppNavbar component.
+ * Navbar bridge -- delegates to the Vue AppNavbar component.
  *
  * The AppNavbar component handles active item highlighting and
  * brand text updates reactively.  This module provides a thin
@@ -12,7 +12,7 @@ function get(): NonNullable<Window["__navbar"]> | null {
 
 /**
  * Highlight the navbar link matching the current page path.
- * Delegates to AppNavbar (handled reactively — no-op for compat).
+ * Delegates to AppNavbar (handled reactively -- no-op for compat).
  */
 export function setActiveNavItem(): void {
   get()?.setActiveNavItem();
@@ -20,7 +20,7 @@ export function setActiveNavItem(): void {
 
 /**
  * Update the navbar-brand page-name text.
- * Delegates to AppNavbar (handled reactively — no-op for compat).
+ * Delegates to AppNavbar (handled reactively -- no-op for compat).
  */
 export function updateNavbarBrandText(): void {
   get()?.updateNavbarBrandText();

@@ -24,7 +24,7 @@ export const enum StorageKey {
 }
 ```
 
-Always use `StorageKey.XXX` — never bare strings.
+Always use `StorageKey.XXX` -- never bare strings.
 
 ##### 4.1.3.2 useLocalStorage() Composable
 
@@ -40,24 +40,24 @@ Handles legacy plain-string values via try/catch `JSON.parse`.
 ```
 SettingsModal.vue
   ├─ visible: ref<boolean>  (defineExpose: show/hide)
-  ├─ locale: Ref<Lang>        → useI18n()
-  ├─ themePreference           → useTheme()
-  ├─ openInNewTab              → useLocalStorage(StorageKey.OpenInNewTab)
-  ├─ enableAnimations          → useLocalStorage(StorageKey.EnableAnimations)
-  └─ reducedMotion             → matchMedia("(prefers-reduced-motion: reduce)")
+  ├─ locale: Ref<Lang>        -> useI18n()
+  ├─ themePreference           -> useTheme()
+  ├─ openInNewTab              -> useLocalStorage(StorageKey.OpenInNewTab)
+  ├─ enableAnimations          -> useLocalStorage(StorageKey.EnableAnimations)
+  └─ reducedMotion             -> matchMedia("(prefers-reduced-motion: reduce)")
        │
        └── ResetWarningModal.vue (modal-to-modal switching)
-            └─ emit("confirm") → resetAll() → redirect to /index.html
+            └─ emit("confirm") -> resetAll() -> redirect to /index.html
 ```
 
 ##### 4.1.3.4 Modal-to-Modal Switching
 
 SettingsModal ↔ ResetWarningModal uses the `pendingResetWarning` flag:
 
-1. User clicks "Reset" → `openResetWarning()` sets flag, hides SettingsModal
-2. `@hidden` → `onSettingsHidden()` shows ResetWarningModal
-3. Cancel → `onResetCancel()` re-shows SettingsModal
-4. Confirm → `resetAll()` clears all prefs, redirects
+1. User clicks "Reset" -> `openResetWarning()` sets flag, hides SettingsModal
+2. `@hidden` -> `onSettingsHidden()` shows ResetWarningModal
+3. Cancel -> `onResetCancel()` re-shows SettingsModal
+4. Confirm -> `resetAll()` clears all prefs, redirects
 
 ##### 4.1.3.5 Open from App.vue
 

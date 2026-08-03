@@ -14,12 +14,12 @@ applyTo: >
 
 ##### 4.5.3.1 Path Utilities (`src/core/utils.ts`)
 
-| Function                      | Purpose                            |
-| ----------------------------- | ---------------------------------- |
-| `normalizeInternalPath(path)` | Normalize to `/lowercase.html`     |
-| `extractPageName(path)`       | `/about.html` → `about`            |
-| `isInternalPage(href)`        | Check if internal page             |
-| `toDashCase(str)`             | camelCase / PascalCase → dash-case |
+| Function                      | Purpose                             |
+| ----------------------------- | ----------------------------------- |
+| `normalizeInternalPath(path)` | Normalize to `/lowercase.html`      |
+| `extractPageName(path)`       | `/about.html` -> `about`            |
+| `isInternalPage(href)`        | Check if internal page              |
+| `toDashCase(str)`             | camelCase / PascalCase -> dash-case |
 
 ##### 4.5.3.2 DOM Utilities (`src/core/utils.ts`)
 

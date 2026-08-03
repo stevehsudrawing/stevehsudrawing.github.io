@@ -1,5 +1,5 @@
 /**
- * Image features composable — colored masks and loading opacity.
+ * Image features composable -- colored masks and loading opacity.
  *
  * Extracted from FeatureAwareImg.vue (§4.8).  Provides the global
  * document scan for build-time injected [data-img-feature] images

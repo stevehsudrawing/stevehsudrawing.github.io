@@ -1,5 +1,5 @@
 /**
- * Image utilities bridge — delegates to the composable.
+ * Image utilities bridge -- delegates to the composable.
  *
  * The useImgFeatures composable handles colored masks and loading opacity.
  * Single-element ops stay here; batch ops delegate to the composable.

@@ -28,7 +28,7 @@
   - [x] Template is empty for now (no visible UI in shell)
 - [x] Rewrite `src/main.ts`
   - [x] Keep: CSS imports, global `window.*` exposures, module side-effect imports, early theme init
-  - [x] Replace: `DOMContentLoaded` handler → `createApp(App).mount("#app")`
+  - [x] Replace: `DOMContentLoaded` handler -> `createApp(App).mount("#app")`
 - [x] Update 6 full-feature HTML pages (`index`, `about`, `artworks-and-videos`, `blogs-and-sponsor`, `chatting`, `softwares`)
   - [x] Add `<div id="app"></div>` after modals placeholder
   - [x] Add `<script type="module" src="./main.ts"></script>` before `</body>`
@@ -54,27 +54,27 @@ src/stylesheets/
 │   └── accessibility.css            #   prefers-reduced-*, .user-input-keyboard, .skip-to-content
 │
 └── components/                      # Temporary - will migrate to Vue <style scoped>
-    ├── navbar.css                   #   → AppNavbar.vue
-    ├── scroll-hint.css              #   → ScrollHint.vue
-    ├── loading-screen.css           #   → LoadingScreen.vue
-    ├── loading-bar.css              #   → LoadingBar.vue
-    ├── page-transition.css          #   → Vue <Transition> classes
-    ├── qr-code.css                  #   → QRCodeModal.vue
-    ├── img-utils.css                #   → ThemeAwareImg.vue
-    ├── external-link-confirmation.css  # → ExternalLinkConfirmModal.vue
-    ├── no-copy.css                  #   → CopyProtectedImg.vue
-    └── components.css               #   → split into individual components or shared global fragments
+    ├── navbar.css                   #   -> AppNavbar.vue
+    ├── scroll-hint.css              #   -> ScrollHint.vue
+    ├── loading-screen.css           #   -> LoadingScreen.vue
+    ├── loading-bar.css              #   -> LoadingBar.vue
+    ├── page-transition.css          #   -> Vue <Transition> classes
+    ├── qr-code.css                  #   -> QRCodeModal.vue
+    ├── img-utils.css                #   -> ThemeAwareImg.vue
+    ├── external-link-confirmation.css  # -> ExternalLinkConfirmModal.vue
+    ├── no-copy.css                  #   -> CopyProtectedImg.vue
+    └── components.css               #   -> split into individual components or shared global fragments
 ```
 
 ### 1.2 Tasks
 
 - [x] Create `src/stylesheets/global/` directory
 - [x] Create `src/stylesheets/components/` directory
-- [x] Move `base.css` → `stylesheets/global/base.css`
-- [x] Move `theme.css` → `stylesheets/global/theme.css`
-- [x] Move `fonts.css` → `stylesheets/global/fonts.css`
-- [x] Move `accessibility.css` → `stylesheets/global/accessibility.css`
-- [x] Move remaining 10 CSS files → `stylesheets/components/`
+- [x] Move `base.css` -> `stylesheets/global/base.css`
+- [x] Move `theme.css` -> `stylesheets/global/theme.css`
+- [x] Move `fonts.css` -> `stylesheets/global/fonts.css`
+- [x] Move `accessibility.css` -> `stylesheets/global/accessibility.css`
+- [x] Move remaining 10 CSS files -> `stylesheets/components/`
 - [x] Update import paths in `src/main.ts` (14 lines)
 - [x] Update import paths in `src/main-lightweight.ts`
 - [x] `pnpm typecheck`
@@ -97,7 +97,7 @@ src/stylesheets/
 
 - [x] Create `src/composables/useTheme.ts`
   - `preference` ref (auto / light / dark, synced to `StorageKey.Theme`)
-  - `effectiveTheme` computed (resolves "auto" → system preference)
+  - `effectiveTheme` computed (resolves "auto" -> system preference)
   - `setPreference(choice)` delegates to `ui/theme.ts` for overlay + DOM
   - System theme listener via `matchMedia` in `onMounted` / `onUnmounted`
 - [x] Wire `useTheme` into `App.vue` (coexists with existing init*() imports)
@@ -111,7 +111,7 @@ src/stylesheets/
   - Register `$t(key, fallback?)` global method
 - [x] Create `src/composables/useI18n.ts`
   - `t(key, fallback?)` function (reads from provided `messages`)
-  - `setLocale(rawLang)` async function (fetch JSON → update `messages` + call `applyLangData`)
+  - `setLocale(rawLang)` async function (fetch JSON -> update `messages` + call `applyLangData`)
 - [x] Wire `i18n` plugin into `main.ts` (`app.use(i18nPlugin)`)
 - [x] Wire `useI18n` into `App.vue` (coexists with existing `initLang()`)
 - [x] Keep `core/i18n.ts` in place for `main-lightweight.ts` consumers
@@ -169,7 +169,7 @@ src/stylesheets/
 > **Goal:** Componentize remaining `ui/*.ts` modules and migrate corresponding CSS
 > from `stylesheets/components/` into `<style scoped>` blocks.
 >
-> **Ordered easiest → hardest:**
+> **Ordered easiest -> hardest:**
 
 ### 4.1 Loading Screen ⭐ ✅
 
@@ -186,7 +186,7 @@ src/stylesheets/
   - Controls static HTML `#page-transition-progress` (injected via header.html)
   - Reactive `show()` / `complete()` / `hide()` via `defineExpose`
   - CSS migrated from `loading-bar.css` to non-scoped `<style>` block
-- [x] Rewrite `ui/loading-bar.ts` as bridge → delegates to `window.__loadingBar`
+- [x] Rewrite `ui/loading-bar.ts` as bridge -> delegates to `window.__loadingBar`
 - [x] Remove `stylesheets/components/loading-bar.css` import
 - [x] `pnpm typecheck`
 
@@ -197,7 +197,7 @@ src/stylesheets/
   - Exposes `createHint` / `removeHint` / `updateAllHints` / `initAllHints`
   - CSS migrated from `scroll-hint.css` to non-scoped `<style>` block
   - Resize listener lifecycle managed via `onBeforeUnmount`
-- [x] Rewrite `ui/scroll-hint.ts` as bridge → delegates to `window.__scrollHint`
+- [x] Rewrite `ui/scroll-hint.ts` as bridge -> delegates to `window.__scrollHint`
 - [x] Remove `stylesheets/components/scroll-hint.css` import
 - [x] `pnpm typecheck`
 
@@ -207,11 +207,11 @@ src/stylesheets/
   - Document-level event delegation (contextmenu + dragstart)
   - Self-initializing on mount, cleanup on unmount
   - CSS migrated from `no-copy.css` to non-scoped `<style>` block
-- [x] Rewrite `ui/no-copy.ts` as bridge → delegates to `window.__noCopy` with generic fallback
+- [x] Rewrite `ui/no-copy.ts` as bridge -> delegates to `window.__noCopy` with generic fallback
 - [x] Remove `initNoCopyProtection()` call from `App.vue` (component handles it)
 - [x] Remove `stylesheets/components/no-copy.css` import
-- [x] **404 demotion (§4.4a):** `src/404.html` → `public/404.html` (static error page)
-  - Removed `main-lightweight.ts` (66 lines) — last consumer of lightweight tier
+- [x] **404 demotion (§4.4a):** `src/404.html` -> `public/404.html` (static error page)
+  - Removed `main-lightweight.ts` (66 lines) -- last consumer of lightweight tier
   - Removed `"lightweight"` from `PageTier` type; simplified `head-tags-plugin.ts`
   - Deleted `build/page-components/footer-lightweight.html`
   - Simplified `no-copy.ts` bridge (no more lightweight-specific path)
@@ -219,12 +219,12 @@ src/stylesheets/
 
 ### 4.5 Tooltips ⭐⭐ ✅
 
-- [x] **Phase A: Extract copy-link → `src/ui/copy-link.ts`**
-  - `handleCopyLinkClick`, `initCopyLinkClick`, `disposeCopyLinkClick` — clipboard + Toast
-  - `initCopyLinkTooltip`, `disposeCopyLinkTooltip` — tooltip decoration (desktop only)
-  - `initAllCopyLinkBehavior` — batch init
-- [x] Prune `ui/tooltips.ts` — keep generic tooltip lifecycle + i18n listener only
-- [x] Update `features/page-content-initializer.ts` — split import across two modules
+- [x] **Phase A: Extract copy-link -> `src/ui/copy-link.ts`**
+  - `handleCopyLinkClick`, `initCopyLinkClick`, `disposeCopyLinkClick` -- clipboard + Toast
+  - `initCopyLinkTooltip`, `disposeCopyLinkTooltip` -- tooltip decoration (desktop only)
+  - `initAllCopyLinkBehavior` -- batch init
+- [x] Prune `ui/tooltips.ts` -- keep generic tooltip lifecycle + i18n listener only
+- [x] Update `features/page-content-initializer.ts` -- split import across two modules
 - [ ] **Phase B (deferred):** Replace `createTooltip`/`disposeTooltip` with `v-b-tooltip` for Vue-rendered elements (build-time elements still need `initAllTooltips`)
 - [x] `pnpm typecheck`
 
@@ -234,8 +234,8 @@ src/stylesheets/
   - `<BToast>` with reactive `toasts[]` array
   - `<TransitionGroup>` for enter/leave animations
   - `showToast()` exposed via `provide`/`inject` + `useToast()` composable
-- [x] Fix `ExternalLinkConfirmModal.copyUrl()` — now shows success/error toast
-- [x] Fix `QRCodeModal` — replaces 3 dynamic `import("../../ui/toast.js")` calls with `useToast()`
+- [x] Fix `ExternalLinkConfirmModal.copyUrl()` -- now shows success/error toast
+- [x] Fix `QRCodeModal` -- replaces 3 dynamic `import("../../ui/toast.js")` calls with `useToast()`
 - [ ] Keep `ui/toast.ts` in place for legacy SPA re-init consumers
 - [x] `pnpm typecheck`
 
@@ -245,7 +245,7 @@ src/stylesheets/
   - **Dual-mode**: Vue template `<InlineSvg src="..." :width="25" />` + global `initAll()` scan
   - Props: `src`, `width?`, `height?`, `colorVar?`
   - Replaces `<span data-role="svg" data-src="..." ...>` in `QRCodeModal.vue`
-- [x] Rewrite `ui/svg-utils.ts` as bridge → delegates to `window.__svgInjection`
+- [x] Rewrite `ui/svg-utils.ts` as bridge -> delegates to `window.__svgInjection`
 - [x] Remove `stylesheets/components/` (no CSS file for svg-utils)
 - [x] `pnpm typecheck`
 
@@ -257,37 +257,37 @@ src/stylesheets/
   - Global scan: `initAll()` processes build-time `[data-img-feature]` images
   - CSS migrated from `img-utils.css` to non-scoped `<style>` block
 - [x] Replace `<img>` in `QRCodeModal.vue` + `ExternalLinkConfirmModal.vue` with `<FeatureAwareImg>`
-  - Pass through all HAST properties: `dataImgFeature` → `feature`, `dataColorVar` → `colorVar`, `dataSrcMask` → `colorMaskSrc`
+  - Pass through all HAST properties: `dataImgFeature` -> `feature`, `dataColorVar` -> `colorVar`, `dataSrcMask` -> `colorMaskSrc`
 - [x] Rewrite `ui/img-utils.ts` as hybrid bridge (single-element ops direct + batch ops delegate)
 - [x] Remove `stylesheets/components/img-utils.css` import
 - [x] `pnpm typecheck`
 
 ### 4.9 Navbar ⭐⭐⭐⭐⭐ ✅
 
-- [x] Create `src/components/layout/AppNavbar.vue` — one-shot Vue render (no bridge controller)
-  - Active item highlighting → `:class` computed from `normalizeInternalPath()`
-  - `<BDropdown>` for theme + language — replaces `initDropdownMenuAnimation()`
-  - Mobile brand scroll swap → `@scroll` + `brandProgress` computed
-  - Scroll border → `@scroll` + `:class="scrolled"`
-  - CSS migrated from `navbar.css` (250 lines) → `<style scoped>`
-- [x] Create `src/components/layout/OffcanvasNav.vue` — mobile sidebar
-  - `props: { navItems }` — shared link data
+- [x] Create `src/components/layout/AppNavbar.vue` -- one-shot Vue render (no bridge controller)
+  - Active item highlighting -> `:class` computed from `normalizeInternalPath()`
+  - `<BDropdown>` for theme + language -- replaces `initDropdownMenuAnimation()`
+  - Mobile brand scroll swap -> `@scroll` + `brandProgress` computed
+  - Scroll border -> `@scroll` + `:class="scrolled"`
+  - CSS migrated from `navbar.css` (250 lines) -> `<style scoped>`
+- [x] Create `src/components/layout/OffcanvasNav.vue` -- mobile sidebar
+  - `props: { navItems }` -- shared link data
   - Bootstrap offcanvas via `data-bs-toggle` (no JS needed)
-- [x] Rewrite `ui/navbar.ts` as bridge → `window.__navbar` (26 lines, down from 230)
-- [x] Update `build/page-components/header.html` — removed `<nav>`, kept overlay/progress/skip-button
+- [x] Rewrite `ui/navbar.ts` as bridge -> `window.__navbar` (26 lines, down from 230)
+- [x] Update `build/page-components/header.html` -- removed `<nav>`, kept overlay/progress/skip-button
 - [x] Remove `<div data-role="page-component" data-component-name="header|footer">` from 6 HTML pages
 - [x] Remove `stylesheets/components/navbar.css` + `.no-copy.css` imports
 - [x] `pnpm typecheck`
 
 ### 4.10 Footer ⭐⭐ ✅
 
-- [x] Create `src/components/layout/FooterNav.vue` — replaces `build/page-components/footer.html`
+- [x] Create `src/components/layout/FooterNav.vue` -- replaces `build/page-components/footer.html`
   - Copyright with internal link (`/about.html`, i18n, `v-b-tooltip`)
   - "Powered by Vite" external link (`data-link-img-props`, `data-no-qr-code`)
-  - "Report an Issue" / "Artwork Copyright" — external links with `colored` icons
-  - "Share this website!" — QR trigger (`data-qr-url` + `data-qr-icon` + `v-b-tooltip`)
-  - "View Code" — external link with `colored` icon + `v-b-tooltip`
-  - CSS from `base.css` `.footer` → `<style scoped>`
+  - "Report an Issue" / "Artwork Copyright" -- external links with `colored` icons
+  - "Share this website!" -- QR trigger (`data-qr-url` + `data-qr-icon` + `v-b-tooltip`)
+  - "View Code" -- external link with `colored` icon + `v-b-tooltip`
+  - CSS from `base.css` `.footer` -> `<style scoped>`
 - [x] Delete `build/page-components/footer.html`
 - [x] `pnpm typecheck`
 
@@ -298,25 +298,25 @@ src/stylesheets/
 > **Goal:** Remove dead code after all consumers have been migrated.
 
 - [x] Delete `src/stylesheets/components/` folder (all CSS migrated to `<style scoped>`)
-  - `page-transition.css` moved to `stylesheets/global/` (still active — Vue `<Transition>` not yet adopted)
-- [x] Delete `build/page-components/` folder — all components now Vue SFCs:
-  - `header.html` → `AppNavbar.vue` + `OffcanvasNav.vue`
-  - `footer.html` → `FooterNav.vue`
-  - `footer-lightweight.html` → already deleted (§4.4a)
-  - `modals.html` → already commented out (§3.1–§3.3)
+  - `page-transition.css` moved to `stylesheets/global/` (still active -- Vue `<Transition>` not yet adopted)
+- [x] Delete `build/page-components/` folder -- all components now Vue SFCs:
+  - `header.html` -> `AppNavbar.vue` + `OffcanvasNav.vue`
+  - `footer.html` -> `FooterNav.vue`
+  - `footer-lightweight.html` -> already deleted (§4.4a)
+  - `modals.html` -> already commented out (§3.1–§3.3)
   - **Note:** Static elements (`#page-transition-progress`, `.theme-transition-overlay`, `#skip-button`) that were injected via `header.html` are now rendered in `App.vue` template.
-- [x] Simplify `build/content-injection-plugin.ts` — removed page component + language menu injection logic
+- [x] Simplify `build/content-injection-plugin.ts` -- removed page component + language menu injection logic
   - Removed `readPageComponent()`, `readLanguageItems()`, and related HAST walk logic
   - Also removed now-unused imports: `readFileSync`, `resolve`, `dirname`, `fileURLToPath`
-  - Link card / link button group injection stays (build-time HAST → not yet Vue-ified)
-- [~] Remove `window.bootstrap` global exposure in `main.ts` — **deferred** (still used by `tooltips.ts`, `toast.ts`, `page-transition.ts`)
-- [~] Remove `@types/bootstrap` from `devDependencies` — **deferred** (still needed for `window.bootstrap` consumers)
-- [x] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files — deleted dead modules:
-  - `src/ui/settings.ts` — replaced by `SettingsModal.vue` (§3.1)
-  - `src/ui/modal.ts` — replaced by `<BModal>` built-in focus management (§4.20)
-  - `src/ui/loading-screen.ts` — replaced by `LoadingScreen.vue` (§4.1)
-  - `src/features/external-link-confirmation.ts` — replaced by `ExternalLinkConfirmModal.vue` (§3.2)
-  - `src/features/qr-code.ts` — replaced by `QRCodeModal.vue` (§3.3)
+  - Link card / link button group injection stays (build-time HAST -> not yet Vue-ified)
+- [~] Remove `window.bootstrap` global exposure in `main.ts` -- **deferred** (still used by `tooltips.ts`, `toast.ts`, `page-transition.ts`)
+- [~] Remove `@types/bootstrap` from `devDependencies` -- **deferred** (still needed for `window.bootstrap` consumers)
+- [x] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files -- deleted dead modules:
+  - `src/ui/settings.ts` -- replaced by `SettingsModal.vue` (§3.1)
+  - `src/ui/modal.ts` -- replaced by `<BModal>` built-in focus management (§4.20)
+  - `src/ui/loading-screen.ts` -- replaced by `LoadingScreen.vue` (§4.1)
+  - `src/features/external-link-confirmation.ts` -- replaced by `ExternalLinkConfirmModal.vue` (§3.2)
+  - `src/features/qr-code.ts` -- replaced by `QRCodeModal.vue` (§3.3)
   - Removed dead side-effect imports from `main.ts`
 - [x] `pnpm typecheck` - zero errors
 - [x] `pnpm build` - production build succeeds
@@ -327,7 +327,7 @@ src/stylesheets/
 
 > **Goal:** Update project instruction files (`.github/instructions/`) to reflect
 > the Vue migration patterns, conventions, and architecture decisions.
-> Status: deferred — execute after Phase 5 cleanup is complete.
+> Status: deferred -- execute after Phase 5 cleanup is complete.
 
 ### 6.1 Vue Component Annotation Conventions
 
@@ -349,13 +349,13 @@ When a global CSS selector belongs to a known (planned or existing) Vue
 component, annotate with a `TODO:` comment:
 
 ```css
-/* TODO: §4.8 → ThemeAwareImg.vue */
+/* TODO: §4.8 -> ThemeAwareImg.vue */
 .img-fit { ... }
 
-/* TODO: §4.9 → AppNavbar.vue */
+/* TODO: §4.9 -> AppNavbar.vue */
 .nav-link { ... }
 
-/* TODO: §4.5 → v-b-tooltip (may stay global) */
+/* TODO: §4.5 -> v-b-tooltip (may stay global) */
 .tooltip { ... }
 ```
 
@@ -365,7 +365,7 @@ injected, shared utility), document the reason:
 ```css
 /* ========================================================================
    Button Groups
-   (Build-time injected link button groups — not owned by any Vue component.)
+   (Build-time injected link button groups -- not owned by any Vue component.)
    ======================================================================== */
 ```
 
@@ -377,13 +377,13 @@ outside the Vue tree (e.g. `page-transition.ts`, `lang-switcher.ts`,
 
 ```
 ┌──────────────────────┐     window.__xxx     ┌───────────────────┐
-│  legacy-consumer.ts  │ ─────────────────→  │  bridge-module.ts │
+│  legacy-consumer.ts  │ ─────────────────->  │  bridge-module.ts │
 │  (page-transition,   │                      │  (thin wrapper)   │
 │   lang-switcher)     │                      └────────┬──────────┘
 └──────────────────────┘                               │ delegate
                                                        ▼
 ┌──────────────────────┐     defineExpose      ┌──────────────────┐
-│  App.vue             │ ←──────────────────  │  Component.vue   │
+│  App.vue             │ <-──────────────────  │  Component.vue   │
 │  (sets window.__xxx) │    template ref       │  (owns logic +   │
 └──────────────────────┘                       │   CSS)           │
                                                └──────────────────┘
@@ -400,7 +400,7 @@ Components following this pattern:
 Bridge module template:
 
 ```typescript
-/** Bridge — delegates to the Vue component via window.__xxx. */
+/** Bridge -- delegates to the Vue component via window.__xxx. */
 
 function get(): NonNullable<Window["__xxx"]> | null {
   return window.__xxx ?? null;
@@ -427,10 +427,10 @@ build time (`build/page-components/`, `build/builders/`). These components:
 
 Components following this pattern:
 
-- `LoadingScreen.vue` — controls `#loading-screen` (static HTML in each `.html` page)
-- `LoadingBar.vue` — controls `#page-transition-progress` (static HTML in `App.vue` template)
-- `CopyProtectedImg.vue` — document-level event delegation (no static element needed)
-- `ScrollHint.vue` — creates/removes `.scroll-hint` elements after build-time `.link-button-group`
+- `LoadingScreen.vue` -- controls `#loading-screen` (static HTML in each `.html` page)
+- `LoadingBar.vue` -- controls `#page-transition-progress` (static HTML in `App.vue` template)
+- `CopyProtectedImg.vue` -- document-level event delegation (no static element needed)
+- `ScrollHint.vue` -- creates/removes `.scroll-hint` elements after build-time `.link-button-group`
 
 Components following this pattern **must** use non-scoped `<style>` blocks
 since the target elements are outside Vue's render tree.
@@ -439,7 +439,7 @@ since the target elements are outside Vue's render tree.
 
 Every `<script setup lang="ts">` block in a `.vue` file **MUST** follow the
 section structure below. The five sections are listed in **mandatory order**;
-any section that the component does not use is simply omitted — but no other
+any section that the component does not use is simply omitted -- but no other
 sections may be introduced.
 
 ```
@@ -452,24 +452,24 @@ sections may be introduced.
 // =========================================================================
 // Props
 // =========================================================================
-//   defineProps + defineEmits — the component's public interface.
+//   defineProps + defineEmits -- the component's public interface.
 //   This is always the first section (after any top-level imports).
 
 // =========================================================================
 // State
 // =========================================================================
-//   ref / reactive / computed / composable calls — the reactive data layer.
+//   ref / reactive / computed / composable calls -- the reactive data layer.
 //   Co-location via domain sub-sections is permitted and encouraged.
 
 // =========================================================================
 // Actions
 // =========================================================================
-//   Functions / event handlers / methods — the behaviour layer.
+//   Functions / event handlers / methods -- the behaviour layer.
 
 // =========================================================================
 // Expose
 // =========================================================================
-//   defineExpose — the imperative public API surface.
+//   defineExpose -- the imperative public API surface.
 //   Omitted if the component is purely template-driven.
 ```
 
@@ -527,11 +527,11 @@ or is a general-purpose helper used by multiple sub-sections, it belongs in
 
 **Design rationale:**
 
-- **Fixed vocabulary, fixed order** — every developer can instantly navigate
+- **Fixed vocabulary, fixed order** -- every developer can instantly navigate
   any `.vue` file.
-- **All sections optional** — a simple 30-line component may have only
+- **All sections optional** -- a simple 30-line component may have only
   `Props` and `State`; a complex modal has all five.
-- **Co-location via sub-sections** — respects Vue Composition API's
+- **Co-location via sub-sections** -- respects Vue Composition API's
   strength of keeping related concerns together, without fragmenting the
   top-level structure.
 
@@ -548,34 +548,34 @@ or is a general-purpose helper used by multiple sub-sections, it belongs in
 .github/instructions/4-feature-references/
 │
 ├── 01-core-systems/
-│   ├── 01-i18n.instructions.md                         ← merged from old 3-
-│   ├── 02-theme.instructions.md                        ← updated from old 4-
-│   ├── 03-settings.instructions.md                     ← updated from old 8-
-│   ├── 04-fonts.instructions.md                        ← kept from old 11-
-│   └── 05-browser-detection.instructions.md            ← kept from old 1-
+│   ├── 01-i18n.instructions.md                         <- merged from old 3-
+│   ├── 02-theme.instructions.md                        <- updated from old 4-
+│   ├── 03-settings.instructions.md                     <- updated from old 8-
+│   ├── 04-fonts.instructions.md                        <- kept from old 11-
+│   └── 05-browser-detection.instructions.md            <- kept from old 1-
 │
 ├── 02-ui-components/
-│   ├── 01-navbar.instructions.md                       ← new
-│   ├── 02-footer.instructions.md                       ← new
-│   ├── 03-loading.instructions.md                      ← merged from old 7- + LoadingBar
-│   ├── 04-feature-aware-img.instructions.md            ← updated from old 13-
-│   ├── 05-inline-svg.instructions.md                   ← updated from old 14-
-│   ├── 06-scroll-hint.instructions.md                  ← new
-│   ├── 07-tooltips-toast.instructions.md               ← merged from old 12- + Toast
-│   └── 08-copy-protection.instructions.md              ← new
+│   ├── 01-navbar.instructions.md                       <- new
+│   ├── 02-footer.instructions.md                       <- new
+│   ├── 03-loading.instructions.md                      <- merged from old 7- + LoadingBar
+│   ├── 04-feature-aware-img.instructions.md            <- updated from old 13-
+│   ├── 05-inline-svg.instructions.md                   <- updated from old 14-
+│   ├── 06-scroll-hint.instructions.md                  <- new
+│   ├── 07-tooltips-toast.instructions.md               <- merged from old 12- + Toast
+│   └── 08-copy-protection.instructions.md              <- new
 │
 ├── 03-modals/
-│   ├── 01-external-link.instructions.md                ← updated from old 17-
-│   └── 02-qr-code.instructions.md                      ← updated from old 10-
+│   ├── 01-external-link.instructions.md                <- updated from old 17-
+│   └── 02-qr-code.instructions.md                      <- updated from old 10-
 │
 ├── 04-navigation-accessibility/
-│   ├── 01-accessibility.instructions.md                ← merged from old 9- + 20-
-│   └── 02-page-transitions.instructions.md             ← updated from old 6-
+│   ├── 01-accessibility.instructions.md                <- merged from old 9- + 20-
+│   └── 02-page-transitions.instructions.md             <- updated from old 6-
 │
 └── 05-build-infrastructure/
-    ├── 01-build-injection.instructions.md              ← merged from old 2- + 5- + 19-
-    ├── 02-seo-pwa.instructions.md                      ← merged from old 16- + 18-
-    └── 03-utilities.instructions.md                    ← updated from old 15-
+    ├── 01-build-injection.instructions.md              <- merged from old 2- + 5- + 19-
+    ├── 02-seo-pwa.instructions.md                      <- merged from old 16- + 18-
+    └── 03-utilities.instructions.md                    <- updated from old 15-
 ```
 
 #### 6.2.2 Heading Convention
@@ -606,24 +606,24 @@ numbering mirroring the `copilot-instructions.md` index:
 
 > **Goal:** Eliminate all `window.__xxx` bridge calls by Vue-ifying build-time
 > injected components (link cards, button groups) and their downstream consumers.
-> **Status:** Deferred — depends on build-time injection system redesign.
+> **Status:** Deferred -- depends on build-time injection system redesign.
 
 ### 7.1 Residual Bridge Modules (after Phase 5)
 
 These modules survive Phase 5 cleanup because they serve consumers that are
 not yet Vue components:
 
-| Module           | Bridge variable              | Blocked by                                                          |
-| ---------------- | ---------------------------- | ------------------------------------------------------------------- |
-| `loading-bar.ts` | `window.__loadingBar`        | `page-transition.ts`, `lang-switcher.ts`                            |
-| `scroll-hint.ts` | `window.__scrollHint`        | `page-content-initializer.ts`                                       |
-| `no-copy.ts`     | `window.__noCopy`            | _(none — generic fallback only)_                                    |
-| `tooltips.ts`    | _(none — generic lifecycle)_ | Build-time `data-bs-toggle="tooltip"` on link cards / button groups |
-| `toast.ts`       | _(none — legacy export)_     | SPA re-init after page transitions                                  |
+| Module           | Bridge variable               | Blocked by                                                          |
+| ---------------- | ----------------------------- | ------------------------------------------------------------------- |
+| `loading-bar.ts` | `window.__loadingBar`         | `page-transition.ts`, `lang-switcher.ts`                            |
+| `scroll-hint.ts` | `window.__scrollHint`         | `page-content-initializer.ts`                                       |
+| `no-copy.ts`     | `window.__noCopy`             | _(none -- generic fallback only)_                                   |
+| `tooltips.ts`    | _(none -- generic lifecycle)_ | Build-time `data-bs-toggle="tooltip"` on link cards / button groups |
+| `toast.ts`       | _(none -- legacy export)_     | SPA re-init after page transitions                                  |
 
 ### 7.2 Elimination Strategy
 
-- [ ] Vue-ify link card rendering (build-time HAST → Vue component or hybrid)
+- [ ] Vue-ify link card rendering (build-time HAST -> Vue component or hybrid)
   - Removes need for `initAllTooltips()` on `data-bs-toggle="tooltip"`
   - Enables `v-b-tooltip` directive on all tooltip elements
 - [ ] Vue-ify link button group rendering
@@ -634,7 +634,7 @@ not yet Vue components:
   - Eliminates `window.__loadingBar` consumer
 - [ ] Migrate `page-content-initializer.ts` to per-page `onMounted`
   - Eliminates `window.__scrollHint` consumer
-- [ ] Migrate `main-lightweight.ts` (404 page) — already demoted to `public/404.html` static page (§4.4a)
+- [ ] Migrate `main-lightweight.ts` (404 page) -- already demoted to `public/404.html` static page (§4.4a)
 - [ ] Delete all residual bridge modules from `src/ui/`
 - [ ] `pnpm typecheck`
 
@@ -643,7 +643,7 @@ not yet Vue components:
 ## Phase 8 - SPA Migration (Future)
 
 > **Goal:** Replace MPA with Vue Router for SPA-style navigation.
-> **Status:** Deferred — evaluate after Phase 7 is complete.
+> **Status:** Deferred -- evaluate after Phase 7 is complete.
 
 - [ ] Evaluate trade-offs (SEO impact, build-time injection compatibility, bundle size)
 - [ ] If proceeding:
@@ -690,7 +690,7 @@ src/
 │   │   ├── ToastStack.vue              #   reactive toast notifications (BToast)
 │   │   ├── ScrollHint.vue              #   scroll-down indicator
 │   │   ├── ThemeAwareImg.vue           #   src swap on theme change + loading opacity
-│   │   ├── InlineSvg.vue               #   fetch SVG → inject inline
+│   │   ├── InlineSvg.vue               #   fetch SVG -> inject inline
 │   │   └── CopyProtectedImg.vue        #   no-right-click overlay
 │   └── modals/
 │       ├── SettingsModal.vue           #   theme, language, new-tab, animations toggles
@@ -708,10 +708,10 @@ src/
 ├── main.ts                             # Entry: CSS imports + globals + side-effects + createApp
 ├── main-lightweight.ts                 # 404 entry (no Vue - stays as vanilla TS)
 │
-├── ui/                                 # Residual legacy bridge modules (→ Phase 7 elimination)
-│   ├── loading-bar.ts                  #   bridge → window.__loadingBar
-│   ├── scroll-hint.ts                  #   bridge → window.__scrollHint
-│   ├── no-copy.ts                      #   hybrid bridge → window.__noCopy + lightweight fallback
+├── ui/                                 # Residual legacy bridge modules (-> Phase 7 elimination)
+│   ├── loading-bar.ts                  #   bridge -> window.__loadingBar
+│   ├── scroll-hint.ts                  #   bridge -> window.__scrollHint
+│   ├── no-copy.ts                      #   hybrid bridge -> window.__noCopy + lightweight fallback
 │   ├── tooltips.ts                     #   generic tooltip lifecycle (build-time elements)
 │   └── toast.ts                        #   legacy SPA re-init consumers
 │

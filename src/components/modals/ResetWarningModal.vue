@@ -1,5 +1,5 @@
 <!--
-  ResetWarningModal.vue — Confirmation dialog before clearing all preferences.
+  ResetWarningModal.vue -- Confirmation dialog before clearing all preferences.
   Replaces the nested #warning-reset-modal from build/page-components/modals.html.
 -->
 <script setup lang="ts">
@@ -13,9 +13,9 @@ import { useI18n } from "../../composables/useI18n.js";
 /**
  * Emits for ResetWarningModal.
  *
- * - confirm: User confirmed reset — parent (SettingsModal) clears all
+ * - confirm: User confirmed reset -- parent (SettingsModal) clears all
  *   preferences and redirects to the homepage.
- * - cancel: User cancelled — parent re-shows the SettingsModal.
+ * - cancel: User cancelled -- parent re-shows the SettingsModal.
  */
 const emit = defineEmits<{
   (e: "confirm"): void;

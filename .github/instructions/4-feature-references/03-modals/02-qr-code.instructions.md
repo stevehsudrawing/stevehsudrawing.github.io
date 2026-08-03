@@ -14,7 +14,7 @@ applyTo: >
 
 ```
 App.vue (click delegation)
-  └─ onQRTrigger(e) → reads data-qr-url, data-qr-icon → qrCodeModalRef.show()
+  └─ onQRTrigger(e) -> reads data-qr-url, data-qr-icon -> qrCodeModalRef.show()
 
 QRCodeModal.vue
   ├─ Props: url, imgProperties?, hideOpenLink?
@@ -31,17 +31,17 @@ QRCodeModal.vue
 
 ##### 4.3.2.3 PNG Export (Two-Tier Fallback)
 
-1. **html-to-image `toPng()`** — primary (canvas via SVG foreignObject)
-2. **html2canvas** — fallback (mobile / no foreignObject)
+1. **html-to-image `toPng()`** -- primary (canvas via SVG foreignObject)
+2. **html2canvas** -- fallback (mobile / no foreignObject)
 
 ##### 4.3.2.4 Footer Buttons
 
-| Button    | Action                                                             |
-| --------- | ------------------------------------------------------------------ |
-| Open Link | `emit("open-link")` → App.vue switches to ExternalLinkConfirmModal |
-| Share     | `navigator.share({ files: [qr-code.png] })`                        |
-| Download  | Blob → `<a download>`                                              |
-| Close     | Hide modal                                                         |
+| Button    | Action                                                              |
+| --------- | ------------------------------------------------------------------- |
+| Open Link | `emit("open-link")` -> App.vue switches to ExternalLinkConfirmModal |
+| Share     | `navigator.share({ files: [qr-code.png] })`                         |
+| Download  | Blob -> `<a download>`                                              |
+| Close     | Hide modal                                                          |
 
 ##### 4.3.2.5 data-qr-url / data-qr-icon Attributes
 

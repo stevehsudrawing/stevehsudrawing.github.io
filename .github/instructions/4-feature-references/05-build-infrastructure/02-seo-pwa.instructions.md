@@ -31,7 +31,7 @@ alternates. `lastmod` set to build date.
 
 ##### 4.5.2.3 PWA
 
-- `public/manifest.json` — PWA manifest (name, icons, theme_color, standalone)
+- `public/manifest.json` -- PWA manifest (name, icons, theme_color, standalone)
 - Apple splash screens via `tools/apple-pwa-splash-generator/` (23 resolutions)
 
 ##### 4.5.2.4 Page Tiers

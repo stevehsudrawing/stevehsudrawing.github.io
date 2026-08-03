@@ -1,5 +1,5 @@
 <!--
-  ScrollHint.vue — horizontal scroll indicator for overflowing .link-button-group containers.
+  ScrollHint.vue -- horizontal scroll indicator for overflowing .link-button-group containers.
 
   The .link-button-group elements are build-time injected HTML.  This component
   creates/removes hint elements imperatively after each group, owns the CSS,
