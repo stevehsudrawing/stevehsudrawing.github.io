@@ -62,7 +62,6 @@ import "./ui/accessibility.js";
 import "./ui/settings.js";
 import "./features/page-transition.js";
 import "./features/external-link-confirmation.js";
-import "./ui/svg-utils.js";
 
 // --- Code-dependent features ---
 import "./features/qr-code.js";

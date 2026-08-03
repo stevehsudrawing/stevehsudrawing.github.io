@@ -34,10 +34,9 @@ Tag functions:
 
 **Page Tiers**:
 
-| Tier          | Entry Script           | Pages                                                                     |
-| ------------- | ---------------------- | ------------------------------------------------------------------------- |
-| `full`        | `/main.ts`             | index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares |
-| `lightweight` | `/main-lightweight.ts` | 404 - excludes manifest, sitemap, theme-color, splash screens             |
+| Tier   | Entry Script | Pages                                                                     |
+| ------ | ------------ | ------------------------------------------------------------------------- |
+| `full` | `/main.ts`   | index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares |
 
 **Adding a New Page**:
 

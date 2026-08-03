@@ -20,7 +20,7 @@ import type { HastProperties } from "../src/types/hast.js";
 // ---------------------------------------------------------------------------
 
 /** Page tier classification that controls which entry script and head tags are used. */
-export type PageTier = "full" | "lightweight" | "none";
+export type PageTier = "full" | "none";
 
 /** JSON-LD structured data format type for a page. */
 export type JsonLDType = "homepage" | "breadcrumb" | "none";

@@ -207,16 +207,26 @@ src/stylesheets/
   - Document-level event delegation (contextmenu + dragstart)
   - Self-initializing on mount, cleanup on unmount
   - CSS migrated from `no-copy.css` to non-scoped `<style>` block
-- [x] Rewrite `ui/no-copy.ts` as hybrid bridge (Vue delegate + lightweight fallback)
+- [x] Rewrite `ui/no-copy.ts` as bridge → delegates to `window.__noCopy` with generic fallback
 - [x] Remove `initNoCopyProtection()` call from `App.vue` (component handles it)
 - [x] Remove `stylesheets/components/no-copy.css` import
+- [x] **404 demotion (§4.4a):** `src/404.html` → `public/404.html` (static error page)
+  - Removed `main-lightweight.ts` (66 lines) — last consumer of lightweight tier
+  - Removed `"lightweight"` from `PageTier` type; simplified `head-tags-plugin.ts`
+  - Deleted `build/page-components/footer-lightweight.html`
+  - Simplified `no-copy.ts` bridge (no more lightweight-specific path)
 - [x] `pnpm typecheck`
 
-### 4.5 Tooltips ⭐⭐
+### 4.5 Tooltips ⭐⭐ ✅
 
-- [ ] Replace all `createTooltip` / `disposeTooltip` calls with `v-b-tooltip` directive
-- [ ] Remove `ui/tooltips.ts`
-- [ ] `pnpm typecheck`
+- [x] **Phase A: Extract copy-link → `src/ui/copy-link.ts`**
+  - `handleCopyLinkClick`, `initCopyLinkClick`, `disposeCopyLinkClick` — clipboard + Toast
+  - `initCopyLinkTooltip`, `disposeCopyLinkTooltip` — tooltip decoration (desktop only)
+  - `initAllCopyLinkBehavior` — batch init
+- [x] Prune `ui/tooltips.ts` — keep generic tooltip lifecycle + i18n listener only
+- [x] Update `features/page-content-initializer.ts` — split import across two modules
+- [ ] **Phase B (deferred):** Replace `createTooltip`/`disposeTooltip` with `v-b-tooltip` for Vue-rendered elements (build-time elements still need `initAllTooltips`)
+- [x] `pnpm typecheck`
 
 ### 4.6 Toast Notifications ✅
 
@@ -229,13 +239,15 @@ src/stylesheets/
 - [ ] Keep `ui/toast.ts` in place for legacy SPA re-init consumers
 - [x] `pnpm typecheck`
 
-### 4.7 Inline SVG ⭐⭐⭐
+### 4.7 Inline SVG ⭐⭐⭐ ✅
 
-- [ ] Create `src/components/ui/InlineSvg.vue`
-  - Fetches external SVG → injects inline
-  - Dynamic `width` / `height` / `color-var` control
-  - Remove `ui/svg-utils.ts`
-- [ ] `pnpm typecheck`
+- [x] Create `src/components/ui/InlineSvg.vue`
+  - **Dual-mode**: Vue template `<InlineSvg src="..." :width="25" />` + global `initAll()` scan
+  - Props: `src`, `width?`, `height?`, `colorVar?`
+  - Replaces `<span data-role="svg" data-src="..." ...>` in `QRCodeModal.vue`
+- [x] Rewrite `ui/svg-utils.ts` as bridge → delegates to `window.__svgInjection`
+- [x] Remove `stylesheets/components/` (no CSS file for svg-utils)
+- [x] `pnpm typecheck`
 
 ### 4.8 Theme-Aware Image ⭐⭐⭐
 
@@ -272,10 +284,175 @@ src/stylesheets/
 
 ---
 
-## Phase 6 - SPA Migration (Future)
+## Phase 6 - Documentation Update
+
+> **Goal:** Update project instruction files (`.github/instructions/`) to reflect
+> the Vue migration patterns, conventions, and architecture decisions.
+> Status: deferred — execute after Phase 5 cleanup is complete.
+
+### 6.1 Vue Component Annotation Conventions
+
+Add to `.github/instructions/` a new file documenting the CSS and bridge
+patterns established during Phase 3–4 migration.
+
+#### A. CSS Style Block Taxonomy
+
+| Style block               | Use case                                                                                                                                     | Example                                                 |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `<style scoped>`          | Styles owned entirely by one `.vue` component                                                                                                | Modal layout, QR share card, toast animations           |
+| `<style>` (non-scoped)    | Component owns the CSS but the target element is static HTML outside Vue's render tree                                                       | `#page-transition-progress`, `.scroll-hint`, `.no-copy` |
+| `:deep(.selector)`        | Target elements inside a child component (e.g. BModal's `.modal-body`)                                                                       | `:deep(.modal-body) { display: flex; }`                 |
+| `src/stylesheets/global/` | Truly global styles: CSS reset, typography, Bootstrap variable overrides, build-time injected components (link cards, button groups, footer) | `base.css`, `theme.css`, `fonts.css`                    |
+
+#### B. CSS Ownership Comments in `base.css`
+
+When a global CSS selector belongs to a known (planned or existing) Vue
+component, annotate with a `TODO:` comment:
+
+```css
+/* TODO: §4.8 → ThemeAwareImg.vue */
+.img-fit { ... }
+
+/* TODO: §4.9 → AppNavbar.vue */
+.nav-link { ... }
+
+/* TODO: §4.5 → v-b-tooltip (may stay global) */
+.tooltip { ... }
+```
+
+When a selector is explicitly NOT owned by any Vue component (build-time
+injected, shared utility), document the reason:
+
+```css
+/* ========================================================================
+   Button Groups
+   (Build-time injected link button groups — not owned by any Vue component.)
+   ======================================================================== */
+```
+
+#### C. Legacy Bridge Pattern (`window.__xxx`)
+
+When a Vue component replaces a legacy TS module that still has consumers
+outside the Vue tree (e.g. `page-transition.ts`, `lang-switcher.ts`,
+`main-lightweight.ts`), use a **bridge module**:
+
+```
+┌──────────────────────┐     window.__xxx     ┌───────────────────┐
+│  legacy-consumer.ts  │ ─────────────────→  │  bridge-module.ts │
+│  (page-transition,   │                      │  (thin wrapper)   │
+│   lang-switcher)     │                      └────────┬──────────┘
+└──────────────────────┘                               │ delegate
+                                                       ▼
+┌──────────────────────┐     defineExpose      ┌──────────────────┐
+│  App.vue             │ ←──────────────────  │  Component.vue   │
+│  (sets window.__xxx) │    template ref       │  (owns logic +   │
+└──────────────────────┘                       │   CSS)           │
+                                               └──────────────────┘
+```
+
+Components following this pattern:
+
+| Bridge variable       | Vue component          | Legacy consumers                                               |
+| --------------------- | ---------------------- | -------------------------------------------------------------- |
+| `window.__loadingBar` | `LoadingBar.vue`       | `page-transition.ts`, `lang-switcher.ts`                       |
+| `window.__scrollHint` | `ScrollHint.vue`       | `page-content-initializer.ts`                                  |
+| `window.__noCopy`     | `CopyProtectedImg.vue` | `main-lightweight.ts` (hybrid: Vue delegate + direct fallback) |
+
+Bridge module template:
+
+```typescript
+/** Bridge — delegates to the Vue component via window.__xxx. */
+
+function get(): NonNullable<Window["__xxx"]> | null {
+  return window.__xxx ?? null;
+}
+
+export function publicAPI(): void {
+  get()?.method();
+}
+```
+
+When a legacy consumer runs **without** Vue (e.g. 404 lightweight page),
+the bridge module MUST include a direct-implementation fallback or the
+consumer must be audited for compatibility.
+
+#### D. Static HTML Coexistence
+
+Some Vue components control static HTML elements that are injected at
+build time (`build/page-components/`, `build/builders/`). These components:
+
+- Do NOT render visible template content (use `<div />` placeholder)
+- Use `onMounted` to locate the static element via `document.getElementById`
+- Own the CSS via non-scoped `<style>` blocks
+- Expose imperative methods via `defineExpose`
+
+Components following this pattern:
+
+- `LoadingScreen.vue` — controls `#loading-screen` (injected in each `.html` page)
+- `LoadingBar.vue` — controls `#page-transition-progress` (injected via `header.html`)
+
+### 6.2 Files to Update
+
+- [ ] Create `.github/instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md`
+  - CSS style block taxonomy (§A)
+  - CSS ownership comments (§B)
+  - Legacy bridge pattern (§C)
+  - Static HTML coexistence (§D)
+- [ ] Update `.github/instructions/1-tech-stack/1-base.instructions.md`
+  - Add Vue 3 + `bootstrap-vue-next` to tech stack
+- [ ] Update `.github/instructions/2-general-naming-conventions/3-typescript.instructions.md`
+  - Add `.vue` file naming convention (PascalCase)
+  - Add `composables/` naming convention (`useXxx.ts`)
+- [ ] Update `.github/instructions/3-project-structural-constraints/1-folder-overview.instructions.md`
+  - Add `src/components/` (layout, ui, modals)
+  - Add `src/composables/`
+  - Add `src/plugins/`
+- [ ] `pnpm typecheck` (docs only — no code changes expected)
+
+---
+
+## Phase 7 - Legacy Bridge Elimination (Future)
+
+> **Goal:** Eliminate all `window.__xxx` bridge calls by Vue-ifying build-time
+> injected components (link cards, button groups) and their downstream consumers.
+> **Status:** Deferred — depends on build-time injection system redesign.
+
+### 7.1 Residual Bridge Modules (after Phase 5)
+
+These modules survive Phase 5 cleanup because they serve consumers that are
+not yet Vue components:
+
+| Module           | Bridge variable              | Blocked by                                                          |
+| ---------------- | ---------------------------- | ------------------------------------------------------------------- |
+| `loading-bar.ts` | `window.__loadingBar`        | `page-transition.ts`, `lang-switcher.ts`                            |
+| `scroll-hint.ts` | `window.__scrollHint`        | `page-content-initializer.ts`                                       |
+| `no-copy.ts`     | `window.__noCopy`            | _(none — generic fallback only)_                                    |
+| `tooltips.ts`    | _(none — generic lifecycle)_ | Build-time `data-bs-toggle="tooltip"` on link cards / button groups |
+| `toast.ts`       | _(none — legacy export)_     | SPA re-init after page transitions                                  |
+
+### 7.2 Elimination Strategy
+
+- [ ] Vue-ify link card rendering (build-time HAST → Vue component or hybrid)
+  - Removes need for `initAllTooltips()` on `data-bs-toggle="tooltip"`
+  - Enables `v-b-tooltip` directive on all tooltip elements
+- [ ] Vue-ify link button group rendering
+  - Same as above for button group tooltips
+- [ ] Migrate `page-transition.ts` to Vue `<Transition>` or Vue Router
+  - Eliminates `window.__loadingBar` consumer
+- [ ] Migrate `lang-switcher.ts` to Vue composable
+  - Eliminates `window.__loadingBar` consumer
+- [ ] Migrate `page-content-initializer.ts` to per-page `onMounted`
+  - Eliminates `window.__scrollHint` consumer
+- [ ] Migrate `main-lightweight.ts` (404 page) — already demoted to `public/404.html` static page (§4.4a)
+- [ ] Delete all residual bridge modules from `src/ui/`
+- [ ] `pnpm typecheck`
+
+---
+
+## Phase 8 - SPA Migration (Future)
 
 > **Goal:** Replace MPA with Vue Router for SPA-style navigation.
-> **Status:** Deferred - evaluate after Phases 1–5 are complete.
+> **Status:** Deferred — evaluate after Phase 7 is complete.
 
 - [ ] Evaluate trade-offs (SEO impact, build-time injection compatibility, bundle size)
 - [ ] If proceeding:
@@ -339,6 +516,13 @@ src/
 ├── App.vue                             # Root component: init orchestration + modal mounting
 ├── main.ts                             # Entry: CSS imports + globals + side-effects + createApp
 ├── main-lightweight.ts                 # 404 entry (no Vue - stays as vanilla TS)
+│
+├── ui/                                 # Residual legacy bridge modules (→ Phase 7 elimination)
+│   ├── loading-bar.ts                  #   bridge → window.__loadingBar
+│   ├── scroll-hint.ts                  #   bridge → window.__scrollHint
+│   ├── no-copy.ts                      #   hybrid bridge → window.__noCopy + lightweight fallback
+│   ├── tooltips.ts                     #   generic tooltip lifecycle (build-time elements)
+│   └── toast.ts                        #   legacy SPA re-init consumers
 │
 ├── index.html                          # MPA pages - <div id="app"> + <script type="module">
 ├── about.html

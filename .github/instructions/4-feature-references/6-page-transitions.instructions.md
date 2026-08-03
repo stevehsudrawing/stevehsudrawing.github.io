@@ -3,7 +3,7 @@ description: >
   Page transitions: SPA-style animated navigation between internal pages (.internal-link), progress
   bar animation, content dimming, interaction with tooltips (dispose before transition), settings
   (re-init after transition), i18n (re-apply translations), loading screen (restore content).
-  Not loaded on lightweight/404 pages.
+  Not loaded on error pages.
   Use when: modifying page-transition.ts, page-transition.css, or internal link navigation behavior.
 applyTo: >
   src/features/page-transition.ts;
@@ -28,7 +28,7 @@ applyTo: >
 - Internal links (`class="internal-link"`) trigger SPA-style transitions instead of full page reloads.
 - A progress bar (`#page-transition-progress`) animates at the top of the viewport.
 - Content is dimmed during the transition.
-- On lightweight pages (`404.html`), the Page Transition System is not loaded.
+- On error pages (404, error-unsupported-browser, error-javascript-disabled, all in `public/`), the Page Transition System is not loaded.
 
 **Interaction with Other Systems**:
 
@@ -39,4 +39,4 @@ applyTo: >
 - **i18n ([§4.3](3-internationalization-i18n.instructions.md#43-internationalization-i18n))**: After a page transition, `initPageContent()` calls `updatePageText()` and `updatePageTitle()` to apply translations to the new content.
 - **Initialization ([§4.7](7-loading-screen.instructions.md#47-loading-screen))**: `navigateTo()` restores page content and completes the progress bar on success; on failure, falls back to a full browser navigation (`window.location.href`).
 - **Image Utilities ([§4.13](13-image-utilities.instructions.md#413-image-utilities))**: After a page transition, `initPageContent()` calls both `applyAllThemeBasedImages()` and `applyAllThemeBasedSources()` to re-apply theme-based source swapping on the newly loaded `<img>` and `<source>` elements.
-- **Lightweight Pages ([§3.2.4](../3-project-structural-constraints/2-general-file-rules.instructions.md#324-html-page-tiers))**: The `404.html` page references `main-lightweight.ts` (not `main.ts`), which does not load the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.
+- **Error Pages ([§3.2.4](../3-project-structural-constraints/2-general-file-rules.instructions.md#324-html-page-tiers))**: The `public/404.html` page (and other error pages) are static HTML without the Page Transition System. This prevents layout conflicts when navigating from the 404 page back to full-feature pages.

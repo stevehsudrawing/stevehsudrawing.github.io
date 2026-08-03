@@ -8,8 +8,7 @@ description: >
 applyTo: >
   package.json;
   pnpm-lock.yaml;
-  src/main.ts;
-  src/main-lightweight.ts
+  src/main.ts
 ---
 
 ### 1.2 External Dependencies

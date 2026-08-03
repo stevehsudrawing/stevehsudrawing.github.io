@@ -416,13 +416,6 @@ export function headTagsPlugin() {
         if (!meta) return html;
 
         const isFull = meta.tier === "full";
-        const entryScript =
-          meta.tier === "lightweight"
-            ? {
-                tag: "script",
-                attrs: { type: "module", src: "/main-lightweight.ts" },
-              }
-            : { tag: "script", attrs: { type: "module", src: "/main.ts" } };
 
         const tags = [
           ...commonTags(),
@@ -431,7 +424,7 @@ export function headTagsPlugin() {
           ...hreflangTags(meta),
           ...ogTags(meta),
           ...twitterTags(meta),
-          entryScript,
+          { tag: "script", attrs: { type: "module", src: "/main.ts" } },
           ...structuredData(meta),
         ];
 

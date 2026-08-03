@@ -24,3 +24,6 @@ tools/
 
 # Photoshop files
 *.psd
+
+# Windows shortcuts
+*.lnk

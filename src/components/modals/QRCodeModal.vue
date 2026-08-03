@@ -9,6 +9,7 @@ import QRCode from "qrcode";
 import { useI18n } from "../../composables/useI18n.js";
 import { useTheme } from "../../composables/useTheme.js";
 import { useToast } from "../../composables/useToast.js";
+import InlineSvg from "../ui/InlineSvg.vue";
 
 // =========================================================================
 // Props
@@ -337,14 +338,13 @@ defineExpose({
             >
           </div>
           <div id="qr-share-card-logo-container">
-            <span
-              data-role="svg"
-              data-src="/images/svg/icons/steve-hsu.svg"
-              data-width="25"
-              data-height="21"
-              data-color-var="bs-primary"
+            <InlineSvg
+              src="/images/svg/icons/steve-hsu.svg"
+              :width="25"
+              :height="21"
+              color-var="bs-primary"
               class="no-copy"
-            ></span>
+            />
           </div>
         </div>
       </div>

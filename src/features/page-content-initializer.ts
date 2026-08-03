@@ -16,7 +16,8 @@ import {
 } from "../core/i18n.js";
 import { updateNavbarBrandText, setActiveNavItem } from "../ui/navbar.js";
 import { updatePageTitle } from "../ui/page-title.js";
-import { initAllCopyLinkBehavior, initAllTooltips } from "../ui/tooltips.js";
+import { initAllTooltips } from "../ui/tooltips.js";
+import { initAllCopyLinkBehavior } from "../ui/copy-link.js";
 import {
   initAllTitleLinkAnchors,
   addAllExternalLinkIndicators,

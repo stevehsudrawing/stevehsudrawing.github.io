@@ -4,7 +4,7 @@ description: >
   SearchAction, BreadcrumbList for sub-pages), build-time sitemap.xml generation with hreflang
   alternates, hreflang link tags (en/zh-Hans/zh-Hant/x-default), Open Graph tags, Twitter/X Card
   tags (summary_large_image), PWA manifest, noscript SEO fallback in body, heading hierarchy,
-  crawler whitelist. SEO elements vary by page tier (full/lightweight/error).
+  crawler whitelist. SEO elements vary by page tier (full/error).
   Use when: modifying head-tags-plugin.ts, sitemap-plugin.ts, page-meta.ts, robots.txt, or page metadata.
 applyTo: >
   build/head-tags-plugin.ts;
@@ -17,7 +17,7 @@ applyTo: >
 
 ### 4.16 SEO
 
-**Brief**: Search engine optimization via meta tags, structured data (JSON-LD), sitemap, hreflang, Open Graph, Twitter Cards, and PWA manifest. Applied across all full-functionality pages and the 404 page.
+**Brief**: Search engine optimization via meta tags, structured data (JSON-LD), sitemap, hreflang, Open Graph, Twitter Cards, and PWA manifest. Applied across all full-functionality pages and error pages.
 
 **Related Files**:
 
@@ -29,24 +29,24 @@ applyTo: >
 
 #### 4.16.1 SEO Elements by Page Tier
 
-| Element                   | Full-Functionality Pages                                             | 404 (Lightweight) | Error Pages (Minimal) |
-| ------------------------- | -------------------------------------------------------------------- | ----------------- | --------------------- |
-| `meta description`        | ✓ Unique per page                                                    | ✓                 | ✓                     |
-| `meta author`             | ✓                                                                    | ✓                 | ✓                     |
-| `meta robots`             | ✓ `index, follow`                                                    | ✓ `noindex`       | ✓ `noindex`           |
-| `link canonical`          | ✓                                                                    | ✓                 | ✓                     |
-| `<title>`                 | ✓ `{Page} - Steve Hsu (什五)'s Link-Hub`                             | ✓                 | ✓                     |
-| `link favicon`            | ✓                                                                    | ✓                 | ✓                     |
-| `link manifest`           | ✓                                                                    | ✗                 | ✗                     |
-| Apple PWA meta tags       | ✓ `apple-mobile-web-app-capable` + others                            | ✓                 | ✓                     |
-| `link sitemap`            | ✓                                                                    | ✗                 | ✗                     |
-| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default                                    | ✓                 | ✗                     |
-| Open Graph tags           | ✓                                                                    | ✓                 | ✓                     |
-| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                                             | ✓                 | ✗                     |
-| Twitter/X Card tags       | ✓ `summary_large_image`                                              | ✓                 | ✓                     |
-| Multiple `theme-color`    | ✓                                                                    | ✓                 | ✗                     |
-| JSON-LD (inline)          | ✓ See [§4.16.2](16-seo.instructions.md#4162-structured-data-json-ld) | ✗                 | ✗                     |
-| `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links                                 | ✗                 | ✗                     |
+| Element                   | Full-Functionality Pages                                             | Error Pages (public/) |
+| ------------------------- | -------------------------------------------------------------------- | --------------------- |
+| `meta description`        | ✓ Unique per page                                                    | ✓                     |
+| `meta author`             | ✓                                                                    | ✓                     |
+| `meta robots`             | ✓ `index, follow`                                                    | ✓ `noindex`           |
+| `link canonical`          | ✓                                                                    | ✓                     |
+| `<title>`                 | ✓ `{Page} - Steve Hsu (什五)'s Link-Hub`                             | ✓                     |
+| `link favicon`            | ✓                                                                    | ✓                     |
+| `link manifest`           | ✓                                                                    | ✗                     |
+| Apple PWA meta tags       | ✓ `apple-mobile-web-app-capable` + others                            | ✓                     |
+| `link sitemap`            | ✓                                                                    | ✗                     |
+| Hreflang `<link>`s        | ✓ en, zh-Hans, zh-Hant, x-default                                    | ✗                     |
+| Open Graph tags           | ✓                                                                    | ✓                     |
+| `og:locale:alternate`     | ✓ zh_Hans_CN, zh_Hant_TW                                             | ✗                     |
+| Twitter/X Card tags       | ✓ `summary_large_image`                                              | ✓                     |
+| Multiple `theme-color`    | ✓                                                                    | ✗                     |
+| JSON-LD (inline)          | ✓ See [§4.16.2](16-seo.instructions.md#4162-structured-data-json-ld) | ✗                     |
+| `<noscript>` SEO fallback | ✓ In `<body>`, core text + key links                                 | ✗                     |
 
 **Error pages do not need SEO optimization** beyond basic `description`, `canonical`, `robots: noindex`, and existing OG/Twitter tags. They must not appear in the sitemap.
 

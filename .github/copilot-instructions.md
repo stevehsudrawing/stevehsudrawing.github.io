@@ -83,9 +83,9 @@ features/ -> cross-cutting feature orchestration (page-transition, lang-switcher
 ### 0.5 File Rules
 
 - **`src/{core,ui,features}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points.
-- **Entry points**: `src/main.ts` (full-feature pages: index, about, artworks, blogs, chatting, softwares), `src/main-lightweight.ts` (404 page)
+- **Entry points**: `src/main.ts` (full-feature pages: index, about, artworks, blogs, chatting, softwares)
 - **CSS comments**: `/* ====...==== Component - description */` banners; `/* --- Child --- */` sub-sections
-- **HTML page tiers**: `full` (`src/main.ts`) / `lightweight` (`src/main-lightweight.ts`, 404) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
+- **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
 - **Markdown**: numbered headings (`## 1.`, `### 1.2.3`), cross-references with `§X.Y.Z` hyperlink anchors
 
 ### 0.6 HAST Conventions
@@ -132,7 +132,7 @@ The remainder of this document links to detailed reference files in `instruction
 - [**3.1 Folder Overview**](./instructions/3-project-structural-constraints/1-folder-overview.instructions.md)
 - [**3.2 General File Rules**](./instructions/3-project-structural-constraints/2-general-file-rules.instructions.md)
   - 3.2.1 `src/{core,ui,features}/*`: Define Only, Never Execute
-  - 3.2.2 `src/main.ts` & `src/main-lightweight.ts`: Entry Points, Wire Everything
+  - 3.2.2 `src/main.ts`: Entry Points, Wire Everything
   - 3.2.3 `src/stylesheets/` & `public/legacy/*.css`: Commenting Convention
   - 3.2.4 `*.html`: Page Tiers
   - 3.2.5 `*.md`: Document Writing Standards

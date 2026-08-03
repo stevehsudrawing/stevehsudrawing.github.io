@@ -54,7 +54,6 @@ export default defineConfig({
         ),
         chatting: resolve(__dirname, "src", "chatting.html"),
         softwares: resolve(__dirname, "src", "softwares.html"),
-        "404": resolve(__dirname, "src", "404.html"),
       },
     },
   },

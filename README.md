@@ -35,7 +35,7 @@ A personal link-hub website that consolidates links to all my profiles across va
 - ♿ **Accessibility**: Skip-to-content button, ARIA attributes, keyboard-friendly focus management, and tooltips.
 - 🛡️ **Browser compatibility guard**: Unsupported browsers are detected early and redirected to a fallback page. JavaScript-disabled users are also redirected to a dedicated error page.
 - 🔍 **SEO optimized**: Structured data (JSON-LD), Open Graph tags, Twitter/X Cards, hreflang alternates, sitemap, and semantic heading hierarchy across all pages.
-- 🚫 **Custom 404 page**: A styled error page with lightweight loading for a graceful fallback.
+- 🚫 **Custom 404 page**: A styled static error page for graceful fallback.
 
 ## 2. Browser Baseline
 

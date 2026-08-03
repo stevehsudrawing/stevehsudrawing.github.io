@@ -1,9 +1,9 @@
 /**
- * No-copy protection bridge with lightweight fallback.
+ * No-copy protection bridge — delegates to the Vue CopyProtectedImg component.
  *
  * When Vue is active (window.__noCopy exists), delegates to the
- * CopyProtectedImg component.  When running on the lightweight
- * 404 page (no Vue), sets up event listeners directly.
+ * CopyProtectedImg component.  Otherwise, sets up event listeners directly
+ * as a fallback (for environments without Vue).
  */
 
 function onContextMenu(e: MouseEvent): void {
@@ -21,7 +21,6 @@ function onDragStart(e: DragEvent): void {
 /**
  * Initialize contextmenu and dragstart prevention on .no-copy elements.
  * On Vue pages: delegates to the CopyProtectedImg component.
- * On lightweight pages (404): sets up listeners directly.
  */
 export function initNoCopyProtection(): void {
   try {
@@ -29,7 +28,7 @@ export function initNoCopyProtection(): void {
       // Vue path — delegate to the component
       window.__noCopy.init();
     } else {
-      // Lightweight path — set up listeners directly
+      // Fallback — set up listeners directly
       document.removeEventListener("contextmenu", onContextMenu);
       document.removeEventListener("dragstart", onDragStart);
       document.addEventListener("contextmenu", onContextMenu);

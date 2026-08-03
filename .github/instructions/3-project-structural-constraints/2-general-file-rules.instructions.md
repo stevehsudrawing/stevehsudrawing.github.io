@@ -1,9 +1,9 @@
 ---
 description: >
   General file rules: src/{core,ui,features} define only (no top-level execution),
-  main.ts/main-lightweight.ts wire everything, CSS commenting conventions, HTML page tiers
-  (full/lightweight/error with minimal external reference), Markdown document writing standards
-  (numbered headings, section cross-references).
+  main.ts wire everything, CSS commenting conventions, HTML page tiers (full/error
+  with minimal external reference), Markdown document writing standards (numbered
+  headings, section cross-references).
   Use when: adding new modules, entry points, CSS, HTML pages, or markdown docs.
 applyTo: >
   src/**/*.ts;
@@ -21,7 +21,7 @@ applyTo: >
 - Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
-- All execution / wiring happens in the `main.ts` or `main-lightweight.ts` entry points (see [§3.2.2](#322-srcmaints--srcmain-lightweightts-entry-points-wire-everything)).
+- All execution / wiring happens in the `main.ts` entry point (see [§3.2.2](#322-srcmaints-entry-point-wires-everything)).
 - **Exception**: `public/legacy/env-detection.js` is a classic script (not a module) that runs before `<head>` to perform browser/crawler detection. It DOES execute at the top level, but must still use **ES5** syntax for broad compatibility.
 - **Exception**: `src/ui/theme.ts` evaluates `document.documentElement` and `window.matchMedia(...)` at the top level. This is necessary to apply the theme before the first paint and avoid a flash of incorrect theme. Other modules must not follow this pattern.
 
@@ -46,10 +46,9 @@ doSomething(); // No top-level execution!
 document.addEventListener("DOMContentLoaded", doSomething); // No!
 ```
 
-#### 3.2.2 `src/main.ts` & `src/main-lightweight.ts`: Entry Points, Wire Everything
+#### 3.2.2 `src/main.ts`: Entry Point, Wires Everything
 
-- `main.ts`: Full-feature entry point. Imports all CSS, npm dependencies, and project modules. Performs early theme initialization (before first paint). Loads all components, i18n, settings, page transitions, QR code, link cards, etc. on `DOMContentLoaded`.
-- `main-lightweight.ts`: Lightweight entry point for error pages (404). Same CSS and npm imports, but excludes Page Transition, QR code, link-cards generator, and external link confirmation. Loads a reduced set of modules on `DOMContentLoaded`.
+- `main.ts`: Full-feature entry point. Imports all CSS, npm dependencies, and project modules. Performs early theme initialization (before first paint). Loads all components, i18n, settings, page transitions, QR code, link cards, etc. on `DOMContentLoaded` (via Vue `createApp` + `App.vue` `onMounted`).
 - `public/legacy/env-detection.js`: Perform basic browser/environment detection before starting to load the page. Runs before `<head>`. (Kept as plain JS for ES5 compatibility.)
 
 #### 3.2.3 `src/stylesheets/` & `public/legacy/*.css`: Commenting Convention
@@ -80,11 +79,10 @@ Both sub-folders use the same CSS commenting format:
   - `blogs-and-sponsor`
   - `chatting`
   - `softwares`
-- **Error Pages (Lightweight)**: Reference `/main-lightweight.ts`.
-  - `404`: The redirected page when an HTTP 404 occurs. Uses a cut-down entry point that excludes Page Transition, QR code, link-cards generator, and external-link confirmation to avoid layout conflicts when navigating back to full-feature pages.
-- **Error Pages with Minimal External Reference (`error-*`)**: These pages don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
-  - `unsupported-browser`
-  - `javascript-disabled`
+- **Error Pages with Minimal External Reference (`public/`)**: These pages (in `public/`) don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
+  - `404` — HTTP 404 page (static, no JS framework)
+  - `error-unsupported-browser`
+  - `error-javascript-disabled`
 
 #### 3.2.5 `*.md`: Document Writing Standards
 

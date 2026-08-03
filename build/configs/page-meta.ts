@@ -91,13 +91,4 @@ export const PAGE_META: PageMetaMap = {
     changefreq: "monthly",
     priority: 0.7,
   },
-  "404": {
-    title: `HTTP 404 - ${SITE_NAME}`,
-    description:
-      "The page you are looking for does not exist. Return to Steve Hsu (什五)'s Link-Hub homepage.",
-    pagePath: "/404.html",
-    robots: "noindex",
-    jsonLDType: "none",
-    tier: "lightweight",
-  },
 };
