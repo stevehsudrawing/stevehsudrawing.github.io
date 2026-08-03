@@ -1,9 +1,8 @@
 /**
  * Loading bar bridge — delegates to the Vue LoadingBar component.
  *
- * The static HTML (#page-transition-progress) is injected at build time
- * via build/page-components/header.html.  The Vue LoadingBar component
- * owns the CSS and reactive state; this module provides a thin bridge
+ * The Vue LoadingBar component renders #loading-bar in its own template
+ * and exposes show / complete / hide.  This module provides a thin bridge
  * for legacy TS consumers (lang-switcher.ts, page-transition.ts).
  */
 

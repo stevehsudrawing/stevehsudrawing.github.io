@@ -11,21 +11,16 @@
 import { ref, onMounted, nextTick, provide } from "vue";
 
 // =========================================================================
-// Composables — reactive state layer (Phase 2)
+// Imports
 // =========================================================================
+
+// Composables
 import { useTheme } from "./composables/useTheme.js";
 import { useI18n } from "./composables/useI18n.js";
 import { useLocalStorage } from "./composables/useLocalStorage.js";
 import { SHOW_TOAST_KEY } from "./composables/useToast.js";
 
-useTheme();
-const { syncFromLangData } = useI18n();
-useLocalStorage("openExternalLinksInNewTab", true);
-useLocalStorage("enableAnimations", true);
-
-// =========================================================================
-// Modal components (Phase 3)
-// =========================================================================
+// UI components (template refs)
 import SettingsModal from "./components/modals/SettingsModal.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
@@ -39,6 +34,34 @@ import AppNavbar from "./components/layout/AppNavbar.vue";
 import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
+// Legacy modules (init*() — Phase 7 will eliminate these)
+import { AppEvent, StorageKey } from "./types/app.js";
+import { initPageContent } from "./features/page-content-initializer.js";
+import { initTooltipI18nListener } from "./ui/tooltips.js";
+import {
+  initThemeTransitionOverlay,
+  updateThemeToggleText,
+  setActiveThemeItem,
+} from "./ui/theme.js";
+import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection.js";
+import {
+  initPageTransitionLinkClicks,
+  initPageTransitionPopState,
+} from "./features/page-transition.js";
+import { initLang } from "./features/lang-switcher.js";
+import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
+import { initAllScrollHints } from "./ui/scroll-hint.js";
+import { normalizeInternalPath } from "./core/utils.js";
+
+// =========================================================================
+// State
+// =========================================================================
+
+useTheme();
+const { syncFromLangData } = useI18n();
+useLocalStorage(StorageKey.OpenInNewTab, true);
+useLocalStorage(StorageKey.EnableAnimations, true);
+
 /** Template refs for imperative show/hide via defineExpose. */
 const settingsModalRef = ref<InstanceType<typeof SettingsModal>>();
 const extLinkModalRef = ref<InstanceType<typeof ExternalLinkConfirmModal>>();
@@ -47,8 +70,6 @@ const loadingScreenRef = ref<InstanceType<typeof LoadingScreen>>();
 const loadingBarRef = ref<InstanceType<typeof LoadingBar>>();
 const scrollHintRef = ref<InstanceType<typeof ScrollHint>>();
 const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
-const inlineSvgRef = ref<InstanceType<typeof InlineSvg>>();
-const featureAwareImgRef = ref<InstanceType<typeof FeatureAwareImg>>();
 const appNavbarRef = ref<InstanceType<typeof AppNavbar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
@@ -73,8 +94,12 @@ const qrImgProps = ref<Record<string, unknown> | null>(null);
 const qrHideOpenLink = ref(false);
 
 // =========================================================================
-// Event delegation — replaces initSettingEventListeners + initExternalLinkConfirmation + initQRCodeDelegation
+// Actions
 // =========================================================================
+
+// -------------------------------------------------------------------------
+// Event delegation
+// -------------------------------------------------------------------------
 
 /** Settings-open button: show SettingsModal. */
 function onSettingsOpen(e: MouseEvent): void {
@@ -138,9 +163,9 @@ function onQRTrigger(e: MouseEvent): void {
   qrCodeModalRef.value?.show();
 }
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Cross-modal navigation
-// =========================================================================
+// -------------------------------------------------------------------------
 
 function onExtLinkNavigate(url: string, openInNewTab: boolean): void {
   if (openInNewTab) {
@@ -170,30 +195,9 @@ function onQROpenLink(
   nextTick(() => extLinkModalRef.value?.show());
 }
 
-// =========================================================================
-// Legacy init*() imports (coexisting — will shrink as more modules migrate)
-// =========================================================================
-import { AppEvent } from "./types/app.js";
-import { initPageContent } from "./features/page-content-initializer.js";
-import { initTooltipI18nListener } from "./ui/tooltips.js";
-import {
-  initThemeTransitionOverlay,
-  updateThemeToggleText,
-  setActiveThemeItem,
-} from "./ui/theme.js";
-import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection.js";
-import {
-  initPageTransitionLinkClicks,
-  initPageTransitionPopState,
-} from "./features/page-transition.js";
-import { initLang } from "./features/lang-switcher.js";
-import { initHashChangeScroll, initSkipButton } from "./ui/accessibility.js";
-import { initAllScrollHints } from "./ui/scroll-hint.js";
-import { normalizeInternalPath } from "./core/utils.js";
-
-// =========================================================================
+// -------------------------------------------------------------------------
 // Initialization orchestration
-// =========================================================================
+// -------------------------------------------------------------------------
 
 onMounted(async () => {
   try {
@@ -204,13 +208,20 @@ onMounted(async () => {
     // Set up tooltip i18n listener BEFORE initLang()
     initTooltipI18nListener();
 
+    // Bridge: expose Vue components to legacy TS modules (before initLang
+    // so the loading bar can show during language file fetch).
+    if (loadingBarRef.value) window.__loadingBar = loadingBarRef.value;
+    if (scrollHintRef.value) window.__scrollHint = scrollHintRef.value;
+    if (copyProtectedImgRef.value) window.__noCopy = copyProtectedImgRef.value;
+    if (appNavbarRef.value) window.__navbar = appNavbarRef.value;
+
     await initLang();
 
     // Sync the Vue plugin's messages ref from the legacy langData global,
     // so that $t() in Vue templates returns translated text (not just fallbacks).
     await syncFromLangData();
 
-    // --- Phase 3: Vue-based event delegation replaces legacy modules ---
+    // Vue-based event delegation replaces legacy modules
     document.addEventListener("click", onSettingsOpen);
     document.addEventListener("click", onExternalLinkClick);
     document.addEventListener("click", onQRTrigger);
@@ -227,72 +238,18 @@ onMounted(async () => {
 
     loadingScreenRef.value?.hide();
 
-    // Bridge: expose LoadingBar to legacy TS modules (lang-switcher, page-transition)
-    if (loadingBarRef.value) {
-      window.__loadingBar = loadingBarRef.value;
-    }
-
-    // Bridge: expose ScrollHint to legacy TS consumers
-    if (scrollHintRef.value) {
-      window.__scrollHint = scrollHintRef.value;
-    }
-
-    // Bridge: expose CopyProtectedImg to legacy TS consumers
-    if (copyProtectedImgRef.value) {
-      window.__noCopy = copyProtectedImgRef.value;
-    }
-
-    // Bridge: expose InlineSvg to legacy TS consumers
-    if (inlineSvgRef.value) {
-      window.__svgInjection = inlineSvgRef.value;
-    }
-
-    // Bridge: expose FeatureAwareImg to legacy TS consumers
-    if (featureAwareImgRef.value) {
-      window.__imgUtils = featureAwareImgRef.value;
-    }
-
-    // Bridge: expose AppNavbar to legacy TS consumers
-    if (appNavbarRef.value) {
-      window.__navbar = appNavbarRef.value;
-    }
-
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   } catch (error) {
     console.error("Failed to initialize: " + error);
     loadingScreenRef.value?.hide();
 
-    if (loadingBarRef.value) {
-      window.__loadingBar = loadingBarRef.value;
-    }
-
-    if (scrollHintRef.value) {
-      window.__scrollHint = scrollHintRef.value;
-    }
-
-    if (copyProtectedImgRef.value) {
-      window.__noCopy = copyProtectedImgRef.value;
-    }
-
-    if (inlineSvgRef.value) {
-      window.__svgInjection = inlineSvgRef.value;
-    }
-
-    if (featureAwareImgRef.value) {
-      window.__imgUtils = featureAwareImgRef.value;
-    }
-
-    if (appNavbarRef.value) {
-      window.__navbar = appNavbarRef.value;
-    }
-
     document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   }
 });
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Post-initialization listeners
-// =========================================================================
+// -------------------------------------------------------------------------
 
 document.addEventListener(AppEvent.PageInitialized, () => {
   currentPage.value = normalizeInternalPath(window.location.pathname);
@@ -303,6 +260,22 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
 
 <template>
   <!--
+    Static elements that were previously injected at build time via
+    build/page-components/header.html.  They live outside the Vue
+    render tree (fixed-positioned) but are now rendered here so they
+    are guaranteed to exist at page load.
+  -->
+  <div class="theme-transition-overlay"></div>
+  <a
+    id="skip-button"
+    href="#page-content"
+    class="btn btn-primary"
+    role="button"
+    data-i18n="text-skip-to-content"
+    >Skip to Content</a
+  >
+
+  <!--
     Phase 3: Modal components are mounted here.  They render nothing
     until their internal `visible` ref is toggled via defineExpose.
   -->
@@ -311,8 +284,6 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
   <LoadingBar ref="loadingBarRef" />
   <ScrollHint ref="scrollHintRef" />
   <CopyProtectedImg ref="copyProtectedImgRef" />
-  <InlineSvg ref="inlineSvgRef" />
-  <FeatureAwareImg ref="featureAwareImgRef" />
   <ToastStack ref="toastStackRef" />
   <SettingsModal ref="settingsModalRef" />
   <ExternalLinkConfirmModal

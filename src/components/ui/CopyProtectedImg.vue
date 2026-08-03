@@ -10,7 +10,7 @@
 import { onMounted, onBeforeUnmount } from "vue";
 
 // =========================================================================
-// Event handlers
+// Actions
 // =========================================================================
 
 function onContextMenu(e: MouseEvent): void {
@@ -24,10 +24,6 @@ function onDragStart(e: DragEvent): void {
     e.preventDefault();
   }
 }
-
-// =========================================================================
-// Public API
-// =========================================================================
 
 /** Set up delegated event listeners. Idempotent — safe to call multiple times. */
 function init(): void {
@@ -46,6 +42,10 @@ onBeforeUnmount(() => {
   document.removeEventListener("contextmenu", onContextMenu);
   document.removeEventListener("dragstart", onDragStart);
 });
+
+// =========================================================================
+// Expose
+// =========================================================================
 
 defineExpose({ init });
 </script>

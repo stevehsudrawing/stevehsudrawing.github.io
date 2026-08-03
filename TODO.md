@@ -293,25 +293,33 @@ src/stylesheets/
 
 ---
 
-## Phase 5 - Cleanup
+## Phase 5 - Cleanup ✅
 
 > **Goal:** Remove dead code after all consumers have been migrated.
 
-- [ ] Delete `src/stylesheets/components/` folder (all CSS migrated to `<style scoped>`)
-- [ ] Delete `build/page-components/` folder — all components now Vue SFCs:
+- [x] Delete `src/stylesheets/components/` folder (all CSS migrated to `<style scoped>`)
+  - `page-transition.css` moved to `stylesheets/global/` (still active — Vue `<Transition>` not yet adopted)
+- [x] Delete `build/page-components/` folder — all components now Vue SFCs:
   - `header.html` → `AppNavbar.vue` + `OffcanvasNav.vue`
   - `footer.html` → `FooterNav.vue`
   - `footer-lightweight.html` → already deleted (§4.4a)
   - `modals.html` → already commented out (§3.1–§3.3)
-- [ ] Simplify `build/content-injection-plugin.ts` — remove page component injection logic
-  - No more `data-role="page-component"` placeholders to resolve
-  - `readPageComponent()` and related walk logic can be removed
+  - **Note:** Static elements (`#page-transition-progress`, `.theme-transition-overlay`, `#skip-button`) that were injected via `header.html` are now rendered in `App.vue` template.
+- [x] Simplify `build/content-injection-plugin.ts` — removed page component + language menu injection logic
+  - Removed `readPageComponent()`, `readLanguageItems()`, and related HAST walk logic
+  - Also removed now-unused imports: `readFileSync`, `resolve`, `dirname`, `fileURLToPath`
   - Link card / link button group injection stays (build-time HAST → not yet Vue-ified)
-- [ ] Remove `window.bootstrap` global exposure in `main.ts` (no longer needed - `bootstrap-vue-next` handles all JS behavior)
-- [ ] Remove `@types/bootstrap` from `devDependencies` (if bootstrap JS is no longer needed)
-- [ ] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files - delete any that have no remaining consumers
-- [ ] `pnpm typecheck` - ensure zero errors
-- [ ] `pnpm build` - verify production build succeeds
+- [~] Remove `window.bootstrap` global exposure in `main.ts` — **deferred** (still used by `tooltips.ts`, `toast.ts`, `page-transition.ts`)
+- [~] Remove `@types/bootstrap` from `devDependencies` — **deferred** (still needed for `window.bootstrap` consumers)
+- [x] Audit remaining `src/ui/*.ts` and `src/features/*.ts` files — deleted dead modules:
+  - `src/ui/settings.ts` — replaced by `SettingsModal.vue` (§3.1)
+  - `src/ui/modal.ts` — replaced by `<BModal>` built-in focus management (§4.20)
+  - `src/ui/loading-screen.ts` — replaced by `LoadingScreen.vue` (§4.1)
+  - `src/features/external-link-confirmation.ts` — replaced by `ExternalLinkConfirmModal.vue` (§3.2)
+  - `src/features/qr-code.ts` — replaced by `QRCodeModal.vue` (§3.3)
+  - Removed dead side-effect imports from `main.ts`
+- [x] `pnpm typecheck` - zero errors
+- [x] `pnpm build` - production build succeeds
 
 ---
 
@@ -419,8 +427,113 @@ build time (`build/page-components/`, `build/builders/`). These components:
 
 Components following this pattern:
 
-- `LoadingScreen.vue` — controls `#loading-screen` (injected in each `.html` page)
-- `LoadingBar.vue` — controls `#page-transition-progress` (injected via `header.html`)
+- `LoadingScreen.vue` — controls `#loading-screen` (static HTML in each `.html` page)
+- `LoadingBar.vue` — controls `#page-transition-progress` (static HTML in `App.vue` template)
+- `CopyProtectedImg.vue` — document-level event delegation (no static element needed)
+- `ScrollHint.vue` — creates/removes `.scroll-hint` elements after build-time `.link-button-group`
+
+Components following this pattern **must** use non-scoped `<style>` blocks
+since the target elements are outside Vue's render tree.
+
+#### E. `<script setup lang="ts">` Section Conventions
+
+Every `<script setup lang="ts">` block in a `.vue` file **MUST** follow the
+section structure below. The five sections are listed in **mandatory order**;
+any section that the component does not use is simply omitted — but no other
+sections may be introduced.
+
+```
+// =========================================================================
+// Types
+// =========================================================================
+//   Local interface / type definitions (only when non-trivial).
+//   Omitted entirely if the component has no local types.
+
+// =========================================================================
+// Props
+// =========================================================================
+//   defineProps + defineEmits — the component's public interface.
+//   This is always the first section (after any top-level imports).
+
+// =========================================================================
+// State
+// =========================================================================
+//   ref / reactive / computed / composable calls — the reactive data layer.
+//   Co-location via domain sub-sections is permitted and encouraged.
+
+// =========================================================================
+// Actions
+// =========================================================================
+//   Functions / event handlers / methods — the behaviour layer.
+
+// =========================================================================
+// Expose
+// =========================================================================
+//   defineExpose — the imperative public API surface.
+//   Omitted if the component is purely template-driven.
+```
+
+**Section banner format:**
+
+| Level   | Syntax                        | Used for                                   |
+| ------- | ----------------------------- | ------------------------------------------ |
+| Section | `// ====...==== Section Name` | Top-level section                          |
+| Sub     | `// ----...---- Sub Name`     | Domain co-location within State or Actions |
+
+This mirrors the CSS commenting convention (§3.2.3): `/* ====...==== */`
+banners for components and `/* ---...--- */` for sub-sections.
+
+**Co-location within State:**
+
+When a composable, its derived computed refs, and a tightly-coupled
+function naturally belong together, they **MAY** be grouped into a domain
+sub-section inside `State` (rather than splitting the composable to
+`State` and the function to `Actions`):
+
+```ts
+// =========================================================================
+// State
+// =========================================================================
+
+// -------------------------------------------------------------------------
+// Theme-aware src
+// -------------------------------------------------------------------------
+const { effectiveTheme } = useTheme();
+
+const currentSrc = computed(() => {
+  if (
+    props.feature?.includes("follow-theme") &&
+    effectiveTheme.value === "dark" &&
+    props.darkSrc
+  ) {
+    return props.darkSrc;
+  }
+  return props.lightSrc;
+});
+
+// -------------------------------------------------------------------------
+// Loading opacity
+// -------------------------------------------------------------------------
+const loaded = ref(false);
+
+function onLoad(): void {
+  loaded.value = true;
+}
+```
+
+However, if a function is called from the template (e.g. `@click="confirm"`)
+or is a general-purpose helper used by multiple sub-sections, it belongs in
+`Actions`.
+
+**Design rationale:**
+
+- **Fixed vocabulary, fixed order** — every developer can instantly navigate
+  any `.vue` file.
+- **All sections optional** — a simple 30-line component may have only
+  `Props` and `State`; a complex modal has all five.
+- **Co-location via sub-sections** — respects Vue Composition API's
+  strength of keeping related concerns together, without fragmenting the
+  top-level structure.
 
 ### 6.2 Files to Update
 
@@ -429,6 +542,7 @@ Components following this pattern:
   - CSS ownership comments (§B)
   - Legacy bridge pattern (§C)
   - Static HTML coexistence (§D)
+  - `<script setup>` section conventions (§E)
 - [ ] Update `.github/instructions/1-tech-stack/1-base.instructions.md`
   - Add Vue 3 + `bootstrap-vue-next` to tech stack
 - [ ] Update `.github/instructions/2-general-naming-conventions/3-typescript.instructions.md`

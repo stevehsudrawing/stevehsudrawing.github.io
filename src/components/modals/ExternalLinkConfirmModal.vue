@@ -4,10 +4,12 @@
   (_confirmUrl, _confirmIconProps) with clean props + emits.
 -->
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, computed, toRef, type Ref } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { useLocalStorage } from "../../composables/useLocalStorage.js";
+import { StorageKey } from "../../types/app.js";
 import { useToast } from "../../composables/useToast.js";
+import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
 // =========================================================================
@@ -48,45 +50,24 @@ const emit = defineEmits<{
 // =========================================================================
 
 const visible = ref(false);
-const openInNewTab = useLocalStorage("openExternalLinksInNewTab", true);
+const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
 const { t } = useI18n();
 const { showToast } = useToast();
 
-// Re-render icon when imgProperties changes
-const iconSrc = computed(() => {
-  if (props.imgProperties?.src) {
-    return props.imgProperties.src as string;
-  }
-  return null;
-});
+// Extract display properties from HAST imgProperties
+const {
+  src: iconSrc,
+  alt: iconAltRaw,
+  feature: iconFeature,
+  colorVar: iconColorVar,
+  colorMaskSrc: iconColorMaskSrc,
+} = useImgDisplayProps(
+  toRef(props, "imgProperties") as Ref<
+    Record<string, unknown> | null | undefined
+  >,
+);
 
-const iconAlt = computed(() => {
-  if (props.imgProperties?.alt) {
-    return props.imgProperties.alt as string;
-  }
-  return t("text-link", "Link");
-});
-
-const iconFeature = computed(() => {
-  if (props.imgProperties?.dataImgFeature) {
-    return props.imgProperties.dataImgFeature as string;
-  }
-  return undefined;
-});
-
-const iconColorVar = computed(() => {
-  if (props.imgProperties?.dataColorVar) {
-    return props.imgProperties.dataColorVar as string;
-  }
-  return undefined;
-});
-
-const iconColorMaskSrc = computed(() => {
-  if (props.imgProperties?.dataSrcMask) {
-    return props.imgProperties.dataSrcMask as string;
-  }
-  return undefined;
-});
+const iconAlt = computed(() => iconAltRaw.value ?? t("text-link", "Link"));
 
 // =========================================================================
 // Actions
@@ -115,6 +96,10 @@ async function copyUrl(): Promise<void> {
 }
 
 /** Expose show/hide for imperative callers (parent App.vue). */
+// =========================================================================
+// Expose
+// =========================================================================
+
 defineExpose({
   show: () => {
     visible.value = true;

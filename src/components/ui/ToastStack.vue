@@ -5,8 +5,7 @@
   can trigger a toast without importing legacy modules.
 -->
 <script setup lang="ts">
-import { ref, provide } from "vue";
-import { SHOW_TOAST_KEY } from "../../composables/useToast.js";
+import { ref } from "vue";
 
 // =========================================================================
 // Types
@@ -49,10 +48,11 @@ function removeToast(id: number): void {
   toasts.value = toasts.value.filter((t) => t.id !== id);
 }
 
-/** Make showToast available to all descendant components. */
-provide(SHOW_TOAST_KEY, showToast);
-
 // Expose for global / legacy consumers
+// =========================================================================
+// Expose
+// =========================================================================
+
 defineExpose({ showToast });
 </script>
 

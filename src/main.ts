@@ -20,7 +20,7 @@ import "./stylesheets/global/base.css";
 import "./stylesheets/global/theme.css";
 import "./stylesheets/global/fonts.css";
 import "./stylesheets/global/accessibility.css";
-import "./stylesheets/components/page-transition.css";
+import "./stylesheets/global/page-transition.css";
 
 // =========================================================================
 // npm package imports (replaces CDN <script> tags)
@@ -54,12 +54,7 @@ import "./ui/img-utils.js";
 import "./ui/tooltips.js";
 import "./ui/scroll-hint.js";
 import "./ui/accessibility.js";
-import "./ui/settings.js";
 import "./features/page-transition.js";
-import "./features/external-link-confirmation.js";
-
-// --- Code-dependent features ---
-import "./features/qr-code.js";
 
 // --- Detection helpers ---
 import "./ui/bootstrap-css-detection.js";

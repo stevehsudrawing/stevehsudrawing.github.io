@@ -4,11 +4,12 @@
   Uses qrcode for canvas generation and html-to-image/html2canvas for PNG export.
 -->
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from "vue";
+import { ref, watch, nextTick, computed, toRef, type Ref } from "vue";
 import QRCode from "qrcode";
 import { useI18n } from "../../composables/useI18n.js";
 import { useTheme } from "../../composables/useTheme.js";
 import { useToast } from "../../composables/useToast.js";
+import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
@@ -45,7 +46,7 @@ const emit = defineEmits<{
 }>();
 
 // =========================================================================
-// Reactive state
+// State
 // =========================================================================
 
 const visible = ref(false);
@@ -56,48 +57,32 @@ const { showToast } = useToast();
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const buttonsDisabled = ref(false);
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Center icon (derived from imgProperties HAST)
-// =========================================================================
+// -------------------------------------------------------------------------
 
-const centerIconSrc = computed(() => {
-  if (props.imgProperties?.src) {
-    return props.imgProperties.src as string;
-  }
-  return "/images/webp/icons/link.webp";
-});
+const {
+  src: centerIconSrcRaw,
+  alt: centerIconAltRaw,
+  feature: centerIconFeature,
+  colorVar: centerIconColorVar,
+  colorMaskSrc: centerIconColorMaskSrc,
+} = useImgDisplayProps(
+  toRef(props, "imgProperties") as Ref<
+    Record<string, unknown> | null | undefined
+  >,
+);
 
-const centerIconAlt = computed(() => {
-  if (props.imgProperties?.alt) {
-    return props.imgProperties.alt as string;
-  }
-  return t("text-link", "Link");
-});
+const centerIconSrc = computed(
+  () => centerIconSrcRaw.value ?? "/images/webp/icons/link.webp",
+);
+const centerIconAlt = computed(
+  () => centerIconAltRaw.value ?? t("text-link", "Link"),
+);
 
-const centerIconFeature = computed(() => {
-  if (props.imgProperties?.dataImgFeature) {
-    return props.imgProperties.dataImgFeature as string;
-  }
-  return undefined;
-});
-
-const centerIconColorVar = computed(() => {
-  if (props.imgProperties?.dataColorVar) {
-    return props.imgProperties.dataColorVar as string;
-  }
-  return undefined;
-});
-
-const centerIconColorMaskSrc = computed(() => {
-  if (props.imgProperties?.dataSrcMask) {
-    return props.imgProperties.dataSrcMask as string;
-  }
-  return undefined;
-});
-
-// =========================================================================
+// -------------------------------------------------------------------------
 // Computed
-// =========================================================================
+// -------------------------------------------------------------------------
 
 const isInternal = computed(() => {
   try {
@@ -137,8 +122,12 @@ const cardTitle = computed(() => {
 });
 
 // =========================================================================
-// QR code generation
+// Actions
 // =========================================================================
+
+// -------------------------------------------------------------------------
+// QR code generation
+// -------------------------------------------------------------------------
 
 let prevUrl = "";
 
@@ -171,9 +160,9 @@ watch(effectiveTheme, async () => {
   }
 });
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Share card → PNG export
-// =========================================================================
+// -------------------------------------------------------------------------
 
 /**
  * Render the QR share card to a PNG blob.
@@ -291,6 +280,10 @@ function openLink(): void {
 }
 
 /** Expose show/hide for imperative callers (parent App.vue). */
+// =========================================================================
+// Expose
+// =========================================================================
+
 defineExpose({
   show: () => {
     visible.value = true;

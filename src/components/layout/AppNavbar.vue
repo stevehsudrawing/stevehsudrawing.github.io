@@ -27,17 +27,21 @@ const props = defineProps<{
 }>();
 
 // =========================================================================
-// Data
+// Types
 // =========================================================================
-
-/** Supported languages (imported at build time from language-list.json). */
-import languageList from "../../configs/language-list.json";
 
 interface NavItem {
   href: string;
   i18nKey: string;
   label: string;
 }
+
+// =========================================================================
+// State
+// =========================================================================
+
+/** Supported languages (imported at build time from language-list.json). */
+import languageList from "../../configs/language-list.json";
 
 const navItems: NavItem[] = [
   { href: "/index.html", i18nKey: "text-home", label: "Home" },
@@ -56,24 +60,20 @@ const navItems: NavItem[] = [
   { href: "/about.html", i18nKey: "text-about", label: "About" },
 ];
 
-// =========================================================================
-// Composables
-// =========================================================================
-
 const { t, locale, setLocale } = useI18n();
 const { preference, setPreference } = useTheme();
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Active nav item
-// =========================================================================
+// -------------------------------------------------------------------------
 
 function isActive(href: string): boolean {
   return props.currentPage === normalizeInternalPath(href);
 }
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Scroll state (border + brand slide)
-// =========================================================================
+// -------------------------------------------------------------------------
 
 const scrollY = ref(0);
 const isMobile = ref(false);
@@ -97,17 +97,6 @@ function throttledScroll(): void {
   }
 }
 
-onMounted(() => {
-  onResize();
-  window.addEventListener("scroll", throttledScroll);
-  window.addEventListener("resize", onResize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", throttledScroll);
-  window.removeEventListener("resize", onResize);
-});
-
 const scrolled = computed(() => scrollY.value > 0);
 
 // Brand slide progress (0–1 over first 64 px)
@@ -121,17 +110,9 @@ const pageI18nKey = computed(
 );
 const pageName = computed(() => t(pageI18nKey.value, ""));
 
-// =========================================================================
-// Language switching
-// =========================================================================
-
-function switchLanguage(lang: string): void {
-  setLocale(lang);
-}
-
-// =========================================================================
-// Theme options
-// =========================================================================
+// -------------------------------------------------------------------------
+// Theme options + dropdown labels
+// -------------------------------------------------------------------------
 
 const themeOptions = [
   {
@@ -153,10 +134,6 @@ const themeOptions = [
     icon: "bi-moon-stars-fill",
   },
 ];
-
-// =========================================================================
-// Dropdown button labels
-// =========================================================================
 
 /** Current language display name (e.g. "English", "中文 (简体)"). */
 const currentLanguageName = computed(
@@ -180,6 +157,29 @@ const currentThemeLabel = computed(() =>
     "Auto",
   ),
 );
+
+// =========================================================================
+// Actions
+// =========================================================================
+
+function switchLanguage(lang: string): void {
+  setLocale(lang);
+}
+
+onMounted(() => {
+  onResize();
+  window.addEventListener("scroll", throttledScroll);
+  window.addEventListener("resize", onResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", throttledScroll);
+  window.removeEventListener("resize", onResize);
+});
+
+// =========================================================================
+// Expose
+// =========================================================================
 
 // Expose for legacy consumers via window.__navbar
 defineExpose({
@@ -312,7 +312,7 @@ defineExpose({
             boundary="viewport"
           >
             <template #button-content>
-              <i class="bi bi-circle-half"></i>
+              <i :class="['bi', currentThemeIcon]"></i>
               <span class="ms-1 d-none d-sm-inline">{{
                 currentThemeLabel
               }}</span>

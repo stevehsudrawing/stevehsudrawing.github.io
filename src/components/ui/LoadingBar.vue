@@ -2,17 +2,24 @@
   LoadingBar.vue — thin progress bar at the top of the viewport.
   Used by page transitions and language switching.
 
-  The static HTML (#page-transition-progress) is injected at build time
-  via build/page-components/header.html.  This component owns the CSS
-  and exposes imperative show / complete / hide methods.
+  The static HTML (#loading-bar) is rendered in its own template.
+  This component owns the CSS and exposes imperative show / complete / hide methods.
 -->
 <script setup lang="ts">
 import { onMounted } from "vue";
 
+// =========================================================================
+// State
+// =========================================================================
+
 let bar: HTMLElement | null = null;
 
+// =========================================================================
+// Actions
+// =========================================================================
+
 onMounted(() => {
-  bar = document.getElementById("page-transition-progress");
+  bar = document.getElementById("loading-bar");
 });
 
 /** Show the progress bar and animate to ~85 %. */
@@ -45,18 +52,23 @@ function hide(): void {
   bar.style.display = "none";
 }
 
+// =========================================================================
+// Expose
+// =========================================================================
+
 defineExpose({ show, complete, hide });
 </script>
 
 <template>
-  <!-- Static HTML in header.html handles instant rendering. -->
-  <div />
+  <div id="loading-bar" style="display: none">
+    <div id="loading-bar-fill"></div>
+  </div>
 </template>
 
 <style>
 /* ==== Loading Bar - thin progress bar at top of viewport ==== */
 
-#page-transition-progress {
+#loading-bar {
   position: fixed;
   top: 0;
   left: 0;
@@ -66,19 +78,19 @@ defineExpose({ show, complete, hide });
   cursor: wait;
 }
 
-#page-transition-progress-bar {
+#loading-bar-fill {
   height: 3px;
   width: 0;
   background-color: rgb(var(--bs-link-color-rgb, 13, 110, 253));
   transition: width 0.2s ease-out;
 }
 
-#page-transition-progress.active #page-transition-progress-bar {
+#loading-bar.active #loading-bar-fill {
   width: 85%;
   transition: width 2.5s ease-out;
 }
 
-#page-transition-progress.done #page-transition-progress-bar {
+#loading-bar.done #loading-bar-fill {
   width: 100%;
   transition: width 0.2s ease-in;
 }

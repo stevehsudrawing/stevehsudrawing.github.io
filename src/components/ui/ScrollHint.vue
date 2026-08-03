@@ -9,11 +9,13 @@
 -->
 <script setup lang="ts">
 import { onBeforeUnmount } from "vue";
-import { translate } from "../../core/i18n.js";
+import { useI18n } from "../../composables/useI18n.js";
 
 // =========================================================================
-// Internal state
+// State
 // =========================================================================
+
+const { t } = useI18n();
 
 let resizeTicking = false;
 
@@ -28,7 +30,7 @@ function onResize(): void {
 }
 
 // =========================================================================
-// Public API
+// Actions
 // =========================================================================
 
 /**
@@ -68,7 +70,7 @@ function createHint(group: HTMLElement): void {
   // Apply translation since updatePageText() may have already run
   const span = hint.querySelector("[data-i18n]");
   if (span) {
-    const translated = translate("text-scroll-horizontally");
+    const translated = t("text-scroll-horizontally");
     if (translated) {
       span.textContent = translated;
     }
@@ -106,7 +108,7 @@ onBeforeUnmount(() => {
 });
 
 // =========================================================================
-// Expose for legacy consumers via window bridge
+// Expose
 // =========================================================================
 
 defineExpose({ createHint, removeHint, updateAllHints, initAllHints });

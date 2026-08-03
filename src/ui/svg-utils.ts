@@ -1,14 +1,9 @@
 /**
- * SVG injection bridge — delegates to the Vue InlineSvg component.
+ * SVG injection bridge — delegates to the composable.
  *
- * The InlineSvg component handles both Vue template usage (props-based)
- * and global document scan (initAll).  This module provides a thin
- * bridge for legacy TS consumers (page-content-initializer.ts, qr-code.ts).
+ * The useSvgInjection composable handles the global document scan.
+ * This module provides a thin bridge for legacy TS consumers
+ * (page-content-initializer.ts, qr-code.ts).
  */
 
-/**
- * Initialize SVG injection for all [data-role="svg"] placeholders.
- */
-export async function initSvgInjection(): Promise<void> {
-  await window.__svgInjection?.initAll();
-}
+export { initSvgInjection } from "../composables/useSvgInjection.js";

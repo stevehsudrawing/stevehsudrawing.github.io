@@ -9,7 +9,15 @@ import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { toHtml } from "hast-util-to-html";
 
+// =========================================================================
+// State
+// =========================================================================
+
 const { t, messages } = useI18n();
+
+// -------------------------------------------------------------------------
+// HAST-powered-by
+// -------------------------------------------------------------------------
 
 /** Render a HAST-format i18n key to HTML. */
 function renderHast(key: string, fallback: unknown): string {
@@ -21,6 +29,11 @@ function renderHast(key: string, fallback: unknown): string {
 }
 
 const poweredByHtml = computed(() => renderHast("hast-powered-by", null));
+
+// =========================================================================
+// Actions
+// =========================================================================
+// (none — footer links use App.vue event delegation)
 </script>
 
 <template>

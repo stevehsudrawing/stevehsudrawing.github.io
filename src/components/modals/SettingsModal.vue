@@ -4,15 +4,16 @@
   Uses BModal + v-model for reactive form binding.
 -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { useTheme } from "../../composables/useTheme.js";
 import { useLocalStorage } from "../../composables/useLocalStorage.js";
+import { StorageKey } from "../../types/app.js";
 import ResetWarningModal from "./ResetWarningModal.vue";
 import languageList from "../../configs/language-list.json";
 
 // =========================================================================
-// Reactive state
+// State
 // =========================================================================
 
 const visible = ref(false);
@@ -24,21 +25,28 @@ let pendingResetWarning = false;
 const { locale, setLocale } = useI18n();
 const { preference: themePreference, setPreference: setTheme } = useTheme();
 
-const openInNewTab = useLocalStorage("openExternalLinksInNewTab", true);
-const enableAnimations = useLocalStorage("enableAnimations", true);
+const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
+const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
 
+// -------------------------------------------------------------------------
 // Reduced-motion detection
+// -------------------------------------------------------------------------
+
 const reducedMotionQuery = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 );
 const reducedMotion = ref(reducedMotionQuery.matches);
-reducedMotionQuery.addEventListener("change", () => {
+function onReducedMotionChange(): void {
   reducedMotion.value = reducedMotionQuery.matches;
+}
+reducedMotionQuery.addEventListener("change", onReducedMotionChange);
+onBeforeUnmount(() => {
+  reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
 });
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Theme / language options
-// =========================================================================
+// -------------------------------------------------------------------------
 
 const themes = [
   { value: "auto" as const, i18nKey: "text-auto" },
@@ -65,19 +73,9 @@ function resetAll(): void {
   window.location.href = "/index.html";
 }
 
-/** Expose show/hide for external callers (settings-open button). */
-defineExpose({
-  show: () => {
-    visible.value = true;
-  },
-  hide: () => {
-    visible.value = false;
-  },
-});
-
-// =========================================================================
+// -------------------------------------------------------------------------
 // Modal-to-modal switching (Settings ↔ ResetWarning)
-// =========================================================================
+// -------------------------------------------------------------------------
 
 /**
  * Open the ResetWarningModal by hiding this modal first.
@@ -101,6 +99,20 @@ function onSettingsHidden(): void {
 function onResetCancel(): void {
   visible.value = true;
 }
+
+// =========================================================================
+// Expose
+// =========================================================================
+
+/** Expose show/hide for external callers (settings-open button). */
+defineExpose({
+  show: () => {
+    visible.value = true;
+  },
+  hide: () => {
+    visible.value = false;
+  },
+});
 </script>
 
 <template>

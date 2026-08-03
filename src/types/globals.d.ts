@@ -36,16 +36,6 @@ declare global {
     __noCopy?: {
       init: () => void;
     };
-    /** Bridge: Vue InlineSvg instance for legacy TS consumers. */
-    __svgInjection?: {
-      initAll: () => Promise<void>;
-    };
-    /** Bridge: Vue FeatureAwareImg instance for legacy TS consumers. */
-    __imgUtils?: {
-      initAll: () => Promise<void>;
-      initAllColoredImages: () => void;
-      initAllImageLoadingOpacity: () => void;
-    };
     /** Bridge: Vue AppNavbar instance for legacy TS consumers. */
     __navbar?: {
       setActiveNavItem: () => void;
