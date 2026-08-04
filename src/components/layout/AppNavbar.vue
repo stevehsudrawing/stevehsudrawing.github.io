@@ -275,8 +275,7 @@ defineExpose({
                   ? 'page'
                   : undefined
               "
-              :data-i18n="item.i18nKey"
-              >{{ item.label }}</a
+              >{{ $t(item.i18nKey, item.label) }}</a
             >
           </li>
         </ul>

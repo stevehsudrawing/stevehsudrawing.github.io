@@ -10,8 +10,43 @@ import { useI18n } from "../../composables/useI18n.js";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 import type { CardData } from "../../types/app.js";
-import type { HastProperties } from "../../types/hast.js";
+import type { HastProperties, HastNode } from "../../types/hast.js";
 import { toHtml } from "hast-util-to-html";
+
+// =========================================================================
+// Helpers
+// =========================================================================
+
+/**
+ * Recursively add data-link-img-props to all <a> elements in a HAST tree.
+ * Mutates the tree in place.  Call on a clone of the original node.
+ *
+ * This replaces build/builders/link-cards.ts processLinkNodes() for the
+ * title-description link decoration pass (without QR button insertion).
+ */
+function addLinkImgProps(
+  node: HastNode,
+  iconProperties: HastProperties | null,
+): void {
+  if (!node || typeof node !== "object") return;
+
+  if (node.type === "element" && node.tagName === "a") {
+    if (!node.properties) node.properties = {} as HastProperties;
+    if (
+      iconProperties &&
+      !(node.properties as Record<string, unknown>).dataLinkImgProps
+    ) {
+      (node.properties as Record<string, unknown>).dataLinkImgProps =
+        JSON.stringify(iconProperties);
+    }
+  }
+
+  if (Array.isArray(node.children)) {
+    for (const child of node.children) {
+      addLinkImgProps(child, iconProperties);
+    }
+  }
+}
 
 // =========================================================================
 // Props
@@ -35,25 +70,30 @@ const iconProps = useImgDisplayProps(
   ) as Ref<Record<string, unknown> | null | undefined>,
 );
 
-/** HAST → HTML for the title node. */
-const titleHtml = computed(() =>
-  props.card.title
-    ? toHtml(props.card.title as Parameters<typeof toHtml>[0])
-    : "",
-);
+/** HAST → HTML for the title node, with link processing. */
+const titleHtml = computed(() => {
+  if (!props.card.title) return "";
+
+  // Clone so we don't mutate the prop (use JSON round-trip since
+  // Vue's reactivity proxy prevents structuredClone).
+  const title = JSON.parse(JSON.stringify(props.card.title)) as Parameters<
+    typeof toHtml
+  >[0];
+
+  // Add data-link-img-props to all <a> elements in the title
+  const iconProperties = props.card.icon?.properties ?? null;
+  if (iconProperties) {
+    addLinkImgProps(title as HastNode, iconProperties);
+  }
+
+  return toHtml(title);
+});
 
 /** HAST → HTML for the description node. */
 const descHtml = computed(() =>
   props.card.description
     ? toHtml(props.card.description as Parameters<typeof toHtml>[0])
     : "",
-);
-
-/** JSON-encode icon properties for data-link-img-props attribute. */
-const linkImgProps = computed(() =>
-  props.card.icon?.properties
-    ? JSON.stringify(props.card.icon.properties)
-    : null,
 );
 
 /** JSON-encode icon properties for data-qr-icon attribute. */

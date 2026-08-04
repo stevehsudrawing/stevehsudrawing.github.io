@@ -1,22 +1,94 @@
 /**
  * Theme composable -- reactive theme state for Vue 3.
  *
- * Provides a single source of truth for the user's theme preference
- * (auto / light / dark) and the resolved effective theme.
+ * Provides a SINGLE source of truth for the user's theme preference
+ * (auto / light / dark) and the resolved effective theme.  The
+ * preference ref is a module-level singleton so all components
+ * that call useTheme() share the same reactive state.
  *
  * Coexists with ui/theme.ts: the composable owns the reactive STATE;
  * the imperative module (ui/theme.ts) still performs DOM manipulation
  * (overlay transitions, image swapping, favicon updates) via its
  * existing exported functions.
- *
- * Once all consumers migrate to Vue components, ui/theme.ts will be
- * fully replaced by this composable + component-scoped logic.
  */
 
 import { ref, computed, watch, onMounted, onUnmounted, type Ref } from "vue";
 import { useLocalStorage } from "./useLocalStorage";
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
 import { StorageKey } from "../types/app";
+
+// =========================================================================
+// Module-level shared state (singleton — all components share the same ref)
+// =========================================================================
+
+/** Shared theme preference ref — initialized once, shared across all callers. */
+const preference = useLocalStorage<ThemeChoice>(
+  StorageKey.Theme,
+  "auto",
+) as Ref<ThemeChoice>;
+
+/** Shared system-dark-mode ref. */
+const systemIsDark = ref(
+  window.matchMedia("(prefers-color-scheme: dark)").matches,
+);
+
+/** Shared effective theme — derived from preference + system preference. */
+const effectiveTheme = computed<EffectiveTheme>(() =>
+  preference.value === "auto"
+    ? systemIsDark.value
+      ? "dark"
+      : "light"
+    : (preference.value as EffectiveTheme),
+);
+
+// ---- System theme listener (shared — one global listener) ----
+
+let mediaQuery: MediaQueryList | null = null;
+let mediaHandler: ((e: MediaQueryListEvent) => void) | null = null;
+let listenerCount = 0;
+
+function addSystemListener(): void {
+  listenerCount++;
+  if (listenerCount === 1) {
+    mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaHandler = (e: MediaQueryListEvent) => {
+      systemIsDark.value = e.matches;
+    };
+    mediaQuery.addEventListener("change", mediaHandler);
+  }
+}
+
+function removeSystemListener(): void {
+  listenerCount--;
+  if (listenerCount === 0 && mediaQuery && mediaHandler) {
+    mediaQuery.removeEventListener("change", mediaHandler);
+    mediaQuery = null;
+    mediaHandler = null;
+  }
+}
+
+// ---- Effective theme → DOM sync (shared — one global watcher) ----
+
+watch(effectiveTheme, (theme) => {
+  document.documentElement.setAttribute("data-bs-theme", theme);
+
+  // Delegate to ui/theme.ts for image swapping, favicon updates, etc.
+  import("../ui/theme").then(
+    ({
+      applyAllThemeBasedImages,
+      applyAllThemeBasedSources,
+      applyAllFaviconThemes,
+    }) => {
+      applyAllThemeBasedImages();
+      applyAllThemeBasedSources();
+      applyAllFaviconThemes();
+    },
+  );
+});
+
+// =========================================================================
+// Composable (returns shared state + per-component lifecycle hooks)
+// =========================================================================
 
 /** Reactive localStorage-backed theme preference. */
 export function useTheme(): {
@@ -27,60 +99,9 @@ export function useTheme(): {
   /** Directly set the preference and apply it via ui/theme.ts. */
   setPreference: (choice: ThemeChoice) => void;
 } {
-  // --- State ---
-  const preference = useLocalStorage<ThemeChoice>(
-    StorageKey.Theme,
-    "auto",
-  ) as Ref<ThemeChoice>;
-
-  const systemIsDark = ref(
-    window.matchMedia("(prefers-color-scheme: dark)").matches,
-  );
-
-  const effectiveTheme = computed<EffectiveTheme>(() =>
-    preference.value === "auto"
-      ? systemIsDark.value
-        ? "dark"
-        : "light"
-      : (preference.value as EffectiveTheme),
-  );
-
-  // --- System theme listener ---
-  let mediaQuery: MediaQueryList | null = null;
-  let handler: ((e: MediaQueryListEvent) => void) | null = null;
-
-  onMounted(() => {
-    mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    handler = (e: MediaQueryListEvent) => {
-      systemIsDark.value = e.matches;
-    };
-    mediaQuery.addEventListener("change", handler);
-  });
-
-  onUnmounted(() => {
-    if (mediaQuery && handler) {
-      mediaQuery.removeEventListener("change", handler);
-    }
-  });
-
-  // --- Sync effectiveTheme -> DOM via existing imperative module ---
-  watch(effectiveTheme, (theme) => {
-    document.documentElement.setAttribute("data-bs-theme", theme);
-
-    // Delegate to ui/theme.ts for image swapping, favicon updates, etc.
-    // Dynamic import avoids circular dependency with the existing module.
-    import("../ui/theme").then(
-      ({
-        applyAllThemeBasedImages,
-        applyAllThemeBasedSources,
-        applyAllFaviconThemes,
-      }) => {
-        applyAllThemeBasedImages();
-        applyAllThemeBasedSources();
-        applyAllFaviconThemes();
-      },
-    );
-  });
+  // Per-component: register system theme listener
+  onMounted(addSystemListener);
+  onUnmounted(removeSystemListener);
 
   // --- Actions ---
 

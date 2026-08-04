@@ -22,17 +22,21 @@ const { groups, pagePath } = useLinkCards(ref("chatting"));
   <div class="container py-4 link-hub-part">
     <div class="d-flex align-items-center flex-wrap">
       <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h1 data-i18n="text-chatting">Chatting</h1>
-        <p data-i18n="text-chatting-description">
-          Welcome to join my chat room for interaction!
+        <h1>{{ $t("text-chatting", "Chatting") }}</h1>
+        <p>
+          {{
+            $t(
+              "text-chatting-description",
+              "Welcome to join my chat room for interaction!",
+            )
+          }}
         </p>
       </div>
       <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/chatting.avif"
           fallback-src-light="/images/webp/covers/chatting.webp"
-          alt="Chatting"
-          data-i18n-alt="text-chatting"
+          :alt="$t('text-chatting', 'Chatting')"
           img-class="img-fluid img-fit rounded"
         />
       </div>

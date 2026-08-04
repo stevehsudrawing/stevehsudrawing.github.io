@@ -8,8 +8,8 @@ import { ref, computed, toRef, type Ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useLocalStorage } from "../../composables/useLocalStorage";
 import { StorageKey } from "../../types/app";
-import { useToast } from "../../composables/useToast";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
+import CopyButton from "../buttons/CopyButton.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
 // =========================================================================
@@ -52,7 +52,6 @@ const emit = defineEmits<{
 const visible = ref(false);
 const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
 const { t } = useI18n();
-const { showToast } = useToast();
 
 // Extract display properties from HAST imgProperties
 const {
@@ -83,19 +82,6 @@ function showQR(): void {
   visible.value = false;
 }
 
-async function copyUrl(): Promise<void> {
-  try {
-    await navigator.clipboard.writeText(props.url);
-    showToast(
-      "success",
-      `${t("text-copied-text", "Copied text")}: ${props.url}`,
-    );
-  } catch {
-    showToast("error", "Failed to copy URL");
-  }
-}
-
-/** Expose show/hide for imperative callers (parent App.vue). */
 // =========================================================================
 // Expose
 // =========================================================================
@@ -160,15 +146,13 @@ defineExpose({
         >
           <i class="bi bi-qr-code"></i>
         </button>
-        <button
-          type="button"
+        <CopyButton
+          tag="button"
           class="btn btn-outline-primary btn-no-border me-auto"
-          :aria-label="$t('text-copy', 'Copy')"
-          v-b-tooltip="t('text-copy', 'Copy')"
-          @click="copyUrl"
+          :copy-text="url"
         >
           <i class="bi bi-clipboard"></i>
-        </button>
+        </CopyButton>
         <button
           type="button"
           class="btn btn-outline-secondary btn-no-border"

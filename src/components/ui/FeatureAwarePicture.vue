@@ -36,10 +36,8 @@ const props = defineProps<{
   colorMaskSrc?: string;
   /** CSS variable for "colored" tint. */
   colorVar?: string;
-  /** HTML alt attribute. */
+  /** HTML alt attribute (pre-resolved from i18n by the parent). */
   alt?: string;
-  /** i18n key for alt attribute. */
-  dataI18nAlt?: string;
   /** Image width. */
   width?: number;
   /** Image height. */
@@ -100,7 +98,6 @@ const currentWebpSrc = computed(() =>
       :color-mask-src="colorMaskSrc"
       :color-var="colorVar"
       :alt="alt || ''"
-      :data-i18n-alt="dataI18nAlt"
       :width="width"
       :height="height"
       :fetchpriority="fetchpriority"

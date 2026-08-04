@@ -7,11 +7,26 @@
   Link button groups are rendered via useLinkButtonGroups().
 -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
+import { useI18n } from "../composables/useI18n.js";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups.js";
 import type { LinkButtonGroupData } from "../types/app.js";
+
+// =========================================================================
+// i18n
+// =========================================================================
+
+const { t } = useI18n();
+
+/** HTML i18n fallback for the brand heading. */
+const brandHtml = computed(() =>
+  t(
+    "html-steve-hsu-s-link-hub",
+    `<strong class="color-primary">Steve Hsu <small>什五</small></strong>'s Link-Hub`,
+  ),
+);
 
 // =========================================================================
 // Link button groups
@@ -30,17 +45,22 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <div class="container link-hub-part">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-1 order-2">
-        <h1 data-i18n-html="html-steve-hsu-s-link-hub">
-          <strong class="color-primary">Steve Hsu <small>什五</small></strong
-          >'s Link-Hub
-        </h1>
-        <p data-i18n="text-homepage-welcome">
-          Welcome! I'm an amateur creator. I draw something, make video, and
-          code sometimes.
+        <h1 v-html="brandHtml"></h1>
+        <p>
+          {{
+            $t(
+              "text-homepage-welcome",
+              "Welcome! I'm an amateur creator. I draw something, make video, and code sometimes.",
+            )
+          }}
         </p>
-        <p data-i18n="text-homepage-introduction-artworks">
-          You might know me through my artworks and videos. You can view my more
-          artworks from my Pixiv profile or my profile on other platforms.
+        <p>
+          {{
+            $t(
+              "text-homepage-introduction-artworks",
+              "You might know me through my artworks and videos. You can view my more artworks from my Pixiv profile or my profile on other platforms.",
+            )
+          }}
         </p>
         <LinkButtonGroup
           v-if="findGroup('artworks')"
@@ -55,8 +75,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
           webp-src-dark="/images/webp/covers/illustration-dark.webp"
           fallback-src-light="/images/png/covers/illustration-light.png"
           feature="follow-theme"
-          alt="Illustration"
-          data-i18n-alt="text-illustration"
+          :alt="$t('text-illustration', 'Illustration')"
           fetchpriority="high"
           img-class="img-fluid img-fit rounded no-copy solid-bg"
         />
@@ -70,11 +89,14 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <div class="container link-hub-part">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-1 order-2">
-        <h2 class="h1" data-i18n="text-my-softwares">My Softwares</h2>
-        <p data-i18n="text-homepage-introduction-software">
-          You might also know me through softwares I made (such as Quanto
-          Series). You can check my GitHub profile to view open source projects,
-          or go to the "Software" page to see more.
+        <h2 class="h1">{{ $t("text-my-softwares", "My Softwares") }}</h2>
+        <p>
+          {{
+            $t(
+              "text-homepage-introduction-software",
+              'You might also know me through softwares I made (such as Quanto Series). You can check my GitHub profile to view open source projects, or go to the "Software" page to see more.',
+            )
+          }}
         </p>
         <LinkButtonGroup
           v-if="findGroup('softwares')"
@@ -85,8 +107,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/projects.avif"
           fallback-src-light="/images/webp/covers/projects.webp"
-          alt="Softwares"
-          data-i18n-alt="text-softwares"
+          :alt="$t('text-softwares', 'Softwares')"
           img-class="img-fluid img-fit rounded"
         />
       </div>
@@ -99,9 +120,16 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <div class="container link-hub-part">
     <div class="d-flex align-items-center flex-wrap">
       <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h2 class="h1" data-i18n="text-blogs-and-sponsor">Blogs & Sponsor</h2>
-        <p data-i18n="text-blogs-and-sponsor-description">
-          Welcome to read my blogs about me or my projects!
+        <h2 class="h1">
+          {{ $t("text-blogs-and-sponsor", "Blogs & Sponsor") }}
+        </h2>
+        <p>
+          {{
+            $t(
+              "text-blogs-and-sponsor-description",
+              "Welcome to read my blogs about me or my projects!",
+            )
+          }}
         </p>
         <LinkButtonGroup
           v-if="findGroup('blogs-and-sponsor')"
@@ -112,8 +140,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/blogs.avif"
           fallback-src-light="/images/webp/covers/blogs.webp"
-          alt="Blogs &amp; Sponsor"
-          data-i18n-alt="text-blogs-and-sponsor"
+          :alt="$t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor')"
           img-class="img-fluid img-fit rounded"
         />
       </div>
@@ -126,9 +153,14 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <div class="container link-hub-part">
     <div class="d-flex align-items-center flex-wrap">
       <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h2 class="h1" data-i18n="text-chatting">Chatting</h2>
-        <p data-i18n="text-chatting-description">
-          Welcome to join my chat room for interaction!
+        <h2 class="h1">{{ $t("text-chatting", "Chatting") }}</h2>
+        <p>
+          {{
+            $t(
+              "text-chatting-description",
+              "Welcome to join my chat room for interaction!",
+            )
+          }}
         </p>
         <LinkButtonGroup
           v-if="findGroup('chatting')"
@@ -139,8 +171,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/chatting.avif"
           fallback-src-light="/images/webp/covers/chatting.webp"
-          alt="Chatting"
-          data-i18n-alt="text-chatting"
+          :alt="$t('text-chatting', 'Chatting')"
           img-class="img-fluid img-fit rounded"
         />
       </div>
@@ -158,8 +189,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         fallback-src-light="/images/webp/stickers/light/thumb.webp"
         fallback-src-dark="/images/webp/stickers/dark/thumb.webp"
         feature="follow-theme"
-        alt="Sticker (Thumb)"
-        data-i18n-alt="text-sticker-of-thumb"
+        :alt="$t('text-sticker-of-thumb', 'Sticker (Thumb)')"
         :width="150"
         :height="150"
         class="no-copy solid-bg"
@@ -168,9 +198,9 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         class="link link-hover-change-background link-secondary-shlh internal-link fw-semibold mt-3"
         href="/about.html"
       >
-        <span data-i18n="text-about-me-and-my-emails"
-          >About me and my emails</span
-        >
+        <span>{{
+          $t("text-about-me-and-my-emails", "About me and my emails")
+        }}</span>
         <i class="bi bi-arrow-right"></i>
       </a>
     </div>

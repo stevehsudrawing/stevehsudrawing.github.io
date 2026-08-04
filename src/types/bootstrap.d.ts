@@ -11,11 +11,17 @@
 declare module "bootstrap" {
   // eslint-disable-next-line @typescript-eslint/no-extraneous-class
   export const Tooltip: {
-    getInstance: (el: Element) => { dispose: () => void } | null;
+    getInstance: (el: Element) => {
+      dispose: () => void;
+      setContent: (content: Record<string, string>) => void;
+    } | null;
     new (
       el: Element,
       options?: Record<string, unknown>,
-    ): { dispose: () => void };
+    ): {
+      dispose: () => void;
+      setContent: (content: Record<string, string>) => void;
+    };
   };
 
   export const Offcanvas: {

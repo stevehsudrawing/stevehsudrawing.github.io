@@ -22,9 +22,11 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
   <div class="container py-4 link-hub-part">
     <div class="d-flex align-items-center flex-wrap">
       <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h1 data-i18n="text-softwares">Softwares</h1>
-        <p data-i18n="text-softwares-description">
-          Welcome to view my softwares!
+        <h1>{{ $t("text-softwares", "Softwares") }}</h1>
+        <p>
+          {{
+            $t("text-softwares-description", "Welcome to view my softwares!")
+          }}
         </p>
         <div>
           <a
@@ -33,7 +35,7 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
             data-link-img-props='{"alt":"Github","src":"/images/webp/null.webp","dataImgFeature":"colored","dataSrcMask":"/images/webp/icons/github.webp","dataColorVar":"bs-body-color"}'
           >
             <i class="bi bi-github"></i>
-            <span data-i18n="text-my-github-profile">My GitHub Profile</span>
+            <span>{{ $t("text-my-github-profile", "My GitHub Profile") }}</span>
           </a>
         </div>
       </div>
@@ -41,8 +43,7 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/projects.avif"
           fallback-src-light="/images/webp/covers/projects.webp"
-          alt="Softwares"
-          data-i18n-alt="text-softwares"
+          :alt="$t('text-softwares', 'Softwares')"
           img-class="img-fluid img-fit rounded"
         />
       </div>

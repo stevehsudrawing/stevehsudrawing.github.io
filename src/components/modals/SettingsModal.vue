@@ -130,73 +130,69 @@ defineExpose({
     cancel-variant="outline-secondary"
     @hidden="onSettingsHidden"
   >
-    <!-- Language -->
-    <div class="mb-4">
-      <label for="settings-language-select" class="form-label fw-semibold">
-        {{ $t("text-language", "Language") }}
-      </label>
-      <select
-        id="settings-language-select"
-        v-model="locale"
-        class="form-select"
-        @change="setLocale(locale)"
-      >
-        <option v-for="lang in languages" :key="lang.code" :value="lang.code">
-          {{ lang.name }}
-        </option>
-      </select>
-    </div>
-
-    <!-- Theme -->
-    <div class="mb-4">
-      <div class="mb-2 fw-semibold">{{ $t("text-theme", "Theme") }}</div>
-      <div class="btn-group d-flex flex-wrap" role="group">
-        <button
-          v-for="t in themes"
-          :key="t.value"
-          type="button"
-          class="btn btn-outline-secondary flex-fill"
-          :class="{ active: themePreference === t.value }"
-          @click="setTheme(t.value)"
+    <div class="d-flex flex-column gap-3">
+      <!-- Language -->
+      <div>
+        <label for="settings-language-select" class="form-label fw-semibold">
+          {{ $t("text-language", "Language") }}
+        </label>
+        <select
+          id="settings-language-select"
+          v-model="locale"
+          class="form-select"
+          @change="setLocale(locale)"
         >
-          {{ $t(t.i18nKey, t.value) }}
-        </button>
+          <option v-for="lang in languages" :key="lang.code" :value="lang.code">
+            {{ lang.name }}
+          </option>
+        </select>
       </div>
+
+      <!-- Theme -->
+      <div>
+        <div class="mb-2 fw-semibold">{{ $t("text-theme", "Theme") }}</div>
+        <div class="btn-group d-flex flex-wrap" role="group">
+          <button
+            v-for="t in themes"
+            :key="t.value"
+            type="button"
+            class="btn btn-outline-secondary flex-fill"
+            :class="{ active: themePreference === t.value }"
+            @click="setTheme(t.value)"
+          >
+            {{ $t(t.i18nKey, t.value) }}
+          </button>
+        </div>
+      </div>
+
+      <!-- New-tab toggle -->
+      <BFormCheckbox id="settings-new-tab-toggle" v-model="openInNewTab" switch>
+        {{
+          $t(
+            "text-always-open-external-links-in-a-new-tab",
+            "Always open external links in a new tab",
+          )
+        }}
+      </BFormCheckbox>
+
+      <!-- Animations toggle -->
+      <BFormCheckbox
+        id="settings-animations-toggle"
+        v-model="enableAnimations"
+        switch
+        :disabled="reducedMotion"
+      >
+        {{ $t("text-enable-animations", "Enable animations") }}
+      </BFormCheckbox>
+      <small v-if="reducedMotion" class="text-muted d-block mb-3">
+        {{
+          $t(
+            "text-animations-disabled-by-system-description",
+            "Animations are disabled by your system settings.",
+          )
+        }}
+      </small>
     </div>
-
-    <!-- New-tab toggle -->
-    <BFormCheckbox
-      id="settings-new-tab-toggle"
-      v-model="openInNewTab"
-      switch
-      class="mb-3"
-    >
-      {{
-        $t(
-          "text-always-open-external-links-in-a-new-tab",
-          "Always open external links in a new tab",
-        )
-      }}
-    </BFormCheckbox>
-
-    <!-- Animations toggle -->
-    <BFormCheckbox
-      id="settings-animations-toggle"
-      v-model="enableAnimations"
-      switch
-      :disabled="reducedMotion"
-      class="mb-3"
-    >
-      {{ $t("text-enable-animations", "Enable animations") }}
-    </BFormCheckbox>
-    <small v-if="reducedMotion" class="text-muted d-block mb-3">
-      {{
-        $t(
-          "text-animations-disabled-by-system-description",
-          "Animations are disabled by your system settings.",
-        )
-      }}
-    </small>
 
     <!-- Reset confirmation (modal-to-modal: opens ResetWarningModal) -->
     <ResetWarningModal

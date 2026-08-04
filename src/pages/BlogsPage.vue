@@ -22,17 +22,21 @@ const { groups, pagePath } = useLinkCards(ref("blogs-and-sponsor"));
   <div class="container py-4 link-hub-part">
     <div class="d-flex align-items-center flex-wrap">
       <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h1 data-i18n="text-blogs-and-sponsor">Blogs & Sponsor</h1>
-        <p data-i18n="text-blogs-and-sponsor-description">
-          Welcome to read my blogs about me or my projects!
+        <h1>{{ $t("text-blogs-and-sponsor", "Blogs & Sponsor") }}</h1>
+        <p>
+          {{
+            $t(
+              "text-blogs-and-sponsor-description",
+              "Welcome to read my blogs about me or my projects!",
+            )
+          }}
         </p>
       </div>
       <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/blogs.avif"
           fallback-src-light="/images/webp/covers/blogs.webp"
-          alt="Blogs"
-          data-i18n-alt="text-blogs-and-sponsor"
+          :alt="$t('text-blogs-and-sponsor', 'Blogs')"
           img-class="img-fluid img-fit rounded"
         />
       </div>

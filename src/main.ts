@@ -74,6 +74,7 @@ applyThemePreference(currentThemePreference, false, false);
 // Feature initialization is now orchestrated by App.vue's onMounted.
 // =========================================================================
 import { createApp } from "vue";
+import { vBTooltip } from "bootstrap-vue-next";
 import { i18nPlugin } from "./plugins/i18n";
 import { router } from "./router";
 import App from "./App.vue";
@@ -81,6 +82,7 @@ import App from "./App.vue";
 const app = createApp(App);
 app.use(i18nPlugin);
 app.use(router);
+app.directive("b-tooltip", vBTooltip);
 
 // Set initial route to current URL (MPA — each page load creates a fresh router).
 // createMemoryHistory starts empty; we replace with the real URL so

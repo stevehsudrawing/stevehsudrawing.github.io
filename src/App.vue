@@ -311,8 +311,7 @@ document.addEventListener("toast-show", ((e: CustomEvent) => {
     href="#page-content"
     class="btn btn-primary"
     role="button"
-    data-i18n="text-skip-to-content"
-    >Skip to Content</a
+    >{{ $t("text-skip-to-content", "Skip to Content") }}</a
   >
 
   <AppNavbar ref="appNavbarRef" :current-page="currentPage" />

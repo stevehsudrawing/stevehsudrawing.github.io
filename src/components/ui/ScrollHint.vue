@@ -64,17 +64,10 @@ function createHint(group: HTMLElement): void {
   hint.className = "scroll-hint";
   hint.setAttribute("aria-hidden", "true");
   hint.innerHTML =
-    '<i class="bi bi-chevron-left"></i> <span data-i18n="text-scroll-horizontally">Scroll Horizontally</span> <i class="bi bi-chevron-right"></i>';
+    '<i class="bi bi-chevron-left"></i> <span>' +
+    t("text-scroll-horizontally", "Scroll Horizontally") +
+    '</span> <i class="bi bi-chevron-right"></i>';
   group.insertAdjacentElement("afterend", hint);
-
-  // Apply translation since updatePageText() may have already run
-  const span = hint.querySelector("[data-i18n]");
-  if (span) {
-    const translated = t("text-scroll-horizontally");
-    if (translated) {
-      span.textContent = translated;
-    }
-  }
 }
 
 /**

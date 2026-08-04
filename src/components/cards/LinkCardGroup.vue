@@ -9,6 +9,8 @@ import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { extractPlainText, toDashCase } from "../../core/utils.js";
 import LinkCard from "./LinkCard.vue";
+import CopyButton from "../buttons/CopyButton.vue";
+import AnchorButton from "../buttons/AnchorButton.vue";
 import { toHtml } from "hast-util-to-html";
 import type { GroupData } from "../../types/app.js";
 import type { HastNode } from "../../types/hast.js";
@@ -72,26 +74,18 @@ const hasCards = computed(
       <h2 class="title-link-group h4" :id="titleId">
         <span v-html="titleHtml"></span>
       </h2>
-      <a
+      <AnchorButton
         v-if="titleId"
-        class="title-link-anchor"
-        :href="`#${titleId}`"
+        :target-id="titleId"
         :aria-label="`Link to ${titleText}`"
-        data-bs-toggle="tooltip"
-        data-bs-title="Anchor"
-        data-i18n-tooltip="text-anchor"
-      >
-        <i class="bi bi-paragraph"></i>
-      </a>
-      <a
+      />
+      <CopyButton
         v-if="titleId"
-        class="link title-link-anchor copy-link"
-        href="#"
-        :aria-label="`Copy the link to ${titleText}`"
-        :data-copy-text="copyUrl"
+        class="link title-link-anchor"
+        :copy-text="copyUrl"
       >
         <i class="bi bi-link-45deg"></i>
-      </a>
+      </CopyButton>
     </div>
 
     <!-- Group description -->

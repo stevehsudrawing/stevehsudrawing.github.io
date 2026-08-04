@@ -5,7 +5,7 @@
   Phase 7: replaces build/builders/link-button-groups.ts buildButtonNode().
 -->
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, watch, onMounted, onUnmounted } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
@@ -89,15 +89,45 @@ const tooltipTitle = computed(() => {
     ? t(i18nKey, iconProps.alt as string)
     : (iconProps.alt as string);
 });
+
+// ---- Bootstrap Tooltip (manual — v-b-tooltip directive fails on root <a>) ----
+
+const btnRef = ref<HTMLAnchorElement>();
+
+onMounted(() => {
+  if (btnRef.value && tooltipTitle.value) {
+    new window.bootstrap.Tooltip(btnRef.value, {
+      title: tooltipTitle.value,
+    });
+  }
+});
+
+/** Update tooltip title after language switch. */
+watch(tooltipTitle, (newTitle) => {
+  if (btnRef.value) {
+    const instance = window.bootstrap.Tooltip.getInstance(btnRef.value);
+    if (instance) {
+      instance.setContent({ ".tooltip-inner": newTitle });
+    }
+  }
+});
+
+onUnmounted(() => {
+  if (btnRef.value) {
+    const instance = window.bootstrap.Tooltip.getInstance(btnRef.value);
+    if (instance) instance.dispose();
+  }
+});
 </script>
 
 <template>
   <a
+    ref="btnRef"
     :class="['btn', btnClass, 'link-btn-img-wrapper', linkClass]"
     :href="linkHref"
     :data-link-img-props="linkImgProps"
     :data-no-qr-code="noQR"
-    v-b-tooltip="tooltipTitle"
+    :aria-label="tooltipTitle"
   >
     <FeatureAwareImg
       :light-src="(imgDisplay.src.value as string) ?? ''"

@@ -38,14 +38,15 @@ defineProps<{
   >
     <div class="offcanvas-header">
       <span class="h5 offcanvas-title" id="navbar-offcanvas-label">
-        <span data-i18n="text-steve-hsu-s-link-hub">Steve Hsu's Link-Hub</span>
+        <span>{{
+          $t("text-steve-hsu-s-link-hub", "Steve Hsu's Link-Hub")
+        }}</span>
       </span>
       <button
         type="button"
         class="btn-close text-reset"
         data-bs-dismiss="offcanvas"
-        aria-label="Close"
-        data-i18n-aria-label="text-close"
+        :aria-label="$t('text-close', 'Close')"
       ></button>
     </div>
     <div class="offcanvas-body">
@@ -54,13 +55,12 @@ defineProps<{
           <a
             class="nav-link internal-link"
             :href="item.href"
-            :data-i18n="item.i18nKey"
             :aria-current="
               currentPage === normalizeInternalPath(item.href)
                 ? 'page'
                 : undefined
             "
-            >{{ item.label }}</a
+            >{{ $t(item.i18nKey, item.label) }}</a
           >
         </li>
       </ul>
