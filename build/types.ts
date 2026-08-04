@@ -1,6 +1,5 @@
 /**
  * Build-time TypeScript type definitions.
- * Used by build scripts (link-cards, link-button-groups, plugins, etc.).
  */
 
 /**
@@ -12,8 +11,6 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Node = any;
-
-import type { HastProperties } from "../src/types/hast";
 
 // ---------------------------------------------------------------------------
 // Page metadata
@@ -53,54 +50,4 @@ export interface PageMetaEntry {
 /** Map of page names to their metadata entries; the shape of PAGE_META in page-meta.ts. */
 export interface PageMetaMap {
   [pageName: string]: PageMetaEntry;
-}
-
-// ---------------------------------------------------------------------------
-// Link-card data (used by builders/link-cards.ts)
-// ---------------------------------------------------------------------------
-
-/** Link-card descriptor used by the link-cards builder. */
-export interface CardData {
-  /** When not true, the card gets an opacity-75 treatment. */
-  available?: boolean;
-  /** HAST `<img>` element for the card icon. */
-  icon?: Node;
-  /** HAST node (usually `<a>` or `<span>`) for the card title. */
-  title?: Node;
-  /** HAST root node for the card description text. */
-  description?: Node;
-}
-
-/** Link-card group descriptor - a titled section containing multiple link cards. */
-export interface GroupData {
-  /** HAST node for the group title (rendered inside `<h2>`). */
-  title?: Node;
-  /** HAST root node for the group description (rendered inside `<p class="card-text">`). */
-  description?: Node;
-  /** Array of link cards within this group. */
-  contents?: CardData[];
-}
-
-// ---------------------------------------------------------------------------
-// Link-button-group data (used by builders/link-button-groups.ts)
-// ---------------------------------------------------------------------------
-
-/** Link-button descriptor used by the link-button-groups builder. */
-export interface LinkButtonData {
-  /** Whether the link points to an external site. */
-  externalLink: boolean;
-  /** Target URL for the button link. */
-  linkHref: string;
-  /** HAST-format properties for the button's icon `<img>`. */
-  iconProps: HastProperties;
-  /** When true, the button gets btn-primary styling with automatic colored image treatment. */
-  primary?: boolean;
-}
-
-/** Link-button-group descriptor - a set of buttons identified by groupId for injection into a placeholder. */
-export interface LinkButtonGroupData {
-  /** Matches the data-group-id attribute on the injection placeholder. */
-  groupId: string;
-  /** Array of button definitions within this group. */
-  buttons: LinkButtonData[];
 }

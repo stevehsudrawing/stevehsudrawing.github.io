@@ -1,13 +1,13 @@
 # Vue 3 Migration TODO
 
-> Last updated: 2026-08-02
+> Last updated: 2026-08-04
 >
 > **Conventions for this document:**
 >
 > - `[x]` = done, `[ ]` = not started, `[~]` = in progress
 > - Each phase must pass `pnpm typecheck` before moving to the next.
 > - **PascalCase** for `.vue` files; **dash-case** for `.ts` / `.css` files.
-> - Multi-page app (MPA) stays for now; SPA deferred to Phase 8.
+> - Phase 7 merges SPA navigation + bridge elimination — doing them together avoids throwaway workarounds.
 
 ---
 
@@ -80,10 +80,11 @@
 
 ---
 
-## Target File Tree (Post-Phase 8)
+## Target File Tree (Post-Phase 7)
 
-> See below for the expected final state after all legacy modules are eliminated
-> (Phase 7) and MPA is replaced by Vue Router (Phase 8).
+> See below for the expected final state after Phase 7. `src/ui/` and
+> `src/features/` directories are gone; all bridges eliminated; build-time
+> HAST injection replaced by Vue components loaded at runtime.
 
 ### `src/`
 
@@ -125,13 +126,20 @@ src/
 │   │   ├── LoadingScreen.vue
 │   │   ├── ScrollHint.vue
 │   │   └── ToastStack.vue
-│   └── modals/
-│       ├── ExternalLinkConfirmModal.vue
-│       ├── QRCodeModal.vue
-│       ├── ResetWarningModal.vue
-│       └── SettingsModal.vue
+│   ├── modals/
+│   │   ├── ExternalLinkConfirmModal.vue
+│   │   ├── QRCodeModal.vue
+│   │   ├── ResetWarningModal.vue
+│   │   └── SettingsModal.vue
+│   ├── cards/                          #   Phase 7: link card Vue components
+│   │   ├── LinkCard.vue                #     Single card (icon + title + description)
+│   │   ├── LinkCardGroup.vue           #     Single group (heading + description + cards)
+│   │   └── LinkCardGroups.vue          #     Page-level (iterates GroupData[], <hr> separators)
+│   └── buttons/                        #   Phase 7: link button Vue components
+│       ├── LinkButton.vue              #     Single button (icon + label + tooltip)
+│       └── LinkButtonGroup.vue         #     Container (maps LinkButton + .btn-group)
 │
-├── pages/                              #   Phase 8: Vue Router routes
+├── pages/                              #   Phase 7: Vue page components
 │   ├── IndexPage.vue
 │   ├── AboutPage.vue
 │   ├── ArtworksPage.vue
@@ -145,30 +153,33 @@ src/
 │   ├── fonts.css
 │   └── theme.css
 │
+├── configs/
+│   ├── language-list.json              #   Runtime language list
+│   ├── link-cards/                     #   → moved from build/configs/ (Phase 7)
+│   └── link-button-groups/             #   → moved from build/configs/ (Phase 7)
+│
 ├── App.vue
 ├── main.ts
-└── index.html                          #   Single entry (SPA)
+└── index.html                          #   MPA entry (build-time SEO, runtime SPA nav)
 ```
 
 ### `build/`
 
 ```
 build/
-├── content-injection-plugin.ts         #   Simplified or removed
+├── content-injection-plugin.ts         #   No-op pass-through (Phase 7)
 ├── head-tags-plugin.ts
 ├── minify-plugin.ts
 ├── sitemap-plugin.ts
+├── page-meta.ts
 ├── types.ts
-├── utils.ts
-├── configs/
-│   ├── language-list.json
-│   ├── page-meta.ts
-│   ├── link-cards/               #   → Vue components (Phase 7)
-│   └── link-button-groups/       #   → Vue components (Phase 7)
-└── builders/
-    ├── link-cards.ts             #   → removed (Phase 7)
-    └── link-button-groups.ts     #   → removed (Phase 7)
+└── utils.ts
 ```
+
+> **Note**: `build/configs/` eliminated in Phase 7. `page-meta.ts` moved
+> to `build/` root. `language-list.json` already in `src/configs/` for
+> runtime import. `link-cards/` and `link-button-groups/` JSON configs
+> moved to `src/configs/` (Vue components load them at runtime).
 
 ### `public/`
 
@@ -193,59 +204,281 @@ public/
 
 **Key deletions from current state:**
 `src/ui/` (bridges), `src/features/` (orchestration), `src/core/i18n.ts`,
-`src/ui/theme.ts`, `src/*.html` (6 MPA pages), `window.bootstrap`,
+`src/ui/theme.ts` (deferred), `src/*.html` (6 MPA pages — static content
+moved to `src/pages/*.vue`), `window.bootstrap` (deferred),
 `@types/bootstrap`, all `window.__xxx` bridge variables.
 
 ---
 
-## Phase 7 - Legacy Bridge Elimination (Future)
+## Phase 7 — SPA Navigation + Legacy Bridge Elimination
 
-> **Goal:** Eliminate all `window.__xxx` bridge calls by Vue-ifying build-time
-> injected components (link cards, button groups) and their downstream consumers.
-> **Status:** Deferred -- depends on build-time injection system redesign.
-
-### 7.1 Residual Bridge Modules (after Phase 5)
-
-These modules survive Phase 5 cleanup because they serve consumers that are
-not yet Vue components:
-
-| Module           | Bridge variable               | Blocked by                                                          |
-| ---------------- | ----------------------------- | ------------------------------------------------------------------- |
-| `loading-bar.ts` | `window.__loadingBar`         | `page-transition.ts`, `lang-switcher.ts`                            |
-| `scroll-hint.ts` | `window.__scrollHint`         | `page-content-initializer.ts`                                       |
-| `no-copy.ts`     | `window.__noCopy`             | _(none -- generic fallback only)_                                   |
-| `tooltips.ts`    | _(none -- generic lifecycle)_ | Build-time `data-bs-toggle="tooltip"` on link cards / button groups |
-| `toast.ts`       | _(none -- legacy export)_     | SPA re-init after page transitions                                  |
-
-### 7.2 Elimination Strategy
-
-- [ ] Vue-ify link card rendering (build-time HAST -> Vue component or hybrid)
-  - Removes need for `initAllTooltips()` on `data-bs-toggle="tooltip"`
-  - Enables `v-b-tooltip` directive on all tooltip elements
-- [ ] Vue-ify link button group rendering
-  - Same as above for button group tooltips
-- [ ] Migrate `page-transition.ts` to Vue `<Transition>` or Vue Router
-  - Eliminates `window.__loadingBar` consumer
-- [ ] Migrate `lang-switcher.ts` to Vue composable
-  - Eliminates `window.__loadingBar` consumer
-- [ ] Migrate `page-content-initializer.ts` to per-page `onMounted`
-  - Eliminates `window.__scrollHint` consumer
-- [ ] Migrate `main-lightweight.ts` (404 page) -- already demoted to `public/404.html` static page (§4.4a)
-- [ ] Delete all residual bridge modules from `src/ui/`
-- [ ] `pnpm typecheck`
+> **Goal:** Replace MPA `page-transition.ts` (fetch + innerHTML swap) with
+> Vue-native component switching, then eliminate all `window.__xxx` bridges
+> and build-time HAST injection as a natural consequence.
+>
+> **Why together:** Bridges exist because legacy code (`page-transition.ts`,
+> `page-content-initializer.ts`, `lang-switcher.ts`) needs to commandeer Vue
+> components imperatively after DOM swap. Once navigation is Vue-native,
+> components reinitialize via normal lifecycle — bridges become dead code
+> automatically. Separating them produces throwaway workarounds.
+>
+> **MPA vs SPA:** Build-time MPA structure is preserved for SEO (each page
+> gets its own `<head>` tags, sitemap entries, `<noscript>` fallback).
+> Runtime navigation uses Vue Router with `createMemoryHistory` (not
+> `createWebHistory`) so each MPA entry point initializes its own router
+> instance — no shared state across page reloads.
+>
+> Vue Router justifies its ~8 kB (gzipped) cost by eliminating an entire
+> class of bugs: history management, scroll restoration, query parameter
+> preservation, navigation guards for LoadingBar integration, and
+> `<router-link>` auto-active-class for navbar highlighting.
 
 ---
 
-## Phase 8 - SPA Migration (Future)
+### 7.1 Before & After Architecture
 
-> **Goal:** Replace MPA with Vue Router for SPA-style navigation.
-> **Status:** Deferred -- evaluate after Phase 7 is complete.
+```
+BEFORE (current):                           AFTER (target):
+─────────────                               ────────────
+page-transition.ts                          App.vue
+  fetch(url)                                  └─ <router-view v-slot="{ Component }">
+  extractPageContent()                              <component :is="Component" />
+  innerHTML swap                               │
+  initPageContent() ──────────┐                ├─ IndexPage.vue  (lazy via import())
+    ├─ updatePageText()       │                ├─ AboutPage.vue
+    ├─ initAllTooltips()      │                ├─ ArtworksPage.vue
+    ├─ initAllScrollHints() ──┤ bridge →      ├─ BlogsPage.vue
+    ├─ initAllColoredImages() │  window.__xxx  ├─ ChattingPage.vue
+    └─ ... 12 more calls      │                └─ SoftwaresPage.vue
+                              │                   │
+lang-switcher.ts ─────────────┘                   └─ onMounted:
+  switchLang()                                       initCopyLinkBehavior()
+    window.__loadingBar.show()                       initExternalLinkIndicators()
 
-- [ ] Evaluate trade-offs (SEO impact, build-time injection compatibility, bundle size)
-- [ ] If proceeding:
-  - [ ] Install `vue-router`
-  - [ ] Create `src/pages/` with one `.vue` per route
-  - [ ] Configure router in `main.ts`
-  - [ ] Consolidate `rollupOptions.input` in `vite.config.ts` to single `index.html`
-  - [ ] Remove `features/page-transition.ts`
-  - [ ] Remove individual `.html` files (consolidate into `index.html`)
+Navigation: page-transition.ts               Navigation: Vue Router
+  click handler + pushState                    <router-link> + router.push()
+  popstate listener                            router.beforeEach/afterEach guards
+  manual fetch + parse                         (no fetch — components are local)
+  scrollTo hash (manual)                       scrollBehavior() declarative
+  loading bar (bridge)                         LoadingBar via guard → App.vue ref
+  active nav-item (manual)                     <router-link> auto-active-class
+```
+
+---
+
+### 7.2 Step A — Vue Page Components + Router Setup
+
+**Create `src/pages/` with one component per route and configure Vue Router.**
+Each component owns the unique static HTML currently in `<main id="page-content">`
+of the corresponding `.html` file: the hero section (h1, intro paragraph, cover
+image) plus any page-specific static markup.
+
+> The `data-i18n` attributes on page content work via the existing i18n
+> plugin — no special handling needed. The `<noscript>` fallback stays
+> in each HTML entry point for SEO (Vue doesn't render without JS).
+
+- [x] Install `vue-router` as a production dependency
+- [x] Create `src/router.ts` — route definitions:
+  ```ts
+  const routes = [
+    { path: "/", component: () => import("./pages/IndexPage.vue") },
+    { path: "/about.html", component: () => import("./pages/AboutPage.vue") },
+    {
+      path: "/artworks-and-videos.html",
+      component: () => import("./pages/ArtworksPage.vue"),
+    },
+    {
+      path: "/blogs-and-sponsor.html",
+      component: () => import("./pages/BlogsPage.vue"),
+    },
+    {
+      path: "/chatting.html",
+      component: () => import("./pages/ChattingPage.vue"),
+    },
+    {
+      path: "/softwares.html",
+      component: () => import("./pages/SoftwaresPage.vue"),
+    },
+  ];
+  // Use createMemoryHistory so each MPA page gets its own router instance.
+  // The initial entry is derived from window.location.pathname at load time.
+  export const router = createRouter({
+    history: createMemoryHistory(),
+    routes,
+  });
+  ```
+- [x] Create `src/pages/IndexPage.vue` (from `index.html` static content)
+- [x] Create `src/pages/AboutPage.vue` (from `about.html` static content)
+- [x] Create `src/pages/ArtworksPage.vue` (from `artworks-and-videos.html`)
+- [x] Create `src/pages/BlogsPage.vue` (from `blogs-and-sponsor.html`)
+- [x] Create `src/pages/ChattingPage.vue` (from `chatting.html`)
+- [x] Create `src/pages/SoftwaresPage.vue` (from `softwares.html`)
+- [x] Each page component imports its link-card data via `useLinkCards()`
+      and renders `<LinkCardGroups>` directly (no Teleport needed)
+- [x] Each page component imports its link-button-group data (see §7.4)
+      and renders `<LinkButtonGroups>` directly (no `data-role` placeholder)
+- [x] Remove the static page content from each `.html` file — replace
+      `<main id="page-content">...</main>` with `<main id="page-content"></main>`
+      (Vue will render into it via `<router-view>`)
+- [x] `pnpm typecheck`
+
+### 7.3 Step B — Vue Router Integration
+
+**Replace `page-transition.ts` with Vue Router in App.vue.** Vue Router
+handles URL → component mapping, history push/pop, scroll restoration,
+and query parameter persistence — all of which `page-transition.ts`
+implemented manually with edge-case bugs.
+
+- [x] In `main.ts`, create and install the router plugin:
+  ```ts
+  import { router } from "./router";
+  // ...
+  const app = createApp(App);
+  app.use(router);
+  app.mount("#app");
+  ```
+- [x] In `App.vue` template, replace `#app` children with `<router-view>`:
+  ```vue
+  <router-view v-slot="{ Component }">
+    <component :is="Component" />
+  </router-view>
+  ```
+  (The `v-slot` wrapper lets us add `<Transition>` later if desired.)
+- [~] Replace `<AppNavbar :current-page="currentPage">` with
+  `<router-link>` — Bootstrap nav-items gain automatic `active` class:
+  ```vue
+  <router-link to="/" class="nav-link">Home</router-link>
+  <router-link to="/about.html" class="nav-link">About</router-link>
+  ```
+  AppNavbar.vue no longer needs the `currentPage` prop.
+- [x] Add `scrollBehavior` to router config for instant scroll-to-top
+      and hash-target scroll:
+  ```ts
+  scrollBehavior(to) {
+    if (to.hash) {
+      return { el: to.hash, behavior: "smooth" };
+    }
+    return { top: 0 };
+  }
+  ```
+- [x] Add `router.beforeEach` / `router.afterEach` guards to drive
+      LoadingBar (replaces `window.__loadingBar`):
+  ```ts
+  router.beforeEach(() => {
+    loadingBarRef.value?.show();
+  });
+  router.afterEach(() => {
+    loadingBarRef.value?.complete();
+  });
+  ```
+  `loadingBarRef` is accessed via a shared module or `provide`/`inject`.
+- [x] Preserve `?lang=` query parameter: add a `router.beforeEach` guard
+      that copies `lang` from the current route to the target route if
+      present (or use `router.resolve` with query merging)
+- [x] Replace internal-link click handling: the existing `click` event
+      listener on `a.internal-link` dispatches `router.push(href)` instead
+      of calling `navigateTo(href)`. (Modifier-key + new-tab clicks are
+      passed through without interception — Vue Router does not handle
+      them, same as before.)
+- [x] Replace `popstate` listener: Vue Router handles it natively via
+      `createMemoryHistory`. Remove `initPageTransitionPopState()`.
+- [x] `pnpm typecheck`
+
+### 7.4 Step C — Link Button Groups Vue-ification
+
+**Same pattern as link cards (§7.2 already lists them per page).**
+Create Vue components that load JSON configs at runtime and render
+Bootstrap button groups.
+
+- [x] Create `src/components/buttons/LinkButton.vue`
+  - Props: `button: LinkButtonData`
+  - Renders `<a class="btn btn-outline-secondary">` with icon + label
+  - `v-b-tooltip` for tooltip (replaces `data-bs-toggle="tooltip"`)
+  - `data-link-img-props` for external-link confirmation modal
+- [x] Create `src/components/buttons/LinkButtonGroup.vue`
+  - Props: `group: LinkButtonGroupData`, `groupId: string`
+  - Renders `.link-button-group` container with `<h2>` title + `<LinkButton>` list
+- [x] Create `src/composables/useLinkButtonGroups.ts`
+  - Dynamic `import()` per page name (like `useLinkCards`)
+  - Returns `Ref<LinkButtonGroupData[] | null>`
+- [x] Copy JSON configs from `build/configs/link-button-groups/` →
+      `src/configs/link-button-groups/`
+- [x] Each page component imports and renders `<LinkButtonGroup>` directly
+- [x] `pnpm typecheck`
+
+### 7.5 Step D — Bridge & Legacy Module Elimination
+
+**With Steps A–C complete, bridges have zero consumers. Delete them.**
+
+| Module                                 | Bridge                | Replaced by                                    |
+| -------------------------------------- | --------------------- | ---------------------------------------------- |
+| `ui/loading-bar.ts`                    | `window.__loadingBar` | Router guards (`beforeEach` / `afterEach`)     |
+| `ui/scroll-hint.ts`                    | `window.__scrollHint` | `ScrollHint.vue` in page components            |
+| `ui/no-copy.ts`                        | `window.__noCopy`     | `CopyProtectedImg.vue` (already done)          |
+| `ui/navbar.ts`                         | `window.__navbar`     | `AppNavbar.vue` props (already done)           |
+| `ui/tooltips.ts`                       | _(generic lifecycle)_ | `v-b-tooltip` directive (already done)         |
+| `ui/toast.ts`                          | _(legacy export)_     | `useToast()` composable (already done)         |
+| `features/page-transition.ts`          | —                     | Vue Router (`<router-link>` + `<router-view>`) |
+| `features/page-content-initializer.ts` | —                     | Per-page `onMounted`                           |
+| `features/lang-switcher.ts`            | —                     | Absorbed into `useI18n` composable             |
+
+- [x] Delete `src/ui/loading-bar.ts` — remove `window.__loadingBar` type
+- [x] Delete `src/ui/scroll-hint.ts` — remove `window.__scrollHint` type
+- [x] Delete `src/ui/no-copy.ts` — remove `window.__noCopy` type
+- [x] Delete `src/ui/navbar.ts` — remove `window.__navbar` type
+- [x] Delete `src/ui/tooltips.ts`
+- [x] Delete `src/ui/toast.ts`
+- [x] Delete `src/features/page-transition.ts`
+- [x] Delete `src/features/page-content-initializer.ts`
+- [x] Migrate `features/lang-switcher.ts` `switchLang()` logic into
+      `useI18n` composable; delete the file
+- [x] Remove `@types/bootstrap` devDependency (`window.bootstrap` refs gone)
+- [x] Remove `window.__xxx` type declarations from `src/types/globals.d.ts`
+- [x] `pnpm typecheck`
+
+### 7.6 Step E — Build System Cleanup
+
+**Build-time HAST injection is dead.** Link cards and button groups are
+now Vue components loaded at runtime. Clean up the leftovers.
+
+- [x] Delete `build/builders/link-cards.ts`
+- [x] Delete `build/builders/link-button-groups.ts`
+- [x] Delete `build/configs/link-cards/` (already in `src/configs/link-cards/`)
+- [x] Delete `build/configs/link-button-groups/` (already in `src/configs/`)
+- [x] Simplify `content-injection-plugin.ts` — remove all `#links` and
+      `data-role="link-button-group"` placeholder injection logic
+- [x] Delete `build/configs/` directory (empty after above)
+- [x] Move `build/configs/page-meta.ts` → `build/page-meta.ts`
+- [x] Update imports in `head-tags-plugin.ts` and `sitemap-plugin.ts`
+- [x] `pnpm typecheck`
+
+### 7.7 Step F — Final Touches
+
+- [x] Remove `AppEvent.PageInitialized` event — no more listeners
+- [x] Remove `initPageTransitionLinkClicks` / `initPageTransitionPopState`
+      from App.vue `onMounted` (replaced by Vue Router)
+- [x] Remove `window.__loadingBar = loadingBarRef.value` etc. from
+      App.vue `onMounted` (replaced by router guards)
+- [x] Remove `initPageContent()` call from App.vue (replaced by per-page
+      `onMounted` + `scrollBehavior`)
+- [ ] Verify `LoadingBar` works via router guards (`beforeEach` shows,
+      `afterEach` completes)
+- [ ] Verify tooltips work on all link cards and button groups
+      (already handled by `v-b-tooltip`)
+- [ ] Verify copy-link behavior works (link anchors in group titles)
+- [ ] Verify external-link confirmation modal works (data attributes on
+      link cards and button groups)
+- [ ] Verify QR code modal works
+- [ ] Verify language switching works (absorbed into `useI18n`)
+- [ ] Verify hash-based scroll works after navigation
+- [ ] Verify scroll hints appear on link button groups
+- [ ] Full manual QA on all 6 pages × 3 languages × 2 themes
+- [ ] `pnpm typecheck && pnpm build`
+
+### 7.8 Post-Phase 7 Target State
+
+After Phase 7, the `src/` tree matches the Target File Tree at the top of
+this document. The `src/ui/` and `src/features/` directories no longer
+exist. All `window.__xxx` bridge variables are gone. `window.bootstrap`
+is no longer referenced. Internal navigation is instantaneous Vue
+component switching without page reload.

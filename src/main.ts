@@ -20,7 +20,6 @@ import "./stylesheets/global/base.css";
 import "./stylesheets/global/theme.css";
 import "./stylesheets/global/fonts.css";
 import "./stylesheets/global/accessibility.css";
-import "./stylesheets/global/page-transition.css";
 
 // =========================================================================
 // npm package imports (replaces CDN <script> tags)
@@ -51,14 +50,10 @@ import "./ui/theme";
 
 // --- UI features ---
 import "./ui/img-utils";
-import "./ui/tooltips";
-import "./ui/scroll-hint";
 import "./ui/accessibility";
-import "./features/page-transition";
 
 // --- Detection helpers ---
 import "./ui/bootstrap-css-detection";
-import "./ui/no-copy";
 
 // =========================================================================
 // Early initialization (before Vue mounts - prevents theme flash)
@@ -80,8 +75,18 @@ applyThemePreference(currentThemePreference, false, false);
 // =========================================================================
 import { createApp } from "vue";
 import { i18nPlugin } from "./plugins/i18n";
+import { router } from "./router";
 import App from "./App.vue";
 
 const app = createApp(App);
 app.use(i18nPlugin);
+app.use(router);
+
+// Set initial route to current URL (MPA — each page load creates a fresh router).
+// createMemoryHistory starts empty; we replace with the real URL so
+// <router-view> renders the correct page component.
+router.replace(
+  window.location.pathname + window.location.search + window.location.hash,
+);
+
 app.mount("#app");

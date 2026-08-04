@@ -1,7 +1,7 @@
 {
   "name": "stevehsudrawing-link-hub",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,6 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.11",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^26.1.1",
     "@types/qrcode": "^1.5.6",
@@ -38,7 +37,8 @@
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "qrcode": "^1.5.4",
-    "vue": "^3.5.40"
+    "vue": "^3.5.40",
+    "vue-router": "^5.2.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

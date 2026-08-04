@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Plugin, ResolvedConfig } from "vite";
-import { PAGE_META, BASE_URL } from "./configs/page-meta";
+import { PAGE_META, BASE_URL } from "./page-meta";
 import type { PageMetaEntry } from "./types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -26,7 +26,7 @@ interface LanguageEntry {
  * @returns Array of language entries with `code` and `localizedName`.
  */
 function loadLanguageList(): LanguageEntry[] {
-  const jsonPath = resolve(__dirname, "configs", "language-list.json");
+  const jsonPath = resolve(__dirname, "..", "src", "configs", "language-list.json");
   const raw = readFileSync(jsonPath, "utf-8");
   return JSON.parse(raw) as LanguageEntry[];
 }

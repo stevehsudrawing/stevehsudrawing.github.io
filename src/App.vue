@@ -8,11 +8,14 @@
   event-delegation + DOM-mutation approach.
 -->
 <script setup lang="ts">
-import { ref, onMounted, nextTick, provide } from "vue";
+import { ref, computed, watch, onMounted, nextTick, provide } from "vue";
 
 // =========================================================================
 // Imports
 // =========================================================================
+
+// Vue Router (Phase 7)
+import { useRouter, useRoute } from "vue-router";
 
 // Composables
 import { useTheme } from "./composables/useTheme";
@@ -28,29 +31,19 @@ import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
 import ScrollHint from "./components/ui/ScrollHint.vue";
 import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
-import InlineSvg from "./components/ui/InlineSvg.vue";
-import FeatureAwareImg from "./components/ui/FeatureAwareImg.vue";
 import AppNavbar from "./components/layout/AppNavbar.vue";
 import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
-// Legacy modules (init*() -- Phase 7 will eliminate these)
-import { AppEvent, StorageKey } from "./types/app";
-import { initPageContent } from "./features/page-content-initializer";
-import { initTooltipI18nListener } from "./ui/tooltips";
+// Legacy modules (diminishing — Phase 7 will eliminate most)
+import { StorageKey } from "./types/app";
 import {
   initThemeTransitionOverlay,
   updateThemeToggleText,
   setActiveThemeItem,
 } from "./ui/theme";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
-import {
-  initPageTransitionLinkClicks,
-  initPageTransitionPopState,
-} from "./features/page-transition";
-import { initLang } from "./features/lang-switcher";
 import { initHashChangeScroll, initSkipButton } from "./ui/accessibility";
-import { initAllScrollHints } from "./ui/scroll-hint";
 import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
@@ -58,9 +51,26 @@ import { normalizeInternalPath } from "./core/utils";
 // =========================================================================
 
 useTheme();
-const { syncFromLangData } = useI18n();
+const { syncFromLangData, initLang, isLanguageLoading } = useI18n();
 useLocalStorage(StorageKey.OpenInNewTab, true);
 useLocalStorage(StorageKey.EnableAnimations, true);
+
+// ---- LoadingBar via i18n language-loading state ----
+
+watch(isLanguageLoading, (loading) => {
+  if (loading) {
+    loadingBarRef.value?.show();
+  } else {
+    loadingBarRef.value?.complete();
+  }
+});
+
+/** Vue Router instance (for guards + programmatic navigation). */
+const router = useRouter();
+
+/** Current route (reactive — drives Navbar active state). */
+const route = useRoute();
+const currentPage = computed(() => normalizeInternalPath(route.path));
 
 /** Template refs for imperative show/hide via defineExpose. */
 const settingsModalRef = ref<InstanceType<typeof SettingsModal>>();
@@ -73,8 +83,27 @@ const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
 const appNavbarRef = ref<InstanceType<typeof AppNavbar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
-/** Reactive current page path -- drives AppNavbar active state + brand text. */
-const currentPage = ref(normalizeInternalPath(window.location.pathname));
+// ---- Router guards (LoadingBar integration) ----
+
+router.beforeEach(() => {
+  loadingBarRef.value?.show();
+});
+router.afterEach(() => {
+  loadingBarRef.value?.complete();
+});
+
+/**
+ * Preserve `?lang=` query parameter across navigations.
+ * When navigating from a page that has ?lang=zh-Hans, the target
+ * page should also receive ?lang=zh-Hans.
+ */
+router.beforeEach((to, from) => {
+  const langParam = from.query.lang;
+  if (langParam && !to.query.lang) {
+    return { ...to, query: { ...to.query, lang: langParam } };
+  }
+  return true;
+});
 
 /**
  * Provide a global showToast function to all descendant components.
@@ -196,6 +225,34 @@ function onQROpenLink(
 }
 
 // -------------------------------------------------------------------------
+// Internal-link navigation (Phase 7 — delegates to Vue Router)
+// -------------------------------------------------------------------------
+
+/**
+ * Intercept clicks on .internal-link elements and delegate to Vue Router
+ * for SPA-style navigation without page reload.
+ */
+function onInternalLinkClick(e: MouseEvent): void {
+  // Pass through: modifier keys (open in new tab), non-left-click
+  if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+  if (e.button !== 0) return;
+
+  const link = (e.target as HTMLElement).closest(
+    "a",
+  ) as HTMLAnchorElement | null;
+  if (!link) return;
+
+  // Only handle .internal-link (not .external-link)
+  if (!link.classList.contains("internal-link")) return;
+
+  const href = link.getAttribute("href");
+  if (!href) return;
+
+  e.preventDefault();
+  router.push(href);
+}
+
+// -------------------------------------------------------------------------
 // Initialization orchestration
 // -------------------------------------------------------------------------
 
@@ -205,65 +262,48 @@ onMounted(async () => {
     initThemeTransitionOverlay();
     initSkipButton();
 
-    // Set up tooltip i18n listener BEFORE initLang()
-    initTooltipI18nListener();
-
-    // Bridge: expose Vue components to legacy TS modules (before initLang
-    // so the loading bar can show during language file fetch).
-    if (loadingBarRef.value) window.__loadingBar = loadingBarRef.value;
-    if (scrollHintRef.value) window.__scrollHint = scrollHintRef.value;
-    if (copyProtectedImgRef.value) window.__noCopy = copyProtectedImgRef.value;
-    if (appNavbarRef.value) window.__navbar = appNavbarRef.value;
-
     await initLang();
 
     // Sync the Vue plugin's messages ref from the legacy langData global,
     // so that $t() in Vue templates returns translated text (not just fallbacks).
     await syncFromLangData();
 
-    // Vue-based event delegation replaces legacy modules
+    // Vue-based event delegation
     document.addEventListener("click", onSettingsOpen);
     document.addEventListener("click", onExternalLinkClick);
     document.addEventListener("click", onQRTrigger);
+    document.addEventListener("click", onInternalLinkClick);
 
     initHashChangeScroll();
 
     updateThemeToggleText();
     setActiveThemeItem();
 
-    initPageTransitionLinkClicks();
-    initPageTransitionPopState();
-
-    await initPageContent();
-
     loadingScreenRef.value?.hide();
-
-    document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   } catch (error) {
     console.error("Failed to initialize: " + error);
     loadingScreenRef.value?.hide();
-
-    document.dispatchEvent(new CustomEvent(AppEvent.PageInitialized));
   }
 });
 
 // -------------------------------------------------------------------------
-// Post-initialization listeners
+// Toast listener (migrated from ui/toast.ts — copy-link.ts dispatches
+// "toast-show" CustomEvent for clipboard feedback)
 // -------------------------------------------------------------------------
 
-document.addEventListener(AppEvent.PageInitialized, () => {
-  currentPage.value = normalizeInternalPath(window.location.pathname);
-});
-
-document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
+document.addEventListener("toast-show", ((e: CustomEvent) => {
+  const { type, message } = e.detail as {
+    type: "success" | "error";
+    message: string;
+  };
+  toastStackRef.value?.showToast(type, message);
+}) as EventListener);
 </script>
 
 <template>
   <!--
-    Static elements that were previously injected at build time via
-    build/page-components/header.html.  They live outside the Vue
-    render tree (fixed-positioned) but are now rendered here so they
-    are guaranteed to exist at page load.
+    Static overlay elements.  Live outside the main flow (fixed-positioned)
+    but are rendered here so they are guaranteed to exist at page load.
   -->
   <div class="theme-transition-overlay"></div>
   <a
@@ -275,16 +315,27 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
     >Skip to Content</a
   >
 
-  <!--
-    Phase 3: Modal components are mounted here.  They render nothing
-    until their internal `visible` ref is toggled via defineExpose.
-  -->
   <AppNavbar ref="appNavbarRef" :current-page="currentPage" />
   <LoadingScreen ref="loadingScreenRef" />
   <LoadingBar ref="loadingBarRef" />
-  <ScrollHint ref="scrollHintRef" />
-  <CopyProtectedImg ref="copyProtectedImgRef" />
-  <ToastStack ref="toastStackRef" />
+
+  <!--
+    #page-content is rendered by Vue so it is always present when
+    Vue has mounted.  The <router-view> inside renders the current
+    page component (Phase 7: replaces static HTML + page-transition.ts).
+  -->
+  <main id="page-content">
+    <router-view v-slot="{ Component }">
+      <component :is="Component" />
+    </router-view>
+  </main>
+
+  <FooterNav />
+
+  <!--
+    Modals + invisible global components: mounted here, shown/hidden
+    via defineExpose + template refs.
+  -->
   <SettingsModal ref="settingsModalRef" />
   <ExternalLinkConfirmModal
     ref="extLinkModalRef"
@@ -301,5 +352,7 @@ document.addEventListener(AppEvent.PageInitialized, initAllScrollHints);
     :hide-open-link="qrHideOpenLink"
     @open-link="onQROpenLink"
   />
-  <FooterNav />
+  <ScrollHint ref="scrollHintRef" />
+  <CopyProtectedImg ref="copyProtectedImgRef" />
+  <ToastStack ref="toastStackRef" />
 </template>

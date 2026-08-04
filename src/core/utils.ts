@@ -116,3 +116,35 @@ export function isInternalPage(url: string): boolean {
     return false;
   }
 }
+
+/**
+ * Convert a string to dash-case.
+ * Strips non-alphanumeric characters, replaces whitespace/underscores with hyphens.
+ * @param text - The input string.
+ * @returns The dash-cased string, or '' for null/undefined/empty input.
+ */
+export function toDashCase(text: string | undefined | null): string {
+  return String(text || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]+/gu, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Recursively extract all plain text from a HAST node tree.
+ * @param node - A HAST node object (root, element, text, or comment).
+ * @returns The concatenated plain text content, or '' for non-text nodes.
+ */
+export function extractPlainText(node: unknown): string {
+  if (!node || typeof node !== "object") return "";
+  const n = node as Record<string, unknown>;
+  if (n.type === "text") return String(n.value || "");
+  if (n.type === "comment") return "";
+  if (Array.isArray(n.children)) {
+    return n.children.map(extractPlainText).join("");
+  }
+  return "";
+}

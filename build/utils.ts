@@ -15,31 +15,9 @@ import { join, extname } from "node:path";
  * @param text - The input string to slugify.
  * @returns A lowercase, dash-separated slug with special characters removed.
  */
-export function toDashCase(text: string | undefined | null): string {
-  return String(text || "")
-    .trim()
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s-]+/gu, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/-{2,}/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+import { toDashCase, extractPlainText } from "../src/core/utils.js";
 
-/**
- * Recursively extract all plain text from a HAST node tree.
- * @param node - A HAST node object (root, element, text, or comment).
- * @returns The concatenated plain text content, or '' for non-text nodes.
- */
-export function extractPlainText(node: unknown): string {
-  if (!node || typeof node !== "object") return "";
-  const n = node as Record<string, unknown>;
-  if (n.type === "text") return String(n.value || "");
-  if (n.type === "comment") return "";
-  if (Array.isArray(n.children)) {
-    return n.children.map(extractPlainText).join("");
-  }
-  return "";
-}
+export { toDashCase, extractPlainText };
 
 /**
  * Deep-clone a HAST node via JSON round-trip.

@@ -12,7 +12,7 @@ import {
   SITE_NAME,
   TWITTER_CREATOR,
   PAGE_META,
-} from "./configs/page-meta";
+} from "./page-meta";
 import { getPageName } from "./utils";
 import type {
   IndexHtmlTransformContext,

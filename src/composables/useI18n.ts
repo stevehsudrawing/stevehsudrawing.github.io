@@ -1,20 +1,25 @@
 /**
- * I18n composable -- reactive translation state for Vue 3.
+ * I18n composable — reactive translation state for Vue 3.
  *
- * Provides locale, messages, and a translation function.  Delegates
- * DOM updates (querySelectorAll walks for [data-i18n]) to core/i18n.ts
- * for backward compatibility until all templates are Vue SFCs.
+ * Provides locale, messages, translation function, and language-switching
+ * orchestration.  Absorbs the logic previously in features/lang-switcher.ts
+ * and the tooltip i18n listener from ui/tooltips.ts.
+ *
+ * Phase 7: eliminates window.__loadingBar bridge by exposing
+ * isLanguageLoading ref for LoadingBar integration via watch in App.vue.
  */
 
-import { inject, type Ref } from "vue";
+import { ref, inject, type Ref } from "vue";
 import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../plugins/i18n";
 import { SHOW_TOAST_KEY } from "../composables/useToast";
+import { AppEvent, StorageKey } from "../types/app";
 import type { Lang } from "../types/app";
 
 /**
  * Reactive i18n composable.
  *
- * @returns locale ref, messages ref, t() translation function, and setLocale().
+ * @returns locale ref, messages ref, t(), setLocale(), syncFromLangData(),
+ *          initLang(), and isLanguageLoading ref.
  */
 export function useI18n(): {
   locale: Ref<Lang>;
@@ -25,6 +30,13 @@ export function useI18n(): {
   setLocale: (rawLang: string) => Promise<void>;
   /** Sync the Vue messages ref from legacy core/i18n.ts langData. */
   syncFromLangData: () => Promise<void>;
+  /**
+   * Determine the preferred language (URL param → localStorage → default)
+   * and load it.  Call once during App.vue onMounted.
+   */
+  initLang: () => Promise<void>;
+  /** True while a language file is being fetched. */
+  isLanguageLoading: Ref<boolean>;
 } {
   const locale = inject<Ref<Lang>>(I18N_LOCALE_KEY)!;
   const messages = inject<Ref<Record<string, unknown>>>(I18N_MESSAGES_KEY)!;
@@ -32,26 +44,53 @@ export function useI18n(): {
     ((type: "success" | "error", message: string) => void) | undefined
   >(SHOW_TOAST_KEY, undefined);
 
+  /** Reactive flag for LoadingBar integration. */
+  const isLanguageLoading = ref(false);
+
+  // ---- Tooltip i18n listener (migrated from ui/tooltips.ts) ----
+
+  /**
+   * Update tooltip titles from i18n data attributes after language change.
+   * Listens for AppEvent.PageTextUpdated dispatched by core/i18n.ts.
+   */
+  function onPageTextUpdated(): void {
+    document
+      .querySelectorAll('[data-bs-toggle="tooltip"][data-i18n-tooltip]')
+      .forEach((el) => {
+        const key = el.getAttribute("data-i18n-tooltip");
+        const translated = key ? t(key) || undefined : undefined;
+        if (translated) {
+          el.setAttribute("data-bs-title", translated);
+          // Re-create the Bootstrap Tooltip instance to pick up the new title
+          if (window.bootstrap.Tooltip.getInstance(el)) {
+            new window.bootstrap.Tooltip(el);
+          }
+        }
+      });
+  }
+
+  document.addEventListener(AppEvent.PageTextUpdated, onPageTextUpdated);
+
+  // ---- Translation ----
+
   /** Synchronous translation function for templates and script. */
   function t(key: string, fallback?: string): string {
     const v = messages.value[key];
     return typeof v === "string" ? v : (fallback ?? "");
   }
 
+  // ---- Language switching ----
+
   /**
-   * Load a language file and update the reactive messages ref.
-   * Shows the loading bar during fetch, and a toast on error.
-   * Also delegates to core/i18n.ts to apply DOM updates for existing
-   * data-i18n elements.
+   * Load a language file and update reactive state, DOM, Navbar,
+   * page title, and tooltips.
    */
   async function setLocale(rawLang: string): Promise<void> {
     const { normalizeLang, applyLangData } = await import("../core/i18n");
 
     const lang: Lang = normalizeLang(rawLang);
 
-    // Show loading bar (may not be ready during initial bootstrap)
-    const bar = window.__loadingBar;
-    bar?.show();
+    isLanguageLoading.value = true;
 
     try {
       const response = await fetch(`/configs/i18n/${lang}.json`);
@@ -66,17 +105,50 @@ export function useI18n(): {
       // Update DOM for existing data-i18n elements (backward compat)
       applyLangData(lang, data);
 
-      bar?.complete();
+      // Sync Navbar active item (via legacy defineExpose bridge —
+      // temporary until Navbar uses <router-link>)
+      const w = window as unknown as Record<string, unknown>;
+      (
+        w.__navbar as { setActiveNavItem?: () => void } | undefined
+      )?.setActiveNavItem?.();
+
+      // Update page title
+      const { updatePageTitle } = await import("../ui/page-title");
+      updatePageTitle();
+
+      // Persist preference
+      localStorage.setItem(StorageKey.Lang, lang);
     } catch (error) {
-      bar?.hide();
-      const label =
-        typeof t === "function"
-          ? t("text-language-load-failed", "Failed to load language")
-          : "Failed to load language";
+      const label = t("text-language-load-failed", "Failed to load language");
       showToast?.("error", `${label}: ${(error as Error).message}`);
       console.error(label, error);
+    } finally {
+      isLanguageLoading.value = false;
     }
   }
+
+  /**
+   * Determine the preferred language and load it.
+   * Priority: ?lang= URL parameter → localStorage → default 'en'.
+   */
+  async function initLang(): Promise<void> {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get("lang");
+    const savedLang = urlLang || localStorage.getItem(StorageKey.Lang) || "en";
+    await setLocale(savedLang);
+
+    // Listen for user-triggered language switches from UI components
+    document.addEventListener(AppEvent.LangSwitchRequested, ((
+      e: CustomEvent,
+    ) => {
+      const lang = e.detail?.lang;
+      if (lang && typeof lang === "string") {
+        void setLocale(lang);
+      }
+    }) as EventListener);
+  }
+
+  // ---- Legacy sync ----
 
   /**
    * Sync the Vue plugin's `messages` ref from the legacy `langData`
@@ -89,5 +161,13 @@ export function useI18n(): {
     messages.value = { ...langData };
   }
 
-  return { locale, messages, t, setLocale, syncFromLangData };
+  return {
+    locale,
+    messages,
+    t,
+    setLocale,
+    syncFromLangData,
+    initLang,
+    isLanguageLoading,
+  };
 }
