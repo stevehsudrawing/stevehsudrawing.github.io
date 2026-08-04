@@ -5,27 +5,12 @@
   Phase 7: replaces static HTML content in about.html.
 -->
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import AnchorButton from "../components/buttons/AnchorButton.vue";
-import { useI18n } from "../composables/useI18n.js";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards.js";
-
-// =========================================================================
-// i18n
-// =========================================================================
-
-const { t } = useI18n();
-
-/** HTML i18n fallback for the profile Codename Staub line. */
-const profilePart7Html = computed(() =>
-  t(
-    "html-profile-part-7",
-    `Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:`,
-  ),
-);
 
 // =========================================================================
 // Link cards
@@ -163,7 +148,14 @@ const { groups, pagePath } = useLinkCards(ref("about"));
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">👾</th>
             <td>
-              <span v-html="profilePart7Html"></span>
+              <span
+                v-html="
+                  $t(
+                    'html-profile-part-7',
+                    `Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:`,
+                  )
+                "
+              ></span>
               <a
                 class="link external-link"
                 href="https://afdian.com/p/590c0408806111f1b05f52540025c377"
@@ -213,3 +205,11 @@ const { groups, pagePath } = useLinkCards(ref("about"));
     </div>
   </div>
 </template>
+
+<style>
+.title-link-group-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+</style>

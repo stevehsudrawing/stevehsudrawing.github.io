@@ -3,9 +3,19 @@
   Replaces ui/toast.ts imperative DOM manipulation.
   Exposes showToast() via provide/inject so any descendant component
   can trigger a toast without importing legacy modules.
+
+  Each toast auto-dismisses after TOAST_DURATION_MS (5 s) with a
+  progress-bar countdown indicator.
 -->
 <script setup lang="ts">
 import { ref } from "vue";
+
+// =========================================================================
+// Constants
+// =========================================================================
+
+/** Auto-dismiss duration in milliseconds (5 seconds). */
+const TOAST_DURATION_MS = 5000;
 
 // =========================================================================
 // Types
@@ -16,7 +26,6 @@ interface ToastEntry {
   id: number;
   type: "success" | "error";
   message: string;
-  visible: boolean;
 }
 
 // =========================================================================
@@ -31,13 +40,14 @@ const toasts = ref<ToastEntry[]>([]);
 // =========================================================================
 
 /**
- * Show a toast notification.  The toast auto-dismisses after a few seconds.
+ * Show a toast notification.  The toast auto-dismisses after
+ * TOAST_DURATION_MS with a progress-bar countdown.
  * @param type - 'success' (green) or 'error' (red).
  * @param message - Text to display in the toast body.
  */
 function showToast(type: "success" | "error", message: string): void {
   const id = nextId++;
-  toasts.value = [...toasts.value, { id, type, message, visible: true }];
+  toasts.value = [...toasts.value, { id, type, message }];
 }
 
 /**
@@ -48,7 +58,6 @@ function removeToast(id: number): void {
   toasts.value = toasts.value.filter((t) => t.id !== id);
 }
 
-// Expose for global / legacy consumers
 // =========================================================================
 // Expose
 // =========================================================================
@@ -68,8 +77,11 @@ defineExpose({ showToast });
       <BToast
         v-for="t in toasts"
         :key="t.id"
-        v-model="t.visible"
+        :model-value="TOAST_DURATION_MS"
         :variant="t.type === 'error' ? 'danger' : 'success'"
+        :progress-props="{
+          variant: t.type === 'error' ? 'danger' : 'success',
+        }"
         solid
         @hidden="removeToast(t.id)"
       >

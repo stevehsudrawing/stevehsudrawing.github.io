@@ -18,10 +18,16 @@ useTheme() composable          ui/theme.ts (legacy bridge)
   ├─ preference: Ref<ThemeChoice>   ├─ initThemePreference()
   ├─ effectiveTheme: Computed       ├─ applyThemePreference()
   └─ setPreference(choice)          ├─ setThemePreference()
-       │                            ├─ initSystemThemeListener()
-       └──► delegates to           └─ initThemeTransitionOverlay()
+       │                            └─ initSystemThemeListener()
+       └──► delegates to
             ui/theme.ts
 ```
+
+> **Phase 7 note:** `initThemeTransitionOverlay()` was removed. The
+> `.theme-transition-overlay` element is now created dynamically in
+> `applyThemePreference()` and removed from the DOM after the transition
+> completes — this avoids permanent `backdrop-filter` GPU compositing
+> that interferes with window minimize on Windows.
 
 ##### 4.1.2.2 Theme Choices
 
@@ -44,7 +50,7 @@ Bootstrap overrides use `--bs-*` prefix.
 
 | File                  | How                                                      |
 | --------------------- | -------------------------------------------------------- |
-| `App.vue`             | `useTheme()` (root), `initThemeTransitionOverlay()`      |
+| `App.vue`             | `useTheme()` (root)                                      |
 | `AppNavbar.vue`       | `useTheme()` -> `preference`, `setPreference()`          |
 | `SettingsModal.vue`   | `useTheme()` -> `preference`, `setPreference()`          |
 | `QRCodeModal.vue`     | `useTheme()` -> `effectiveTheme` for QR color adaptation |
@@ -52,5 +58,8 @@ Bootstrap overrides use `--bs-*` prefix.
 
 ##### 4.1.2.5 Theme Transition
 
-`.theme-transition-overlay` (in App.vue template) provides a brief flash
-overlay during theme switches to prevent jarring color transitions.
+`.theme-transition-overlay` is created dynamically by `applyThemePreference()`
+when the user switches themes. It provides a brief full-page crossfade
+(500 ms fade-in, switch theme, 1000 ms fade-out) and is then removed from
+the DOM. This avoids permanent `backdrop-filter` compositing overhead in
+Chromium on Windows.

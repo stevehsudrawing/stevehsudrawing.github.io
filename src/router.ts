@@ -4,10 +4,12 @@
  * Phase 7: replaces page-transition.ts with Vue Router for SPA-style
  * internal navigation while preserving MPA build structure for SEO.
  *
- * Uses createMemoryHistory so each MPA entry point initializes its own
- * router instance — no shared state across page reloads.
+ * Uses createWebHistory so the URL bar updates on navigation and
+ * browser back/forward buttons work correctly.  Each MPA entry point
+ * still initializes its own router instance — no state is shared
+ * across full-page reloads.
  */
-import { createRouter, createMemoryHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 // =========================================================================
 // Routes
@@ -45,9 +47,9 @@ const routes = [
 // Router instance
 // =========================================================================
 
-/** Vue Router instance with memory history (one per MPA entry point). */
+/** Vue Router instance with web history (one per MPA entry point). */
 export const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior(to) {
     if (to.hash) {

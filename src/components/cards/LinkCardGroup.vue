@@ -7,7 +7,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n.js";
-import { extractPlainText, toDashCase } from "../../core/utils.js";
+import {
+  extractPlainText,
+  toDashCase,
+  resolveI18nInHtml,
+} from "../../core/utils.js";
 import LinkCard from "./LinkCard.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 import AnchorButton from "../buttons/AnchorButton.vue";
@@ -37,14 +41,20 @@ const { t } = useI18n();
 /** HAST → HTML for the group title. */
 const titleHtml = computed(() =>
   props.group.title
-    ? toHtml(props.group.title as Parameters<typeof toHtml>[0])
+    ? resolveI18nInHtml(
+        toHtml(props.group.title as Parameters<typeof toHtml>[0]),
+        t,
+      )
     : "",
 );
 
 /** HAST → HTML for the group description. */
 const descHtml = computed(() =>
   props.group.description
-    ? toHtml(props.group.description as Parameters<typeof toHtml>[0])
+    ? resolveI18nInHtml(
+        toHtml(props.group.description as Parameters<typeof toHtml>[0]),
+        t,
+      )
     : "",
 );
 
@@ -77,7 +87,7 @@ const hasCards = computed(
       <AnchorButton
         v-if="titleId"
         :target-id="titleId"
-        :aria-label="`Link to ${titleText}`"
+        :button-aria-label="`Link to ${titleText}`"
       />
       <CopyButton
         v-if="titleId"

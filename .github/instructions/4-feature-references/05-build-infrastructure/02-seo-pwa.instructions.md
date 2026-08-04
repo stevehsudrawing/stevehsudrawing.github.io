@@ -7,9 +7,10 @@ description: >
 applyTo: >
   build/head-tags-plugin.ts;
   build/sitemap-plugin.ts;
+  build/content-injection-plugin.ts;
   public/manifest.json;
   public/robots.txt;
-  build/configs/page-meta.ts
+  build/page-meta.ts
 ---
 
 #### 4.5.2 SEO & PWA
@@ -29,18 +30,39 @@ Injects per-page `<head>` content at build time:
 Generates `sitemap.xml` with `<url>` entries and `<xhtml:link>` hreflang
 alternates. `lastmod` set to build date.
 
-##### 4.5.2.3 PWA
+##### 4.5.2.3 content-injection-plugin.ts
+
+At build time, reads `src/configs/link-cards/*.json` and
+`src/configs/link-button-groups/*.json` and generates plain-text link lists
+inside each page's `<noscript>` block. This allows search engine crawlers
+to index link-card titles, descriptions, and URLs without executing
+JavaScript.
+
+Generated structure (per page):
+
+```html
+<noscript>
+  <!-- static content -->
+  <!-- auto-generated: link cards -->
+  <h3>Group Title</h3>
+  <ul>
+    <li><a href="...">Card Title</a> — Card Description</li>
+  </ul>
+</noscript>
+```
+
+##### 4.5.2.4 PWA
 
 - `public/manifest.json` -- PWA manifest (name, icons, theme_color, standalone)
 - Apple splash screens via `tools/apple-pwa-splash-generator/` (23 resolutions)
 
-##### 4.5.2.4 Page Tiers
+##### 4.5.2.5 Page Tiers
 
 | Tier    | Pages                                              | SEO Elements                                   |
 | ------- | -------------------------------------------------- | ---------------------------------------------- |
 | `full`  | index, about, artworks, blogs, chatting, softwares | Full: meta + OG + Twitter + hreflang + JSON-LD |
 | `error` | 404, error-*                                       | Minimal: basic meta only                       |
 
-##### 4.5.2.5 robots.txt
+##### 4.5.2.6 robots.txt
 
 Whitelists known crawlers. Located at `public/robots.txt`.

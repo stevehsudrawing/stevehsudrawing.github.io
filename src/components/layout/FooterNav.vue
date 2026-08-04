@@ -5,35 +5,7 @@
   Links use data-link-img-props / data-qr-url for App.vue event delegation.
 -->
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { toHtml } from "hast-util-to-html";
-
-// =========================================================================
-// State
-// =========================================================================
-
-const { t, messages } = useI18n();
-
-// -------------------------------------------------------------------------
-// HAST-powered-by
-// -------------------------------------------------------------------------
-
-/** Render a HAST-format i18n key to HTML. */
-function renderHast(key: string, fallback: unknown): string {
-  const node = messages.value[key] ?? fallback;
-  if (node && typeof node === "object") {
-    return toHtml(node as Parameters<typeof toHtml>[0]);
-  }
-  return "";
-}
-
-const poweredByHtml = computed(() => renderHast("hast-powered-by", null));
-
-// =========================================================================
-// Actions
-// =========================================================================
-// (none -- footer links use App.vue event delegation)
+// (no setup needed -- footer links use App.vue event delegation)
 </script>
 
 <template>
@@ -59,7 +31,7 @@ const poweredByHtml = computed(() => renderHast("hast-powered-by", null));
 
         <!-- ==== Powered by ==== -->
         <div>
-          <span v-html="poweredByHtml"></span>
+          <span v-html="$t('html-powered-by')"></span>
         </div>
 
         <!-- ==== Issue + Copyright links ==== -->
@@ -83,9 +55,9 @@ const poweredByHtml = computed(() => renderHast("hast-powered-by", null));
         </div>
 
         <!-- ==== Share + View Code ==== -->
-        <div class="ms-auto d-flex gap-2">
+        <div class="ms-auto">
           <a
-            class="link text-nowrap"
+            class="link text-nowrap me-2"
             href="javascript:void(0)"
             role="button"
             data-qr-url="https://stevehsudrawing.github.io"

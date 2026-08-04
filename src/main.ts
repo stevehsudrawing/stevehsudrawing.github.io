@@ -84,11 +84,4 @@ app.use(i18nPlugin);
 app.use(router);
 app.directive("b-tooltip", vBTooltip);
 
-// Set initial route to current URL (MPA — each page load creates a fresh router).
-// createMemoryHistory starts empty; we replace with the real URL so
-// <router-view> renders the correct page component.
-router.replace(
-  window.location.pathname + window.location.search + window.location.hash,
-);
-
 app.mount("#app");

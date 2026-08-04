@@ -25,11 +25,12 @@ The minimum browser versions are determined by both **npm dependencies** and **b
 
 | Dependency              | Chrome | Edge   | Firefox | Opera  | Safari |
 | ----------------------- | ------ | ------ | ------- | ------ | ------ |
-| Bootstrap 5.3.8 CSS/JS  | **60** | **79** | **60**  | **47** | **12** |
+| Bootstrap 5.3.8 CSS/JS  | 60     | **79** | **60**  | 47     | **12** |
+| vue-router 5.2.0        | **61** | 16     | 60      | **48** | 11     |
 | qrcode 1.5.4            | 1      | 12     | 1.5     | 9      | 2      |
 | html-to-image 1.11.13   | 32     | 12     | 29      | 20     | 7.1    |
 | html2canvas 1.4.1       | 1      | 12     | 3.5     | 12     | 6      |
-| @popperjs/core 2.11.8   | **60** | **79** | **60**  | **47** | **12** |
+| @popperjs/core 2.11.8   | 60     | **79** | **60**  | 47     | **12** |
 | hast-util-to-html 9.0.5 | 61     | 16     | 60      | 48     | 11     |
 
 > **Sources**:
@@ -40,6 +41,7 @@ The minimum browser versions are determined by both **npm dependencies** and **b
 > - html2canvas 1.4.1: [Docs](https://html2canvas.hertzen.com/documentation) - "Chrome all, Firefox 3.5+, Safari 6+, Opera 12+"
 > - @popperjs/core 2.11.8: [npm](https://www.npmjs.com/package/@popperjs/core/v/2.11.8) / [Floating UI docs](https://floating-ui.com/) - aligned with Bootstrap 5
 > - hast-util-to-html 9.0.5: loaded via `<script type="module">`; requires [ES modules](https://caniuse.com/es6-module) support
+> - vue-router 5.2.0: loaded via `<script type="module">`; requires [ES modules](https://caniuse.com/es6-module) support; no additional constraints beyond Vue 3
 
 #### 1.3.2 Browser Feature Requirements
 

@@ -56,27 +56,6 @@ export function getEffectiveTheme(themeChoice: ThemeChoice): EffectiveTheme {
 }
 
 /**
- * Initialize the theme transition overlay's transitionend listener.
- * Must be called after header.html has been loaded into the DOM.
- */
-export function initThemeTransitionOverlay(): void {
-  const overlay = document.querySelector(".theme-transition-overlay");
-  if (!overlay) return;
-
-  // Clean up fade-out class after the fade-out transition ends,
-  // so the overlay is ready for the next use.
-  overlay.addEventListener("transitionend", function (e: Event) {
-    const te = e as TransitionEvent;
-    if (
-      te.propertyName === "opacity" &&
-      overlay.classList.contains("fade-out")
-    ) {
-      overlay.classList.remove("fade-out");
-    }
-  });
-}
-
-/**
  * Apply the raw theme change (data-bs-theme + images) immediately.
  * Callers are responsible for overlay timing if a visual transition is desired.
  * @param theme - The resolved theme value ('light', 'dark', or 'auto').
@@ -94,8 +73,9 @@ export function applyThemeChange(theme: string): void {
 
 /**
  * Apply a theme choice to the page. When 'auto', defer to the system theme.
- * Uses a full-page overlay crossfade for smooth visual transition.
- * Skips the overlay for users who prefer reduced motion.
+ * Creates a full-page overlay dynamically for smooth crossfade, then
+ * removes it after the transition completes — avoids permanent backdrop-filter
+ * compositing overhead (which interferes with window minimize on Windows).
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  * @param save - Whether to persist the choice to localStorage.
  * @param useOverlay - When false, skip the transition overlay (used during initial page load).
@@ -115,18 +95,14 @@ export function applyThemePreference(
     localStorage.setItem(StorageKey.Theme, theme);
   }
 
-  const overlay = document.querySelector(".theme-transition-overlay");
-
   // Skip the overlay (instant switch) when:
   // - User prefers reduced motion, or
   // - The effective theme does not actually change, or
-  // - The overlay is not yet in the DOM (initial load from <head>), or
   // - useOverlay is explicitly false (e.g. initial page load).
   const skipOverlay =
     !useOverlay ||
     window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    htmlElement.getAttribute("data-bs-theme") === getEffectiveTheme(theme) ||
-    !overlay;
+    htmlElement.getAttribute("data-bs-theme") === getEffectiveTheme(theme);
 
   if (skipOverlay) {
     applyThemeChange(theme);
@@ -136,19 +112,36 @@ export function applyThemePreference(
   // Increment ID to cancel any pending callback from rapid toggling.
   const thisId = ++themeTransitionId;
 
-  // Phase 1: Fade in the overlay over ~500 ms.
+  // Create overlay dynamically so backdrop-filter does not live
+  // in the DOM permanently (causes GPU compositing issues on Windows
+  // that interfere with window minimize).
+  const overlay = document.createElement("div");
+  overlay.className = "theme-transition-overlay";
+  document.body.appendChild(overlay);
+
+  // Force reflow so the browser registers the initial state, then
+  // add the active class to trigger the fade-in transition.
+  void overlay.offsetWidth;
   overlay.classList.add("active");
-  overlay.classList.remove("fade-out");
 
   // Phase 2: After fade-in completes, switch theme behind the opaque overlay.
   setTimeout(function () {
-    if (thisId !== themeTransitionId) return; // Superseded
+    if (thisId !== themeTransitionId) {
+      overlay.remove();
+      return;
+    }
 
     applyThemeChange(theme);
 
     // Phase 3: Fade out the overlay to reveal the new theme.
     overlay.classList.remove("active");
     overlay.classList.add("fade-out");
+
+    // Phase 4: Remove overlay after fade-out transition completes.
+    // The longest fade-out transition is background-color at 1 s.
+    setTimeout(() => {
+      overlay.remove();
+    }, 1050);
   }, 500);
 }
 

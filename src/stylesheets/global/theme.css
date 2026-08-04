@@ -368,7 +368,7 @@ a {
   inset: 0;
   z-index: 1100;
   background-color: rgba(144, 146, 148, 0);
-  backdrop-filter: blur(0);
+  backdrop-filter: none;
   pointer-events: none;
   transition:
     background-color 0.5s ease-in,
@@ -384,7 +384,7 @@ a {
 
 .theme-transition-overlay.fade-out {
   background-color: rgba(144, 146, 148, 0);
-  backdrop-filter: blur(0);
+  backdrop-filter: none;
   pointer-events: none;
   transition:
     background-color 1s ease-out,

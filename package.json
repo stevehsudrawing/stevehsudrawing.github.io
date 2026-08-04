@@ -12,6 +12,8 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^26.1.1",
     "@types/qrcode": "^1.5.6",
@@ -41,6 +43,11 @@
     "vue-router": "^5.2.0"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": [
+      "prettier --write --ignore-unknown"
+    ],
+    "*.{ts,vue}": [
+      "pnpm typecheck"
+    ]
   }
 }

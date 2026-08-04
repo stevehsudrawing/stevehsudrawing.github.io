@@ -22,6 +22,7 @@ Production dependencies are bundled and shipped to the browser. They are importe
 | Resource            | npm Package                        | Role                     | GitHub Repo                                                                                         | Version |
 | ------------------- | ---------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------- | ------- |
 | Vue                 | `vue`                              | UI Framework             | [`vuejs/core`](https://github.com/vuejs/core)                                                       | 3.5.40  |
+| Vue Router          | `vue-router`                       | SPA Routing              | [`vuejs/router`](https://github.com/vuejs/router)                                                   | 5.2.0   |
 | bootstrap-vue-next  | `bootstrap-vue-next`               | Bootstrap Vue Components | [`bootstrap-vue-next/bootstrap-vue-next`](https://github.com/bootstrap-vue-next/bootstrap-vue-next) | 0.45.9  |
 | Bootstrap           | `bootstrap`                        | Page Framework           | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                                               | 5.3.8   |
 | Bootstrap Icons     | `bootstrap-icons`                  | Icon Library             | [`twbs/icons`](https://github.com/twbs/icons)                                                       | 1.11.3  |
@@ -39,20 +40,21 @@ Production dependencies are bundled and shipped to the browser. They are importe
 
 Dev-only dependencies are used at build time or during development. They are **not** shipped to the browser.
 
-| Resource                   | npm Package                   | Role                       | GitHub Repo                                                                               | Version |
-| -------------------------- | ----------------------------- | -------------------------- | ----------------------------------------------------------------------------------------- | ------- |
-| TypeScript                 | `typescript`                  | Type Checking              | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                         | 7.0.2   |
-| Vite                       | `vite`                        | Build Tool                 | [`vitejs/vite`](https://github.com/vitejs/vite)                                           | 8.1.5   |
-| Vue Vite Plugin            | `@vitejs/plugin-vue`          | Vue SFC Compiler           | [`vitejs/vite-plugin-vue`](https://github.com/vitejs/vite-plugin-vue)                     | 6.0.8   |
-| Vue Components Resolver    | `unplugin-vue-components`     | Auto-import Vue Components | [`unplugin/unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components) | 28.8.0  |
-| html-minifier-terser       | `html-minifier-terser`        | HTML Minifier              | [`terser/html-minifier-terser`](https://github.com/terser/html-minifier-terser)           | 7.2.0   |
-| Bootstrap Type Definitions | `@types/bootstrap`            | Bootstrap TS types         | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)   | 5.2.11  |
-| html-minifier-terser Types | `@types/html-minifier-terser` | Minifier TS types          | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)   | 7.0.2   |
-| Node.js Type Definitions   | `@types/node`                 | Node.js TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)   | 26.1.1  |
-| QR Code Type Definitions   | `@types/qrcode`               | QR Code TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)   | 1.5.6   |
-| Husky                      | `husky`                       | Git Hooks Manager          | [`typicode/husky`](https://github.com/typicode/husky)                                     | 9.1.7   |
-| lint-staged                | `lint-staged`                 | Staged File Linter         | [`lint-staged/lint-staged`](https://github.com/lint-staged/lint-staged)                   | 17.2.0  |
-| Prettier                   | `prettier`                    | Code Formatter             | [`prettier/prettier`](https://github.com/prettier/prettier)                               | 3.9.6   |
+| Resource                   | npm Package                       | Role                       | GitHub Repo                                                                                 | Version |
+| -------------------------- | --------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------- | ------- |
+| TypeScript                 | `typescript`                      | Type Checking              | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                           | 7.0.2   |
+| Vite                       | `vite`                            | Build Tool                 | [`vitejs/vite`](https://github.com/vitejs/vite)                                             | 8.1.5   |
+| Vue Vite Plugin            | `@vitejs/plugin-vue`              | Vue SFC Compiler           | [`vitejs/vite-plugin-vue`](https://github.com/vitejs/vite-plugin-vue)                       | 6.0.8   |
+| Vue Components Resolver    | `unplugin-vue-components`         | Auto-import Vue Components | [`unplugin/unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components)   | 32.1.0  |
+| html-minifier-terser       | `html-minifier-terser`            | HTML Minifier              | [`terser/html-minifier-terser`](https://github.com/terser/html-minifier-terser)             | 7.2.0   |
+| html-minifier-terser Types | `@types/html-minifier-terser`     | Minifier TS types          | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 7.0.2   |
+| Node.js Type Definitions   | `@types/node`                     | Node.js TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 26.1.1  |
+| QR Code Type Definitions   | `@types/qrcode`                   | QR Code TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 1.5.6   |
+| Commitlint CLI             | `@commitlint/cli`                 | Commit Message Linter      | [`conventional-changelog/commitlint`](https://github.com/conventional-changelog/commitlint) | 21.2.1  |
+| Commitlint Config          | `@commitlint/config-conventional` | Conventional Commits Rules | [`conventional-changelog/commitlint`](https://github.com/conventional-changelog/commitlint) | 21.2.0  |
+| Husky                      | `husky`                           | Git Hooks Manager          | [`typicode/husky`](https://github.com/typicode/husky)                                       | 9.1.7   |
+| lint-staged                | `lint-staged`                     | Staged File Linter         | [`lint-staged/lint-staged`](https://github.com/lint-staged/lint-staged)                     | 17.2.0  |
+| Prettier                   | `prettier`                        | Code Formatter             | [`prettier/prettier`](https://github.com/prettier/prettier)                                 | 3.9.6   |
 
 #### 1.2.3 Dependency Principle
 

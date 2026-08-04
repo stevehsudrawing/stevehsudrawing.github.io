@@ -37,13 +37,13 @@ import ToastStack from "./components/ui/ToastStack.vue";
 
 // Legacy modules (diminishing — Phase 7 will eliminate most)
 import { StorageKey } from "./types/app";
-import {
-  initThemeTransitionOverlay,
-  updateThemeToggleText,
-  setActiveThemeItem,
-} from "./ui/theme";
+import { updateThemeToggleText, setActiveThemeItem } from "./ui/theme";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
-import { initHashChangeScroll, initSkipButton } from "./ui/accessibility";
+import {
+  initHashChangeScroll,
+  initSkipButton,
+  addAllExternalLinkIndicators,
+} from "./ui/accessibility";
 import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
@@ -51,7 +51,7 @@ import { normalizeInternalPath } from "./core/utils";
 // =========================================================================
 
 useTheme();
-const { syncFromLangData, initLang, isLanguageLoading } = useI18n();
+const { initLang, isLanguageLoading, messages } = useI18n();
 useLocalStorage(StorageKey.OpenInNewTab, true);
 useLocalStorage(StorageKey.EnableAnimations, true);
 
@@ -63,6 +63,13 @@ watch(isLanguageLoading, (loading) => {
   } else {
     loadingBarRef.value?.complete();
   }
+});
+
+// ---- External link indicators via i18n message changes ----
+
+watch(messages, async () => {
+  await nextTick();
+  addAllExternalLinkIndicators();
 });
 
 /** Vue Router instance (for guards + programmatic navigation). */
@@ -78,9 +85,6 @@ const extLinkModalRef = ref<InstanceType<typeof ExternalLinkConfirmModal>>();
 const qrCodeModalRef = ref<InstanceType<typeof QRCodeModal>>();
 const loadingScreenRef = ref<InstanceType<typeof LoadingScreen>>();
 const loadingBarRef = ref<InstanceType<typeof LoadingBar>>();
-const scrollHintRef = ref<InstanceType<typeof ScrollHint>>();
-const copyProtectedImgRef = ref<InstanceType<typeof CopyProtectedImg>>();
-const appNavbarRef = ref<InstanceType<typeof AppNavbar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
 // ---- Router guards (LoadingBar integration) ----
@@ -90,6 +94,13 @@ router.beforeEach(() => {
 });
 router.afterEach(() => {
   loadingBarRef.value?.complete();
+});
+
+// Re-add external link indicators after each navigation
+// (new components may contain .external-link elements)
+router.afterEach(async () => {
+  await nextTick();
+  addAllExternalLinkIndicators();
 });
 
 /**
@@ -259,14 +270,12 @@ function onInternalLinkClick(e: MouseEvent): void {
 onMounted(async () => {
   try {
     initBootstrapCSSDetection();
-    initThemeTransitionOverlay();
     initSkipButton();
 
     await initLang();
 
-    // Sync the Vue plugin's messages ref from the legacy langData global,
-    // so that $t() in Vue templates returns translated text (not just fallbacks).
-    await syncFromLangData();
+    await nextTick();
+    addAllExternalLinkIndicators();
 
     // Vue-based event delegation
     document.addEventListener("click", onSettingsOpen);
@@ -301,11 +310,7 @@ document.addEventListener("toast-show", ((e: CustomEvent) => {
 </script>
 
 <template>
-  <!--
-    Static overlay elements.  Live outside the main flow (fixed-positioned)
-    but are rendered here so they are guaranteed to exist at page load.
-  -->
-  <div class="theme-transition-overlay"></div>
+  <!-- Static overlay elements.  Live outside the main flow. -->
   <a
     id="skip-button"
     href="#page-content"

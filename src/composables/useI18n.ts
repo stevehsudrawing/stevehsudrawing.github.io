@@ -18,7 +18,7 @@ import type { Lang } from "../types/app";
 /**
  * Reactive i18n composable.
  *
- * @returns locale ref, messages ref, t(), setLocale(), syncFromLangData(),
+ * @returns locale ref, messages ref, t(), setLocale(),
  *          initLang(), and isLanguageLoading ref.
  */
 export function useI18n(): {
@@ -28,8 +28,6 @@ export function useI18n(): {
   t: (key: string, fallback?: string) => string;
   /** Fetch the JSON file for a given language and apply it. */
   setLocale: (rawLang: string) => Promise<void>;
-  /** Sync the Vue messages ref from legacy core/i18n.ts langData. */
-  syncFromLangData: () => Promise<void>;
   /**
    * Determine the preferred language (URL param → localStorage → default)
    * and load it.  Call once during App.vue onMounted.
@@ -148,25 +146,11 @@ export function useI18n(): {
     }) as EventListener);
   }
 
-  // ---- Legacy sync ----
-
-  /**
-   * Sync the Vue plugin's `messages` ref from the legacy `langData`
-   * global in core/i18n.ts.  Necessary after `initLang()` (which calls
-   * `applyLangData` directly without going through `setLocale`).
-   */
-  async function syncFromLangData(): Promise<void> {
-    const { langData, currentLang } = await import("../core/i18n");
-    locale.value = currentLang;
-    messages.value = { ...langData };
-  }
-
   return {
     locale,
     messages,
     t,
     setLocale,
-    syncFromLangData,
     initLang,
     isLanguageLoading,
   };

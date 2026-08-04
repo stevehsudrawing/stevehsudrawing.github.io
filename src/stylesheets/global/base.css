@@ -176,6 +176,7 @@ code {
   --bs-btn-disabled-color: var(--bs-primary);
   --bs-btn-disabled-border-color: var(--bs-primary);
 }
+
 .btn-outline-secondary {
   --bs-btn-color: var(--bs-secondary);
   --bs-btn-border-color: var(--bs-secondary);
@@ -186,6 +187,10 @@ code {
   --bs-btn-active-border-color: var(--bs-secondary);
   --bs-btn-disabled-color: var(--bs-secondary);
   --bs-btn-disabled-border-color: var(--bs-secondary);
+}
+
+.bi {
+  margin: 0 2px;
 }
 
 /* ========================================================================
@@ -220,8 +225,8 @@ code {
 
 /* ========================================================================
    Image Utilities
-   (Migrated to FeatureAwareImg.vue -- §4.8.  Remaining .img-fit and
-   .sub-cover-wrapper selectors are used by build-time injected HTML.)
+   (Used by FeatureAwarePicture / FeatureAwareImg Vue components
+   via img-class prop and page hero sections.)
    ======================================================================== */
 
 .img-fit {
@@ -254,7 +259,7 @@ code {
 
 /* ========================================================================
    Button Groups
-   (Build-time injected link button groups -- not owned by any Vue component.)
+   (Used by LinkButtonGroup.vue and LinkButton.vue Vue components.)
    ======================================================================== */
 
 .btn-group {
@@ -271,7 +276,7 @@ code {
   --bs-btn-active-bg: rgba(108, 117, 125, 0.2);
 }
 
-/* --- Link Icons in Button Groups --- */
+/* --- Link Icons in Button Groups (LinkButton.vue) --- */
 
 .link-btn-img-wrapper {
   display: flex;
@@ -293,21 +298,3 @@ code {
    Footer
    (Migrated to FooterNav.vue -- §4.10)
    ======================================================================== */
-
-.footer {
-  font-size: 0.8rem;
-}
-
-/* ========================================================================
-   Page Notice
-   ======================================================================== */
-
-.notice-container {
-  text-align: center;
-  color: var(--bs-body-color);
-  padding: 0 1rem;
-}
-
-.notice-container p {
-  margin-bottom: 0.25rem;
-}

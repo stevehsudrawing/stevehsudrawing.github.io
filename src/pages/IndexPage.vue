@@ -7,26 +7,15 @@
   Link button groups are rendered via useLinkButtonGroups().
 -->
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
-import { useI18n } from "../composables/useI18n.js";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups.js";
 import type { LinkButtonGroupData } from "../types/app.js";
 
 // =========================================================================
 // i18n
 // =========================================================================
-
-const { t } = useI18n();
-
-/** HTML i18n fallback for the brand heading. */
-const brandHtml = computed(() =>
-  t(
-    "html-steve-hsu-s-link-hub",
-    `<strong class="color-primary">Steve Hsu <small>什五</small></strong>'s Link-Hub`,
-  ),
-);
 
 // =========================================================================
 // Link button groups
@@ -45,7 +34,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <div class="container link-hub-part">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-1 order-2">
-        <h1 v-html="brandHtml"></h1>
+        <h1 v-html="$t('html-steve-hsu-s-link-hub')"></h1>
         <p>
           {{
             $t(

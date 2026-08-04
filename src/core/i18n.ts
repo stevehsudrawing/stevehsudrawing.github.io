@@ -79,56 +79,12 @@ export function translate(key: string, fallback?: string): string {
  * using the currently loaded langData dictionary.
  * Dispatches a 'pageTextUpdated' event afterward so other modules
  * (e.g. tooltips) can react to the text change.
+ *
+ * @deprecated All Vue-rendered content now uses $t() / resolveI18nInHtml().
+ * The DOM walk is a no-op.  The event dispatch is retained for the
+ * tooltip-i18n listener in useI18n.ts.
  */
 export function updatePageText(): void {
-  document.querySelectorAll("[data-i18n]").forEach((el) => {
-    const key = el.getAttribute("data-i18n");
-    const translated = translate(key!);
-    if (translated) {
-      el.textContent = translated;
-    } else {
-      console.log("Missing key:", key);
-    }
-  });
-
-  // Translate HTML-capable elements: [data-i18n-html] uses innerHTML
-  // so the translation string may contain inline markup (e.g. <cite>).
-  document.querySelectorAll("[data-i18n-html]").forEach((el) => {
-    const key = el.getAttribute("data-i18n-html");
-    const translated = translate(key!);
-    if (translated) {
-      el.innerHTML = translated;
-    } else {
-      console.log("Missing key:", key);
-    }
-  });
-
-  // Translate img alt attributes: elements with data-i18n-alt
-  // use it to specify the translation key,
-  // and the translated text is written to the alt attribute.
-  document.querySelectorAll("img[data-i18n-alt]").forEach((el) => {
-    const key = el.getAttribute("data-i18n-alt");
-    const translated = translate(key!);
-    if (translated) {
-      el.setAttribute("alt", translated);
-    } else {
-      console.log("Missing key:", key);
-    }
-  });
-
-  // Translate aria-label attributes: elements with data-i18n-aria-label
-  // use it to specify the translation key,
-  // and the translated text is written to the aria-label attribute.
-  document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
-    const key = el.getAttribute("data-i18n-aria-label");
-    const translated = translate(key!);
-    if (translated) {
-      el.setAttribute("aria-label", translated);
-    } else {
-      console.log("Missing key:", key);
-    }
-  });
-
   // Notify other modules that page text has been updated
   document.dispatchEvent(new CustomEvent(AppEvent.PageTextUpdated));
 }

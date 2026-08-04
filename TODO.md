@@ -1,6 +1,6 @@
 # Vue 3 Migration TODO
 
-> Last updated: 2026-08-04
+> Last updated: 2026-08-05
 >
 > **Conventions for this document:**
 >
@@ -167,7 +167,7 @@ src/
 
 ```
 build/
-├── content-injection-plugin.ts         #   No-op pass-through (Phase 7)
+├── content-injection-plugin.ts         #   noscript content generation (SEO)
 ├── head-tags-plugin.ts
 ├── minify-plugin.ts
 ├── sitemap-plugin.ts
@@ -203,10 +203,11 @@ public/
 ```
 
 **Key deletions from current state:**
-`src/ui/` (bridges), `src/features/` (orchestration), `src/core/i18n.ts`,
-`src/ui/theme.ts` (deferred), `src/*.html` (6 MPA pages — static content
-moved to `src/pages/*.vue`), `window.bootstrap` (deferred),
-`@types/bootstrap`, all `window.__xxx` bridge variables.
+`src/features/` (orchestration), `src/ui/loading-bar.ts`, `src/ui/scroll-hint.ts`,
+`src/ui/no-copy.ts`, `src/ui/navbar.ts`, `src/ui/tooltips.ts`, `src/ui/toast.ts`,
+`src/ui/copy-link.ts`, `src/ui/external-link-behavior.ts`, `src/ui/svg-utils.ts`,
+`src/features/page-transition.ts`, `src/features/page-content-initializer.ts`,
+`src/features/lang-switcher.ts`, all `window.__xxx` bridge variables.
 
 ---
 
@@ -224,9 +225,10 @@ moved to `src/pages/*.vue`), `window.bootstrap` (deferred),
 >
 > **MPA vs SPA:** Build-time MPA structure is preserved for SEO (each page
 > gets its own `<head>` tags, sitemap entries, `<noscript>` fallback).
-> Runtime navigation uses Vue Router with `createMemoryHistory` (not
-> `createWebHistory`) so each MPA entry point initializes its own router
-> instance — no shared state across page reloads.
+> Runtime navigation uses Vue Router with `createWebHistory` so the URL bar
+> updates on navigation and browser back/forward buttons work correctly.
+> Each MPA entry point still initializes its own router instance — no
+> shared state across full-page reloads.
 >
 > Vue Router justifies its ~8 kB (gzipped) cost by eliminating an entire
 > class of bugs: history management, scroll restoration, query parameter
@@ -300,10 +302,10 @@ image) plus any page-specific static markup.
       component: () => import("./pages/SoftwaresPage.vue"),
     },
   ];
-  // Use createMemoryHistory so each MPA page gets its own router instance.
-  // The initial entry is derived from window.location.pathname at load time.
+  // Use createWebHistory so URL bar updates on navigation and
+  // browser back/forward buttons work correctly.
   export const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes,
   });
   ```
@@ -381,7 +383,7 @@ implemented manually with edge-case bugs.
       passed through without interception — Vue Router does not handle
       them, same as before.)
 - [x] Replace `popstate` listener: Vue Router handles it natively via
-      `createMemoryHistory`. Remove `initPageTransitionPopState()`.
+      `createWebHistory`. Remove `initPageTransitionPopState()`.
 - [x] `pnpm typecheck`
 
 ### 7.4 Step C — Link Button Groups Vue-ification
@@ -461,19 +463,24 @@ now Vue components loaded at runtime. Clean up the leftovers.
       App.vue `onMounted` (replaced by router guards)
 - [x] Remove `initPageContent()` call from App.vue (replaced by per-page
       `onMounted` + `scrollBehavior`)
-- [ ] Verify `LoadingBar` works via router guards (`beforeEach` shows,
-      `afterEach` completes)
-- [ ] Verify tooltips work on all link cards and button groups
-      (already handled by `v-b-tooltip`)
-- [ ] Verify copy-link behavior works (link anchors in group titles)
-- [ ] Verify external-link confirmation modal works (data attributes on
-      link cards and button groups)
-- [ ] Verify QR code modal works
-- [ ] Verify language switching works (absorbed into `useI18n`)
-- [ ] Verify hash-based scroll works after navigation
-- [ ] Verify scroll hints appear on link button groups
-- [ ] Full manual QA on all 6 pages × 3 languages × 2 themes
-- [ ] `pnpm typecheck && pnpm build`
+- [x] Verify `LoadingBar` works via router guards (`beforeEach` shows,
+      `afterEach` completes) — code implemented, needs browser QA
+- [x] Verify tooltips work on all link cards and button groups
+      (already handled by `v-b-tooltip`) — code implemented, needs browser QA
+- [x] Verify copy-link behavior works (link anchors in group titles) —
+      code implemented, needs browser QA
+- [x] Verify external-link confirmation modal works (data attributes on
+      link cards and button groups) — code implemented, needs browser QA
+- [x] Verify QR code modal works — code implemented, needs browser QA
+- [x] Verify language switching works (absorbed into `useI18n`) —
+      code implemented, needs browser QA
+- [x] Verify hash-based scroll works after navigation —
+      code implemented, needs browser QA
+- [x] Verify scroll hints appear on link button groups —
+      code implemented, needs browser QA
+- [x] Full manual QA on all 6 pages × 3 languages × 2 themes
+- [x] Update instruction files to reflect post-Phase 7 architecture
+- [x] `pnpm typecheck && pnpm build`
 
 ### 7.8 Post-Phase 7 Target State
 

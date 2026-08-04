@@ -11,6 +11,7 @@ import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 import type { CardData } from "../../types/app.js";
 import type { HastProperties, HastNode } from "../../types/hast.js";
+import { resolveI18nInHtml } from "../../core/utils.js";
 import { toHtml } from "hast-util-to-html";
 
 // =========================================================================
@@ -86,13 +87,16 @@ const titleHtml = computed(() => {
     addLinkImgProps(title as HastNode, iconProperties);
   }
 
-  return toHtml(title);
+  return resolveI18nInHtml(toHtml(title), t);
 });
 
 /** HAST → HTML for the description node. */
 const descHtml = computed(() =>
   props.card.description
-    ? toHtml(props.card.description as Parameters<typeof toHtml>[0])
+    ? resolveI18nInHtml(
+        toHtml(props.card.description as Parameters<typeof toHtml>[0]),
+        t,
+      )
     : "",
 );
 
