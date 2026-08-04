@@ -24,13 +24,17 @@ Git hooks are managed by [Husky](https://github.com/typicode/husky) and run auto
 
 ##### pre-commit
 
-The pre-commit hook (`.husky/pre-commit`) runs `pnpm exec lint-staged`,
-which triggers the following on **staged files only**:
+The pre-commit hook (`.husky/pre-commit`) performs two checks sequentially:
 
-1. **Format** — Prettier on all file types (`--ignore-unknown`)
-2. **Type check** — `tsc --noEmit` only when `.ts` or `.vue` files are staged
+1. **Format staged files** — `pnpm exec lint-staged` (triggers Prettier on staged files)
+2. **Type check** — `pnpm typecheck` (always runs on the full project via `tsc --noEmit`)
 
-If any step fails, the commit is blocked.
+If either step fails, the commit is blocked.
+
+> Type check runs on the **full project**, not just staged files.
+> This is intentional — `tsc --noEmit` loads `tsconfig.json` and
+> requires the entire project to compile. Limiting to staged files
+> (via lint-staged glob) causes `TS5112` errors.
 
 ##### commit-msg
 
@@ -62,7 +66,7 @@ flowchart TD
   A[git commit] --> B[Husky pre-commit]
   B --> C[pnpm exec lint-staged]
   C --> D[prettier on staged files]
-  D --> |pass| E[typecheck on TS/Vue files]
+  D --> |pass| E[pnpm typecheck]
   D --> |fail| X[Commit blocked]
   E --> |pass| F[Husky commit-msg]
   E --> |fail| X
@@ -87,13 +91,12 @@ export default {
 
 ```json
 "lint-staged": {
-  "**/*": ["prettier --write --ignore-unknown"],
-  "*.{ts,vue}": ["pnpm typecheck"]
+  "**/*": ["prettier --write --ignore-unknown"]
 }
 ```
 
-- Array format (`[...]`) ensures lint-staged re-adds files modified by the command via `git add`.
-- Type check only runs when `.ts` or `.vue` files are staged — CSS/JSON/MD-only commits skip it.
+- Array format (`[...]`) ensures lint-staged re-adds files modified by Prettier via `git add`.
+- `--ignore-unknown` ensures only file types Prettier supports are processed.
 
 **pre-push** - `.husky/pre-push` runs `pnpm build` to verify bundling before pushing.
 

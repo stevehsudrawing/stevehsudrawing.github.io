@@ -45,9 +45,6 @@
   "lint-staged": {
     "**/*": [
       "prettier --write --ignore-unknown"
-    ],
-    "*.{ts,vue}": [
-      "pnpm typecheck"
     ]
   }
 }
