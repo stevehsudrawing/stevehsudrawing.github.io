@@ -40,6 +40,9 @@ interface NavItem {
 // State
 // =========================================================================
 
+/** Offcanvas visibility (shared with OffcanvasNav via v-model). */
+const showOffcanvas = ref(false);
+
 /** Supported languages (imported at build time from language-list.json). */
 import languageList from "../../configs/language-list.json";
 
@@ -96,6 +99,9 @@ function throttledScroll(): void {
     scrollTicking = true;
   }
 }
+
+// Scroll state (border + brand slide)
+// -------------------------------------------------------------------------
 
 const scrolled = computed(() => scrollY.value > 0);
 
@@ -250,10 +256,8 @@ defineExpose({
       <button
         class="navbar-toggler"
         type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#navbar-offcanvas"
-        aria-controls="navbar-offcanvas"
-        aria-expanded="false"
+        @click="showOffcanvas = !showOffcanvas"
+        :aria-expanded="showOffcanvas"
         :aria-label="$t('text-toggle-navigation', 'Toggle Navigation')"
       >
         <i class="bi bi-list navbar-toggler-icon-font"></i>
@@ -349,7 +353,11 @@ defineExpose({
     </div>
 
     <!-- ==== Mobile offcanvas ==== -->
-    <OffcanvasNav :nav-items="navItems" :current-page="props.currentPage" />
+    <OffcanvasNav
+      v-model="showOffcanvas"
+      :nav-items="navItems"
+      :current-page="props.currentPage"
+    />
   </nav>
 </template>
 

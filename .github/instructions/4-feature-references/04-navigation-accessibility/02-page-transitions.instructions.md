@@ -1,43 +1,64 @@
 ---
 description: >
-  Page Transitions: SPA-style animated navigation between internal pages (.internal-link),
-  progress bar animation, content dimming, tooltip disposal before transition, i18n re-apply.
-  page-transition.ts (legacy, coexists with Vue), page-transition.css (global).
-  Use when: modifying page navigation, transition animations, or internal link behavior.
+  Page Navigation: Vue Router-based SPA navigation with createWebHistory,
+  scrollBehavior with async hash polling, LoadingBar integration via router
+  guards, ?lang= query preservation, and chunk-load-error fallback.
+  Replaces the legacy page-transition.ts fetch-based system (Phase 7).
 applyTo: >
-  src/features/page-transition.ts;
-  src/stylesheets/global/page-transition.css
+  src/router.ts;
+  src/App.vue
 ---
 
-#### 4.4.2 Page Transitions
+#### 4.4.2 Page Navigation (Vue Router)
 
-##### 4.4.2.1 Architecture (Legacy)
+##### 4.4.2.1 Architecture
 
-`page-transition.ts` coexists with Vue. Initialized from `App.vue`'s `onMounted`
-via `initPageTransitionLinkClicks()` and `initPageTransitionPopState()`.
+Phase 7 replaced the legacy `page-transition.ts` (fetch + innerHTML swap)
+with Vue Router (`createWebHistory`). Internal links use `router.push()`
+intercepted by App.vue's delegated click handler.
 
-##### 4.4.2.2 Flow
+```
+App.vue (delegated click on .internal-link)
+  └─ router.push(href)
+       ├─ beforeEach: LoadingBar.show() + ?lang= preservation
+       ├─ lazy import(page component)
+       ├─ <router-view> renders component
+       ├─ afterEach: LoadingBar.complete()
+       └─ scrollBehavior: async hash polling (up to 20 rAF)
+```
 
-1. Click `.internal-link` -> intercepted
-2. `showLoadingBar()` -> animate `#loading-bar` to 85%
-3. `disposeAllTooltips()` -> prevent orphans
-4. `fetch(newUrl)` -> parse HTML -> extract `<main>`
-5. Replace `#page-content` innerHTML
-6. `completeLoadingBar()` -> animate to 100%, fade
-7. `initPageContent()` -> re-init i18n, tooltips, scroll hints, etc.
-8. Dispatch `AppEvent.PageInitialized`
+##### 4.4.2.2 Key Features
 
-##### 4.4.2.3 CSS
+| Feature              | Implementation                                              |
+| -------------------- | ----------------------------------------------------------- |
+| URL bar updates      | `createWebHistory` — `history.pushState` on navigation      |
+| Back/forward buttons | `createWebHistory` — native `popstate` handling             |
+| Progress bar         | `router.beforeEach` (show) + `router.afterEach` (complete)  |
+| Hash scroll          | `scrollBehavior` — async `requestAnimationFrame` polling    |
+| Language persistence | `router.beforeEach` copies `?lang=` from `from` to `to`     |
+| Chunk-load fallback  | `router.onError` — full `window.location.assign` on failure |
 
-`page-transition.css` (in `stylesheets/global/`) provides `.content-dimming`
-and progress bar classes.
+##### 4.4.2.3 Error Recovery
 
-##### 4.4.2.4 Interaction with Vue
+If a lazy-loaded page chunk fails (network error, stale cache after
+deployment), `router.onError` triggers a full browser navigation via
+`window.location.assign(window.location.href)`. This mirrors the
+old `page-transition.ts` fetch-failure fallback — the server serves
+the correct `.html` entry point, which loads a fresh Vue app instance.
 
-- `window.__loadingBar` bridge
-- `AppEvent.PageInitialized` -> triggers `currentPage` update in App.vue
-- `initPageContent()` re-applies Vue-independent DOM operations
+##### 4.4.2.4 Route Configuration
 
-##### 4.4.2.5 Future (Phase 7-8)
+```ts
+// src/router.ts
+const routes = [
+  {
+    path: "/",
+    alias: "/index.html",
+    component: () => import("./pages/IndexPage.vue"),
+  },
+  { path: "/about.html", component: () => import("./pages/AboutPage.vue") },
+  // ... 4 more page routes
+];
+```
 
-Will be replaced by Vue `<Transition>` or Vue Router.
+No catch-all route — GitHub Pages serves `404.html` for unmatched paths.

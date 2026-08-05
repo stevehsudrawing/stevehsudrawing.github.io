@@ -29,7 +29,6 @@ import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmMod
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
-import ScrollHint from "./components/ui/ScrollHint.vue";
 import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
 import AppNavbar from "./components/layout/AppNavbar.vue";
 import FooterNav from "./components/layout/FooterNav.vue";
@@ -356,7 +355,6 @@ document.addEventListener("toast-show", ((e: CustomEvent) => {
     :hide-open-link="qrHideOpenLink"
     @open-link="onQROpenLink"
   />
-  <ScrollHint ref="scrollHintRef" />
   <CopyProtectedImg ref="copyProtectedImgRef" />
   <ToastStack ref="toastStackRef" />
 </template>

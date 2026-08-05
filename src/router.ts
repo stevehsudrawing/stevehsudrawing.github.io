@@ -73,3 +73,22 @@ export const router = createRouter({
     return { top: 0 };
   },
 });
+
+// =========================================================================
+// Error handling
+// =========================================================================
+
+/**
+ * Fall back to a full browser navigation if a lazy-loaded page chunk
+ * fails to load (e.g. network error, stale cache after deployment).
+ * Mirrors the old page-transition.ts fetch-failure fallback.
+ */
+router.onError((error) => {
+  if (
+    /Failed to fetch dynamically imported module|Importing a module script failed/.test(
+      error.message,
+    )
+  ) {
+    window.location.assign(window.location.href);
+  }
+});

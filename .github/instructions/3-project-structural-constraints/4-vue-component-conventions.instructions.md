@@ -48,6 +48,10 @@ When a selector is explicitly NOT owned by any Vue component, document the reaso
 
 #### 3.4.3 Legacy Bridge Pattern (`window.__xxx`)
 
+> **Phase 7 status:** All bridges have been eliminated. This section is
+> retained for historical reference and in case future migration scenarios
+> require the pattern again.
+
 When a Vue component replaces a legacy TS module that still has consumers
 outside the Vue tree, use a **bridge module**:
 
@@ -64,15 +68,6 @@ outside the Vue tree, use a **bridge module**:
 └──────────────────────┘                       │   CSS)           │
                                                └──────────────────┘
 ```
-
-**Active bridges**:
-
-| Bridge variable       | Vue component          | Legacy consumers                         |
-| --------------------- | ---------------------- | ---------------------------------------- |
-| `window.__loadingBar` | `LoadingBar.vue`       | `page-transition.ts`, `lang-switcher.ts` |
-| `window.__scrollHint` | `ScrollHint.vue`       | `page-content-initializer.ts`            |
-| `window.__noCopy`     | `CopyProtectedImg.vue` | _(generic re-init)_                      |
-| `window.__navbar`     | `AppNavbar.vue`        | _(no-op stubs for API compat)_           |
 
 **Bridge module template**:
 
@@ -101,7 +96,6 @@ page or are rendered in `App.vue`'s template. These components:
 
 - `LoadingScreen.vue` -- controls `#loading-screen` (static HTML in each page)
 - `LoadingBar.vue` -- controls `#loading-bar` (rendered in own template)
-- `ScrollHint.vue` -- creates/removes `.scroll-hint` elements
 
 #### 3.4.5 `<script setup lang="ts">` Section Conventions
 
@@ -124,7 +118,8 @@ no other sections may be introduced.
 // =========================================================================
 // State
 // =========================================================================
-//   ref / reactive / computed / composable calls -- the reactive data layer.
+//   ref / reactive / computed / composable calls / defineModel —
+//   the reactive data layer.
 //   Co-location via domain sub-sections (----) is permitted.
 
 // =========================================================================

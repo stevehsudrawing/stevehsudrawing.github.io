@@ -1,12 +1,14 @@
 <!--
   OffcanvasNav.vue -- mobile sidebar navigation.
-  Rendered inside AppNavbar.vue; toggled via
-  data-bs-toggle="offcanvas" + data-bs-target="#navbar-offcanvas".
+  Rendered inside AppNavbar.vue; toggled via v-model from the
+  parent navbar-toggler button.
 
   Props:
   - navItems: shared link data from AppNavbar
+  - currentPage: for aria-current active highlighting
 -->
 <script setup lang="ts">
+import { watch } from "vue";
 import { normalizeInternalPath } from "../../core/utils";
 
 // =========================================================================
@@ -23,47 +25,52 @@ interface NavItem {
 // Props
 // =========================================================================
 
-defineProps<{
+const props = defineProps<{
   navItems: NavItem[];
   currentPage: string;
 }>();
+
+// =========================================================================
+// State
+// =========================================================================
+
+const model = defineModel<boolean>({ default: false });
+
+// =========================================================================
+// Actions
+// =========================================================================
+
+/** Close the offcanvas when the user navigates to a different page. */
+watch(
+  () => props.currentPage,
+  () => {
+    model.value = false;
+  },
+);
 </script>
 
 <template>
-  <div
-    class="offcanvas offcanvas-start d-lg-none"
-    tabindex="-1"
+  <BOffcanvas
+    v-model="model"
     id="navbar-offcanvas"
-    aria-labelledby="navbar-offcanvas-label"
+    placement="start"
+    class="d-lg-none"
+    :title="$t('text-steve-hsu-s-link-hub', `Steve Hsu's Link-Hub`)"
+    :header-close-label="$t('text-close', 'Close')"
   >
-    <div class="offcanvas-header">
-      <span class="h5 offcanvas-title" id="navbar-offcanvas-label">
-        <span>{{
-          $t("text-steve-hsu-s-link-hub", "Steve Hsu's Link-Hub")
-        }}</span>
-      </span>
-      <button
-        type="button"
-        class="btn-close text-reset"
-        data-bs-dismiss="offcanvas"
-        :aria-label="$t('text-close', 'Close')"
-      ></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav mb-3">
-        <li v-for="item in navItems" :key="item.href" class="nav-item">
-          <a
-            class="nav-link internal-link"
-            :href="item.href"
-            :aria-current="
-              currentPage === normalizeInternalPath(item.href)
-                ? 'page'
-                : undefined
-            "
-            >{{ $t(item.i18nKey, item.label) }}</a
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
+    <ul class="navbar-nav mb-3">
+      <li v-for="item in navItems" :key="item.href" class="nav-item">
+        <a
+          class="nav-link internal-link"
+          :href="item.href"
+          :aria-current="
+            currentPage === normalizeInternalPath(item.href)
+              ? 'page'
+              : undefined
+          "
+          >{{ $t(item.i18nKey, item.label) }}</a
+        >
+      </li>
+    </ul>
+  </BOffcanvas>
 </template>

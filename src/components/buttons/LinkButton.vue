@@ -89,35 +89,6 @@ const tooltipTitle = computed(() => {
     ? t(i18nKey, iconProps.alt as string)
     : (iconProps.alt as string);
 });
-
-// ---- Bootstrap Tooltip (manual — v-b-tooltip directive fails on root <a>) ----
-
-const btnRef = ref<HTMLAnchorElement>();
-
-onMounted(() => {
-  if (btnRef.value && tooltipTitle.value) {
-    new window.bootstrap.Tooltip(btnRef.value, {
-      title: tooltipTitle.value,
-    });
-  }
-});
-
-/** Update tooltip title after language switch. */
-watch(tooltipTitle, (newTitle) => {
-  if (btnRef.value) {
-    const instance = window.bootstrap.Tooltip.getInstance(btnRef.value);
-    if (instance) {
-      instance.setContent({ ".tooltip-inner": newTitle });
-    }
-  }
-});
-
-onUnmounted(() => {
-  if (btnRef.value) {
-    const instance = window.bootstrap.Tooltip.getInstance(btnRef.value);
-    if (instance) instance.dispose();
-  }
-});
 </script>
 
 <template>
@@ -128,6 +99,7 @@ onUnmounted(() => {
     :data-link-img-props="linkImgProps"
     :data-no-qr-code="noQR"
     :aria-label="tooltipTitle"
+    v-b-tooltip="{ title: tooltipTitle, container: 'body' }"
   >
     <FeatureAwareImg
       :light-src="(imgDisplay.src.value as string) ?? ''"
@@ -138,3 +110,29 @@ onUnmounted(() => {
     />
   </a>
 </template>
+
+<style>
+.btn {
+  --bs-btn-padding-x: 0.5rem;
+  --bs-btn-padding-y: 0.5rem;
+}
+
+.link-btn-img-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.link-btn-img-wrapper > img {
+  width: 40px;
+  height: 40px;
+}
+
+.btn-outline-secondary {
+  --bs-btn-hover-color: #6c757d;
+  --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
+  --bs-btn-active-color: #6c757d;
+  --bs-btn-active-bg: rgba(108, 117, 125, 0.2);
+}
+</style>
