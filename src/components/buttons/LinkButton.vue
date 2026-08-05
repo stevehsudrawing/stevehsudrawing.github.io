@@ -99,7 +99,7 @@ const tooltipTitle = computed(() => {
     :data-link-img-props="linkImgProps"
     :data-no-qr-code="noQR"
     :aria-label="tooltipTitle"
-    v-b-tooltip="{ title: tooltipTitle, container: 'body' }"
+    v-b-tooltip="{ title: tooltipTitle, teleportTo: 'body' }"
   >
     <FeatureAwareImg
       :light-src="(imgDisplay.src.value as string) ?? ''"
@@ -107,11 +107,13 @@ const tooltipTitle = computed(() => {
       :feature="imgDisplay.feature.value"
       :color-var="imgDisplay.colorVar.value"
       :color-mask-src="imgDisplay.colorMaskSrc.value"
+      :width="40"
+      :height="40"
     />
   </a>
 </template>
 
-<style>
+<style scoped>
 .btn {
   --bs-btn-padding-x: 0.5rem;
   --bs-btn-padding-y: 0.5rem;
@@ -122,11 +124,6 @@ const tooltipTitle = computed(() => {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.link-btn-img-wrapper > img {
-  width: 40px;
-  height: 40px;
 }
 
 .btn-outline-secondary {

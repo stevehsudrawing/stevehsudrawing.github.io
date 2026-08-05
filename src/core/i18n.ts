@@ -6,7 +6,7 @@
  */
 
 import type { Lang } from "../types/app";
-import { StorageKey, AppEvent } from "../types/app";
+import { StorageKey } from "../types/app";
 
 export let currentLang: Lang = "en";
 export let langData: Record<string, unknown> = {};
@@ -75,34 +75,17 @@ export function translate(key: string, fallback?: string): string {
 }
 
 /**
- * Walk the DOM and replace text content of all [data-i18n] elements
- * using the currently loaded langData dictionary.
- * Dispatches a 'pageTextUpdated' event afterward so other modules
- * (e.g. tooltips) can react to the text change.
- *
- * @deprecated All Vue-rendered content now uses $t() / resolveI18nInHtml().
- * The DOM walk is a no-op.  The event dispatch is retained for the
- * tooltip-i18n listener in useI18n.ts.
- */
-export function updatePageText(): void {
-  // Notify other modules that page text has been updated
-  document.dispatchEvent(new CustomEvent(AppEvent.PageTextUpdated));
-}
-
-/**
  * Apply already-loaded translation data to the page.
- * Stores the data, updates all [data-i18n] text, persists the preference,
- * and syncs core UI elements (lang attribute, dropdown highlight, select).
+ * Stores the data, persists the preference, updates the URL query
+ * parameter, the <html lang> attribute, and the language-select dropdown.
  * Callers are responsible for fetching the JSON and for syncing
- * ui-layer elements (navbar active item, page title).
+ * ui-layer elements (page title).
  * @param lang - The normalized language code.
  * @param data - The parsed translation JSON object.
  */
 export function applyLangData(lang: Lang, data: Record<string, unknown>): void {
   langData = data;
   currentLang = lang;
-
-  updatePageText();
 
   // Save preference
   localStorage.setItem(StorageKey.Lang, lang);

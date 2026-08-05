@@ -20,7 +20,7 @@ defineProps<{
     class="link title-link-anchor"
     :href="`#${targetId}`"
     :aria-label="buttonAriaLabel"
-    v-b-tooltip="$t('text-anchor', 'Anchor')"
+    v-b-tooltip="{ title: $t('text-anchor', 'Anchor'), teleportTo: 'body' }"
   >
     <i class="bi bi-paragraph"></i>
   </a>

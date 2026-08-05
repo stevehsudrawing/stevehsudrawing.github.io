@@ -33,7 +33,6 @@ export const enum StorageKey {
 // =========================================================================
 
 export const enum AppEvent {
-  PageTextUpdated = "pageTextUpdated",
   /** Dispatched when the user requests a language switch via UI. detail = { lang: string } */
   LangSwitchRequested = "langSwitchRequested",
 }

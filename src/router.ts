@@ -46,6 +46,16 @@ const routes = [
 // =========================================================================
 // Router instance
 // =========================================================================
+// Constants
+// =========================================================================
+
+/** Fixed navbar height used as scroll offset for hash targets. */
+const NAVBAR_OFFSET = 64;
+
+/** Max rAF polling attempts for async-rendered hash targets (~1 s at 60 fps). */
+const MAX_HASH_POLL_ATTEMPTS = 60;
+
+// =========================================================================
 
 /** Vue Router instance with web history (one per MPA entry point). */
 export const router = createRouter({
@@ -53,15 +63,20 @@ export const router = createRouter({
   routes,
   scrollBehavior(to) {
     if (to.hash) {
-      // Return a promise to wait for async-rendered content (link cards,
-      // button groups) to mount before attempting the hash scroll.
-      // If the element never appears, fall back to top of page.
+      // Poll for async-rendered content (link cards, button groups)
+      // to mount before scrolling.  If the element never appears,
+      // fall back to top of page.
       return new Promise((resolve) => {
         let attempts = 0;
         const check = (): void => {
-          if (document.querySelector(to.hash)) {
-            resolve({ el: to.hash, behavior: "smooth" as const });
-          } else if (++attempts < 20) {
+          const el = document.querySelector(to.hash);
+          if (el) {
+            // Manually compute scroll position so the 64 px fixed
+            // navbar does not cover the target heading.
+            const top =
+              el.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET;
+            resolve({ top: Math.max(0, top), behavior: "smooth" as const });
+          } else if (++attempts < MAX_HASH_POLL_ATTEMPTS) {
             requestAnimationFrame(check);
           } else {
             resolve({ top: 0 });
