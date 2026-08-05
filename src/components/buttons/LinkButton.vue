@@ -115,7 +115,7 @@ const tooltipTitle = computed(() => {
 
 <style scoped>
 .btn {
-  --bs-btn-padding-x: 0.5rem;
+  --bs-btn-padding-x: 0.75rem;
   --bs-btn-padding-y: 0.5rem;
 }
 

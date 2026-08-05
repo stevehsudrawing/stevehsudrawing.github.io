@@ -41,6 +41,11 @@ export function initSkipButton(): void {
     root.classList.add("user-input-pointer");
   }
 
+  function setTouchMode(): void {
+    root.classList.remove("user-input-keyboard", "user-input-pointer");
+    root.classList.add("user-input-touch");
+  }
+
   // Keyboard navigation (Tab) should enable keyboard mode
   document.addEventListener(
     "keydown",
@@ -59,9 +64,12 @@ export function initSkipButton(): void {
   );
 
   // Any pointer interaction disables keyboard-only display
-  ["mousedown", "pointerdown", "touchstart"].forEach((evt) => {
+  ["mousedown", "pointerdown"].forEach((evt) => {
     document.addEventListener(evt, setPointerMode, true);
   });
+
+  // Touch interaction sets touch mode (separate from mouse pointer)
+  document.addEventListener("touchstart", setTouchMode, true);
 
   // Optional: on focus of skip button ensure keyboard class present for older browsers
   document.addEventListener("focusin", function (e) {

@@ -194,6 +194,24 @@ code {
   --bs-btn-disabled-border-color: var(--bs-secondary);
 }
 
+/* --- body-color Button (custom) --- */
+
+.btn-outline-body-color {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-border-color: var(--bs-body-color);
+  --bs-btn-hover-color: var(--bs-body-bg);
+  --bs-btn-hover-bg: var(--bs-body-color);
+  --bs-btn-hover-border-color: var(--bs-body-color);
+  --bs-btn-focus-shadow-rgb: var(--bs-body-color-rgb);
+  --bs-btn-active-color: var(--bs-body-bg);
+  --bs-btn-active-bg: var(--bs-body-color);
+  --bs-btn-active-border-color: var(--bs-body-color);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: var(--bs-body-color);
+  --bs-btn-disabled-border-color: var(--bs-body-color);
+  --bs-gradient: none;
+}
+
 .bi {
   margin: 0 0.1rem;
 }
