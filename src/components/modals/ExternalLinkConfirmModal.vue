@@ -116,17 +116,19 @@ defineExpose({
     </p>
 
     <div class="d-flex align-items-start mb-3">
-      <FeatureAwareImg
-        v-if="iconSrc"
-        :light-src="iconSrc"
-        :alt="iconAlt"
-        :feature="iconFeature"
-        :color-var="iconColorVar"
-        :color-mask-src="iconColorMaskSrc"
-        :width="32"
-        :height="32"
-        class="me-2 img-fluid"
-      />
+      <div class="link-icon-wrapper me-2">
+        <FeatureAwareImg
+          v-if="iconSrc"
+          :light-src="iconSrc"
+          :alt="iconAlt"
+          :feature="iconFeature"
+          :color-var="iconColorVar"
+          :color-mask-src="iconColorMaskSrc"
+          :width="32"
+          :height="32"
+          class="img-fluid"
+        />
+      </div>
       <code class="d-block bg-body-tertiary p-2 flex-grow-1">{{ url }}</code>
     </div>
 
@@ -171,3 +173,9 @@ defineExpose({
     </template>
   </BModal>
 </template>
+
+<style scoped>
+.link-icon-wrapper {
+  min-width: 32px;
+}
+</style>

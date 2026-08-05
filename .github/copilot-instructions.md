@@ -57,45 +57,47 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 
 ```
 types/       -> shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
-  ↑            vue-shims.d.ts, vue-augment.d.ts)
-  ｜
-core/        -> foundation utilities and global state (i18n.ts, utils.ts)
-  ↑            NO DOM manipulation, NO event listeners - pure logic only.
-  ｜
+  ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts)
+  |
+core/        -> pure logic & global state (i18n.ts, utils.ts)
+  ￪             NO DOM manipulation, NO event listeners.
+  |
 composables/ -> Vue composables (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
-  ↑ ui/           Reactive state + side-effects, extracted from core/ui modules.
-  ｜               Coexists with legacy ui/ layer during migration.
-  ｜
-components/  -> Vue SFCs (layout/*.vue, ui/*.vue, modals/*.vue)
-  ↑               PascalCase filenames, <script setup> + <style scoped>.
-  ｜ features/ -> Feature orchestration (page-transition, lang-switcher, etc.)
-  ｜               Legacy TS modules — decreasing as components take over.
-  ｜
+  ￪             Reactive state + side-effects.
+  |
+ui/          -> legacy imperative DOM & Bootstrap wrappers (accessibility.ts, theme.ts, etc.)
+  ￪             Diminishing — prefer Vue components for new code.
+  |
+components/  -> Vue SFCs (layout/*.vue, ui/*.vue, modals/*.vue, cards/*.vue, buttons/*.vue)
+  ￪ pages/      PascalCase filenames, <script setup> + <style scoped>.
+  |
 plugins/     -> Vue plugins (i18n.ts) - loaded via app.use() in main.ts
-  ↑
+  ￪
 main.ts      -> Entry point: CSS imports + globals + createApp + mount
+router.ts    -> Vue Router (routes, scrollBehavior, error recovery)
+App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                                                                | May import from                                            | Must NOT import from                                            |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | --------------------------------------------------------------- |
-| `types/`       | Shared type definitions                                                                                                  | npm, browser APIs                                          | `core/*`, `ui/*`, `composables/*`, `components/*`, `features/*` |
-| `core/`        | Pure functions, data transforms, global state. **No UI-specific DOM ops, no events.**                                    | `types/*`                                                  | `ui/*`, `composables/*`, `components/*`, `features/*`           |
-| `composables/` | Vue reactive state + side-effects. May call `inject()` but must not trigger DOM side effects at top level.               | `types/*`, `core/*`, `ui/*` (bridges only)                 | `components/*`, `features/*`                                    |
-| `ui/`          | Legacy DOM manipulation, event listeners, Bootstrap wrappers, **bridge modules** (`window.__xxx`). One concern per file. | `types/*`, `core/*`                                        | `composables/*`, `features/*`                                   |
-| `components/`  | Vue SFCs. Own their own template + styles. May use composables, core utils, and legacy ui bridges.                       | `types/*`, `core/*`, `composables/*`, `ui/*` (bridges)     | `features/*` (unless init helper)                               |
-| `features/`    | Legacy feature orchestration — coordinates core + ui + components modules into user-facing workflows.                    | `types/*`, `core/*`, `ui/*`, `composables/*`, `features/*` | -                                                               |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                                                                       | `types/*`, `core/*`                                        | `ui/*`, `composables/*`, `components/*`, `features/*`           |
+| Layer          | Semantics                                                                    | May import from                                      | Must NOT import from                              |
+| -------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------- |
+| `types/`       | Shared type definitions                                                      | npm, browser APIs                                    | `core/*`, `ui/*`, `composables/*`, `components/*` |
+| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**        | `types/*`                                            | `ui/*`, `composables/*`, `components/*`           |
+| `composables/` | Vue reactive state + side-effects. May call `inject()`.                      | `types/*`, `core/*`, `ui/*` (limited)                | `components/*`                                    |
+| `ui/`          | Legacy DOM manipulation, event listeners, Bootstrap wrappers.                | `types/*`, `core/*`                                  | `composables/*`, `components/*`                   |
+| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, legacy ui. | `types/*`, `core/*`, `composables/*`, `ui/*`         | —                                                 |
+| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero sections. | `types/*`, `core/*`, `composables/*`, `components/*` | `ui/*` (use composables instead)                  |
+| `plugins/`     | Vue plugins — global provide/inject registrations.                           | `types/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`           |
 
 **Decoupling patterns (when import would violate hierarchy):**
 
-- **Event-driven**: `ui/` cannot import `features/`. Use `CustomEvent` via `AppEvent` enum - the ui module dispatches, the feature module listens.
-- **Extract shared module**: When multiple features need the same UI behavior, extract it to `ui/` (for legacy) or `composables/` (for Vue).
-- **Bridge pattern**: When legacy code needs a Vue component's API, use `window.__xxx` bridge (see [§0.7](#07-vue-component-conventions)).
+- **Composable extraction**: When multiple components share state or side-effects, extract to `composables/`.
+- **provide/inject**: For sibling-to-sibling communication (e.g. toast notifications), use Vue's provide/inject pattern.
+- **Vue Router guards**: For cross-cutting navigation concerns, use `router.beforeEach` / `router.afterEach` (not imperative DOM listeners).
 
 ### 0.5 File Rules
 
-- **`src/{core,ui,features,composables}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points. (Vue composables may call `inject()` but must not trigger side effects.)
-- **Entry points**: `src/main.ts` (full-feature pages: index, about, artworks, blogs, chatting, softwares)
+- **`src/{core,ui,composables}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points. (Vue composables may call `inject()` but must not trigger side effects.)
+- **Entry points**: `src/main.ts` + `src/router.ts` + `src/App.vue` (full-feature pages: index, about, artworks, blogs, chatting, softwares)
 - **CSS comments**: `/* ====...==== Component - description */` banners; `/* --- Child --- */` sub-sections
 - **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
 - **Markdown**: numbered headings (`## 1.`, `### 1.2.3`), cross-references with `§X.Y.Z` hyperlink anchors

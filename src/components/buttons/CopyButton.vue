@@ -4,14 +4,15 @@
   Renders as <a href="#"> or <button type="button"> depending on the
   `tag` prop.  Content is provided via the default slot.
 
-  Copies `copyText` to clipboard on click and dispatches a "toast-show"
-  CustomEvent for user feedback (listened by App.vue → ToastStack).
+  Copies `copyText` to clipboard on click and shows a toast via
+  useToast() (SHOW_TOAST_KEY provide/inject) for user feedback.
 
   Phase 7: replaces .copy-link + data-copy-text pattern previously
   handled by ui/copy-link.ts (now deleted).
 -->
 <script setup lang="ts">
 import { useI18n } from "../../composables/useI18n.js";
+import { useToast } from "../../composables/useToast.js";
 
 // =========================================================================
 // Props
@@ -29,6 +30,7 @@ const props = defineProps<{
 // =========================================================================
 
 const { t } = useI18n();
+const { showToast } = useToast();
 
 // =========================================================================
 // Actions
@@ -37,20 +39,12 @@ const { t } = useI18n();
 async function onClick(): Promise<void> {
   try {
     await navigator.clipboard.writeText(props.copyText);
-    document.dispatchEvent(
-      new CustomEvent("toast-show", {
-        detail: {
-          type: "success",
-          message: `${t("text-copied-text", "Copied text")}: ${props.copyText}`,
-        },
-      }),
+    showToast(
+      "success",
+      `${t("text-copied-text", "Copied text")}: ${props.copyText}`,
     );
   } catch (err) {
-    document.dispatchEvent(
-      new CustomEvent("toast-show", {
-        detail: { type: "error", message: "Failed to copy text" },
-      }),
-    );
+    showToast("error", "Failed to copy text");
     console.error("Failed to copy text:", err);
   }
 }

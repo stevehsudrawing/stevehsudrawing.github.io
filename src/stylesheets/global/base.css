@@ -47,6 +47,11 @@ hr {
   margin-top: calc(64px + var(--safe-area-inset-top));
   margin-bottom: calc(2rem + var(--safe-area-inset-bottom));
   flex: 1;
+  transition: opacity 0.15s ease;
+}
+
+#page-content.content-dimming {
+  opacity: 0.5;
 }
 
 /* ========================================================================
@@ -190,7 +195,7 @@ code {
 }
 
 .bi {
-  margin: 0 2px;
+  margin: 0 0.1rem;
 }
 
 /* ========================================================================

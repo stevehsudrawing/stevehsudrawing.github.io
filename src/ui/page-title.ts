@@ -2,6 +2,9 @@
  * Page Title module.
  * Updates document.title based on the current page and active language.
  * Format: "Page Name - Site Name" (except homepage which shows only site name).
+ *
+ * Called from App.vue router.afterEach (navigation) and
+ * useI18n.setLocale() (language switch).
  */
 
 import { translate } from "../core/i18n";
@@ -11,9 +14,10 @@ import { extractPageName } from "../core/utils";
  * Update the document title according to the current page and language.
  * - Homepage (index.html): just the site name.
  * - Other pages: "Page Name - Site Name".
+ * @param pathname - Optional pathname override.  Defaults to window.location.pathname.
  */
-export function updatePageTitle(): void {
-  const pageName = extractPageName(window.location.pathname);
+export function updatePageTitle(pathname?: string): void {
+  const pageName = extractPageName(pathname ?? window.location.pathname);
   const pageKey = "text-" + pageName;
   const siteKey = "text-steve-hsu-s-link-hub";
 

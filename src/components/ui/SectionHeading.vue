@@ -1,0 +1,110 @@
+<!--
+  SectionHeading.vue -- Section heading with anchor and copy-link buttons.
+  Renders an <h2> with a dash-case id (auto-generated from the title),
+  an AnchorButton for permalink sharing, and a CopyButton for clipboard copy.
+
+  Used by LinkCardGroup.vue (HAST titles via slot) and page components
+  (static i18n titles via prop).
+-->
+<script setup lang="ts">
+import { computed } from "vue";
+import { toDashCase } from "../../core/utils.js";
+import AnchorButton from "../buttons/AnchorButton.vue";
+import CopyButton from "../buttons/CopyButton.vue";
+
+// =========================================================================
+// Props
+// =========================================================================
+
+const props = defineProps<{
+  /** Plain-text heading (used for id generation and aria-label). */
+  title: string;
+  /** Page path for copy-link URL (e.g. "/about.html"). */
+  pagePath?: string;
+  /** Base URL for copy-link (e.g. "https://stevehsudrawing.github.io"). */
+  baseUrl?: string;
+}>();
+
+// =========================================================================
+// State
+// =========================================================================
+
+const titleId = computed(() => toDashCase(props.title));
+
+const copyUrl = computed(() =>
+  props.pagePath && props.baseUrl
+    ? `${props.baseUrl}${props.pagePath}#${titleId.value}`
+    : "",
+);
+
+const ariaLabel = computed(() => `Link to ${props.title}`);
+</script>
+
+<template>
+  <div class="title-link-group-wrapper">
+    <h2 v-if="titleId" :id="titleId" class="title-link-group h4">
+      <slot>{{ title }}</slot>
+    </h2>
+    <h2 v-else class="title-link-group h4">
+      <slot>{{ title }}</slot>
+    </h2>
+    <AnchorButton
+      v-if="titleId"
+      :target-id="titleId"
+      :button-aria-label="ariaLabel"
+    />
+    <CopyButton
+      v-if="titleId && copyUrl"
+      class="link title-link-anchor"
+      :copy-text="copyUrl"
+    >
+      <i class="bi bi-link-45deg"></i>
+    </CopyButton>
+  </div>
+</template>
+
+<style scoped>
+/* ---- Group header ---- */
+.title-link-group {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.title-link-group-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---- Title link anchors ---- */
+.title-link-anchor {
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+
+/* Mobile (< 992px) */
+@media (max-width: 991.98px) {
+  .title-link-anchor {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+/* Desktop (>= 992px) */
+@media (min-width: 992px) {
+  .title-link-anchor {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .title-link-group-wrapper:hover .title-link-anchor,
+  .title-link-group-wrapper:focus-within .title-link-anchor {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+</style>

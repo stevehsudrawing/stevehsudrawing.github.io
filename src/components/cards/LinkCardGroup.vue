@@ -13,8 +13,7 @@ import {
   resolveI18nInHtml,
 } from "../../core/utils.js";
 import LinkCard from "./LinkCard.vue";
-import CopyButton from "../buttons/CopyButton.vue";
-import AnchorButton from "../buttons/AnchorButton.vue";
+import SectionHeading from "../ui/SectionHeading.vue";
 import { toHtml } from "hast-util-to-html";
 import type { GroupData } from "../../types/app.js";
 import type { HastNode } from "../../types/hast.js";
@@ -58,17 +57,9 @@ const descHtml = computed(() =>
     : "",
 );
 
-/** Plain-text title for id generation and anchor label. */
+/** Plain-text title for SectionHeading and id generation. */
 const titleText = computed(() =>
   props.group.title ? extractPlainText(props.group.title as HastNode) : "",
-);
-
-/** Dash-case id for heading anchor. */
-const titleId = computed(() => toDashCase(titleText.value));
-
-/** Copy-link URL (full URL with anchor). */
-const copyUrl = computed(
-  () => `${props.baseUrl}${props.pagePath}#${titleId.value}`,
 );
 
 /** Whether the group has any cards. */
@@ -80,23 +71,14 @@ const hasCards = computed(
 <template>
   <div class="link-hub-part">
     <!-- ==== Group header ==== -->
-    <div v-if="props.group.title" class="title-link-group-wrapper">
-      <h2 class="title-link-group h4" :id="titleId">
-        <span v-html="titleHtml"></span>
-      </h2>
-      <AnchorButton
-        v-if="titleId"
-        :target-id="titleId"
-        :button-aria-label="`Link to ${titleText}`"
-      />
-      <CopyButton
-        v-if="titleId"
-        class="link title-link-anchor"
-        :copy-text="copyUrl"
-      >
-        <i class="bi bi-link-45deg"></i>
-      </CopyButton>
-    </div>
+    <SectionHeading
+      v-if="props.group.title && titleText"
+      :title="titleText"
+      :page-path="props.pagePath"
+      :base-url="props.baseUrl"
+    >
+      <span v-html="titleHtml"></span>
+    </SectionHeading>
 
     <!-- Group description -->
     <p v-if="descHtml" class="card-text" v-html="descHtml"></p>
@@ -114,51 +96,7 @@ const hasCards = computed(
 
 <style scoped>
 /*
- * Migrated from base.css -- Title Link Anchors section.
- * These were build-time injected link-card group styles, now owned by LinkCardGroup.vue.
+ * Migrated from base.css — Title Link Anchors section.
+ * Heading/anchor styles moved to SectionHeading.vue.
  */
-
-/* ---- Group header ---- */
-.title-link-group {
-  margin-top: 10px;
-  margin-bottom: 15px;
-}
-
-.title-link-group-wrapper {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* ---- Title link anchors ---- */
-.title-link-anchor {
-  transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
-}
-
-/* Mobile (< 992px) */
-@media (max-width: 991.98px) {
-  .title-link-anchor {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-}
-
-/* Desktop (>= 992px) */
-@media (min-width: 992px) {
-  .title-link-anchor {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .title-link-group-wrapper:hover .title-link-anchor,
-  .title-link-group-wrapper:focus-within .title-link-anchor {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-}
 </style>

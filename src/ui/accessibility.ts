@@ -25,51 +25,6 @@ export function scrollToHashTarget(hash: string, instant = false): void {
 }
 
 /**
- * Click handler for .title-link-anchor elements.
- * Scrolls smoothly to the target heading and updates the URL hash via pushState.
- * @param e - The click event.
- */
-export function handleTitleLinkAnchorClick(e: MouseEvent): void {
-  e.preventDefault();
-  const hash = (e.currentTarget as HTMLAnchorElement).getAttribute("href");
-  if (hash) {
-    history.pushState(null, "", hash);
-    scrollToHashTarget(hash);
-  }
-}
-
-/**
- * Attach the click listener to a single .title-link-anchor element.
- * @param anchor - The anchor element to initialize.
- */
-export function initTitleLinkAnchor(anchor: HTMLAnchorElement): void {
-  anchor.addEventListener("click", handleTitleLinkAnchorClick);
-}
-
-/**
- * Remove the click listener from a single .title-link-anchor element.
- * @param anchor - The anchor element to dispose.
- */
-export function disposeTitleLinkAnchor(anchor: HTMLAnchorElement): void {
-  anchor.removeEventListener("click", handleTitleLinkAnchorClick);
-}
-
-/**
- * Attach click listeners to all .title-link-anchor elements so they scroll
- * smoothly to the corresponding heading and update the URL hash via pushState.
- * Delegates to initTitleLinkAnchor() for each matching element.
- */
-export function initAllTitleLinkAnchors(): void {
-  try {
-    document
-      .querySelectorAll<HTMLAnchorElement>(".title-link-anchor")
-      .forEach(initTitleLinkAnchor);
-  } catch (error) {
-    console.error("Failed to add event listener to title link anchors:", error);
-  }
-}
-
-/**
  * Activate the skip-to-main-content button and manage keyboard vs pointer
  * input mode classes on the root element for focus-visible styling.
  */

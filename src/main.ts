@@ -42,7 +42,6 @@ window.toHtml = toHtml;
 
 // --- Utilities (used by everything else) ---
 import "./core/utils";
-import "./ui/page-title";
 
 // --- Core systems ---
 import "./core/i18n";

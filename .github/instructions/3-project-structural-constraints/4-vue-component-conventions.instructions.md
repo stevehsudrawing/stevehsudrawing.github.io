@@ -103,7 +103,7 @@ Every `<script setup>` block **MUST** follow the five sections below, in
 this exact order. Any section not used by the component is omitted -- but
 no other sections may be introduced.
 
-```
+```ts
 // =========================================================================
 // Types
 // =========================================================================

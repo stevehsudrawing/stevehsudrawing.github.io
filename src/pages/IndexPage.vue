@@ -60,9 +60,8 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         <FeatureAwarePicture
           avif-src-light="/images/avif/covers/illustration-light.avif"
           avif-src-dark="/images/avif/covers/illustration-dark.avif"
-          webp-src-light="/images/webp/covers/illustration-light.webp"
-          webp-src-dark="/images/webp/covers/illustration-dark.webp"
-          fallback-src-light="/images/png/covers/illustration-light.png"
+          fallback-src-light="/images/webp/covers/illustration-light.webp"
+          fallback-src-dark="/images/webp/covers/illustration-dark.webp"
           feature="follow-theme"
           :alt="$t('text-illustration', 'Illustration')"
           fetchpriority="high"

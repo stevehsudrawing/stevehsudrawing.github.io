@@ -9,7 +9,7 @@ import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
-import AnchorButton from "../components/buttons/AnchorButton.vue";
+import SectionHeading from "../components/ui/SectionHeading.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards.js";
 
 // =========================================================================
@@ -50,21 +50,11 @@ const { groups, pagePath } = useLinkCards(ref("about"));
   <!-- ==== Profile table ==== -->
   <div class="container">
     <div class="link-hub-part">
-      <div class="title-link-group-wrapper">
-        <h2 class="title-link-group h4" id="profile">
-          {{ $t("text-profile", "Profile") }}
-        </h2>
-        <AnchorButton
-          target-id="profile"
-          :button-aria-label="$t('text-anchor-to-profile', 'Link to Profile')"
-        />
-        <CopyButton
-          class="link title-link-anchor"
-          copy-text="https://stevehsudrawing.github.io/about.html#profile"
-        >
-          <i class="bi bi-link-45deg"></i>
-        </CopyButton>
-      </div>
+      <SectionHeading
+        :title="$t('text-profile', 'Profile')"
+        :page-path="pagePath"
+        :base-url="BASE_URL"
+      />
       <table class="table-borderless">
         <tbody>
           <tr class="pb-1">
@@ -205,11 +195,3 @@ const { groups, pagePath } = useLinkCards(ref("about"));
     </div>
   </div>
 </template>
-
-<style>
-.title-link-group-wrapper {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-</style>

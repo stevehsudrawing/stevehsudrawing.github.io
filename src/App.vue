@@ -43,6 +43,7 @@ import {
   initSkipButton,
   addAllExternalLinkIndicators,
 } from "./ui/accessibility";
+import { updatePageTitle } from "./ui/page-title";
 import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
@@ -95,11 +96,34 @@ router.afterEach(() => {
   loadingBarRef.value?.complete();
 });
 
+// ---- Content dimming during navigation ----
+
+let initialNavigationDone = false;
+
+router.beforeEach(() => {
+  if (initialNavigationDone) {
+    document.getElementById("page-content")?.classList.add("content-dimming");
+  }
+});
+router.afterEach(() => {
+  if (initialNavigationDone) {
+    document
+      .getElementById("page-content")
+      ?.classList.remove("content-dimming");
+  }
+  initialNavigationDone = true;
+});
+
 // Re-add external link indicators after each navigation
 // (new components may contain .external-link elements)
 router.afterEach(async () => {
   await nextTick();
   addAllExternalLinkIndicators();
+});
+
+// Update document.title after each navigation
+router.afterEach(() => {
+  updatePageTitle();
 });
 
 /**
@@ -293,19 +317,6 @@ onMounted(async () => {
     loadingScreenRef.value?.hide();
   }
 });
-
-// -------------------------------------------------------------------------
-// Toast listener (migrated from ui/toast.ts — copy-link.ts dispatches
-// "toast-show" CustomEvent for clipboard feedback)
-// -------------------------------------------------------------------------
-
-document.addEventListener("toast-show", ((e: CustomEvent) => {
-  const { type, message } = e.detail as {
-    type: "success" | "error";
-    message: string;
-  };
-  toastStackRef.value?.showToast(type, message);
-}) as EventListener);
 </script>
 
 <template>
