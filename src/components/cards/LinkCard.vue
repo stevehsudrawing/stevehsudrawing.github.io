@@ -177,7 +177,10 @@ const availableClass = computed(() =>
                 :data-qr-url="titleHref"
                 :data-qr-icon="qrIconJson ?? undefined"
                 :aria-label="$t('text-show-qr-code', 'Show QR Code')"
-                v-b-tooltip="t('text-show-qr-code', 'Show QR Code')"
+                v-b-tooltip="{
+                  title: t('text-show-qr-code', 'Show QR Code'),
+                  delay: { show: 500 },
+                }"
               >
                 <i class="bi bi-qr-code"></i>
               </a>

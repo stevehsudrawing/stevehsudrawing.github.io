@@ -1,7 +1,7 @@
-# Copyright Notice - Original Artworks
+# Copyright Notice for Original Artworks
 
 **Author:** Steve Hsu (什五) \
-**Last updated:** 2026-07-23
+**Last updated:** 2026-08-06
 
 ---
 

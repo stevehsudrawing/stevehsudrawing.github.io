@@ -99,7 +99,11 @@ const tooltipTitle = computed(() => {
     :data-link-img-props="linkImgProps"
     :data-no-qr-code="noQR"
     :aria-label="tooltipTitle"
-    v-b-tooltip="{ title: tooltipTitle, teleportTo: 'body' }"
+    v-b-tooltip="{
+      title: tooltipTitle,
+      teleportTo: 'body',
+      delay: { show: 500 },
+    }"
   >
     <FeatureAwareImg
       :light-src="(imgDisplay.src.value as string) ?? ''"

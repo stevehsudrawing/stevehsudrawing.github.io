@@ -84,6 +84,7 @@ export const INTERNAL_PAGES = [
   "/blogs-and-sponsor.html",
   "/chatting.html",
   "/softwares.html",
+  "/copyright-notice.html",
 ] as const;
 
 /**
@@ -103,6 +104,8 @@ export const EXCLUDED_PAGES = [
  */
 export function isInternalPage(url: string): boolean {
   try {
+    // Hash anchors are obviously internal pages
+    if (url.indexOf("#") === 0) return true;
     const target = new URL(url, window.location.origin);
     // Must be same origin
     if (target.origin !== window.location.origin) return false;
@@ -129,7 +132,6 @@ export function toDashCase(text: string | undefined | null): string {
     .toLowerCase()
     .replace(/[^\p{L}\p{N}\s-]+/gu, "")
     .replace(/[\s_]+/g, "-")
-    .replace(/-{2,}/g, "-")
     .replace(/^-+|-+$/g, "");
 }
 

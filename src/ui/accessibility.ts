@@ -8,8 +8,13 @@
  * Smooth-scroll the page to an element identified by a hash fragment.
  * @param hash - The hash fragment (with or without leading '#').
  * @param instant - If true, scroll instantly instead of smoothly.
+ * @param offset - Offset position, in units of px, 64 in default.
  */
-export function scrollToHashTarget(hash: string, instant = false): void {
+export function scrollToHashTarget(
+  hash: string,
+  instant = false,
+  offset: number = 72,
+): void {
   if (!hash) return;
   if (hash.startsWith("#")) {
     hash = hash.slice(1);
@@ -18,7 +23,6 @@ export function scrollToHashTarget(hash: string, instant = false): void {
   const target = document.getElementById(hash);
   if (!target) return;
 
-  const offset = 64;
   const targetTop = target.getBoundingClientRect().top + window.scrollY;
   const scrollTop = Math.max(0, targetTop - offset);
   window.scrollTo({ top: scrollTop, behavior: instant ? "auto" : "smooth" });

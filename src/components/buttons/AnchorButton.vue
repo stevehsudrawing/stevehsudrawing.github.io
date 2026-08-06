@@ -41,7 +41,11 @@ function onClick(targetId: string): void {
     class="link title-link-anchor"
     :href="`#${targetId}`"
     :aria-label="buttonAriaLabel"
-    v-b-tooltip="{ title: $t('text-anchor', 'Anchor'), teleportTo: 'body' }"
+    v-b-tooltip="{
+      title: $t('text-anchor', 'Anchor'),
+      teleportTo: 'body',
+      delay: { show: 500 },
+    }"
     @click.prevent="onClick(targetId)"
   >
     <i class="bi bi-paragraph"></i>

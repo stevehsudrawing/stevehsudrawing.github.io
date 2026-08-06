@@ -56,7 +56,7 @@ async function onClick(): Promise<void> {
     ref="elRef"
     href="#"
     :aria-label="$t('text-copy', 'Copy')"
-    v-b-tooltip="{ title: $t('text-copy', 'Copy'), teleportTo: 'body' }"
+    v-b-tooltip="{ title: $t('text-copy', 'Copy'), delay: { show: 500 } }"
     @click.prevent="onClick"
   >
     <slot />
@@ -66,7 +66,7 @@ async function onClick(): Promise<void> {
     ref="elRef"
     type="button"
     :aria-label="$t('text-copy', 'Copy')"
-    v-b-tooltip="{ title: $t('text-copy', 'Copy'), teleportTo: 'body' }"
+    v-b-tooltip="{ title: $t('text-copy', 'Copy'), delay: { show: 500 } }"
     @click="onClick"
   >
     <slot />

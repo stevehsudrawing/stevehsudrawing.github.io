@@ -24,7 +24,10 @@ Uses `window.bootstrap.Tooltip` directly.
 For Vue-rendered elements, use `v-b-tooltip` from `bootstrap-vue-next`:
 
 ```html
-<a v-b-tooltip="$t('text-settings', 'Settings')" ...></a>
+<a
+  v-b-tooltip="{ title: $t('text-settings', 'Settings'), delay: { show: 500 } }"
+  ...
+></a>
 ```
 
 When link cards/button groups are Vue-ified (Phase 7), all tooltip management

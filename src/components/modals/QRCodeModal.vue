@@ -375,7 +375,7 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-open', 'Open')"
-          v-b-tooltip="t('text-open', 'Open')"
+          v-b-tooltip="{ title: t('text-open', 'Open'), delay: { show: 500 } }"
           @click="openLink"
         >
           <i class="bi bi-box-arrow-up-right"></i>
@@ -385,7 +385,10 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-share', 'Share')"
-          v-b-tooltip="t('text-share', 'Share')"
+          v-b-tooltip="{
+            title: t('text-share', 'Share'),
+            delay: { show: 500 },
+          }"
           :disabled="buttonsDisabled"
           @click="shareImage"
         >
@@ -395,7 +398,10 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-download', 'Download')"
-          v-b-tooltip="t('text-download', 'Download')"
+          v-b-tooltip="{
+            title: t('text-download', 'Download'),
+            delay: { show: 500 },
+          }"
           :disabled="buttonsDisabled"
           @click="downloadPNG"
         >
@@ -405,7 +411,7 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border me-auto"
           :aria-label="$t('text-copy', 'Copy')"
-          v-b-tooltip="t('text-copy', 'Copy')"
+          v-b-tooltip="{ title: t('text-copy', 'Copy'), delay: { show: 500 } }"
           :disabled="buttonsDisabled"
           @click="copyImage"
         >

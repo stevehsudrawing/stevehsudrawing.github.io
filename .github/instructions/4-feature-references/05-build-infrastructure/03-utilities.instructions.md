@@ -32,16 +32,18 @@ applyTo: >
 
 ```ts
 const INTERNAL_PAGES = [
-  "index",
-  "about",
-  "artworks-and-videos",
-  "blogs-and-sponsor",
-  "chatting",
-  "softwares",
+  "/index.html",
+  "/about.html",
+  "/artworks-and-videos.html",
+  "/blogs-and-sponsor.html",
+  "/chatting.html",
+  "/softwares.html",
+  "/copyright-notice.html",
 ];
 const EXCLUDED_PAGES = [
-  "error-javascript-disabled",
-  "error-unsupported-browser",
+  "/404.html",
+  "/error-javascript-disabled.html",
+  "/error-unsupported-browser.html",
 ];
 ```
 

@@ -116,9 +116,8 @@ defineExpose({
     </p>
 
     <div class="d-flex align-items-start mb-3">
-      <div class="link-icon-wrapper me-2">
+      <div v-if="iconSrc" class="link-icon-wrapper me-2">
         <FeatureAwareImg
-          v-if="iconSrc"
           :light-src="iconSrc"
           :alt="iconAlt"
           :feature="iconFeature"
@@ -143,7 +142,10 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-show-qr-code', 'Show QR Code')"
-          v-b-tooltip="t('text-show-qr-code', 'Show QR Code')"
+          v-b-tooltip="{
+            title: t('text-show-qr-code', 'Show QR Code'),
+            delay: { show: 500 },
+          }"
           @click="showQR"
         >
           <i class="bi bi-qr-code"></i>

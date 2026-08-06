@@ -19,23 +19,24 @@
 </div>
 <br>
 
-A personal link-hub website that consolidates links to all my profiles across various platforms. Built with vanilla HTML, CSS, and TypeScript, bundled by [Vite](https://vite.dev/), deployed via GitHub Pages.
+A personal link-hub website that consolidates links to all my profiles across various platforms. Built with [Vue 3](https://vuejs.org/), [TypeScript](<>), and Bootstrap, bundled by [Vite](https://vite.dev/), deployed via GitHub Pages.
 
 ---
 
 ## 1. Features
 
-- 🌐 **Multi-language (i18n)**: Supports English and Chinese (both Simplified and Traditional). Language preference is persisted and auto-detected from the URL or system settings.
-- 🌓 **Light / Dark / Auto theme**: Three theme modes with instant switching. Theme follows the OS preference by default.
-- ⚙️ **Customizable settings**: Toggle external links to always open in new tabs, and enable or disable animations. Preferences are saved locally.
-- ✨ **SPA-style page transitions**: Smooth animated transitions between internal pages with a progress bar, no front-end framework required.
-- 📱 **Responsive layout**: Adapts to all screen sizes, powered by Bootstrap 5.3.
-- 📋 **Config-driven link cards**: Link cards and link button groups are defined in JSON config files and rendered at runtime - add or update links without touching HTML.
-- 📲 **QR code sharing**: Generate branded QR codes for any link, with one-click download as a PNG image.
-- ♿ **Accessibility**: Skip-to-content button, ARIA attributes, keyboard-friendly focus management, and tooltips.
-- 🛡️ **Browser compatibility guard**: Unsupported browsers are detected early and redirected to a fallback page. JavaScript-disabled users are also redirected to a dedicated error page.
-- 🔍 **SEO optimized**: Structured data (JSON-LD), Open Graph tags, Twitter/X Cards, hreflang alternates, sitemap, and semantic heading hierarchy across all pages.
-- 🚫 **Custom 404 page**: A styled static error page for graceful fallback.
+- 🌐 **Multi-language (i18n)**: Supports English and Chinese (Simplified and Traditional). Language preference is persisted and auto-detected from URL or localStorage.
+- 🌓 **Light / Dark / Auto theme**: Three theme modes with smooth crossfade transitions. Theme follows OS preference by default.
+- ⚙️ **Customizable settings**: Toggle external links to open in new tabs, and enable or disable animations. Preferences saved locally.
+- 🧭 **Vue Router SPA navigation**: Instant page switching with URL bar updates, back/forward button support, loading bar, and scroll-position restoration.
+- 🖼️ **Illustration carousel**: Auto-playing carousel with theme-aware images (AVIF/WebP), pause/resume control, and adaptive visibility for mouse, keyboard, and touch.
+- 📱 **Responsive layout**: Mobile-friendly design with offcanvas sidebar navigation, powered by Bootstrap 5.3.
+- 📋 **Config-driven link cards**: Link cards and button groups defined in JSON config files — add or update links without touching HTML.
+- 📲 **QR code sharing**: Branded QR codes for any link, one-click PNG download, and Web Share API support.
+- ♿ **Accessibility**: Skip-to-content button, ARIA attributes, keyboard/pointer/touch input mode detection, and tooltips.
+- 🛡️ **Browser compatibility guard**: Unsupported browsers redirected to fallback page. JavaScript-disabled users also redirected.
+- 🔍 **SEO optimized**: Structured data (JSON-LD), Open Graph tags, Twitter/X Cards, hreflang alternates, sitemap, and auto-generated `<noscript>` link lists from JSON configs.
+- 🚫 **Custom 404 page**: Styled static error page for graceful fallback.
 
 ## 2. Browser Baseline
 
@@ -51,19 +52,21 @@ For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseli
 
 ## 3. Tech Stack
 
-| Category        | Choice                                                            |
-| --------------- | ----------------------------------------------------------------- |
-| Language        | [TypeScript](https://www.typescriptlang.org/)                     |
-| Build Tool      | [Vite 8](https://vite.dev/)                                       |
-| Package Manager | [pnpm](https://pnpm.io/)                                          |
-| Page Framework  | [Bootstrap 5.3.8](https://getbootstrap.com/)                      |
-| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                |
-| Font            | [Inter](https://github.com/rsms/inter)                            |
-| Monospace Font  | [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono) |
-| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                  |
-| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)          |
-| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)            |
-| Hosting         | [GitHub Pages](https://pages.github.com/)                         |
+| Category        | Choice                                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------ |
+| Language        | [TypeScript](https://www.typescriptlang.org/)                                                                |
+| UI Framework    | [Vue 3](https://vuejs.org/) + [bootstrap-vue-next](https://bootstrap-vue-next.github.io/bootstrap-vue-next/) |
+| SPA Routing     | [Vue Router 5](https://router.vuejs.org/)                                                                    |
+| Build Tool      | [Vite 8](https://vite.dev/)                                                                                  |
+| Package Manager | [pnpm](https://pnpm.io/)                                                                                     |
+| CSS Framework   | [Bootstrap 5.3.8](https://getbootstrap.com/)                                                                 |
+| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                                           |
+| Font            | [Inter Variable](https://github.com/rsms/inter)                                                              |
+| Monospace Font  | [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono)                                            |
+| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                                             |
+| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                                                     |
+| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                                                       |
+| Hosting         | [GitHub Pages](https://pages.github.com/)                                                                    |
 
 ## 4. Development
 

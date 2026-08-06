@@ -41,6 +41,10 @@ const routes = [
     path: "/softwares.html",
     component: () => import("./pages/SoftwaresPage.vue"),
   },
+  {
+    path: "/copyright-notice.html",
+    component: () => import("./pages/CopyrightPage.vue"),
+  },
 ];
 
 // =========================================================================
@@ -87,6 +91,22 @@ export const router = createRouter({
     }
     return { top: 0 };
   },
+});
+
+// =========================================================================
+// 404 guard
+// =========================================================================
+
+/**
+ * Redirect to the static 404 page when no route matches the requested path.
+ * 404.html is not a Vue route — we use a full-page navigation to the static
+ * file that GitHub Pages also serves for genuine HTTP 404s.
+ */
+router.beforeEach((to) => {
+  if (to.matched.length === 0) {
+    window.location.assign("/404.html");
+    return false;
+  }
 });
 
 // =========================================================================
