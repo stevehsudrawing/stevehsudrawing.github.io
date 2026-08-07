@@ -95,7 +95,7 @@ export function addExternalLinkIndicator(link: HTMLAnchorElement): void {
   if (link.querySelector("i.bi-arrow-up-right")) return;
 
   const icon = document.createElement("i");
-  icon.className = "bi bi-arrow-up-right external-link-icon";
+  icon.className = "bi bi-arrow-up-right link-indicator";
   link.appendChild(document.createTextNode(" "));
   link.appendChild(icon);
 }

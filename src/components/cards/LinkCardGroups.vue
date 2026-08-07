@@ -6,10 +6,8 @@
   Phase 7: replaces build/builders/link-cards.ts buildLinkCardsHTML().
 -->
 <script setup lang="ts">
-import { onMounted } from "vue";
 import LinkCardGroup from "./LinkCardGroup.vue";
 import type { GroupData } from "../../types/app";
-import { addAllExternalLinkIndicators } from "../../ui/accessibility";
 
 // =========================================================================
 // Props
@@ -23,17 +21,6 @@ defineProps<{
   /** Base URL for copy-link (e.g. "https://stevehsudrawing.github.io"). */
   baseUrl: string;
 }>();
-
-// =========================================================================
-// Actions
-// =========================================================================
-
-// Link cards are loaded asynchronously (dynamic import) and may mount after
-// the global onMounted + router.afterEach hooks in App.vue.  Re-apply
-// external-link indicators once the cards are guaranteed to be in the DOM.
-onMounted(() => {
-  addAllExternalLinkIndicators();
-});
 </script>
 
 <template>

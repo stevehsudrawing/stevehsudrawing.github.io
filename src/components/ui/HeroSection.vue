@@ -47,9 +47,32 @@ defineProps<{
         <!-- Extra content (LinkButtonGroup, GitHub link, etc.) -->
         <slot />
       </div>
-      <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
+      <div class="hero-img-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
         <FeatureAwarePicture v-bind="image" />
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+/* --- Sub Cover Wrapper --- */
+
+.hero-img-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-content: space-around;
+  flex-grow: 1;
+}
+
+.hero-img-wrapper picture {
+  width: 240px;
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767.98px) {
+  .hero-img-wrapper picture {
+    width: 50%;
+  }
+}
+</style>

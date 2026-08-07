@@ -11,6 +11,7 @@ import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
+import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
 import type { LinkButtonGroupData } from "../types/app";
 
@@ -91,10 +92,13 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
             :ride="'carousel'"
           >
             <BCarouselSlide>
-              <a
-                class="external-link"
+              <TypeAwareLink
+                type="external"
                 href="https://www.pixiv.net/artworks/145641748"
-                data-link-img-props='{"alt":"Pixiv","src":"/images/webp/icons/pixiv.webp"}'
+                :img-props="{
+                  lightSrc: '/images/webp/icons/pixiv.webp',
+                  alt: $t('text-pixiv', 'Pixiv'),
+                }"
               >
                 <FeatureAwarePicture
                   avif-src-light="/images/avif/covers/illustration-0-light.avif"
@@ -106,13 +110,16 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                   fetchpriority="high"
                   img-class="d-block w-100 no-copy solid-bg"
                 />
-              </a>
+              </TypeAwareLink>
             </BCarouselSlide>
             <BCarouselSlide>
-              <a
-                class="external-link"
+              <TypeAwareLink
+                type="external"
                 href="https://www.pixiv.net/artworks/144184773"
-                data-link-img-props='{"alt":"Pixiv","src":"/images/webp/icons/pixiv.webp"}'
+                :img-props="{
+                  lightSrc: '/images/webp/icons/pixiv.webp',
+                  alt: $t('text-pixiv', 'Pixiv'),
+                }"
               >
                 <FeatureAwarePicture
                   avif-src-light="/images/avif/covers/illustration-1.avif"
@@ -121,11 +128,11 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                   loading="lazy"
                   img-class="d-block w-100 no-copy solid-bg"
                 />
-              </a>
+              </TypeAwareLink>
             </BCarouselSlide>
             <BCarouselSlide>
-              <a
-                class="internal-link"
+              <TypeAwareLink
+                type="internal"
                 href="/artworks-and-videos.html#sticker-collections"
               >
                 <FeatureAwarePicture
@@ -135,11 +142,11 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                   loading="lazy"
                   img-class="d-block w-100 no-copy solid-bg"
                 />
-              </a>
+              </TypeAwareLink>
             </BCarouselSlide>
             <BCarouselSlide>
-              <a
-                class="internal-link"
+              <TypeAwareLink
+                type="internal"
                 href="/artworks-and-videos.html#sticker-collections"
               >
                 <FeatureAwarePicture
@@ -149,7 +156,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                   loading="lazy"
                   img-class="d-block w-100 no-copy solid-bg"
                 />
-              </a>
+              </TypeAwareLink>
             </BCarouselSlide>
           </BCarousel>
           <button
@@ -266,15 +273,16 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         :height="150"
         class="no-copy solid-bg"
       />
-      <a
-        class="link link-hover-change-background link-secondary-shlh internal-link fw-semibold mt-3"
+      <TypeAwareLink
+        type="internal"
         href="/about.html"
+        class="link link-hover-change-background link-secondary-shlh fw-semibold mt-3"
       >
         <span>{{
           $t("text-about-me-and-my-emails", "About me and my emails")
         }}</span>
         <i class="bi bi-arrow-right"></i>
-      </a>
+      </TypeAwareLink>
     </div>
   </div>
 </template>

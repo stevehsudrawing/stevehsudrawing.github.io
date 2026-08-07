@@ -96,7 +96,7 @@ export function useI18n(): {
 
       // Update page title
       const { updatePageTitle } = await import("../ui/page-title");
-      updatePageTitle();
+      updatePageTitle(t);
 
       // Persist preference
       localStorage.setItem(StorageKey.Lang, lang);

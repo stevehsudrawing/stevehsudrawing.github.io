@@ -8,6 +8,7 @@
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
+import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
@@ -32,14 +33,21 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
     }"
   >
     <div>
-      <a
-        class="link link-hover-change-background external-link larger-link fw-semibold"
+      <TypeAwareLink
+        type="external"
         href="https://github.com/stevehsudrawing"
-        data-link-img-props='{"alt":"Github","src":"/images/webp/null.webp","dataImgFeature":"colored","dataSrcMask":"/images/webp/icons/github.webp","dataColorVar":"bs-body-color"}'
+        :img-props="{
+          lightSrc: '/images/webp/null.webp',
+          feature: 'colored',
+          colorMaskSrc: '/images/webp/icons/github.webp',
+          colorVar: 'bs-body-color',
+          alt: $t('text-github', 'GitHub'),
+        }"
+        class="link link-hover-change-background larger-link fw-semibold"
       >
         <i class="bi bi-github"></i>
         <span>{{ $t("text-my-github-profile", "My GitHub Profile") }}</span>
-      </a>
+      </TypeAwareLink>
     </div>
   </HeroSection>
 

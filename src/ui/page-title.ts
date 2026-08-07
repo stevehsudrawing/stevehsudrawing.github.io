@@ -8,18 +8,18 @@
  */
 
 import { extractPageName } from "../core/utils";
-import { useI18n } from "../composables/useI18n";
-
-/** Use `t()` from `useI18n()` to replace deprecated legacy `translate()`. */
-const { t } = useI18n();
 
 /**
  * Update the document title according to the current page and language.
  * - Homepage (index.html): just the site name.
  * - Other pages: "Page Name - Site Name".
+ * @param t - Translation function (from useI18n).
  * @param pathname - Optional pathname override.  Defaults to window.location.pathname.
  */
-export function updatePageTitle(pathname?: string): void {
+export function updatePageTitle(
+  t: (key: string, fallback?: string) => string,
+  pathname?: string,
+): void {
   const pageName = extractPageName(pathname ?? window.location.pathname);
   const pageKey = "text-" + pageName;
   const siteKey = "text-steve-hsu-s-link-hub";

@@ -14,10 +14,10 @@
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { marked } from "marked";
 import { fromHtml } from "hast-util-from-html";
-import { toHtml } from "hast-util-to-html";
 import { BRow, BCol } from "bootstrap-vue-next";
-import { extractPlainText, toDashCase, isInternalPage } from "../../core/utils";
+import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../ui/accessibility";
+import HastFragment from "./HastFragment.vue";
 import type { HastNode } from "../../types/hast";
 
 // =========================================================================
@@ -104,7 +104,7 @@ function headingClass(tagName: string): string {
  * - Remove h1 elements (title provided by page hero section)
  * - Add dash-case id + Bootstrap heading class to h2–h6
  * - Collect headings into the reactive `headings` array for scrollspy
- * - Add .table to <table>, .link to <a>, .external-link for outbound links
+ * - Add .table to <table> elements
  * @param node - A HAST node (mutated in place).
  */
 function processHastNode(node: HastNode): void {
@@ -145,24 +145,7 @@ function processHastNode(node: HastNode): void {
         : ["table"];
     }
 
-    // Add .link to all <a>; mark external links with .external-link + data-no-qr-code
-    if (el.type === "element" && el.tagName === "a") {
-      el.properties = el.properties || {};
-      el.properties.className = el.properties.className
-        ? [...(el.properties.className as string[]), "link"]
-        : ["link"];
-
-      const href = el.properties.href as string | undefined;
-      if (href && !isInternalPage(href)) {
-        el.properties.className = [
-          ...(el.properties.className as string[]),
-          "external-link",
-        ];
-        el.properties.dataNoQrCode = true;
-      }
-    }
-
-    // Recurse into this element's children (e.g. <a> inside <p>)
+    // Recurse into this element's children
     processHastNode(el);
 
     newChildren.push(child);
@@ -171,15 +154,14 @@ function processHastNode(node: HastNode): void {
   node.children = newChildren;
 }
 
-/** Rendered HTML from the markdown source (lazy-computed via HAST pipeline). */
-const renderedHtml = computed(() => {
-  // Reset headings before each parse (computed may re-evaluate on content change)
+/** HAST children for the HastFragment recursive renderer. */
+const hastChildren = computed<HastNode[]>(() => {
   headings.value = [];
-  if (!props.content) return "";
+  if (!props.content) return [];
   const html = marked.parse(props.content) as string;
   const root = fromHtml(html, { fragment: true }) as unknown as HastNode;
   processHastNode(root);
-  return toHtml(root as unknown as Parameters<typeof toHtml>[0]);
+  return root.children ?? [];
 });
 
 // -------------------------------------------------------------------------
@@ -238,7 +220,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="renderedHtml" class="container pb-2 markdown-article">
+  <div v-if="hastChildren.length > 0" class="container pb-2 markdown-article">
     <!-- Mobile: sticky collapsible heading nav -->
     <div v-if="headings.length > 0 && isMobile" class="scrollspy-nav-mobile">
       <div
@@ -307,7 +289,9 @@ onBeforeUnmount(() => {
 
       <!-- Article content -->
       <BCol cols="12" :lg="headings.length > 0 ? 9 : 12" class="order-1">
-        <div class="article" v-html="renderedHtml"></div>
+        <div class="article">
+          <HastFragment :nodes="hastChildren" />
+        </div>
       </BCol>
     </BRow>
   </div>

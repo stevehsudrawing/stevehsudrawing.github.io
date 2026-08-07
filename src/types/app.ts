@@ -86,8 +86,28 @@ export interface LinkButtonGroupData {
 }
 
 // =========================================================================
-// Hero-section image properties
+// Vue component properties
 // =========================================================================
+
+/** Image properties for FeatureAwareImg (shared by TypeAwareLink, QRCodeButton). */
+export interface FeatureAwareImgProps {
+  /** Fallback / PNG source — light mode. */
+  lightSrc: string;
+  /** Fallback / PNG source — dark mode. */
+  darkSrc?: string;
+  /** Space-separated feature flags (e.g. "colored", "follow-theme"). */
+  feature?: string;
+  /** Mask image for "colored" feature. */
+  colorMaskSrc?: string;
+  /** CSS variable for "colored" tint. */
+  colorVar?: string;
+  /** Alt text (pre-resolved from i18n). */
+  alt: string;
+  /** Image width. */
+  width?: number;
+  /** Image height. */
+  height?: number;
+}
 
 /**
  * Image properties for HeroSection's FeatureAwarePicture.
@@ -116,3 +136,25 @@ export interface HeroImageProps {
   /** fetchpriority attribute (e.g. "high"). */
   fetchpriority?: string;
 }
+
+// =========================================================================
+// Provide / inject keys (cross-component communication)
+// =========================================================================
+
+/**
+ * Injection key for the external-link confirmation flow.
+ * Provided by App.vue; consumed by TypeAwareLink.
+ */
+export const OPEN_EXTERNAL_LINK_KEY = Symbol("openExternalLink");
+
+/**
+ * Injection key for the QR code modal.
+ * Provided by App.vue; consumed by QRCodeButton.
+ */
+export const OPEN_QR_CODE_KEY = Symbol("openQRCode");
+
+/**
+ * Injection key for the Settings modal.
+ * Provided by App.vue; consumed by AppNavbar (gear button).
+ */
+export const OPEN_SETTINGS_KEY = Symbol("openSettings");

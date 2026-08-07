@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import { normalizeInternalPath } from "../../core/utils";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
 // Types
@@ -60,15 +61,16 @@ watch(
   >
     <ul class="navbar-nav mb-3">
       <li v-for="item in navItems" :key="item.href" class="nav-item">
-        <a
-          class="nav-link internal-link"
+        <TypeAwareLink
+          type="internal"
           :href="item.href"
+          class="nav-link"
           :aria-current="
             currentPage === normalizeInternalPath(item.href)
               ? 'page'
               : undefined
           "
-          >{{ $t(item.i18nKey, item.label) }}</a
+          >{{ $t(item.i18nKey, item.label) }}</TypeAwareLink
         >
       </li>
     </ul>

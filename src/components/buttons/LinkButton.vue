@@ -9,7 +9,8 @@ import { computed, ref, watch, onMounted, onUnmounted } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
-import type { LinkButtonData } from "../../types/app";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import type { LinkButtonData, FeatureAwareImgProps } from "../../types/app";
 import type { HastProperties } from "../../types/hast";
 
 // =========================================================================
@@ -69,18 +70,17 @@ const btnClass = computed(() =>
   primary ? "btn-primary" : "btn-outline-secondary",
 );
 
-/** Link type class: internal-link or external-link. */
-const linkClass = computed(() =>
-  externalLink ? "external-link" : "internal-link",
-);
-
-/** JSON-encoded original iconProps for external-link confirmation modal. */
-const linkImgProps = computed(() =>
-  externalLink ? JSON.stringify(iconProps) : undefined,
-);
-
-/** Whether to suppress QR code (non-external links don't get QR). */
-const noQR = computed(() => !externalLink || undefined);
+/** FeatureAwareImgProps for TypeAwareLink's modal icon. */
+const typeAwareImgProps = computed<FeatureAwareImgProps | null>(() => {
+  if (!externalLink) return null;
+  return {
+    lightSrc: (iconProps.src as string) ?? "",
+    alt: (iconProps.alt as string) ?? "",
+    feature: (iconProps.dataImgFeature as string) ?? undefined,
+    colorMaskSrc: (iconProps.dataSrcMask as string) ?? undefined,
+    colorVar: (iconProps.dataColorVar as string) ?? undefined,
+  };
+});
 
 /** Tooltip title: prefer i18n alt, fall back to plain alt. */
 const tooltipTitle = computed(() => {
@@ -92,12 +92,12 @@ const tooltipTitle = computed(() => {
 </script>
 
 <template>
-  <a
-    ref="btnRef"
-    :class="['btn', btnClass, 'link-btn-img-wrapper', linkClass]"
+  <TypeAwareLink
+    :type="externalLink ? 'external' : 'internal'"
     :href="linkHref"
-    :data-link-img-props="linkImgProps"
-    :data-no-qr-code="noQR"
+    :img-props="typeAwareImgProps"
+    :no-qr-code="!externalLink || undefined"
+    :class="['btn', btnClass, 'link-btn-img-wrapper']"
     :aria-label="tooltipTitle"
     v-b-tooltip="{
       title: tooltipTitle,
@@ -114,7 +114,7 @@ const tooltipTitle = computed(() => {
       :width="40"
       :height="40"
     />
-  </a>
+  </TypeAwareLink>
 </template>
 
 <style scoped>

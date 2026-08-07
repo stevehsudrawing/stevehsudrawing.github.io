@@ -431,6 +431,10 @@ defineExpose({
 
 <style scoped>
 /* --- QR share card (captured by html-to-image for PNG export) --- */
+code {
+  background-color: unset;
+  outline: none;
+}
 
 #qr-share-card {
   background-color: var(--bs-body-bg);

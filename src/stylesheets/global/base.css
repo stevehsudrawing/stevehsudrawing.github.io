@@ -237,7 +237,7 @@ code {
    owned by any single component.)
    ======================================================================== */
 
-.external-link-icon {
+.link-indicator {
   font-size: 0.6rem;
   vertical-align: top;
   transform: translateX(-0.1rem);
@@ -262,25 +262,4 @@ code {
   height: auto;
   object-fit: cover;
   transition: opacity 0.2s ease;
-}
-
-/* --- Sub Cover Wrapper --- */
-
-.sub-cover-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
-  align-content: space-around;
-  flex-grow: 1;
-}
-
-.sub-cover-wrapper picture {
-  width: 240px;
-}
-
-/* Mobile (< 768px) */
-@media (max-width: 767.98px) {
-  .sub-cover-wrapper picture {
-    width: 50%;
-  }
 }

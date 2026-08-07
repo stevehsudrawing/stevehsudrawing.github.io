@@ -11,12 +11,14 @@
   - Scroll border via @scroll + :class
 -->
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, inject, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { normalizeInternalPath, extractPageName } from "../../core/utils";
 import OffcanvasNav from "./OffcanvasNav.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import { OPEN_SETTINGS_KEY } from "../../types/app";
 
 // =========================================================================
 // Props
@@ -166,6 +168,12 @@ const currentThemeLabel = computed(() =>
 );
 
 // =========================================================================
+// Inject
+// =========================================================================
+
+const openSettings = inject<() => void>(OPEN_SETTINGS_KEY, () => {});
+
+// =========================================================================
 // Actions
 // =========================================================================
 
@@ -216,8 +224,8 @@ defineExpose({
               : {}
           "
         >
-          <a
-            class="internal-link"
+          <TypeAwareLink
+            type="internal"
             href="/index.html"
             :aria-label="
               $t(
@@ -233,7 +241,7 @@ defineExpose({
               color-var="bs-primary"
               class="no-copy"
             />
-          </a>
+          </TypeAwareLink>
         </div>
         <div
           class="navbar-brand-slide"
@@ -271,16 +279,17 @@ defineExpose({
       >
         <ul class="navbar-nav flex-grow-1">
           <li v-for="item in navItems" :key="item.href" class="nav-item">
-            <a
-              class="nav-link internal-link"
-              :class="{ active: isActive(item.href) }"
+            <TypeAwareLink
+              type="internal"
               :href="item.href"
+              class="nav-link"
+              :class="{ active: isActive(item.href) }"
               :aria-current="
                 props.currentPage === normalizeInternalPath(item.href)
                   ? 'page'
                   : undefined
               "
-              >{{ $t(item.i18nKey, item.label) }}</a
+              >{{ $t(item.i18nKey, item.label) }}</TypeAwareLink
             >
           </li>
         </ul>
@@ -344,8 +353,8 @@ defineExpose({
           <a
             class="nav-link"
             href="#"
-            data-settings-open="true"
             :aria-label="$t('text-settings', 'Settings')"
+            @click.prevent="openSettings()"
           >
             <i class="bi bi-gear"></i>
           </a>

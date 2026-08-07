@@ -17,10 +17,12 @@ import { updatePageTitle } from "../ui/page-title";
  *
  * @param router - The Vue Router instance.
  * @param loadingBarRef - Template ref for the LoadingBar component.
+ * @param t - Translation function (from useI18n) for page-title updates.
  */
 export function usePageNavigation(
   router: Router,
   loadingBarRef: Ref<{ show: () => void; complete: () => void } | undefined>,
+  t: (key: string, fallback?: string) => string,
 ): void {
   // ---- LoadingBar ----
   router.beforeEach(() => loadingBarRef.value?.show());
@@ -49,7 +51,7 @@ export function usePageNavigation(
   });
 
   // ---- Page title ----
-  router.afterEach(() => updatePageTitle());
+  router.afterEach(() => updatePageTitle(t));
 
   // ---- Preserve ?lang= across navigations ----
   router.beforeEach((to, from) => {

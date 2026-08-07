@@ -3,51 +3,23 @@
   Renders one CardData item from the link-cards JSON config.
 
   Phase 7: replaces build/builders/link-cards.ts buildCardNode().
+  Phase 8: icon/title/description use Vue components (TypeAwareLink,
+           FeatureAwareImg, HastFragment) instead of v-html.
 -->
 <script setup lang="ts">
-import { computed, toRef, type Ref } from "vue";
+import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
+import {
+  extractImgProps,
+  extractLinkProps,
+  type ExtractedLinkProps,
+} from "../../composables/useHastToVue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
-import type { CardData } from "../../types/app";
-import type { HastProperties, HastNode } from "../../types/hast";
-import { resolveI18nInHtml } from "../../core/utils";
-import { toHtml } from "hast-util-to-html";
-
-// =========================================================================
-// Helpers
-// =========================================================================
-
-/**
- * Recursively add data-link-img-props to all <a> elements in a HAST tree.
- * Mutates the tree in place.  Call on a clone of the original node.
- *
- * This replaces build/builders/link-cards.ts processLinkNodes() for the
- * title-description link decoration pass (without QR button insertion).
- */
-function addLinkImgProps(
-  node: HastNode,
-  iconProperties: HastProperties | null,
-): void {
-  if (!node || typeof node !== "object") return;
-
-  if (node.type === "element" && node.tagName === "a") {
-    if (!node.properties) node.properties = {} as HastProperties;
-    if (
-      iconProperties &&
-      !(node.properties as Record<string, unknown>).dataLinkImgProps
-    ) {
-      (node.properties as Record<string, unknown>).dataLinkImgProps =
-        JSON.stringify(iconProperties);
-    }
-  }
-
-  if (Array.isArray(node.children)) {
-    for (const child of node.children) {
-      addLinkImgProps(child, iconProperties);
-    }
-  }
-}
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import QRCodeButton from "../buttons/QRCodeButton.vue";
+import HastFragment from "../ui/HastFragment.vue";
+import type { CardData, FeatureAwareImgProps } from "../../types/app";
+import type { HastNode } from "../../types/hast";
 
 // =========================================================================
 // Props
@@ -64,80 +36,52 @@ const props = defineProps<{
 
 const { t } = useI18n();
 
-const iconProps = useImgDisplayProps(
-  computed(
-    () =>
-      (props.card.icon?.properties as Record<string, unknown> | null) ?? null,
-  ) as Ref<Record<string, unknown> | null | undefined>,
+// ---- Icon ----
+
+/** Img props extracted from the card's icon HAST node. */
+const iconImgProps = computed<FeatureAwareImgProps | null>(() =>
+  props.card.icon ? extractImgProps(props.card.icon, t) : null,
 );
 
-/** HAST -> HTML for the title node, with link processing. */
-const titleHtml = computed(() => {
-  if (!props.card.title) return "";
+// ---- Title ----
 
-  // Clone so we don't mutate the prop (use JSON round-trip since
-  // Vue's reactivity proxy prevents structuredClone).
-  const title = JSON.parse(JSON.stringify(props.card.title)) as Parameters<
-    typeof toHtml
-  >[0];
+/** Link props extracted from the card's title HAST node (if it's an <a>). */
+const titleLink = computed<ExtractedLinkProps | null>(() =>
+  props.card.title ? extractLinkProps(props.card.title, t) : null,
+);
 
-  // Add data-link-img-props to all <a> elements in the title
-  const iconProperties = props.card.icon?.properties ?? null;
-  if (iconProperties) {
-    addLinkImgProps(title as HastNode, iconProperties);
-  }
-
-  return resolveI18nInHtml(toHtml(title), t);
+/** HAST children for the title fallback (when not a single <a>). */
+const titleNodes = computed<HastNode[]>(() => {
+  if (!props.card.title) return [];
+  if (titleLink.value) return []; // Handled by TypeAwareLink
+  return [props.card.title];
 });
 
-/** HAST -> HTML for the description node. */
-const descHtml = computed(() =>
-  props.card.description
-    ? resolveI18nInHtml(
-        toHtml(props.card.description as Parameters<typeof toHtml>[0]),
-        t,
-      )
-    : "",
-);
+// ---- Description (HAST → HastFragment) ----
 
-/** JSON-encode icon properties for data-qr-icon attribute. */
-const qrIconJson = computed(() =>
-  props.card.icon?.properties
-    ? JSON.stringify(props.card.icon.properties)
-    : null,
-);
-
-/** Extract the href from the title node (if it's an <a>). */
-const titleHref = computed(() => {
-  if (
-    props.card.title?.type === "element" &&
-    props.card.title.tagName === "a"
-  ) {
-    return (props.card.title.properties?.href as string) ?? "";
-  }
-  return "";
+/** HAST children for the card description. */
+const descNodes = computed<HastNode[]>(() => {
+  if (!props.card.description) return [];
+  const desc = props.card.description;
+  // Description is a root node; pass its children
+  return desc.type === "root" && Array.isArray(desc.children)
+    ? (desc.children as HastNode[])
+    : [desc as HastNode];
 });
 
-/** Whether the title is a single link (wraps the whole card title). */
-const titleIsSingleLink = computed(
-  () =>
-    props.card.title?.type === "element" && props.card.title.tagName === "a",
-);
+// ---- QR ----
 
-/** Whether to show a QR button for this card. */
 const showQR = computed(() => {
-  const href = titleHref.value;
+  if (!titleLink.value) return false;
+  if (titleLink.value.type !== "external") return false;
+  const href = titleLink.value.href;
   if (!href) return false;
   if (href.startsWith("#") || href.startsWith("javascript:")) return false;
-  if (href.startsWith("mailto:") || href.startsWith("tel:")) return false;
   return true;
 });
 
-// =========================================================================
-// Actions
-// =========================================================================
+// ---- Availability ----
 
-/** Decide card availability class. */
 const availableClass = computed(() =>
   props.card.available !== true ? "opacity-75" : "",
 );
@@ -148,13 +92,13 @@ const availableClass = computed(() =>
     <div class="card flex-grow-1">
       <div class="d-flex card-body">
         <!-- Icon -->
-        <div v-if="props.card.icon" class="link-icon-wrapper me-2">
+        <div v-if="iconImgProps" class="link-icon-wrapper me-2">
           <FeatureAwareImg
-            :light-src="(iconProps.src.value as string) ?? ''"
-            :alt="(iconProps.alt.value as string) ?? ''"
-            :feature="iconProps.feature.value"
-            :color-var="iconProps.colorVar.value"
-            :color-mask-src="iconProps.colorMaskSrc.value"
+            :light-src="iconImgProps.lightSrc"
+            :alt="iconImgProps.alt"
+            :feature="iconImgProps.feature"
+            :color-var="iconImgProps.colorVar"
+            :color-mask-src="iconImgProps.colorMaskSrc"
             class="img-fluid img-fit"
           />
         </div>
@@ -162,33 +106,30 @@ const availableClass = computed(() =>
         <div class="flex-grow-1">
           <!-- Title -->
           <div class="d-flex">
-            <div class="d-flex flex-grow-1">
-              <span
-                v-if="titleHtml"
-                class="card-title h6 flex-grow-1"
-                v-html="titleHtml"
-              ></span>
-              <!-- QR button (after single-link title) -->
-              <a
-                v-if="titleIsSingleLink && showQR"
-                href="javascript:void(0)"
-                role="button"
-                class="text-decoration-none"
-                :data-qr-url="titleHref"
-                :data-qr-icon="qrIconJson ?? undefined"
-                :aria-label="$t('text-show-qr-code', 'Show QR Code')"
-                v-b-tooltip="{
-                  title: t('text-show-qr-code', 'Show QR Code'),
-                  delay: { show: 500 },
-                }"
-              >
-                <i class="bi bi-qr-code"></i>
-              </a>
-            </div>
+            <TypeAwareLink
+              v-if="titleLink"
+              :href="titleLink.href"
+              :type="titleLink.type"
+              :img-props="iconImgProps"
+              class="card-title h6 flex-grow-1"
+            >
+              {{ titleLink.textContent }}
+            </TypeAwareLink>
+            <span v-else-if="titleNodes.length > 0" class="card-title h6">
+              <HastFragment :nodes="titleNodes" />
+            </span>
+            <!-- QR button -->
+            <QRCodeButton
+              v-if="showQR"
+              :url="titleLink!.href"
+              :img-props="iconImgProps"
+            />
           </div>
 
           <!-- Description -->
-          <p v-if="descHtml" class="card-text" v-html="descHtml"></p>
+          <p v-if="descNodes.length > 0" class="card-text">
+            <HastFragment :nodes="descNodes" />
+          </p>
         </div>
       </div>
     </div>
@@ -200,6 +141,10 @@ const availableClass = computed(() =>
  * Migrated from base.css -- Cards / Image Utilities sections.
  * These were build-time injected link-card styles, now owned by LinkCard.vue.
  */
+
+a {
+  color: var(--shlh-link-color) !important;
+}
 
 /* ---- Card wrapper ---- */
 .card-wrapper {

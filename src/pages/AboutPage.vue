@@ -9,6 +9,7 @@ import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
+import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
@@ -137,14 +138,18 @@ const { groups, pagePath } = useLinkCards(ref("about"));
                   )
                 "
               ></span>
-              <a
-                class="link external-link"
+              <TypeAwareLink
+                type="external"
                 href="https://afdian.com/p/590c0408806111f1b05f52540025c377"
-                data-link-img-props='{"alt":"Afdian","dataI18nAlt":"text-afdian","src":"/images/webp/icons/afdian.webp"}'
-                data-no-qr-code
+                :img-props="{
+                  lightSrc: '/images/webp/icons/afdian.webp',
+                  alt: $t('text-afdian', 'Afdian'),
+                }"
+                no-qr-code
+                class="link"
               >
                 <span>{{ $t("text-learn-more", "Learn More") }}</span>
-              </a>
+              </TypeAwareLink>
             </td>
           </tr>
         </tbody>

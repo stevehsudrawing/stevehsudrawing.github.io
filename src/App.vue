@@ -38,7 +38,13 @@ import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 // Legacy modules (diminishing — Phase 7 will eliminate most)
-import { StorageKey } from "./types/app";
+import {
+  StorageKey,
+  OPEN_EXTERNAL_LINK_KEY,
+  OPEN_QR_CODE_KEY,
+  OPEN_SETTINGS_KEY,
+} from "./types/app";
+import type { FeatureAwareImgProps } from "./types/app";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
 import {
   initHashChangeScroll,
@@ -52,7 +58,7 @@ import { normalizeInternalPath } from "./core/utils";
 // =========================================================================
 
 useTheme();
-const { initLang, isLanguageLoading, messages } = useI18n();
+const { initLang, isLanguageLoading, messages, t } = useI18n();
 useLocalStorage(StorageKey.OpenInNewTab, true);
 const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
 
@@ -100,7 +106,7 @@ const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
 // ---- Router guards (LoadingBar, dimming, indicators, title, ?lang=) ----
 
-usePageNavigation(router, loadingBarRef);
+usePageNavigation(router, loadingBarRef, t);
 
 // ---- Cross-modal state (ExternalLink <-> QRCode) ----
 
@@ -117,6 +123,7 @@ const {
 } = useCrossModalNavigation(qrCodeModalRef, extLinkModalRef);
 
 // ---- Toast injection ----
+
 /**
  * Provide a global showToast function to all descendant components.
  * Delegates to ToastStack once it is mounted.  This is needed because
@@ -126,103 +133,61 @@ provide(SHOW_TOAST_KEY, (type: "success" | "error", message: string) => {
   toastStackRef.value?.showToast(type, message);
 });
 
+// ---- Settings-modal injection (consumed by AppNavbar gear button) ----
+
+provide(OPEN_SETTINGS_KEY, () => {
+  settingsModalRef.value?.show();
+});
+
+// ---- External-link & QR-code injection (consumed by TypeAwareLink, QRCodeButton) ----
+
+provide(
+  OPEN_EXTERNAL_LINK_KEY,
+  (url: string, imgProps: FeatureAwareImgProps | null, hideQR: boolean) => {
+    extLinkUrl.value = url;
+    // Convert FeatureAwareImgProps -> HastProperties format for
+    // useImgDisplayProps() in ExternalLinkConfirmModal.
+    extLinkImgProps.value = imgProps
+      ? {
+          src: imgProps.lightSrc,
+          alt: imgProps.alt,
+          dataImgFeature: imgProps.feature,
+          dataColorVar: imgProps.colorVar,
+          dataSrcMask: imgProps.colorMaskSrc,
+        }
+      : null;
+    extLinkHideQR.value = hideQR;
+    extLinkModalRef.value?.show();
+  },
+);
+
+provide(
+  OPEN_QR_CODE_KEY,
+  (
+    url: string,
+    imgProps: FeatureAwareImgProps | null,
+    hideOpenLink?: boolean,
+  ) => {
+    qrUrl.value = url;
+    // Convert FeatureAwareImgProps -> HastProperties format for
+    // useImgDisplayProps() in QRCodeModal.
+    qrImgProps.value = imgProps
+      ? {
+          src: imgProps.lightSrc,
+          alt: imgProps.alt,
+          dataImgFeature: imgProps.feature,
+          dataColorVar: imgProps.colorVar,
+          dataSrcMask: imgProps.colorMaskSrc,
+        }
+      : null;
+    qrHideOpenLink.value = hideOpenLink ?? false;
+    qrCodeModalRef.value?.show();
+  },
+);
+
 // =========================================================================
 // Actions
 // =========================================================================
-
-// -------------------------------------------------------------------------
-// Event delegation
-// -------------------------------------------------------------------------
-
-/** Settings-open button: show SettingsModal. */
-function onSettingsOpen(e: MouseEvent): void {
-  const btn = (e.target as HTMLElement).closest("[data-settings-open]");
-  if (!btn) return;
-  e.preventDefault();
-  settingsModalRef.value?.show();
-}
-
-/** External link click: show ExternalLinkConfirmModal. */
-function onExternalLinkClick(e: MouseEvent): void {
-  if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-  if (e.button !== 0) return;
-
-  const link = (e.target as HTMLElement).closest(
-    "a.external-link",
-  ) as HTMLAnchorElement | null;
-  if (!link) return;
-  const href = link.getAttribute("href");
-  if (
-    !href ||
-    href.startsWith("javascript:") ||
-    href.startsWith("mailto:") ||
-    href.startsWith("tel:")
-  )
-    return;
-  if (link.hasAttribute("download") || link.hasAttribute("onclick")) return;
-
-  e.preventDefault();
-
-  const imgPropsJson = link.getAttribute("data-link-img-props");
-  extLinkImgProps.value = imgPropsJson ? JSON.parse(imgPropsJson) : null;
-  extLinkHideQR.value = link.hasAttribute("data-no-qr-code");
-  extLinkUrl.value = href;
-  extLinkModalRef.value?.show();
-}
-
-/** QR code trigger click: show QRCodeModal. */
-function onQRTrigger(e: MouseEvent): void {
-  const trigger = (e.target as HTMLElement).closest(
-    "[data-qr-url]",
-  ) as HTMLElement | null;
-  if (!trigger) return;
-  e.preventDefault();
-
-  const url = trigger.getAttribute("data-qr-url");
-  if (!url) return;
-
-  qrHideOpenLink.value = trigger.hasAttribute("data-no-open-link");
-  const iconAttr = trigger.getAttribute("data-qr-icon");
-  qrImgProps.value = iconAttr
-    ? (() => {
-        try {
-          return JSON.parse(iconAttr);
-        } catch {
-          return null;
-        }
-      })()
-    : null;
-  qrUrl.value = url;
-  qrCodeModalRef.value?.show();
-}
-
-// -------------------------------------------------------------------------
-// Internal-link navigation (Phase 7 — delegates to Vue Router)
-// -------------------------------------------------------------------------
-
-/**
- * Intercept clicks on .internal-link elements and delegate to Vue Router
- * for SPA-style navigation without page reload.
- */
-function onInternalLinkClick(e: MouseEvent): void {
-  // Pass through: modifier keys (open in new tab), non-left-click
-  if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-  if (e.button !== 0) return;
-
-  const link = (e.target as HTMLElement).closest(
-    "a",
-  ) as HTMLAnchorElement | null;
-  if (!link) return;
-
-  // Only handle .internal-link (not .external-link)
-  if (!link.classList.contains("internal-link")) return;
-
-  const href = link.getAttribute("href");
-  if (!href) return;
-
-  e.preventDefault();
-  router.push(href);
-}
 
 // -------------------------------------------------------------------------
 // Initialization orchestration
@@ -237,12 +202,6 @@ onMounted(async () => {
 
     await nextTick();
     addAllExternalLinkIndicators();
-
-    // Vue-based event delegation
-    document.addEventListener("click", onSettingsOpen);
-    document.addEventListener("click", onExternalLinkClick);
-    document.addEventListener("click", onQRTrigger);
-    document.addEventListener("click", onInternalLinkClick);
 
     initHashChangeScroll();
 
