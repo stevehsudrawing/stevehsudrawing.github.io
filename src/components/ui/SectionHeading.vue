@@ -19,6 +19,12 @@ import CopyButton from "../buttons/CopyButton.vue";
 const props = defineProps<{
   /** Plain-text heading (used for id generation and aria-label). */
   title: string;
+  /**
+   * Stable, language-independent anchor ID.
+   * When provided, used directly as the heading's HTML id.
+   * When omitted, derived from `title` via toDashCase().
+   */
+  headingId?: string;
   /** Page path for copy-link URL (e.g. "/about.html"). */
   pagePath?: string;
   /** Base URL for copy-link (e.g. "https://stevehsudrawing.github.io"). */
@@ -29,7 +35,7 @@ const props = defineProps<{
 // State
 // =========================================================================
 
-const titleId = computed(() => toDashCase(props.title));
+const titleId = computed(() => props.headingId || toDashCase(props.title));
 
 const copyUrl = computed(() =>
   props.pagePath && props.baseUrl

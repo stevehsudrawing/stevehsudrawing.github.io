@@ -52,6 +52,7 @@ const { groups, pagePath } = useLinkCards(ref("about"));
     <div class="link-hub-part">
       <SectionHeading
         :title="$t('text-profile', 'Profile')"
+        heading-id="profile"
         :page-path="pagePath"
         :base-url="BASE_URL"
       />

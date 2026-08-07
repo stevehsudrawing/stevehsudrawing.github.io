@@ -28,13 +28,6 @@ import type { HastNode } from "../../types/hast.js";
 // Types
 // =========================================================================
 
-interface HastElement {
-  type: string;
-  tagName?: string;
-  properties?: Record<string, unknown>;
-  children?: HastNode[];
-}
-
 /** A heading entry for the scrollspy nav. */
 interface HeadingEntry {
   id: string;
@@ -71,15 +64,36 @@ const activeId = ref("");
 /** Whether the mobile heading list is expanded. */
 const headingExpanded = ref(false);
 
+/** Template ref for the mobile heading list (for height-based scroll offset). */
+const mobileListRef = ref<HTMLElement | null>(null);
+
 /** Text of the currently active heading (for the mobile collapsed bar). */
 const currentHeadingText = computed(() => {
   const h = headings.value.find((h) => h.id === activeId.value);
   return h?.text ?? headings.value[0]?.text ?? "";
 });
 
+/**
+ * When using the mobile view, the mobile Scrollspy will be enabled instead of
+ * the desktop version.
+ */
+const isMobile = ref(false);
+
 // =========================================================================
+// Actions
+// =========================================================================
+
+// -------------------------------------------------------------------------
+// Mobile View Detection
+// -------------------------------------------------------------------------
+
+function onResize(): void {
+  isMobile.value = window.innerWidth < 992;
+}
+
+// -------------------------------------------------------------------------
 // HAST post-processing
-// =========================================================================
+// -------------------------------------------------------------------------
 
 /** Heading level → Bootstrap heading class mapping: h2→.h4, h3→.h5, etc. */
 function headingClass(tagName: string): string {
@@ -97,13 +111,13 @@ function headingClass(tagName: string): string {
  * - Add .table to <table>, .link to <a>, .external-link for outbound links
  * @param node - A HAST node (mutated in place).
  */
-function processHastNode(node: HastElement): void {
+function processHastNode(node: HastNode): void {
   if (!node.children) return;
 
   const newChildren: HastNode[] = [];
 
   for (const child of node.children) {
-    const el = child as HastElement;
+    const el = child as HastNode;
 
     // Remove h1
     if (el.type === "element" && el.tagName === "h1") continue;
@@ -167,14 +181,14 @@ const renderedHtml = computed(() => {
   headings.value = [];
   if (!props.content) return "";
   const html = marked.parse(props.content) as string;
-  const root = fromHtml(html, { fragment: true }) as unknown as HastElement;
+  const root = fromHtml(html, { fragment: true }) as unknown as HastNode;
   processHastNode(root);
   return toHtml(root as unknown as Parameters<typeof toHtml>[0]);
 });
 
-// =========================================================================
+// -------------------------------------------------------------------------
 // Scrollspy
-// =========================================================================
+// -------------------------------------------------------------------------
 
 /** Navbar offset for active-heading detection. */
 const SCROLLSPY_OFFSET = 80;
@@ -199,30 +213,38 @@ function onScroll(): void {
   }
 }
 
-/** Fixed scroll offset for mobile heading clicks (empirically required). */
-const MOBILE_SCROLL_OFFSET = 360;
+/** Navbar + mobile bar height for scroll-offset calculation. */
+const NAVBAR_HEIGHT = 64;
+const MOBILE_BAR_HEIGHT = 48;
 
 /** Scroll smoothly to a heading and update the URL hash. */
 function onHeadingClick(id: string, isMobile: boolean = false): void {
-  const offset = isMobile ? MOBILE_SCROLL_OFFSET : props.scrollOffset;
+  const baseOffset = isMobile
+    ? NAVBAR_HEIGHT +
+      MOBILE_BAR_HEIGHT +
+      (mobileListRef.value?.offsetHeight ?? 0)
+    : props.scrollOffset;
   history.pushState(null, "", `#${id}`);
-  scrollToHashTarget(id, false, offset);
+  scrollToHashTarget(id, false, baseOffset);
   if (isMobile) headingExpanded.value = false;
 }
 
 onMounted(() => {
+  onResize();
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onResize);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", onScroll);
+  window.removeEventListener("resize", onResize);
 });
 </script>
 
 <template>
   <div v-if="renderedHtml" class="container pb-2 markdown-article">
     <!-- Mobile: sticky collapsible heading nav -->
-    <div v-if="headings.length > 0" class="scrollspy-nav-mobile d-lg-none">
+    <div v-if="headings.length > 0 && isMobile" class="scrollspy-nav-mobile">
       <div
         class="scrollspy-current-bar"
         role="button"
@@ -234,7 +256,11 @@ onBeforeUnmount(() => {
           :class="headingExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"
         ></i>
       </div>
-      <ul v-if="headingExpanded" class="scrollspy-mobile-list px-3">
+      <ul
+        v-if="headingExpanded"
+        ref="mobileListRef"
+        class="scrollspy-mobile-list px-3"
+      >
         <li v-for="item in headings" :key="item.id">
           <a
             class="scrollspy-link"
@@ -253,15 +279,15 @@ onBeforeUnmount(() => {
     </div>
 
     <BRow>
+      <!-- Article content -->
+      <BCol cols="12" :lg="headings.length > 0 ? 9 : 12">
+        <div class="article" v-html="renderedHtml"></div>
+      </BCol>
+
       <!-- Desktop scrollspy nav -->
-      <BCol
-        v-if="headings.length > 0"
-        cols="12"
-        lg="3"
-        class="order-1 order-lg-2"
-      >
+      <BCol v-if="headings.length > 0 && !isMobile" cols="12" lg="3">
         <nav
-          class="scrollspy-nav sticky-top d-none d-lg-block"
+          class="scrollspy-nav sticky-top"
           :style="{ top: 'calc(64px + 1rem)' }"
         >
           <ul class="nav flex-column">
@@ -281,15 +307,6 @@ onBeforeUnmount(() => {
             </li>
           </ul>
         </nav>
-      </BCol>
-
-      <!-- Article content -->
-      <BCol
-        cols="12"
-        :lg="headings.length > 0 ? 9 : 12"
-        class="order-2 order-lg-1"
-      >
-        <div class="article" v-html="renderedHtml"></div>
       </BCol>
     </BRow>
   </div>

@@ -90,43 +90,65 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
             :ride="'carousel'"
           >
             <BCarouselSlide>
-              <FeatureAwarePicture
-                avif-src-light="/images/avif/covers/illustration-0-light.avif"
-                avif-src-dark="/images/avif/covers/illustration-0-dark.avif"
-                fallback-src-light="/images/webp/covers/illustration-0-light.webp"
-                fallback-src-dark="/images/webp/covers/illustration-0-dark.webp"
-                feature="follow-theme"
-                :alt="$t('text-illustration', 'Illustration')"
-                fetchpriority="high"
-                img-class="d-block w-100 no-copy solid-bg"
-              />
+              <a
+                class="external-link"
+                href="https://www.pixiv.net/artworks/145641748"
+                data-link-img-props='{"alt":"Pixiv","src":"/images/webp/icons/pixiv.webp"}'
+              >
+                <FeatureAwarePicture
+                  avif-src-light="/images/avif/covers/illustration-0-light.avif"
+                  avif-src-dark="/images/avif/covers/illustration-0-dark.avif"
+                  fallback-src-light="/images/webp/covers/illustration-0-light.webp"
+                  fallback-src-dark="/images/webp/covers/illustration-0-dark.webp"
+                  feature="follow-theme"
+                  :alt="$t('text-illustration', 'Illustration')"
+                  fetchpriority="high"
+                  img-class="d-block w-100 no-copy solid-bg"
+                />
+              </a>
             </BCarouselSlide>
             <BCarouselSlide>
-              <FeatureAwarePicture
-                avif-src-light="/images/avif/covers/illustration-1.avif"
-                fallback-src-light="/images/webp/covers/illustration-1.webp"
-                :alt="$t('text-illustration', 'Illustration')"
-                loading="lazy"
-                img-class="d-block w-100 no-copy solid-bg"
-              />
+              <a
+                class="external-link"
+                href="https://www.pixiv.net/artworks/144184773"
+                data-link-img-props='{"alt":"Pixiv","src":"/images/webp/icons/pixiv.webp"}'
+              >
+                <FeatureAwarePicture
+                  avif-src-light="/images/avif/covers/illustration-1.avif"
+                  fallback-src-light="/images/webp/covers/illustration-1.webp"
+                  :alt="$t('text-illustration', 'Illustration')"
+                  loading="lazy"
+                  img-class="d-block w-100 no-copy solid-bg"
+                />
+              </a>
             </BCarouselSlide>
             <BCarouselSlide>
-              <FeatureAwarePicture
-                avif-src-light="/images/avif/covers/illustration-2.avif"
-                fallback-src-light="/images/webp/covers/illustration-2.webp"
-                :alt="$t('text-illustration', 'Illustration')"
-                loading="lazy"
-                img-class="d-block w-100 no-copy solid-bg"
-              />
+              <a
+                class="internal-link"
+                href="/artworks-and-videos.html#sticker-collections"
+              >
+                <FeatureAwarePicture
+                  avif-src-light="/images/avif/covers/illustration-2.avif"
+                  fallback-src-light="/images/webp/covers/illustration-2.webp"
+                  :alt="$t('text-illustration', 'Illustration')"
+                  loading="lazy"
+                  img-class="d-block w-100 no-copy solid-bg"
+                />
+              </a>
             </BCarouselSlide>
             <BCarouselSlide>
-              <FeatureAwarePicture
-                avif-src-light="/images/avif/covers/illustration-3.avif"
-                fallback-src-light="/images/webp/covers/illustration-3.webp"
-                :alt="$t('text-illustration', 'Illustration')"
-                loading="lazy"
-                img-class="d-block w-100 no-copy solid-bg"
-              />
+              <a
+                class="internal-link"
+                href="/artworks-and-videos.html#sticker-collections"
+              >
+                <FeatureAwarePicture
+                  avif-src-light="/images/avif/covers/illustration-3.avif"
+                  fallback-src-light="/images/webp/covers/illustration-3.webp"
+                  :alt="$t('text-illustration', 'Illustration')"
+                  loading="lazy"
+                  img-class="d-block w-100 no-copy solid-bg"
+                />
+              </a>
             </BCarouselSlide>
           </BCarousel>
           <button
