@@ -10,6 +10,7 @@ import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
+import HeroSection from "../components/ui/HeroSection.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
@@ -21,29 +22,18 @@ const { groups, pagePath } = useLinkCards(ref("about"));
 
 <template>
   <!-- ==== Hero section ==== -->
-  <div class="container py-4 link-hub-part">
-    <div class="d-flex align-items-center flex-wrap">
-      <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h1>{{ $t("text-about", "About") }}</h1>
-        <p>
-          {{
-            $t(
-              "text-about-description",
-              "Learn more about me through this page!",
-            )
-          }}
-        </p>
-      </div>
-      <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
-        <FeatureAwarePicture
-          avif-src-light="/images/avif/covers/about.avif"
-          fallback-src-light="/images/webp/covers/about.webp"
-          :alt="$t('text-artworks', 'Artworks')"
-          img-class="img-fluid img-fit rounded no-copy solid-bg"
-        />
-      </div>
-    </div>
-  </div>
+  <HeroSection
+    :title="$t('text-about', 'About')"
+    :description="
+      $t('text-about-description', 'Learn more about me through this page!')
+    "
+    :image="{
+      avifSrcLight: '/images/avif/covers/about.avif',
+      fallbackSrcLight: '/images/webp/covers/about.webp',
+      alt: $t('text-artworks', 'Artworks'),
+      imgClass: 'img-fluid img-fit rounded no-copy solid-bg',
+    }"
+  />
 
   <hr />
 

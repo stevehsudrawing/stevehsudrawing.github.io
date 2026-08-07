@@ -10,6 +10,7 @@
 import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
+import HeroSection from "../components/ui/HeroSection.vue";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
 import type { LinkButtonGroupData } from "../types/app";
 
@@ -200,70 +201,54 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <hr />
 
   <!-- ==== Blogs & Sponsor section ==== -->
-  <div class="container link-hub-part">
-    <div class="d-flex align-items-center flex-wrap">
-      <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h2 class="h1">
-          {{ $t("text-blogs-and-sponsor", "Blogs & Sponsor") }}
-        </h2>
-        <div class="py-2">
-          <p>
-            {{
-              $t(
-                "text-blogs-and-sponsor-description",
-                "Welcome to read my blogs about me or my projects!",
-              )
-            }}
-          </p>
-        </div>
-        <LinkButtonGroup
-          v-if="findGroup('blogs-and-sponsor')"
-          :buttons="findGroup('blogs-and-sponsor')!.buttons"
-        />
-      </div>
-      <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
-        <FeatureAwarePicture
-          avif-src-light="/images/avif/covers/blogs.avif"
-          fallback-src-light="/images/webp/covers/blogs.webp"
-          :alt="$t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor')"
-          img-class="img-fluid img-fit rounded"
-        />
-      </div>
-    </div>
-  </div>
+  <HeroSection
+    heading-tag="h2"
+    :title="$t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor')"
+    :description="
+      $t(
+        'text-blogs-and-sponsor-description',
+        'Welcome to read my blogs about me or my projects!',
+      )
+    "
+    :image="{
+      avifSrcLight: '/images/avif/covers/blogs.avif',
+      fallbackSrcLight: '/images/webp/covers/blogs.webp',
+      alt: $t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor'),
+      imgClass: 'img-fluid img-fit rounded',
+    }"
+    :padding="false"
+  >
+    <LinkButtonGroup
+      v-if="findGroup('blogs-and-sponsor')"
+      :buttons="findGroup('blogs-and-sponsor')!.buttons"
+    />
+  </HeroSection>
 
   <hr />
 
   <!-- ==== Chatting section ==== -->
-  <div class="container link-hub-part">
-    <div class="d-flex align-items-center flex-wrap">
-      <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
-        <h2 class="h1">{{ $t("text-chatting", "Chatting") }}</h2>
-        <div class="py-2">
-          <p>
-            {{
-              $t(
-                "text-chatting-description",
-                "Welcome to join my chat room for interaction!",
-              )
-            }}
-          </p>
-        </div>
-        <LinkButtonGroup
-          v-if="findGroup('chatting')"
-          :buttons="findGroup('chatting')!.buttons"
-        />
-      </div>
-      <div class="sub-cover-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
-        <FeatureAwarePicture
-          avif-src-light="/images/avif/covers/chatting.avif"
-          fallback-src-light="/images/webp/covers/chatting.webp"
-          :alt="$t('text-chatting', 'Chatting')"
-          img-class="img-fluid img-fit rounded"
-        />
-      </div>
-    </div>
-  </div>
+  <HeroSection
+    heading-tag="h2"
+    :title="$t('text-chatting', 'Chatting')"
+    :description="
+      $t(
+        'text-chatting-description',
+        'Welcome to join my chat room for interaction!',
+      )
+    "
+    :image="{
+      avifSrcLight: '/images/avif/covers/chatting.avif',
+      fallbackSrcLight: '/images/webp/covers/chatting.webp',
+      alt: $t('text-chatting', 'Chatting'),
+      imgClass: 'img-fluid img-fit rounded',
+    }"
+    :padding="false"
+  >
+    <LinkButtonGroup
+      v-if="findGroup('chatting')"
+      :buttons="findGroup('chatting')!.buttons"
+    />
+  </HeroSection>
 
   <hr />
 

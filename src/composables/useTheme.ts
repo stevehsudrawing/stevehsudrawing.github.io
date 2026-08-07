@@ -67,7 +67,7 @@ function removeSystemListener(): void {
   }
 }
 
-// ---- Effective theme → DOM sync (shared — one global watcher) ----
+// ---- Effective theme -> DOM sync (shared — one global watcher) ----
 
 watch(effectiveTheme, (theme) => {
   document.documentElement.setAttribute("data-bs-theme", theme);

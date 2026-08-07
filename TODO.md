@@ -155,8 +155,8 @@ src/
 │
 ├── configs/
 │   ├── language-list.json              #   Runtime language list
-│   ├── link-cards/                     #   → moved from build/configs/ (Phase 7)
-│   └── link-button-groups/             #   → moved from build/configs/ (Phase 7)
+│   ├── link-cards/                     #   -> moved from build/configs/ (Phase 7)
+│   └── link-button-groups/             #   -> moved from build/configs/ (Phase 7)
 │
 ├── App.vue
 ├── main.ts
@@ -249,7 +249,7 @@ page-transition.ts                          App.vue
   initPageContent() ──────────┐                ├─ IndexPage.vue  (lazy via import())
     ├─ updatePageText()       │                ├─ AboutPage.vue
     ├─ initAllTooltips()      │                ├─ ArtworksPage.vue
-    ├─ initAllScrollHints() ──┤ bridge →      ├─ BlogsPage.vue
+    ├─ initAllScrollHints() ──┤ bridge ->      ├─ BlogsPage.vue
     ├─ initAllColoredImages() │  window.__xxx  ├─ ChattingPage.vue
     └─ ... 12 more calls      │                └─ SoftwaresPage.vue
                               │                   │
@@ -262,7 +262,7 @@ Navigation: page-transition.ts               Navigation: Vue Router
   popstate listener                            router.beforeEach/afterEach guards
   manual fetch + parse                         (no fetch — components are local)
   scrollTo hash (manual)                       scrollBehavior() declarative
-  loading bar (bridge)                         LoadingBar via guard → App.vue ref
+  loading bar (bridge)                         LoadingBar via guard -> App.vue ref
   active nav-item (manual)                     <router-link> auto-active-class
 ```
 
@@ -327,7 +327,7 @@ image) plus any page-specific static markup.
 ### 7.3 Step B — Vue Router Integration
 
 **Replace `page-transition.ts` with Vue Router in App.vue.** Vue Router
-handles URL → component mapping, history push/pop, scroll restoration,
+handles URL -> component mapping, history push/pop, scroll restoration,
 and query parameter persistence — all of which `page-transition.ts`
 implemented manually with edge-case bugs.
 
@@ -403,7 +403,7 @@ Bootstrap button groups.
 - [x] Create `src/composables/useLinkButtonGroups.ts`
   - Dynamic `import()` per page name (like `useLinkCards`)
   - Returns `Ref<LinkButtonGroupData[] | null>`
-- [x] Copy JSON configs from `build/configs/link-button-groups/` →
+- [x] Copy JSON configs from `build/configs/link-button-groups/` ->
       `src/configs/link-button-groups/`
 - [x] Each page component imports and renders `<LinkButtonGroup>` directly
 - [x] `pnpm typecheck`
@@ -450,7 +450,7 @@ now Vue components loaded at runtime. Clean up the leftovers.
 - [x] Simplify `content-injection-plugin.ts` — remove all `#links` and
       `data-role="link-button-group"` placeholder injection logic
 - [x] Delete `build/configs/` directory (empty after above)
-- [x] Move `build/configs/page-meta.ts` → `build/page-meta.ts`
+- [x] Move `build/configs/page-meta.ts` -> `build/page-meta.ts`
 - [x] Update imports in `head-tags-plugin.ts` and `sitemap-plugin.ts`
 - [x] `pnpm typecheck`
 

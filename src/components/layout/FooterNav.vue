@@ -21,9 +21,10 @@
             :aria-label="
               $t('text-about-me-and-my-emails', 'About Me and E-mail')
             "
-            v-b-tooltip="
-              $t('text-about-me-and-my-emails', 'About Me and E-mail')
-            "
+            v-b-tooltip="{
+              title: $t('text-about-me-and-my-emails', 'About Me and E-mail'),
+              delay: { show: 500 },
+            }"
             >{{ $t("text-steve-hsu", "Steve Hsu") }}</a
           >
           {{ $t("text-copyright-part-2", ". All rights reserved.") }}

@@ -84,3 +84,35 @@ export interface LinkButtonGroupData {
   /** Array of button definitions within this group. */
   buttons: LinkButtonData[];
 }
+
+// =========================================================================
+// Hero-section image properties
+// =========================================================================
+
+/**
+ * Image properties for HeroSection's FeatureAwarePicture.
+ * Prop names mirror FeatureAwarePicture.vue so `v-bind="image"`
+ * passes them through directly.
+ */
+export interface HeroImageProps {
+  /** AVIF source — light mode. */
+  avifSrcLight: string;
+  /** AVIF source — dark mode. */
+  avifSrcDark?: string;
+  /** WebP source — light mode. */
+  webpSrcLight?: string;
+  /** WebP source — dark mode. */
+  webpSrcDark?: string;
+  /** PNG / fallback source — light mode (required). */
+  fallbackSrcLight: string;
+  /** PNG / fallback source — dark mode. */
+  fallbackSrcDark?: string;
+  /** Space-separated feature flags (e.g. "follow-theme"). */
+  feature?: string;
+  /** HTML alt attribute (pre-resolved from i18n by the parent). */
+  alt: string;
+  /** Additional CSS classes for the img element. */
+  imgClass?: string;
+  /** fetchpriority attribute (e.g. "high"). */
+  fetchpriority?: string;
+}

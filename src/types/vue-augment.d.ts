@@ -13,9 +13,10 @@ declare module "vue" {
   interface ComponentCustomProperties {
     /**
      * Translate an i18n key, optionally falling back to a default string.
+     * `params` replaces `%1`, `%2`, etc. placeholders (1-based).
      * Registered by `src/plugins/i18n.ts` (i18nPlugin).
      */
-    $t: (key: string, fallback?: string) => string;
+    $t: (key: string, fallback?: string, params?: string[]) => string;
   }
 }
 

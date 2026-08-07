@@ -14,11 +14,14 @@ import { scrollToHashTarget } from "../../ui/accessibility";
 // Props
 // =========================================================================
 
-defineProps<{
+const props = defineProps<{
   /** Target heading id (without the leading #). */
   targetId: string;
-  /** Accessible label (e.g. "Link to Profile"). */
-  buttonAriaLabel: string;
+  /**
+   * Human-readable heading title, used for an accessible
+   * aria-label (e.g. "Anchor to Profile").
+   */
+  headingTitle: string;
 }>();
 
 // =========================================================================
@@ -40,7 +43,7 @@ function onClick(targetId: string): void {
   <a
     class="link title-link-anchor"
     :href="`#${targetId}`"
-    :aria-label="buttonAriaLabel"
+    :aria-label="$t('text-anchor-to-1', 'Anchor to %1', [props.headingTitle])"
     v-b-tooltip="{
       title: $t('text-anchor', 'Anchor'),
       teleportTo: 'body',

@@ -34,28 +34,30 @@ hr {
   margin: 1.5rem 0;
 }
 
-/* ========================================================================
-   Safe Area (iOS standalone PWA)
-   ======================================================================== */
-
-:root {
-  --safe-area-inset-top: env(safe-area-inset-top, 0px);
-  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
-}
-
 #page-content {
   margin-top: calc(64px + var(--safe-area-inset-top));
   margin-bottom: calc(2rem + var(--safe-area-inset-bottom));
   flex: 1;
   transition: opacity 0.15s ease;
+  filter: none;
+  transition:
+    opacity 0.2s linear,
+    filter 0.2s linear;
 }
 
 #page-content.content-dimming {
   opacity: 0.5;
+  filter: blur(5px);
 }
 
+/* --- Safe Area (iOS standalone PWA) --- */
+
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+}
 /* ========================================================================
-   Typography & Links
+   Typography
    ======================================================================== */
 
 a {
@@ -84,9 +86,17 @@ ruby {
   text-autospace: no-autospace;
 }
 
+code {
+  color: inherit;
+  background-color: var(--bs-tertiary-bg);
+  outline: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
+}
+
 /* ========================================================================
    Bootstrap Overwrites
    ======================================================================== */
+
+/* --- Base --- */
 
 :root {
   --bs-border-radius: 0;
@@ -99,31 +109,31 @@ ruby {
   --bs-focus-ring-opacity: 1;
 }
 
+.fade {
+  transition:
+    opacity 0.2s linear,
+    background-color 0.2s linear,
+    backdrop-filter 0.2s linear;
+}
+
+/* --- Close Button --- */
+
 .btn-close {
   border-radius: var(--bs-border-radius);
 }
 
-/* TODO: §4.9 -> AppNavbar.vue -- modal-header/footer overrides used by all BModal components;
-   could be extracted to a shared modal-base.css or kept as global Bootstrap tweaks. */
+/* --- Modal --- */
+
 .modal-header {
   border-bottom: none !important;
 }
 
+.modal-body {
+  padding: 0 var(--bs-modal-padding);
+}
+
 .modal-footer {
   border-top: none !important;
-}
-
-/* (Migrated to AppNavbar.vue -- §4.9) */
-.nav-link {
-  transition:
-    color 0.1s ease-in-out,
-    background-color 0.1s ease-in-out,
-    border-color 0.1s ease-in-out;
-}
-
-/* TODO: §3.1 -> SettingsModal.vue (form-select transition) */
-.form-select {
-  transition: inherit;
 }
 
 .modal-backdrop {
@@ -138,12 +148,16 @@ ruby {
   backdrop-filter: blur(5px);
 }
 
-.fade {
+/* --- Links --- */
+
+.nav-link {
   transition:
-    opacity 0.2s linear,
-    background-color 0.2s linear,
-    backdrop-filter 0.2s linear;
+    color 0.1s ease-in-out,
+    background-color 0.1s ease-in-out,
+    border-color 0.1s ease-in-out;
 }
+
+/* --- Cards --- */
 
 .card {
   border: none;
@@ -157,18 +171,13 @@ ruby {
   outline: calc(var(--bs-card-border-width) * 2) solid var(--bs-body-color);
 }
 
-.modal-body {
-  padding: 0 var(--bs-modal-padding);
-}
+/* --- Tooltip --- */
 
-code {
-  color: inherit;
-}
-
-/* TODO: §4.5 -> v-b-tooltip (Bootstrap tooltip font inheritance; may stay global) */
 .tooltip {
   font-family: inherit;
 }
+
+/* --- Buttons --- */
 
 .btn-outline-primary {
   --bs-btn-color: var(--bs-primary);
@@ -194,8 +203,7 @@ code {
   --bs-btn-disabled-border-color: var(--bs-secondary);
 }
 
-/* --- body-color Button (custom) --- */
-
+/* body-color Button (custom) */
 .btn-outline-body-color {
   --bs-btn-color: var(--bs-body-color);
   --bs-btn-border-color: var(--bs-body-color);
@@ -212,6 +220,13 @@ code {
   --bs-gradient: none;
 }
 
+/* Button without Border (custom) */
+.btn-no-border {
+  --bs-btn-border-width: 0;
+}
+
+/* --- Bootstrap Icons --- */
+
 .bi {
   margin: 0 0.1rem;
 }
@@ -226,16 +241,6 @@ code {
   font-size: 0.6rem;
   vertical-align: top;
   transform: translateX(-0.1rem);
-}
-
-/* ========================================================================
-   Button without Border
-   (Used by SettingsModal, ExternalLinkConfirmModal, QRCodeModal footers.
-   TODO: could be extracted to a shared modals.css or duplicated per component.)
-   ======================================================================== */
-
-.btn-no-border {
-  --bs-btn-border-width: 0;
 }
 
 /* ========================================================================

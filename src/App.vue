@@ -21,6 +21,8 @@ import { useRouter, useRoute } from "vue-router";
 import { useTheme } from "./composables/useTheme";
 import { useI18n } from "./composables/useI18n";
 import { useLocalStorage } from "./composables/useLocalStorage";
+import { usePageNavigation } from "./composables/usePageNavigation";
+import { useCrossModalNavigation } from "./composables/useCrossModalNavigation";
 import { SHOW_TOAST_KEY } from "./composables/useToast";
 
 // UI components (template refs)
@@ -30,7 +32,7 @@ import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
 import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
-import SkipButton from "./components/ui/SkipButton.vue";
+import SkipButton from "./components/buttons/SkipButton.vue";
 import AppNavbar from "./components/layout/AppNavbar.vue";
 import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
@@ -44,7 +46,6 @@ import {
   initInputModalityDetection,
   addAllExternalLinkIndicators,
 } from "./ui/accessibility";
-import { updatePageTitle } from "./ui/page-title";
 import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
@@ -54,7 +55,17 @@ import { normalizeInternalPath } from "./core/utils";
 useTheme();
 const { initLang, isLanguageLoading, messages } = useI18n();
 useLocalStorage(StorageKey.OpenInNewTab, true);
-useLocalStorage(StorageKey.EnableAnimations, true);
+const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
+
+// ---- Sync .no-animations class to <html> ----
+
+watch(
+  enableAnimations,
+  (val) => {
+    document.documentElement.classList.toggle("no-animations", !val);
+  },
+  { immediate: true },
+);
 
 // ---- LoadingBar via i18n language-loading state ----
 
@@ -88,58 +99,25 @@ const loadingScreenRef = ref<InstanceType<typeof LoadingScreen>>();
 const loadingBarRef = ref<InstanceType<typeof LoadingBar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
-// ---- Router guards (LoadingBar integration) ----
+// ---- Router guards (LoadingBar, dimming, indicators, title, ?lang=) ----
 
-router.beforeEach(() => {
-  loadingBarRef.value?.show();
-});
-router.afterEach(() => {
-  loadingBarRef.value?.complete();
-});
+usePageNavigation(router, loadingBarRef);
 
-// ---- Content dimming during navigation ----
+// ---- Cross-modal state (ExternalLink <-> QRCode) ----
 
-let initialNavigationDone = false;
+const {
+  extLinkUrl,
+  extLinkImgProps,
+  extLinkHideQR,
+  qrUrl,
+  qrImgProps,
+  qrHideOpenLink,
+  onExtLinkNavigate,
+  onExtLinkShowQR,
+  onQROpenLink,
+} = useCrossModalNavigation(qrCodeModalRef, extLinkModalRef);
 
-router.beforeEach(() => {
-  if (initialNavigationDone) {
-    document.getElementById("page-content")?.classList.add("content-dimming");
-  }
-});
-router.afterEach(() => {
-  if (initialNavigationDone) {
-    document
-      .getElementById("page-content")
-      ?.classList.remove("content-dimming");
-  }
-  initialNavigationDone = true;
-});
-
-// Re-add external link indicators after each navigation
-// (new components may contain .external-link elements)
-router.afterEach(async () => {
-  await nextTick();
-  addAllExternalLinkIndicators();
-});
-
-// Update document.title after each navigation
-router.afterEach(() => {
-  updatePageTitle();
-});
-
-/**
- * Preserve `?lang=` query parameter across navigations.
- * When navigating from a page that has ?lang=zh-Hans, the target
- * page should also receive ?lang=zh-Hans.
- */
-router.beforeEach((to, from) => {
-  const langParam = from.query.lang;
-  if (langParam && !to.query.lang) {
-    return { ...to, query: { ...to.query, lang: langParam } };
-  }
-  return true;
-});
-
+// ---- Toast injection ----
 /**
  * Provide a global showToast function to all descendant components.
  * Delegates to ToastStack once it is mounted.  This is needed because
@@ -148,14 +126,6 @@ router.beforeEach((to, from) => {
 provide(SHOW_TOAST_KEY, (type: "success" | "error", message: string) => {
   toastStackRef.value?.showToast(type, message);
 });
-
-/** Reactive props passed to modal components. */
-const extLinkUrl = ref("");
-const extLinkImgProps = ref<Record<string, unknown> | null>(null);
-const extLinkHideQR = ref(false);
-const qrUrl = ref("");
-const qrImgProps = ref<Record<string, unknown> | null>(null);
-const qrHideOpenLink = ref(false);
 
 // =========================================================================
 // Actions
@@ -225,38 +195,6 @@ function onQRTrigger(e: MouseEvent): void {
     : null;
   qrUrl.value = url;
   qrCodeModalRef.value?.show();
-}
-
-// -------------------------------------------------------------------------
-// Cross-modal navigation
-// -------------------------------------------------------------------------
-
-function onExtLinkNavigate(url: string, openInNewTab: boolean): void {
-  if (openInNewTab) {
-    window.open(url, "_blank", "noopener,noreferrer");
-  } else {
-    window.location.href = url;
-  }
-}
-
-function onExtLinkShowQR(
-  url: string,
-  imgProperties: Record<string, unknown> | null,
-): void {
-  qrUrl.value = url;
-  qrImgProps.value = imgProperties;
-  qrHideOpenLink.value = false;
-  nextTick(() => qrCodeModalRef.value?.show());
-}
-
-function onQROpenLink(
-  url: string,
-  imgProperties: Record<string, unknown> | null,
-): void {
-  extLinkUrl.value = url;
-  extLinkImgProps.value = imgProperties;
-  extLinkHideQR.value = false;
-  nextTick(() => extLinkModalRef.value?.show());
 }
 
 // -------------------------------------------------------------------------

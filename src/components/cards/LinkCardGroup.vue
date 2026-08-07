@@ -37,7 +37,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 
-/** HAST → HTML for the group title. */
+/** HAST -> HTML for the group title. */
 const titleHtml = computed(() =>
   props.group.title
     ? resolveI18nInHtml(
@@ -47,7 +47,7 @@ const titleHtml = computed(() =>
     : "",
 );
 
-/** HAST → HTML for the group description. */
+/** HAST -> HTML for the group description. */
 const descHtml = computed(() =>
   props.group.description
     ? resolveI18nInHtml(

@@ -29,7 +29,7 @@ export function useI18n(): {
   /** Fetch the JSON file for a given language and apply it. */
   setLocale: (rawLang: string) => Promise<void>;
   /**
-   * Determine the preferred language (URL param → localStorage → default)
+   * Determine the preferred language (URL param -> localStorage -> default)
    * and load it.  Call once during App.vue onMounted.
    */
   initLang: () => Promise<void>;
@@ -47,10 +47,25 @@ export function useI18n(): {
 
   // ---- Translation ----
 
-  /** Synchronous translation function for templates and script. */
-  function t(key: string, fallback?: string): string {
-    const v = messages.value[key];
-    return typeof v === "string" ? v : (fallback ?? "");
+  /**
+   * Synchronous translation function for templates and script.
+   *
+   * @param key - i18n message key.
+   * @param fallback - Default string if the key is not found.
+   * @param params - Optional array of strings to replace `%1`, `%2`,
+   *   etc. placeholders (1-based).  Unmatched placeholders are
+   *   left as-is; extra params are ignored.
+   */
+  function t(key: string, fallback?: string, params?: string[]): string {
+    const raw = messages.value[key];
+    let result: string = typeof raw === "string" ? raw : (fallback ?? "");
+    if (params && params.length > 0) {
+      result = result.replace(
+        /%(\d+)/g,
+        (_m: string, n: string) => params[+n - 1] ?? _m,
+      );
+    }
+    return result;
   }
 
   // ---- Language switching ----
@@ -96,7 +111,7 @@ export function useI18n(): {
 
   /**
    * Determine the preferred language and load it.
-   * Priority: ?lang= URL parameter → localStorage → default 'en'.
+   * Priority: ?lang= URL parameter -> localStorage -> default 'en'.
    */
   async function initLang(): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search);

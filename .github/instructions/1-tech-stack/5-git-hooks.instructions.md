@@ -22,7 +22,7 @@ Git hooks are managed by [Husky](https://github.com/typicode/husky) and run auto
 
 #### 1.5.2 Hooks
 
-##### pre-commit
+##### 1.5.2.1 pre-commit
 
 The pre-commit hook (`.husky/pre-commit`) performs two checks sequentially:
 
@@ -36,7 +36,7 @@ If either step fails, the commit is blocked.
 > requires the entire project to compile. Limiting to staged files
 > (via lint-staged glob) causes `TS5112` errors.
 
-##### commit-msg
+##### 1.5.2.2 commit-msg
 
 The commit-msg hook (`.husky/commit-msg`) validates commit messages against
 [Conventional Commits](https://www.conventionalcommits.org/) format:
@@ -52,14 +52,14 @@ chore: optimize Git hooks config
 
 Configuration is in `commitlint.config.js` (extends `@commitlint/config-conventional`).
 
-##### pre-push
+##### 1.5.2.3 pre-push
 
 The pre-push hook (`.husky/pre-push`) runs `pnpm build` to verify the
 project bundles successfully before pushing to remote. This catches
 Vite-specific errors (broken dynamic imports, missing CSS references)
 that `tsc --noEmit` cannot detect.
 
-##### Flow Diagram
+##### 1.5.2.4 Flow Diagram
 
 ```mermaid
 flowchart TD

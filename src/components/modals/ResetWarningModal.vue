@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import { useI18n } from "../../composables/useI18n";
+import { useModalFocus } from "../../composables/useModalFocus";
 
 // =========================================================================
 // Props
@@ -27,7 +27,12 @@ const emit = defineEmits<{
 // =========================================================================
 
 const visible = ref(false);
-const { t } = useI18n();
+
+/** Cancel-button element for keyboard auto-focus. */
+const cancelBtnRef = ref<HTMLElement | null>(null);
+
+/** Keyboard-aware focus: move focus to Cancel button when opened via Tab. */
+const { onShown } = useModalFocus(cancelBtnRef);
 
 // =========================================================================
 // Expose
@@ -53,6 +58,7 @@ defineExpose({
     no-header-close
     centered
     hide-footer
+    @shown="onShown"
   >
     <p>
       {{
@@ -66,6 +72,7 @@ defineExpose({
     <template #footer>
       <div class="w-100 d-flex justify-content-between">
         <button
+          ref="cancelBtnRef"
           type="button"
           class="btn btn-outline-secondary btn-no-border"
           @click="

@@ -74,9 +74,9 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 **File placement rules**:
 
 - Put TS modules in `src/{core,composables,ui}/` according to their **semantic role**:
-  - Pure logic, data transforms, global state (no DOM, no events) → `core/`.
-  - Vue reactive state + side-effects → `composables/`.
-  - Legacy imperative DOM / Bootstrap wrappers → `ui/` (diminishing — prefer Vue components).
+  - Pure logic, data transforms, global state (no DOM, no events) -> `core/`.
+  - Vue reactive state + side-effects -> `composables/`.
+  - Legacy imperative DOM / Bootstrap wrappers -> `ui/` (diminishing — prefer Vue components).
 - Put shared TS types/enums in `src/types/`:
   - `app.ts` — `Lang`, `ThemeChoice`, enums (`StorageKey`, `AppEvent`).
   - `hast.ts` — HAST node types (`HastNode`, `HastProperties`).

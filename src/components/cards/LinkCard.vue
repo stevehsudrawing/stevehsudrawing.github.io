@@ -71,7 +71,7 @@ const iconProps = useImgDisplayProps(
   ) as Ref<Record<string, unknown> | null | undefined>,
 );
 
-/** HAST → HTML for the title node, with link processing. */
+/** HAST -> HTML for the title node, with link processing. */
 const titleHtml = computed(() => {
   if (!props.card.title) return "";
 
@@ -90,7 +90,7 @@ const titleHtml = computed(() => {
   return resolveI18nInHtml(toHtml(title), t);
 });
 
-/** HAST → HTML for the description node. */
+/** HAST -> HTML for the description node. */
 const descHtml = computed(() =>
   props.card.description
     ? resolveI18nInHtml(

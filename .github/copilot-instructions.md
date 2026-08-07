@@ -110,7 +110,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 
 ### 0.7 Vue Component Conventions
 
-**Naming** (see [§2.3.6](./instructions/2-general-naming-conventions/3-typescript.instructions.md#236-vue-specific-naming)):
+**Naming** (see [§2.3.3](./instructions/2-general-naming-conventions/3-typescript.instructions.md#233-vue-specific-rules)):
 
 | Context      | Convention   | Examples                                          |
 | ------------ | ------------ | ------------------------------------------------- |
@@ -120,7 +120,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 **`<script setup>` section order** (see [§3.4.5](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#345-script-setup-langts-section-conventions)):
 
 ```
-Types → Props → State → Actions → Expose
+Types -> Props -> State -> Actions -> Expose
 ```
 
 Sections use `// ====...==== Name` banners; sub-sections use `// ----...---- Name`.
@@ -134,7 +134,7 @@ Sections use `// ====...==== Name` banners; sub-sections use `// ----...---- Nam
 | `:deep(.sel)`          | Penetrate child component boundary            |
 | `global/*.css`         | Truly global styles                           |
 
-**Bridge pattern**: Legacy TS consumers use `window.__xxx` → bridge module → Vue component via `defineExpose` (see [§3.4.3](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#343-legacy-bridge-pattern-window__xxx)).
+**Bridge pattern**: Legacy TS consumers use `window.__xxx` -> bridge module -> Vue component via `defineExpose` (see [§3.4.3](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#343-legacy-bridge-pattern-window__xxx)).
 
 **Static HTML coexistence**: `onMounted` + `document.getElementById` + non-scoped `<style>` + `defineExpose` (see [§3.4.4](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#344-static-html-coexistence)).
 
@@ -148,50 +148,22 @@ The remainder of this document links to detailed reference files in `instruction
 
 - [**1.1 Base**](./instructions/1-tech-stack/1-base.instructions.md)
 - [**1.2 External Dependencies**](./instructions/1-tech-stack/2-external-dependencies.instructions.md)
-  - 1.2.1 Dependency Principle
 - [**1.3 Browser Baseline**](./instructions/1-tech-stack/3-browser-baseline.instructions.md)
-  - 1.3.1 Per-Dependency Minimum Browser Versions
-  - 1.3.2 Browser Feature Requirements
 - [**1.4 Deployment**](./instructions/1-tech-stack/4-deployment.instructions.md)
 - [**1.5 Git Hooks**](./instructions/1-tech-stack/5-git-hooks.instructions.md)
-  - 1.5.1 Toolchain
-  - 1.5.2 Pre-commit Hook
-  - 1.5.3 Configuration
-  - 1.5.4 Developer Workflow
 
 ## 2. General Naming Conventions
 
 - [**2.1 HTML / CSS**](./instructions/2-general-naming-conventions/1-html-css.instructions.md)
 - [**2.2 CSS Custom Properties**](./instructions/2-general-naming-conventions/2-css-custom-properties.instructions.md)
-  - 2.2.1 Project-specific
-  - 2.2.2 Bootstrap overrides
 - [**2.3 TypeScript**](./instructions/2-general-naming-conventions/3-typescript.instructions.md)
-  - 2.3.1 Import Conventions
-  - 2.3.2 Function Naming by Category
-  - 2.3.3 Batch Functions Must Delegate to Single-Element Functions
-  - 2.3.4 Single-Element Functions Must Have Symmetric Counterparts
-  - 2.3.5 TSDoc Requirement
 
 ## 3. Project Structural Constraints
 
 - [**3.1 Folder Overview**](./instructions/3-project-structural-constraints/1-folder-overview.instructions.md)
 - [**3.2 General File Rules**](./instructions/3-project-structural-constraints/2-general-file-rules.instructions.md)
-  - 3.2.1 `src/{core,ui,features,composables}/*`: Define Only, Never Execute
-  - 3.2.2 `src/main.ts`: Entry Points, Wire Everything
-  - 3.2.3 `src/stylesheets/` & `public/legacy/*.css`: Commenting Convention
-  - 3.2.4 `*.html`: Page Tiers
-  - 3.2.5 `*.md`: Document Writing Standards
 - [**3.3 Type Definitions**](./instructions/3-project-structural-constraints/3-type-definitions.instructions.md)
-  - 3.3.1 Browser Types (`src/types/`)
-  - 3.3.2 Build-time Types (`build/types.ts`)
-  - 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
-  - 3.3.4 Link-button-group JSON Format (`build/configs/link-button-groups/*.json`)
 - [**3.4 Vue Component Conventions**](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md)
-  - 3.4.1 CSS Style Block Taxonomy
-  - 3.4.2 CSS Ownership Comments
-  - 3.4.3 Legacy Bridge Pattern
-  - 3.4.4 Static HTML Coexistence
-  - 3.4.5 `<script setup>` Section Conventions
 
 ## 4. Feature Reference
 
@@ -211,6 +183,8 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.1.3 Settings**](./instructions/4-feature-references/01-core-systems/03-settings.instructions.md)
 - [**4.1.4 Fonts**](./instructions/4-feature-references/01-core-systems/04-fonts.instructions.md)
 - [**4.1.5 Browser Detection**](./instructions/4-feature-references/01-core-systems/05-browser-detection.instructions.md)
+- [**4.1.6 Page Navigation**](./instructions/4-feature-references/01-core-systems/06-page-navigation.instructions.md)
+- [**4.1.7 Modal Helpers**](./instructions/4-feature-references/01-core-systems/07-modal-helpers.instructions.md)
 
 ### 4.2 UI Components
 
@@ -222,6 +196,9 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.2.6 Scroll Hint**](./instructions/4-feature-references/02-ui-components/06-scroll-hint.instructions.md)
 - [**4.2.7 Tooltips & Toast**](./instructions/4-feature-references/02-ui-components/07-tooltips-toast.instructions.md)
 - [**4.2.8 Copy Protection**](./instructions/4-feature-references/02-ui-components/08-copy-protection.instructions.md)
+- [**4.2.9 Hero Section**](./instructions/4-feature-references/02-ui-components/09-hero-section.instructions.md)
+- [**4.2.10 Section Headings & Anchors**](./instructions/4-feature-references/02-ui-components/10-section-headings.instructions.md)
+- [**4.2.11 Markdown Article**](./instructions/4-feature-references/02-ui-components/11-markdown-article.instructions.md)
 
 ### 4.3 Modals
 

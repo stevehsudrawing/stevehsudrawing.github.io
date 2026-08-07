@@ -6,6 +6,7 @@ description: >
   Use when: modifying accessibility features, focus management, or CSS media queries.
 applyTo: >
   src/ui/accessibility.ts;
+  src/components/buttons/SkipButton.vue;
   src/stylesheets/global/accessibility.css
 ---
 
@@ -13,14 +14,17 @@ applyTo: >
 
 ##### 4.4.1.1 Skip-to-Content Button
 
-`#skip-button` (in App.vue template) provides a keyboard-accessible link
-to `#page-content`. Visible on `:focus`. Initialized via `initSkipButton()`.
+`SkipButton.vue` (rendered in App.vue template) provides a keyboard-accessible
+link to `#page-content`. Visible on `:focus`. Styled by `#skip-button` rules
+in `accessibility.css`.
 
-##### 4.4.1.2 Keyboard vs Mouse Focus
+##### 4.4.1.2 Input Modality Detection
 
-`.user-input-keyboard` class on `<body>` distinguishes keyboard navigation
-from mouse clicks. Added on first `Tab`, removed on `mousedown`.
-CSS uses this for conditional focus outlines.
+`initInputModalityDetection()` (in `accessibility.ts`, called from
+App.vue's `onMounted`) toggles `.user-input-keyboard`, `.user-input-pointer`,
+and `.user-input-touch` classes on `<html>` based on the user's last
+input method. CSS uses these for conditional focus outlines (see
+`accessibility.css`).
 
 ##### 4.4.1.3 Reduced Motion / Transparency / Contrast
 

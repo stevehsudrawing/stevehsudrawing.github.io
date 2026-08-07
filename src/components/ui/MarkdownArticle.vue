@@ -2,7 +2,7 @@
   MarkdownArticle.vue -- Reusable markdown renderer with built-in scrollspy.
 
   Accepts a raw markdown string via the `content` prop and renders it through
-  a full HAST post-processing pipeline (marked → fromHtml → process → toHtml),
+  a full HAST post-processing pipeline (marked -> fromHtml -> process -> toHtml),
   then displays the result alongside a desktop sidebar scrollspy and a mobile
   sticky collapsible heading nav.
 
@@ -91,7 +91,7 @@ function onResize(): void {
 // HAST post-processing
 // -------------------------------------------------------------------------
 
-/** Heading level → Bootstrap heading class mapping: h2→.h4, h3→.h5, etc. */
+/** Heading level -> Bootstrap heading class mapping: h2->.h4, h3->.h5, etc. */
 function headingClass(tagName: string): string {
   const match = /^h(\d)$/.exec(tagName);
   if (!match) return "";

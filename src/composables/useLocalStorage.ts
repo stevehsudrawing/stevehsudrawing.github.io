@@ -24,7 +24,7 @@
 import { ref, watch, type Ref } from "vue";
 
 // =========================================================================
-// Module-level ref cache (key → shared Ref)
+// Module-level ref cache (key -> shared Ref)
 // =========================================================================
 
 /** Singleton refs keyed by localStorage key. */

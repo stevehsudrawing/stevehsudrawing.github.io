@@ -8,6 +8,7 @@ import { ref, computed, toRef, type Ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useLocalStorage } from "../../composables/useLocalStorage";
 import { StorageKey } from "../../types/app";
+import { useModalFocus } from "../../composables/useModalFocus";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import CopyButton from "../buttons/CopyButton.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
@@ -52,6 +53,12 @@ const emit = defineEmits<{
 const visible = ref(false);
 const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
 const { t } = useI18n();
+
+/** Open-button element for keyboard auto-focus. */
+const openBtnRef = ref<HTMLElement | null>(null);
+
+/** Keyboard-aware focus: move focus to Open button when opened via Tab. */
+const { onShown } = useModalFocus(openBtnRef);
 
 // Extract display properties from HAST imgProperties
 const {
@@ -105,6 +112,7 @@ defineExpose({
     no-header-close
     centered
     hide-footer
+    @shown="onShown"
   >
     <p class="mb-2">
       {{
@@ -128,7 +136,7 @@ defineExpose({
           class="img-fluid"
         />
       </div>
-      <code class="d-block bg-body-tertiary p-2 flex-grow-1">{{ url }}</code>
+      <code class="d-block p-2 flex-grow-1">{{ url }}</code>
     </div>
 
     <BFormCheckbox id="ext-link-new-tab-toggle" v-model="openInNewTab" switch>
@@ -165,6 +173,7 @@ defineExpose({
           {{ $t("text-cancel", "Cancel") }}
         </button>
         <button
+          ref="openBtnRef"
           type="button"
           class="btn btn-outline-primary btn-no-border"
           @click="confirm"

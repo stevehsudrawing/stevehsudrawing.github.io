@@ -42,8 +42,6 @@ const copyUrl = computed(() =>
     ? `${props.baseUrl}${props.pagePath}#${titleId.value}`
     : "",
 );
-
-const ariaLabel = computed(() => `Link to ${props.title}`);
 </script>
 
 <template>
@@ -54,11 +52,7 @@ const ariaLabel = computed(() => `Link to ${props.title}`);
     <h2 v-else class="title-link-group h4">
       <slot>{{ title }}</slot>
     </h2>
-    <AnchorButton
-      v-if="titleId"
-      :target-id="titleId"
-      :button-aria-label="ariaLabel"
-    />
+    <AnchorButton v-if="titleId" :target-id="titleId" :heading-title="title" />
     <CopyButton
       v-if="titleId && copyUrl"
       class="link title-link-anchor"

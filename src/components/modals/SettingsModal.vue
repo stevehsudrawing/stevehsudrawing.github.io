@@ -8,6 +8,7 @@ import { ref, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useLocalStorage } from "../../composables/useLocalStorage";
+import { useModalFocus } from "../../composables/useModalFocus";
 import { StorageKey } from "../../types/app";
 import ResetWarningModal from "./ResetWarningModal.vue";
 import languageList from "../../configs/language-list.json";
@@ -18,6 +19,8 @@ import languageList from "../../configs/language-list.json";
 
 const visible = ref(false);
 const resetWarningRef = ref<InstanceType<typeof ResetWarningModal>>();
+/** Language-select element for keyboard auto-focus. */
+const langSelectRef = ref<HTMLElement | null>(null);
 
 /** When true, SettingsModal was closed to show ResetWarningModal. */
 let pendingResetWarning = false;
@@ -27,6 +30,9 @@ const { preference: themePreference, setPreference: setTheme } = useTheme();
 
 const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
 const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
+
+/** Keyboard-aware focus: move focus to language select when opened via Tab. */
+const { onShown } = useModalFocus(langSelectRef);
 
 // -------------------------------------------------------------------------
 // Reduced-motion detection
@@ -128,6 +134,7 @@ defineExpose({
     ok-title="Close"
     ok-variant="outline-primary"
     cancel-variant="outline-secondary"
+    @shown="onShown"
     @hidden="onSettingsHidden"
   >
     <div class="d-flex flex-column gap-3">
@@ -138,6 +145,7 @@ defineExpose({
         </label>
         <select
           id="settings-language-select"
+          ref="langSelectRef"
           v-model="locale"
           class="form-select"
           @change="setLocale(locale)"

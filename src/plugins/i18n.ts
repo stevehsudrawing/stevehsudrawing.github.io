@@ -40,9 +40,17 @@ export const i18nPlugin = {
     app.config.globalProperties.$t = (
       key: string,
       fallback?: string,
+      params?: string[],
     ): string => {
-      const v = messages.value[key];
-      return typeof v === "string" ? v : (fallback ?? "");
+      const raw = messages.value[key];
+      let result: string = typeof raw === "string" ? raw : (fallback ?? "");
+      if (params && params.length > 0) {
+        result = result.replace(
+          /%(\d+)/g,
+          (_m: string, n: string) => params[+n - 1] ?? _m,
+        );
+      }
+      return result;
     };
   },
 };

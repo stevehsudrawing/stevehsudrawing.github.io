@@ -57,7 +57,7 @@ const displayIconProps = computed<Record<string, unknown>>(() => {
   return result;
 });
 
-/** HAST properties → FeatureAwareImg display props. */
+/** HAST properties -> FeatureAwareImg display props. */
 const imgDisplay = useImgDisplayProps(
   computed(() => displayIconProps.value as HastProperties),
 );
