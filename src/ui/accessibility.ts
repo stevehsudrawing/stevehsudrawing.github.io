@@ -1,7 +1,7 @@
 /**
  * Accessibility helpers.
- * Handles smooth-scroll to hash targets, keyboard/pointer mode switching,
- * skip-button activation, and external link indicators.
+ * Handles smooth-scroll to hash targets, keyboard/pointer/touch input
+ * modality detection, and external link indicators.
  */
 
 /**
@@ -29,28 +29,31 @@ export function scrollToHashTarget(
 }
 
 /**
- * Activate the skip-to-main-content button and manage keyboard vs pointer
- * input mode classes on the root element for focus-visible styling.
+ * Initialize input modality detection.
+ * Toggles `.user-input-keyboard`, `.user-input-pointer`, and
+ * `.user-input-touch` classes on `<html>` based on the user's
+ * last input method.  These classes drive `:focus-visible` styling
+ * via CSS selectors (e.g. `.user-input-keyboard :focus`).
  */
-export function initSkipButton(): void {
+export function initInputModalityDetection(): void {
   const root = document.documentElement;
 
   function setKeyboardMode(): void {
     root.classList.add("user-input-keyboard");
-    root.classList.remove("user-input-pointer");
+    root.classList.remove("user-input-pointer", "user-input-touch");
   }
 
   function setPointerMode(): void {
-    root.classList.remove("user-input-keyboard");
     root.classList.add("user-input-pointer");
+    root.classList.remove("user-input-keyboard", "user-input-touch");
   }
 
   function setTouchMode(): void {
-    root.classList.remove("user-input-keyboard", "user-input-pointer");
     root.classList.add("user-input-touch");
+    root.classList.remove("user-input-keyboard", "user-input-pointer");
   }
 
-  // Keyboard navigation (Tab) should enable keyboard mode
+  // Keyboard navigation enables keyboard mode
   document.addEventListener(
     "keydown",
     function (e) {
@@ -67,24 +70,13 @@ export function initSkipButton(): void {
     true,
   );
 
-  // Any pointer interaction disables keyboard-only display
+  // Pointer interaction enables pointer mode
   ["mousedown", "pointerdown"].forEach((evt) => {
     document.addEventListener(evt, setPointerMode, true);
   });
 
-  // Touch interaction sets touch mode (separate from mouse pointer)
+  // Touch interaction enables touch mode (separate from mouse pointer)
   document.addEventListener("touchstart", setTouchMode, true);
-
-  // Optional: on focus of skip button ensure keyboard class present for older browsers
-  document.addEventListener("focusin", function (e) {
-    if ((e.target as HTMLElement)?.id === "skip-button") {
-      // If focus landed on the skip button but pointer mode is active, switch to keyboard mode
-      if (!root.classList.contains("user-input-keyboard")) {
-        // Prefer :focus-visible in modern browsers; this is a safe fallback
-        setKeyboardMode();
-      }
-    }
-  });
 }
 
 /**

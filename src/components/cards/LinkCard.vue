@@ -6,12 +6,12 @@
 -->
 <script setup lang="ts">
 import { computed, toRef, type Ref } from "vue";
-import { useI18n } from "../../composables/useI18n.js";
-import { useImgDisplayProps } from "../../composables/useImgDisplayProps.js";
+import { useI18n } from "../../composables/useI18n";
+import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
-import type { CardData } from "../../types/app.js";
-import type { HastProperties, HastNode } from "../../types/hast.js";
-import { resolveI18nInHtml } from "../../core/utils.js";
+import type { CardData } from "../../types/app";
+import type { HastProperties, HastNode } from "../../types/hast";
+import { resolveI18nInHtml } from "../../core/utils";
 import { toHtml } from "hast-util-to-html";
 
 // =========================================================================

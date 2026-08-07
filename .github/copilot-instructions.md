@@ -32,7 +32,8 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 
 ### 0.2 TypeScript Code
 
-- **Always `.js` extension**, never `.ts`: `import { foo } from '../core/bar.js'`
+- **The principle of "high cohesion and low coupling"**: a function should perform only one task to ensure it can be reused.
+- **No suffix is required when importing `.ts` modules**: `import { foo } from '../core/bar'`
 - **`import type`** for type-only imports (erased at build time): `import type { Lang } from '../types/app.js'`
 - **Direct Import Principle**: import directly from the source module; do not re-export through intermediate modules
 - **TSDoc required**: every exported variable, function, interface, and type alias must have a standard TSDoc comment (`/** ... */`)

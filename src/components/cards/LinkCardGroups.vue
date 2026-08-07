@@ -8,8 +8,8 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import LinkCardGroup from "./LinkCardGroup.vue";
-import type { GroupData } from "../../types/app.js";
-import { addAllExternalLinkIndicators } from "../../ui/accessibility.js";
+import type { GroupData } from "../../types/app";
+import { addAllExternalLinkIndicators } from "../../ui/accessibility";
 
 // =========================================================================
 // Props

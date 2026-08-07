@@ -8,9 +8,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import LinkButton from "./LinkButton.vue";
-import type { LinkButtonData } from "../../types/app.js";
-import { useI18n } from "../../composables/useI18n.js";
-import { addAllExternalLinkIndicators } from "../../ui/accessibility.js";
+import type { LinkButtonData } from "../../types/app";
+import { useI18n } from "../../composables/useI18n";
+import { addAllExternalLinkIndicators } from "../../ui/accessibility";
 
 // =========================================================================
 // Props

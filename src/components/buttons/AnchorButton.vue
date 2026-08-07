@@ -8,7 +8,7 @@
   pattern previously handled by ui/accessibility.ts + ui/tooltips.ts.
 -->
 <script setup lang="ts">
-import { scrollToHashTarget } from "../../ui/accessibility.js";
+import { scrollToHashTarget } from "../../ui/accessibility";
 
 // =========================================================================
 // Props

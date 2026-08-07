@@ -8,7 +8,7 @@
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import { toDashCase } from "../../core/utils.js";
+import { toDashCase } from "../../core/utils";
 import AnchorButton from "../buttons/AnchorButton.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 

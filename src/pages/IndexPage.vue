@@ -10,8 +10,8 @@
 import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
-import { useLinkButtonGroups } from "../composables/useLinkButtonGroups.js";
-import type { LinkButtonGroupData } from "../types/app.js";
+import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
+import type { LinkButtonGroupData } from "../types/app";
 
 // =========================================================================
 // State

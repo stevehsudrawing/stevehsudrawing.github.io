@@ -6,17 +6,17 @@
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import { useI18n } from "../../composables/useI18n.js";
+import { useI18n } from "../../composables/useI18n";
 import {
   extractPlainText,
   toDashCase,
   resolveI18nInHtml,
-} from "../../core/utils.js";
+} from "../../core/utils";
 import LinkCard from "./LinkCard.vue";
 import SectionHeading from "../ui/SectionHeading.vue";
 import { toHtml } from "hast-util-to-html";
-import type { GroupData } from "../../types/app.js";
-import type { HastNode } from "../../types/hast.js";
+import type { GroupData } from "../../types/app";
+import type { HastNode } from "../../types/hast";
 
 // =========================================================================
 // Props

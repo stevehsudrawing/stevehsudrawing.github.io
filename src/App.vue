@@ -30,6 +30,7 @@ import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
 import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
+import SkipButton from "./components/ui/SkipButton.vue";
 import AppNavbar from "./components/layout/AppNavbar.vue";
 import FooterNav from "./components/layout/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
@@ -40,7 +41,7 @@ import { updateThemeToggleText, setActiveThemeItem } from "./ui/theme";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
 import {
   initHashChangeScroll,
-  initSkipButton,
+  initInputModalityDetection,
   addAllExternalLinkIndicators,
 } from "./ui/accessibility";
 import { updatePageTitle } from "./ui/page-title";
@@ -293,7 +294,7 @@ function onInternalLinkClick(e: MouseEvent): void {
 onMounted(async () => {
   try {
     initBootstrapCSSDetection();
-    initSkipButton();
+    initInputModalityDetection();
 
     await initLang();
 
@@ -321,13 +322,7 @@ onMounted(async () => {
 
 <template>
   <!-- Static overlay elements.  Live outside the main flow. -->
-  <a
-    id="skip-button"
-    href="#page-content"
-    class="btn btn-primary"
-    role="button"
-    >{{ $t("text-skip-to-content", "Skip to Content") }}</a
-  >
+  <SkipButton />
 
   <AppNavbar ref="appNavbarRef" :current-page="currentPage" />
   <LoadingScreen ref="loadingScreenRef" />

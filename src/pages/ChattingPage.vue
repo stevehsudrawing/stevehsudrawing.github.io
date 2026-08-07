@@ -8,7 +8,7 @@
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
-import { useLinkCards, BASE_URL } from "../composables/useLinkCards.js";
+import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
 // Link cards

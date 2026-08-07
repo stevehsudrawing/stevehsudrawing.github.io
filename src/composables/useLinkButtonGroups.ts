@@ -6,7 +6,7 @@
  * content-injection-plugin.ts.
  */
 import { ref, type Ref } from "vue";
-import type { LinkButtonGroupData } from "../types/app.js";
+import type { LinkButtonGroupData } from "../types/app";
 
 // =========================================================================
 // Constants

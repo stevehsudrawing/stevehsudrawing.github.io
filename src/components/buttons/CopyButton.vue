@@ -11,8 +11,8 @@
   handled by ui/copy-link.ts (now deleted).
 -->
 <script setup lang="ts">
-import { useI18n } from "../../composables/useI18n.js";
-import { useToast } from "../../composables/useToast.js";
+import { useI18n } from "../../composables/useI18n";
+import { useToast } from "../../composables/useToast";
 
 // =========================================================================
 // Props

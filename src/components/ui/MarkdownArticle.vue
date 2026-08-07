@@ -16,13 +16,9 @@ import { marked } from "marked";
 import { fromHtml } from "hast-util-from-html";
 import { toHtml } from "hast-util-to-html";
 import { BRow, BCol } from "bootstrap-vue-next";
-import {
-  extractPlainText,
-  toDashCase,
-  isInternalPage,
-} from "../../core/utils.js";
-import { scrollToHashTarget } from "../../ui/accessibility.js";
-import type { HastNode } from "../../types/hast.js";
+import { extractPlainText, toDashCase, isInternalPage } from "../../core/utils";
+import { scrollToHashTarget } from "../../ui/accessibility";
+import type { HastNode } from "../../types/hast";
 
 // =========================================================================
 // Types
@@ -279,13 +275,13 @@ onBeforeUnmount(() => {
     </div>
 
     <BRow>
-      <!-- Article content -->
-      <BCol cols="12" :lg="headings.length > 0 ? 9 : 12">
-        <div class="article" v-html="renderedHtml"></div>
-      </BCol>
-
       <!-- Desktop scrollspy nav -->
-      <BCol v-if="headings.length > 0 && !isMobile" cols="12" lg="3">
+      <BCol
+        v-if="headings.length > 0 && !isMobile"
+        cols="12"
+        lg="3"
+        class="order-2"
+      >
         <nav
           class="scrollspy-nav sticky-top"
           :style="{ top: 'calc(64px + 1rem)' }"
@@ -307,6 +303,11 @@ onBeforeUnmount(() => {
             </li>
           </ul>
         </nav>
+      </BCol>
+
+      <!-- Article content -->
+      <BCol cols="12" :lg="headings.length > 0 ? 9 : 12" class="order-1">
+        <div class="article" v-html="renderedHtml"></div>
       </BCol>
     </BRow>
   </div>

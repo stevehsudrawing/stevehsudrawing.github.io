@@ -41,7 +41,7 @@ export const enum AppEvent {
 // Link-card data (used by Vue components and the build-time builder)
 // =========================================================================
 
-import type { HastNode, HastProperties } from "./hast.js";
+import type { HastNode, HastProperties } from "./hast";
 
 /** Link-card descriptor — a single card with icon, title, and description. */
 export interface CardData {

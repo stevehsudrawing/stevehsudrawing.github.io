@@ -15,7 +15,7 @@ import { join, extname } from "node:path";
  * @param text - The input string to slugify.
  * @returns A lowercase, dash-separated slug with special characters removed.
  */
-import { toDashCase, extractPlainText } from "../src/core/utils.js";
+import { toDashCase, extractPlainText } from "../src/core/utils";
 
 export { toDashCase, extractPlainText };
 

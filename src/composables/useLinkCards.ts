@@ -4,7 +4,7 @@
  * Phase 7: replaces build-time #links injection in content-injection-plugin.ts.
  */
 import { ref, computed, type Ref } from "vue";
-import type { GroupData } from "../types/app.js";
+import type { GroupData } from "../types/app";
 
 // =========================================================================
 // Constants

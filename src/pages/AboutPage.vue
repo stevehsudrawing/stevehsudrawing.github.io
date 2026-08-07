@@ -10,7 +10,7 @@ import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
-import { useLinkCards, BASE_URL } from "../composables/useLinkCards.js";
+import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
 // Link cards
