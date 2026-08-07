@@ -39,7 +39,6 @@ import ToastStack from "./components/ui/ToastStack.vue";
 
 // Legacy modules (diminishing — Phase 7 will eliminate most)
 import { StorageKey } from "./types/app";
-import { updateThemeToggleText, setActiveThemeItem } from "./ui/theme";
 import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
 import {
   initHashChangeScroll,
@@ -246,9 +245,6 @@ onMounted(async () => {
     document.addEventListener("click", onInternalLinkClick);
 
     initHashChangeScroll();
-
-    updateThemeToggleText();
-    setActiveThemeItem();
 
     loadingScreenRef.value?.hide();
   } catch (error) {

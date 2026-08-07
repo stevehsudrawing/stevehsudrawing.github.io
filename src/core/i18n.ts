@@ -59,22 +59,6 @@ export function normalizeLang(lang: string): Lang {
 }
 
 /**
- * Safely retrieve a translated string from the global langData dictionary.
- * If langData is loaded and contains the given key, the translated value is returned;
- * otherwise the fallback text is returned.
- * @param key - The i18n key to look up (e.g. 'text-welcome').
- * @param fallback - Text to return when the key is not found.
- * @returns The translated text, or the fallback if unavailable.
- */
-export function translate(key: string, fallback?: string): string {
-  if (typeof langData !== "undefined" && langData[key]) {
-    const v = langData[key];
-    return typeof v === "string" ? v : (fallback ?? "");
-  }
-  return fallback !== undefined ? fallback : "";
-}
-
-/**
  * Apply already-loaded translation data to the page.
  * Stores the data, persists the preference, updates the URL query
  * parameter, the <html lang> attribute, and the language-select dropdown.

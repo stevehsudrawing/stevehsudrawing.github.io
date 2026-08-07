@@ -7,7 +7,6 @@
 
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
 import { StorageKey } from "../types/app";
-import { translate } from "../core/i18n";
 import { initImageLoadingOpacity, markImageUnloaded } from "./img-utils";
 
 export const htmlElement: HTMLElement = document.documentElement;
@@ -312,67 +311,6 @@ export function initSystemThemeListener(): void {
 }
 
 /**
- * Theme metadata: i18n keys and English labels.
- */
-export const THEME_META = {
-  light: { i18n: "text-light" as const, label: "Light" },
-  dark: { i18n: "text-dark" as const, label: "Dark" },
-  auto: { i18n: "text-auto" as const, label: "Auto" },
-} as const satisfies Record<ThemeChoice, { i18n: string; label: string }>;
-
-/**
- * Map a theme value to its i18n key for display in the theme toggle.
- * @param theme - One of 'auto', 'light', or 'dark'.
- * @returns The i18n key (e.g. 'text-auto').
- */
-export function getThemeI18nKey(theme: ThemeChoice): string {
-  return (THEME_META[theme] || THEME_META["auto"]).i18n;
-}
-
-/**
- * Return a human-readable English label for a theme value.
- * @param theme - One of 'auto', 'light', or 'dark'.
- * @returns The label (e.g. 'Auto').
- */
-export function getThemeLabel(theme: ThemeChoice): string {
-  return (THEME_META[theme] || THEME_META["auto"]).label;
-}
-
-/**
- * Update all .themeCurrentText elements to display the current theme name.
- */
-export function updateThemeToggleText(): void {
-  const themeTextElements = document.querySelectorAll(".themeCurrentText");
-  if (themeTextElements.length === 0) {
-    return;
-  }
-
-  const key = getThemeI18nKey(currentThemePreference);
-  themeTextElements.forEach((themeTextElement) => {
-    themeTextElement.setAttribute("data-i18n", key);
-    themeTextElement.textContent =
-      translate(key) || getThemeLabel(currentThemePreference);
-  });
-}
-
-/**
- * Mark the currently selected theme item as active in the theme dropdown.
- */
-export function setActiveThemeItem(): void {
-  const themeItems = document.querySelectorAll(".theme-item");
-  themeItems.forEach((item) => {
-    const itemTheme = item.getAttribute("data-theme");
-    if (itemTheme === currentThemePreference) {
-      item.classList.add("active");
-      item.setAttribute("aria-current", "true");
-    } else {
-      item.classList.remove("active");
-      item.removeAttribute("aria-current");
-    }
-  });
-}
-
-/**
  * Persist a theme choice and update all related UI elements.
  * The overlay from applyThemePreference naturally covers any in-progress
  * dropdown close animation, so no special deferral is needed.
@@ -382,7 +320,5 @@ export function setThemePreference(themeChoice: ThemeChoice): void {
   // Persist and update UI immediately for responsiveness.
   currentThemePreference = themeChoice;
   localStorage.setItem(StorageKey.Theme, themeChoice);
-  updateThemeToggleText();
-  setActiveThemeItem();
   applyThemePreference(themeChoice, false);
 }
