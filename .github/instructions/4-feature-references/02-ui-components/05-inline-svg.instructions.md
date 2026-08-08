@@ -1,11 +1,10 @@
 ---
 description: >
-  Inline SVG: InlineSvg.vue (fetch SVG -> inject inline), useSvgInjection.ts composable
-  (global document scan).  SVG conventions: fill="currentColor" placeholder, include viewBox.
-  Use when: adding SVG assets, modifying SVG injection logic, or using SVG placeholders.
+  Inline SVG: InlineSvg.vue (fetch SVG -> inject inline).
+  SVG conventions: fill="currentColor" placeholder, include viewBox.
+  Use when: adding SVG assets or modifying SVG injection logic.
 applyTo: >
-  src/components/ui/InlineSvg.vue;
-  src/composables/useSvgInjection.ts
+  src/components/ui/InlineSvg.vue
 ---
 
 #### 4.2.5 Inline SVG
@@ -21,7 +20,7 @@ applyTo: >
 
 Usage:
 
-```html
+```vue
 <InlineSvg
   src="/images/svg/icons/steve-hsu.svg"
   :width="32"
@@ -31,7 +30,7 @@ Usage:
 
 ##### 4.2.5.2 injectSVG() Logic
 
-Shared between `InlineSvg.vue` and `useSvgInjection.ts` (composable exports it):
+`injectSVG()` is a module-level helper in `InlineSvg.vue`:
 
 1. Guard: skip if `<svg>` already injected
 2. `fetch(src)` -> `response.text()`
@@ -39,12 +38,7 @@ Shared between `InlineSvg.vue` and `useSvgInjection.ts` (composable exports it):
 4. Set `width`/`height` on `<svg>` tag
 5. Set `innerHTML` of placeholder
 
-##### 4.2.5.3 Global Document Scan
-
-`initSvgInjection()` processes `<span data-role="svg" data-src="..." ...>`
-placeholders in static HTML. Called from legacy `page-content-initializer.ts`.
-
-##### 4.2.5.4 SVG File Conventions
+##### 4.2.5.3 SVG File Conventions
 
 - Must use `fill="currentColor"` as placeholder for dynamic coloring
 - Must include `viewBox` attribute

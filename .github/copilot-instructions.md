@@ -199,6 +199,7 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.2.9 Hero Section**](./instructions/4-feature-references/02-ui-components/09-hero-section.instructions.md)
 - [**4.2.10 Section Headings & Anchors**](./instructions/4-feature-references/02-ui-components/10-section-headings.instructions.md)
 - [**4.2.11 Markdown Article**](./instructions/4-feature-references/02-ui-components/11-markdown-article.instructions.md)
+- [**4.2.12 Sticker Section**](./instructions/4-feature-references/02-ui-components/12-sticker-section.instructions.md)
 
 ### 4.3 Modals
 

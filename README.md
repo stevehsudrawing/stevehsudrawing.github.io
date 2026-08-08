@@ -19,7 +19,7 @@
 </div>
 <br>
 
-A personal link-hub website that consolidates links to all my profiles across various platforms. Built with [Vue 3](https://vuejs.org/), [TypeScript](<>), and Bootstrap, bundled by [Vite](https://vite.dev/), deployed via GitHub Pages.
+A personal link-hub website that consolidates links to all my profiles across various platforms. Built with [Vue 3](https://vuejs.org/), [TypeScript](https://www.typescriptlang.org/), and [Bootstrap](https://getbootstrap.com/), bundled by [Vite](https://vite.dev/), deployed via [GitHub Pages](https://pages.github.com/).
 
 ---
 
@@ -52,21 +52,20 @@ For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseli
 
 ## 3. Tech Stack
 
-| Category        | Choice                                                                                                       |
-| --------------- | ------------------------------------------------------------------------------------------------------------ |
-| Language        | [TypeScript](https://www.typescriptlang.org/)                                                                |
-| UI Framework    | [Vue 3](https://vuejs.org/) + [bootstrap-vue-next](https://bootstrap-vue-next.github.io/bootstrap-vue-next/) |
-| SPA Routing     | [Vue Router 5](https://router.vuejs.org/)                                                                    |
-| Build Tool      | [Vite 8](https://vite.dev/)                                                                                  |
-| Package Manager | [pnpm](https://pnpm.io/)                                                                                     |
-| CSS Framework   | [Bootstrap 5.3.8](https://getbootstrap.com/)                                                                 |
-| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                                           |
-| Font            | [Inter Variable](https://github.com/rsms/inter)                                                              |
-| Monospace Font  | [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono)                                            |
-| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                                             |
-| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                                                     |
-| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                                                       |
-| Hosting         | [GitHub Pages](https://pages.github.com/)                                                                    |
+| Category        | Choice                                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Language        | [TypeScript](https://www.typescriptlang.org/)                                                                       |
+| UI Framework    | [Vue 3](https://vuejs.org/) + [bootstrap-vue-next](https://bootstrap-vue-next.github.io/bootstrap-vue-next/)        |
+| SPA Routing     | [Vue Router 5](https://router.vuejs.org/)                                                                           |
+| Build Tool      | [Vite 8](https://vite.dev/)                                                                                         |
+| Package Manager | [pnpm](https://pnpm.io/)                                                                                            |
+| CSS Framework   | [Bootstrap 5.3.8](https://getbootstrap.com/)                                                                        |
+| Icons           | [Bootstrap Icons](https://icons.getbootstrap.com/)                                                                  |
+| Font            | [Inter Variable](https://github.com/rsms/inter) + [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono) |
+| QR Code         | [qrcode](https://github.com/soldair/node-qrcode)                                                                    |
+| HTML-to-Image   | [html-to-image](https://github.com/bubkoo/html-to-image)                                                            |
+| HTML-to-Canvas  | [html2canvas](https://github.com/niklasvh/html2canvas)                                                              |
+| Hosting         | [GitHub Pages](https://pages.github.com/)                                                                           |
 
 ## 4. Development
 

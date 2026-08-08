@@ -7,29 +7,13 @@
 
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
 import { StorageKey } from "../types/app";
-import { initImageLoadingOpacity, markImageUnloaded } from "./img-utils";
 
 export const htmlElement: HTMLElement = document.documentElement;
 
-export let currentThemePreference: ThemeChoice = "auto";
 export const supportedThemes = ["auto", "light", "dark"] as const;
 
 /** Monotonic counter to cancel superseded transition callbacks. */
 export let themeTransitionId = 0;
-
-/**
- * Restore the saved theme preference from localStorage, defaulting to 'auto'.
- */
-export function initThemePreference(): void {
-  // Get preference if it exists
-  const savedTheme = localStorage.getItem(StorageKey.Theme);
-  if (
-    savedTheme &&
-    (supportedThemes as readonly string[]).includes(savedTheme)
-  ) {
-    currentThemePreference = savedTheme as ThemeChoice;
-  }
-}
 
 export const prefersColorScheme = window.matchMedia(
   "(prefers-color-scheme: dark)",
@@ -65,8 +49,6 @@ export function applyThemeChange(theme: string): void {
   } else {
     htmlElement.setAttribute("data-bs-theme", theme);
   }
-  applyAllThemeBasedImages();
-  applyAllThemeBasedSources();
   applyAllFaviconThemes();
 }
 
@@ -75,13 +57,15 @@ export function applyThemeChange(theme: string): void {
  * Creates a full-page overlay dynamically for smooth crossfade, then
  * removes it after the transition completes — avoids permanent backdrop-filter
  * compositing overhead (which interferes with window minimize on Windows).
+ *
+ * Persistence (localStorage) is owned by useLocalStorage() in useTheme.ts;
+ * this function only handles DOM side-effects.
+ *
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
- * @param save - Whether to persist the choice to localStorage.
  * @param useOverlay - When false, skip the transition overlay (used during initial page load).
  */
 export function applyThemePreference(
   themeChoice: ThemeChoice,
-  save = true,
   useOverlay = true,
 ): void {
   const theme: ThemeChoice = (supportedThemes as readonly string[]).includes(
@@ -89,10 +73,6 @@ export function applyThemePreference(
   )
     ? themeChoice
     : "auto";
-
-  if (save) {
-    localStorage.setItem(StorageKey.Theme, theme);
-  }
 
   // Skip the overlay (instant switch) when:
   // - User prefers reduced motion, or
@@ -150,98 +130,9 @@ export function applyThemePreference(
  * No overlay is used - system-initiated changes should be subtle.
  */
 export function updateAutoThemeOnSystemChange(): void {
-  if (currentThemePreference !== "auto") return;
+  const pref = localStorage.getItem(StorageKey.Theme) ?? "auto";
+  if (pref !== "auto") return;
   applyThemeChange("auto");
-}
-
-/**
- * Apply the current theme's image source to a single <img> element
- * that has data-img-feature~="follow-theme".
- * Ensures data-src-light is populated on first call so the light
- * source is always recoverable.
- * @param img - The image element to update.
- */
-export function applyThemeBasedImage(img: HTMLImageElement): void {
-  if (!img.hasAttribute("data-src-light")) {
-    img.setAttribute("data-src-light", img.getAttribute("src") || "");
-  }
-
-  // Remove loaded marker so the image appears semi-transparent while
-  // the new theme variant loads (see img-utils.js loading opacity).
-  markImageUnloaded(img);
-
-  const currentTheme = htmlElement.getAttribute("data-bs-theme");
-  if (currentTheme === "dark") {
-    img.setAttribute("src", img.getAttribute("data-src-dark") || "");
-  } else {
-    const lightSrc = img.getAttribute("data-src-light");
-    if (lightSrc) {
-      img.setAttribute("src", lightSrc);
-    }
-  }
-
-  // Re-mark as loaded once the new src finishes loading.
-  // Delegates to img-utils.js which handles both cached and loading images.
-  initImageLoadingOpacity(img);
-}
-
-/**
- * Swap img[src] with img[data-src-dark] when the current theme is dark,
- * and restore the original light source when switching back.
- * Targets <img> elements with data-img-feature~="follow-theme".
- * Delegates to applyThemeBasedImage() for each matching element.
- */
-export function applyAllThemeBasedImages(): void {
-  try {
-    document
-      .querySelectorAll<HTMLImageElement>(
-        'img[data-img-feature~="follow-theme"]',
-      )
-      .forEach(applyThemeBasedImage);
-  } catch (error) {
-    console.error("Failed to apply theme-based images:", error);
-  }
-}
-
-/**
- * Apply the current theme's image source to a single <source> element
- * that has data-img-feature~="follow-theme".
- * Ensures data-src-light is populated on first call so the light
- * source is always recoverable.
- * @param source - The source element to update.
- */
-export function applyThemeBasedSource(source: HTMLSourceElement): void {
-  if (!source.hasAttribute("data-src-light")) {
-    source.setAttribute("data-src-light", source.getAttribute("srcset") || "");
-  }
-
-  const currentTheme = htmlElement.getAttribute("data-bs-theme");
-  if (currentTheme === "dark") {
-    source.setAttribute("srcset", source.getAttribute("data-src-dark") || "");
-  } else {
-    const lightSrc = source.getAttribute("data-src-light");
-    if (lightSrc) {
-      source.setAttribute("srcset", lightSrc);
-    }
-  }
-}
-
-/**
- * Swap source[srcset] with source[data-src-dark] when the current theme is dark,
- * and restore the original light source when switching back.
- * Targets <source> elements with data-img-feature~="follow-theme".
- * Delegates to applyThemeBasedSource() for each matching element.
- */
-export function applyAllThemeBasedSources(): void {
-  try {
-    document
-      .querySelectorAll<HTMLSourceElement>(
-        'source[data-img-feature~="follow-theme"]',
-      )
-      .forEach(applyThemeBasedSource);
-  } catch (error) {
-    console.error("Failed to apply theme-based sources:", error);
-  }
 }
 
 /**
@@ -290,35 +181,5 @@ export function applyAllFaviconThemes(): void {
  * when the user's preference is 'auto'.
  */
 export function initSystemThemeListener(): void {
-  if (typeof prefersColorScheme.addEventListener === "function") {
-    prefersColorScheme.addEventListener(
-      "change",
-      updateAutoThemeOnSystemChange,
-    );
-  } else if (
-    typeof (
-      prefersColorScheme as MediaQueryList & {
-        addListener: (cb: () => void) => void;
-      }
-    ).addListener === "function"
-  ) {
-    (
-      prefersColorScheme as MediaQueryList & {
-        addListener: (cb: () => void) => void;
-      }
-    ).addListener(updateAutoThemeOnSystemChange);
-  }
-}
-
-/**
- * Persist a theme choice and update all related UI elements.
- * The overlay from applyThemePreference naturally covers any in-progress
- * dropdown close animation, so no special deferral is needed.
- * @param themeChoice - One of 'auto', 'light', or 'dark'.
- */
-export function setThemePreference(themeChoice: ThemeChoice): void {
-  // Persist and update UI immediately for responsiveness.
-  currentThemePreference = themeChoice;
-  localStorage.setItem(StorageKey.Theme, themeChoice);
-  applyThemePreference(themeChoice, false);
+  prefersColorScheme.addEventListener("change", updateAutoThemeOnSystemChange);
 }

@@ -3,7 +3,6 @@
   colored mask, and loading opacity.
 
   Props: lightSrc, darkSrc?, feature?, colorMaskSrc?, colorVar?, alt?, width?, height?, class?
-  Global scan: useImgFeatures.ts (composable).
 
   Replaces ui/img-utils.ts + stylesheets/components/img-utils.css.
 -->

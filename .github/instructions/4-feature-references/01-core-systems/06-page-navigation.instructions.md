@@ -22,7 +22,6 @@ side effects that were previously inlined in App.vue's `<script setup>`.
 | `afterEach`  | `loadingBarRef.value?.complete()`                         |
 | `beforeEach` | Add `.content-dimming` to `#page-content` (not first nav) |
 | `afterEach`  | Remove `.content-dimming` from `#page-content`            |
-| `afterEach`  | `await nextTick(); addAllExternalLinkIndicators()`        |
 | `afterEach`  | `updatePageTitle()`                                       |
 | `beforeEach` | Preserve `?lang=` query param from previous route         |
 
@@ -37,5 +36,3 @@ side effects that were previously inlined in App.vue's `<script setup>`.
 
 - The language-loading LoadingBar integration (`watch(isLanguageLoading, ...)`)
   is NOT moved -- it binds i18n state to `loadingBarRef`, not router state.
-- The initial `addAllExternalLinkIndicators()` call in `onMounted` stays --
-  router guards only fire on navigation, not on initial page load.

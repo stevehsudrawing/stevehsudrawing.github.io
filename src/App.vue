@@ -49,7 +49,6 @@ import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
 import {
   initHashChangeScroll,
   initInputModalityDetection,
-  addAllExternalLinkIndicators,
 } from "./ui/accessibility";
 import { normalizeInternalPath } from "./core/utils";
 
@@ -80,13 +79,6 @@ watch(isLanguageLoading, (loading) => {
   } else {
     loadingBarRef.value?.complete();
   }
-});
-
-// ---- External link indicators via i18n message changes ----
-
-watch(messages, async () => {
-  await nextTick();
-  addAllExternalLinkIndicators();
 });
 
 /** Vue Router instance (for guards + programmatic navigation). */
@@ -201,7 +193,6 @@ onMounted(async () => {
     await initLang();
 
     await nextTick();
-    addAllExternalLinkIndicators();
 
     initHashChangeScroll();
 

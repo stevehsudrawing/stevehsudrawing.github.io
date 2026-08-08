@@ -16,6 +16,7 @@ import { ref, computed, watch, onMounted, onUnmounted, type Ref } from "vue";
 import { useLocalStorage } from "./useLocalStorage";
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
 import { StorageKey } from "../types/app";
+import { applyThemePreference } from "../ui/theme";
 
 // =========================================================================
 // Module-level shared state (singleton — all components share the same ref)
@@ -68,22 +69,19 @@ function removeSystemListener(): void {
 }
 
 // ---- Effective theme -> DOM sync (shared — one global watcher) ----
+//
+// IMPORTANT: This watcher must NOT set data-bs-theme directly.
+// Theme application (data-bs-theme + overlay transition) is owned
+// exclusively by ui/theme.ts (applyThemeChange / applyThemePreference).
+// Setting data-bs-theme here would race ahead of the overlay code and
+// cause skipOverlay to always evaluate true, killing the transition.
+//
+// This watcher only syncs favicons for system-initiated changes.
 
-watch(effectiveTheme, (theme) => {
-  document.documentElement.setAttribute("data-bs-theme", theme);
-
-  // Delegate to ui/theme.ts for image swapping, favicon updates, etc.
-  import("../ui/theme").then(
-    ({
-      applyAllThemeBasedImages,
-      applyAllThemeBasedSources,
-      applyAllFaviconThemes,
-    }) => {
-      applyAllThemeBasedImages();
-      applyAllThemeBasedSources();
-      applyAllFaviconThemes();
-    },
-  );
+watch(effectiveTheme, () => {
+  import("../ui/theme").then(({ applyAllFaviconThemes }) => {
+    applyAllFaviconThemes();
+  });
 });
 
 // =========================================================================
@@ -113,11 +111,9 @@ export function useTheme(): {
   function setPreference(choice: ThemeChoice): void {
     preference.value = choice;
 
-    // Also update the legacy mutable state and run the overlay
-    // transition via the existing imperative module.
-    import("../ui/theme").then(({ setThemePreference }) => {
-      setThemePreference(choice);
-    });
+    // Apply DOM side-effects (data-bs-theme + overlay transition + favicon).
+    // Persistence is handled by useLocalStorage's watcher on preference.
+    applyThemePreference(choice);
   }
 
   return { preference, effectiveTheme, setPreference };

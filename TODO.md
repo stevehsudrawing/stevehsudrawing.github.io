@@ -1,6 +1,6 @@
 # TODO
 
-> Last updated: 2026-08-07
+> Last updated: 2026-08-08
 
 ---
 
@@ -39,3 +39,14 @@
 - Mobile scroll offset computed dynamically (`navbar 64 + bar 48 + list.offsetHeight`)
 - Carousel play/pause toggle with touch-mode control visibility
 - Instruction files updated — §2.3 split into General / Legacy / Vue; §4.1.6, §4.1.7, §4.2.9–4.2.11 added
+- `TypeAwareLink.vue` — smart link (external/internal/email/anchor) with type icons
+- `QRCodeButton.vue` — standalone QR trigger with provide/inject
+- `HastFragment.vue` — recursive HAST→Vue renderer; replaced all remaining `v-html`
+- `FeatureAwareImgProps` interface; `useHastToVue.ts` composable (HAST extraction)
+- All `.external-link` / `.internal-link` → `TypeAwareLink`; App.vue event delegation reduced to zero
+- `LinkButton.vue` converted to `TypeAwareLink`
+- `html-powered-by` i18n key split into text keys + hardcoded template
+- `page-title.ts` module-level `useI18n()` bug fixed (`t()` passed as param)
+- `img-utils.ts` bridge deleted; theme image swapping moved to Vue reactivity
+- `StickerSection.vue` — footer sticker component (`stickerId` → paths derived)
+- `noQRCode` default flipped (hide QR unless `imgProps` + `:no-qr-code="false"`)

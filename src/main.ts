@@ -27,13 +27,11 @@ import "./stylesheets/global/accessibility.css";
 import * as bootstrap from "bootstrap";
 import * as htmlToImage from "html-to-image";
 import html2canvas from "html2canvas";
-import { toHtml } from "hast-util-to-html";
 
 // Expose globals for legacy code that expects window.xxx
 window.bootstrap = bootstrap;
 window.htmlToImage = htmlToImage as unknown as Record<string, unknown>;
 window.html2canvas = html2canvas;
-window.toHtml = toHtml;
 
 // =========================================================================
 // Project JS modules (order matters: dependencies before dependents)
@@ -48,7 +46,6 @@ import "./core/i18n";
 import "./ui/theme";
 
 // --- UI features ---
-import "./ui/img-utils";
 import "./ui/accessibility";
 
 // --- Detection helpers ---
@@ -57,16 +54,14 @@ import "./ui/bootstrap-css-detection";
 // =========================================================================
 // Early initialization (before Vue mounts - prevents theme flash)
 // =========================================================================
-import {
-  initThemePreference,
-  initSystemThemeListener,
-  applyThemePreference,
-  currentThemePreference,
-} from "./ui/theme";
+import { initSystemThemeListener, applyThemePreference } from "./ui/theme";
+import { StorageKey } from "./types/app";
+import type { ThemeChoice } from "./types/app";
 
-initThemePreference();
 initSystemThemeListener();
-applyThemePreference(currentThemePreference, false, false);
+const initialTheme =
+  (localStorage.getItem(StorageKey.Theme) as ThemeChoice | null) ?? "auto";
+applyThemePreference(initialTheme, false);
 
 // =========================================================================
 // Vue 3 application bootstrap

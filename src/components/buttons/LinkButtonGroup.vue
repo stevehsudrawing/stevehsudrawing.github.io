@@ -10,7 +10,6 @@ import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import LinkButton from "./LinkButton.vue";
 import type { LinkButtonData } from "../../types/app";
 import { useI18n } from "../../composables/useI18n";
-import { addAllExternalLinkIndicators } from "../../ui/accessibility";
 
 // =========================================================================
 // Props
@@ -30,7 +29,7 @@ const groupRef = ref<HTMLElement | null>(null);
 const showHint = ref(false);
 
 // -------------------------------------------------------------------------
-// Overlow detection
+// Overflow detection
 // -------------------------------------------------------------------------
 
 let resizeTicking = false;
@@ -61,7 +60,6 @@ onMounted(async () => {
   await nextTick();
   checkOverflow();
   window.addEventListener("resize", onResize);
-  addAllExternalLinkIndicators();
 });
 
 onBeforeUnmount(() => {

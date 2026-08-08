@@ -7,11 +7,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
-import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
+import StickerSection from "../components/ui/StickerSection.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
@@ -170,24 +170,9 @@ const { groups, pagePath } = useLinkCards(ref("about"));
   <hr />
 
   <!-- ==== Footer sticker ==== -->
-  <div class="container">
-    <div class="py-4 d-flex flex-column align-items-center">
-      <FeatureAwarePicture
-        avif-src-light="/images/avif/stickers/light/thanks.avif"
-        avif-src-dark="/images/avif/stickers/dark/thanks.avif"
-        fallback-src-light="/images/webp/stickers/light/thanks.webp"
-        fallback-src-dark="/images/webp/stickers/dark/thanks.webp"
-        feature="follow-theme"
-        :alt="$t('text-sticker-of-thanks', 'Sticker (Thanks)')"
-        :width="150"
-        :height="150"
-        img-class="no-copy solid-bg"
-      />
-      <p class="opacity-75 mt-3">
-        <span>{{
-          $t("text-thanks-for-your-visiting", "Thanks for your visiting!")
-        }}</span>
-      </p>
-    </div>
-  </div>
+  <StickerSection
+    sticker-id="thanks"
+    :sticker-title="$t('text-sticker-of-thanks', 'Sticker (Thanks)')"
+    :caption="$t('text-thanks-for-your-visiting', 'Thanks for your visiting!')"
+  />
 </template>

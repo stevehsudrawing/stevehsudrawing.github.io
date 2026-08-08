@@ -29,6 +29,16 @@ export function scrollToHashTarget(
 }
 
 /**
+ * Listen for hashchange events and scroll to the targeted element.
+ * Used for in-page navigation via title-link-anchors and direct hash links.
+ */
+export function initHashChangeScroll(): void {
+  window.addEventListener("hashchange", () => {
+    scrollToHashTarget(window.location.hash, true);
+  });
+}
+
+/**
  * Initialize input modality detection.
  * Toggles `.user-input-keyboard`, `.user-input-pointer`, and
  * `.user-input-touch` classes on `<html>` based on the user's
@@ -77,66 +87,4 @@ export function initInputModalityDetection(): void {
 
   // Touch interaction enables touch mode (separate from mouse pointer)
   document.addEventListener("touchstart", setTouchMode, true);
-}
-
-/**
- * Append an arrow-up-right icon to a single .external-link anchor
- * so users can visually identify links that leave the site.
- * Skips links with no visible text content. Idempotent: does nothing
- * if the icon already exists.
- * @param link - The link element to add the indicator to.
- */
-export function addExternalLinkIndicator(link: HTMLAnchorElement): void {
-  // Skip links that have no visible text content
-  const textContent = link.textContent?.trim();
-  if (!textContent) return;
-
-  // Avoid adding duplicate icons
-  if (link.querySelector("i.bi-arrow-up-right")) return;
-
-  const icon = document.createElement("i");
-  icon.className = "bi bi-arrow-up-right link-indicator";
-  link.appendChild(document.createTextNode(" "));
-  link.appendChild(icon);
-}
-
-/**
- * Remove the arrow-up-right icon from a single .external-link anchor,
- * along with the space text node that precedes it.
- * @param link - The link element to remove the indicator from.
- */
-export function removeExternalLinkIndicator(link: HTMLAnchorElement): void {
-  const icon = link.querySelector("i.bi-arrow-up-right");
-  if (!icon) return;
-
-  // Remove the space text node before the icon, if present
-  const prev = icon.previousSibling;
-  if (prev && prev.nodeType === Node.TEXT_NODE && prev.textContent === " ") {
-    prev.remove();
-  }
-  icon.remove();
-}
-
-/**
- * Append arrow-up-right icons to all .external-link anchors on the page.
- * Delegates to addExternalLinkIndicator() for each matching element.
- */
-export function addAllExternalLinkIndicators(): void {
-  try {
-    document
-      .querySelectorAll<HTMLAnchorElement>("a.external-link")
-      .forEach(addExternalLinkIndicator);
-  } catch (error) {
-    console.error("Failed to add external link indicators:", error);
-  }
-}
-
-/**
- * Listen for hashchange events and scroll to the targeted element.
- * Used for in-page navigation via title-link-anchors and direct hash links.
- */
-export function initHashChangeScroll(): void {
-  window.addEventListener("hashchange", () => {
-    scrollToHashTarget(window.location.hash, true);
-  });
 }

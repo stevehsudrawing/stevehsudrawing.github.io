@@ -101,8 +101,8 @@ export function scrollToHashTarget(hash: string): void {
 | `init*`      | Initialize / set up listeners     | `initInputModalityDetection`, `initThemePreference`, `initBootstrapCSSDetection` |
 | `update*`    | Update DOM content or state       | `updatePageTitle`, `updateThemeToggleText`, `updateAutoThemeOnSystemChange`      |
 | `apply*`     | Apply a setting / style change    | `applyThemePreference`, `applyThemeChange`, `applyAllThemeBasedImages`           |
-| `add*`       | Add a DOM element or attribute    | `addExternalLinkIndicator`, `addAllExternalLinkIndicators`                       |
-| `remove*`    | Remove a DOM element or attribute | `removeExternalLinkIndicator`                                                    |
+| `add*`       | Add a DOM element or attribute    | -                                                                                |
+| `remove*`    | Remove a DOM element or attribute | -                                                                                |
 | `mark*`      | Set / clear a visual state marker | `markImageLoaded`, `markImageUnloaded`                                           |
 | `set*`       | Set a state / attribute           | `setActiveThemeItem`                                                             |
 | `extract*`   | Parse / derive from input         | `extractPageName`                                                                |
@@ -127,13 +127,11 @@ a reusable, idempotent single-element function.
 
 **Current batch / single-element pairs:**
 
-| Batch Function                   | Single-Element Function          | Module              |
-| -------------------------------- | -------------------------------- | ------------------- |
-| `initAllColoredImages()`         | `applyColoredImage(img)`         | `useImgFeatures.ts` |
-| `addAllExternalLinkIndicators()` | `addExternalLinkIndicator(link)` | `accessibility.ts`  |
-| `applyAllThemeBasedImages()`     | `applyThemeBasedImage(img)`      | `theme.ts`          |
-| `applyAllFaviconThemes()`        | `applyFaviconTheme(link)`        | `theme.ts`          |
-| `applyAllThemeBasedSources()`    | `applyThemeBasedSource(source)`  | `theme.ts`          |
+| Batch Function                | Single-Element Function         | Module     |
+| ----------------------------- | ------------------------------- | ---------- |
+| `applyAllThemeBasedImages()`  | `applyThemeBasedImage(img)`     | `theme.ts` |
+| `applyAllFaviconThemes()`     | `applyFaviconTheme(link)`       | `theme.ts` |
+| `applyAllThemeBasedSources()` | `applyThemeBasedSource(source)` | `theme.ts` |
 
 **Single-element functions must have symmetric counterparts:**
 
@@ -149,10 +147,9 @@ cleans up** the same thing.
 
 **Current symmetric single-element pairs:**
 
-| Add / Create / Init              | Remove / Cleanup                    | Module              |
-| -------------------------------- | ----------------------------------- | ------------------- |
-| `addExternalLinkIndicator(link)` | `removeExternalLinkIndicator(link)` | `accessibility.ts`  |
-| `markImageLoaded(img)`           | `markImageUnloaded(img)`            | `useImgFeatures.ts` |
+| Add / Create / Init              | Remove / Cleanup                    | Module             |
+| -------------------------------- | ----------------------------------- | ------------------ |
+| `addExternalLinkIndicator(link)` | `removeExternalLinkIndicator(link)` | `accessibility.ts` |
 
 **Handler extraction rule:** If an `init*` function uses `addEventListener`
 with an anonymous function, the handler **must** be extracted as a named

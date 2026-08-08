@@ -116,11 +116,10 @@ function onClick(e: MouseEvent): void {
     scrollToHashTarget(props.href);
   } else if (props.type === "external" && openExternalLink) {
     e.preventDefault();
-    openExternalLink(
-      props.href,
-      props.imgProps ?? null,
-      props.noQRCode ?? false,
-    );
+    // QR is shown only when imgProps is provided AND noQRCode is
+    // not explicitly true (default: hide QR).
+    const hideQR = props.noQRCode !== false || !props.imgProps;
+    openExternalLink(props.href, props.imgProps ?? null, hideQR);
   }
   // email: native browser behavior
 }

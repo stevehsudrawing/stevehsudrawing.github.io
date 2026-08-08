@@ -3,13 +3,11 @@
  *
  * Centralises all router-level side effects so App.vue stays lean:
  * LoadingBar integration, content dimming during navigation,
- * external-link indicator injection, page-title updates, and
- * `?lang=` query-parameter preservation.
+ * page-title updates, and `?lang=` query-parameter preservation.
  */
 
-import { nextTick, type Ref } from "vue";
+import type { Ref } from "vue";
 import type { Router } from "vue-router";
-import { addAllExternalLinkIndicators } from "../ui/accessibility";
 import { updatePageTitle } from "../ui/page-title";
 
 /**
@@ -43,13 +41,6 @@ export function usePageNavigation(
     }
     initialNavigationDone = true;
   });
-
-  // ---- External link indicators ----
-  router.afterEach(async () => {
-    await nextTick();
-    addAllExternalLinkIndicators();
-  });
-
   // ---- Page title ----
   router.afterEach(() => updatePageTitle(t));
 

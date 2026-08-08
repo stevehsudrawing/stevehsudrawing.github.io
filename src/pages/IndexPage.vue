@@ -11,6 +11,7 @@ import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
+import StickerSection from "../components/ui/StickerSection.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
 import type { LinkButtonGroupData } from "../types/app";
@@ -260,31 +261,21 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <hr />
 
   <!-- ==== Footer sticker + about link ==== -->
-  <div class="container">
-    <div class="py-4 d-flex flex-column align-items-center">
-      <FeatureAwarePicture
-        avif-src-light="/images/avif/stickers/light/thumb.avif"
-        avif-src-dark="/images/avif/stickers/dark/thumb.avif"
-        fallback-src-light="/images/webp/stickers/light/thumb.webp"
-        fallback-src-dark="/images/webp/stickers/dark/thumb.webp"
-        feature="follow-theme"
-        :alt="$t('text-sticker-of-thumb', 'Sticker (Thumb)')"
-        :width="150"
-        :height="150"
-        class="no-copy solid-bg"
-      />
-      <TypeAwareLink
-        type="internal"
-        href="/about.html"
-        class="link link-hover-change-background link-secondary-shlh fw-semibold mt-3"
-      >
-        <span>{{
-          $t("text-about-me-and-my-emails", "About me and my emails")
-        }}</span>
-        <i class="bi bi-arrow-right"></i>
-      </TypeAwareLink>
-    </div>
-  </div>
+  <StickerSection
+    sticker-id="thumb"
+    :sticker-title="$t('text-sticker-of-thumb', 'Sticker (Thumb)')"
+  >
+    <TypeAwareLink
+      type="internal"
+      href="/about.html"
+      class="link link-hover-change-background link-secondary-shlh fw-semibold mt-3"
+    >
+      <span>{{
+        $t("text-about-me-and-my-emails", "About me and my emails")
+      }}</span>
+      <i class="bi bi-arrow-right"></i>
+    </TypeAwareLink>
+  </StickerSection>
 </template>
 
 <style>

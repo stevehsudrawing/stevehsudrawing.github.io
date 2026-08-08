@@ -1,12 +1,11 @@
 ---
 description: >
   Feature-Aware Image: FeatureAwareImg.vue (theme-swap, colored mask, loading-opacity modes),
-  useImgFeatures.ts composable (global document scan), useImgDisplayProps.ts (HAST extraction).
+  useImgDisplayProps.ts (HAST extraction).
   data-img-feature attribute system.  Use when: modifying image behavior, adding new image
   feature modes, or working with imgProperties HAST data.
 applyTo: >
   src/components/ui/FeatureAwareImg.vue;
-  src/composables/useImgFeatures.ts;
   src/composables/useImgDisplayProps.ts
 ---
 
@@ -41,9 +40,3 @@ const { src, alt, feature, colorVar, colorMaskSrc } =
 
 Maps HAST camelCase properties (`dataImgFeature`, `dataColorVar`, `dataSrcMask`)
 to computed refs.
-
-##### 4.2.4.4 Global Document Scan
-
-`useImgFeatures.ts` exports `initAllColoredImages()` and
-`initAllImageLoadingOpacity()` for build-time injected `[data-img-feature]`
-images outside Vue's render tree.
