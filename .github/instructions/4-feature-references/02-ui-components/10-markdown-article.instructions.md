@@ -9,12 +9,12 @@ applyTo: >
   src/components/ui/MarkdownArticle.vue
 ---
 
-#### 4.2.11 Markdown Article
+#### 4.2.10 Markdown Article
 
 `MarkdownArticle.vue` renders raw Markdown content with a desktop
 sticky sidebar scrollspy and a mobile collapsible heading bar.
 
-##### 4.2.11.1 Rendering Pipeline
+##### 4.2.10.1 Rendering Pipeline
 
 ```
 Markdown string (prop: content)
@@ -24,7 +24,7 @@ Markdown string (prop: content)
   -> toHtml()                (HAST  -> final HTML)
 ```
 
-##### 4.2.11.2 HAST Annotation
+##### 4.2.10.2 HAST Annotation
 
 The recursive `processHastNode()` walk:
 
@@ -33,7 +33,7 @@ The recursive `processHastNode()` walk:
 - Annotates outbound `<a>` with `.external-link` + `data-no-qr-code`
 - Extracts heading text + id for the scrollspy sidebar
 
-##### 4.2.11.3 Scrollspy
+##### 4.2.10.3 Scrollspy
 
 | Mode    | Element                 |
 | ------- | ----------------------- |
@@ -49,7 +49,7 @@ desktop: scrollOffset prop (default 72)
 mobile:  64 (navbar) + 48 (mobile bar) + mobileList.offsetHeight
 ```
 
-##### 4.2.11.4 Usage
+##### 4.2.10.4 Usage
 
 ```vue
 <MarkdownArticle :content="copyrightMd" />

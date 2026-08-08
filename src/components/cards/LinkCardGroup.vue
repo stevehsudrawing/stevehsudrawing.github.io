@@ -1,17 +1,11 @@
 <!--
   LinkCardGroup.vue — Single link-card group with heading and card grid.
   Renders one GroupData item from the link-cards JSON config.
-
-  Phase 7: replaces build/builders/link-cards.ts buildGroupNode().
 -->
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import {
-  extractPlainText,
-  toDashCase,
-  resolveI18nInHtml,
-} from "../../core/utils";
+import { extractPlainText, resolveI18nInHtml } from "../../core/utils";
 import LinkCard from "./LinkCard.vue";
 import SectionHeading from "../ui/SectionHeading.vue";
 import { toHtml } from "hast-util-to-html";
@@ -69,7 +63,7 @@ const hasCards = computed(
 </script>
 
 <template>
-  <div class="link-hub-part">
+  <div>
     <!-- ==== Group header ==== -->
     <SectionHeading
       v-if="props.group.title && titleText"

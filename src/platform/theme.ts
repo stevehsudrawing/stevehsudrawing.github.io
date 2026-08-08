@@ -103,7 +103,7 @@ export function applyThemePreference(
   void overlay.offsetWidth;
   overlay.classList.add("active");
 
-  // Phase 2: After fade-in completes, switch theme behind the opaque overlay.
+  // After fade-in completes, switch theme behind the opaque overlay.
   setTimeout(function () {
     if (thisId !== themeTransitionId) {
       overlay.remove();
@@ -112,11 +112,11 @@ export function applyThemePreference(
 
     applyThemeChange(theme);
 
-    // Phase 3: Fade out the overlay to reveal the new theme.
+    // Fade out the overlay to reveal the new theme.
     overlay.classList.remove("active");
     overlay.classList.add("fade-out");
 
-    // Phase 4: Remove overlay after fade-out transition completes.
+    // Remove overlay after fade-out transition completes.
     // The longest fade-out transition is background-color at 1 s.
     setTimeout(() => {
       overlay.remove();

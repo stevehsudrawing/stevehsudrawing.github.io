@@ -1,5 +1,5 @@
 <!--
-  LoadingScreen.vue -- full-screen loading overlay controller.
+  LoadingScreen.vue — full-screen loading overlay controller.
   The static HTML (#loading-screen) renders instantly in each page;
   this component manages the fade-out lifecycle and owns the CSS.
 -->

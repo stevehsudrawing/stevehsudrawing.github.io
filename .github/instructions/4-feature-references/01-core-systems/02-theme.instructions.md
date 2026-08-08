@@ -14,20 +14,14 @@ applyTo: >
 ##### 4.1.2.1 Architecture
 
 ```
-useTheme() composable          ui/theme.ts (legacy bridge)
-  ├─ preference: Ref<ThemeChoice>   ├─ initThemePreference()
-  ├─ effectiveTheme: Computed       ├─ applyThemePreference()
-  └─ setPreference(choice)          ├─ setThemePreference()
-       │                            └─ initSystemThemeListener()
+useTheme() composable              platform/theme.ts
+  ├─ preference: Ref<ThemeChoice>     ├─ applyThemePreference()
+  ├─ effectiveTheme: Computed         ├─ applyThemeChange()
+  └─ setPreference(choice)            ├─ initSystemThemeListener()
+       │                              └─ applyAllFaviconThemes()
        └──► delegates to
-            ui/theme.ts
+            platform/theme.ts
 ```
-
-> **Phase 7 note:** `initThemeTransitionOverlay()` was removed. The
-> `.theme-transition-overlay` element is now created dynamically in
-> `applyThemePreference()` and removed from the DOM after the transition
-> completes — this avoids permanent `backdrop-filter` GPU compositing
-> that interferes with window minimize on Windows.
 
 ##### 4.1.2.2 Theme Choices
 

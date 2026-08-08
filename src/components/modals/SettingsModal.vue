@@ -1,5 +1,5 @@
 <!--
-  SettingsModal.vue -- User preferences panel.
+  SettingsModal.vue — User preferences panel.
   Replaces ui/settings.ts event delegation + manual localStorage sync.
   Uses BModal + v-model for reactive form binding.
 -->
@@ -86,7 +86,7 @@ function resetAll(): void {
 /**
  * Open the ResetWarningModal by hiding this modal first.
  * After SettingsModal finishes its hide animation (@hidden), the
- * ResetWarningModal is shown -- avoiding two modals on screen at once.
+ * ResetWarningModal is shown — avoiding two modals on screen at once.
  */
 function openResetWarning(): void {
   pendingResetWarning = true;
@@ -101,7 +101,7 @@ function onSettingsHidden(): void {
   }
 }
 
-/** User cancelled reset -- re-show SettingsModal. */
+/** User cancelled reset — re-show SettingsModal. */
 function onResetCancel(): void {
   visible.value = true;
 }

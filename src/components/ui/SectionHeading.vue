@@ -1,5 +1,5 @@
 <!--
-  SectionHeading.vue -- Section heading with anchor and copy-link buttons.
+  SectionHeading.vue — Section heading with anchor and copy-link buttons.
   Renders an <h2> with a dash-case id (auto-generated from the title),
   an AnchorButton for permalink sharing, and a CopyButton for clipboard copy.
 
@@ -52,14 +52,21 @@ const copyUrl = computed(() =>
     <h2 v-else class="title-link-group h4">
       <slot>{{ title }}</slot>
     </h2>
-    <AnchorButton v-if="titleId" :target-id="titleId" :heading-title="title" />
-    <CopyButton
-      v-if="titleId && copyUrl"
-      class="link title-link-anchor"
-      :copy-text="copyUrl"
-    >
-      <i class="bi bi-link-45deg"></i>
-    </CopyButton>
+    <div>
+      <AnchorButton
+        v-if="titleId"
+        class="me-2"
+        :target-id="titleId"
+        :heading-title="title"
+      />
+      <CopyButton
+        v-if="titleId && copyUrl"
+        class="link title-link-anchor"
+        :copy-text="copyUrl"
+      >
+        <i class="bi bi-link-45deg"></i>
+      </CopyButton>
+    </div>
   </div>
 </template>
 
@@ -73,7 +80,7 @@ const copyUrl = computed(() =>
 .title-link-group-wrapper {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 /* ---- Title link anchors ---- */

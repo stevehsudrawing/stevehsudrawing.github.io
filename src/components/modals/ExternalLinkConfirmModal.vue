@@ -1,5 +1,5 @@
 <!--
-  ExternalLinkConfirmModal.vue -- External link safety check.
+  ExternalLinkConfirmModal.vue — External link safety check.
   Replaces features/external-link-confirmation.ts DOM state hacks
   (_confirmUrl, _confirmIconProps) with clean props + emits.
 -->
@@ -34,8 +34,8 @@ const props = defineProps<{
 /**
  * Emits for ExternalLinkConfirmModal.
  *
- * - navigate: User confirmed \"Open\" -- parent navigates to the URL.
- * - show-qr: User clicked \"Show QR Code\" -- parent switches to QRCodeModal.
+ * - navigate: User confirmed \"Open\" — parent navigates to the URL.
+ * - show-qr: User clicked \"Show QR Code\" — parent switches to QRCodeModal.
  */
 const emit = defineEmits<{
   (e: "navigate", url: string, openInNewTab: boolean): void;

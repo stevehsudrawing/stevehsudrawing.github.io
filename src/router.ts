@@ -1,9 +1,6 @@
 /**
  * Vue Router configuration.
  *
- * Phase 7: replaces page-transition.ts with Vue Router for SPA-style
- * internal navigation while preserving MPA build structure for SEO.
- *
  * Uses createWebHistory so the URL bar updates on navigation and
  * browser back/forward buttons work correctly.  Each MPA entry point
  * still initializes its own router instance — no state is shared

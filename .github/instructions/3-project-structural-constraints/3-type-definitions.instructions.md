@@ -8,8 +8,8 @@ description: >
 applyTo: >
   src/types/**;
   build/types.ts;
-  build/configs/link-cards/**;
-  build/configs/link-button-groups/**
+  src/configs/link-cards/**;
+  src/configs/link-button-groups/**
 ---
 
 ### 3.3 Type Definitions
@@ -70,7 +70,7 @@ Located in `build/types.ts` and used by Vite plugins and build scripts. Type-che
 
 Build-time types may import from npm packages, Node.js APIs, and `src/types/`. They exist only at build time - never bundled into browser output.
 
-#### 3.3.3 Link-card JSON Format (`build/configs/link-cards/*.json`)
+#### 3.3.3 Link-card JSON Format (`src/configs/link-cards/*.json`)
 
 Each page's link cards are defined as a JSON array of **Link Card Groups** (`GroupData[]`). Groups contain cards; cards contain HAST subtrees for icon, title, and description.
 
@@ -131,7 +131,7 @@ Each page's link cards are defined as a JSON array of **Link Card Groups** (`Gro
 
 For how cards are rendered and injected, see §4.2.3 Link Card Injection in the [Build-time Injection](../4-feature-references/2-build-time-injection.instructions.md#423-link-card-injection) documentation.
 
-#### 3.3.4 Link-button-group JSON Format (`build/configs/link-button-groups/*.json`)
+#### 3.3.4 Link-button-group JSON Format (`src/configs/link-button-groups/*.json`)
 
 Each page's link button groups are defined as a JSON array of **Link Button Groups** (`LinkButtonGroupData[]`). Unlike link cards, these use a simplified data format - the builder converts them into HAST.
 

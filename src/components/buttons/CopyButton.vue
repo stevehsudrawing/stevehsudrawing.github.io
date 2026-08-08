@@ -1,14 +1,11 @@
 <!--
-  CopyButton.vue -- Click-to-copy interactive element with tooltip.
+  CopyButton.vue — Click-to-copy interactive element with tooltip.
 
   Renders as <a href="#"> or <button type="button"> depending on the
   `tag` prop.  Content is provided via the default slot.
 
   Copies `copyText` to clipboard on click and shows a toast via
   useToast() (SHOW_TOAST_KEY provide/inject) for user feedback.
-
-  Phase 7: replaces .copy-link + data-copy-text pattern previously
-  handled by ui/copy-link.ts (now deleted).
 -->
 <script setup lang="ts">
 import { useI18n } from "../../composables/useI18n";

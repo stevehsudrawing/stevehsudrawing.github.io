@@ -1,5 +1,5 @@
 <!--
-  SkipButton.vue -- "Skip to Content" button for keyboard accessibility.
+  SkipButton.vue — "Skip to Content" button for keyboard accessibility.
   Rendered as the first focusable element on every page so keyboard users
   can bypass the navbar and jump directly to <main id="page-content">.
 -->

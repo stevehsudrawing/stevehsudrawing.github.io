@@ -4,9 +4,6 @@
  * Provides locale, messages, translation function, and language-switching
  * orchestration.  Absorbs the logic previously in features/lang-switcher.ts
  * and the tooltip i18n listener from ui/tooltips.ts.
- *
- * Phase 7: eliminates window.__loadingBar bridge by exposing
- * isLanguageLoading ref for LoadingBar integration via watch in App.vue.
  */
 
 import { ref, inject, type Ref } from "vue";

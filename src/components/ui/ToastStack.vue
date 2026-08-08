@@ -1,5 +1,5 @@
 <!--
-  ToastStack.vue -- Reactive toast notification stack.
+  ToastStack.vue — Reactive toast notification stack.
   Replaces ui/toast.ts imperative DOM manipulation.
   Exposes showToast() via provide/inject so any descendant component
   can trigger a toast without importing legacy modules.
@@ -16,6 +16,7 @@ import { ref } from "vue";
 
 /** Auto-dismiss duration in milliseconds (5 seconds). */
 const TOAST_DURATION_MS = 5000;
+// const TOAST_DURATION_MS = true;
 
 // =========================================================================
 // Types
@@ -93,18 +94,38 @@ defineExpose({ showToast });
 
 <style scoped>
 /* --- Toast slide-in/out transition --- */
+
 .toast-slide-enter-active {
   transition: all 0.3s ease-out;
 }
+
 .toast-slide-leave-active {
   transition: all 0.2s ease-in;
 }
+
 .toast-slide-enter-from {
   transform: translateX(100%);
   opacity: 0;
 }
+
 .toast-slide-leave-to {
   transform: translateX(100%);
   opacity: 0;
+}
+
+/* --- Toast Tweaks  --- */
+
+:deep(.progress-bar) {
+  transition: width 0s linear;
+}
+
+:deep(.btn-close-custom) {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 0.2rem;
+}
+
+:deep(.btn-close) {
+  filter: invert(1) grayscale(100);
 }
 </style>

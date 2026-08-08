@@ -6,7 +6,7 @@
 # See: /images/README.md for the full copyright declaration.
 # -----------------------------------------------------------------------
 
-# -- AI / Machine-learning crawlers (blocked from /images/) --
+# — AI / Machine-learning crawlers (blocked from /images/) --
 # The list is from https://github.com/ai-robots-txt/ai.robots.txt
 
 User-agent: AddSearchBot
@@ -170,7 +170,7 @@ User-agent: YouBot
 User-agent: ZanistaBot
 Disallow: /images/
 
-# -- Everyone else: full access --
+# — Everyone else: full access --
 User-agent: *
 Allow: /
 

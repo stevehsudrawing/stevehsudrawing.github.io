@@ -1,5 +1,5 @@
 <!--
-  MarkdownArticle.vue -- Reusable markdown renderer with built-in scrollspy.
+  MarkdownArticle.vue — Reusable markdown renderer with built-in scrollspy.
 
   Accepts a raw markdown string via the `content` prop and renders it through
   a full HAST post-processing pipeline (marked -> fromHtml -> process -> toHtml),

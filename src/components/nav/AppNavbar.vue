@@ -1,8 +1,8 @@
 <!--
-  AppNavbar.vue -- fixed-top navigation bar with brand, links, dropdowns.
+  AppNavbar.vue — fixed-top navigation bar with brand, links, dropdowns.
 
   Replaces build/page-components/header.html <nav> + ui/navbar.ts + navbar.css.
-  One-shot Vue render -- no bridge controller.
+  One-shot Vue render — no bridge controller.
 
   Features:
   - Active nav-item highlighting via computed current page
@@ -199,10 +199,10 @@ onBeforeUnmount(() => {
 // Expose for legacy consumers via window.__navbar
 defineExpose({
   setActiveNavItem() {
-    // Handled reactively by isActive() -- no-op for bridge compatibility
+    // Handled reactively by isActive() — no-op for bridge compatibility
   },
   updateNavbarBrandText() {
-    // Handled reactively by pageName computed -- no-op for bridge compatibility
+    // Handled reactively by pageName computed — no-op for bridge compatibility
   },
 });
 </script>

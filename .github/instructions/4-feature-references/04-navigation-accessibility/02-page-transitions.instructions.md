@@ -3,7 +3,6 @@ description: >
   Page Navigation: Vue Router-based SPA navigation with createWebHistory,
   scrollBehavior with async hash polling, LoadingBar integration via router
   guards, ?lang= query preservation, and chunk-load-error fallback.
-  Replaces the legacy page-transition.ts fetch-based system (Phase 7).
 applyTo: >
   src/router.ts;
   src/App.vue
@@ -13,9 +12,8 @@ applyTo: >
 
 ##### 4.4.2.1 Architecture
 
-Phase 7 replaced the legacy `page-transition.ts` (fetch + innerHTML swap)
-with Vue Router (`createWebHistory`). Internal links use `router.push()`
-intercepted by App.vue's delegated click handler.
+Use Vue Router (`createWebHistory`) to manage browser history. Internal links
+use `router.push()` intercepted by App.vue's delegated click handler.
 
 ```
 App.vue (delegated click on .internal-link)

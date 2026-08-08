@@ -1,5 +1,5 @@
 <!--
-  FooterNav.vue -- site footer with copyright, external links, and QR share trigger.
+  FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
 import QRCodeButton from "../buttons/QRCodeButton.vue";

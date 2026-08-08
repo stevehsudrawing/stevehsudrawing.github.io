@@ -1,13 +1,12 @@
 ---
 description: >
   Navbar: AppNavbar.vue (fixed-top nav with brand, links, BDropdown for language/theme),
-  OffcanvasNav.vue (mobile sidebar), navbar.ts bridge (window.__navbar).  Covers active
-  nav-item highlighting, mobile brand scroll swap, scroll border, and dropdown menus.
+  OffcanvasNav.vue (mobile sidebar).  Covers active nav-item highlighting, mobile brand
+  scroll swap, scroll border, and dropdown menus.
   Use when: modifying navigation, navbar layout, or dropdown behavior.
 applyTo: >
-  src/components/layout/AppNavbar.vue;
-  src/components/layout/OffcanvasNav.vue;
-  src/ui/navbar.ts
+  src/components/nav/AppNavbar.vue;
+  src/components/nav/OffcanvasNav.vue
 ---
 
 #### 4.2.1 Navbar
@@ -18,14 +17,11 @@ applyTo: >
 AppNavbar.vue (one-shot Vue render)
   ├─ Props: currentPage: string
   ├─ State: navItems, composables, scroll state, theme options, dropdown labels
-  ├─ Actions: switchLanguage(), scroll/resize handlers
-  └─ Expose: setActiveNavItem(), updateNavbarBrandText() (no-ops for bridge compat)
+  └─ Actions: switchLanguage(), scroll/resize handlers
        │
-       ├── OffcanvasNav.vue (mobile sidebar)
-       │     ├─ Types: NavItem interface
-       │     └─ Props: navItems, currentPage
-       │
-       └── navbar.ts (bridge -> window.__navbar)
+       └── OffcanvasNav.vue (mobile sidebar)
+             ├─ Types: NavItem interface
+             └─ Props: navItems, currentPage
 ```
 
 ##### 4.2.1.2 Active Nav-Item

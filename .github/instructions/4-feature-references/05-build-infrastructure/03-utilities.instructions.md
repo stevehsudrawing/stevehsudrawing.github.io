@@ -6,8 +6,7 @@ description: >
   Use when: adding shared utility functions or modifying existing ones.
 applyTo: >
   src/core/utils.ts;
-  src/platform/page-title.ts;
-  src/features/page-content-initializer.ts
+  src/platform/page-title.ts
 ---
 
 #### 4.5.3 Utilities
@@ -53,5 +52,4 @@ const EXCLUDED_PAGES = [
 
 ##### 4.5.3.5 Page Content Initializer
 
-`initPageContent()` (legacy) orchestrates re-initialization after SPA transitions.
-Will be replaced by per-page `onMounted` in Phase 7.
+Page lifecycle is managed by Vue component `onMounted` in each `*Page.vue`.

@@ -1,16 +1,12 @@
 ---
 description: >
   Vue SFC conventions: CSS style block taxonomy (scoped / non-scoped / :deep() / global),
-  CSS ownership comments in base.css, legacy bridge pattern (window.__xxx),
-  static HTML coexistence pattern, <script setup> section conventions (Types -> Props ->
-  State -> Actions -> Expose).  Use when: creating or modifying any .vue file,
-  .css file, or bridge module.
+  CSS ownership comments in base.css, static HTML coexistence pattern,
+  <script setup> section conventions (Types -> Props -> State -> Actions -> Expose).
+  Use when: creating or modifying any .vue file or .css file.
 applyTo: >
   src/components/**/*.vue;
-  src/stylesheets/global/base.css;
-  src/ui/loading-bar.ts;
-  src/ui/scroll-hint.ts;
-  src/ui/no-copy.ts
+  src/stylesheets/global/base.css
 ---
 
 ### 3.4 Vue Component Conventions
@@ -20,7 +16,7 @@ applyTo: >
 | Style block               | Use case                                                                                                 | Example                                       |
 | ------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
 | `<style scoped>`          | Styles owned entirely by one `.vue` component                                                            | Modal layout, QR share card, toast animations |
-| `<style>` (non-scoped)    | Component owns the CSS but the target element is static HTML outside Vue's render tree                   | `#loading-bar`, `.scroll-hint`, `.no-copy`    |
+| `<style>` (non-scoped)    | Component owns the CSS but the target element is static HTML outside Vue's render tree                   | `#loading-bar`, `.scroll-hint`                |
 | `:deep(.selector)`        | Target elements inside a child component (e.g. BModal's `.modal-body`)                                   | `:deep(.modal-body) { display: flex; }`       |
 | `src/stylesheets/global/` | Truly global styles: CSS reset, typography, Bootstrap variable overrides, build-time injected components | `base.css`, `theme.css`, `fonts.css`          |
 
@@ -42,48 +38,11 @@ When a selector is explicitly NOT owned by any Vue component, document the reaso
 ```css
 /* ========================================================================
    Button Groups
-   (Build-time injected -- not owned by any Vue component.)
+   (Build-time injected — not owned by any Vue component.)
    ======================================================================== */
 ```
 
-#### 3.4.3 Legacy Bridge Pattern (`window.__xxx`)
-
-> **Phase 7 status:** All bridges have been eliminated. This section is
-> retained for historical reference and in case future migration scenarios
-> require the pattern again.
-
-When a Vue component replaces a legacy TS module that still has consumers
-outside the Vue tree, use a **bridge module**:
-
-```
-┌──────────────────────┐     window.__xxx     ┌───────────────────┐
-│  legacy-consumer.ts  │ ─────────────────->  │  bridge-module.ts │
-│  (page-transition,   │                      │  (thin wrapper)   │
-│   lang-switcher)     │                      └────────┬──────────┘
-└──────────────────────┘                               │ delegate
-                                                       ▼
-┌──────────────────────┐     defineExpose      ┌──────────────────┐
-│  App.vue             │ <-──────────────────  │  Component.vue   │
-│  (sets window.__xxx) │    template ref       │  (owns logic +   │
-└──────────────────────┘                       │   CSS)           │
-                                               └──────────────────┘
-```
-
-**Bridge module template**:
-
-```ts
-/** Bridge -- delegates to the Vue component via window.__xxx. */
-
-function get(): NonNullable<Window["__xxx"]> | null {
-  return window.__xxx ?? null;
-}
-
-export function publicAPI(): void {
-  get()?.method();
-}
-```
-
-#### 3.4.4 Static HTML Coexistence
+#### 3.4.3 Static HTML Coexistence
 
 Some Vue components control static HTML elements that exist in each `.html`
 page or are rendered in `App.vue`'s template. These components:
@@ -94,13 +53,13 @@ page or are rendered in `App.vue`'s template. These components:
 
 **Components following this pattern**:
 
-- `LoadingScreen.vue` -- controls `#loading-screen` (static HTML in each page)
-- `LoadingBar.vue` -- controls `#loading-bar` (rendered in own template)
+- `LoadingScreen.vue` — controls `#loading-screen` (static HTML in each page)
+- `LoadingBar.vue` — controls `#loading-bar` (rendered in own template)
 
-#### 3.4.5 `<script setup lang="ts">` Section Conventions
+#### 3.4.4 `<script setup lang="ts">` Section Conventions
 
 Every `<script setup>` block **MUST** follow the five sections below, in
-this exact order. Any section not used by the component is omitted -- but
+this exact order. Any section not used by the component is omitted — but
 no other sections may be introduced.
 
 ```ts
@@ -112,7 +71,7 @@ no other sections may be introduced.
 // =========================================================================
 // Props
 // =========================================================================
-//   defineProps + defineEmits -- the component's public interface.
+//   defineProps + defineEmits — the component's public interface.
 //   Always the first section (after top-level imports).
 
 // =========================================================================
@@ -125,13 +84,13 @@ no other sections may be introduced.
 // =========================================================================
 // Actions
 // =========================================================================
-//   Functions / event handlers / methods -- the behaviour layer.
+//   Functions / event handlers / methods — the behaviour layer.
 //   Template-called functions (@click="confirm") belong here, not State.
 
 // =========================================================================
 // Expose
 // =========================================================================
-//   defineExpose -- the imperative public API surface.
+//   defineExpose — the imperative public API surface.
 //   Omitted if the component is purely template-driven.
 ```
 
@@ -168,7 +127,7 @@ used by multiple sub-sections belong in `Actions`.
 
 **Design rationale**:
 
-- **Fixed vocabulary, fixed order** -- predictable navigation in every `.vue` file
-- **All sections optional** -- a simple 30-line component may have only `Props` and `State`
-- **Co-location via sub-sections** -- respects Vue Composition API's strength
+- **Fixed vocabulary, fixed order** — predictable navigation in every `.vue` file
+- **All sections optional** — a simple 30-line component may have only `Props` and `State`
+- **Co-location via sub-sections** — respects Vue Composition API's strength
   of keeping related concerns together

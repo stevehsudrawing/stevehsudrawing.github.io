@@ -46,7 +46,7 @@ type(scope?): description
 
 feat: add noscript content generation
 fix: external link icons not added on initial load
-docs: update instruction files for Phase 7
+docs: update instruction files
 chore: optimize Git hooks config
 ```
 

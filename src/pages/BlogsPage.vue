@@ -1,13 +1,12 @@
 <!--
-  BlogsPage.vue -- Blogs & Sponsor page hero section + link cards.
+  BlogsPage.vue — Blogs & Sponsor page hero section + link cards.
   Previously static content in blogs-and-sponsor.html.
-
-  Phase 7: replaces static HTML content.
 -->
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
+import PageChainNav from "../components/nav/PageChainNav.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
@@ -34,6 +33,8 @@ const { groups, pagePath } = useLinkCards(ref("blogs-and-sponsor"));
       imgClass: 'img-fluid img-fit rounded',
     }"
   />
+
+  <PageChainNav page-name="blogs-and-sponsor" />
 
   <hr />
 

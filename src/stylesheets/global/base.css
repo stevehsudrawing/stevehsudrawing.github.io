@@ -93,6 +93,22 @@ code {
 }
 
 /* ========================================================================
+   Copy Protection
+   ======================================================================== */
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+img.no-copy.solid-bg {
+  outline: 0.5px solid var(--bs-body-bg);
+  outline-offset: -0.5px;
+}
+
+/* ========================================================================
    Bootstrap Overwrites
    ======================================================================== */
 
@@ -233,7 +249,7 @@ code {
 
 /* ========================================================================
    External Link Icon
-   (Used by accessibility.ts addExternalLinkIndicator -- global, not
+   (Used by accessibility.ts addExternalLinkIndicator — global, not
    owned by any single component.)
    ======================================================================== */
 

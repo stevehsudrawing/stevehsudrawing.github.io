@@ -1,5 +1,5 @@
 <!--
-  TypeAwareLink.vue -- Smart link with type-aware behavior.
+  TypeAwareLink.vue — Smart link with type-aware behavior.
   Renders an <a> tag with the .link class and delegates click
   handling based on type:
 

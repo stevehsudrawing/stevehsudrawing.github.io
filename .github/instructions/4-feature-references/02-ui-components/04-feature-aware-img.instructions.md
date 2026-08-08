@@ -6,6 +6,7 @@ description: >
   feature modes, or working with imgProperties HAST data.
 applyTo: >
   src/components/ui/FeatureAwareImg.vue;
+  src/components/ui/FeatureAwarePicture.vue;
   src/composables/useImgDisplayProps.ts
 ---
 

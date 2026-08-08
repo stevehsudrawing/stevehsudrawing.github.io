@@ -24,7 +24,7 @@ export const enum StorageKey {
 }
 ```
 
-Always use `StorageKey.XXX` -- never bare strings.
+Always use `StorageKey.XXX` — never bare strings.
 
 ##### 4.1.3.2 useLocalStorage() Composable
 

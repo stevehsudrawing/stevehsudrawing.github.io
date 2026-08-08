@@ -9,12 +9,12 @@ applyTo: >
   src/components/ui/StickerSection.vue
 ---
 
-#### 4.2.12 Sticker Section
+#### 4.2.11 Sticker Section
 
 `StickerSection.vue` renders a 150×150 follow-theme sticker image with an
 optional caption and a default slot for custom content.
 
-##### 4.2.12.1 Props
+##### 4.2.11.1 Props
 
 | Prop           | Type      | Notes                                                    |
 | -------------- | --------- | -------------------------------------------------------- |
@@ -22,7 +22,7 @@ optional caption and a default slot for custom content.
 | `stickerTitle` | `string`  | Fallback alt text for the sticker image                  |
 | `caption`      | `string?` | Optional plain text below the sticker                    |
 
-##### 4.2.12.2 Path Derivation
+##### 4.2.11.2 Path Derivation
 
 ```
 /images/avif/stickers/light/{stickerId}.avif
@@ -36,12 +36,12 @@ Alt text uses i18n key `text-sticker-of-{stickerId}` with `stickerTitle` as fall
 All stickers share the same visual settings: `feature="follow-theme"`,
 `imgClass="no-copy solid-bg"`, width=150, height=150.
 
-##### 4.2.12.3 Default Slot
+##### 4.2.11.3 Default Slot
 
 Placed below the sticker image (after the optional caption). Used by
 IndexPage for a `<TypeAwareLink>` to the About page.
 
-##### 4.2.12.4 Usage
+##### 4.2.11.4 Usage
 
 ```vue
 <!-- Simple caption mode (AboutPage) -->

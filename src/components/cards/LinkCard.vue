@@ -1,10 +1,6 @@
 <!--
   LinkCard.vue — Single link card with icon, title, and description.
   Renders one CardData item from the link-cards JSON config.
-
-  Phase 7: replaces build/builders/link-cards.ts buildCardNode().
-  Phase 8: icon/title/description use Vue components (TypeAwareLink,
-           FeatureAwareImg, HastFragment) instead of v-html.
 -->
 <script setup lang="ts">
 import { computed } from "vue";
@@ -138,7 +134,7 @@ const availableClass = computed(() =>
 
 <style scoped>
 /*
- * Migrated from base.css -- Cards / Image Utilities sections.
+ * Migrated from base.css — Cards / Image Utilities sections.
  * These were build-time injected link-card styles, now owned by LinkCard.vue.
  */
 

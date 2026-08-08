@@ -35,4 +35,4 @@ side effects that were previously inlined in App.vue's `<script setup>`.
 ##### 4.1.6.3 What Stays in App.vue
 
 - The language-loading LoadingBar integration (`watch(isLanguageLoading, ...)`)
-  is NOT moved -- it binds i18n state to `loadingBarRef`, not router state.
+  is NOT moved — it binds i18n state to `loadingBarRef`, not router state.

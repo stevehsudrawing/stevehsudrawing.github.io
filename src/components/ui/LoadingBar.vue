@@ -1,5 +1,5 @@
 <!--
-  LoadingBar.vue -- thin progress bar at the top of the viewport.
+  LoadingBar.vue — thin progress bar at the top of the viewport.
   Used by page transitions and language switching.
 
   The static HTML (#loading-bar) is rendered in its own template.

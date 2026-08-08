@@ -5,7 +5,8 @@ description: >
   data-qr-icon attributes for App.vue event delegation.
   Use when: modifying QR code generation, export/fallback logic, or share-card layout.
 applyTo: >
-  src/components/modals/QRCodeModal.vue
+  src/components/modals/QRCodeModal.vue;
+  src/components/buttons/QRCodeButton.vue
 ---
 
 #### 4.3.2 QR Code & Export
@@ -31,8 +32,8 @@ QRCodeModal.vue
 
 ##### 4.3.2.3 PNG Export (Two-Tier Fallback)
 
-1. **html-to-image `toPng()`** -- primary (canvas via SVG foreignObject)
-2. **html2canvas** -- fallback (mobile / no foreignObject)
+1. **html-to-image `toPng()`** — primary (canvas via SVG foreignObject)
+2. **html2canvas** — fallback (mobile / no foreignObject)
 
 ##### 4.3.2.4 Footer Buttons
 

@@ -1,5 +1,5 @@
 <!--
-  InlineSvg.vue -- fetches an external SVG and injects it inline.
+  InlineSvg.vue — fetches an external SVG and injects it inline.
 
   Props: src, width?, height?, colorVar?
 
@@ -14,11 +14,11 @@ import { ref, onMounted } from "vue";
 
 /**
  * Fetch, process, and inject a single SVG into a placeholder element.
- * @param placeholder -- The DOM element to receive the inline SVG.
- * @param svgSrc -- URL of the SVG file to fetch.
- * @param width -- Optional width override (in px).
- * @param height -- Optional height override (in px).
- * @param colorVar -- Optional CSS variable name for fill replacement.
+ * @param placeholder — The DOM element to receive the inline SVG.
+ * @param svgSrc — URL of the SVG file to fetch.
+ * @param width — Optional width override (in px).
+ * @param height — Optional height override (in px).
+ * @param colorVar — Optional CSS variable name for fill replacement.
  */
 async function injectSVG(
   placeholder: HTMLElement,

@@ -1,8 +1,6 @@
 <!--
-  LinkButton.vue -- Single link button with icon and tooltip.
+  LinkButton.vue — Single link button with icon and tooltip.
   Renders one LinkButtonData item from the link-button-groups JSON config.
-
-  Phase 7: replaces build/builders/link-button-groups.ts buildButtonNode().
 -->
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, onUnmounted } from "vue";

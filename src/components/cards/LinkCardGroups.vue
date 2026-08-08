@@ -2,8 +2,6 @@
   LinkCardGroups.vue — Page-level link-card section.
   Iterates over GroupData[] from the link-cards JSON config and renders
   each group with <hr> separators between them.
-
-  Phase 7: replaces build/builders/link-cards.ts buildLinkCardsHTML().
 -->
 <script setup lang="ts">
 import LinkCardGroup from "./LinkCardGroup.vue";

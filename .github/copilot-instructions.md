@@ -68,7 +68,7 @@ platform/    -> browser platform services — imperative DOM APIs that Vue canno
   ￪            (theme.ts, accessibility.ts, page-title.ts, bootstrap-css-detection.ts)
   |            Only used for browser APIs with no Vue equivalent (matchMedia, favicon).
   |
-components/  -> Vue SFCs (layout/, ui/, modals/, cards/, buttons/)
+components/  -> Vue SFCs (nav/, ui/, modals/, cards/, buttons/, links/)
   ￪
 pages/       -> PascalCase filenames, <script setup> + <style scoped>.
   ￪
@@ -79,15 +79,15 @@ router.ts    -> Vue Router config (routes, scrollBehavior, error recovery)
 App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                   | May import from                                      | Must NOT import from                              |
-| -------------- | --------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------- |
-| `types/`       | Shared type definitions                                                     | npm, browser APIs                                    | `core/*`, `ui/*`, `composables/*`, `components/*` |
-| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**       | `types/*`                                            | `ui/*`, `composables/*`, `components/*`           |
-| `composables/` | Vue reactive state + side-effects. May call `inject()`.                     | `types/*`, `core/*`, `platform/*` (limited)          | `components/*`                                    |
-| `platform/`    | Browser platform services — imperative DOM APIs.                            | `types/*`, `core/*`                                  | `composables/*`, `components/*`                   |
-| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, platform. | `types/*`, `core/*`, `composables/*`, `platform/*`   | —                                                 |
-| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content. | `types/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)            |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                          | `types/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`           |
+| Layer          | Semantics                                                                                   | May import from                                      | Must NOT import from                                    |
+| -------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- |
+| `types/`       | Shared type definitions                                                                     | npm, browser APIs                                    | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**                       | `types/*`                                            | `platform/*`, `composables/*`, `components/*`           |
+| `composables/` | Vue reactive state + side-effects. May call `inject()`.                                     | `types/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
+| `platform/`    | Browser platform services — imperative DOM APIs.                                            | `types/*`, `core/*`                                  | `composables/*`, `components/*`                         |
+| `components/`  | Vue SFCs — `nav/`, `ui/`, `modals/`, `cards/`, `buttons/`, `links/`. Own template + styles. | `types/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
+| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content.                 | `types/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
+| `plugins/`     | Vue plugins — global provide/inject registrations.                                          | `types/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |
 
 **Decoupling patterns (when import would violate hierarchy):**
 
@@ -97,7 +97,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 
 ### 0.5 File Rules
 
-- **`src/{core,ui,composables}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points. (Vue composables may call `inject()` but must not trigger side effects.)
+- **`src/{core,platform,composables}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points. (Vue composables may call `inject()` but must not trigger side effects.)
 - **Entry points**: `src/main.ts` + `src/router.ts` + `src/App.vue` (full-feature pages: index, about, artworks, blogs, chatting, softwares)
 - **CSS comments**: `/* ====...==== Component - description */` banners; `/* --- Child --- */` sub-sections
 - **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
@@ -134,9 +134,7 @@ Sections use `// ====...==== Name` banners; sub-sections use `// ----...---- Nam
 | `:deep(.sel)`          | Penetrate child component boundary            |
 | `global/*.css`         | Truly global styles                           |
 
-**Bridge pattern**: Legacy TS consumers use `window.__xxx` -> bridge module -> Vue component via `defineExpose` (see [§3.4.3](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#343-legacy-bridge-pattern-window__xxx)).
-
-**Static HTML coexistence**: `onMounted` + `document.getElementById` + non-scoped `<style>` + `defineExpose` (see [§3.4.4](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#344-static-html-coexistence)).
+**Static HTML coexistence**: `onMounted` + `document.getElementById` + non-scoped `<style>` + `defineExpose` (see [§3.4.3](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#343-static-html-coexistence)).
 
 ---
 
@@ -169,7 +167,7 @@ The remainder of this document links to detailed reference files in `instruction
 
 > Files in `4-feature-references/` are organized into five functional
 > subdirectories. Within each directory, files use a `NN-topic.instructions.md`
-> naming scheme -- the two-digit prefix defines the reading order. To add a
+> naming scheme — the two-digit prefix defines the reading order. To add a
 > new file, pick the next available number in the appropriate directory, or
 > create a new directory if no existing group fits.
 >
@@ -184,7 +182,7 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.1.4 Fonts**](./instructions/4-feature-references/01-core-systems/04-fonts.instructions.md)
 - [**4.1.5 Browser Detection**](./instructions/4-feature-references/01-core-systems/05-browser-detection.instructions.md)
 - [**4.1.6 Page Navigation**](./instructions/4-feature-references/01-core-systems/06-page-navigation.instructions.md)
-- [**4.1.7 Modal Helpers**](./instructions/4-feature-references/01-core-systems/07-modal-helpers.instructions.md)
+- [**4.1.7 Modal Helpers**](./instructions/4-feature-references/01-core-systems/06-modal-helpers.instructions.md)
 
 ### 4.2 UI Components
 
@@ -193,13 +191,15 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.2.3 Loading**](./instructions/4-feature-references/02-ui-components/03-loading.instructions.md)
 - [**4.2.4 Feature-Aware Image**](./instructions/4-feature-references/02-ui-components/04-feature-aware-img.instructions.md)
 - [**4.2.5 Inline SVG**](./instructions/4-feature-references/02-ui-components/05-inline-svg.instructions.md)
-- [**4.2.6 Scroll Hint**](./instructions/4-feature-references/02-ui-components/06-scroll-hint.instructions.md)
-- [**4.2.7 Tooltips & Toast**](./instructions/4-feature-references/02-ui-components/07-tooltips-toast.instructions.md)
-- [**4.2.8 Copy Protection**](./instructions/4-feature-references/02-ui-components/08-copy-protection.instructions.md)
-- [**4.2.9 Hero Section**](./instructions/4-feature-references/02-ui-components/09-hero-section.instructions.md)
-- [**4.2.10 Section Headings & Anchors**](./instructions/4-feature-references/02-ui-components/10-section-headings.instructions.md)
-- [**4.2.11 Markdown Article**](./instructions/4-feature-references/02-ui-components/11-markdown-article.instructions.md)
-- [**4.2.12 Sticker Section**](./instructions/4-feature-references/02-ui-components/12-sticker-section.instructions.md)
+- [**4.2.6 Tooltips & Toast**](./instructions/4-feature-references/02-ui-components/06-tooltips-toast.instructions.md)
+- [**4.2.7 Copy Protection**](./instructions/4-feature-references/02-ui-components/07-copy-protection.instructions.md)
+- [**4.2.8 Hero Section**](./instructions/4-feature-references/02-ui-components/08-hero-section.instructions.md)
+- [**4.2.9 Section Headings & Anchors**](./instructions/4-feature-references/02-ui-components/09-section-headings.instructions.md)
+- [**4.2.10 Markdown Article**](./instructions/4-feature-references/02-ui-components/10-markdown-article.instructions.md)
+- [**4.2.11 Sticker Section**](./instructions/4-feature-references/02-ui-components/11-sticker-section.instructions.md)
+- [**4.2.12 Link Cards**](./instructions/4-feature-references/02-ui-components/12-link-cards.instructions.md)
+- [**4.2.13 Link Button Groups**](./instructions/4-feature-references/02-ui-components/13-link-button-groups.instructions.md)
+- [**4.2.14 HAST → Vue Rendering**](./instructions/4-feature-references/02-ui-components/14-hast-to-vue.instructions.md)
 
 ### 4.3 Modals
 
@@ -210,6 +210,7 @@ The remainder of this document links to detailed reference files in `instruction
 
 - [**4.4.1 Accessibility**](./instructions/4-feature-references/04-navigation-accessibility/01-accessibility.instructions.md)
 - [**4.4.2 Page Transitions**](./instructions/4-feature-references/04-navigation-accessibility/02-page-transitions.instructions.md)
+- [**4.4.3 Page Chain Navigation**](./instructions/4-feature-references/04-navigation-accessibility/03-page-chain.instructions.md)
 
 ### 4.5 Build & Infrastructure
 
@@ -226,9 +227,10 @@ When generating responses for this project, Copilot should:
 1. **Think in English**: Internal reasoning and analysis should be in English.
 2. **Read the necessary documents**: Instructions are organized in the form of folders. Before generating a response, Copilot should first read the relevant documents in `.github/instructions` according to the user's requirements to understand the specifications of this project.
 3. **Respond using the language that the user is using**: For example, if the user is conversing in Chinese, responses should be in Chinese.
-4. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible, like: using `-` instead of `-`, using `->` instead of `->`.
+4. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible. This helps to use `beautify` to format files, as it has poor support for full-width characters.
 5. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 6. **Priority of norms/standards**: If there are more normative or standard practices, priority should be given to norms or standards, even if refactoring is required.
+7. **Always pay attention to document updates**: When adding, modifying, or deleting new features, it is necessary to add, update or delete the corresponding instruction documents, even if temporarily.
 
 <!-- mermaid-ai-skills:start -->
 

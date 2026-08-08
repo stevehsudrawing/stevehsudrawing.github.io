@@ -1,9 +1,9 @@
 ---
 description: >
-  General file rules: src/{core,ui,features} define only (no top-level execution),
-  main.ts wire everything, CSS commenting conventions, HTML page tiers (full/error
-  with minimal external reference), Markdown document writing standards (numbered
-  headings, section cross-references).
+  General file rules: src/{core,platform,composables} define only (no top-level
+  execution), main.ts wire everything, CSS commenting conventions, HTML page tiers
+  (full/error with minimal external reference), Markdown document writing standards
+  (numbered headings, section cross-references).
   Use when: adding new modules, entry points, CSS, HTML pages, or markdown docs.
 applyTo: >
   src/**/*.ts;
@@ -15,9 +15,9 @@ applyTo: >
 
 ### 3.2 General File Rules
 
-#### 3.2.1 `src/{core,ui,features,composables}/*` + `src/plugins/*`: Define Only, Never Execute
+#### 3.2.1 `src/{core,platform,composables}/*` + `src/plugins/*`: Define Only, Never Execute
 
-- Files in `src/{core,ui,features,composables}/*` and `src/plugins/*` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
+- Files in `src/{core,platform,composables}/*` and `src/plugins/*` must **only define variables and functions**, using **TypeScript** syntax targeting ES2020. `var` should be avoided.
 - Every exported variable and function **must have JSDoc** written for it.
 - They must **NOT** contain top-level function calls or self-executing code.
 - A function defined here should never call itself at the top level of the file.
@@ -81,7 +81,7 @@ Both sub-folders use the same CSS commenting format:
   - `chatting`
   - `softwares`
 - **Error Pages with Minimal External Reference (`public/`)**: These pages (in `public/`) don't rely on any external JS scripts, external CSS stylesheets (except `/public/legacy/base.css`) or external CDNs, which means that they don't use features such as i18n or the Page Transition System. The page layout should be as close to Bootstrap 5.3 as possible, but can be appropriately simplified.
-  - `404` -- HTTP 404 page (static, no JS framework)
+  - `404` — HTTP 404 page (static, no JS framework)
   - `error-unsupported-browser`
   - `error-javascript-disabled`
 

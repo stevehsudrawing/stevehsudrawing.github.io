@@ -1,13 +1,12 @@
 <!--
-  ArtworksPage.vue -- Artworks & Videos page hero section + link cards.
+  ArtworksPage.vue — Artworks & Videos page hero section + link cards.
   Previously static content in artworks-and-videos.html.
-
-  Phase 7: replaces static HTML content.
 -->
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
+import PageChainNav from "../components/nav/PageChainNav.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 
 // =========================================================================
@@ -37,6 +36,8 @@ const { groups, pagePath } = useLinkCards(ref("artworks-and-videos"));
       imgClass: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />
+
+  <PageChainNav page-name="artworks-and-videos" />
 
   <hr />
 

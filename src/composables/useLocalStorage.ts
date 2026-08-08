@@ -49,7 +49,7 @@ export function useLocalStorage<T>(key: string, defaultValue: T): Ref<T> {
       parsed = JSON.parse(stored) as T;
     } catch {
       // Legacy: value was stored as a plain string (e.g. "auto", "en")
-      // by non-Vue modules.  Cast to the expected type -- this works
+      // by non-Vue modules.  Cast to the expected type — this works
       // for string literal types like ThemeChoice and Lang.
       parsed = stored as unknown as T;
     }

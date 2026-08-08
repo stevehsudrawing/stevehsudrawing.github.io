@@ -1,5 +1,5 @@
 <!--
-  QRCodeButton.vue -- Standalone QR-code trigger button.
+  QRCodeButton.vue — Standalone QR-code trigger button.
   Opens QRCodeModal via inject(OPEN_QR_CODE_KEY) on click.
   Default slot shows bi-qr-code; override for custom icon (e.g. bi-share-fill).
 -->

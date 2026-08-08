@@ -10,9 +10,9 @@ applyTo: >
   src/components/buttons/CopyButton.vue
 ---
 
-#### 4.2.10 Section Headings & Anchors
+#### 4.2.9 Section Headings & Anchors
 
-##### 4.2.10.1 SectionHeading.vue
+##### 4.2.9.1 SectionHeading.vue
 
 Renders an `<h2>` with an auto-generated `dash-case` id (or an explicit
 `headingId` for i18n-stable anchors), plus `AnchorButton` for permalink
@@ -30,19 +30,19 @@ When `headingId` is omitted, the id is derived from `title` via
 always provide an explicit `headingId` so anchor links remain valid
 after language switches.
 
-##### 4.2.10.2 AnchorButton.vue
+##### 4.2.9.2 AnchorButton.vue
 
 Renders `<a href="#targetId">` with the paragraph icon (`bi-paragraph`),
 Bootstrap tooltip, and smooth-scroll (72 px navbar offset).
 
-Props: `targetId` (required), `headingTitle` (required -- used for
+Props: `targetId` (required), `headingTitle` (required — used for
 `aria-label` via the `text-anchor-to-1` i18n key with `%1` placeholder).
 
 The tooltip always shows the generic `text-anchor` text (short), while
 `aria-label` uses the context-aware `text-anchor-to-1` format (e.g.
 "Anchor to Profile").
 
-##### 4.2.10.3 CopyButton.vue
+##### 4.2.9.3 CopyButton.vue
 
 Renders a clickable element that copies `copyText` to the clipboard and
 shows a toast notification. Used for color codes and heading permalinks.

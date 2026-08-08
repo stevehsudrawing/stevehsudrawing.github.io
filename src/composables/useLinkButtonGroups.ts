@@ -1,9 +1,6 @@
 /**
  * Link button groups composable — loads the link-button-group JSON config
  * for a given page.
- *
- * Phase 7: replaces build-time data-role="link-button-group" injection in
- * content-injection-plugin.ts.
  */
 import { ref, type Ref } from "vue";
 import type { LinkButtonGroupData } from "../types/app";

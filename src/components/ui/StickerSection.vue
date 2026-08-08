@@ -1,5 +1,5 @@
 <!--
-  StickerSection.vue -- Reusable footer sticker section.
+  StickerSection.vue — Reusable footer sticker section.
   Renders a 150×150 follow-theme sticker image with an optional
   caption and a default slot for custom content below.
 

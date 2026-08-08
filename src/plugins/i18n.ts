@@ -35,7 +35,7 @@ export const i18nPlugin = {
     app.provide(I18N_LOCALE_KEY, locale);
     app.provide(I18N_MESSAGES_KEY, messages);
 
-    // Global template helper -- mirrors vue-i18n's $t signature.
+    // Global template helper — mirrors vue-i18n's $t signature.
     // Only returns string values; HAST nodes use useI18n().h() instead.
     app.config.globalProperties.$t = (
       key: string,

@@ -1,5 +1,5 @@
 <!--
-  OffcanvasNav.vue -- mobile sidebar navigation.
+  OffcanvasNav.vue — mobile sidebar navigation.
   Rendered inside AppNavbar.vue; toggled via v-model from the
   parent navbar-toggler button.
 
@@ -65,6 +65,7 @@ watch(
           type="internal"
           :href="item.href"
           class="nav-link"
+          :class="{ active: currentPage === normalizeInternalPath(item.href) }"
           :aria-current="
             currentPage === normalizeInternalPath(item.href)
               ? 'page'
@@ -76,3 +77,10 @@ watch(
     </ul>
   </BOffcanvas>
 </template>
+
+<style scoped>
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  font-weight: calc(var(--bs-body-font-weight) + 100);
+}
+</style>

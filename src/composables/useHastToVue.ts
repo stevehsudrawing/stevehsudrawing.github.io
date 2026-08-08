@@ -76,7 +76,7 @@ export function extractLinkProps(
   const href = (props.href as string) ?? "";
   const className = props.className;
 
-  // -- Determine link type --
+  // — Determine link type --
   let type: ExtractedLinkProps["type"] = "external";
 
   if (href.startsWith("#")) {
@@ -92,7 +92,7 @@ export function extractLinkProps(
     type = "internal";
   }
 
-  // -- Extract plain-text content (resolve dataI18n on child spans) --
+  // — Extract plain-text content (resolve dataI18n on child spans) --
   const textContent = resolveHastTextContent(aNode, t);
 
   return { href, type, textContent };

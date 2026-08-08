@@ -1,11 +1,7 @@
 <!--
-  App.vue -- Vue application root shell.
+  App.vue — Vue application root shell.
   Handles initialization orchestration that was previously in
   main.ts's DOMContentLoaded handler.
-
-  Phase 3: Modal components (Settings, ExternalLinkConfirm, QRCode)
-  are rendered here with Vue-reactive state, replacing the legacy
-  event-delegation + DOM-mutation approach.
 -->
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, nextTick, provide } from "vue";
@@ -14,7 +10,7 @@ import { ref, computed, watch, onMounted, nextTick, provide } from "vue";
 // Imports
 // =========================================================================
 
-// Vue Router (Phase 7)
+// Vue Router
 import { useRouter, useRoute } from "vue-router";
 
 // Composables
@@ -31,13 +27,12 @@ import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmMod
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
-import CopyProtectedImg from "./components/ui/CopyProtectedImg.vue";
 import SkipButton from "./components/buttons/SkipButton.vue";
-import AppNavbar from "./components/layout/AppNavbar.vue";
-import FooterNav from "./components/layout/FooterNav.vue";
+import AppNavbar from "./components/nav/AppNavbar.vue";
+import FooterNav from "./components/nav/FooterNav.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
-// Legacy modules (diminishing — Phase 7 will eliminate most)
+// Platform-level modules
 import {
   StorageKey,
   OPEN_EXTERNAL_LINK_KEY,
@@ -50,6 +45,7 @@ import {
   initHashChangeScroll,
   initInputModalityDetection,
 } from "./platform/accessibility";
+import { initNoCopyProtection } from "./platform/no-copy";
 import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
@@ -189,6 +185,7 @@ onMounted(async () => {
   try {
     initBootstrapCSSDetection();
     initInputModalityDetection();
+    initNoCopyProtection();
 
     await initLang();
 
@@ -215,7 +212,7 @@ onMounted(async () => {
   <!--
     #page-content is rendered by Vue so it is always present when
     Vue has mounted.  The <router-view> inside renders the current
-    page component (Phase 7: replaces static HTML + page-transition.ts).
+    page component.
   -->
   <main id="page-content">
     <router-view v-slot="{ Component }">
@@ -245,6 +242,5 @@ onMounted(async () => {
     :hide-open-link="qrHideOpenLink"
     @open-link="onQROpenLink"
   />
-  <CopyProtectedImg ref="copyProtectedImgRef" />
   <ToastStack ref="toastStackRef" />
 </template>

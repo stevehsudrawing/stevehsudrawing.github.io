@@ -1,10 +1,7 @@
 <!--
-  IndexPage.vue -- Home page hero sections.
+  IndexPage.vue — Home page hero sections.
   Contains the illustration, softwares, blogs, and chatting intro
   sections previously in index.html's <main id="page-content">.
-
-  Phase 7: replaces static HTML content in index.html.
-  Link button groups are rendered via useLinkButtonGroups().
 -->
 <script setup lang="ts">
 import { ref } from "vue";
@@ -53,7 +50,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
 
 <template>
   <!-- ==== Illustration section ==== -->
-  <div class="container link-hub-part">
+  <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-1 order-2">
         <h1 v-html="$t('html-steve-hsu-s-link-hub')"></h1>
@@ -176,7 +173,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <hr />
 
   <!-- ==== Softwares section ==== -->
-  <div class="container link-hub-part">
+  <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-1 order-2">
         <h2 class="h1">{{ $t("text-my-softwares", "My Softwares") }}</h2>

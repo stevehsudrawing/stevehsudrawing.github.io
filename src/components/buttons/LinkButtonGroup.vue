@@ -1,9 +1,7 @@
 <!--
-  LinkButtonGroup.vue -- Single link-button group with horizontal scroll hint.
+  LinkButtonGroup.vue — Single link-button group with horizontal scroll hint.
   Renders one LinkButtonGroupData item with its buttons and a
   "Scroll Horizontally" indicator that appears when the group overflows.
-
-  Phase 7: replaces build/builders/link-button-groups.ts + ScrollHint.vue.
 -->
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";

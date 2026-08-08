@@ -1,5 +1,5 @@
 <!--
-  HastFragment.vue -- Recursive HAST-to-Vue renderer.
+  HastFragment.vue — Recursive HAST-to-Vue renderer.
 
   Converts a HAST node tree (from markdown or link-card JSON) into
   Vue VNodes, upgrading `<a>` to `<TypeAwareLink>` and `<img>` to
@@ -35,15 +35,15 @@ export default defineComponent({
      * Recursively convert a single HAST node to a VNode or string.
      */
     function renderNode(node: HastNode): RenderResult {
-      // -- Text --
+      // — Text --
       if (node.type === "text") {
         return (node.value as string) ?? "";
       }
 
-      // -- Comment --
+      // — Comment --
       if (node.type === "comment") return "";
 
-      // -- Element --
+      // — Element --
       if (node.type === "element") {
         const properties = node.properties ?? {};
         const i18nKey = (properties.dataI18n as string) ?? "";
@@ -72,7 +72,7 @@ export default defineComponent({
           }
         }
 
-        // -- Native HTML element --
+        // — Native HTML element --
         const tagName = node.tagName!;
         const vueProps: Record<string, unknown> = {};
 

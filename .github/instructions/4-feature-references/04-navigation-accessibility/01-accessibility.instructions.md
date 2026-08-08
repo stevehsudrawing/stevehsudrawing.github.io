@@ -30,14 +30,14 @@ input method. CSS uses these for conditional focus outlines (see
 
 CSS media queries in `accessibility.css`:
 
-- `prefers-reduced-motion: reduce` -- disables animations
-- `prefers-reduced-transparency: reduce` -- removes transparency
-- `prefers-contrast: high` / `more` -- increases contrast
+- `prefers-reduced-motion: reduce` — disables animations
+- `prefers-reduced-transparency: reduce` — removes transparency
+- `prefers-contrast: high` / `more` — increases contrast
 
 ##### 4.4.1.4 Modal Focus Management
 
-Legacy `ui/modal.ts` deleted in Phase 5. `<BModal>` from `bootstrap-vue-next`
-handles focus restoration and `.default-keyboard-focus` natively.
+`useModalFocus()` composable auto-focuses the first focusable element inside
+a `<BModal>` when opened via keyboard (Tab key) navigation.
 
 ##### 4.4.1.5 Hash-Based Scroll
 

@@ -1,5 +1,5 @@
 /**
- * Vue module augmentation -- global component properties.
+ * Vue module augmentation — global component properties.
  *
  * Declares types for custom properties registered on every component
  * instance via `app.config.globalProperties` in Vue plugins.

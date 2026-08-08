@@ -1,5 +1,5 @@
 /**
- * Theme composable -- reactive theme state for Vue 3.
+ * Theme composable — reactive theme state for Vue 3.
  *
  * Provides a SINGLE source of truth for the user's theme preference
  * (auto / light / dark) and the resolved effective theme.  The

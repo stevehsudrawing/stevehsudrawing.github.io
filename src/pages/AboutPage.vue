@@ -1,14 +1,13 @@
 <!--
-  AboutPage.vue -- About page hero section + profile table + link cards.
+  AboutPage.vue — About page hero section + profile table + link cards.
   Previously static content in about.html's <main id="page-content">.
-
-  Phase 7: replaces static HTML content in about.html.
 -->
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
+import PageChainNav from "../components/nav/PageChainNav.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
@@ -36,11 +35,13 @@ const { groups, pagePath } = useLinkCards(ref("about"));
     }"
   />
 
+  <PageChainNav page-name="about" />
+
   <hr />
 
   <!-- ==== Profile table ==== -->
   <div class="container">
-    <div class="link-hub-part">
+    <div>
       <SectionHeading
         :title="$t('text-profile', 'Profile')"
         heading-id="profile"

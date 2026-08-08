@@ -1,12 +1,10 @@
 <!--
-  FeatureAwarePicture.vue -- <picture> wrapper with theme-aware <source>
+  FeatureAwarePicture.vue — <picture> wrapper with theme-aware <source>
   elements and a FeatureAwareImg fallback.
 
   Handles the common pattern of AVIF + WebP sources with theme-aware
   variants, delegating the img element to FeatureAwareImg for colored mask,
   loading opacity, and data-img-loaded marking.
-
-  Phase 7: consolidates repeated <picture> markup across page components.
 -->
 <script setup lang="ts">
 import { computed } from "vue";

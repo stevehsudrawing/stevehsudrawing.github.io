@@ -1,10 +1,11 @@
 <!--
-  CopyrightPage.vue -- Copyright notice for original artworks.
+  CopyrightPage.vue — Copyright notice for original artworks.
   Renders the markdown content from public/images/README.md
   via the reusable MarkdownArticle component.
 -->
 <script setup lang="ts">
 import HeroSection from "../components/ui/HeroSection.vue";
+import PageChainNav from "../components/nav/PageChainNav.vue";
 import MarkdownArticle from "../components/ui/MarkdownArticle.vue";
 
 // =========================================================================
@@ -36,6 +37,8 @@ import copyrightMd from "../../public/images/README.md?raw";
       imgClass: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />
+
+  <PageChainNav page-name="copyright-notice" />
 
   <hr />
 

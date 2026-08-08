@@ -1,5 +1,5 @@
 <!--
-  AnchorButton.vue -- Heading anchor link with tooltip.
+  AnchorButton.vue — Heading anchor link with tooltip.
   Renders <a href="#targetId"> with the paragraph icon, linking
   to a specific heading section on the page with a smooth scroll
   and 64 px navbar offset.
