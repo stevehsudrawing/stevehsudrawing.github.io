@@ -231,6 +231,11 @@ When generating responses for this project, Copilot should:
 5. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 6. **Priority of norms/standards**: If there are more normative or standard practices, priority should be given to norms or standards, even if refactoring is required.
 7. **Always pay attention to document updates**: When adding, modifying, or deleting new features, it is necessary to add, update or delete the corresponding instruction documents, even if temporarily.
+8. **Always execute `typecheck` after modification**: After each modification, the following command should be executed to check whether it can be built properly:
+
+```pwsh
+pnpm typecheck ; pnpm build
+```
 
 <!-- mermaid-ai-skills:start -->
 

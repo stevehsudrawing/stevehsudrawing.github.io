@@ -36,7 +36,7 @@ applyTo: >
 
 ```
 types/       -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
-  ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts)
+  ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts, raw-imports.d.ts)
   |
 core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts)
   ￪
@@ -83,10 +83,12 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 - Put shared TS types/enums in `src/types/`:
   - `app.ts` — `Lang`, `ThemeChoice`, enums (`StorageKey`, `AppEvent`).
   - `hast.ts` — HAST node types (`HastNode`, `HastProperties`).
-  - `globals.d.ts` — Window interface extensions (`window.bootstrap`, `window.toHtml`).
-  - `bootstrap.d.ts` — Bootstrap JS types (`Tooltip`, `Offcanvas`).
-  - `css.d.ts` — Module declaration for `*.css` imports.
-  - `vue-shims.d.ts` / `vue-augment.d.ts` — Vue SFC and `$t()` type augmentation.
+  - `globals.d.ts` — Window interface extensions (`window.bootstrap`, `window.toHtml`). **(Module — contains `import`.)**
+  - `bootstrap.d.ts` — Bootstrap JS types (`Tooltip`, `Offcanvas`). **(Ambient script — no imports.)**
+  - `css.d.ts` — Module declaration for `*.css` imports. **(Ambient script — no imports.)**
+  - `vue-shims.d.ts` — Vue SFC module declaration (`*.vue`). **(Ambient script — no imports.)**
+  - `vue-augment.d.ts` — Vue `$t()` type augmentation. **(Module — has `export {}`.)**
+  - `raw-imports.d.ts` — Module declaration for Vite `?raw` imports. **(Ambient script — no imports; MUST NOT contain import/export.** See §2.3.1 for the ambient-vs-module distinction.)
 - Put Vue SFCs in `src/components/` by function:
   - `nav/` — Navigation components (AppNavbar, FooterNav, OffcanvasNav, PageChainNav).
   - `ui/` — Shared UI primitives (HeroSection, SectionHeading, FeatureAwareImg, etc.).

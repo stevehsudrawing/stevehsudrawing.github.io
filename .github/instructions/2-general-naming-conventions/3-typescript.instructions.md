@@ -59,6 +59,27 @@ A function should perform only one task to ensure it can be reused.
   import { doSomething } from "../ui/module-b";
   ```
 
+**`.d.ts` file distinction — ambient script vs. module (applies to `src/types/`):**
+
+TypeScript treats a `.d.ts` file differently depending on whether it contains
+any `import` or `export` statement:
+
+| File type          | Has `import`/`export`? | `declare module` semantics | Examples in `src/types/`                                            |
+| ------------------ | ---------------------- | -------------------------- | ------------------------------------------------------------------- |
+| **Ambient script** | No                     | Ambient module declaration | `bootstrap.d.ts`, `css.d.ts`, `vue-shims.d.ts`, `raw-imports.d.ts`  |
+| **Module**         | Yes                    | Module augmentation        | `globals.d.ts` (has `import`), `vue-augment.d.ts` (has `export {}`) |
+
+This distinction matters because Volar's ts-plugin resolves ambient module
+declarations and module augmentations through different paths. If a `declare
+module` block must declare a new module (not augment an existing one), it
+**must** live in an ambient script file. Mixing the two in the same file
+causes IDE-only type errors that `tsc --noEmit` does not catch.
+
+> **Rule**: `raw-imports.d.ts` exists as a separate ambient script because
+> `globals.d.ts` already imports from `hast-util-to-html`, making it a module.
+> Placing `declare module "*.md?raw"` there would make it a module augmentation
+> (which Volar cannot resolve for these synthetic Vite imports).
+
 **TSDoc requirement:**
 
 Every exported variable, function, interface, and type alias **must** have a standard TSDoc comment (`/** ... */`).
@@ -168,7 +189,7 @@ with an anonymous function, the handler **must** be extracted as a named
 | Composables  | `useXxx`     | `useI18n.ts` / `useI18n()`, `useTheme.ts` / `useTheme()` |
 | Vue plugins  | `camelCase`  | `i18n.ts` (exported as `i18nPlugin`)                     |
 
-**`<script setup>` section order** (see [§3.4.5](../../../3-project-structural-constraints/4-vue-component-conventions.instructions.md#345-script-setup-langts-section-conventions)):
+**`<script setup>` section order** (see [§3.4.5](../3-project-structural-constraints/4-vue-component-conventions.instructions.md)):
 
 ```
 Types -> Props -> State -> Actions -> Expose

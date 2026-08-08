@@ -222,7 +222,7 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="hastChildren.length > 0" class="container pb-2 markdown-article">
     <!-- Mobile: sticky collapsible heading nav -->
-    <div v-if="headings.length > 0 && isMobile" class="scrollspy-nav-mobile">
+    <nav v-if="headings.length > 0 && isMobile" class="scrollspy-nav-mobile">
       <div
         class="scrollspy-current-bar"
         role="button"
@@ -254,7 +254,7 @@ onBeforeUnmount(() => {
           </a>
         </li>
       </ul>
-    </div>
+    </nav>
 
     <BRow>
       <!-- Desktop scrollspy nav -->

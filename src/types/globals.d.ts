@@ -21,15 +21,4 @@ declare global {
   }
 }
 
-// Vite ?raw import — treat imported file content as a string
-declare module "*.md?raw" {
-  const content: string;
-  export default content;
-}
-
-declare module "*?raw" {
-  const content: string;
-  export default content;
-}
-
 export {};
