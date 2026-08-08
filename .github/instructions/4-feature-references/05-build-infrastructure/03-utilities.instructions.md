@@ -6,7 +6,7 @@ description: >
   Use when: adding shared utility functions or modifying existing ones.
 applyTo: >
   src/core/utils.ts;
-  src/ui/page-title.ts;
+  src/platform/page-title.ts;
   src/features/page-content-initializer.ts
 ---
 
@@ -47,7 +47,7 @@ const EXCLUDED_PAGES = [
 ];
 ```
 
-##### 4.5.3.4 Page Title (`src/ui/page-title.ts`)
+##### 4.5.3.4 Page Title (`src/platform/page-title.ts`)
 
 `updatePageTitle(pageName)` sets `document.title` based on page and language.
 

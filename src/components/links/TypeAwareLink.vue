@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { computed, inject, useSlots, Text } from "vue";
 import { useRouter } from "vue-router";
-import { scrollToHashTarget } from "../../ui/accessibility";
+import { scrollToHashTarget } from "../../platform/accessibility";
 import type { FeatureAwareImgProps } from "../../types/app";
 import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
 

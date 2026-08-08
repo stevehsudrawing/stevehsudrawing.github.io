@@ -43,18 +43,21 @@ import "./core/utils";
 
 // --- Core systems ---
 import "./core/i18n";
-import "./ui/theme";
+import "./platform/theme";
 
 // --- UI features ---
-import "./ui/accessibility";
+import "./platform/accessibility";
 
 // --- Detection helpers ---
-import "./ui/bootstrap-css-detection";
+import "./platform/bootstrap-css-detection";
 
 // =========================================================================
 // Early initialization (before Vue mounts - prevents theme flash)
 // =========================================================================
-import { initSystemThemeListener, applyThemePreference } from "./ui/theme";
+import {
+  initSystemThemeListener,
+  applyThemePreference,
+} from "./platform/theme";
 import { StorageKey } from "./types/app";
 import type { ThemeChoice } from "./types/app";
 

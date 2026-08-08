@@ -3,7 +3,7 @@ description: >
   TypeScript naming conventions: camelCase variables/functions, SCREAMING_SNAKE_CASE constants,
   PascalCase interfaces/types/enums. Import conventions (no .ts suffix, import type, Direct Import
   Principle). Legacy DOM-function prefixes (init/dispose/create/remove/add/mark/handle/update/apply/
-  get/set/extract/normalize) for src/ui/. Vue-specific naming for components/composables/plugins.
+  get/set/extract/normalize) for src/platform/. Vue-specific naming for components/composables/plugins.
   Use when: writing or refactoring TypeScript code.
 applyTo: >
   build/**/*.ts;
@@ -52,7 +52,7 @@ A function should perform only one task to ensure it can be reused.
   import { doSomething } from "../core/module-a";
 
   // Wrong — unnecessary re-export
-  // In src/ui/module-b.ts:
+  // In src/platform/module-b.ts:
   import { doSomething } from "../core/module-a";
   export { doSomething };
   // In src/feature/module-c.ts:
@@ -87,10 +87,10 @@ export function scrollToHashTarget(hash: string): void {
 
 ---
 
-#### 2.3.2 Legacy-Specific Rules (imperative DOM — `src/ui/`)
+#### 2.3.2 Platform-Specific Rules (imperative DOM — `src/platform/`)
 
 > **Diminishing.** These rules apply to the legacy imperative modules under
-> `src/ui/`. New code should use Vue components or composables instead
+> `src/platform/`. New code should use Vue components or composables instead
 > (see §2.3.3). As the codebase migrates, the examples below are
 > kept current with what still exists.
 
@@ -178,7 +178,7 @@ Sections use `// ====...==== Name` banners; sub-sections use `// ----...---- Nam
 
 **Vue lifecycle replaces legacy prefixes:**
 
-| Legacy pattern (`src/ui/`)          | Vue equivalent                    |
+| Platform pattern (`src/platform/`)  | Vue equivalent                    |
 | ----------------------------------- | --------------------------------- |
 | `init*()` -> `onMounted()`          | Setup in `<script setup>`         |
 | `dispose*()` -> `onUnmounted()`     | Automatic cleanup                 |

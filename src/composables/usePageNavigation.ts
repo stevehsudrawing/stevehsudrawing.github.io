@@ -8,7 +8,7 @@
 
 import type { Ref } from "vue";
 import type { Router } from "vue-router";
-import { updatePageTitle } from "../ui/page-title";
+import { updatePageTitle } from "../platform/page-title";
 
 /**
  * Install router guards for page-navigation side effects.

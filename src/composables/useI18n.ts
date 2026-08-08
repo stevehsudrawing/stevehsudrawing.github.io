@@ -95,7 +95,7 @@ export function useI18n(): {
       applyLangData(lang, data);
 
       // Update page title
-      const { updatePageTitle } = await import("../ui/page-title");
+      const { updatePageTitle } = await import("../platform/page-title");
       updatePageTitle(t);
 
       // Persist preference

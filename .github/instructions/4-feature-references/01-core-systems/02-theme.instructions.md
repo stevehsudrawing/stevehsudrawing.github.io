@@ -5,7 +5,7 @@ description: >
   Use when: modifying theme colors, useTheme.ts, theme.ts, theme.css, or favicon assets.
 applyTo: >
   src/composables/useTheme.ts;
-  src/ui/theme.ts;
+  src/platform/theme.ts;
   src/stylesheets/global/theme.css
 ---
 

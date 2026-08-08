@@ -16,7 +16,7 @@ import { ref, computed, watch, onMounted, onUnmounted, type Ref } from "vue";
 import { useLocalStorage } from "./useLocalStorage";
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
 import { StorageKey } from "../types/app";
-import { applyThemePreference } from "../ui/theme";
+import { applyThemePreference } from "../platform/theme";
 
 // =========================================================================
 // Module-level shared state (singleton — all components share the same ref)
@@ -72,14 +72,14 @@ function removeSystemListener(): void {
 //
 // IMPORTANT: This watcher must NOT set data-bs-theme directly.
 // Theme application (data-bs-theme + overlay transition) is owned
-// exclusively by ui/theme.ts (applyThemeChange / applyThemePreference).
+// exclusively by platform/theme.ts (applyThemeChange / applyThemePreference).
 // Setting data-bs-theme here would race ahead of the overlay code and
 // cause skipOverlay to always evaluate true, killing the transition.
 //
 // This watcher only syncs favicons for system-initiated changes.
 
 watch(effectiveTheme, () => {
-  import("../ui/theme").then(({ applyAllFaviconThemes }) => {
+  import("../platform/theme").then(({ applyAllFaviconThemes }) => {
     applyAllFaviconThemes();
   });
 });

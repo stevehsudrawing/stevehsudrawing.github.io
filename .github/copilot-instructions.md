@@ -57,37 +57,37 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 **Layered architecture with semantic constraints:**
 
 ```
-types/       -> shared types and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
+types/       -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
   ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts)
   |
-core/        -> pure logic & global state (i18n.ts, utils.ts)
-  ￪             NO DOM manipulation, NO event listeners.
+core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts)
+  ￪
+composables/ -> Vue reactive state + side-effects (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
+  ￪
+platform/    -> browser platform services — imperative DOM APIs that Vue cannot own
+  ￪            (theme.ts, accessibility.ts, page-title.ts, bootstrap-css-detection.ts)
+  |            Only used for browser APIs with no Vue equivalent (matchMedia, favicon).
   |
-composables/ -> Vue composables (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
-  ￪             Reactive state + side-effects.
-  |
-ui/          -> legacy imperative DOM & Bootstrap wrappers (accessibility.ts, theme.ts, etc.)
-  ￪             Diminishing — prefer Vue components for new code.
-  |
-components/  -> Vue SFCs (layout/*.vue, ui/*.vue, modals/*.vue, cards/*.vue, buttons/*.vue)
-  ￪ pages/      PascalCase filenames, <script setup> + <style scoped>.
-  |
-plugins/     -> Vue plugins (i18n.ts) - loaded via app.use() in main.ts
+components/  -> Vue SFCs (layout/, ui/, modals/, cards/, buttons/)
+  ￪
+pages/       -> PascalCase filenames, <script setup> + <style scoped>.
+  ￪
+plugins/     -> Vue plugins — global provide/inject (i18n.ts)
   ￪
 main.ts      -> Entry point: CSS imports + globals + createApp + mount
-router.ts    -> Vue Router (routes, scrollBehavior, error recovery)
+router.ts    -> Vue Router config (routes, scrollBehavior, error recovery)
 App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                    | May import from                                      | Must NOT import from                              |
-| -------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------- |
-| `types/`       | Shared type definitions                                                      | npm, browser APIs                                    | `core/*`, `ui/*`, `composables/*`, `components/*` |
-| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**        | `types/*`                                            | `ui/*`, `composables/*`, `components/*`           |
-| `composables/` | Vue reactive state + side-effects. May call `inject()`.                      | `types/*`, `core/*`, `ui/*` (limited)                | `components/*`                                    |
-| `ui/`          | Legacy DOM manipulation, event listeners, Bootstrap wrappers.                | `types/*`, `core/*`                                  | `composables/*`, `components/*`                   |
-| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, legacy ui. | `types/*`, `core/*`, `composables/*`, `ui/*`         | —                                                 |
-| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero sections. | `types/*`, `core/*`, `composables/*`, `components/*` | `ui/*` (use composables instead)                  |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                           | `types/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`           |
+| Layer          | Semantics                                                                   | May import from                                      | Must NOT import from                              |
+| -------------- | --------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------- |
+| `types/`       | Shared type definitions                                                     | npm, browser APIs                                    | `core/*`, `ui/*`, `composables/*`, `components/*` |
+| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**       | `types/*`                                            | `ui/*`, `composables/*`, `components/*`           |
+| `composables/` | Vue reactive state + side-effects. May call `inject()`.                     | `types/*`, `core/*`, `platform/*` (limited)          | `components/*`                                    |
+| `platform/`    | Browser platform services — imperative DOM APIs.                            | `types/*`, `core/*`                                  | `composables/*`, `components/*`                   |
+| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, platform. | `types/*`, `core/*`, `composables/*`, `platform/*`   | —                                                 |
+| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content. | `types/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)            |
+| `plugins/`     | Vue plugins — global provide/inject registrations.                          | `types/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`           |
 
 **Decoupling patterns (when import would violate hierarchy):**
 

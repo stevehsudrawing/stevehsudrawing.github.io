@@ -23,7 +23,7 @@ applyTo: >
 - A function defined here should never call itself at the top level of the file.
 - All execution / wiring happens in the `main.ts` entry point (see [§3.2.2](#322-srcmaints-entry-point-wires-everything)).
 - **Exception**: Vue composables (`src/composables/`) may call `inject()` and other Vue runtime APIs at the top level — this is necessary for the Composition API pattern. They still must not trigger side effects (DOM manipulation, event listeners) at the top level.
-- **Exception**: `src/ui/theme.ts` evaluates `document.documentElement` and `window.matchMedia(...)` at the top level. This is necessary to apply the theme before the first paint and avoid a flash of incorrect theme. Other modules must not follow this pattern.
+- **Exception**: `src/platform/theme.ts` evaluates `document.documentElement` and `window.matchMedia(...)` at the top level. This is necessary to apply the theme before the first paint and avoid a flash of incorrect theme. Other modules must not follow this pattern.
 
 ```ts
 // In src/core/example.ts:

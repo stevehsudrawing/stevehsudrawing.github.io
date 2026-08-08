@@ -6,7 +6,7 @@ description: >
   Use when: evaluating browser compatibility, modifying env-detection.js, or changing feature requirements.
 applyTo: >
   public/legacy/env-detection.js;
-  src/ui/bootstrap-css-detection.ts
+  src/platform/bootstrap-css-detection.ts
 ---
 
 ### 1.3 Browser Baseline

@@ -5,7 +5,7 @@ description: >
   media queries, hash-based scroll.  BModal built-in focus management.
   Use when: modifying accessibility features, focus management, or CSS media queries.
 applyTo: >
-  src/ui/accessibility.ts;
+  src/platform/accessibility.ts;
   src/components/buttons/SkipButton.vue;
   src/stylesheets/global/accessibility.css
 ---

@@ -16,7 +16,7 @@ import { marked } from "marked";
 import { fromHtml } from "hast-util-from-html";
 import { BRow, BCol } from "bootstrap-vue-next";
 import { extractPlainText, toDashCase } from "../../core/utils";
-import { scrollToHashTarget } from "../../ui/accessibility";
+import { scrollToHashTarget } from "../../platform/accessibility";
 import HastFragment from "./HastFragment.vue";
 import type { HastNode } from "../../types/hast";
 

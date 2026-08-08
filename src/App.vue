@@ -45,11 +45,11 @@ import {
   OPEN_SETTINGS_KEY,
 } from "./types/app";
 import type { FeatureAwareImgProps } from "./types/app";
-import { initBootstrapCSSDetection } from "./ui/bootstrap-css-detection";
+import { initBootstrapCSSDetection } from "./platform/bootstrap-css-detection";
 import {
   initHashChangeScroll,
   initInputModalityDetection,
-} from "./ui/accessibility";
+} from "./platform/accessibility";
 import { normalizeInternalPath } from "./core/utils";
 
 // =========================================================================
