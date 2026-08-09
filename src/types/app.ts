@@ -17,6 +17,9 @@ export type ThemeChoice = "auto" | "light" | "dark";
 /** Effective (resolved) theme - always light or dark. */
 export type EffectiveTheme = "light" | "dark";
 
+/** Responsive breakpoint tiers aligned with Bootstrap's lg / xl thresholds. */
+export type Breakpoint = "mobile" | "tablet" | "desktop";
+
 // =========================================================================
 // localStorage keys
 // =========================================================================
@@ -26,6 +29,8 @@ export const enum StorageKey {
   Lang = "preferredLang",
   OpenInNewTab = "openExternalLinksInNewTab",
   EnableAnimations = "enableAnimations",
+  /** Cached GitHub user profile data (JSON-serialized CacheEntry<GitHubUser>). */
+  GithubProfile = "githubProfile",
 }
 
 // =========================================================================
@@ -135,6 +140,35 @@ export interface HeroImageProps {
   imgClass?: string;
   /** fetchpriority attribute (e.g. "high"). */
   fetchpriority?: string;
+}
+
+// =========================================================================
+// GitHub API data
+// =========================================================================
+
+/**
+ * Subset of GitHub's `GET /users/{username}` response.
+ * Only includes fields that are displayed in the UI.
+ */
+export interface GitHubUser {
+  /** GitHub login (username). */
+  login: string;
+  /** URL to the user's avatar image. */
+  avatar_url: string;
+  /** URL to the user's GitHub profile page. */
+  html_url: string;
+  /** Display name (may be null if not set). */
+  name: string | null;
+  /** User's bio / description. */
+  bio: string | null;
+  /** User's location. */
+  location: string | null;
+  /** Number of public repositories. */
+  public_repos: number;
+  /** Number of followers. */
+  followers: number;
+  /** Number of users the user is following. */
+  following: number;
 }
 
 // =========================================================================

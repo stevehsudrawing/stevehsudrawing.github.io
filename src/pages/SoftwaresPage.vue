@@ -9,6 +9,8 @@ import HeroSection from "../components/ui/HeroSection.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
+import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import SectionHeading from "../components/ui/SectionHeading.vue";
 
 // =========================================================================
 // Link cards
@@ -31,26 +33,20 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
       imgClass: 'img-fluid img-fit rounded',
     }"
   >
-    <div>
-      <TypeAwareLink
-        type="external"
-        href="https://github.com/stevehsudrawing"
-        :img-props="{
-          lightSrc: '/images/webp/null.webp',
-          feature: 'colored',
-          colorMaskSrc: '/images/webp/icons/github.webp',
-          colorVar: 'bs-body-color',
-          alt: $t('text-github', 'GitHub'),
-        }"
-        class="link link-hover-change-background larger-link fw-semibold"
-      >
-        <i class="bi bi-github"></i>
-        <span>{{ $t("text-my-github-profile", "My GitHub Profile") }}</span>
-      </TypeAwareLink>
-    </div>
   </HeroSection>
 
   <PageChainNav page-name="softwares" />
+
+  <hr />
+
+  <div class="container pb-2">
+    <SectionHeading
+      :title="$t('text-my-github-profile', 'My GitHub Profile')"
+      :page-path="'softwares.html'"
+      :base-url="'https://stevehsudrawing.github.io'"
+    />
+    <GitHubUserCard variant="full" />
+  </div>
 
   <hr />
 

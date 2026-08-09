@@ -4,12 +4,14 @@
   sections previously in index.html's <main id="page-content">.
 -->
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
+import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import { useBreakpoint } from "../composables/useBreakpoint";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
 import { useDelayedTooltip } from "../composables/useDelayedTooltip";
 import type { LinkButtonGroupData } from "../types/app";
@@ -22,12 +24,8 @@ import type { LinkButtonGroupData } from "../types/app";
 const carouselRef = ref<{ pause: () => void; resume: () => void } | null>(null);
 /** Whether the carousel is currently auto-playing. */
 const isPlaying = ref(true);
-
-const isMobile = ref(false);
-
-function onResize(): void {
-  isMobile.value = window.innerWidth < 992;
-}
+/** Reactive breakpoint (mobile / tablet / desktop) — shared singleton. */
+const breakpoint = useBreakpoint();
 
 // ---- Tooltip (delayed manual control) ----
 
@@ -50,11 +48,6 @@ function togglePlay(): void {
   isPlaying.value = !isPlaying.value;
 }
 
-onMounted(() => {
-  onResize();
-  window.addEventListener("resize", onResize);
-});
-
 // =========================================================================
 // Link button groups
 // =========================================================================
@@ -71,7 +64,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <!-- ==== Illustration section ==== -->
   <div
     class="container"
-    :class="{ 'large-hero-section': !isMobile }"
+    :class="{ 'large-hero-section': breakpoint !== 'mobile' }"
     id="illustration-section"
   >
     <div class="row align-items-center align-content-center flex-grow-1">
@@ -200,7 +193,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       href="#softwares-section"
       type="anchor"
       hide-indicator
-      v-if="!isMobile"
+      v-if="breakpoint !== 'mobile'"
       v-b-tooltip.top.manual="{
         modelValue: softwaresTip.visible,
         title: $t('text-my-softwares', 'My Softwares'),
@@ -219,7 +212,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <!-- ==== Softwares section ==== -->
   <div
     class="container"
-    :class="{ 'large-hero-section': !isMobile }"
+    :class="{ 'large-hero-section': breakpoint !== 'mobile' }"
     id="softwares-section"
   >
     <div class="row align-items-center align-content-center flex-grow-1">
@@ -234,6 +227,9 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               )
             }}
           </p>
+        </div>
+        <div class="pb-4">
+          <GitHubUserCard variant="compact" />
         </div>
         <LinkButtonGroup
           v-if="findGroup('softwares')"
@@ -254,7 +250,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       href="#blogs-sponsor-section"
       type="anchor"
       hide-indicator
-      v-if="!isMobile"
+      v-if="breakpoint !== 'mobile'"
       v-b-tooltip.top.manual="{
         modelValue: moreLinksTip.visible,
         title: $t('text-more-links', 'More Links'),

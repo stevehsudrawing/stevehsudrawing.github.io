@@ -17,6 +17,7 @@ import { fromHtml } from "hast-util-from-html";
 import { BRow, BCol } from "bootstrap-vue-next";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
+import { useBreakpoint } from "../../composables/useBreakpoint";
 import HastFragment from "./HastFragment.vue";
 import type { HastNode } from "../../types/hast";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
@@ -72,21 +73,13 @@ const currentHeadingText = computed(() => {
 
 /**
  * When using the mobile view, the mobile Scrollspy will be enabled instead of
- * the desktop version.
+ * the desktop version. Derived from the shared breakpoint singleton.
  */
-const isMobile = ref(false);
+const breakpoint = useBreakpoint();
 
 // =========================================================================
 // Actions
 // =========================================================================
-
-// -------------------------------------------------------------------------
-// Mobile View Detection
-// -------------------------------------------------------------------------
-
-function onResize(): void {
-  isMobile.value = window.innerWidth < 992;
-}
 
 // -------------------------------------------------------------------------
 // HAST post-processing
@@ -197,33 +190,33 @@ const NAVBAR_HEIGHT = 64;
 const MOBILE_BAR_HEIGHT = 48;
 
 /** Scroll smoothly to a heading and update the URL hash. */
-function onHeadingClick(id: string, isMobile: boolean = false): void {
-  const baseOffset = isMobile
+function onHeadingClick(id: string, isMobileClick: boolean = false): void {
+  const baseOffset = isMobileClick
     ? NAVBAR_HEIGHT +
       MOBILE_BAR_HEIGHT +
       (mobileListRef.value?.offsetHeight ?? 0)
     : props.scrollOffset;
   history.pushState(null, "", `#${id}`);
   scrollToHashTarget(id, false, baseOffset);
-  if (isMobile) headingExpanded.value = false;
+  if (isMobileClick) headingExpanded.value = false;
 }
 
 onMounted(() => {
-  onResize();
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onResize);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", onScroll);
-  window.removeEventListener("resize", onResize);
 });
 </script>
 
 <template>
   <div v-if="hastChildren.length > 0" class="container pb-2 markdown-article">
     <!-- Mobile: sticky collapsible heading nav -->
-    <nav v-if="headings.length > 0 && isMobile" class="scrollspy-nav-mobile">
+    <nav
+      v-if="headings.length > 0 && breakpoint === 'mobile'"
+      class="scrollspy-nav-mobile"
+    >
       <div
         class="scrollspy-current-bar"
         role="button"
@@ -262,7 +255,7 @@ onBeforeUnmount(() => {
     <BRow>
       <!-- Desktop scrollspy nav -->
       <BCol
-        v-if="headings.length > 0 && !isMobile"
+        v-if="headings.length > 0 && breakpoint !== 'mobile'"
         cols="12"
         lg="3"
         class="order-2"

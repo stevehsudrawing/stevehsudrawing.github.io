@@ -182,7 +182,9 @@ The remainder of this document links to detailed reference files in `instruction
 - [**4.1.4 Fonts**](./instructions/4-feature-references/01-core-systems/04-fonts.instructions.md)
 - [**4.1.5 Browser Detection**](./instructions/4-feature-references/01-core-systems/05-browser-detection.instructions.md)
 - [**4.1.6 Page Navigation**](./instructions/4-feature-references/01-core-systems/06-page-navigation.instructions.md)
-- [**4.1.7 Modal Helpers**](./instructions/4-feature-references/01-core-systems/06-modal-helpers.instructions.md)
+- [**4.1.7 Modal Helpers**](./instructions/4-feature-references/01-core-systems/07-modal-helpers.instructions.md)
+- [**4.1.8 Breakpoint Detection**](./instructions/4-feature-references/01-core-systems/08-breakpoint.instructions.md)
+- [**4.1.9 GitHub API**](./instructions/4-feature-references/01-core-systems/09-github-api.instructions.md)
 
 ### 4.2 UI Components
 

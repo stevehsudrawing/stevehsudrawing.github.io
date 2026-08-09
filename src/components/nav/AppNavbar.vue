@@ -14,6 +14,7 @@
 import { ref, computed, inject, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
+import { useBreakpoint } from "../../composables/useBreakpoint";
 import { normalizeInternalPath, extractPageName } from "../../core/utils";
 import OffcanvasNav from "./OffcanvasNav.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
@@ -81,14 +82,12 @@ function isActive(href: string): boolean {
 // -------------------------------------------------------------------------
 
 const scrollY = ref(0);
-const isMobile = ref(false);
+
+/** Reactive breakpoint (mobile / tablet / desktop) — shared singleton. */
+const breakpoint = useBreakpoint();
 
 function onScroll(): void {
   scrollY.value = window.scrollY;
-}
-
-function onResize(): void {
-  isMobile.value = window.innerWidth < 992;
 }
 
 let scrollTicking = false;
@@ -182,14 +181,11 @@ function switchLanguage(lang: string): void {
 }
 
 onMounted(() => {
-  onResize();
   window.addEventListener("scroll", throttledScroll);
-  window.addEventListener("resize", onResize);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", throttledScroll);
-  window.removeEventListener("resize", onResize);
 });
 
 // =========================================================================
@@ -219,7 +215,7 @@ defineExpose({
           class="navbar-brand-slide"
           id="navbar-brand-logo-slide"
           :style="
-            isMobile
+            breakpoint === 'mobile'
               ? { transform: `translateY(-${brandProgress * 100}%)` }
               : {}
           "
@@ -247,7 +243,7 @@ defineExpose({
           class="navbar-brand-slide"
           id="navbar-brand-page-slide"
           :style="
-            isMobile
+            breakpoint === 'mobile'
               ? {
                   display: 'flex',
                   transform: `translateY(${(1 - brandProgress) * 100}%)`,
