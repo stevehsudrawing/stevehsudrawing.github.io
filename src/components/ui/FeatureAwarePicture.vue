@@ -44,6 +44,8 @@ const props = defineProps<{
   fetchpriority?: string;
   /** Additional CSS classes for the img element. */
   imgClass?: string;
+  /** Native lazy loading forwarded to FeatureAwareImg. */
+  loading?: "lazy" | "eager";
 }>();
 
 // =========================================================================
@@ -99,6 +101,7 @@ const currentWebpSrc = computed(() =>
       :width="width"
       :height="height"
       :fetchpriority="fetchpriority"
+      :loading="loading"
       :class="imgClass || ''"
     />
   </picture>

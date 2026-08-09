@@ -33,6 +33,8 @@ const props = defineProps<{
   height?: number;
   /** Additional CSS classes. */
   class?: string;
+  /** Native lazy loading: "lazy" defers off-screen images, "eager" loads immediately. */
+  loading?: "lazy" | "eager";
 }>();
 
 // =========================================================================
@@ -109,6 +111,7 @@ onMounted(() => {
     :width="width"
     :height="height"
     :class="class"
+    :loading="loading"
     :data-img-feature="featureAttr"
     :data-img-loaded="loaded ? '' : undefined"
     :style="maskStyle"

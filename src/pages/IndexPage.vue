@@ -69,8 +69,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
 
 <template>
   <!-- ==== Illustration section ==== -->
-  <div class="container large-hero-section" id="illustration-section">
-    <div class="row align-items-center flex-grow-1">
+  <div
+    class="container"
+    :class="{ 'large-hero-section': !isMobile }"
+    id="illustration-section"
+  >
+    <div class="row align-items-center align-content-center flex-grow-1">
       <div class="col-lg-6 order-lg-1 order-2">
         <h1 v-html="$t('html-steve-hsu-s-link-hub')"></h1>
         <div class="py-2">
@@ -116,6 +120,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                   lightSrc: '/images/webp/icons/pixiv.webp',
                   alt: $t('text-pixiv', 'Pixiv'),
                 }"
+                hide-indicator
               >
                 <FeatureAwarePicture
                   avif-src-light="/images/avif/covers/illustration-0-light.avif"
@@ -137,6 +142,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                   lightSrc: '/images/webp/icons/pixiv.webp',
                   alt: $t('text-pixiv', 'Pixiv'),
                 }"
+                hide-indicator
               >
                 <FeatureAwarePicture
                   avif-src-light="/images/avif/covers/illustration-1.avif"
@@ -151,6 +157,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               <TypeAwareLink
                 type="internal"
                 href="/artworks-and-videos.html#sticker-collections"
+                hide-indicator
               >
                 <FeatureAwarePicture
                   avif-src-light="/images/avif/covers/illustration-2.avif"
@@ -165,6 +172,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               <TypeAwareLink
                 type="internal"
                 href="/artworks-and-videos.html#sticker-collections"
+                hide-indicator
               >
                 <FeatureAwarePicture
                   avif-src-light="/images/avif/covers/illustration-3.avif"
@@ -207,8 +215,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <hr />
 
   <!-- ==== Softwares section ==== -->
-  <div class="container large-hero-section" id="softwares-section">
-    <div class="row align-items-center flex-grow-1">
+  <div
+    class="container"
+    :class="{ 'large-hero-section': !isMobile }"
+    id="softwares-section"
+  >
+    <div class="row align-items-center align-content-center flex-grow-1">
       <div class="col-lg-6 order-lg-1 order-2">
         <h2 class="h1">{{ $t("text-my-softwares", "My Softwares") }}</h2>
         <div class="py-2">

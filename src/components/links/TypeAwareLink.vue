@@ -11,7 +11,7 @@
   Always carries the .link class for hover-underline styling.
 -->
 <script setup lang="ts">
-import { computed, inject, useSlots, Text } from "vue";
+import { computed, inject } from "vue";
 import { useRouter } from "vue-router";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import type { FeatureAwareImgProps } from "../../types/app";
@@ -41,6 +41,8 @@ const props = defineProps<{
   imgProps?: FeatureAwareImgProps | null;
   /** Hide the QR-code button in ExternalLinkConfirmModal. */
   noQRCode?: boolean;
+  /** Hide the type indicator icon (arrow / envelope / paragraph). */
+  hideIndicator?: boolean;
 }>();
 
 // =========================================================================
@@ -48,7 +50,6 @@ const props = defineProps<{
 // =========================================================================
 
 const router = useRouter();
-const slots = useSlots();
 const openExternalLink = inject<OpenExternalLinkFn | undefined>(
   OPEN_EXTERNAL_LINK_KEY,
   undefined,
@@ -58,46 +59,20 @@ const openExternalLink = inject<OpenExternalLinkFn | undefined>(
 // State
 // =========================================================================
 
-/**
- * Check whether the default slot VNodes contain any visible text.
- * Used to suppress the external-link arrow on image-only links
- * (e.g. carousel slides).
- */
-function slotHasText(): boolean {
-  const children = slots.default?.() as
-    (string | Record<string, unknown>)[] | undefined;
-  if (!children) return false;
-  return children.some((v) => {
-    if (typeof v === "string") return (v as string).trim().length > 0;
-    if (typeof v === "object" && v != null) {
-      const vn = v as Record<string, unknown>;
-      if (vn.type === Text) {
-        const textChildren = vn.children as string | undefined;
-        return (
-          typeof textChildren === "string" && textChildren.trim().length > 0
-        );
-      }
-      const vnodeChildren = vn.children;
-      if (Array.isArray(vnodeChildren)) {
-        return (vnodeChildren as unknown[]).some(
-          (c) => typeof c === "string" && (c as string).trim().length > 0,
-        );
-      }
-    }
-    return false;
-  });
-}
-
-/** Show ↗ arrow icon for external links that contain visible text. */
+/** Show ↗ arrow icon for external links (unless hidden). */
 const showExternalIcon = computed(
-  () => props.type === "external" && slotHasText(),
+  () => props.type === "external" && !props.hideIndicator,
 );
 
-/** Show ✉ envelope icon for email links. */
-const showEmailIcon = computed(() => props.type === "email");
+/** Show ✉ envelope icon for email links (unless hidden). */
+const showEmailIcon = computed(
+  () => props.type === "email" && !props.hideIndicator,
+);
 
-/** Show ¶ paragraph icon for anchor links. */
-const showAnchorIcon = computed(() => props.type === "anchor");
+/** Show ¶ paragraph icon for anchor links (unless hidden). */
+const showAnchorIcon = computed(
+  () => props.type === "anchor" && !props.hideIndicator,
+);
 
 // =========================================================================
 // Actions

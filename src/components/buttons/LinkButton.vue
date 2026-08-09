@@ -102,6 +102,7 @@ const tooltipTitle = computed(() => {
     :no-qr-code="!externalLink || undefined"
     :class="['btn', btnClass, 'link-btn-img-wrapper']"
     :aria-label="tooltipTitle"
+    hide-indicator
     v-b-tooltip.top.manual="{
       modelValue: linkBtnTip.visible,
       title: tooltipTitle,
