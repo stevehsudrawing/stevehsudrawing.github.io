@@ -36,10 +36,10 @@ Renders `<a href="#targetId">` with the paragraph icon (`bi-paragraph`),
 Bootstrap tooltip, and smooth-scroll (64 px navbar offset).
 
 Props: `targetId` (required), `headingTitle` (required — used for
-`aria-label` via the `text-anchor-to-1` i18n key with `%1` placeholder).
+`aria-label` via the `text-anchor-to-x` i18n key with `%1` placeholder).
 
 The tooltip always shows the generic `text-anchor` text (short), while
-`aria-label` uses the context-aware `text-anchor-to-1` format (e.g.
+`aria-label` uses the context-aware `text-anchor-to-x` format (e.g.
 "Anchor to Profile").
 
 ##### 4.2.9.3 CopyButton.vue

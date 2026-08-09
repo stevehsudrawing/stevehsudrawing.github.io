@@ -48,7 +48,7 @@ function onClick(targetId: string): void {
   <a
     class="link title-link-anchor"
     :href="`#${targetId}`"
-    :aria-label="$t('text-anchor-to-1', 'Anchor to %1', [props.headingTitle])"
+    :aria-label="$t('text-anchor-to-x', 'Anchor to %1', [props.headingTitle])"
     v-b-tooltip.top.manual="{
       modelValue: anchorTip.visible,
       title: $t('text-anchor', 'Anchor'),

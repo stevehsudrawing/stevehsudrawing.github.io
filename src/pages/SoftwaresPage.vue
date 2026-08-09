@@ -6,10 +6,10 @@
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
-import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
 import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import GitHubActivityStatsCard from "../components/cards/GitHubActivityStatsCard.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 
 // =========================================================================
@@ -39,13 +39,21 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
 
   <hr />
 
+  <!-- === My GitHub Profile === -->
   <div class="container pb-2">
     <SectionHeading
       :title="$t('text-my-github-profile', 'My GitHub Profile')"
       :page-path="'softwares.html'"
       :base-url="'https://stevehsudrawing.github.io'"
     />
-    <GitHubUserCard variant="full" />
+    <div class="row g-0">
+      <div class="col-lg-6">
+        <GitHubUserCard variant="full" />
+      </div>
+      <div class="col-lg-6">
+        <GitHubActivityStatsCard />
+      </div>
+    </div>
   </div>
 
   <hr />

@@ -22,7 +22,7 @@ export function useI18n(): {
   locale: Ref<Lang>;
   messages: Ref<Record<string, unknown>>;
   /** Translate a text key with optional fallback. */
-  t: (key: string, fallback?: string) => string;
+  t: (key: string, fallback?: string, param?: string[]) => string;
   /** Fetch the JSON file for a given language and apply it. */
   setLocale: (rawLang: string) => Promise<void>;
   /**

@@ -12,6 +12,7 @@ import { useGithubProfile } from "../../composables/useGithubProfile";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 import { useI18n } from "../../composables/useI18n";
+import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 
 // =========================================================================
 // Props
@@ -33,6 +34,7 @@ const props = withDefaults(
 // State
 // =========================================================================
 
+const moreInformationTip = useDelayedTooltip(500);
 const { t } = useI18n();
 const { data: profile, isLoading } = useGithubProfile();
 
@@ -64,7 +66,7 @@ const statsText = computed(() => {
   <!-- Only render when we have data (from cache or fresh fetch) -->
   <template v-if="showCard">
     <!-- ==== Full variant ==== -->
-    <div v-if="variant === 'full'" class="card github-user-card">
+    <div v-if="variant === 'full'" class="card github-user-card h-100">
       <div class="card-body d-flex flex-row flex-wrap gap-3">
         <div class="flex-grow-1">
           <div class="d-flex align-items-center mb-3">
@@ -122,23 +124,39 @@ const statsText = computed(() => {
         <br />
         <span class="text-body-secondary small">{{ statsText }}</span>
       </div>
-      <TypeAwareLink
-        class="btn btn-outline-secondary btn-sm flex-shrink-0"
-        type="external"
-        :href="profile!.html_url"
-        :img-props="{
-          lightSrc: '/images/webp/null.webp',
-          feature: 'colored',
-          colorMaskSrc: '/images/webp/icons/github.webp',
-          colorVar: 'bs-body-color',
-          alt: $t('text-github', 'GitHub'),
-        }"
-      >
-        <i class="bi bi-github me-1"></i>
-        <span class="d-none d-sm-inline">{{
-          $t("text-view-profile", "View Profile")
-        }}</span>
-      </TypeAwareLink>
+      <div>
+        <TypeAwareLink
+          class="btn btn-outline-secondary btn-sm flex-shrink-0"
+          type="external"
+          :href="profile!.html_url"
+          :img-props="{
+            lightSrc: '/images/webp/null.webp',
+            feature: 'colored',
+            colorMaskSrc: '/images/webp/icons/github.webp',
+            colorVar: 'bs-body-color',
+            alt: $t('text-github', 'GitHub'),
+          }"
+        >
+          <i class="bi bi-github me-1"></i>
+          <span class="d-none d-sm-inline">{{
+            $t("text-view-profile", "View Profile")
+          }}</span>
+        </TypeAwareLink>
+        <TypeAwareLink
+          class="btn btn-outline-secondary btn-sm ms-2"
+          type="internal"
+          href="/softwares.html#my-github-profile"
+          v-b-tooltip.top.manual="{
+            modelValue: moreInformationTip.visible,
+            title: $t('text-more-information', 'More Information'),
+            teleportTo: 'body',
+          }"
+          @mouseenter="moreInformationTip.scheduleShow()"
+          @mouseleave="moreInformationTip.cancelAndHide()"
+        >
+          <i class="bi bi-three-dots"></i>
+        </TypeAwareLink>
+      </div>
     </div>
   </template>
 

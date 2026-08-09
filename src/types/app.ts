@@ -31,6 +31,8 @@ export const enum StorageKey {
   EnableAnimations = "enableAnimations",
   /** Cached GitHub user profile data (JSON-serialized CacheEntry<GitHubUser>). */
   GithubProfile = "githubProfile",
+  /** Cached GitHub events data (JSON-serialized CacheEntry<GitHubEvent[]>). */
+  GithubEvents = "githubEvents",
 }
 
 // =========================================================================
@@ -169,6 +171,33 @@ export interface GitHubUser {
   followers: number;
   /** Number of users the user is following. */
   following: number;
+}
+
+/** A single event from the GitHub Events API (GET /users/{username}/events/public). */
+export interface GitHubEvent {
+  /** Event type (e.g. "PushEvent", "WatchEvent"). */
+  type: string;
+  /** ISO 8601 timestamp of when the event was created. */
+  created_at: string;
+  /** Repository the event occurred on. */
+  repo: {
+    name: string;
+  };
+  /** Event-specific payload (shape varies by event type). */
+  payload: {
+    action?: string;
+    [key: string]: unknown;
+  };
+}
+
+/** Aggregated count for a single GitHub event type (used by bar chart). */
+export interface ActivityStat {
+  /** Raw event type string from the API (e.g. "PushEvent"). */
+  eventType: string;
+  /** Number of occurrences of this event type. */
+  count: number;
+  /** Percentage of total events (0–100). */
+  percentage: number;
 }
 
 // =========================================================================
