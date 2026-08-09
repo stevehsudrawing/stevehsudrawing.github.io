@@ -6,6 +6,7 @@
 import { computed, ref, watch, onMounted, onUnmounted } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
+import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import type { LinkButtonData, FeatureAwareImgProps } from "../../types/app";
@@ -80,6 +81,10 @@ const typeAwareImgProps = computed<FeatureAwareImgProps | null>(() => {
   };
 });
 
+// ---- Tooltip ----
+
+const linkBtnTip = useDelayedTooltip(500);
+
 /** Tooltip title: prefer i18n alt, fall back to plain alt. */
 const tooltipTitle = computed(() => {
   const i18nKey = iconProps.dataI18nAlt as string | undefined;
@@ -97,11 +102,14 @@ const tooltipTitle = computed(() => {
     :no-qr-code="!externalLink || undefined"
     :class="['btn', btnClass, 'link-btn-img-wrapper']"
     :aria-label="tooltipTitle"
-    v-b-tooltip="{
+    v-b-tooltip.top.manual="{
+      modelValue: linkBtnTip.visible,
       title: tooltipTitle,
       teleportTo: 'body',
-      delay: { show: 500 },
     }"
+    @mouseenter="linkBtnTip.scheduleShow()"
+    @mouseleave="linkBtnTip.cancelAndHide()"
+    @click="linkBtnTip.cancelAndHide()"
   >
     <FeatureAwareImg
       :light-src="(imgDisplay.src.value as string) ?? ''"

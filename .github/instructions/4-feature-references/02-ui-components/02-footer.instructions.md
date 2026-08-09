@@ -18,12 +18,12 @@ FooterNav.vue
 
 ##### 4.2.2.2 Sections
 
-| Section                 | Content                                                             |
-| ----------------------- | ------------------------------------------------------------------- |
-| Copyright               | `&copy; 2024-2026` + internal link to `/about.html` + `v-b-tooltip` |
-| Powered by              | `v-html="$t('html-powered-by')"` — inline HTML from i18n JSON       |
-| Issue + Copyright links | External links with `data-link-img-props` JSON + `data-no-qr-code`  |
-| Share + View Code       | QR trigger (`data-qr-url` + `data-qr-icon`) + GitHub link           |
+| Section                 | Content                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| Copyright               | `&copy; 2024-2026` + internal link to `/about.html` + `v-b-tooltip.top.lazy` |
+| Powered by              | `v-html="$t('html-powered-by')"` — inline HTML from i18n JSON                |
+| Issue + Copyright links | External links with `data-link-img-props` JSON + `data-no-qr-code`           |
+| Share + View Code       | QR trigger (`data-qr-url` + `data-qr-icon`) + GitHub link                    |
 
 ##### 4.2.2.3 Event Delegation
 

@@ -10,6 +10,7 @@ import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
+import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
@@ -53,6 +54,13 @@ const visible = ref(false);
 const { t } = useI18n();
 const { effectiveTheme } = useTheme();
 const { showToast } = useToast();
+
+// ---- Tooltip ----
+
+const openTip = useDelayedTooltip(500);
+const shareTip = useDelayedTooltip(500);
+const downloadTip = useDelayedTooltip(500);
+const copyTip = useDelayedTooltip(500);
 
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const buttonsDisabled = ref(false);
@@ -103,8 +111,7 @@ const shareApiSupported = computed(() => {
 });
 
 const qrColors = computed(() => {
-  const htmlEl = document.documentElement;
-  const cs = getComputedStyle(htmlEl);
+  const cs = getComputedStyle(document.documentElement);
   return {
     dark: cs.getPropertyValue("--bs-body-color").trim() || "#000000",
     light: cs.getPropertyValue("--bs-body-bg").trim() || "#ffffff",
@@ -151,12 +158,21 @@ watch(visible, async (v) => {
   }
 });
 
-// Re-generate on theme change
+// Re-generate on theme change.  Read CSS properties directly
+// rather than relying on the qrColors computed — getComputedStyle()
+// is not reactive and the computed cache may be stale.
 watch(effectiveTheme, async () => {
-  if (visible.value) {
-    prevUrl = ""; // force re-generate
+  if (visible.value && qrCanvas.value) {
     await nextTick();
-    await generateQR();
+    const cs = getComputedStyle(document.documentElement);
+    const dark = cs.getPropertyValue("--bs-body-color").trim() || "#000000";
+    const light = cs.getPropertyValue("--bs-body-bg").trim() || "#ffffff";
+    await QRCode.toCanvas(qrCanvas.value, props.url, {
+      width: 250,
+      margin: 0,
+      color: { dark, light },
+      errorCorrectionLevel: "Q",
+    });
   }
 });
 
@@ -375,7 +391,12 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-open', 'Open')"
-          v-b-tooltip="{ title: t('text-open', 'Open'), delay: { show: 500 } }"
+          v-b-tooltip.top.manual="{
+            modelValue: openTip.visible,
+            title: t('text-open', 'Open'),
+          }"
+          @mouseenter="openTip.scheduleShow()"
+          @mouseleave="openTip.cancelAndHide()"
           @click="openLink"
         >
           <i class="bi bi-box-arrow-up-right"></i>
@@ -385,12 +406,17 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-share', 'Share')"
-          v-b-tooltip="{
+          v-b-tooltip.top.manual="{
+            modelValue: shareTip.visible,
             title: t('text-share', 'Share'),
-            delay: { show: 500 },
           }"
+          @mouseenter="shareTip.scheduleShow()"
+          @mouseleave="shareTip.cancelAndHide()"
+          @click="
+            shareTip.cancelAndHide();
+            shareImage();
+          "
           :disabled="buttonsDisabled"
-          @click="shareImage"
         >
           <i class="bi bi-share"></i>
         </button>
@@ -398,12 +424,17 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border"
           :aria-label="$t('text-download', 'Download')"
-          v-b-tooltip="{
+          v-b-tooltip.top.manual="{
+            modelValue: downloadTip.visible,
             title: t('text-download', 'Download'),
-            delay: { show: 500 },
           }"
+          @mouseenter="downloadTip.scheduleShow()"
+          @mouseleave="downloadTip.cancelAndHide()"
+          @click="
+            downloadTip.cancelAndHide();
+            downloadPNG();
+          "
           :disabled="buttonsDisabled"
-          @click="downloadPNG"
         >
           <i class="bi bi-download"></i>
         </button>
@@ -411,9 +442,17 @@ defineExpose({
           type="button"
           class="btn btn-outline-primary btn-no-border me-auto"
           :aria-label="$t('text-copy', 'Copy')"
-          v-b-tooltip="{ title: t('text-copy', 'Copy'), delay: { show: 500 } }"
+          v-b-tooltip.top.manual="{
+            modelValue: copyTip.visible,
+            title: t('text-copy', 'Copy'),
+          }"
+          @mouseenter="copyTip.scheduleShow()"
+          @mouseleave="copyTip.cancelAndHide()"
+          @click="
+            copyTip.cancelAndHide();
+            copyImage();
+          "
           :disabled="buttonsDisabled"
-          @click="copyImage"
         >
           <i class="bi bi-clipboard"></i>
         </button>

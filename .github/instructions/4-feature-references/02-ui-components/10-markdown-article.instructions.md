@@ -45,7 +45,7 @@ Headings are extracted from the HAST tree (h2 -> `.h4`, h3 -> `.h5`).
 scrolls to the target with a dynamic offset:
 
 ```
-desktop: scrollOffset prop (default 72)
+desktop: scrollOffset prop (default 64)
 mobile:  64 (navbar) + 48 (mobile bar) + mobileList.offsetHeight
 ```
 

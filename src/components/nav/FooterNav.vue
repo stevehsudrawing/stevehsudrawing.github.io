@@ -2,8 +2,14 @@
   FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
+import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
+
+// ---- Tooltip ----
+
+const aboutTip = useDelayedTooltip(500);
+const viewCodeTip = useDelayedTooltip(500);
 </script>
 
 <template>
@@ -20,10 +26,13 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
             :aria-label="
               $t('text-about-me-and-my-emails', 'About Me and E-mail')
             "
-            v-b-tooltip="{
+            v-b-tooltip.top.manual="{
+              modelValue: aboutTip.visible,
               title: $t('text-about-me-and-my-emails', 'About Me and E-mail'),
-              delay: { show: 500 },
             }"
+            @mouseenter="aboutTip.scheduleShow()"
+            @mouseleave="aboutTip.cancelAndHide()"
+            @click="aboutTip.cancelAndHide()"
             >{{ $t("text-steve-hsu", "Steve Hsu") }}</TypeAwareLink
           >
           {{ $t("text-copyright-part-2", ". All rights reserved.") }}
@@ -105,10 +114,13 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
               ),
             }"
             :aria-label="$t('text-view-code', 'View Code')"
-            v-b-tooltip="{
+            v-b-tooltip.top.manual="{
+              modelValue: viewCodeTip.visible,
               title: $t('text-view-code', 'View Code'),
-              delay: { show: 500 },
             }"
+            @mouseenter="viewCodeTip.scheduleShow()"
+            @mouseleave="viewCodeTip.cancelAndHide()"
+            @click="viewCodeTip.cancelAndHide()"
           >
             <i class="bi bi-github"></i>
           </TypeAwareLink>

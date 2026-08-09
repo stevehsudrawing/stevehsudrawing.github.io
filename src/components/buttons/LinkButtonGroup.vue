@@ -1,7 +1,7 @@
 <!--
   LinkButtonGroup.vue — Single link-button group with horizontal scroll hint.
   Renders one LinkButtonGroupData item with its buttons and a
-  "Scroll Horizontally" indicator that appears when the group overflows.
+  "scroll horizontally" indicator that appears when the group overflows.
 -->
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
     aria-hidden="true"
   >
     <i class="bi bi-chevron-left"></i>
-    <span>{{ t("text-scroll-horizontally", "Scroll Horizontally") }}</span>
+    <span>{{ t("text-scroll-horizontally", "scroll horizontally") }}</span>
     <i class="bi bi-chevron-right"></i>
   </div>
 </template>

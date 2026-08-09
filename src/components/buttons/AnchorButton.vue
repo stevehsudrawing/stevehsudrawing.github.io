@@ -9,6 +9,7 @@
 -->
 <script setup lang="ts">
 import { scrollToHashTarget } from "../../platform/accessibility";
+import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 
 // =========================================================================
 // Props
@@ -23,6 +24,10 @@ const props = defineProps<{
    */
   headingTitle: string;
 }>();
+
+// ---- Tooltip ----
+
+const anchorTip = useDelayedTooltip(500);
 
 // =========================================================================
 // Actions
@@ -44,11 +49,13 @@ function onClick(targetId: string): void {
     class="link title-link-anchor"
     :href="`#${targetId}`"
     :aria-label="$t('text-anchor-to-1', 'Anchor to %1', [props.headingTitle])"
-    v-b-tooltip="{
+    v-b-tooltip.top.manual="{
+      modelValue: anchorTip.visible,
       title: $t('text-anchor', 'Anchor'),
       teleportTo: 'body',
-      delay: { show: 500 },
     }"
+    @mouseenter="anchorTip.scheduleShow()"
+    @mouseleave="anchorTip.cancelAndHide()"
     @click.prevent="onClick(targetId)"
   >
     <i class="bi bi-paragraph"></i>

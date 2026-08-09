@@ -62,7 +62,13 @@ export function useLocalStorage<T>(key: string, defaultValue: T): Ref<T> {
   watch(
     value,
     (newVal) => {
-      localStorage.setItem(key, JSON.stringify(newVal));
+      // Store strings as plain values (not JSON-encoded) for compatibility
+      // with non-Vue callers that read localStorage directly (main.ts,
+      // theme.ts).  Non-strings (booleans, objects) still use JSON.
+      localStorage.setItem(
+        key,
+        typeof newVal === "string" ? newVal : JSON.stringify(newVal),
+      );
     },
     { deep: true },
   );

@@ -224,18 +224,48 @@ The remainder of this document links to detailed reference files in `instruction
 
 When generating responses for this project, Copilot should:
 
-1. **Think in English**: Internal reasoning and analysis should be in English.
-2. **Read the necessary documents**: Instructions are organized in the form of folders. Before generating a response, Copilot should first read the relevant documents in `.github/instructions` according to the user's requirements to understand the specifications of this project.
-3. **Respond using the language that the user is using**: For example, if the user is conversing in Chinese, responses should be in Chinese.
-4. **Write code / docs / commit messages in English (United States)**: All code, comments, documentation, commit messages should be in English (United States). When writing, use standard ASCII characters as much as possible. This helps to use `beautify` to format files, as it has poor support for full-width characters.
-5. **Discuss before executing**: When the user proposes a new function or a change, first explain the approach and analysis. Only proceed with implementation after the user confirms ("go ahead", "执行", "可以", etc.).
-6. **Priority of norms/standards**: If there are more normative or standard practices, priority should be given to norms or standards, even if refactoring is required.
-7. **Always pay attention to document updates**: When adding, modifying, or deleting new features, it is necessary to add, update or delete the corresponding instruction documents, even if temporarily.
-8. **Always execute `typecheck` after modification**: After each modification, the following command should be executed to check whether it can be built properly:
+0. **ALWAYS place the final response OUTSIDE the `thinking` block**: The
+   `thinking` XML tag is for internal reasoning only — anything inside it is
+   invisible to the user and will render as "Sorry, no response was returned."
+   All user-facing content (summaries, explanations, code suggestions,
+   confirmation messages, etc.) MUST be placed in the `response` section
+   (i.e., after the closing `</thinking>` tag). This is the single most
+   common failure mode — always double-check before completing a turn.
 
-```pwsh
-pnpm typecheck ; pnpm build
-```
+1. **Think in English**: Internal reasoning and analysis should be in English.
+
+2. **Read the necessary documents**: Instructions are organized in the form of
+   folders. Before generating a response, Copilot should first read the relevant
+   documents in `.github/instructions` according to the user's requirements to
+   understand the specifications of this project.
+
+3. **Respond using the language that the user is using**: For example, if the user
+   is conversing in Chinese, responses should be in Chinese.
+
+4. **Write code / docs / commit messages in English (United States)**: All code,
+   comments, documentation, commit messages should be in English (United States).
+   When writing, use standard ASCII characters as much as possible. This helps to
+   use `beautify` to format files, as it has poor support for full-width
+   characters.
+
+5. **Discuss before executing**: When the user proposes a new function or a change,
+   first explain the approach and analysis. Only proceed with implementation after
+   the user confirms ("go ahead", "执行", "可以", etc.).
+
+6. **Priority of norms/standards**: If there are more normative or standard
+   practices, priority should be given to norms or standards, even if refactoring
+   is required.
+
+7. **Always pay attention to document updates**: When adding, modifying, or deleting
+   new features, it is necessary to add, update or delete the corresponding
+   instruction documents, even if temporarily.
+
+8. **Always execute `typecheck` after modification**: After each modification, the
+   following command should be executed to check whether it can be built properly:
+
+   ```pwsh
+   pnpm typecheck ; pnpm build
+   ```
 
 <!-- mermaid-ai-skills:start -->
 

@@ -95,7 +95,7 @@ Every exported variable, function, interface, and type alias **must** have a sta
 export function scrollToHashTarget(
   hash: string,
   instant = false,
-  offset: number = 72,
+  offset: number = 64,
 ): void {
   /* ... */
 }

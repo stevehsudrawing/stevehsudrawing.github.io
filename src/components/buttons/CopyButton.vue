@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { useI18n } from "../../composables/useI18n";
 import { useToast } from "../../composables/useToast";
+import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 
 // =========================================================================
 // Props
@@ -28,6 +29,10 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { showToast } = useToast();
+
+// ---- Tooltip ----
+
+const copyTip = useDelayedTooltip(500);
 
 // =========================================================================
 // Actions
@@ -53,7 +58,12 @@ async function onClick(): Promise<void> {
     ref="elRef"
     href="#"
     :aria-label="$t('text-copy', 'Copy')"
-    v-b-tooltip="{ title: $t('text-copy', 'Copy'), delay: { show: 500 } }"
+    v-b-tooltip.top.manual="{
+      modelValue: copyTip.visible,
+      title: $t('text-copy', 'Copy'),
+    }"
+    @mouseenter="copyTip.scheduleShow()"
+    @mouseleave="copyTip.cancelAndHide()"
     @click.prevent="onClick"
   >
     <slot />
@@ -63,7 +73,12 @@ async function onClick(): Promise<void> {
     ref="elRef"
     type="button"
     :aria-label="$t('text-copy', 'Copy')"
-    v-b-tooltip="{ title: $t('text-copy', 'Copy'), delay: { show: 500 } }"
+    v-b-tooltip.top.manual="{
+      modelValue: copyTip.visible,
+      title: $t('text-copy', 'Copy'),
+    }"
+    @mouseenter="copyTip.scheduleShow()"
+    @mouseleave="copyTip.cancelAndHide()"
     @click="onClick"
   >
     <slot />

@@ -1,6 +1,6 @@
 ---
 description: >
-  Tooltips & Toast: v-b-tooltip directive, ToastStack.vue (BToast stack with
+  Tooltips & Toast: v-b-tooltip.top.lazy directive, ToastStack.vue (BToast stack with
   TransitionGroup), useToast() composable.
   Use when: adding tooltips, modifying toast behavior, or changing notification patterns.
 applyTo: >
@@ -12,13 +12,38 @@ applyTo: >
 
 ##### 4.2.6.1 Tooltips
 
-Use `v-b-tooltip` from `bootstrap-vue-next`:
+**Preferred pattern** (when `delay.show` is needed): use `v-b-tooltip.top.manual`
+with the `useDelayedTooltip()` composable. This avoids a Bootstrap bug where
+the built-in `delay.show` timer is not cancellable on click, causing the
+tooltip to appear after the cursor has already left.
+
+```vue
+<script setup>
+import { useDelayedTooltip } from "../composables/useDelayedTooltip";
+const tip = useDelayedTooltip(500);
+</script>
+
+<template>
+  <a
+    v-b-tooltip.top.manual="{
+      modelValue: tip.visible,
+      title: $t('text-settings', 'Settings'),
+    }"
+    @mouseenter="tip.scheduleShow()"
+    @mouseleave="tip.cancelAndHide()"
+    @click="tip.cancelAndHide()"
+    ...
+  ></a>
+</template>
+```
+
+The composable pattern gives precise control: scheduled show is cancelled
+on `mouseleave` or `click`, and the timer is cleaned up on `onUnmounted`.
+
+**Legacy pattern** (no delay, or delay without click-dismissal concern):
 
 ```html
-<a
-  v-b-tooltip="{ title: $t('text-settings', 'Settings'), delay: { show: 500 } }"
-  ...
-></a>
+<a v-b-tooltip.top.lazy="{ title: $t('text-settings', 'Settings') }" ...></a>
 ```
 
 ##### 4.2.6.2 Toast — Architecture

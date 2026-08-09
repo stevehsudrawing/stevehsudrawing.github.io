@@ -13,7 +13,7 @@
 export function scrollToHashTarget(
   hash: string,
   instant = false,
-  offset: number = 72,
+  offset: number = 64,
 ): void {
   if (!hash) return;
   if (hash.startsWith("#")) {

@@ -4,13 +4,14 @@
   sections previously in index.html's <main id="page-content">.
 -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
+import { useDelayedTooltip } from "../composables/useDelayedTooltip";
 import type { LinkButtonGroupData } from "../types/app";
 
 // =========================================================================
@@ -21,6 +22,19 @@ import type { LinkButtonGroupData } from "../types/app";
 const carouselRef = ref<{ pause: () => void; resume: () => void } | null>(null);
 /** Whether the carousel is currently auto-playing. */
 const isPlaying = ref(true);
+
+const isMobile = ref(false);
+
+function onResize(): void {
+  isMobile.value = window.innerWidth < 992;
+}
+
+// ---- Tooltip (delayed manual control) ----
+
+/** Delayed tooltip for the scroll-down tip in the illustration section. */
+const softwaresTip = useDelayedTooltip(500);
+/** Delayed tooltip for the scroll-down tip in the softwares section. */
+const moreLinksTip = useDelayedTooltip(500);
 
 // =========================================================================
 // Actions
@@ -36,6 +50,11 @@ function togglePlay(): void {
   isPlaying.value = !isPlaying.value;
 }
 
+onMounted(() => {
+  onResize();
+  window.addEventListener("resize", onResize);
+});
+
 // =========================================================================
 // Link button groups
 // =========================================================================
@@ -50,8 +69,8 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
 
 <template>
   <!-- ==== Illustration section ==== -->
-  <div class="container">
-    <div class="row align-items-center">
+  <div class="container large-hero-section" id="illustration-section">
+    <div class="row align-items-center flex-grow-1">
       <div class="col-lg-6 order-lg-1 order-2">
         <h1 v-html="$t('html-steve-hsu-s-link-hub')"></h1>
         <div class="py-2">
@@ -168,13 +187,28 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         </div>
       </div>
     </div>
+    <a
+      class="scroll-down-tip"
+      v-if="!isMobile"
+      href="#softwares-section"
+      v-b-tooltip.top.manual="{
+        modelValue: softwaresTip.visible,
+        title: $t('text-my-softwares', 'My Softwares'),
+      }"
+      @mouseenter="softwaresTip.scheduleShow()"
+      @mouseleave="softwaresTip.cancelAndHide()"
+      @click="softwaresTip.cancelAndHide()"
+    >
+      <span>{{ $t("text-scroll-down", "scroll down") }}</span>
+      <i class="bi bi-chevron-down"></i>
+    </a>
   </div>
 
   <hr />
 
   <!-- ==== Softwares section ==== -->
-  <div class="container">
-    <div class="row align-items-center">
+  <div class="container large-hero-section" id="softwares-section">
+    <div class="row align-items-center flex-grow-1">
       <div class="col-lg-6 order-lg-1 order-2">
         <h2 class="h1">{{ $t("text-my-softwares", "My Softwares") }}</h2>
         <div class="py-2">
@@ -201,12 +235,28 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         />
       </div>
     </div>
+    <a
+      class="scroll-down-tip"
+      v-if="!isMobile"
+      href="#blogs-sponsor-section"
+      v-b-tooltip.top.manual="{
+        modelValue: moreLinksTip.visible,
+        title: $t('text-more-links', 'More Links'),
+      }"
+      @mouseenter="moreLinksTip.scheduleShow()"
+      @mouseleave="moreLinksTip.cancelAndHide()"
+      @click="moreLinksTip.cancelAndHide()"
+    >
+      <span>{{ $t("text-scroll-down", "scroll down") }}</span>
+      <i class="bi bi-chevron-down"></i>
+    </a>
   </div>
 
   <hr />
 
   <!-- ==== Blogs & Sponsor section ==== -->
   <HeroSection
+    id="blogs-sponsor-section"
     heading-tag="h2"
     :title="$t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor')"
     :description="
@@ -276,6 +326,28 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
 </template>
 
 <style>
+.large-hero-section {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px);
+}
+
+.scroll-down-tip {
+  color: var(--bs-body-color);
+  display: flex;
+  flex-direction: column;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.75;
+  gap: 0;
+  font-size: 0.8rem;
+}
+
+.scroll-down-tip > i {
+  font-size: 1rem;
+}
+
 .carousel-indicators *,
 .carousel-control-prev,
 .carousel-control-next {

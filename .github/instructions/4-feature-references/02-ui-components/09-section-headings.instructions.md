@@ -33,7 +33,7 @@ after language switches.
 ##### 4.2.9.2 AnchorButton.vue
 
 Renders `<a href="#targetId">` with the paragraph icon (`bi-paragraph`),
-Bootstrap tooltip, and smooth-scroll (72 px navbar offset).
+Bootstrap tooltip, and smooth-scroll (64 px navbar offset).
 
 Props: `targetId` (required), `headingTitle` (required — used for
 `aria-label` via the `text-anchor-to-1` i18n key with `%1` placeholder).

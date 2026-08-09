@@ -8,7 +8,7 @@
 
   Props:
     content      - Raw markdown string (required)
-    scrollOffset - Scroll offset for heading clicks, desktop (default 72)
+    scrollOffset - Scroll offset for heading clicks, desktop (default 64)
 -->
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
@@ -43,7 +43,7 @@ const props = withDefaults(
     scrollOffset?: number;
   }>(),
   {
-    scrollOffset: 72,
+    scrollOffset: 64,
   },
 );
 
