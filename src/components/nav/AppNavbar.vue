@@ -108,9 +108,9 @@ function throttledScroll(): void {
 
 const scrolled = computed(() => scrollY.value > 0);
 
-// Brand slide progress (0–1 over first 64 px)
+// Brand slide progress (0–1 over first 256 px)
 const brandProgress = computed(() =>
-  Math.min(Math.max(scrollY.value / 64, 0), 1),
+  Math.min(Math.max(scrollY.value / 256, 0), 1),
 );
 
 /** Page name for mobile brand slide. */
@@ -255,9 +255,9 @@ defineExpose({
               : {}
           "
         >
-          <a href="#">
+          <TypeAwareLink href="#page-content" type="anchor" hide-indicator>
             <span class="navbar-brand-text">{{ pageName }}</span>
-          </a>
+          </TypeAwareLink>
         </div>
       </div>
 

@@ -19,6 +19,7 @@ import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import HastFragment from "./HastFragment.vue";
 import type { HastNode } from "../../types/hast";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
 // Types
@@ -240,18 +241,20 @@ onBeforeUnmount(() => {
         class="scrollspy-mobile-list px-3"
       >
         <li v-for="item in headings" :key="item.id">
-          <a
+          <TypeAwareLink
+            type="anchor"
+            :href="`#${item.id}`"
+            hide-indicator
             class="scrollspy-link"
             :class="{
               active: activeId === item.id,
               'ps-3': item.level >= 3,
               'ps-0': item.level < 3,
             }"
-            :href="`#${item.id}`"
             @click.prevent="onHeadingClick(item.id, true)"
           >
             {{ item.text }}
-          </a>
+          </TypeAwareLink>
         </li>
       </ul>
     </nav>
@@ -270,18 +273,20 @@ onBeforeUnmount(() => {
         >
           <ul class="nav flex-column">
             <li v-for="item in headings" :key="item.id" class="nav-item">
-              <a
+              <TypeAwareLink
+                type="anchor"
+                :href="`#${item.id}`"
+                hide-indicator
                 class="nav-link scrollspy-link py-1"
                 :class="{
                   active: activeId === item.id,
                   'ps-3': item.level >= 3,
                   'ps-0': item.level < 3,
                 }"
-                :href="`#${item.id}`"
                 @click.prevent="onHeadingClick(item.id)"
               >
                 {{ item.text }}
-              </a>
+              </TypeAwareLink>
             </li>
           </ul>
         </nav>

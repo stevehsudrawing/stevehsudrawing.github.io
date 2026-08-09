@@ -103,6 +103,7 @@ const viewCodeTip = useDelayedTooltip(500);
           <TypeAwareLink
             type="external"
             href="https://github.com/stevehsudrawing/stevehsudrawing.github.io"
+            hide-indicator
             :img-props="{
               lightSrc: '/images/webp/null.webp',
               feature: 'colored',

@@ -195,10 +195,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         </div>
       </div>
     </div>
-    <a
+    <TypeAwareLink
       class="scroll-down-tip"
-      v-if="!isMobile"
       href="#softwares-section"
+      type="anchor"
+      hide-indicator
+      v-if="!isMobile"
       v-b-tooltip.top.manual="{
         modelValue: softwaresTip.visible,
         title: $t('text-my-softwares', 'My Softwares'),
@@ -209,7 +211,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
     >
       <span>{{ $t("text-scroll-down", "scroll down") }}</span>
       <i class="bi bi-chevron-down"></i>
-    </a>
+    </TypeAwareLink>
   </div>
 
   <hr />
@@ -247,10 +249,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         />
       </div>
     </div>
-    <a
+    <TypeAwareLink
       class="scroll-down-tip"
-      v-if="!isMobile"
       href="#blogs-sponsor-section"
+      type="anchor"
+      hide-indicator
+      v-if="!isMobile"
       v-b-tooltip.top.manual="{
         modelValue: moreLinksTip.visible,
         title: $t('text-more-links', 'More Links'),
@@ -261,7 +265,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
     >
       <span>{{ $t("text-scroll-down", "scroll down") }}</span>
       <i class="bi bi-chevron-down"></i>
-    </a>
+    </TypeAwareLink>
   </div>
 
   <hr />
