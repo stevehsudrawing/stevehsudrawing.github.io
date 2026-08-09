@@ -36,7 +36,29 @@ App.vue (delegated click on .internal-link)
 | Language persistence | `router.beforeEach` copies `?lang=` from `from` to `to`     |
 | Chunk-load fallback  | `router.onError` — full `window.location.assign` on failure |
 
-##### 4.4.2.3 Error Recovery
+##### 4.4.2.3 Known Issue: Edge + Vue Router Window Minimize
+
+On Microsoft Edge (Windows / macOS), newer versions of Vue Router can
+interfere with the browser's window-minimize operation. This is **not**
+a CSS or GPU-compositing issue — it is a browser-level behavior in Edge.
+
+**Root cause:** vue-router@4.6.3 added a `visibilitychange` listener
+that fires too broadly, including during Vite HMR updates on a background
+tab. When the tab regains visibility, `history.replaceState()` is called.
+Edge (unlike Chrome) activates the window at the OS level in response to
+`replaceState()`, making it difficult to minimize the window.
+
+**References:**
+
+- [vuejs/router#2644](https://github.com/vuejs/router/issues/2644) — Bug report
+- [vuejs/router#2704](https://github.com/vuejs/router/pull/2704) — Fix (unmerged)
+- [Microsoft Q&A](https://learn.microsoft.com/zh-cn/answers/questions/5792001/question-5792001)
+
+> This was previously misattributed to `.theme-transition-overlay`
+> backdrop-filter compositing. The actual cause is the
+> visibilitychange → replaceState → window activation chain on Edge.
+
+##### 4.4.2.4 Error Recovery
 
 If a lazy-loaded page chunk fails (network error, stale cache after
 deployment), `router.onError` triggers a full browser navigation via

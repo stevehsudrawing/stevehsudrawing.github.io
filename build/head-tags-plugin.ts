@@ -32,6 +32,10 @@ import type { PageMetaEntry } from "./types";
  */
 function commonTags(): HtmlTagDescriptor[] {
   return [
+    // Common
+    { tag: "meta", attrs: { charset: "utf-8" } },
+    { tag: "meta", attrs: { name: "viewport", "content": "width=device-width, initial-scale=1, viewport-fit=cover" } },
+
     // Apple PWA
     { tag: "meta", attrs: { name: "mobile-web-app-capable", content: "yes" } },
     {
@@ -94,6 +98,9 @@ function commonTags(): HtmlTagDescriptor[] {
         color: "#212529",
       },
     },
+
+    // Legacy rel="image_src"
+    { tag: "link", attrs: { rel: "image_src", content: OG_IMAGE } },
 
     // JavaScript-disabled fallback
     {
@@ -170,7 +177,6 @@ function splashTags(): HtmlTagDescriptor[] {
 /** Generate tags exclusive to full-tier pages: splash screens, manifest, sitemap, theme-color. */
 function fullPageTags(): HtmlTagDescriptor[] {
   return [
-    ...splashTags(),
     { tag: "link", attrs: { rel: "manifest", href: "/manifest.json" } },
     {
       tag: "link",
@@ -197,6 +203,7 @@ function fullPageTags(): HtmlTagDescriptor[] {
         media: "(prefers-color-scheme: light)",
       },
     },
+    ...splashTags(),
   ];
 }
 
@@ -419,13 +426,13 @@ export function headTagsPlugin() {
 
         const tags = [
           ...commonTags(),
-          ...(isFull ? fullPageTags() : []),
           ...seoTags(meta),
-          ...hreflangTags(meta),
           ...ogTags(meta),
           ...twitterTags(meta),
-          { tag: "script", attrs: { type: "module", src: "/main.ts" } },
+          ...hreflangTags(meta),
+          ...(isFull ? fullPageTags() : []),
           ...structuredData(meta),
+          { tag: "script", attrs: { type: "module", src: "/main.ts" } },
         ];
 
         return { html, tags };

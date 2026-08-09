@@ -57,10 +57,10 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
           <span>{{ $t("text-powered-by-part-2", ".") }}</span>
         </div>
 
-        <!-- ==== Issue + Share + View Code ==== -->
-        <div class="ms-auto">
+        <!-- ==== Issue ==== -->
+        <div>
           <TypeAwareLink
-            class="text-nowrap me-2"
+            class="text-nowrap"
             type="external"
             href="https://github.com/stevehsudrawing/stevehsudrawing.github.io/issues"
             :img-props="{
@@ -74,6 +74,9 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
           >
             {{ $t("text-report-an-issue", "Report an Issue") }}
           </TypeAwareLink>
+        </div>
+        <!-- ==== Share + View Code ==== -->
+        <div class="ms-auto">
           <QRCodeButton
             class="me-2"
             :url="'https://stevehsudrawing.github.io'"

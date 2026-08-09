@@ -6,6 +6,7 @@
  * still initializes its own router instance — no state is shared
  * across full-page reloads.
  */
+
 import { createRouter, createWebHistory } from "vue-router";
 
 // =========================================================================
@@ -124,3 +125,23 @@ router.onError((error) => {
     window.location.assign(window.location.href);
   }
 });
+
+// =========================================================================
+// Known issue: Edge + Vue Router window-minimize
+// =========================================================================
+
+/**
+ * On Microsoft Edge (Windows / macOS), newer Vue Router versions can
+ * interfere with window minimize.  Root cause: a `visibilitychange`
+ * listener added in vue-router@4.6.3 fires too broadly — including
+ * during Vite HMR updates on a background tab.  When the tab regains
+ * visibility, `history.replaceState()` is called, and Edge activates
+ * the window at the OS level in response (Chrome is unaffected).
+ *
+ * This is unrelated to CSS backdrop-filter or GPU compositing.
+ * The minimize issue is a browser-level behavior triggered by the
+ * visibilitychange → replaceState → window activation chain.
+ *
+ * @see https://github.com/vuejs/router/issues/2644
+ * @see https://github.com/vuejs/router/pull/2704 (unmerged fix)
+ */

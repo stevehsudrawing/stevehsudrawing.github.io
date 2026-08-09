@@ -157,8 +157,9 @@
 }
 
 .user-input-keyboard *:focus {
-  outline: none !important;
-  box-shadow: var(--shlh-focus-shadow) !important;
+  outline: 2px solid var(--shlh-focus-ring-color) !important;
+  outline-offset: -2px;
+  box-shadow: none !important;
 }
 
 /* ========================================================================

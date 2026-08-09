@@ -140,6 +140,10 @@ img.no-copy.solid-bg {
 
 /* --- Modal --- */
 
+.modal-content {
+  box-shadow: var(--bs-box-shadow-lg);
+}
+
 .modal-header {
   border-bottom: none !important;
 }
@@ -153,7 +157,9 @@ img.no-copy.solid-bg {
 }
 
 .modal-backdrop {
-  --bs-backdrop-bg-rgb: 0, 0, 0;
+  --bs-backdrop-bg: var(--bs-body-bg);
+  --bs-backdrop-bg-rgb: var(--bs-body-bg-rgb);
+  --bs-backdrop-opacity: 0.75;
   opacity: 0;
   backdrop-filter: none;
 }

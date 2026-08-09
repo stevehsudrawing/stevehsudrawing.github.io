@@ -56,7 +56,7 @@ export function applyThemeChange(theme: string): void {
  * Apply a theme choice to the page. When 'auto', defer to the system theme.
  * Creates a full-page overlay dynamically for smooth crossfade, then
  * removes it after the transition completes — avoids permanent backdrop-filter
- * compositing overhead (which interferes with window minimize on Windows).
+ * GPU compositing overhead.
  *
  * Persistence (localStorage) is owned by useLocalStorage() in useTheme.ts;
  * this function only handles DOM side-effects.
@@ -92,8 +92,7 @@ export function applyThemePreference(
   const thisId = ++themeTransitionId;
 
   // Create overlay dynamically so backdrop-filter does not live
-  // in the DOM permanently (causes GPU compositing issues on Windows
-  // that interfere with window minimize).
+  // in the DOM permanently (avoids unnecessary GPU compositing).
   const overlay = document.createElement("div");
   overlay.className = "theme-transition-overlay";
   document.body.appendChild(overlay);
