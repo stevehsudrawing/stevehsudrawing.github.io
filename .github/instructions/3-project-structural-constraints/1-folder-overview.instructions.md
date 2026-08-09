@@ -92,9 +92,9 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 - Put Vue SFCs in `src/components/` by function:
   - `nav/` — Navigation components (AppNavbar, FooterNav, OffcanvasNav, PageChainNav).
   - `ui/` — Shared UI primitives (HeroSection, SectionHeading, FeatureAwareImg, etc.).
-  - `modals/` — Bootstrap modal dialogs (SettingsModal, ExternalLinkConfirmModal, QRCodeModal, ResetWarningModal).
+  - `modals/` — Bootstrap modal dialogs (SettingsModal, ExternalLinkConfirmModal, etc.).
   - `cards/` — Content cards (LinkCard, LinkCardGroup, LinkCardGroups).
-  - `buttons/` — Clickable elements (AnchorButton, CopyButton, LinkButton, QRCodeButton, SkipButton).
+  - `buttons/` — Clickable elements (AnchorButton, CopyButton, LinkButton, etc.).
   - `links/` — Link-handling components (TypeAwareLink).
 - Put page-level components in `src/pages/` — one per route.
 - Put global CSS in `src/stylesheets/global/` — reset, theme, fonts, accessibility.

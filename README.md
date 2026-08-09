@@ -29,7 +29,6 @@ A personal link-hub website that consolidates links to all my profiles across va
 - 🌓 **Light / Dark / Auto theme**: Three theme modes with smooth crossfade transitions. Theme follows OS preference by default.
 - ⚙️ **Customizable settings**: Toggle external links to open in new tabs, and enable or disable animations. Preferences saved locally.
 - 🧭 **Vue Router SPA navigation**: Instant page switching with URL bar updates, back/forward button support, loading bar, and scroll-position restoration.
-- 🖼️ **Illustration carousel**: Auto-playing carousel with theme-aware images (AVIF/WebP), pause/resume control, and adaptive visibility for mouse, keyboard, and touch.
 - 📱 **Responsive layout**: Mobile-friendly design with offcanvas sidebar navigation, powered by Bootstrap 5.3.
 - 📋 **Config-driven link cards**: Link cards and button groups defined in JSON config files — add or update links without touching HTML.
 - 📲 **QR code sharing**: Branded QR codes for any link, one-click PNG download, and Web Share API support.

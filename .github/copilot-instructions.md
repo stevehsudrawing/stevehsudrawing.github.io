@@ -18,17 +18,17 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 
 ### 0.1 Naming
 
-| Context                               | Convention                            | Examples                                                |
-| ------------------------------------- | ------------------------------------- | ------------------------------------------------------- |
-| HTML IDs, CSS classes, `data-*` attrs | `dash-case`                           | `#page-content`, `.loading-screen`, `data-i18n-tooltip` |
-| TS variables, functions, DOM refs     | `camelCase`                           | `currentLang`, `initAllTooltips`, `htmlElement`         |
-| TS top-level constants, `as const`    | `SCREAMING_SNAKE_CASE`                | `INTERNAL_PAGES`, `EXCLUDED_PAGES`                      |
-| TS `const enum`                       | `PascalCase`                          | `StorageKey`, `AppEvent`                                |
-| TS interfaces, type aliases           | `PascalCase`                          | `CardData`, `Lang`, `ThemeChoice`                       |
-| Bootstrap classes                     | Bootstrap-native                      | `.btn-primary`, `.dropdown-menu`                        |
-| CSS custom properties (project)       | `--shlh-*`                            | `--shlh-primary`, `--shlh-primary-500-rgb`              |
-| CSS custom properties (Bootstrap)     | `--bs-*`                              | `--bs-border-radius`, `--bs-link-hover-color`           |
-| CSS custom properties (font)          | `--shlh-font-{cat}-{priority}-{lang}` | `--shlh-font-sans-serif-text-major-en`                  |
+| Context                               | Convention                 | Examples                                                |
+| ------------------------------------- | -------------------------- | ------------------------------------------------------- |
+| HTML IDs, CSS classes, `data-*` attrs | `dash-case`                | `#page-content`, `.loading-screen`, `data-i18n-tooltip` |
+| TS variables, functions, DOM refs     | `camelCase`                | `currentLang`, `initAllTooltips`, `htmlElement`         |
+| TS top-level constants, `as const`    | `SCREAMING_SNAKE_CASE`     | `INTERNAL_PAGES`, `EXCLUDED_PAGES`                      |
+| TS `const enum`                       | `PascalCase`               | `StorageKey`, `AppEvent`                                |
+| TS interfaces, type aliases           | `PascalCase`               | `CardData`, `Lang`, `ThemeChoice`                       |
+| Bootstrap classes                     | Bootstrap-native           | `.btn-primary`, `.dropdown-menu`                        |
+| CSS custom properties (project)       | `--shlh-*`                 | `--shlh-primary`, `--shlh-primary-500-rgb`              |
+| CSS custom properties (Bootstrap)     | `--bs-*`                   | `--bs-border-radius`, `--bs-link-hover-color`           |
+| CSS custom properties (font)          | `--shlh-font-{cat}-{lang}` | `--shlh-font-sans-serif-text-en`                        |
 
 ### 0.2 TypeScript Code
 
