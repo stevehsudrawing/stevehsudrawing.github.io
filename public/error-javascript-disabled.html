@@ -93,12 +93,18 @@
   <body>
     <main id="page-content" class="container">
       <div class="centered-container">
-        <img
-          alt="Sticker (Observing)"
-          src="/images/png/stickers/light/observing.png"
-          width="150"
-          height="150"
-        />
+        <picture>
+          <source
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/png/stickers/dark/observing.png"
+          />
+          <img
+            alt="Sticker (Observing)"
+            src="/images/png/stickers/light/observing.png"
+            width="150"
+            height="150"
+          />
+        </picture>
         <h1 class="h3">JavaScript Disabled</h1>
         <div class="notice-container">
           <p>JavaScript is required to view this site.</p>
@@ -109,15 +115,18 @@
             >
           </p>
         </div>
-        <a class="btn btn-primary internal-link" href="/index.html"
+        <a class="btn btn-primary internal-link mb-2" href="/index.html"
           >Try again</a
         >
+        <p class="small opacity-50">
+          If your settings has been changed, click the button above.
+        </p>
       </div>
     </main>
 
-    <div class="container">
-      <div class="d-flex footer align-items-center">
-        <div class="flex-grow-1 d-flex align-items-center flex-wrap">
+    <footer class="container">
+      <div class="d-flex gap-1 footer align-items-center">
+        <div class="flex-grow-1 d-flex gap-1 align-items-center flex-wrap">
           <div class="flex-grow-1">
             <b>Steve Hsu's Link-Hub</b>
           </div>
@@ -130,14 +139,20 @@
           </div>
         </div>
         <div class="d-flex align-items-center ps-2">
-          <img
-            alt="Steve Hsu"
-            src="/images/png/favicon-gray.png"
-            width="30"
-            height="30"
-          />
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              srcset="/images/png/favicon/mono-white.png"
+            />
+            <img
+              alt="Steve Hsu"
+              src="/images/png/favicon/mono-black.png"
+              width="30"
+              height="30"
+            />
+          </picture>
         </div>
       </div>
-    </div>
+    </footer>
   </body>
 </html>

@@ -118,7 +118,7 @@ router.beforeEach((to) => {
  */
 router.onError((error) => {
   if (
-    /Failed to fetch dynamically imported module|Importing a module script failed/.test(
+    /Failed to fetch dynamically imported module|Importing a module script failed|Failed to load resource/.test(
       error.message,
     )
   ) {

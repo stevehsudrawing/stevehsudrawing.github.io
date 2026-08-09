@@ -84,12 +84,37 @@
   <body>
     <main id="page-content" class="container">
       <div class="centered-container">
-        <img
-          alt="Sticker (Observing)"
-          src="/images/png/stickers/light/observing.png"
-          width="150"
-          height="150"
-        />
+        <picture>
+          <source
+            type="image/avif"
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/avif/stickers/dark/observing.avif"
+          />
+          <source
+            type="image/avif"
+            srcset="/images/avif/stickers/light/observing.avif"
+          />
+          <source
+            type="image/webp"
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/webp/stickers/dark/observing.webp"
+          />
+          <source
+            type="image/webp"
+            srcset="/images/webp/stickers/light/observing.webp"
+          />
+          <source
+            type="image/png"
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/png/stickers/dark/observing.png"
+          />
+          <img
+            alt="Sticker (Observing)"
+            src="/images/png/stickers/light/observing.png"
+            width="150"
+            height="150"
+          />
+        </picture>
         <h1 class="h3">HTTP 404</h1>
         <div class="notice-container">
           <p>Page not found</p>
@@ -103,9 +128,9 @@
       </div>
     </main>
 
-    <div class="container">
-      <div class="d-flex footer align-items-center">
-        <div class="flex-grow-1 d-flex align-items-center flex-wrap">
+    <footer class="container">
+      <div class="d-flex gap-1 footer align-items-center">
+        <div class="flex-grow-1 d-flex gap-1 align-items-center flex-wrap">
           <div class="flex-grow-1">
             <b>Steve Hsu's Link-Hub</b>
           </div>
@@ -118,14 +143,20 @@
           </div>
         </div>
         <div class="d-flex align-items-center ps-2">
-          <img
-            alt="Steve Hsu"
-            src="/images/png/favicon-gray.png"
-            width="30"
-            height="30"
-          />
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              srcset="/images/png/favicon/mono-white.png"
+            />
+            <img
+              alt="Steve Hsu"
+              src="/images/png/favicon/mono-black.png"
+              width="30"
+              height="30"
+            />
+          </picture>
         </div>
       </div>
-    </div>
+    </footer>
   </body>
 </html>

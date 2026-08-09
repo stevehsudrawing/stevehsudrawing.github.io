@@ -1,3 +1,7 @@
+/* ========================================================================
+   CSS Reset - Normalize browser defaults for consistent rendering
+   ======================================================================== */
+
 * {
   margin-top: 0;
   box-sizing: border-box;
@@ -15,10 +19,17 @@ body {
 }
 
 body {
+  color: #212529;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
+
+/* ========================================================================
+   Bootstrap-compatible Utilities - Self-implemented for IE 11 compatibility
+   ======================================================================== */
+
+/* --- Typography --- */
 
 .h3 {
   font-size: 28px;
@@ -28,31 +39,19 @@ body {
   line-height: 1.2;
 }
 
-a {
-  color: #3c96ff;
-}
-
-a:hover {
-  color: #3078cc;
-}
-
-.opacity-75 {
-  color: #444;
-}
-
-.opacity-50 {
-  color: #888;
-}
-
 .small {
   font-size: 12px;
 }
 
-#page-content {
-  margin-top: 64px;
-  margin-bottom: 16px;
-  flex: 1;
+.opacity-75 {
+  opacity: 0.75;
 }
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+/* --- Layout --- */
 
 .container {
   display: flex;
@@ -60,6 +59,22 @@ a:hover {
   width: 100%;
   max-width: 1320px;
   margin: 0 auto;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.flex-grow-1 {
+  flex-grow: 1 !important;
 }
 
 .mx-auto {
@@ -70,6 +85,86 @@ a:hover {
 .align-center {
   text-align: center;
 }
+
+/* --- Spacing --- */
+
+.mb-2 {
+  margin-bottom: 8px !important;
+}
+
+.ps-2 {
+  padding-left: 8px !important;
+}
+
+.d-flex.gap-1 > * {
+  margin: 2px;
+}
+
+/* --- Buttons --- */
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: 0;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #3c96ff;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #3078cc;
+  color: #ffffff;
+}
+
+.btn-primary:active {
+  background-color: #245a99;
+  color: #ffffff;
+}
+
+/* ========================================================================
+   Custom Selectors - Project-specific styles for error pages
+   ======================================================================== */
+
+/* --- Base Link Styles --- */
+
+a {
+  color: #3c96ff;
+}
+
+a:hover {
+  color: #3078cc;
+}
+
+/* --- Page Layout --- */
+
+#page-content {
+  margin-top: 64px;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.footer {
+  flex-grow: 1;
+  flex-direction: row;
+  opacity: 0.75;
+  font-size: 12.8px;
+  flex-shrink: 0;
+  margin: 16px 16px;
+}
+
+/* --- Centered Container (Error Pages) --- */
 
 .centered-container {
   flex: 1;
@@ -90,44 +185,7 @@ a:hover {
   padding-right: 5px;
 }
 
-.btn {
-  display: inline-block;
-  padding: 6px 12px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  cursor: pointer;
-  user-select: none;
-  border: 1px solid transparent;
-  border-radius: 0;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.btn-primary {
-  background-color: #3c96ff;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background-color: #3078cc;
-  color: #fff;
-}
-
-.btn-primary:active {
-  background-color: #245a99;
-  color: #fff;
-}
-
-.mb-2 {
-  margin-bottom: 8px !important;
-}
-
-.ps-2 {
-  padding-left: 8px !important;
-}
+/* --- Notice Container --- */
 
 .notice-container {
   text-align: center;
@@ -139,31 +197,42 @@ a:hover {
   margin-bottom: 4px;
 }
 
-.footer {
-  flex-grow: 1;
-  flex-direction: row;
-  color: #595c5f;
-  font-size: 12.8px;
-  flex-shrink: 0;
-  margin: 16px 16px;
-}
+/* ========================================================================
+   Dark Mode - prefers-color-scheme: dark overrides (IE 11 ignores this)
+   ======================================================================== */
 
-.d-flex > * {
-  margin: 2px;
-}
+@media (prefers-color-scheme: dark) {
+  /* --- Base --- */
 
-.d-flex {
-  display: flex !important;
-}
+  body {
+    color: #dee2e6;
+    background-color: #212529;
+  }
 
-.flex-wrap {
-  flex-wrap: wrap !important;
-}
+  /* --- Links --- */
 
-.align-items-center {
-  align-items: center !important;
-}
+  a {
+    color: #47c4ee;
+  }
 
-.flex-grow-1 {
-  flex-grow: 1 !important;
+  a:hover {
+    color: #89d9f4;
+  }
+
+  /* --- Buttons --- */
+
+  .btn-primary {
+    background-color: #47c4ee;
+    color: #000000;
+  }
+
+  .btn-primary:hover {
+    background-color: #89d9f4;
+    color: #000000;
+  }
+
+  .btn-primary:active {
+    background-color: #a7e3f7;
+    color: #000000;
+  }
 }
