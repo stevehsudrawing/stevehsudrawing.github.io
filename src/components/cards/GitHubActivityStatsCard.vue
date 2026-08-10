@@ -13,6 +13,7 @@ import {
   eventTypeI18nKey,
   eventTypeIcon,
 } from "../../composables/useGithubActivity";
+import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import type { ActivityStat } from "../../types/app";
 
 // =========================================================================
@@ -20,7 +21,7 @@ import type { ActivityStat } from "../../types/app";
 // =========================================================================
 
 const { t } = useI18n();
-const { stats, isLoading } = useGithubActivity();
+const { stats, isLoading, error } = useGithubActivity();
 
 // ---- Derived ----
 
@@ -29,16 +30,15 @@ const totalCount = computed(() =>
   stats.value.reduce((sum, s) => sum + s.count, 0),
 );
 
-/** Card heading — parameterized with total count when data is available. */
-const headingText = computed(() => {
-  if (isLoading.value && stats.value.length === 0) {
-    return t("text-github-activity-stats", "Recent Activity");
-  }
-  if (totalCount.value === 0) {
-    return t("text-github-activity-empty", "No recent activity");
-  }
-  return t("text-x-events-total", "%1 events", [String(totalCount.value)]);
-});
+/** Card heading — parameterized with total count.  Only rendered when data is present. */
+const headingText = computed(() =>
+  t("text-x-events-total", "%1 events", [String(totalCount.value)]),
+);
+
+/** Label for the loading/error placeholder. */
+const placeholderLabel = computed(() =>
+  t("text-github-activity-stats", "Recent Activity"),
+);
 
 // =========================================================================
 // Helpers
@@ -70,20 +70,19 @@ function barWidth(stat: ActivityStat): string {
 <template>
   <div class="card github-activity-stats-card h-100">
     <div class="card-body d-flex flex-column">
-      <!-- ==== Heading ==== -->
-      <div class="d-flex flex-wrap justify-content-between pb-2">
-        <h3 class="h5 card-title">{{ headingText }}</h3>
-        <span class="text-body-secondary small">{{
-          $t(
-            "text-displaying-data-from-the-past-month",
-            "displaying data from the past month",
-          )
-        }}</span>
-      </div>
+      <!-- ==== Content: heading + chart (only when data is present) ==== -->
+      <template v-if="stats.length > 0">
+        <div class="d-flex flex-wrap justify-content-between pb-2">
+          <h3 class="h5 card-title">{{ headingText }}</h3>
+          <span class="text-body-secondary small">{{
+            $t(
+              "text-displaying-data-from-the-past-month",
+              "displaying data from the past month",
+            )
+          }}</span>
+        </div>
 
-      <div class="flex-grow-1">
-        <!-- ==== Bar chart ==== -->
-        <template v-if="stats.length > 0">
+        <div class="flex-grow-1">
           <div class="activity-chart">
             <template v-for="stat in stats" :key="stat.eventType">
               <!-- Label -->
@@ -106,18 +105,27 @@ function barWidth(stat: ActivityStat): string {
               }}</span>
             </template>
           </div>
-        </template>
+        </div>
+      </template>
 
-        <!-- ==== Empty state (not loading, no data) ==== -->
-        <p v-else-if="!isLoading" class="text-body-secondary small mb-0">
-          {{ t("text-github-activity-empty", "No recent activity") }}
-        </p>
-
-        <!-- ==== Loading state (no cached data yet) ==== -->
-        <p v-else class="text-body-secondary small mb-0">
-          {{ t("text-loading", "Loading…") }}
-        </p>
-      </div>
+      <!-- ==== Placeholder states (at card-body level, replacing all content) ==== -->
+      <LoadingPlaceholder
+        v-else-if="isLoading"
+        :label="placeholderLabel"
+        state="loading"
+      />
+      <LoadingPlaceholder
+        v-else-if="error"
+        :label="placeholderLabel"
+        state="error"
+        :error-message="error"
+      />
+      <LoadingPlaceholder
+        v-else
+        :label="placeholderLabel"
+        state="empty"
+        :empty-message="t('text-github-activity-empty', 'No recent activity')"
+      />
     </div>
   </div>
 </template>
@@ -125,10 +133,10 @@ function barWidth(stat: ActivityStat): string {
 <style scoped>
 /* ---- Card ---- */
 
-.github-activity-stats-card {
+/* .github-activity-stats-card {
   border: 1px solid var(--bs-border-color);
   min-height: 220px;
-}
+} */
 
 /* ---- Bar chart ---- */
 
@@ -162,5 +170,6 @@ function barWidth(stat: ActivityStat): string {
 
 .activity-count {
   grid-column: 3;
+  font-feature-settings: "tnum";
 }
 </style>

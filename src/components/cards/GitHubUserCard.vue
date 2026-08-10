@@ -11,6 +11,7 @@ import { computed } from "vue";
 import { useGithubProfile } from "../../composables/useGithubProfile";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import { useI18n } from "../../composables/useI18n";
 import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 
@@ -36,16 +37,26 @@ const props = withDefaults(
 
 const moreInformationTip = useDelayedTooltip(500);
 const { t } = useI18n();
-const { data: profile, isLoading } = useGithubProfile();
+const { data: profile, isLoading, error } = useGithubProfile();
 
 // ---- Derived ----
 
-/** Whether to show the card at all (hide if no data and no cache). */
-const showCard = computed(() => profile.value !== null);
+/** Whether profile data is available (from cache or fresh fetch). */
+const hasData = computed(() => profile.value !== null);
 
-/** Whether to show a skeleton placeholder while loading without cached data. */
-const showPlaceholder = computed(
-  () => isLoading.value && profile.value === null,
+/** Whether to show a loading placeholder (loading with no cached data). */
+const showLoading = computed(
+  () => isLoading.value && profile.value === null && error.value === null,
+);
+
+/** Whether to show an error placeholder (fetch failed, no cached data). */
+const showError = computed(
+  () => error.value !== null && profile.value === null,
+);
+
+/** Label shown below the loading spinner / error icon. */
+const placeholderLabel = computed(() =>
+  t("text-my-github-profile", "My GitHub Profile"),
 );
 
 /** GitHub @handle string. */
@@ -63,34 +74,96 @@ const statsText = computed(() => {
 </script>
 
 <template>
-  <!-- Only render when we have data (from cache or fresh fetch) -->
-  <template v-if="showCard">
-    <!-- ==== Full variant ==== -->
-    <div v-if="variant === 'full'" class="card github-user-card h-100">
-      <div class="card-body d-flex flex-row flex-wrap gap-3">
-        <div class="flex-grow-1">
-          <div class="d-flex align-items-center mb-3">
-            <FeatureAwareImg
-              class="github-avatar rounded-circle me-3"
-              :lightSrc="profile!.avatar_url"
-              :alt="profile!.name ?? profile!.login"
-              :width="64"
-              :height="64"
-              loading="lazy"
-            />
-            <div>
-              <h3 v-if="profile!.name" class="h5 mb-0">{{ profile!.name }}</h3>
-              <span class="text-body-secondary">{{ handle }}</span>
+  <!-- ==== Full variant: always render card shell for layout stability ==== -->
+  <div v-if="variant === 'full'" class="card github-user-card h-100">
+    <div class="card-body d-flex flex-column">
+      <!-- Data loaded -->
+      <template v-if="hasData">
+        <div class="d-flex flex-row flex-wrap gap-3">
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center mb-3">
+              <FeatureAwareImg
+                class="github-avatar rounded-circle me-3 no-copy"
+                :lightSrc="profile!.avatar_url"
+                :alt="profile!.name ?? profile!.login"
+                :width="64"
+                :height="64"
+                loading="lazy"
+              />
+              <div>
+                <h3 v-if="profile!.name" class="h5 mb-0">
+                  {{ profile!.name }}
+                </h3>
+                <span class="text-body-secondary">{{ handle }}</span>
+              </div>
             </div>
+            <p v-if="profile!.bio" class="card-text">{{ profile!.bio }}</p>
+            <p class="card-text text-body-secondary small">
+              {{ statsText }}
+            </p>
           </div>
-          <p v-if="profile!.bio" class="card-text">{{ profile!.bio }}</p>
-          <p class="card-text text-body-secondary small">
-            {{ statsText }}
-          </p>
+          <div>
+            <TypeAwareLink
+              class="btn btn-outline-secondary btn-sm"
+              type="external"
+              :href="profile!.html_url"
+              :img-props="{
+                lightSrc: '/images/webp/null.webp',
+                feature: 'colored',
+                colorMaskSrc: '/images/webp/icons/github.webp',
+                colorVar: 'bs-body-color',
+                alt: $t('text-github', 'GitHub'),
+              }"
+            >
+              <i class="bi bi-github me-1"></i>
+              <span>{{ $t("text-view-profile", "View Profile") }}</span>
+            </TypeAwareLink>
+          </div>
+        </div>
+      </template>
+
+      <!-- Loading / Error / Empty placeholders at card-body level -->
+      <LoadingPlaceholder
+        v-else-if="showLoading"
+        :label="placeholderLabel"
+        state="loading"
+      />
+      <LoadingPlaceholder
+        v-else-if="showError"
+        :label="placeholderLabel"
+        state="error"
+        :error-message="error ?? undefined"
+      />
+      <LoadingPlaceholder
+        v-else
+        :label="placeholderLabel"
+        state="empty"
+        :empty-message="$t('text-no-data-available', 'No data available')"
+      />
+    </div>
+  </div>
+
+  <!-- ==== Compact variant ==== -->
+  <template v-else>
+    <template v-if="hasData">
+      <div class="github-user-bar d-flex align-items-center gap-3 py-3">
+        <FeatureAwareImg
+          class="github-avatar rounded-circle no-copy"
+          :lightSrc="profile!.avatar_url"
+          :alt="profile!.name ?? profile!.login"
+          :width="40"
+          :height="40"
+          loading="lazy"
+        />
+        <div class="flex-grow-1">
+          <strong v-if="profile!.name">{{ profile!.name }}</strong>
+          <span class="text-body-secondary ms-1">{{ handle }}</span>
+          <br />
+          <span class="text-body-secondary small">{{ statsText }}</span>
         </div>
         <div>
           <TypeAwareLink
-            class="btn btn-outline-secondary btn-sm"
+            class="btn btn-outline-secondary btn-sm flex-shrink-0"
             type="external"
             :href="profile!.html_url"
             :img-props="{
@@ -102,71 +175,47 @@ const statsText = computed(() => {
             }"
           >
             <i class="bi bi-github me-1"></i>
-            <span>{{ $t("text-view-profile", "View Profile") }}</span>
+            <span class="d-none d-sm-inline">{{
+              $t("text-view-profile", "View Profile")
+            }}</span>
+          </TypeAwareLink>
+          <TypeAwareLink
+            class="btn btn-outline-secondary btn-sm ms-2"
+            type="internal"
+            href="/softwares.html#my-github-profile"
+            v-b-tooltip.top.manual="{
+              modelValue: moreInformationTip.visible,
+              title: $t('text-more-information', 'More Information'),
+              teleportTo: 'body',
+            }"
+            @mouseenter="moreInformationTip.scheduleShow()"
+            @mouseleave="moreInformationTip.cancelAndHide()"
+          >
+            <i class="bi bi-three-dots"></i>
           </TypeAwareLink>
         </div>
       </div>
-    </div>
+    </template>
 
-    <!-- ==== Compact variant ==== -->
-    <div v-else class="github-user-bar d-flex align-items-center gap-3 py-3">
-      <FeatureAwareImg
-        class="github-avatar rounded-circle"
-        :lightSrc="profile!.avatar_url"
-        :alt="profile!.name ?? profile!.login"
-        :width="40"
-        :height="40"
-        loading="lazy"
-      />
-      <div class="flex-grow-1">
-        <strong v-if="profile!.name">{{ profile!.name }}</strong>
-        <span class="text-body-secondary ms-1">{{ handle }}</span>
-        <br />
-        <span class="text-body-secondary small">{{ statsText }}</span>
-      </div>
-      <div>
-        <TypeAwareLink
-          class="btn btn-outline-secondary btn-sm flex-shrink-0"
-          type="external"
-          :href="profile!.html_url"
-          :img-props="{
-            lightSrc: '/images/webp/null.webp',
-            feature: 'colored',
-            colorMaskSrc: '/images/webp/icons/github.webp',
-            colorVar: 'bs-body-color',
-            alt: $t('text-github', 'GitHub'),
-          }"
-        >
-          <i class="bi bi-github me-1"></i>
-          <span class="d-none d-sm-inline">{{
-            $t("text-view-profile", "View Profile")
-          }}</span>
-        </TypeAwareLink>
-        <TypeAwareLink
-          class="btn btn-outline-secondary btn-sm ms-2"
-          type="internal"
-          href="/softwares.html#my-github-profile"
-          v-b-tooltip.top.manual="{
-            modelValue: moreInformationTip.visible,
-            title: $t('text-more-information', 'More Information'),
-            teleportTo: 'body',
-          }"
-          @mouseenter="moreInformationTip.scheduleShow()"
-          @mouseleave="moreInformationTip.cancelAndHide()"
-        >
-          <i class="bi bi-three-dots"></i>
-        </TypeAwareLink>
-      </div>
-    </div>
+    <!-- Loading / Error / Empty placeholder for compact variant -->
+    <LoadingPlaceholder
+      v-else-if="showLoading"
+      :label="placeholderLabel"
+      state="loading"
+    />
+    <LoadingPlaceholder
+      v-else-if="showError"
+      :label="placeholderLabel"
+      state="error"
+      :error-message="error ?? undefined"
+    />
+    <LoadingPlaceholder
+      v-else
+      :label="placeholderLabel"
+      state="empty"
+      :empty-message="$t('text-no-data-available', 'No data available')"
+    />
   </template>
-
-  <!-- ==== Placeholder (loading with no cache) ==== -->
-  <div
-    v-else-if="showPlaceholder"
-    class="github-user-placeholder text-body-secondary small py-2"
-  >
-    Loading GitHub profile…
-  </div>
 </template>
 
 <style scoped>
@@ -175,12 +224,6 @@ const statsText = computed(() => {
 .github-avatar {
   object-fit: cover;
   flex-shrink: 0;
-}
-
-/* ---- Card (full variant) ---- */
-
-.github-user-card {
-  border: 1px solid var(--bs-border-color);
 }
 
 /* ---- Bar (compact variant) ---- */
