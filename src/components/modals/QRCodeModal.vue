@@ -11,6 +11,7 @@ import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import { cssVar } from "../../platform/css-var";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
@@ -110,13 +111,10 @@ const shareApiSupported = computed(() => {
   return !!navigator.canShare?.({ files: [testFile] });
 });
 
-const qrColors = computed(() => {
-  const cs = getComputedStyle(document.documentElement);
-  return {
-    dark: cs.getPropertyValue("--bs-body-color").trim() || "#000000",
-    light: cs.getPropertyValue("--bs-body-bg").trim() || "#ffffff",
-  };
-});
+const qrColors = computed(() => ({
+  dark: cssVar("bs-body-color", "#000000"),
+  light: cssVar("bs-body-bg", "#ffffff"),
+}));
 
 const cardTitle = computed(() => {
   if (props.imgProperties) {
@@ -164,9 +162,8 @@ watch(visible, async (v) => {
 watch(effectiveTheme, async () => {
   if (visible.value && qrCanvas.value) {
     await nextTick();
-    const cs = getComputedStyle(document.documentElement);
-    const dark = cs.getPropertyValue("--bs-body-color").trim() || "#000000";
-    const light = cs.getPropertyValue("--bs-body-bg").trim() || "#ffffff";
+    const dark = cssVar("bs-body-color", "#000000");
+    const light = cssVar("bs-body-bg", "#ffffff");
     await QRCode.toCanvas(qrCanvas.value, props.url, {
       width: 250,
       margin: 0,

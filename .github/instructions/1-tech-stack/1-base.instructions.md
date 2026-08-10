@@ -1,8 +1,8 @@
 ---
 description: >
-  Tech stack overview: HTML5, CSS, TypeScript (strict mode), Vue 3 + bootstrap-vue-next,
-  Vite 8 (esbuild), pnpm.
-  Use when: creating new project files, discussing build tooling, or setting up project configuration.
+  Tech stack overview: HTML5, CSS, TypeScript (strict mode), Vue 3 +
+  bootstrap-vue-next, Vite 8 (esbuild), pnpm. Use when: creating new project
+  files, discussing build tooling, or setting up project configuration.
 applyTo: >
   vite.config.ts;
   tsconfig.json;

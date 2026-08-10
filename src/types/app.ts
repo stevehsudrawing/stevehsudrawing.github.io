@@ -25,9 +25,9 @@ export type Breakpoint = "mobile" | "tablet" | "desktop";
 // =========================================================================
 
 export const enum StorageKey {
-  Theme = "bsTheme",
-  Lang = "preferredLang",
-  OpenInNewTab = "openExternalLinksInNewTab",
+  Theme = "theme",
+  Lang = "lang",
+  OpenInNewTab = "openInNewTab",
   EnableAnimations = "enableAnimations",
   /** Cached GitHub user profile data (JSON-serialized CacheEntry<GitHubUser>). */
   GithubProfile = "githubProfile",
@@ -198,6 +198,14 @@ export interface ActivityStat {
   count: number;
   /** Percentage of total events (0–100). */
   percentage: number;
+}
+
+/** Daily event count data point for Chart.js time-series line chart. */
+export interface DailyStat {
+  /** UTC midnight as a millisecond timestamp. */
+  x: number;
+  /** Number of events on that day. */
+  y: number;
 }
 
 // =========================================================================

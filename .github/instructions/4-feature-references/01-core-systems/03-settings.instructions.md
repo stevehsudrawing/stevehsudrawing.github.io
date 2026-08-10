@@ -17,9 +17,9 @@ All localStorage keys are defined in `src/types/app.ts`:
 
 ```ts
 export const enum StorageKey {
-  Theme = "bsTheme",
-  Lang = "preferredLang",
-  OpenInNewTab = "openExternalLinksInNewTab",
+  Theme = "theme",
+  Lang = "lang",
+  OpenInNewTab = "openInNewTab",
   EnableAnimations = "enableAnimations",
 }
 ```

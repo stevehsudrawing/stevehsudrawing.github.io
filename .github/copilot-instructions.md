@@ -28,7 +28,7 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 | Bootstrap classes                     | Bootstrap-native           | `.btn-primary`, `.dropdown-menu`                        |
 | CSS custom properties (project)       | `--shlh-*`                 | `--shlh-primary`, `--shlh-primary-500-rgb`              |
 | CSS custom properties (Bootstrap)     | `--bs-*`                   | `--bs-border-radius`, `--bs-link-hover-color`           |
-| CSS custom properties (font)          | `--shlh-font-{cat}-{lang}` | `--shlh-font-sans-serif-text-en`                        |
+| CSS custom properties (font)          | `--shlh-font-{cat}-{lang}` | `--shlh-font-sans-serif-en`                             |
 
 ### 0.2 TypeScript Code
 

@@ -17,7 +17,7 @@
  * @returns A mutable ref synced to localStorage, shared across all callers.
  *
  * @example
- * const openInNewTab = useLocalStorage("openExternalLinksInNewTab", true);
+ * const openInNewTab = useLocalStorage("openInNewTab", true);
  * // openInNewTab.value = false  ->  localStorage updated automatically
  * // All other callers using the same key see the change immediately.
  */

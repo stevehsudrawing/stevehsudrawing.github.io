@@ -155,44 +155,46 @@ const statsText = computed(() => {
           :height="40"
           loading="lazy"
         />
-        <div class="flex-grow-1">
-          <strong v-if="profile!.name">{{ profile!.name }}</strong>
-          <span class="text-body-secondary ms-1">{{ handle }}</span>
-          <br />
-          <span class="text-body-secondary small">{{ statsText }}</span>
-        </div>
-        <div>
-          <TypeAwareLink
-            class="btn btn-outline-secondary btn-sm flex-shrink-0"
-            type="external"
-            :href="profile!.html_url"
-            :img-props="{
-              lightSrc: '/images/webp/null.webp',
-              feature: 'colored',
-              colorMaskSrc: '/images/webp/icons/github.webp',
-              colorVar: 'bs-body-color',
-              alt: $t('text-github', 'GitHub'),
-            }"
-          >
-            <i class="bi bi-github me-1"></i>
-            <span class="d-none d-sm-inline">{{
-              $t("text-view-profile", "View Profile")
-            }}</span>
-          </TypeAwareLink>
-          <TypeAwareLink
-            class="btn btn-outline-secondary btn-sm ms-2"
-            type="internal"
-            href="/softwares.html#my-github-profile"
-            v-b-tooltip.top.manual="{
-              modelValue: moreInformationTip.visible,
-              title: $t('text-more-information', 'More Information'),
-              teleportTo: 'body',
-            }"
-            @mouseenter="moreInformationTip.scheduleShow()"
-            @mouseleave="moreInformationTip.cancelAndHide()"
-          >
-            <i class="bi bi-three-dots"></i>
-          </TypeAwareLink>
+        <div class="flex-grow-1 d-flex flex-wrap gap-2">
+          <div class="flex-grow-1">
+            <strong v-if="profile!.name">{{ profile!.name }}</strong>
+            <span class="text-body-secondary ms-1">{{ handle }}</span>
+            <br />
+            <span class="text-body-secondary small">{{ statsText }}</span>
+          </div>
+          <div class="my-auto">
+            <div class="btn-group">
+              <TypeAwareLink
+                class="btn btn-outline-secondary btn-sm flex-shrink-0"
+                type="external"
+                :href="profile!.html_url"
+                :img-props="{
+                  lightSrc: '/images/webp/null.webp',
+                  feature: 'colored',
+                  colorMaskSrc: '/images/webp/icons/github.webp',
+                  colorVar: 'bs-body-color',
+                  alt: $t('text-github', 'GitHub'),
+                }"
+              >
+                <i class="bi bi-github me-1"></i>
+                <span>{{ $t("text-view-profile", "View Profile") }}</span>
+              </TypeAwareLink>
+              <TypeAwareLink
+                class="btn btn-outline-secondary btn-sm"
+                type="internal"
+                href="/softwares.html#my-github-profile"
+                v-b-tooltip.top.manual="{
+                  modelValue: moreInformationTip.visible,
+                  title: $t('text-more-information', 'More Information'),
+                  teleportTo: 'body',
+                }"
+                @mouseenter="moreInformationTip.scheduleShow()"
+                @mouseleave="moreInformationTip.cancelAndHide()"
+              >
+                <i class="bi bi-three-dots"></i>
+              </TypeAwareLink>
+            </div>
+          </div>
         </div>
       </div>
     </template>

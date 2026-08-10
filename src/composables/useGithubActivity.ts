@@ -11,7 +11,12 @@
 
 import { computed, type ComputedRef } from "vue";
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
-import { StorageKey, type GitHubEvent, type ActivityStat } from "../types/app";
+import {
+  StorageKey,
+  type GitHubEvent,
+  type ActivityStat,
+  type DailyStat,
+} from "../types/app";
 
 // =========================================================================
 // Constants
@@ -84,6 +89,8 @@ export function useGithubActivity(): {
   events: GithubApiState<GitHubEvent[]>["data"];
   /** Aggregated stats sorted by count descending. */
   stats: ComputedRef<ActivityStat[]>;
+  /** Daily event counts for line chart (sorted by date ascending). */
+  dailyStats: ComputedRef<DailyStat[]>;
   /** True while a fetch is in-flight. */
   isLoading: GithubApiState<GitHubEvent[]>["isLoading"];
   /** Error message from the last failed fetch, or null. */
@@ -123,5 +130,40 @@ export function useGithubActivity(): {
       .sort((a, b) => b.count - a.count);
   });
 
-  return { events, stats, isLoading, error, refresh };
+  const dailyStats = computed<DailyStat[]>(() => {
+    if (!events.value || events.value.length === 0) return [];
+
+    const map: Record<string, number> = {};
+    for (const event of events.value) {
+      if (event.type === "IssuesEvent" && event.payload?.action === "labeled") {
+        continue;
+      }
+      const day = event.created_at.slice(0, 10);
+      map[day] = (map[day] || 0) + 1;
+    }
+
+    const keys = Object.keys(map).sort();
+    if (keys.length === 0) return [];
+
+    // Build the full date range so days with zero events are
+    // represented as { x, y: 0 } — Chart.js then dips to 0 instead
+    // of connecting across the gap.
+    const first = new Date(keys[0] + "T00:00:00Z");
+    const last = new Date(keys[keys.length - 1] + "T00:00:00Z");
+
+    const result: DailyStat[] = [];
+    const cursor = new Date(first);
+    while (cursor <= last) {
+      const dayStr = cursor.toISOString().slice(0, 10);
+      result.push({
+        x: cursor.getTime(),
+        y: map[dayStr] || 0,
+      });
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    }
+
+    return result;
+  });
+
+  return { events, stats, dailyStats, isLoading, error, refresh };
 }

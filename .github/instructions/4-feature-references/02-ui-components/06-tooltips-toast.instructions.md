@@ -40,12 +40,6 @@ const tip = useDelayedTooltip(500);
 The composable pattern gives precise control: scheduled show is cancelled
 on `mouseleave` or `click`, and the timer is cleaned up on `onUnmounted`.
 
-**Legacy pattern** (no delay, or delay without click-dismissal concern):
-
-```html
-<a v-b-tooltip.top.lazy="{ title: $t('text-settings', 'Settings') }" ...></a>
-```
-
 ##### 4.2.6.2 Toast — Architecture
 
 ```

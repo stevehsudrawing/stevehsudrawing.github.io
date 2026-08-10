@@ -19,22 +19,25 @@ All dependencies are installed via pnpm. No CDN `<link>` or `<script>` tags are 
 
 Production dependencies are bundled and shipped to the browser. They are imported in [`src/main.ts`](src/main.ts).
 
-| Resource            | npm Package                        | Role                     | GitHub Repo                                                                                         | Version |
-| ------------------- | ---------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------- | ------- |
-| Vue                 | `vue`                              | UI Framework             | [`vuejs/core`](https://github.com/vuejs/core)                                                       | 3.5.40  |
-| Vue Router          | `vue-router`                       | SPA Routing              | [`vuejs/router`](https://github.com/vuejs/router)                                                   | 5.2.0   |
-| bootstrap-vue-next  | `bootstrap-vue-next`               | Bootstrap Vue Components | [`bootstrap-vue-next/bootstrap-vue-next`](https://github.com/bootstrap-vue-next/bootstrap-vue-next) | 0.45.9  |
-| Bootstrap           | `bootstrap`                        | Page Framework           | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                                               | 5.3.8   |
-| Bootstrap Icons     | `bootstrap-icons`                  | Icon Library             | [`twbs/icons`](https://github.com/twbs/icons)                                                       | 1.11.3  |
-| Popper.js           | `@popperjs/core`                   | Positioning Engine       | [`vusion/popper.js`](https://github.com/vusion/popper.js/)                                          | 2.11.8  |
-| Inter Font          | `@fontsource-variable/inter`       | Sans-serif Font          | [`rsms/inter`](https://github.com/rsms/inter)                                                       | 5.3.0   |
-| Roboto Mono Font    | `@fontsource-variable/roboto-mono` | Monospace Font           | [`googlefonts/RobotoMono`](https://github.com/googlefonts/RobotoMono)                               | 5.3.0   |
-| qrcode              | `qrcode`                           | QR Code Generation       | [`soldair/node-qrcode`](https://github.com/soldair/node-qrcode)                                     | 1.5.4   |
-| html-to-image       | `html-to-image`                    | DOM -> PNG Export        | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                                   | 1.11.13 |
-| html2canvas         | `html2canvas`                      | DOM -> Canvas (fallback) | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                                   | 1.4.1   |
-| hast-util-from-html | `hast-util-from-html`              | HTML -> HAST Parser      | [`syntax-tree/hast-util-from-html`](https://github.com/syntax-tree/hast-util-from-html)             | 2.0.3   |
-| hast-util-to-html   | `hast-util-to-html`                | HAST -> HTML Serializer  | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html)                 | 9.0.5   |
-| hastscript          | `hastscript`                       | HAST Node Builder        | [`syntax-tree/hastscript`](https://github.com/syntax-tree/hastscript)                               | 9.0.1   |
+| Resource             | npm Package                        | Role                     | GitHub Repo                                                                                         | Version |
+| -------------------- | ---------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------- | ------- |
+| Vue                  | `vue`                              | UI Framework             | [`vuejs/core`](https://github.com/vuejs/core)                                                       | 3.5.40  |
+| Vue Router           | `vue-router`                       | SPA Routing              | [`vuejs/router`](https://github.com/vuejs/router)                                                   | 5.2.0   |
+| bootstrap-vue-next   | `bootstrap-vue-next`               | Bootstrap Vue Components | [`bootstrap-vue-next/bootstrap-vue-next`](https://github.com/bootstrap-vue-next/bootstrap-vue-next) | 0.45.9  |
+| Bootstrap            | `bootstrap`                        | Page Framework           | [`twbs/bootstrap`](https://github.com/twbs/bootstrap)                                               | 5.3.8   |
+| Bootstrap Icons      | `bootstrap-icons`                  | Icon Library             | [`twbs/icons`](https://github.com/twbs/icons)                                                       | 1.11.3  |
+| Popper.js            | `@popperjs/core`                   | Positioning Engine       | [`vusion/popper.js`](https://github.com/vusion/popper.js/)                                          | 2.11.8  |
+| Inter Font           | `@fontsource-variable/inter`       | Sans-serif Font          | [`rsms/inter`](https://github.com/rsms/inter)                                                       | 5.3.0   |
+| Roboto Mono Font     | `@fontsource-variable/roboto-mono` | Monospace Font           | [`googlefonts/RobotoMono`](https://github.com/googlefonts/RobotoMono)                               | 5.3.0   |
+| qrcode               | `qrcode`                           | QR Code Generation       | [`soldair/node-qrcode`](https://github.com/soldair/node-qrcode)                                     | 1.5.4   |
+| html-to-image        | `html-to-image`                    | DOM -> PNG Export        | [`bubkoo/html-to-image`](https://github.com/bubkoo/html-to-image)                                   | 1.11.13 |
+| html2canvas          | `html2canvas`                      | DOM -> Canvas (fallback) | [`niklasvh/html2canvas`](https://github.com/niklasvh/html2canvas)                                   | 1.4.1   |
+| Chart.js             | `chart.js`                         | Data Visualization       | [`chartjs/Chart.js`](https://github.com/chartjs/Chart.js)                                           | 4.5.1   |
+| date-fns             | `date-fns`                         | Date Utilities           | [`date-fns/date-fns`](https://github.com/date-fns/date-fns)                                         | 4.4.0   |
+| chartjs-date-adapter | `chartjs-adapter-date-fns`         | Chart.js Time Scale      | [`chartjs/chartjs-adapter-date-fns`](https://github.com/chartjs/chartjs-adapter-date-fns)           | 3.0.0   |
+| hast-util-from-html  | `hast-util-from-html`              | HTML -> HAST Parser      | [`syntax-tree/hast-util-from-html`](https://github.com/syntax-tree/hast-util-from-html)             | 2.0.3   |
+| hast-util-to-html    | `hast-util-to-html`                | HAST -> HTML Serializer  | [`syntax-tree/hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html)                 | 9.0.5   |
+| hastscript           | `hastscript`                       | HAST Node Builder        | [`syntax-tree/hastscript`](https://github.com/syntax-tree/hastscript)                               | 9.0.1   |
 
 #### 1.2.2 Development Dependencies
 

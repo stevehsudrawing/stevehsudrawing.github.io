@@ -4,7 +4,7 @@ description: >
   localStorage caching, 1-hour freshness, module-level singleton with request dedup),
   useGithubProfile() profile composable, useGithubActivity() events+stats composable,
   LoadingPlaceholder.vue (loading/error/empty), GitHubUserCard.vue (full/compact variants),
-  GitHubActivityStatsCard.vue (horizontal bar chart with icons).
+  GitHubActivityStatsCard.vue (Chart.js bar/line charts with external-icon labels).
   Use when: adding new GitHub API endpoints, modifying cache strategy, changing GitHub cards,
   or integrating with useGithubApi.
 applyTo: >
@@ -38,7 +38,8 @@ useGithubActivity()                        ← events + computed stats
   │    StorageKey.GithubEvents,
   │  )
   ├─ events: Ref<GitHubEvent[] | null>
-  ├─ stats: Computed<ActivityStat[]>       ← sorted by count desc
+  ├─ stats: Computed<ActivityStat[]>       ← sorted by count desc (bar chart)
+  ├─ dailyStats: Computed<DailyStat[]>     ← daily aggregation (line chart)
   ├─ eventTypeI18nKey(eventType)           ← exported helper: type → i18n key
   └─ eventTypeIcon(eventType)              ← exported helper: type → Bootstrap Icon class
 
@@ -52,7 +53,9 @@ GitHubUserCard.vue                         ← Vue SFC
   └─ variant="compact": inline flexbar (avatar, stats, CTA)
 
 GitHubActivityStatsCard.vue                ← Vue SFC
-  └─ horizontal bar chart with Bootstrap Icons per event type
+  ├─ Chart.js bar  (indexAxis: "y")  — event-type distribution + external icon labels
+  ├─ Chart.js line (time scale)      — daily event frequency
+  └─ Toggle buttons with §4.2.6.1 delayed tooltips (destroy→recreate pattern)
 ```
 
 ##### 4.1.9.2 Card Template Structure (Unified Placeholder Convention)
@@ -81,7 +84,7 @@ Key rules:
 - For non-card layouts (e.g. `GitHubUserCard` compact variant), the same
   sibling pattern applies — `LoadingPlaceholder` replaces the bar content.
 
-##### 4.1.9.3 LoadingPlaceholder — Three-State Component
+##### 4.1.9.3 `LoadingPlaceholder` — Three-State Component
 
 | State     | Icon               | Color                 | Detail Prop    |
 | --------- | ------------------ | --------------------- | -------------- |
@@ -116,58 +119,90 @@ Uses `flex-grow-1` and `justify-content-center` to fill the parent card body.
   subsequent `refresh()` or auto-fetch calls wait on the existing promise
   instead of issuing duplicate requests.
 
-##### 4.1.9.6 GitHubActivityStatsCard — Event Type Bar Chart
+##### 4.1.9.6 `GitHubUserCard` — Variants
 
-Displays a horizontal bar chart of GitHub event type distribution.
-Each bar shows a Bootstrap Icons icon, i18n label, proportional width fill,
-and numeric count.
+| Variant   | Layout                                 | Used in                             |
+| --------- | -------------------------------------- | ----------------------------------- |
+| `full`    | BCard with avatar, bio, stats, CTA     | `SoftwaresPage` "My GitHub Profile" |
+| `compact` | Inline flexbar with avatar, stats, CTA | `IndexPage` Softwares section       |
 
-**Data flow**:
+##### 4.1.9.7 `GitHubActivityStatsCard` — Chart.js Dual-Mode Visualization
 
-1. `useGithubActivity()` fetches `/users/stevehsudrawing/events/public?per_page=100`
-2. `stats` computed: counts each event type, skips `IssuesEvent` with `action: "labeled"` (duplicate of `"opened"`)
-3. Card renders bars sorted by count descending
+Replaced the original hand-rolled CSS bars with Chart.js (v4.5+). Two chart
+modes are available via toggle buttons in the card heading; the chart instance
+is **destroyed and recreated** on every mode / data / theme change.
 
-**Event type icons** (via `eventTypeIcon()`):
+| Mode   | Chart.js config                  | Data source               |
+| ------ | -------------------------------- | ------------------------- |
+| `bar`  | `type: "bar"`, `indexAxis: "y"`  | `stats: ActivityStat[]`   |
+| `line` | `type: "line"`, x-scale `"time"` | `dailyStats: DailyStat[]` |
 
-| Event Type          | Icon                     |
-| ------------------- | ------------------------ |
-| `PushEvent`         | `bi-git`                 |
-| `WatchEvent`        | `bi-star-fill`           |
-| `IssuesEvent`       | `bi-exclamation-diamond` |
-| `IssueCommentEvent` | `bi-chat-left-dots`      |
-| `CreateEvent`       | `bi-plus-circle`         |
-| `ForkEvent`         | `bi-diagram-2`           |
-| `PullRequestEvent`  | `bi-signpost-split`      |
-| `DeleteEvent`       | `bi-trash`               |
-| (other)             | `bi-three-dots`          |
+**Bar mode — external icon labels (plan C)**:
 
-**Layout**: CSS Grid `grid-template-columns: auto 1fr auto` so all labels
-share the width of the widest label, bars fill remaining space, and counts
-auto-size. `h-100` card; in a Bootstrap row sits beside `GitHubUserCard`
-(also `h-100`) for equal-height columns.
+Chart.js renders the horizontal bars with `y.ticks.display: false`. A
+separate HTML flex column to the left displays the Bootstrap Icons + i18n
+labels (`eventTypeIcon()` + `labelFor()`). The label column uses
+`justify-content: space-around` to match Chart.js's category bar spacing.
 
-**i18n keys** (with fallbacks):
+```
+┌─ chart-with-labels (flex) ───────────────────────────┐
+│ ┌─ labels-col ───┐  ┌─ canvas-col (flex: 1) ───────┐ │
+│ │ bi-git  Commits│  │ ████████████████████████████ │ │
+│ │ bi-star Starred│  │ ██████████                   │ │
+│ │ bi-excl Issues │  │ ████                         │ │
+│ │ (placeholder)  │  │ (canvas: position: absolute) │ │
+│ └────────────────┘  └──────────────────────────────┘ │
+└──────────────────────────────────────────────────────┘
+```
 
-| Key                                        | Fallback                            | Usage                                         |
-| ------------------------------------------ | ----------------------------------- | --------------------------------------------- |
-| `text-github-activity-stats`               | Recent Activity                     | LoadingPlaceholder label                      |
-| `text-x-events-total`                      | %1 events                           | Heading with total count (%1 = N)             |
-| `text-github-activity-empty`               | No recent activity                  | Empty state message                           |
-| `text-displaying-data-from-the-past-month` | displaying data from the past month | Subtitle in heading bar                       |
-| `text-github-event-push`                   | Commits                             | PushEvent label                               |
-| `text-github-event-watch`                  | Starred                             | WatchEvent label                              |
-| `text-github-event-issues`                 | Issues                              | IssuesEvent label                             |
-| `text-github-event-issue-comment`          | Comments                            | IssueCommentEvent label                       |
-| `text-github-event-create`                 | Created                             | CreateEvent label                             |
-| `text-github-event-fork`                   | Forked                              | ForkEvent label                               |
-| `text-github-event-pull-request`           | Pull Requests                       | PullRequestEvent label                        |
-| `text-github-event-delete`                 | Deleted                             | DeleteEvent label                             |
-| `text-github-event-other`                  | (raw event type)                    | Unknown event types                           |
-| `text-no-data-available`                   | No data available                   | Generic empty state message                   |
-| `text-loading`                             | Loading…                            | (deprecated — use LoadingPlaceholder instead) |
+**Line mode — daily frequency with zero-fill**:
 
-##### 4.1.9.7 Adding a New GitHub API Endpoint
+`dailyStats` computes a full date range from `min(created_at)` to
+`max(created_at)`, iterating every day. Days with no events get `y: 0`
+so the line dips to zero instead of skipping (connecting across the gap).
+x-axis uses `TimeScale` (requires `chartjs-adapter-date-fns`); y-axis
+starts at zero with integer step size.
+
+**Canvas sizing**: both chart containers use `position: relative` on the
+wrapper and `position: absolute` on `<canvas>` to break the Chart.js ↔
+flexbox resize feedback loop. The wrapper dimensions are determined by
+`flex: 1; min-height: 0` within the `card-body` flex column.
+
+**Theme-adaptive colours** are read via `cssVar()` from `platform/css-var.ts`
+on every chart rebuild, ensuring light ↔ dark transitions take effect.
+See §4.1.2.3 for the CSS variable naming convention.
+
+**Toggle buttons** use the `useDelayedTooltip` + `v-b-tooltip.top.manual`
+pattern (§4.2.6.1). Clicking destroys the current chart and recreates it
+in the new mode.
+
+**Event type icons and text** (via `eventTypeIcon()` / `eventTypeI18nKey()`):
+
+| Event Type          | Icon                     | i18n Key                          |
+| ------------------- | ------------------------ | --------------------------------- |
+| `PushEvent`         | `bi-git`                 | `text-github-event-push`          |
+| `WatchEvent`        | `bi-star-fill`           | `text-github-event-watch`         |
+| `IssuesEvent`       | `bi-exclamation-diamond` | `text-github-event-issues`        |
+| `IssueCommentEvent` | `bi-chat-left-dots`      | `text-github-event-issue-comment` |
+| `CreateEvent`       | `bi-plus-circle`         | `text-github-event-create`        |
+| `ForkEvent`         | `bi-diagram-2`           | `text-github-event-fork`          |
+| `PullRequestEvent`  | `bi-signpost-split`      | `text-github-event-pull-request`  |
+| `DeleteEvent`       | `bi-trash`               | `text-github-event-delete`        |
+| (other)             | `bi-three-dots`          | `text-github-event-other`         |
+
+**Relevant i18n keys** (beyond event-type labels):
+
+| Key                                        | Fallback                            | Usage                      |
+| ------------------------------------------ | ----------------------------------- | -------------------------- |
+| `text-github-activity-stats`               | Recent Activity                     | Placeholder label          |
+| `text-x-events-total`                      | %1 events                           | Heading (%1 = total count) |
+| `text-github-activity-empty`               | No recent activity                  | Empty state message        |
+| `text-displaying-data-from-the-past-month` | displaying data from the past month | Subtitle                   |
+| `text-bar-chart`                           | Bar chart                           | Bar toggle tooltip         |
+| `text-line-chart`                          | Line chart                          | Line toggle tooltip        |
+| `text-no-data-available`                   | No data available                   | Generic empty state        |
+
+##### 4.1.9.8 Adding a New GitHub API Endpoint
 
 Create a thin wrapper composable following the `useGithubProfile` pattern:
 
@@ -190,19 +225,12 @@ When building a new card component, follow the **unified placeholder convention*
 ([§4.1.9.2](#4192-card-template-structure-unified-placeholder-convention)):
 placeholders at `card-body` level, heading hidden during non-data states.
 
-##### 4.1.9.8 GitHubUserCard Variants
-
-| Variant   | Layout                                 | Used in                           |
-| --------- | -------------------------------------- | --------------------------------- |
-| `full`    | BCard with avatar, bio, stats, CTA     | SoftwaresPage "My GitHub Profile" |
-| `compact` | Inline flexbar with avatar, stats, CTA | IndexPage Softwares section       |
-
 ##### 4.1.9.9 Consumers
 
-| File                          | How                                                                                                                   |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `IndexPage.vue`               | `<GitHubUserCard variant="compact" />`                                                                                |
-| `SoftwaresPage.vue`           | `<GitHubUserCard variant="full" />` + `<GitHubActivityStatsCard />` in a `row > col-lg-6` grid                        |
-| `GitHubUserCard.vue`          | `useGithubProfile()` → `{ data, isLoading, error }`; `LoadingPlaceholder` for loading/error/empty                     |
-| `GitHubActivityStatsCard.vue` | `useGithubActivity()` → `{ stats, isLoading, error }`; `eventTypeIcon()` for icons; `LoadingPlaceholder` for non-data |
-| `LoadingPlaceholder.vue`      | Shared UI component — no composable dependency; receives `label`, `state`, detail props from parent                   |
+| File                          | How                                                                                                                                            |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IndexPage.vue`               | `<GitHubUserCard variant="compact" />`                                                                                                         |
+| `SoftwaresPage.vue`           | `<GitHubUserCard variant="full" />` + `<GitHubActivityStatsCard />` in a `row > col-lg-6` grid                                                 |
+| `GitHubUserCard.vue`          | `useGithubProfile()` → `{ data, isLoading, error }`; `LoadingPlaceholder` for loading/error/empty                                              |
+| `GitHubActivityStatsCard.vue` | `useGithubActivity()` → `{ stats, dailyStats, isLoading, error }`; Chart.js bar/line; `eventTypeIcon()` for ext. labels; `cssVar()` for colors |
+| `LoadingPlaceholder.vue`      | Shared UI component — no composable dependency; receives `label`, `state`, detail props from parent                                            |
