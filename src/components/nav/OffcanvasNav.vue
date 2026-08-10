@@ -78,9 +78,42 @@ watch(
   </BOffcanvas>
 </template>
 
-<style scoped>
+<style>
 .navbar-nav .nav-link.active,
 .navbar-nav .nav-link.show {
   font-weight: calc(var(--bs-body-font-weight) + 100);
+}
+
+.offcanvas-start {
+  width: min(320px, 80vw);
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+@supports not (width: min(320px, 80vw)) {
+  .offcanvas-start {
+    width: 320px;
+  }
+}
+
+.offcanvas.show {
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.offcanvas-body {
+  padding-top: 0;
+}
+
+.offcanvas-body .navbar-nav .nav-item {
+  width: 100%;
+}
+
+.offcanvas-body .nav-link {
+  padding-left: 0;
+  text-align: left;
+  justify-content: flex-start;
 }
 </style>

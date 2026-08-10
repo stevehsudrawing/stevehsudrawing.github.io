@@ -15,6 +15,7 @@ import { ref, computed, inject, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useBreakpoint } from "../../composables/useBreakpoint";
+import { useGesture } from "../../composables/useGesture";
 import { normalizeInternalPath, extractPageName } from "../../core/utils";
 import OffcanvasNav from "./OffcanvasNav.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
@@ -45,6 +46,9 @@ interface NavItem {
 
 /** Offcanvas visibility (shared with OffcanvasNav via v-model). */
 const showOffcanvas = ref(false);
+
+// Edge-swipe gestures: left-edge right-swipe to open, right-edge left-swipe to close
+useGesture(showOffcanvas);
 
 /** Supported languages (imported at build time from language-list.json). */
 import languageList from "../../configs/language-list.json";
@@ -491,42 +495,6 @@ defineExpose({
 
   .navbar-toggler-icon-font {
     font-size: 1.25rem;
-  }
-
-  /* Offcanvas shared styles */
-  .offcanvas-start {
-    width: min(320px, 80vw);
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    max-height: 100vh;
-  }
-
-  @supports not (width: min(320px, 80vw)) {
-    .offcanvas-start {
-      width: 320px;
-    }
-  }
-
-  .offcanvas.show {
-    height: 100vh;
-    max-height: 100vh;
-  }
-
-  .offcanvas-body {
-    padding-top: 0.75rem;
-    overflow-y: auto;
-    height: calc(100vh - 3.5rem);
-  }
-
-  .offcanvas-body .navbar-nav .nav-item {
-    width: 100%;
-  }
-
-  .offcanvas-body .nav-link {
-    padding-left: 0;
-    text-align: left;
-    justify-content: flex-start;
   }
 }
 
