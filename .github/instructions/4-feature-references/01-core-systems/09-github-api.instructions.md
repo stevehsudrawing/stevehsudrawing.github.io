@@ -195,7 +195,7 @@ in the new mode.
 | Key                                        | Fallback                            | Usage                      |
 | ------------------------------------------ | ----------------------------------- | -------------------------- |
 | `text-github-activity-stats`               | Recent Activity                     | Placeholder label          |
-| `text-x-events-total`                      | %1 events                           | Heading (%1 = total count) |
+| `text-x-activities-recently`               | %1 activities recently              | Heading (%1 = total count) |
 | `text-github-activity-empty`               | No recent activity                  | Empty state message        |
 | `text-displaying-data-from-the-past-month` | displaying data from the past month | Subtitle                   |
 | `text-bar-chart`                           | Bar chart                           | Bar toggle tooltip         |

@@ -95,8 +95,8 @@ const totalCount = computed(() =>
 
 const headingText = computed(() =>
   chartMode.value === "bar"
-    ? t("text-x-events-total", "%1 events", [String(totalCount.value)])
-    : t("text-x-events-total", "%1 events", [
+    ? t("text-x-activities-recently", "%1 events", [String(totalCount.value)])
+    : t("text-x-activities-recently", "%1 events", [
         String(dailyStats.value.reduce((s, d) => s + d.y, 0)),
       ]),
 );
@@ -321,7 +321,7 @@ function labelFor(eventType: string): string {
               <i :class="`bi ${eventTypeIcon(stat.eventType)} me-1`"></i>
               {{ labelFor(stat.eventType) }}
             </span>
-            <span class="chart-label-item-placeholder"></span>
+            <span class="chart-label-item-placeholder">&nbsp;</span>
           </div>
           <!-- Canvas column -->
           <div class="chart-canvas-col">
@@ -380,7 +380,7 @@ function labelFor(eventType: string): string {
 }
 
 .chart-label-item-placeholder {
-  height: 2.2rem;
+  line-height: 2.1;
 }
 
 .chart-canvas-col {
