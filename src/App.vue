@@ -39,7 +39,8 @@ import {
   OPEN_QR_CODE_KEY,
   OPEN_SETTINGS_KEY,
 } from "./types/app";
-import type { FeatureAwareImgProps } from "./types/app";
+import type { FeatureAwarePictureProps, ColoredImgProps } from "./types/app";
+
 import { initBootstrapCSSDetection } from "./platform/bootstrap-css-detection";
 import {
   initHashChangeScroll,
@@ -100,10 +101,12 @@ usePageNavigation(router, loadingBarRef, t);
 
 const {
   extLinkUrl,
-  extLinkImgProps,
+  extLinkPictureProps,
+  extLinkColoredProps,
   extLinkHideQR,
   qrUrl,
-  qrImgProps,
+  qrPictureProps,
+  qrColoredProps,
   qrHideOpenLink,
   onExtLinkNavigate,
   onExtLinkShowQR,
@@ -131,19 +134,15 @@ provide(OPEN_SETTINGS_KEY, () => {
 
 provide(
   OPEN_EXTERNAL_LINK_KEY,
-  (url: string, imgProps: FeatureAwareImgProps | null, hideQR: boolean) => {
+  (
+    url: string,
+    pictureProps: FeatureAwarePictureProps | null,
+    coloredProps: ColoredImgProps | null,
+    hideQR: boolean,
+  ) => {
     extLinkUrl.value = url;
-    // Convert FeatureAwareImgProps -> HastProperties format for
-    // useImgDisplayProps() in ExternalLinkConfirmModal.
-    extLinkImgProps.value = imgProps
-      ? {
-          src: imgProps.lightSrc,
-          alt: imgProps.alt,
-          dataImgFeature: imgProps.feature,
-          dataColorVar: imgProps.colorVar,
-          dataSrcMask: imgProps.colorMaskSrc,
-        }
-      : null;
+    extLinkPictureProps.value = pictureProps;
+    extLinkColoredProps.value = coloredProps;
     extLinkHideQR.value = hideQR;
     extLinkModalRef.value?.show();
   },
@@ -153,21 +152,13 @@ provide(
   OPEN_QR_CODE_KEY,
   (
     url: string,
-    imgProps: FeatureAwareImgProps | null,
+    pictureProps: FeatureAwarePictureProps | null,
+    coloredProps: ColoredImgProps | null,
     hideOpenLink?: boolean,
   ) => {
     qrUrl.value = url;
-    // Convert FeatureAwareImgProps -> HastProperties format for
-    // useImgDisplayProps() in QRCodeModal.
-    qrImgProps.value = imgProps
-      ? {
-          src: imgProps.lightSrc,
-          alt: imgProps.alt,
-          dataImgFeature: imgProps.feature,
-          dataColorVar: imgProps.colorVar,
-          dataSrcMask: imgProps.colorMaskSrc,
-        }
-      : null;
+    qrPictureProps.value = pictureProps;
+    qrColoredProps.value = coloredProps;
     qrHideOpenLink.value = hideOpenLink ?? false;
     qrCodeModalRef.value?.show();
   },
@@ -230,7 +221,8 @@ onMounted(async () => {
   <ExternalLinkConfirmModal
     ref="extLinkModalRef"
     :url="extLinkUrl"
-    :img-properties="extLinkImgProps"
+    :picture-props="extLinkPictureProps"
+    :colored-props="extLinkColoredProps"
     :hide-q-r-button="extLinkHideQR"
     @navigate="onExtLinkNavigate"
     @show-qr="onExtLinkShowQR"
@@ -238,7 +230,8 @@ onMounted(async () => {
   <QRCodeModal
     ref="qrCodeModalRef"
     :url="qrUrl"
-    :img-properties="qrImgProps"
+    :picture-props="qrPictureProps"
+    :colored-props="qrColoredProps"
     :hide-open-link="qrHideOpenLink"
     @open-link="onQROpenLink"
   />

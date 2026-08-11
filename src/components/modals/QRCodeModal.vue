@@ -4,16 +4,20 @@
   Uses qrcode for canvas generation and html-to-image/html2canvas for PNG export.
 -->
 <script setup lang="ts">
-import { ref, watch, nextTick, computed, toRef, type Ref } from "vue";
+import { ref, watch, nextTick, computed } from "vue";
 import QRCode from "qrcode";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
-import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
+import type {
+  FeatureAwarePictureProps,
+  ColoredImgProps,
+} from "../../types/app";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
 import InlineSvg from "../ui/InlineSvg.vue";
-import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import ColoredImg from "../ui/ColoredImg.vue";
 
 // =========================================================================
 // Props
@@ -29,21 +33,23 @@ import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
  */
 const props = defineProps<{
   url: string;
-  imgProperties?: Record<string, unknown> | null;
+  pictureProps?: FeatureAwarePictureProps | null;
+  coloredProps?: ColoredImgProps | null;
   hideOpenLink?: boolean;
 }>();
 
 /**
  * Emits for QRCodeModal.
  *
- * - open-link: User clicked \"Open Link\" — parent switches to
- *   ExternalLinkConfirmModal with the same URL + icon properties.
+ * - open-link: User clicked "Open Link" — parent switches to
+ *   ExternalLinkConfirmModal with the same URL + icon props.
  */
 const emit = defineEmits<{
   (
     e: "open-link",
     url: string,
-    imgProperties: Record<string, unknown> | null,
+    pictureProps: FeatureAwarePictureProps | null,
+    coloredProps: ColoredImgProps | null,
   ): void;
 }>();
 
@@ -60,26 +66,14 @@ const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const buttonsDisabled = ref(false);
 
 // -------------------------------------------------------------------------
-// Center icon (derived from imgProperties HAST)
+// Center icon (derived from typed pictureProps / coloredProps)
 // -------------------------------------------------------------------------
 
-const {
-  src: centerIconSrcRaw,
-  alt: centerIconAltRaw,
-  feature: centerIconFeature,
-  colorVar: centerIconColorVar,
-  colorMaskSrc: centerIconColorMaskSrc,
-} = useImgDisplayProps(
-  toRef(props, "imgProperties") as Ref<
-    Record<string, unknown> | null | undefined
-  >,
-);
-
-const centerIconSrc = computed(
-  () => centerIconSrcRaw.value ?? "/images/webp/icons/link.webp",
-);
 const centerIconAlt = computed(
-  () => centerIconAltRaw.value ?? t("text-link", "Link"),
+  () =>
+    props.pictureProps?.alt ??
+    props.coloredProps?.alt ??
+    t("text-link", "Link"),
 );
 
 // -------------------------------------------------------------------------
@@ -110,13 +104,11 @@ const qrColors = computed(() => ({
 }));
 
 const cardTitle = computed(() => {
-  if (props.imgProperties) {
-    const i18nAltKey = props.imgProperties.dataI18nAlt as string | undefined;
-    return i18nAltKey
-      ? t(i18nAltKey)
-      : (props.imgProperties.alt as string) || t("text-link", "Link");
-  }
-  return t("text-link", "Link");
+  const alt =
+    props.pictureProps?.alt ??
+    props.coloredProps?.alt ??
+    t("text-link", "Link");
+  return alt;
 });
 
 // =========================================================================
@@ -282,7 +274,12 @@ async function copyImage(): Promise<void> {
 
 function openLink(): void {
   visible.value = false;
-  emit("open-link", props.url, props.imgProperties ?? null);
+  emit(
+    "open-link",
+    props.url,
+    props.pictureProps ?? null,
+    props.coloredProps ?? null,
+  );
 }
 
 /** Expose show/hide for imperative callers (parent App.vue). */
@@ -337,13 +334,20 @@ defineExpose({
             id="qr-code-icon-bg"
             class="position-absolute top-50 start-50 translate-middle rounded-2 d-flex align-items-center justify-content-center"
           >
-            <FeatureAwareImg
+            <ColoredImg
+              v-if="coloredProps"
               id="qr-code-icon"
-              :light-src="centerIconSrc"
+              :src="coloredProps.src"
+              :color-var="coloredProps.colorVar"
               :alt="centerIconAlt"
-              :feature="centerIconFeature"
-              :color-var="centerIconColorVar"
-              :color-mask-src="centerIconColorMaskSrc"
+              :width="32"
+              :height="32"
+            />
+            <FeatureAwarePicture
+              v-else-if="pictureProps"
+              id="qr-code-icon"
+              :src="pictureProps.src"
+              :alt="centerIconAlt"
               :width="32"
               :height="32"
             />

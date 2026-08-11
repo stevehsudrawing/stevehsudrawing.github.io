@@ -27,13 +27,19 @@ const { groups, pagePath } = useLinkCards(ref("artworks-and-videos"));
       )
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/artworks-light.avif',
-      avifSrcDark: '/images/avif/covers/artworks-dark.avif',
-      fallbackSrcLight: '/images/webp/covers/artworks-light.webp',
-      fallbackSrcDark: '/images/webp/covers/artworks-dark.webp',
-      feature: 'follow-theme',
+      srcMap: {
+        avif: {
+          light: { en: '/images/avif/covers/artworks-light.avif' },
+          dark: { en: '/images/avif/covers/artworks-dark.avif' },
+        },
+        webp: {
+          light: { en: '/images/webp/covers/artworks-light.webp' },
+          dark: { en: '/images/webp/covers/artworks-dark.webp' },
+        },
+      },
+      feature: ['follow-theme'],
       alt: $t('text-artworks', 'Artworks'),
-      imgClass: 'img-fluid img-fit rounded no-copy solid-bg',
+      class: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />
 

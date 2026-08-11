@@ -6,10 +6,15 @@
 import { computed, ref, watch, onMounted, onUnmounted } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
-import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import ColoredImg from "../ui/ColoredImg.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
-import type { LinkButtonData, FeatureAwareImgProps } from "../../types/app";
+import type {
+  LinkButtonData,
+  FeatureAwarePictureProps,
+  ColoredImgProps,
+} from "../../types/app";
 import type { HastProperties } from "../../types/hast";
 
 // =========================================================================
@@ -57,9 +62,18 @@ const displayIconProps = computed<Record<string, unknown>>(() => {
   return result;
 });
 
-/** HAST properties -> FeatureAwareImg display props. */
+/** HAST properties -> ColoredImg / FeatureAwarePicture display props. */
 const imgDisplay = useImgDisplayProps(
   computed(() => displayIconProps.value as HastProperties),
+);
+
+/**
+ * HAST properties from the original iconProps (not display-transformed).
+ * Used for modal pass-through — the modal should reflect the original
+ * icon, not the primary-button tint transform.
+ */
+const modalImgDisplay = useImgDisplayProps(
+  computed(() => ({ ...iconProps }) as HastProperties),
 );
 
 // ---- Link attributes ----
@@ -69,15 +83,23 @@ const btnClass = computed(() =>
   primary ? "btn-primary" : "btn-outline-secondary",
 );
 
-/** FeatureAwareImgProps for TypeAwareLink's modal icon. */
-const typeAwareImgProps = computed<FeatureAwareImgProps | null>(() => {
-  if (!externalLink) return null;
+/** ColoredImg props for TypeAwareLink's modal (colored icons). */
+const modalColoredProps = computed<ColoredImgProps | null>(() => {
+  if (!externalLink || !modalImgDisplay.isColored.value) return null;
   return {
-    lightSrc: (iconProps.src as string) ?? "",
-    alt: (iconProps.alt as string) ?? "",
-    feature: (iconProps.dataImgFeature as string) ?? undefined,
-    colorMaskSrc: (iconProps.dataSrcMask as string) ?? undefined,
-    colorVar: (iconProps.dataColorVar as string) ?? undefined,
+    src: modalImgDisplay.colorMaskSrc.value ?? modalImgDisplay.src.value ?? "",
+    colorVar: modalImgDisplay.colorVar.value ?? "shlh-primary-color",
+    alt: modalImgDisplay.alt.value ?? "",
+  };
+});
+
+/** FeatureAwarePicture props for TypeAwareLink's modal (non-colored icons). */
+const modalPictureProps = computed<FeatureAwarePictureProps | null>(() => {
+  if (!externalLink || modalImgDisplay.isColored.value) return null;
+  return {
+    src: modalImgDisplay.src.value ?? "",
+    alt: modalImgDisplay.alt.value ?? "",
+    feature: modalImgDisplay.feature.value,
   };
 });
 
@@ -95,18 +117,32 @@ const tooltipTitle = computed(() => {
     <TypeAwareLink
       :type="externalLink ? 'external' : 'internal'"
       :href="linkHref"
-      :img-props="typeAwareImgProps"
+      :picture-props="modalPictureProps"
+      :colored-props="modalColoredProps"
       :no-qr-code="!externalLink || undefined"
       :class="['btn', btnClass, 'link-btn-img-wrapper']"
       :aria-label="tooltipTitle"
       hide-indicator
     >
-      <FeatureAwareImg
-        :light-src="(imgDisplay.src.value as string) ?? ''"
+      <ColoredImg
+        v-if="imgDisplay.isColored.value"
+        :src="
+          (imgDisplay.colorMaskSrc.value as string) ??
+          (imgDisplay.src.value as string) ??
+          ''
+        "
+        :color-var="
+          (imgDisplay.colorVar.value as string) ?? 'shlh-primary-color'
+        "
+        :alt="(imgDisplay.alt.value as string) ?? ''"
+        :width="40"
+        :height="40"
+      />
+      <FeatureAwarePicture
+        v-else
+        :src="(imgDisplay.src.value as string) ?? ''"
         :alt="(imgDisplay.alt.value as string) ?? ''"
         :feature="imgDisplay.feature.value"
-        :color-var="imgDisplay.colorVar.value"
-        :color-mask-src="imgDisplay.colorMaskSrc.value"
         :width="40"
         :height="40"
       />

@@ -1,7 +1,8 @@
 ---
 description: >
-  External Link Confirmation: ExternalLinkConfirmModal.vue (props: url, imgProperties,
-  hideQRButton; emits: navigate, show-qr).  data-link-img-props JSON attribute for icon.
+  External Link Confirmation: ExternalLinkConfirmModal.vue (props: url,
+  pictureProps, coloredProps, hideQRButton; emits: navigate, show-qr).
+  Typed props passthrough via TypeAwareLink / App.vue.
   Use when: modifying external link behavior, confirmation modal UI, or link interception.
 applyTo: >
   src/components/modals/ExternalLinkConfirmModal.vue
@@ -12,41 +13,35 @@ applyTo: >
 ##### 4.3.1.1 Architecture
 
 ```
-App.vue (click delegation)
-  └─ onExternalLinkClick(e)
-       └─ reads: href, data-link-img-props, data-no-qr-code
-       └─ calls: extLinkModalRef.value?.show()
+App.vue (provide/inject pipeline)
+  └─ OPEN_EXTERNAL_LINK_KEY → TypeAwareLink calls openExternalLink()
 
 ExternalLinkConfirmModal.vue
-  ├─ Props: url, imgProperties?, hideQRButton?
-  ├─ State: visible, openInNewTab, icon (useImgDisplayProps)
-  ├─ Actions: confirm(), showQR(), copyUrl()
+  ├─ Props: url, pictureProps?, coloredProps?, hideQRButton?
+  ├─ State: visible, openInNewTab
+  ├─ Actions: confirm(), showQR()
   └─ Expose: show(), hide()
 ```
 
 ##### 4.3.1.2 Props
 
-| Prop            | Type                       | Purpose                     |
-| --------------- | -------------------------- | --------------------------- |
-| `url`           | `string`                   | External URL                |
-| `imgProperties` | `Record<string, unknown>?` | HAST-format icon properties |
-| `hideQRButton`  | `boolean?`                 | Hide "Show QR Code" button  |
+| Prop           | Type                                | Purpose                                |
+| -------------- | ----------------------------------- | -------------------------------------- |
+| `url`          | `string`                            | External URL                           |
+| `pictureProps` | `FeatureAwarePictureProps \| null?` | Icon props for non-colored icon        |
+| `coloredProps` | `ColoredImgProps \| null?`          | Icon props for colored (CSS mask) icon |
+| `hideQRButton` | `boolean?`                          | Hide "Show QR Code" button             |
 
 ##### 4.3.1.3 Emits
 
-| Event      | Payload                | When                       |
-| ---------- | ---------------------- | -------------------------- |
-| `navigate` | `(url, openInNewTab)`  | User clicks "Open"         |
-| `show-qr`  | `(url, imgProperties)` | User clicks "Show QR Code" |
+| Event      | Payload                             | When                       |
+| ---------- | ----------------------------------- | -------------------------- |
+| `navigate` | `(url, openInNewTab)`               | User clicks "Open"         |
+| `show-qr`  | `(url, pictureProps, coloredProps)` | User clicks "Show QR Code" |
 
-##### 4.3.1.4 data-link-img-props Attribute
+##### 4.3.1.4 Typed Props Passthrough
 
-```html
-<a
-  class="external-link"
-  href="https://example.com"
-  data-link-img-props='{"alt":"...","src":"/images/...","dataImgFeature":"colored",...}'
-></a>
-```
-
-Uses HAST camelCase conventions. Add `data-no-qr-code` to hide QR button.
+Icons are passed as typed `pictureProps` / `coloredProps` through the
+`TypeAwareLink` → `App.vue` provide/inject pipeline. The modal renders
+`<ColoredImg>` when `coloredProps` is set, `<FeatureAwarePicture>` when
+`pictureProps` is set. No HAST round-trip or `useImgDisplayProps` needed.

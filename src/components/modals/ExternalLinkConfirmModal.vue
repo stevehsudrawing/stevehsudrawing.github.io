@@ -1,49 +1,45 @@
 <!--
   ExternalLinkConfirmModal.vue — External link safety check.
-  Replaces features/external-link-confirmation.ts DOM state hacks
-  (_confirmUrl, _confirmIconProps) with clean props + emits.
+  Receives typed pictureProps / coloredProps directly from App.vue
+  via provide/inject pipeline — no HAST round-trip needed.
 -->
 <script setup lang="ts">
-import { ref, computed, toRef, type Ref } from "vue";
+import { ref, computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useLocalStorage } from "../../composables/useLocalStorage";
 import { StorageKey } from "../../types/app";
+import type {
+  FeatureAwarePictureProps,
+  ColoredImgProps,
+} from "../../types/app";
 import { useModalFocus } from "../../composables/useModalFocus";
-import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import CopyButton from "../buttons/CopyButton.vue";
-import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import ColoredImg from "../ui/ColoredImg.vue";
 
 // =========================================================================
 // Props
 // =========================================================================
 
-/**
- * Props for ExternalLinkConfirmModal.
- *
- * @property url - The external URL the user is about to navigate to.
- * @property imgProperties - Optional HAST-format icon properties
- *   (src, alt, dataImgFeature, etc.) rendered next to the URL.
- * @property hideQRButton - When true, the \"Show QR Code\" button is hidden.
- */
 const props = defineProps<{
   url: string;
-  imgProperties?: Record<string, unknown> | null;
+  pictureProps?: FeatureAwarePictureProps | null;
+  coloredProps?: ColoredImgProps | null;
   hideQRButton?: boolean;
 }>();
 
-/**
- * Emits for ExternalLinkConfirmModal.
- *
- * - navigate: User confirmed \"Open\" — parent navigates to the URL.
- * - show-qr: User clicked \"Show QR Code\" — parent switches to QRCodeModal.
- */
+// =========================================================================
+// Emits
+// =========================================================================
+
 const emit = defineEmits<{
   (e: "navigate", url: string, openInNewTab: boolean): void;
   (
     e: "show-qr",
     url: string,
-    imgProperties: Record<string, unknown> | null,
+    pictureProps: FeatureAwarePictureProps | null,
+    coloredProps: ColoredImgProps | null,
   ): void;
 }>();
 
@@ -61,20 +57,13 @@ const openBtnRef = ref<HTMLElement | null>(null);
 /** Keyboard-aware focus: move focus to Open button when opened via Tab. */
 const { onShown } = useModalFocus(openBtnRef);
 
-// Extract display properties from HAST imgProperties
-const {
-  src: iconSrc,
-  alt: iconAltRaw,
-  feature: iconFeature,
-  colorVar: iconColorVar,
-  colorMaskSrc: iconColorMaskSrc,
-} = useImgDisplayProps(
-  toRef(props, "imgProperties") as Ref<
-    Record<string, unknown> | null | undefined
-  >,
+/** Alt text for the icon. */
+const iconAlt = computed(
+  () =>
+    props.pictureProps?.alt ??
+    props.coloredProps?.alt ??
+    t("text-link", "Link"),
 );
-
-const iconAlt = computed(() => iconAltRaw.value ?? t("text-link", "Link"));
 
 // =========================================================================
 // Actions
@@ -86,7 +75,12 @@ function confirm(): void {
 }
 
 function showQR(): void {
-  emit("show-qr", props.url, props.imgProperties ?? null);
+  emit(
+    "show-qr",
+    props.url,
+    props.pictureProps ?? null,
+    props.coloredProps ?? null,
+  );
   visible.value = false;
 }
 
@@ -125,13 +119,22 @@ defineExpose({
     </p>
 
     <div class="d-flex align-items-start mb-3">
-      <div v-if="iconSrc" class="link-icon-wrapper me-2">
-        <FeatureAwareImg
-          :light-src="iconSrc"
+      <div v-if="coloredProps" class="link-icon-wrapper me-2">
+        <ColoredImg
+          :src="coloredProps.src"
+          :color-var="coloredProps.colorVar"
           :alt="iconAlt"
-          :feature="iconFeature"
-          :color-var="iconColorVar"
-          :color-mask-src="iconColorMaskSrc"
+          :width="32"
+          :height="32"
+          class="img-fluid"
+        />
+      </div>
+      <div v-else-if="pictureProps" class="link-icon-wrapper me-2">
+        <FeatureAwarePicture
+          :src="pictureProps.src"
+          :src-map="pictureProps.srcMap"
+          :feature="pictureProps.feature"
+          :alt="iconAlt"
           :width="32"
           :height="32"
           class="img-fluid"

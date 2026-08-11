@@ -17,23 +17,23 @@ in a responsive two-column flex layout.
 
 ##### 4.2.8.1 Props
 
-| Prop          | Type             | Default | Notes                                        |
-| ------------- | ---------------- | ------- | -------------------------------------------- |
-| `title`       | `string`         | —       | Pre-resolved i18n text                       |
-| `headingTag`  | `"h1" \| "h2"`   | `"h1"`  | Semantic tag; always styled with `.h1`       |
-| `description` | `string?`        | —       | Rendered in a `.py-2` > `<p>` wrapper        |
-| `image`       | `HeroImageProps` | —       | Passed to `FeatureAwarePicture` via `v-bind` |
-| `padding`     | `boolean?`       | `true`  | Whether outer `.container` gets `py-4`       |
+| Prop          | Type                       | Default | Notes                                        |
+| ------------- | -------------------------- | ------- | -------------------------------------------- |
+| `title`       | `string`                   | —       | Pre-resolved i18n text                       |
+| `headingTag`  | `"h1" \| "h2"`             | `"h1"`  | Semantic tag; always styled with `.h1`       |
+| `description` | `string?`                  | —       | Rendered in a `.py-2` > `<p>` wrapper        |
+| `image`       | `FeatureAwarePictureProps` | —       | Passed to `FeatureAwarePicture` via `v-bind` |
+| `padding`     | `boolean?`                 | `true`  | Whether outer `.container` gets `py-4`       |
 
 ##### 4.2.8.2 Default Slot
 
 Injected after the description, before the image column. Used for
 `LinkButtonGroup` (IndexPage) or GitHub profile link (SoftwaresPage).
 
-##### 4.2.8.3 HeroImageProps
+##### 4.2.8.3 FeatureAwarePictureProps
 
-Defined in `src/types/app.ts`. Props mirror `FeatureAwarePicture` so
-the component can use `v-bind="image"` to pass them through directly.
+Defined in `src/types/app.ts`. Props are passed through directly to
+`FeatureAwarePicture` via `v-bind="image"`.
 
 ##### 4.2.8.4 Usage by Page
 

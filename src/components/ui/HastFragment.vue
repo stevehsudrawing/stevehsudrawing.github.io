@@ -3,18 +3,21 @@
 
   Converts a HAST node tree (from markdown or link-card JSON) into
   Vue VNodes, upgrading `<a>` to `<TypeAwareLink>` and `<img>` to
-  `<FeatureAwareImg>`.  Other elements are rendered as native HTML
-  elements with their attributes passed through.
+  `<FeatureAwarePicture>` or `<ColoredImg>`.  Other elements are
+  rendered as native HTML elements with their attributes passed
+  through.
 -->
 <script lang="ts">
 import { h, defineComponent, type VNode } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import {
   extractLinkProps,
-  extractImgProps,
+  extractPictureProps,
+  extractColoredImgProps,
 } from "../../composables/useHastToVue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import ColoredImg from "../ui/ColoredImg.vue";
 import type { HastNode } from "../../types/hast";
 
 type RenderResult = VNode | string;
@@ -64,11 +67,22 @@ export default defineComponent({
           }
         }
 
-        // <img> → FeatureAwareImg
+        // <img> → ColoredImg or FeatureAwarePicture
         if (node.tagName === "img") {
-          const imgProps = extractImgProps(node, t);
-          if (imgProps) {
-            return h(FeatureAwareImg, imgProps);
+          const featureStr = (node.properties?.dataImgFeature as string) ?? "";
+
+          if (featureStr.split(" ").includes("colored")) {
+            const coloredProps = extractColoredImgProps(node, t);
+            if (coloredProps) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              return h(ColoredImg, coloredProps as any);
+            }
+          } else {
+            const pictureProps = extractPictureProps(node, t);
+            if (pictureProps) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              return h(FeatureAwarePicture, pictureProps as any);
+            }
           }
         }
 

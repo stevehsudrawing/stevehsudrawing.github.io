@@ -32,18 +32,17 @@ const props = defineProps<{
 // State
 // =========================================================================
 
-const avifSrcLight = computed(
-  () => `/images/avif/stickers/light/${props.stickerId}.avif`,
-);
-const avifSrcDark = computed(
-  () => `/images/avif/stickers/dark/${props.stickerId}.avif`,
-);
-const fallbackSrcLight = computed(
-  () => `/images/webp/stickers/light/${props.stickerId}.webp`,
-);
-const fallbackSrcDark = computed(
-  () => `/images/webp/stickers/dark/${props.stickerId}.webp`,
-);
+const stickerSrcMap = computed(() => ({
+  avif: {
+    light: { en: `/images/avif/stickers/light/${props.stickerId}.avif` },
+    dark: { en: `/images/avif/stickers/dark/${props.stickerId}.avif` },
+  },
+  webp: {
+    light: { en: `/images/webp/stickers/light/${props.stickerId}.webp` },
+    dark: { en: `/images/webp/stickers/dark/${props.stickerId}.webp` },
+  },
+}));
+
 const i18nKey = computed(() => `text-sticker-of-${props.stickerId}`);
 </script>
 
@@ -51,15 +50,12 @@ const i18nKey = computed(() => `text-sticker-of-${props.stickerId}`);
   <div class="container">
     <div class="py-4 d-flex flex-column align-items-center">
       <FeatureAwarePicture
-        :avif-src-light="avifSrcLight"
-        :avif-src-dark="avifSrcDark"
-        :fallback-src-light="fallbackSrcLight"
-        :fallback-src-dark="fallbackSrcDark"
-        feature="follow-theme"
+        :src-map="stickerSrcMap"
+        :feature="['follow-theme']"
         :alt="$t(i18nKey, stickerTitle)"
         :width="150"
         :height="150"
-        img-class="no-copy solid-bg"
+        class="no-copy solid-bg"
       />
       <p v-if="caption" class="opacity-75 mt-3">
         <span>{{ caption }}</span>

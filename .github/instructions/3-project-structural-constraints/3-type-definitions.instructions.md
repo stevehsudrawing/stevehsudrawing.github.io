@@ -20,14 +20,14 @@ TypeScript type definitions are split into two groups: browser types (used by `s
 
 Located in `src/types/` and bundled into the browser output. Type-checked by the root `tsconfig.json` (targets `DOM` lib).
 
-| File               | Types                                           | Purpose                                                                                                                                |
-| ------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `app.ts`           | `Lang`, `ThemeChoice`, `StorageKey`, `AppEvent` | Application-wide enums and string literal types                                                                                        |
-| `hast.ts`          | `HastNode`, `HastProperties`                    | Hypertext Abstract Syntax Tree node structures - used by `utils.ts` for `setElementAttributes`, and by `qr-code.ts` for icon rendering |
-| `globals.d.ts`     | `Window` interface extensions                   | Type declarations for `window.bootstrap`, `window.toHtml`, `window.htmlToImage`, `window.html2canvas`                                  |
-| `css.d.ts`         | `*.css` module declaration                      | Allows TypeScript to resolve CSS imports                                                                                               |
-| `vue-shims.d.ts`   | `.vue` module declaration                       | Allows TypeScript to resolve `.vue` imports (`declare module "*.vue"`)                                                                 |
-| `vue-augment.d.ts` | `@vue/runtime-core` augmentation                | Extends `ComponentCustomProperties` with global `$t()` type                                                                            |
+| File               | Types                                                                                                                                                                          | Purpose                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `app.ts`           | `Lang`, `ThemeChoice`, `StorageKey`, `AppEvent`, `ImgFeature`, `LanguageAwareImgSrcMap`, `ThemeAwareImgSrcMap`, `PictureSrcMap`, `ColoredImgProps`, `FeatureAwarePictureProps` | Application-wide enums, string literals, and image component props                                                                     |
+| `hast.ts`          | `HastNode`, `HastProperties`                                                                                                                                                   | Hypertext Abstract Syntax Tree node structures - used by `utils.ts` for `setElementAttributes`, and by `qr-code.ts` for icon rendering |
+| `globals.d.ts`     | `Window` interface extensions                                                                                                                                                  | Type declarations for `window.bootstrap`, `window.toHtml`, `window.htmlToImage`, `window.html2canvas`                                  |
+| `css.d.ts`         | `*.css` module declaration                                                                                                                                                     | Allows TypeScript to resolve CSS imports                                                                                               |
+| `vue-shims.d.ts`   | `.vue` module declaration                                                                                                                                                      | Allows TypeScript to resolve `.vue` imports (`declare module "*.vue"`)                                                                 |
+| `vue-augment.d.ts` | `@vue/runtime-core` augmentation                                                                                                                                               | Extends `ComponentCustomProperties` with global `$t()` type                                                                            |
 
 **Layered constraints**: `types/` may import from npm packages and browser APIs, but **must NOT** import from `core/`, `ui/`, or `features/`.
 
@@ -52,6 +52,10 @@ Located in `src/types/` and bundled into the browser output. Type-checked by the
 ```
 
 -> `<a class="external-link" href="https://example.com" data-i18n="text-foo" data-img-feature="colored">`
+
+**Image rendering**: when `dataImgFeature` contains `"colored"`, the HAST → Vue
+pipeline routes to `ColoredImg`; otherwise `FeatureAwarePicture`. See
+[§4.2.4](../4-feature-references/02-ui-components/04-feature-aware-img.instructions.md).
 
 #### 3.3.2 Build-time Types (`build/types.ts`)
 

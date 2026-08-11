@@ -16,14 +16,15 @@ applyTo: >
 
 ```
 useHastToVue.ts
-  ├─ extractImgProps(node) → FeatureAwareImgProps
-  └─ extractLinkProps(node) → { type, href, imgProps, ... }
+  ├─ extractPictureProps(node) → FeatureAwarePictureProps
+  ├─ extractColoredImgProps(node) → ColoredImgProps
+  └─ extractLinkProps(node) → { type, href, ... }
 
 HastFragment.vue
   ├─ Props: { nodes: HastNode[] }
   ├─ Recursive h() renderer:
   │    <a>   → TypeAwareLink
-  │    <img> → FeatureAwareImg
+  │    <img> → FeatureAwarePicture or ColoredImg (based on dataImgFeature)
   │    text  → data-i18n resolution → $t() or raw text
   │    other → native element via h(tagName, vueProps, children)
   └─ Replaces all v-html usage (LinkCard, MarkdownArticle)

@@ -10,7 +10,7 @@
 import { computed } from "vue";
 import { useGithubProfile } from "../../composables/useGithubProfile";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import { useI18n } from "../../composables/useI18n";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
@@ -81,9 +81,9 @@ const statsText = computed(() => {
         <div class="d-flex flex-row flex-wrap gap-3">
           <div class="flex-grow-1">
             <div class="d-flex align-items-center mb-3">
-              <FeatureAwareImg
+              <FeatureAwarePicture
                 class="github-avatar rounded-circle me-3 no-copy"
-                :lightSrc="profile!.avatar_url"
+                :src="profile!.avatar_url"
                 :alt="profile!.name ?? profile!.login"
                 :width="64"
                 :height="64"
@@ -106,11 +106,8 @@ const statsText = computed(() => {
               class="btn btn-outline-secondary btn-sm"
               type="external"
               :href="profile!.html_url"
-              :img-props="{
-                lightSrc: '/images/webp/null.webp',
-                feature: 'colored',
-                colorMaskSrc: '/images/webp/icons/github.webp',
-                colorVar: 'bs-body-color',
+              :picture-props="{
+                src: '/images/webp/icons/github.webp',
                 alt: $t('text-github', 'GitHub'),
               }"
             >
@@ -146,9 +143,9 @@ const statsText = computed(() => {
   <template v-else>
     <template v-if="hasData">
       <div class="github-user-bar d-flex align-items-center gap-3 py-3">
-        <FeatureAwareImg
+        <FeatureAwarePicture
           class="github-avatar rounded-circle no-copy"
-          :lightSrc="profile!.avatar_url"
+          :src="profile!.avatar_url"
           :alt="profile!.name ?? profile!.login"
           :width="40"
           :height="40"
@@ -167,10 +164,8 @@ const statsText = computed(() => {
                 class="btn btn-outline-secondary btn-sm flex-shrink-0"
                 type="external"
                 :href="profile!.html_url"
-                :img-props="{
-                  lightSrc: '/images/webp/null.webp',
-                  feature: 'colored',
-                  colorMaskSrc: '/images/webp/icons/github.webp',
+                :colored-props="{
+                  src: '/images/webp/icons/github.webp',
                   colorVar: 'bs-body-color',
                   alt: $t('text-github', 'GitHub'),
                 }"

@@ -8,7 +8,7 @@
 -->
 <script setup lang="ts">
 import FeatureAwarePicture from "./FeatureAwarePicture.vue";
-import type { HeroImageProps } from "../../types/app";
+import type { FeatureAwarePictureProps } from "../../types/app";
 
 // =========================================================================
 // Props
@@ -26,7 +26,7 @@ defineProps<{
   /** Description paragraph (optional; omitted when not provided). */
   description?: string;
   /** Image properties — passed directly to FeatureAwarePicture. */
-  image: HeroImageProps;
+  image: FeatureAwarePictureProps;
   /**
    * Whether the outer container has `py-4` vertical padding.
    * Defaults to `true`.  Set to `false` for compact sections

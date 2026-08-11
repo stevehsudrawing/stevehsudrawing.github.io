@@ -20,29 +20,7 @@ applyTo: >
 | `:deep(.selector)`        | Target elements inside a child component (e.g. BModal's `.modal-body`)                                   | `:deep(.modal-body) { display: flex; }`       |
 | `src/stylesheets/global/` | Truly global styles: CSS reset, typography, Bootstrap variable overrides, build-time injected components | `base.css`, `theme.css`, `fonts.css`          |
 
-#### 3.4.2 CSS Ownership Comments in `base.css`
-
-When a global CSS selector belongs to a known Vue component, annotate with
-a `TODO:` comment:
-
-```css
-/* TODO: §4.2.4 -> FeatureAwareImg.vue */
-.img-fit { ... }
-
-/* TODO: §4.2.1 -> AppNavbar.vue */
-.nav-link { ... }
-```
-
-When a selector is explicitly NOT owned by any Vue component, document the reason:
-
-```css
-/* ========================================================================
-   Button Groups
-   (Build-time injected — not owned by any Vue component.)
-   ======================================================================== */
-```
-
-#### 3.4.3 Static HTML Coexistence
+#### 3.4.2 Static HTML Coexistence
 
 Some Vue components control static HTML elements that exist in each `.html`
 page or are rendered in `App.vue`'s template. These components:
@@ -56,7 +34,7 @@ page or are rendered in `App.vue`'s template. These components:
 - `LoadingScreen.vue` — controls `#loading-screen` (static HTML in each page)
 - `LoadingBar.vue` — controls `#loading-bar` (rendered in own template)
 
-#### 3.4.4 `<script setup lang="ts">` Section Conventions
+#### 3.4.3 `<script setup lang="ts">` Section Conventions
 
 Every `<script setup>` block **MUST** follow the five sections below, in
 this exact order. Any section not used by the component is omitted — but

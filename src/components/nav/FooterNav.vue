@@ -65,13 +65,6 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
             class="text-nowrap"
             type="external"
             href="https://github.com/stevehsudrawing/stevehsudrawing.github.io/issues"
-            :img-props="{
-              lightSrc: '/images/webp/null.webp',
-              feature: 'colored',
-              colorMaskSrc: '/images/webp/icons/github.webp',
-              colorVar: 'bs-body-color',
-              alt: $t('text-github', 'GitHub'),
-            }"
             no-qr-code
           >
             {{ $t("text-report-an-issue", "Report an Issue") }}
@@ -82,10 +75,8 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
           <QRCodeButton
             class="me-2"
             :url="'https://stevehsudrawing.github.io'"
-            :img-props="{
-              lightSrc: '/images/webp/null.webp',
-              feature: 'colored',
-              colorMaskSrc: '/images/webp/icons/steve-hsu.webp',
+            :colored-props="{
+              src: '/images/webp/icons/steve-hsu.webp',
               colorVar: 'bs-primary',
               alt: $t('text-steve-hsu-s-link-hub', 'Steve Hsu\'s Link-Hub'),
             }"
@@ -98,10 +89,8 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
               type="external"
               href="https://github.com/stevehsudrawing/stevehsudrawing.github.io"
               hide-indicator
-              :img-props="{
-                lightSrc: '/images/webp/null.webp',
-                feature: 'colored',
-                colorMaskSrc: '/images/webp/icons/github.webp',
+              :colored-props="{
+                src: '/images/webp/icons/github.webp',
                 colorVar: 'bs-body-color',
                 alt: $t(
                   'text-repo-of-steve-hsu-s-link-hub',

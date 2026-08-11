@@ -31,10 +31,12 @@ import copyrightMd from "../../public/images/README.md?raw";
       )
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/about.avif',
-      fallbackSrcLight: '/images/webp/covers/about.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/about.avif' } },
+        webp: { light: { en: '/images/webp/covers/about.webp' } },
+      },
       alt: $t('text-artworks', 'Artworks'),
-      imgClass: 'img-fluid img-fit rounded no-copy solid-bg',
+      class: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />
 

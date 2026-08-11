@@ -85,7 +85,7 @@
   --shlh-primary-900-rgb: 14, 39, 48;
 
   --shlh-focus-ring-color: #fff;
-  --shlh-primary-color: #000;
+  --shlh-primary-color: #212529;
 
   --shlh-focus-shadow: 0 0 0 var(--bs-focus-ring-width)
     var(--shlh-focus-ring-color);

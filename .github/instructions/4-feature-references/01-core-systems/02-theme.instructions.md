@@ -67,13 +67,13 @@ snapshot). To respond to theme changes, re-read after `effectiveTheme` flips
 
 ##### 4.1.2.4 Consumers
 
-| File                  | How                                                      |
-| --------------------- | -------------------------------------------------------- |
-| `App.vue`             | `useTheme()` (root)                                      |
-| `AppNavbar.vue`       | `useTheme()` -> `preference`, `setPreference()`          |
-| `SettingsModal.vue`   | `useTheme()` -> `preference`, `setPreference()`          |
-| `QRCodeModal.vue`     | `useTheme()` -> `effectiveTheme` for QR color adaptation |
-| `FeatureAwareImg.vue` | `useTheme()` -> `effectiveTheme` for src swap            |
+| File                      | How                                                      |
+| ------------------------- | -------------------------------------------------------- |
+| `App.vue`                 | `useTheme()` (root)                                      |
+| `AppNavbar.vue`           | `useTheme()` -> `preference`, `setPreference()`          |
+| `SettingsModal.vue`       | `useTheme()` -> `preference`, `setPreference()`          |
+| `QRCodeModal.vue`         | `useTheme()` -> `effectiveTheme` for QR color adaptation |
+| `FeatureAwarePicture.vue` | `useTheme()` -> `effectiveTheme` for src swap            |
 
 ##### 4.1.2.5 Theme Transition
 

@@ -6,15 +6,21 @@
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import {
-  extractImgProps,
+  extractPictureProps,
+  extractColoredImgProps,
   extractLinkProps,
   type ExtractedLinkProps,
 } from "../../composables/useHastToVue";
-import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
+import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import ColoredImg from "../ui/ColoredImg.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import HastFragment from "../ui/HastFragment.vue";
-import type { CardData, FeatureAwareImgProps } from "../../types/app";
+import type {
+  CardData,
+  FeatureAwarePictureProps,
+  ColoredImgProps,
+} from "../../types/app";
 import type { HastNode } from "../../types/hast";
 
 // =========================================================================
@@ -34,9 +40,25 @@ const { t } = useI18n();
 
 // ---- Icon ----
 
-/** Img props extracted from the card's icon HAST node. */
-const iconImgProps = computed<FeatureAwareImgProps | null>(() =>
-  props.card.icon ? extractImgProps(props.card.icon, t) : null,
+/** Whether the card icon uses colored (CSS mask) rendering. */
+const isIconColored = computed(() => {
+  if (!props.card.icon) return false;
+  const raw = (props.card.icon.properties?.dataImgFeature as string) ?? "";
+  return raw.split(" ").includes("colored");
+});
+
+/** ColoredImg props extracted from the card's colored icon HAST node. */
+const coloredIconProps = computed<ColoredImgProps | null>(() =>
+  isIconColored.value && props.card.icon
+    ? extractColoredImgProps(props.card.icon, t)
+    : null,
+);
+
+/** FeatureAwarePicture props extracted from the card's non-colored icon HAST node. */
+const pictureIconProps = computed<FeatureAwarePictureProps | null>(() =>
+  !isIconColored.value && props.card.icon
+    ? extractPictureProps(props.card.icon, t)
+    : null,
 );
 
 // ---- Title ----
@@ -87,14 +109,21 @@ const availableClass = computed(() =>
   <div class="card-wrapper col-lg-6 col-xxl-4" :class="availableClass">
     <div class="card flex-grow-1">
       <div class="d-flex card-body">
-        <!-- Icon -->
-        <div v-if="iconImgProps" class="link-icon-wrapper me-2">
-          <FeatureAwareImg
-            :light-src="iconImgProps.lightSrc"
-            :alt="iconImgProps.alt"
-            :feature="iconImgProps.feature"
-            :color-var="iconImgProps.colorVar"
-            :color-mask-src="iconImgProps.colorMaskSrc"
+        <!-- Icon (colored) -->
+        <div v-if="coloredIconProps" class="link-icon-wrapper me-2">
+          <ColoredImg
+            :src="coloredIconProps.src"
+            :color-var="coloredIconProps.colorVar"
+            :alt="coloredIconProps.alt"
+            class="img-fluid img-fit"
+          />
+        </div>
+        <!-- Icon (standard) -->
+        <div v-else-if="pictureIconProps" class="link-icon-wrapper me-2">
+          <FeatureAwarePicture
+            :src="pictureIconProps.src"
+            :alt="pictureIconProps.alt"
+            :feature="pictureIconProps.feature"
             class="img-fluid img-fit"
           />
         </div>
@@ -106,7 +135,8 @@ const availableClass = computed(() =>
               v-if="titleLink"
               :href="titleLink.href"
               :type="titleLink.type"
-              :img-props="iconImgProps"
+              :picture-props="pictureIconProps"
+              :colored-props="coloredIconProps"
               class="card-title h6 flex-grow-1"
             >
               {{ titleLink.textContent }}
@@ -118,7 +148,8 @@ const availableClass = computed(() =>
             <QRCodeButton
               v-if="showQR"
               :url="titleLink!.href"
-              :img-props="iconImgProps"
+              :picture-props="pictureIconProps"
+              :colored-props="coloredIconProps"
             />
           </div>
 

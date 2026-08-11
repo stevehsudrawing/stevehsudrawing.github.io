@@ -27,10 +27,12 @@ const { groups, pagePath } = useLinkCards(ref("blogs-and-sponsor"));
       )
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/blogs.avif',
-      fallbackSrcLight: '/images/webp/covers/blogs.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/blogs.avif' } },
+        webp: { light: { en: '/images/webp/covers/blogs.webp' } },
+      },
       alt: $t('text-blogs-and-sponsor', 'Blogs'),
-      imgClass: 'img-fluid img-fit rounded',
+      class: 'img-fluid img-fit rounded',
     }"
   />
 

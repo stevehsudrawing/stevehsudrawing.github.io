@@ -102,21 +102,35 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               <TypeAwareLink
                 type="external"
                 href="https://www.pixiv.net/artworks/145641748"
-                :img-props="{
-                  lightSrc: '/images/webp/icons/pixiv.webp',
+                :picture-props="{
+                  src: '/images/webp/icons/pixiv.webp',
                   alt: $t('text-pixiv', 'Pixiv'),
                 }"
                 hide-indicator
               >
                 <FeatureAwarePicture
-                  avif-src-light="/images/avif/covers/illustration-0-light.avif"
-                  avif-src-dark="/images/avif/covers/illustration-0-dark.avif"
-                  fallback-src-light="/images/webp/covers/illustration-0-light.webp"
-                  fallback-src-dark="/images/webp/covers/illustration-0-dark.webp"
-                  feature="follow-theme"
+                  :src-map="{
+                    avif: {
+                      light: {
+                        en: '/images/avif/covers/illustration-0-light.avif',
+                      },
+                      dark: {
+                        en: '/images/avif/covers/illustration-0-dark.avif',
+                      },
+                    },
+                    webp: {
+                      light: {
+                        en: '/images/webp/covers/illustration-0-light.webp',
+                      },
+                      dark: {
+                        en: '/images/webp/covers/illustration-0-dark.webp',
+                      },
+                    },
+                  }"
+                  :feature="['follow-theme']"
                   :alt="$t('text-illustration', 'Illustration')"
                   fetchpriority="high"
-                  img-class="d-block w-100 no-copy solid-bg"
+                  class="d-block w-100 no-copy solid-bg"
                 />
               </TypeAwareLink>
             </BCarouselSlide>
@@ -124,18 +138,24 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               <TypeAwareLink
                 type="external"
                 href="https://www.pixiv.net/artworks/144184773"
-                :img-props="{
-                  lightSrc: '/images/webp/icons/pixiv.webp',
+                :picture-props="{
+                  src: '/images/webp/icons/pixiv.webp',
                   alt: $t('text-pixiv', 'Pixiv'),
                 }"
                 hide-indicator
               >
                 <FeatureAwarePicture
-                  avif-src-light="/images/avif/covers/illustration-1.avif"
-                  fallback-src-light="/images/webp/covers/illustration-1.webp"
+                  :src-map="{
+                    avif: {
+                      light: { en: '/images/avif/covers/illustration-1.avif' },
+                    },
+                    webp: {
+                      light: { en: '/images/webp/covers/illustration-1.webp' },
+                    },
+                  }"
                   :alt="$t('text-illustration', 'Illustration')"
                   loading="lazy"
-                  img-class="d-block w-100 no-copy solid-bg"
+                  class="d-block w-100 no-copy solid-bg"
                 />
               </TypeAwareLink>
             </BCarouselSlide>
@@ -146,11 +166,17 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                 hide-indicator
               >
                 <FeatureAwarePicture
-                  avif-src-light="/images/avif/covers/illustration-2.avif"
-                  fallback-src-light="/images/webp/covers/illustration-2.webp"
+                  :src-map="{
+                    avif: {
+                      light: { en: '/images/avif/covers/illustration-2.avif' },
+                    },
+                    webp: {
+                      light: { en: '/images/webp/covers/illustration-2.webp' },
+                    },
+                  }"
                   :alt="$t('text-illustration', 'Illustration')"
                   loading="lazy"
-                  img-class="d-block w-100 no-copy solid-bg"
+                  class="d-block w-100 no-copy solid-bg"
                 />
               </TypeAwareLink>
             </BCarouselSlide>
@@ -161,11 +187,17 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                 hide-indicator
               >
                 <FeatureAwarePicture
-                  avif-src-light="/images/avif/covers/illustration-3.avif"
-                  fallback-src-light="/images/webp/covers/illustration-3.webp"
+                  :src-map="{
+                    avif: {
+                      light: { en: '/images/avif/covers/illustration-3.avif' },
+                    },
+                    webp: {
+                      light: { en: '/images/webp/covers/illustration-3.webp' },
+                    },
+                  }"
                   :alt="$t('text-illustration', 'Illustration')"
                   loading="lazy"
-                  img-class="d-block w-100 no-copy solid-bg"
+                  class="d-block w-100 no-copy solid-bg"
                 />
               </TypeAwareLink>
             </BCarouselSlide>
@@ -226,10 +258,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       </div>
       <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
         <FeatureAwarePicture
-          avif-src-light="/images/avif/covers/projects.avif"
-          fallback-src-light="/images/webp/covers/projects.webp"
+          :src-map="{
+            avif: { light: { en: '/images/avif/covers/projects.avif' } },
+            webp: { light: { en: '/images/webp/covers/projects.webp' } },
+          }"
           :alt="$t('text-softwares', 'Softwares')"
-          img-class="img-fluid img-fit rounded"
+          class="img-fluid img-fit rounded"
         />
       </div>
     </div>
@@ -261,10 +295,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       )
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/blogs.avif',
-      fallbackSrcLight: '/images/webp/covers/blogs.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/blogs.avif' } },
+        webp: { light: { en: '/images/webp/covers/blogs.webp' } },
+      },
       alt: $t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor'),
-      imgClass: 'img-fluid img-fit rounded',
+      class: 'img-fluid img-fit rounded',
     }"
     :padding="false"
   >
@@ -287,10 +323,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       )
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/chatting.avif',
-      fallbackSrcLight: '/images/webp/covers/chatting.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/chatting.avif' } },
+        webp: { light: { en: '/images/webp/covers/chatting.webp' } },
+      },
       alt: $t('text-chatting', 'Chatting'),
-      imgClass: 'img-fluid img-fit rounded',
+      class: 'img-fluid img-fit rounded',
     }"
     :padding="false"
   >

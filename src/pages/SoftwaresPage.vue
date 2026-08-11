@@ -27,10 +27,12 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
       $t('text-softwares-description', 'Welcome to view my softwares!')
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/projects.avif',
-      fallbackSrcLight: '/images/webp/covers/projects.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/projects.avif' } },
+        webp: { light: { en: '/images/webp/covers/projects.webp' } },
+      },
       alt: $t('text-softwares', 'Softwares'),
-      imgClass: 'img-fluid img-fit rounded',
+      class: 'img-fluid img-fit rounded',
     }"
   >
   </HeroSection>

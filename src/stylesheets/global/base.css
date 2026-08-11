@@ -56,6 +56,7 @@ hr {
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
 }
+
 /* ========================================================================
    Typography
    ======================================================================== */
@@ -91,22 +92,6 @@ code {
   color: inherit;
   background-color: var(--bs-tertiary-bg);
   outline: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
-}
-
-/* ========================================================================
-   Copy Protection
-   ======================================================================== */
-
-.no-copy {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-user-drag: none;
-}
-
-img.no-copy.solid-bg {
-  outline: 0.5px solid var(--bs-body-bg);
-  outline-offset: -0.5px;
 }
 
 /* ========================================================================
@@ -158,6 +143,7 @@ img.no-copy.solid-bg {
 
 /* --- Modal --- */
 
+/* Open / Close Animation */
 .modal.fade .modal-dialog {
   transform: scale(0.8);
   filter: blur(15px);
@@ -256,7 +242,7 @@ img.no-copy.solid-bg {
   --bs-btn-disabled-border-color: var(--bs-secondary);
 }
 
-/* body-color Button (custom) */
+/* body-color Button (Derived from Bootstrap styles) */
 .btn-outline-body-color {
   --bs-btn-color: var(--bs-body-color);
   --bs-btn-border-color: var(--bs-body-color);
@@ -273,11 +259,6 @@ img.no-copy.solid-bg {
   --bs-gradient: none;
 }
 
-/* Button without Border (custom) */
-.btn-no-border {
-  --bs-btn-border-width: 0;
-}
-
 /* --- Bootstrap Icons --- */
 
 .bi {
@@ -285,20 +266,12 @@ img.no-copy.solid-bg {
 }
 
 /* ========================================================================
-   External Link Icon
-   (Used by accessibility.ts addExternalLinkIndicator — global, not
-   owned by any single component.)
+   Custom Link / Button Features
    ======================================================================== */
 
-.link-indicator {
-  font-size: 0.6rem;
-  vertical-align: top;
-  transform: translateX(-0.1rem);
+.btn-no-border {
+  --bs-btn-border-width: 0;
 }
-
-/* ========================================================================
-   Link Sizing
-   ======================================================================== */
 
 .larger-link {
   font-size: calc(1rem + 0.2vw);
@@ -306,8 +279,8 @@ img.no-copy.solid-bg {
 
 /* ========================================================================
    Image Utilities
-   (Used by FeatureAwarePicture / FeatureAwareImg Vue components
-   via img-class prop and page hero sections.)
+   (Used by FeatureAwarePicture / ColoredImg Vue components via img-class prop
+   and page hero sections.)
    ======================================================================== */
 
 .img-fit {
@@ -315,4 +288,20 @@ img.no-copy.solid-bg {
   height: auto;
   object-fit: cover;
   transition: opacity 0.2s ease;
+}
+
+/* ========================================================================
+   Copy Protection
+   ======================================================================== */
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+img.no-copy.solid-bg {
+  outline: 0.5px solid var(--bs-body-bg);
+  outline-offset: -0.5px;
 }

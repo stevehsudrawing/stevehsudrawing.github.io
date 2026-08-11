@@ -22,16 +22,16 @@ A function should perform only one task to ensure it can be reused.
 
 **Naming table:**
 
-| Category               | Convention             | Examples                                                  |
-| ---------------------- | ---------------------- | --------------------------------------------------------- |
-| Variables              | `camelCase`            | `currentLang`, `isPlaying`                                |
-| Functions              | `camelCase`            | `scrollToHashTarget`, `useI18n`                           |
-| Constants (top-level)  | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`                        |
-| Constants (`as const`) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES = [...] as const`                         |
-| `const enum`           | `PascalCase`           | `StorageKey`, `AppEvent`                                  |
-| DOM element refs       | `camelCase`            | `htmlElement`, `carouselRef`                              |
-| Interfaces             | `PascalCase`           | `HeroImageProps`, `CardData`, `LinkButtonGroupData`       |
-| Type aliases           | `PascalCase`           | `Lang`, `ThemeChoice`, `EffectiveTheme` (string literals) |
+| Category               | Convention             | Examples                                                      |
+| ---------------------- | ---------------------- | ------------------------------------------------------------- |
+| Variables              | `camelCase`            | `currentLang`, `isPlaying`                                    |
+| Functions              | `camelCase`            | `scrollToHashTarget`, `useI18n`                               |
+| Constants (top-level)  | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES`, `EXCLUDED_PAGES`                            |
+| Constants (`as const`) | `SCREAMING_SNAKE_CASE` | `INTERNAL_PAGES = [...] as const`                             |
+| `const enum`           | `PascalCase`           | `StorageKey`, `AppEvent`                                      |
+| DOM element refs       | `camelCase`            | `htmlElement`, `carouselRef`                                  |
+| Interfaces             | `PascalCase`           | `FeatureAwarePictureProps`, `CardData`, `LinkButtonGroupData` |
+| Type aliases           | `PascalCase`           | `Lang`, `ThemeChoice`, `EffectiveTheme` (string literals)     |
 
 **Import conventions:**
 

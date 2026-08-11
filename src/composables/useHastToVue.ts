@@ -2,12 +2,17 @@
  * HAST-to-Vue extraction helpers.
  *
  * Converts link-card HAST JSON nodes into plain props objects that
- * Vue components (TypeAwareLink, FeatureAwareImg) can consume
- * directly — replacing the v-html + event-delegation pipeline.
+ * Vue components (TypeAwareLink, FeatureAwarePicture, ColoredImg)
+ * can consume directly — replacing the v-html + event-delegation
+ * pipeline.
  */
 
 import type { HastNode } from "../types/hast";
-import type { FeatureAwareImgProps } from "../types/app";
+import type {
+  ImgFeature,
+  FeatureAwarePictureProps,
+  ColoredImgProps,
+} from "../types/app";
 
 // =========================================================================
 // Types
@@ -23,34 +28,84 @@ export interface ExtractedLinkProps {
 }
 
 // =========================================================================
-// Img extraction
+// Helpers
 // =========================================================================
 
 /**
- * Extract FeatureAwareImgProps from a HAST `<img>` node.
+ * Parse a space-separated HAST feature string into ImgFeature[].
+ * Filters out "colored" — it is not an ImgFeature.
+ */
+function parseFeatures(raw: string | undefined): ImgFeature[] {
+  if (!raw) return [];
+  const validFeatures: ImgFeature[] = ["follow-theme", "follow-language"];
+  return raw
+    .split(" ")
+    .filter((f): f is ImgFeature => (validFeatures as string[]).includes(f));
+}
+
+/** Check whether the HAST feature string includes "colored". */
+function isColored(raw: string | undefined): boolean {
+  return raw?.split(" ").includes("colored") ?? false;
+}
+
+// =========================================================================
+// Picture extraction
+// =========================================================================
+
+/**
+ * Extract FeatureAwarePictureProps from a HAST `<img>` node.
  * Resolves `dataI18nAlt` via the provided translation function.
  *
  * @param imgNode - HAST element node with tagName "img".
  * @param t - Translation function for dataI18nAlt.
- * @returns FeatureAwareImgProps, or null if the node is not an img.
+ * @returns FeatureAwarePictureProps, or null if the node is not an img.
  */
-export function extractImgProps(
+export function extractPictureProps(
   imgNode: HastNode,
   t: (key: string, fallback?: string) => string,
-): FeatureAwareImgProps | null {
+): FeatureAwarePictureProps | null {
+  if (imgNode.type !== "element" || imgNode.tagName !== "img") return null;
+
+  const props = imgNode.properties ?? {};
+  const altKey = (props.dataI18nAlt as string) ?? "";
+  const src = (props.src as string) ?? "";
+
+  return {
+    src,
+    alt: altKey
+      ? t(altKey, (props.alt as string) ?? "")
+      : ((props.alt as string) ?? ""),
+    feature: parseFeatures(props.dataImgFeature as string | undefined),
+  };
+}
+
+// =========================================================================
+// ColoredImg extraction
+// =========================================================================
+
+/**
+ * Extract ColoredImgProps from a HAST `<img>` node.
+ * Used when `dataImgFeature` includes "colored".
+ *
+ * @param imgNode - HAST element node with tagName "img".
+ * @param t - Translation function for dataI18nAlt.
+ * @returns ColoredImgProps, or null if the node is not an img.
+ */
+export function extractColoredImgProps(
+  imgNode: HastNode,
+  t: (key: string, fallback?: string) => string,
+): ColoredImgProps | null {
   if (imgNode.type !== "element" || imgNode.tagName !== "img") return null;
 
   const props = imgNode.properties ?? {};
   const altKey = (props.dataI18nAlt as string) ?? "";
 
   return {
-    lightSrc: (props.src as string) ?? "",
+    src: (props.dataSrcMask as string) ?? (props.src as string) ?? "",
+    colorVar: (props.dataColorVar as string) ?? "shlh-primary-color",
     alt: altKey
       ? t(altKey, (props.alt as string) ?? "")
       : ((props.alt as string) ?? ""),
-    feature: (props.dataImgFeature as string) ?? undefined,
-    colorMaskSrc: (props.dataSrcMask as string) ?? undefined,
-    colorVar: (props.dataColorVar as string) ?? undefined,
   };
 }
 

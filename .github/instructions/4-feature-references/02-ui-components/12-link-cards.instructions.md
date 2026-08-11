@@ -30,7 +30,7 @@ LinkCardGroup.vue
 
 LinkCard.vue
   ├─ Props: { card: CardData }
-  ├─ Icon:    extractImgProps  → FeatureAwareImg
+  ├─ Icon:    extractPictureProps / extractColoredImgProps → FeatureAwarePicture / ColoredImg
   ├─ Title:   extractLinkProps → TypeAwareLink
   └─ Description: HastFragment
 ```

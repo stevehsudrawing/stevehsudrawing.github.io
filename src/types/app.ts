@@ -96,52 +96,103 @@ export interface LinkButtonGroupData {
 // Vue component properties
 // =========================================================================
 
-/** Image properties for FeatureAwareImg (shared by TypeAwareLink, QRCodeButton). */
-export interface FeatureAwareImgProps {
-  /** Fallback / PNG source — light mode. */
-  lightSrc: string;
-  /** Fallback / PNG source — dark mode. */
-  darkSrc?: string;
-  /** Space-separated feature flags (e.g. "colored", "follow-theme"). */
-  feature?: string;
-  /** Mask image for "colored" feature. */
-  colorMaskSrc?: string;
-  /** CSS variable for "colored" tint. */
-  colorVar?: string;
+// -------------------------------------------------------------------------
+// Image feature flags
+// -------------------------------------------------------------------------
+
+/** Valid image feature flags for FeatureAwarePicture. */
+export type ImgFeature = "follow-theme" | "follow-language";
+
+// -------------------------------------------------------------------------
+// Responsive image source maps
+// -------------------------------------------------------------------------
+
+/**
+ * Language-keyed image source map.
+ * `en` is required — it is the ultimate fallback when a language variant
+ * is not specified.
+ */
+export interface LanguageAwareImgSrcMap {
+  en: string;
+  "zh-Hans"?: string;
+  "zh-Hant"?: string;
+}
+
+/**
+ * Theme-keyed image source map.
+ * `light` is required — it is the ultimate fallback when a dark variant
+ * is not specified.
+ */
+export interface ThemeAwareImgSrcMap {
+  light: LanguageAwareImgSrcMap;
+  dark?: LanguageAwareImgSrcMap;
+}
+
+/**
+ * Format-keyed source map for `<picture>` element.
+ * `webp` is required (browser baseline requirement); `avif` is optional.
+ * When `avif` is present, the component renders a `<picture>` with both
+ * `<source>` elements; otherwise a bare `<img>` is rendered.
+ */
+export interface PictureSrcMap {
+  webp: ThemeAwareImgSrcMap;
+  avif?: ThemeAwareImgSrcMap;
+}
+
+// -------------------------------------------------------------------------
+// ColoredImg props
+// -------------------------------------------------------------------------
+
+/** Props for the ColoredImg component (CSS mask + tint rendering). */
+export interface ColoredImgProps {
+  /** Mask image source (the SVG/PNG shape). */
+  src: string;
+  /** CSS variable name for the tint color (e.g. "shlh-primary-color"). */
+  colorVar: string;
   /** Alt text (pre-resolved from i18n). */
   alt: string;
   /** Image width. */
   width?: number;
   /** Image height. */
   height?: number;
+  /** Additional CSS classes. */
+  class?: string;
+  /** Native lazy loading. */
+  loading?: "lazy" | "eager";
 }
 
-/**
- * Image properties for HeroSection's FeatureAwarePicture.
- * Prop names mirror FeatureAwarePicture.vue so `v-bind="image"`
- * passes them through directly.
- */
-export interface HeroImageProps {
-  /** AVIF source — light mode. */
-  avifSrcLight: string;
-  /** AVIF source — dark mode. */
-  avifSrcDark?: string;
-  /** WebP source — light mode. */
-  webpSrcLight?: string;
-  /** WebP source — dark mode. */
-  webpSrcDark?: string;
-  /** PNG / fallback source — light mode (required). */
-  fallbackSrcLight: string;
-  /** PNG / fallback source — dark mode. */
-  fallbackSrcDark?: string;
-  /** Space-separated feature flags (e.g. "follow-theme"). */
-  feature?: string;
-  /** HTML alt attribute (pre-resolved from i18n by the parent). */
+// -------------------------------------------------------------------------
+// FeatureAwarePicture props (unified — replaces FeatureAwareImgProps + HeroImageProps)
+// -------------------------------------------------------------------------
+
+/** Props for the FeatureAwarePicture component — the sole non-colored image component. */
+export interface FeatureAwarePictureProps {
+  /**
+   * Static src URL.
+   * Use for plain images (GitHub avatars, external favicons, etc.).
+   * Mutually exclusive with `srcMap`.
+   */
+  src?: string;
+  /**
+   * Structured multi-format source map.
+   * Use with `feature` for theme/language-aware resolution.
+   * Mutually exclusive with `src`.
+   */
+  srcMap?: PictureSrcMap;
+  /** Feature flags — drive theme/language resolution on `srcMap`. */
+  feature?: ImgFeature[];
+  /** Alt text (pre-resolved from i18n). */
   alt: string;
+  /** Image width. */
+  width?: number;
+  /** Image height. */
+  height?: number;
   /** Additional CSS classes for the img element. */
-  imgClass?: string;
-  /** fetchpriority attribute (e.g. "high"). */
-  fetchpriority?: string;
+  class?: string;
+  /** fetchpriority attribute (e.g. "high" for hero images). */
+  fetchpriority?: "high" | "low" | "auto";
+  /** Native lazy loading. */
+  loading?: "lazy" | "eager";
 }
 
 // =========================================================================

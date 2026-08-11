@@ -1,8 +1,8 @@
 ---
 description: >
   QR Code: QRCodeModal.vue (qrcode canvas generation, centre overlay icon, PNG export via
-  html-to-image with html2canvas fallback, Web Share API, clipboard copy).  data-qr-url and
-  data-qr-icon attributes for App.vue event delegation.
+  html-to-image with html2canvas fallback, Web Share API, clipboard copy).
+  Typed props passthrough via QRCodeButton / App.vue provide/inject.
   Use when: modifying QR code generation, export/fallback logic, or share-card layout.
 applyTo: >
   src/components/modals/QRCodeModal.vue;
@@ -18,8 +18,8 @@ App.vue (click delegation)
   └─ onQRTrigger(e) -> reads data-qr-url, data-qr-icon -> qrCodeModalRef.show()
 
 QRCodeModal.vue
-  ├─ Props: url, imgProperties?, hideOpenLink?
-  ├─ State: visible, qrCanvas, center icon (useImgDisplayProps), computed helpers
+  ├─ Props: url, pictureProps?, coloredProps?, hideOpenLink?
+  ├─ State: visible, qrCanvas, computed helpers
   ├─ Actions: generateQR(), renderShareCardBlob(), downloadPNG(), shareImage(), copyImage()
   └─ Expose: show(), hide()
 ```

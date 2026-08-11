@@ -1,50 +1,49 @@
 <!--
-  FeatureAwarePicture.vue — <picture> wrapper with theme-aware <source>
-  elements and a FeatureAwareImg fallback.
+  FeatureAwarePicture.vue — universal non-colored image component.
 
-  Handles the common pattern of AVIF + WebP sources with theme-aware
-  variants, delegating the img element to FeatureAwareImg for colored mask,
-  loading opacity, and data-img-loaded marking.
+  Merges the old FeatureAwareImg (bare <img>) and FeatureAwarePicture
+  (<picture> wrapper) into a single component.  Rendering strategy:
+
+    src provided           → bare <img> with static src
+    srcMap without avif    → bare <img> with theme/language-resolved src
+    srcMap with avif       → <picture> with AVIF + WebP <source> elements
+
+  Colored (CSS mask) rendering is handled by the separate ColoredImg
+  component.  This component does NOT output data-img-feature.
 -->
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useTheme } from "../../composables/useTheme";
-import FeatureAwareImg from "./FeatureAwareImg.vue";
+import { useI18n } from "../../composables/useI18n";
+import type {
+  PictureSrcMap,
+  ThemeAwareImgSrcMap,
+  LanguageAwareImgSrcMap,
+  ImgFeature,
+} from "../../types/app";
 
 // =========================================================================
 // Props
 // =========================================================================
 
 const props = defineProps<{
-  /** AVIF source — light mode. */
-  avifSrcLight?: string;
-  /** AVIF source — dark mode (only when feature includes follow-theme). */
-  avifSrcDark?: string;
-  /** WebP source — light mode. */
-  webpSrcLight?: string;
-  /** WebP source — dark mode (only when feature includes follow-theme). */
-  webpSrcDark?: string;
-  /** PNG / fallback source — light mode (required). */
-  fallbackSrcLight: string;
-  /** PNG / fallback source — dark mode. */
-  fallbackSrcDark?: string;
-  /** Space-separated feature flags (e.g. "follow-theme", "colored"). */
-  feature?: string;
-  /** Mask image for "colored" feature. */
-  colorMaskSrc?: string;
-  /** CSS variable for "colored" tint. */
-  colorVar?: string;
-  /** HTML alt attribute (pre-resolved from i18n by the parent). */
+  /** Static src URL.  Mutually exclusive with `srcMap`. */
+  src?: string;
+  /** Structured multi-format source map.  Mutually exclusive with `src`. */
+  srcMap?: PictureSrcMap;
+  /** Feature flags driving theme/language resolution on `srcMap`. */
+  feature?: ImgFeature[];
+  /** Alt text (pre-resolved from i18n). */
   alt?: string;
   /** Image width. */
   width?: number;
   /** Image height. */
   height?: number;
-  /** fetchpriority attribute (e.g. "high"). */
-  fetchpriority?: string;
   /** Additional CSS classes for the img element. */
-  imgClass?: string;
-  /** Native lazy loading forwarded to FeatureAwareImg. */
+  class?: string;
+  /** fetchpriority attribute (e.g. "high" for hero images). */
+  fetchpriority?: "high" | "low" | "auto" | undefined;
+  /** Native lazy loading. */
   loading?: "lazy" | "eager";
 }>();
 
@@ -53,56 +52,168 @@ const props = defineProps<{
 // =========================================================================
 
 const { effectiveTheme } = useTheme();
+const { locale } = useI18n();
 
-/** Whether this image follows the active theme. */
-const isThemeAware = computed(() => props.feature?.includes("follow-theme"));
+const loaded = ref(false);
+const imgRef = ref<HTMLImageElement>();
 
-/** Current AVIF srcset (switches between light/dark for theme-aware images). */
-const currentAvifSrc = computed(() =>
-  isThemeAware.value && effectiveTheme.value === "dark" && props.avifSrcDark
-    ? props.avifSrcDark
-    : props.avifSrcLight,
+// -------------------------------------------------------------------------
+// Feature checks
+// -------------------------------------------------------------------------
+
+const followTheme = computed(() =>
+  (props.feature ?? []).includes("follow-theme"),
+);
+const followLanguage = computed(() =>
+  (props.feature ?? []).includes("follow-language"),
 );
 
-/** Current WebP srcset (switches between light/dark for theme-aware images). */
-const currentWebpSrc = computed(() =>
-  isThemeAware.value && effectiveTheme.value === "dark" && props.webpSrcDark
-    ? props.webpSrcDark
-    : props.webpSrcLight,
+// -------------------------------------------------------------------------
+// Resolved theme / language keys
+// -------------------------------------------------------------------------
+
+const resolvedTheme = computed(() =>
+  followTheme.value ? effectiveTheme.value : "light",
 );
+const resolvedLang = computed(() =>
+  followLanguage.value ? locale.value : "en",
+);
+
+// -------------------------------------------------------------------------
+// Source resolution
+// -------------------------------------------------------------------------
+
+/** Language fallback chain: exact match → zh-Hans → zh-Hant → en. */
+const LANG_FALLBACK_CHAIN: readonly string[] = ["zh-Hans", "zh-Hant", "en"];
+
+/**
+ * Resolve a single theme-keyed src map to a URL.
+ *
+ * @param themeMap - The theme-aware source map to resolve.
+ * @param theme - Target theme key ("light" or "dark").
+ * @param lang - Target language key ("en", "zh-Hans", "zh-Hant").
+ * @returns The resolved URL string, or undefined.
+ */
+function resolveThemeSrc(
+  themeMap: ThemeAwareImgSrcMap | undefined,
+  theme: string,
+  lang: string,
+): string | undefined {
+  if (!themeMap) return undefined;
+
+  // Theme: try target → fall back to light
+  let langMap: LanguageAwareImgSrcMap | undefined =
+    themeMap[theme as keyof ThemeAwareImgSrcMap];
+  if (!langMap) {
+    langMap = themeMap.light;
+  }
+
+  // Language: try target → fallback chain
+  const candidates = [lang, ...LANG_FALLBACK_CHAIN];
+  for (const l of candidates) {
+    const src = langMap[l as keyof LanguageAwareImgSrcMap];
+    if (src) return src;
+  }
+
+  return langMap.en;
+}
+
+/** Resolved <img> src — always from webp (or static `src`). */
+const resolvedImgSrc = computed(() => {
+  if (props.src) return props.src;
+  if (!props.srcMap) return "";
+  return (
+    resolveThemeSrc(
+      props.srcMap.webp,
+      resolvedTheme.value,
+      resolvedLang.value,
+    ) ?? ""
+  );
+});
+
+/** Resolved AVIF src — only when srcMap.avif is present. */
+const resolvedAvifSrc = computed(() => {
+  if (!props.srcMap?.avif) return undefined;
+  return resolveThemeSrc(
+    props.srcMap.avif,
+    resolvedTheme.value,
+    resolvedLang.value,
+  );
+});
+
+/** Whether to render a full <picture> element. */
+const renderPicture = computed(() => !!props.srcMap?.avif);
+
+// =========================================================================
+// Actions
+// =========================================================================
+
+function onLoad(): void {
+  loaded.value = true;
+}
+
+function onError(): void {
+  loaded.value = true;
+}
+
+onMounted(() => {
+  if (imgRef.value?.complete && imgRef.value.naturalWidth > 0) {
+    loaded.value = true;
+  }
+});
 </script>
 
 <template>
-  <picture>
-    <!-- AVIF source -->
+  <!-- With AVIF: full <picture> -->
+  <picture v-if="renderPicture">
     <source
-      v-if="avifSrcLight"
       type="image/avif"
-      :srcset="currentAvifSrc"
-      :fetchpriority="fetchpriority || undefined"
+      :srcset="resolvedAvifSrc"
+      :fetchpriority="fetchpriority"
     />
-
-    <!-- WebP source -->
-    <source
-      v-if="webpSrcLight"
-      type="image/webp"
-      :srcset="currentWebpSrc"
-      :fetchpriority="fetchpriority || undefined"
-    />
-
-    <!-- Fallback img via FeatureAwareImg -->
-    <FeatureAwareImg
-      :light-src="fallbackSrcLight"
-      :dark-src="isThemeAware ? fallbackSrcDark : undefined"
-      :feature="feature"
-      :color-mask-src="colorMaskSrc"
-      :color-var="colorVar"
-      :alt="alt || ''"
+    <img
+      ref="imgRef"
+      :src="resolvedImgSrc"
+      :alt="alt"
       :width="width"
       :height="height"
-      :fetchpriority="fetchpriority"
+      :class="class"
       :loading="loading"
-      :class="imgClass || ''"
+      :fetchpriority="fetchpriority"
+      :data-img-loaded="loaded ? '' : undefined"
+      @load="onLoad"
+      @error="onError"
     />
   </picture>
+
+  <!-- No AVIF: bare <img> -->
+  <img
+    v-else
+    ref="imgRef"
+    :src="resolvedImgSrc"
+    :alt="alt"
+    :width="width"
+    :height="height"
+    :class="class"
+    :loading="loading"
+    :fetchpriority="fetchpriority"
+    :data-img-loaded="loaded ? '' : undefined"
+    @load="onLoad"
+    @error="onError"
+  />
 </template>
+
+<style>
+/* ==== Image loading opacity (global, applies site-wide) ==== */
+
+img {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  cursor: wait;
+}
+
+img[data-img-loaded] {
+  opacity: 1;
+  cursor: inherit;
+}
+</style>

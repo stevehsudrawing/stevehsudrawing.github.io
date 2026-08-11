@@ -28,10 +28,12 @@ const { groups, pagePath } = useLinkCards(ref("about"));
       $t('text-about-description', 'Learn more about me through this page!')
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/about.avif',
-      fallbackSrcLight: '/images/webp/covers/about.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/about.avif' } },
+        webp: { light: { en: '/images/webp/covers/about.webp' } },
+      },
       alt: $t('text-artworks', 'Artworks'),
-      imgClass: 'img-fluid img-fit rounded no-copy solid-bg',
+      class: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />
 
@@ -142,10 +144,6 @@ const { groups, pagePath } = useLinkCards(ref("about"));
               <TypeAwareLink
                 type="external"
                 href="https://afdian.com/p/590c0408806111f1b05f52540025c377"
-                :img-props="{
-                  lightSrc: '/images/webp/icons/afdian.webp',
-                  alt: $t('text-afdian', 'Afdian'),
-                }"
                 no-qr-code
                 class="link"
               >

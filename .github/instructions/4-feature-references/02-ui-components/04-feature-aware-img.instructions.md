@@ -1,43 +1,112 @@
 ---
 description: >
-  Feature-Aware Image: FeatureAwareImg.vue (theme-swap, colored mask, loading-opacity modes),
-  useImgDisplayProps.ts (HAST extraction).
-  data-img-feature attribute system.  Use when: modifying image behavior, adding new image
-  feature modes, or working with imgProperties HAST data.
+  Image components: FeatureAwarePicture.vue (universal non-colored image),
+  ColoredImg.vue (CSS mask + tint), useImgDisplayProps.ts (HAST extraction).
+  srcMap-based responsive source maps with theme + language awareness.
+  Use when: modifying image behavior, adding new image feature modes, or
+  working with PictureSrcMap / ColoredImgProps types.
 applyTo: >
-  src/components/ui/FeatureAwareImg.vue;
   src/components/ui/FeatureAwarePicture.vue;
-  src/composables/useImgDisplayProps.ts
+  src/components/ui/ColoredImg.vue;
+  src/composables/useImgDisplayProps.ts;
+  src/composables/useHastToVue.ts;
+  src/types/app.ts
 ---
 
-#### 4.2.4 Feature-Aware Image
+#### 4.2.4 Image Components
 
-##### 4.2.4.1 Props
+Two components handle all image rendering:
 
-| Prop           | Type      | Purpose                                           |
-| -------------- | --------- | ------------------------------------------------- |
-| `lightSrc`     | `string`  | Light-mode image source (required)                |
-| `darkSrc`      | `string?` | Dark-mode image source                            |
-| `feature`      | `string?` | Space-separated modes: `"follow-theme" "colored"` |
-| `colorMaskSrc` | `string?` | Mask image URL for colored mode                   |
-| `colorVar`     | `string?` | CSS variable for colored mode fill                |
+| Component                 | Purpose                                                                                                     |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `FeatureAwarePicture.vue` | Universal non-colored images: static `<img>`, feature-driven `<img>`, or `<picture>` with AVIF/WebP sources |
+| `ColoredImg.vue`          | CSS mask + tint rendering (`data-img-feature="colored"`)                                                    |
 
-##### 4.2.4.2 Feature Modes
+`FeatureAwareImg.vue` has been removed — its functionality is merged into
+`FeatureAwarePicture.vue`.
 
-| Mode           | Behavior                                                               |
-| -------------- | ---------------------------------------------------------------------- |
-| `follow-theme` | Swaps `src` between `lightSrc` and `darkSrc` based on `effectiveTheme` |
-| `colored`      | CSS mask: `-webkit-mask-image`, `background-color: var(--colorVar)`    |
-| _(default)_    | Loading opacity: semi-transparent until `onLoad`, then fade to opaque  |
+##### 4.2.4.1 FeatureAwarePicture Props
 
-##### 4.2.4.3 useImgDisplayProps() Composable
+| Prop               | Type                         | Purpose                                                                |
+| ------------------ | ---------------------------- | ---------------------------------------------------------------------- |
+| `src`              | `string?`                    | Static URL. Mutually exclusive with `srcMap`.                          |
+| `srcMap`           | `PictureSrcMap?`             | Multi-format source map. Mutually exclusive with `src`.                |
+| `feature`          | `ImgFeature[]?`              | `"follow-theme"` / `"follow-language"` — drive resolution on `srcMap`. |
+| `alt`              | `string`                     | Alt text (pre-resolved from i18n).                                     |
+| `class`            | `string?`                    | Additional CSS classes.                                                |
+| `fetchpriority`    | `"high" \| "low" \| "auto"?` | Native fetchpriority.                                                  |
+| `loading`          | `"lazy" \| "eager"?`         | Native lazy loading.                                                   |
+| `width` / `height` | `number?`                    | Image dimensions.                                                      |
 
-Shared by `ExternalLinkConfirmModal` and `QRCodeModal`:
+**Rendering strategy:**
+
+- `src` provided → bare `<img>` with static src
+- `srcMap` without `avif` → bare `<img>` with theme/language-resolved src
+- `srcMap` with `avif` → `<picture>` with AVIF + WebP `<source>` elements
+
+##### 4.2.4.2 ColoredImg Props
+
+| Prop               | Type                 | Purpose                                                   |
+| ------------------ | -------------------- | --------------------------------------------------------- |
+| `src`              | `string`             | Mask image (SVG/PNG shape).                               |
+| `colorVar`         | `string`             | CSS variable name for tint (e.g. `"shlh-primary-color"`). |
+| `alt`              | `string`             | Alt text.                                                 |
+| `class`            | `string?`            | Additional CSS classes.                                   |
+| `loading`          | `"lazy" \| "eager"?` | Native lazy loading.                                      |
+| `width` / `height` | `number?`            | Image dimensions.                                         |
+
+##### 4.2.4.3 Source Map Types
 
 ```ts
-const { src, alt, feature, colorVar, colorMaskSrc } =
+type ImgFeature = "follow-theme" | "follow-language";
+
+interface LanguageAwareImgSrcMap {
+  en: string; // Required — ultimate fallback
+  "zh-Hans"?: string;
+  "zh-Hant"?: string;
+}
+
+interface ThemeAwareImgSrcMap {
+  light: LanguageAwareImgSrcMap; // Required — ultimate fallback
+  dark?: LanguageAwareImgSrcMap;
+}
+
+interface PictureSrcMap {
+  webp: ThemeAwareImgSrcMap; // Required
+  avif?: ThemeAwareImgSrcMap;
+}
+```
+
+**Fallback chain:**
+
+- Language: `zh-Hant` → `zh-Hans` → `en`
+- Theme: `dark` → `light`
+- Format: `avif` → `webp` (browser-native via `<picture>`)
+
+##### 4.2.4.4 HAST Extraction (useHastToVue.ts)
+
+```ts
+// Non-colored → FeatureAwarePicture
+extractPictureProps(imgNode, t)  → FeatureAwarePictureProps | null
+
+// Colored → ColoredImg
+extractColoredImgProps(imgNode, t) → ColoredImgProps | null
+```
+
+Branching rule: if `dataImgFeature` contains `"colored"` → `ColoredImg`,
+otherwise → `FeatureAwarePicture`.
+
+##### 4.2.4.5 useImgDisplayProps() Composable
+
+Used by modal components that receive HAST-like properties:
+
+```ts
+const { src, alt, feature, colorVar, colorMaskSrc, isColored } =
   useImgDisplayProps(source);
 ```
 
-Maps HAST camelCase properties (`dataImgFeature`, `dataColorVar`, `dataSrcMask`)
-to computed refs.
+- `feature` — parsed `ImgFeature[]` (space-separated string in HAST → array)
+- `isColored` — `true` when `dataImgFeature` includes `"colored"`
+
+> Prefer the typed `pictureProps` / `coloredProps` passthrough in
+> `TypeAwareLink` and `QRCodeButton` over the HAST round-trip.

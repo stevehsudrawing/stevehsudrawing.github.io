@@ -91,7 +91,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
   - `raw-imports.d.ts` — Module declaration for Vite `?raw` imports. **(Ambient script — no imports; MUST NOT contain import/export.** See §2.3.1 for the ambient-vs-module distinction.)
 - Put Vue SFCs in `src/components/` by function:
   - `nav/` — Navigation components (AppNavbar, FooterNav, OffcanvasNav, PageChainNav).
-  - `ui/` — Shared UI primitives (HeroSection, SectionHeading, FeatureAwareImg, etc.).
+  - `ui/` — Shared UI primitives (HeroSection, SectionHeading, FeatureAwarePicture, ColoredImg, etc.).
   - `modals/` — Bootstrap modal dialogs (SettingsModal, ExternalLinkConfirmModal, etc.).
   - `cards/` — Content cards (LinkCard, LinkCardGroup, LinkCardGroups).
   - `buttons/` — Clickable elements (AnchorButton, CopyButton, LinkButton, etc.).

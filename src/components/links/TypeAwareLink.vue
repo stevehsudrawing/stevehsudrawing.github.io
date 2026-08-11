@@ -14,8 +14,11 @@
 import { computed, inject } from "vue";
 import { useRouter } from "vue-router";
 import { scrollToHashTarget } from "../../platform/accessibility";
-import type { FeatureAwareImgProps } from "../../types/app";
 import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
+import type {
+  FeatureAwarePictureProps,
+  ColoredImgProps,
+} from "../../types/app";
 
 // =========================================================================
 // Types
@@ -24,7 +27,8 @@ import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
 /** Signature of the openExternalLink function provided by App.vue. */
 type OpenExternalLinkFn = (
   url: string,
-  imgProps: FeatureAwareImgProps | null,
+  pictureProps: FeatureAwarePictureProps | null,
+  coloredProps: ColoredImgProps | null,
   hideQR: boolean,
 ) => void;
 
@@ -37,8 +41,10 @@ const props = defineProps<{
   href: string;
   /** Link type — determines click behavior. */
   type: "external" | "internal" | "email" | "anchor";
-  /** Optional icon props for the ExternalLinkConfirmModal. */
-  imgProps?: FeatureAwareImgProps | null;
+  /** Optional FeatureAwarePicture props for the ExternalLinkConfirmModal. */
+  pictureProps?: FeatureAwarePictureProps | null;
+  /** Optional ColoredImg props for the ExternalLinkConfirmModal. */
+  coloredProps?: ColoredImgProps | null;
   /** Hide the QR-code button in ExternalLinkConfirmModal. */
   noQRCode?: boolean;
   /** Hide the type indicator icon (arrow / envelope / paragraph). */
@@ -91,10 +97,16 @@ function onClick(e: MouseEvent): void {
     scrollToHashTarget(props.href);
   } else if (props.type === "external" && openExternalLink) {
     e.preventDefault();
-    // QR is shown only when imgProps is provided AND noQRCode is
+    // QR is shown only when icon props are provided AND noQRCode is
     // not explicitly true (default: hide QR).
-    const hideQR = props.noQRCode !== false || !props.imgProps;
-    openExternalLink(props.href, props.imgProps ?? null, hideQR);
+    const hasIcon = !!(props.pictureProps || props.coloredProps);
+    const hideQR = props.noQRCode !== false || !hasIcon;
+    openExternalLink(
+      props.href,
+      props.pictureProps ?? null,
+      props.coloredProps ?? null,
+      hideQR,
+    );
   }
   // email: native browser behavior
 }
@@ -119,3 +131,11 @@ function onClick(e: MouseEvent): void {
     <i v-if="showEmailIcon" class="bi bi-envelope link-indicator"></i>
   </a>
 </template>
+
+<style scoped>
+.link-indicator {
+  font-size: 0.6rem;
+  vertical-align: top;
+  transform: translateX(-0.1rem);
+}
+</style>

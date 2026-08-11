@@ -27,10 +27,12 @@ const { groups, pagePath } = useLinkCards(ref("chatting"));
       )
     "
     :image="{
-      avifSrcLight: '/images/avif/covers/chatting.avif',
-      fallbackSrcLight: '/images/webp/covers/chatting.webp',
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/chatting.avif' } },
+        webp: { light: { en: '/images/webp/covers/chatting.webp' } },
+      },
       alt: $t('text-chatting', 'Chatting'),
-      imgClass: 'img-fluid img-fit rounded',
+      class: 'img-fluid img-fit rounded',
     }"
   />
 
