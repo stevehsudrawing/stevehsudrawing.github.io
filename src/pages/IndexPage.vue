@@ -13,7 +13,7 @@ import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import { useBreakpoint } from "../composables/useBreakpoint";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
-import { useDelayedTooltip } from "../composables/useDelayedTooltip";
+import TooltipTrigger from "../components/ui/TooltipTrigger.vue";
 import type { LinkButtonGroupData } from "../types/app";
 
 // =========================================================================
@@ -26,13 +26,6 @@ const carouselRef = ref<{ pause: () => void; resume: () => void } | null>(null);
 const isPlaying = ref(true);
 /** Reactive breakpoint (mobile / tablet / desktop) — shared singleton. */
 const breakpoint = useBreakpoint();
-
-// ---- Tooltip (delayed manual control) ----
-
-/** Delayed tooltip for the scroll-down tip in the illustration section. */
-const softwaresTip = useDelayedTooltip(500);
-/** Delayed tooltip for the scroll-down tip in the softwares section. */
-const moreLinksTip = useDelayedTooltip(500);
 
 // =========================================================================
 // Actions
@@ -188,23 +181,18 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         </div>
       </div>
     </div>
-    <TypeAwareLink
-      class="scroll-down-tip"
-      href="#softwares-section"
-      type="anchor"
-      hide-indicator
-      v-if="breakpoint !== 'mobile'"
-      v-b-tooltip.top.manual="{
-        modelValue: softwaresTip.visible,
-        title: $t('text-my-softwares', 'My Softwares'),
-      }"
-      @mouseenter="softwaresTip.scheduleShow()"
-      @mouseleave="softwaresTip.cancelAndHide()"
-      @click="softwaresTip.cancelAndHide()"
-    >
-      <span>{{ $t("text-scroll-down", "scroll down") }}</span>
-      <i class="bi bi-chevron-down"></i>
-    </TypeAwareLink>
+    <TooltipTrigger :title="$t('text-my-softwares', 'My Softwares')">
+      <TypeAwareLink
+        class="scroll-down-tip"
+        href="#softwares-section"
+        type="anchor"
+        hide-indicator
+        v-if="breakpoint !== 'mobile'"
+      >
+        <span>{{ $t("text-scroll-down", "scroll down") }}</span>
+        <i class="bi bi-chevron-down"></i>
+      </TypeAwareLink>
+    </TooltipTrigger>
   </div>
 
   <hr />
@@ -245,23 +233,18 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         />
       </div>
     </div>
-    <TypeAwareLink
-      class="scroll-down-tip"
-      href="#blogs-sponsor-section"
-      type="anchor"
-      hide-indicator
-      v-if="breakpoint !== 'mobile'"
-      v-b-tooltip.top.manual="{
-        modelValue: moreLinksTip.visible,
-        title: $t('text-more-links', 'More Links'),
-      }"
-      @mouseenter="moreLinksTip.scheduleShow()"
-      @mouseleave="moreLinksTip.cancelAndHide()"
-      @click="moreLinksTip.cancelAndHide()"
-    >
-      <span>{{ $t("text-scroll-down", "scroll down") }}</span>
-      <i class="bi bi-chevron-down"></i>
-    </TypeAwareLink>
+    <TooltipTrigger :title="$t('text-more-links', 'More Links')">
+      <TypeAwareLink
+        class="scroll-down-tip"
+        href="#blogs-sponsor-section"
+        type="anchor"
+        hide-indicator
+        v-if="breakpoint !== 'mobile'"
+      >
+        <span>{{ $t("text-scroll-down", "scroll down") }}</span>
+        <i class="bi bi-chevron-down"></i>
+      </TypeAwareLink>
+    </TooltipTrigger>
   </div>
 
   <hr />

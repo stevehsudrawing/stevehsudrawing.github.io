@@ -9,7 +9,7 @@
 -->
 <script setup lang="ts">
 import { scrollToHashTarget } from "../../platform/accessibility";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 
 // =========================================================================
 // Props
@@ -24,10 +24,6 @@ const props = defineProps<{
    */
   headingTitle: string;
 }>();
-
-// ---- Tooltip ----
-
-const anchorTip = useDelayedTooltip(500);
 
 // =========================================================================
 // Actions
@@ -45,19 +41,14 @@ function onClick(targetId: string): void {
 </script>
 
 <template>
-  <a
-    class="link title-link-anchor"
-    :href="`#${targetId}`"
-    :aria-label="$t('text-anchor-to-x', 'Anchor to %1', [props.headingTitle])"
-    v-b-tooltip.top.manual="{
-      modelValue: anchorTip.visible,
-      title: $t('text-anchor', 'Anchor'),
-      teleportTo: 'body',
-    }"
-    @mouseenter="anchorTip.scheduleShow()"
-    @mouseleave="anchorTip.cancelAndHide()"
-    @click.prevent="onClick(targetId)"
-  >
-    <i class="bi bi-paragraph"></i>
-  </a>
+  <TooltipTrigger :title="$t('text-anchor', 'Anchor')" teleport>
+    <a
+      class="link title-link-anchor"
+      :href="`#${targetId}`"
+      :aria-label="$t('text-anchor-to-x', 'Anchor to %1', [props.headingTitle])"
+      @click.prevent="onClick(targetId)"
+    >
+      <i class="bi bi-paragraph"></i>
+    </a>
+  </TooltipTrigger>
 </template>

@@ -2,14 +2,9 @@
   FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-
-// ---- Tooltip ----
-
-const aboutTip = useDelayedTooltip(500);
-const viewCodeTip = useDelayedTooltip(500);
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 </script>
 
 <template>
@@ -19,22 +14,20 @@ const viewCodeTip = useDelayedTooltip(500);
         <!-- ==== Copyright ==== -->
         <div class="flex-grow-1 align-items-center">
           {{ $t("text-copyright-part-1", "Copyright") }} &copy; 2024 - 2026
-          <TypeAwareLink
-            type="internal"
-            href="/about.html"
-            class="link"
-            :aria-label="
-              $t('text-about-me-and-my-emails', 'About Me and E-mail')
-            "
-            v-b-tooltip.top.manual="{
-              modelValue: aboutTip.visible,
-              title: $t('text-about-me-and-my-emails', 'About Me and E-mail'),
-            }"
-            @mouseenter="aboutTip.scheduleShow()"
-            @mouseleave="aboutTip.cancelAndHide()"
-            @click="aboutTip.cancelAndHide()"
-            >{{ $t("text-steve-hsu", "Steve Hsu") }}</TypeAwareLink
+          <TooltipTrigger
+            :title="$t('text-about-me-and-my-emails', 'About Me and E-mail')"
           >
+            <TypeAwareLink
+              type="internal"
+              href="/about.html"
+              class="link"
+              :aria-label="
+                $t('text-about-me-and-my-emails', 'About Me and E-mail')
+              "
+            >
+              {{ $t("text-steve-hsu", "Steve Hsu") }}
+            </TypeAwareLink>
+          </TooltipTrigger>
           {{ $t("text-copyright-part-2", ". All rights reserved.") }}
           <TypeAwareLink
             type="internal"
@@ -100,31 +93,26 @@ const viewCodeTip = useDelayedTooltip(500);
           >
             <i class="bi bi-share-fill"></i>
           </QRCodeButton>
-          <TypeAwareLink
-            type="external"
-            href="https://github.com/stevehsudrawing/stevehsudrawing.github.io"
-            hide-indicator
-            :img-props="{
-              lightSrc: '/images/webp/null.webp',
-              feature: 'colored',
-              colorMaskSrc: '/images/webp/icons/github.webp',
-              colorVar: 'bs-body-color',
-              alt: $t(
-                'text-repo-of-steve-hsu-s-link-hub',
-                'Repo of Steve Hsu\'s Link-Hub',
-              ),
-            }"
-            :aria-label="$t('text-view-code', 'View Code')"
-            v-b-tooltip.top.manual="{
-              modelValue: viewCodeTip.visible,
-              title: $t('text-view-code', 'View Code'),
-            }"
-            @mouseenter="viewCodeTip.scheduleShow()"
-            @mouseleave="viewCodeTip.cancelAndHide()"
-            @click="viewCodeTip.cancelAndHide()"
-          >
-            <i class="bi bi-github"></i>
-          </TypeAwareLink>
+          <TooltipTrigger :title="$t('text-view-code', 'View Code')">
+            <TypeAwareLink
+              type="external"
+              href="https://github.com/stevehsudrawing/stevehsudrawing.github.io"
+              hide-indicator
+              :img-props="{
+                lightSrc: '/images/webp/null.webp',
+                feature: 'colored',
+                colorMaskSrc: '/images/webp/icons/github.webp',
+                colorVar: 'bs-body-color',
+                alt: $t(
+                  'text-repo-of-steve-hsu-s-link-hub',
+                  'Repo of Steve Hsu\'s Link-Hub',
+                ),
+              }"
+              :aria-label="$t('text-view-code', 'View Code')"
+            >
+              <i class="bi bi-github"></i>
+            </TypeAwareLink>
+          </TooltipTrigger>
         </div>
       </div>
     </div>

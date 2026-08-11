@@ -14,7 +14,7 @@
 import { computed, ref, watch, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import {
   useGithubActivity,
   eventTypeI18nKey,
@@ -76,11 +76,6 @@ const { stats, dailyStats, isLoading, error } = useGithubActivity();
 type ChartMode = "bar" | "line";
 
 const chartMode = ref<ChartMode>("bar");
-
-// ---- Tooltips (§4.2.6.1) ----
-
-const barBtnTip = useDelayedTooltip(500);
-const lineBtnTip = useDelayedTooltip(500);
 
 // ---- Canvas ref ----
 
@@ -270,40 +265,26 @@ function labelFor(eventType: string): string {
 
         <!-- Toggle buttons -->
         <div class="btn-group btn-group-sm" role="group">
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            :class="{ active: chartMode === 'bar' }"
-            v-b-tooltip.top.manual="{
-              modelValue: barBtnTip.visible,
-              title: $t('text-bar-chart', 'Bar chart'),
-            }"
-            @mouseenter="barBtnTip.scheduleShow()"
-            @mouseleave="barBtnTip.cancelAndHide()"
-            @click="
-              barBtnTip.cancelAndHide();
-              chartMode = 'bar';
-            "
-          >
-            <i class="bi bi-bar-chart"></i>
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            :class="{ active: chartMode === 'line' }"
-            v-b-tooltip.top.manual="{
-              modelValue: lineBtnTip.visible,
-              title: $t('text-line-chart', 'Line chart'),
-            }"
-            @mouseenter="lineBtnTip.scheduleShow()"
-            @mouseleave="lineBtnTip.cancelAndHide()"
-            @click="
-              lineBtnTip.cancelAndHide();
-              chartMode = 'line';
-            "
-          >
-            <i class="bi bi-graph-up"></i>
-          </button>
+          <TooltipTrigger :title="$t('text-bar-chart', 'Bar chart')">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              :class="{ active: chartMode === 'bar' }"
+              @click="chartMode = 'bar'"
+            >
+              <i class="bi bi-bar-chart"></i>
+            </button>
+          </TooltipTrigger>
+          <TooltipTrigger :title="$t('text-line-chart', 'Line chart')">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              :class="{ active: chartMode === 'line' }"
+              @click="chartMode = 'line'"
+            >
+              <i class="bi bi-graph-up"></i>
+            </button>
+          </TooltipTrigger>
         </div>
       </div>
 

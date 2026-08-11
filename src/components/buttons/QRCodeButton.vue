@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import type { FeatureAwareImgProps } from "../../types/app";
 import { OPEN_QR_CODE_KEY } from "../../types/app";
 
@@ -43,10 +43,6 @@ const openQRCode = inject<OpenQRCodeFn | undefined>(
   undefined,
 );
 
-// ---- Tooltip ----
-
-const qrTip = useDelayedTooltip(500);
-
 // =========================================================================
 // Actions
 // =========================================================================
@@ -60,20 +56,16 @@ function onClick(e: MouseEvent): void {
 </script>
 
 <template>
-  <a
-    href="javascript:void(0)"
-    role="button"
-    class="text-decoration-none"
-    :aria-label="$t('text-show-qr-code', 'Show QR Code')"
-    v-b-tooltip.top.manual="{
-      modelValue: qrTip.visible,
-      title: t('text-show-qr-code', 'Show QR Code'),
-    }"
-    @mouseenter="qrTip.scheduleShow()"
-    @mouseleave="qrTip.cancelAndHide()"
-    @click="onClick"
-  >
-    <i v-if="!$slots.default" class="bi bi-qr-code"></i>
-    <slot />
-  </a>
+  <TooltipTrigger :title="t('text-show-qr-code', 'Show QR Code')">
+    <a
+      href="javascript:void(0)"
+      role="button"
+      class="text-decoration-none"
+      :aria-label="$t('text-show-qr-code', 'Show QR Code')"
+      @click="onClick"
+    >
+      <i v-if="!$slots.default" class="bi bi-qr-code"></i>
+      <slot />
+    </a>
+  </TooltipTrigger>
 </template>

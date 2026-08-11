@@ -6,9 +6,9 @@
 import { computed, ref, watch, onMounted, onUnmounted } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import type { LinkButtonData, FeatureAwareImgProps } from "../../types/app";
 import type { HastProperties } from "../../types/hast";
 
@@ -81,10 +81,6 @@ const typeAwareImgProps = computed<FeatureAwareImgProps | null>(() => {
   };
 });
 
-// ---- Tooltip ----
-
-const linkBtnTip = useDelayedTooltip(500);
-
 /** Tooltip title: prefer i18n alt, fall back to plain alt. */
 const tooltipTitle = computed(() => {
   const i18nKey = iconProps.dataI18nAlt as string | undefined;
@@ -95,33 +91,27 @@ const tooltipTitle = computed(() => {
 </script>
 
 <template>
-  <TypeAwareLink
-    :type="externalLink ? 'external' : 'internal'"
-    :href="linkHref"
-    :img-props="typeAwareImgProps"
-    :no-qr-code="!externalLink || undefined"
-    :class="['btn', btnClass, 'link-btn-img-wrapper']"
-    :aria-label="tooltipTitle"
-    hide-indicator
-    v-b-tooltip.top.manual="{
-      modelValue: linkBtnTip.visible,
-      title: tooltipTitle,
-      teleportTo: 'body',
-    }"
-    @mouseenter="linkBtnTip.scheduleShow()"
-    @mouseleave="linkBtnTip.cancelAndHide()"
-    @click="linkBtnTip.cancelAndHide()"
-  >
-    <FeatureAwareImg
-      :light-src="(imgDisplay.src.value as string) ?? ''"
-      :alt="(imgDisplay.alt.value as string) ?? ''"
-      :feature="imgDisplay.feature.value"
-      :color-var="imgDisplay.colorVar.value"
-      :color-mask-src="imgDisplay.colorMaskSrc.value"
-      :width="40"
-      :height="40"
-    />
-  </TypeAwareLink>
+  <TooltipTrigger :title="tooltipTitle" teleport>
+    <TypeAwareLink
+      :type="externalLink ? 'external' : 'internal'"
+      :href="linkHref"
+      :img-props="typeAwareImgProps"
+      :no-qr-code="!externalLink || undefined"
+      :class="['btn', btnClass, 'link-btn-img-wrapper']"
+      :aria-label="tooltipTitle"
+      hide-indicator
+    >
+      <FeatureAwareImg
+        :light-src="(imgDisplay.src.value as string) ?? ''"
+        :alt="(imgDisplay.alt.value as string) ?? ''"
+        :feature="imgDisplay.feature.value"
+        :color-var="imgDisplay.colorVar.value"
+        :color-mask-src="imgDisplay.colorMaskSrc.value"
+        :width="40"
+        :height="40"
+      />
+    </TypeAwareLink>
+  </TooltipTrigger>
 </template>
 
 <style scoped>

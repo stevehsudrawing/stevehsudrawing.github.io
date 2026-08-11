@@ -10,7 +10,7 @@ import { useLocalStorage } from "../../composables/useLocalStorage";
 import { StorageKey } from "../../types/app";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 
@@ -60,10 +60,6 @@ const openBtnRef = ref<HTMLElement | null>(null);
 
 /** Keyboard-aware focus: move focus to Open button when opened via Tab. */
 const { onShown } = useModalFocus(openBtnRef);
-
-// ---- Tooltip ----
-
-const showQrTip = useDelayedTooltip(500);
 
 // Extract display properties from HAST imgProperties
 const {
@@ -150,21 +146,17 @@ defineExpose({
 
     <template #footer>
       <div class="w-100 d-flex">
-        <button
-          v-if="!hideQRButton"
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          :aria-label="$t('text-show-qr-code', 'Show QR Code')"
-          v-b-tooltip.top.manual="{
-            modelValue: showQrTip.visible,
-            title: t('text-show-qr-code', 'Show QR Code'),
-          }"
-          @mouseenter="showQrTip.scheduleShow()"
-          @mouseleave="showQrTip.cancelAndHide()"
-          @click="showQR"
-        >
-          <i class="bi bi-qr-code"></i>
-        </button>
+        <TooltipTrigger :title="t('text-show-qr-code', 'Show QR Code')">
+          <button
+            v-if="!hideQRButton"
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            :aria-label="$t('text-show-qr-code', 'Show QR Code')"
+            @click="showQR"
+          >
+            <i class="bi bi-qr-code"></i>
+          </button>
+        </TooltipTrigger>
         <CopyButton
           tag="button"
           class="btn btn-outline-primary btn-no-border me-auto"

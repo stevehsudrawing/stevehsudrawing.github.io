@@ -172,9 +172,8 @@ flexbox resize feedback loop. The wrapper dimensions are determined by
 on every chart rebuild, ensuring light ↔ dark transitions take effect.
 See §4.1.2.3 for the CSS variable naming convention.
 
-**Toggle buttons** use the `useDelayedTooltip` + `v-b-tooltip.top.manual`
-pattern (§4.2.6.1). Clicking destroys the current chart and recreates it
-in the new mode.
+**Toggle buttons** use `<TooltipTrigger>` (§4.2.6.1). Clicking destroys
+the current chart and recreates it in the new mode.
 
 **Event type icons and text** (via `eventTypeIcon()` / `eventTypeI18nKey()`):
 

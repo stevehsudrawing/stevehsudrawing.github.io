@@ -1,9 +1,11 @@
 ---
 description: >
-  Tooltips & Toast: v-b-tooltip.top.lazy directive, ToastStack.vue (BToast stack with
-  TransitionGroup), useToast() composable.
-  Use when: adding tooltips, modifying toast behavior, or changing notification patterns.
+  Tooltips & Toast: TooltipTrigger.vue (renderless wrapper), v-b-tooltip.top.
+  lazy directive, ToastStack.vue (BToast stack with TransitionGroup), useToast()
+  composable. Use when: adding tooltips, modifying toast behavior, or changing
+  notification patterns.
 applyTo: >
+  src/components/ui/TooltipTrigger.vue;
   src/components/ui/ToastStack.vue;
   src/composables/useToast.ts
 ---
@@ -12,33 +14,46 @@ applyTo: >
 
 ##### 4.2.6.1 Tooltips
 
-**Preferred pattern** (when `delay.show` is needed): use `v-b-tooltip.top.manual`
-with the `useDelayedTooltip()` composable. This avoids a Bootstrap bug where
-the built-in `delay.show` timer is not cancellable on click, causing the
-tooltip to appear after the cursor has already left.
+**Preferred pattern**: use `<TooltipTrigger>` — a renderless Vue component that
+encapsulates `v-b-tooltip.top.manual` + `useDelayedTooltip()`. It does not
+introduce extra DOM; the tooltip directive and event handlers are merged onto
+the first slot child.
 
 ```vue
 <script setup>
-import { useDelayedTooltip } from "../composables/useDelayedTooltip";
-const tip = useDelayedTooltip(500);
+import TooltipTrigger from "../components/ui/TooltipTrigger.vue";
 </script>
 
 <template>
-  <a
-    v-b-tooltip.top.manual="{
-      modelValue: tip.visible,
-      title: $t('text-settings', 'Settings'),
-    }"
-    @mouseenter="tip.scheduleShow()"
-    @mouseleave="tip.cancelAndHide()"
-    @click="tip.cancelAndHide()"
-    ...
-  ></a>
+  <TooltipTrigger :title="$t('text-settings', 'Settings')">
+    <button class="btn">⚙</button>
+  </TooltipTrigger>
 </template>
 ```
 
-The composable pattern gives precise control: scheduled show is cancelled
-on `mouseleave` or `click`, and the timer is cleaned up on `onUnmounted`.
+**Props**:
+
+| Prop        | Type      | Default    | Description                                            |
+| ----------- | --------- | ---------- | ------------------------------------------------------ |
+| `title`     | `string`  | (required) | Tooltip text                                           |
+| `placement` | `string`  | `"top"`    | Bootstrap placement (top/bottom/left/right)            |
+| `delay`     | `number`  | `500`      | Hover delay before tooltip appears (ms)                |
+| `teleport`  | `boolean` | `false`    | Teleport tooltip to `<body>` (for overflow containers) |
+
+Behaviors provided automatically: delayed show on hover, instant hide on
+`mouseleave` or `click`, timer cleanup on unmount.
+
+**Why not `v-b-tooltip` directly?** Bootstrap's default `delay.show` timer is
+not cancellable on click — the tooltip appears even after the cursor has left.
+`TooltipTrigger` works around this by managing its own delay timer internally.
+
+**When to use `v-b-tooltip` directly**: only for simple tooltips that do
+**not** need a hover delay (`v-b-tooltip.top.lazy` without `.manual`).
+
+**Constraint**: `TooltipTrigger` must wrap an interactive element (`<a>`,
+`<button>`, or a component that renders one). Tooltips on non-interactive
+elements (e.g. `<span>`, `<div>`) are an accessibility anti-pattern and
+are not supported.
 
 ##### 4.2.6.2 Toast — Architecture
 

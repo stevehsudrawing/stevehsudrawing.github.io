@@ -13,7 +13,7 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import { useI18n } from "../../composables/useI18n";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 
 // =========================================================================
 // Props
@@ -35,7 +35,6 @@ const props = withDefaults(
 // State
 // =========================================================================
 
-const moreInformationTip = useDelayedTooltip(500);
 const { t } = useI18n();
 const { data: profile, isLoading, error } = useGithubProfile();
 
@@ -179,20 +178,18 @@ const statsText = computed(() => {
                 <i class="bi bi-github me-1"></i>
                 <span>{{ $t("text-view-profile", "View Profile") }}</span>
               </TypeAwareLink>
-              <TypeAwareLink
-                class="btn btn-outline-secondary btn-sm"
-                type="internal"
-                href="/softwares.html#my-github-profile"
-                v-b-tooltip.top.manual="{
-                  modelValue: moreInformationTip.visible,
-                  title: $t('text-more-information', 'More Information'),
-                  teleportTo: 'body',
-                }"
-                @mouseenter="moreInformationTip.scheduleShow()"
-                @mouseleave="moreInformationTip.cancelAndHide()"
+              <TooltipTrigger
+                :title="$t('text-more-information', 'More Information')"
+                teleport
               >
-                <i class="bi bi-three-dots"></i>
-              </TypeAwareLink>
+                <TypeAwareLink
+                  class="btn btn-outline-secondary btn-sm"
+                  type="internal"
+                  href="/softwares.html#my-github-profile"
+                >
+                  <i class="bi bi-three-dots"></i>
+                </TypeAwareLink>
+              </TooltipTrigger>
             </div>
           </div>
         </div>

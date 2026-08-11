@@ -1,16 +1,21 @@
 ---
 description: >
   Project-level context, conventions, and constraints for Steve Hsu's Link-Hub
-  (stevehsudrawing.github.io). Covers tech stack (HTML5/CSS/TypeScript/Vite 8/pnpm),
-  naming conventions, project structure, and feature references.
+  (stevehsudrawing.github.io). Covers tech stack (HTML5/CSS/TypeScript/Vite 8/
+  pnpm), naming conventions, project structure, and feature references.
   Use when: working on any file in this repository.
+applyTo: "**"
 ---
 
 # Project Instructions for GitHub Copilot
 
-This document provides project-level context, conventions, and constraints for Copilot when working in this repository.
+This document provides project-level context, conventions, and constraints for
+Copilot when working in this repository.
 
-Details for each topic live in `instructions/` subdirectories - those files are loaded automatically when relevant (via `applyTo` globs in their YAML frontmatter). The Quick Reference below distills the most critical conventions that apply to every session.
+Details for each topic live in `instructions/` subdirectories - those files are
+loaded automatically when relevant (via `applyTo` globs in their YAML
+frontmatter). The Quick Reference below distills the most critical conventions
+that apply to every session.
 
 ---
 
@@ -32,11 +37,20 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 
 ### 0.2 TypeScript Code
 
-- **The principle of "high cohesion and low coupling"**: a function should perform only one task to ensure it can be reused.
-- **No suffix is required when importing `.ts` modules**: `import { foo } from '../core/bar'`
-- **`import type`** for type-only imports (erased at build time): `import type { Lang } from '../types/app.js'`
-- **Direct Import Principle**: import directly from the source module; do not re-export through intermediate modules
-- **TSDoc required**: every exported variable, function, interface, and type alias must have a standard TSDoc comment (`/** ... */`)
+- **The principle of "high cohesion and low coupling"**: a function should
+  perform only one task to ensure it can be reused.
+
+- **No suffix is required when importing `.ts` modules**:
+  `import { foo } from '../core/bar'`
+
+- **`import type`** for type-only imports (erased at build time):
+  `import type { Lang } from '../types/app.js'`
+
+- **Direct Import Principle**: import directly from the source module; do not
+  re-export through intermediate modules
+
+- **TSDoc required**: every exported variable, function, interface, and type
+  alias must have a standard TSDoc comment (`/** ... */`)
 
 ### 0.3 Function Naming
 
@@ -49,8 +63,11 @@ Details for each topic live in `instructions/` subdirectories - those files are 
 | `get*` / `set*`      | Retrieve / set value or state | `populate*` / `generate*` | Fill UI lists / inject DOM    |
 | `hide*`              | Hide an element               | `extract*` / `normalize*` | Parse / sanitize input        |
 
-- **Batch functions** must include `All` and delegate to an idempotent single-element function: `initAllTooltips()` -> `createTooltip(el)`
-- **Symmetric pairs**: every add/create/init must have a matching remove/destroy/dispose counterpart
+- **Batch functions** must include `All` and delegate to an idempotent single-
+  element function: `initAllTooltips()` -> `createTooltip(el)`
+
+- **Symmetric pairs**: every add/create/init must have a matching remove/
+  destroy/dispose counterpart
 
 ### 0.4 Project Structure
 

@@ -10,7 +10,7 @@ import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
 import { useImgDisplayProps } from "../../composables/useImgDisplayProps";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwareImg from "../ui/FeatureAwareImg.vue";
@@ -55,13 +55,6 @@ const visible = ref(false);
 const { t } = useI18n();
 const { effectiveTheme } = useTheme();
 const { showToast } = useToast();
-
-// ---- Tooltip ----
-
-const openTip = useDelayedTooltip(500);
-const shareTip = useDelayedTooltip(500);
-const downloadTip = useDelayedTooltip(500);
-const copyTip = useDelayedTooltip(500);
 
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const buttonsDisabled = ref(false);
@@ -383,76 +376,51 @@ defineExpose({
 
     <template #footer>
       <div class="w-100 d-flex">
-        <button
-          v-if="!isInternal && !hideOpenLink"
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          :aria-label="$t('text-open', 'Open')"
-          v-b-tooltip.top.manual="{
-            modelValue: openTip.visible,
-            title: t('text-open', 'Open'),
-          }"
-          @mouseenter="openTip.scheduleShow()"
-          @mouseleave="openTip.cancelAndHide()"
-          @click="openLink"
-        >
-          <i class="bi bi-box-arrow-up-right"></i>
-        </button>
-        <button
-          v-if="shareApiSupported"
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          :aria-label="$t('text-share', 'Share')"
-          v-b-tooltip.top.manual="{
-            modelValue: shareTip.visible,
-            title: t('text-share', 'Share'),
-          }"
-          @mouseenter="shareTip.scheduleShow()"
-          @mouseleave="shareTip.cancelAndHide()"
-          @click="
-            shareTip.cancelAndHide();
-            shareImage();
-          "
-          :disabled="buttonsDisabled"
-        >
-          <i class="bi bi-share"></i>
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          :aria-label="$t('text-download', 'Download')"
-          v-b-tooltip.top.manual="{
-            modelValue: downloadTip.visible,
-            title: t('text-download', 'Download'),
-          }"
-          @mouseenter="downloadTip.scheduleShow()"
-          @mouseleave="downloadTip.cancelAndHide()"
-          @click="
-            downloadTip.cancelAndHide();
-            downloadPNG();
-          "
-          :disabled="buttonsDisabled"
-        >
-          <i class="bi bi-download"></i>
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-no-border me-auto"
-          :aria-label="$t('text-copy', 'Copy')"
-          v-b-tooltip.top.manual="{
-            modelValue: copyTip.visible,
-            title: t('text-copy', 'Copy'),
-          }"
-          @mouseenter="copyTip.scheduleShow()"
-          @mouseleave="copyTip.cancelAndHide()"
-          @click="
-            copyTip.cancelAndHide();
-            copyImage();
-          "
-          :disabled="buttonsDisabled"
-        >
-          <i class="bi bi-clipboard"></i>
-        </button>
+        <TooltipTrigger :title="t('text-open', 'Open')">
+          <button
+            v-if="!isInternal && !hideOpenLink"
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            :aria-label="$t('text-open', 'Open')"
+            @click="openLink"
+          >
+            <i class="bi bi-box-arrow-up-right"></i>
+          </button>
+        </TooltipTrigger>
+        <TooltipTrigger :title="t('text-share', 'Share')">
+          <button
+            v-if="shareApiSupported"
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            :aria-label="$t('text-share', 'Share')"
+            @click="shareImage()"
+            :disabled="buttonsDisabled"
+          >
+            <i class="bi bi-share"></i>
+          </button>
+        </TooltipTrigger>
+        <TooltipTrigger :title="t('text-download', 'Download')">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            :aria-label="$t('text-download', 'Download')"
+            @click="downloadPNG()"
+            :disabled="buttonsDisabled"
+          >
+            <i class="bi bi-download"></i>
+          </button>
+        </TooltipTrigger>
+        <TooltipTrigger :title="t('text-copy', 'Copy')">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border me-auto"
+            :aria-label="$t('text-copy', 'Copy')"
+            @click="copyImage()"
+            :disabled="buttonsDisabled"
+          >
+            <i class="bi bi-clipboard"></i>
+          </button>
+        </TooltipTrigger>
         <button
           type="button"
           class="btn btn-outline-primary btn-no-border"
@@ -566,7 +534,6 @@ code {
 
 #qr-code-modal-link {
   font-size: 13.6px;
-  word-break: break-all;
   color: rgba(var(--bs-body-color-rgb), 0.9);
   max-width: 100%;
   line-height: 1.25;

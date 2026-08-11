@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { useI18n } from "../../composables/useI18n";
 import { useToast } from "../../composables/useToast";
-import { useDelayedTooltip } from "../../composables/useDelayedTooltip";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 
 // =========================================================================
 // Props
@@ -29,10 +29,6 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { showToast } = useToast();
-
-// ---- Tooltip ----
-
-const copyTip = useDelayedTooltip(500);
 
 // =========================================================================
 // Actions
@@ -53,34 +49,24 @@ async function onClick(): Promise<void> {
 </script>
 
 <template>
-  <a
-    v-if="tag !== 'button'"
-    ref="elRef"
-    href="#"
-    :aria-label="$t('text-copy', 'Copy')"
-    v-b-tooltip.top.manual="{
-      modelValue: copyTip.visible,
-      title: $t('text-copy', 'Copy'),
-    }"
-    @mouseenter="copyTip.scheduleShow()"
-    @mouseleave="copyTip.cancelAndHide()"
-    @click.prevent="onClick"
-  >
-    <slot />
-  </a>
-  <button
-    v-else
-    ref="elRef"
-    type="button"
-    :aria-label="$t('text-copy', 'Copy')"
-    v-b-tooltip.top.manual="{
-      modelValue: copyTip.visible,
-      title: $t('text-copy', 'Copy'),
-    }"
-    @mouseenter="copyTip.scheduleShow()"
-    @mouseleave="copyTip.cancelAndHide()"
-    @click="onClick"
-  >
-    <slot />
-  </button>
+  <TooltipTrigger :title="$t('text-copy', 'Copy')">
+    <a
+      v-if="tag !== 'button'"
+      ref="elRef"
+      href="#"
+      :aria-label="$t('text-copy', 'Copy')"
+      @click.prevent="onClick"
+    >
+      <slot />
+    </a>
+    <button
+      v-else
+      ref="elRef"
+      type="button"
+      :aria-label="$t('text-copy', 'Copy')"
+      @click="onClick"
+    >
+      <slot />
+    </button>
+  </TooltipTrigger>
 </template>
