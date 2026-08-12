@@ -17,14 +17,14 @@ import {
   type ActivityStat,
   type DailyStat,
 } from "../types/app";
+import { GITHUB_USERNAME } from "../core/page-meta";
 
 // =========================================================================
 // Constants
 // =========================================================================
 
 /** GitHub Events API endpoint for the site owner. */
-const EVENTS_URL =
-  "https://api.github.com/users/stevehsudrawing/events/public?per_page=100";
+const EVENTS_URL = `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=100`;
 
 // =========================================================================
 // Helpers

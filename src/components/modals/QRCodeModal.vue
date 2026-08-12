@@ -15,6 +15,7 @@ import type {
 } from "../../types/app";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
+import { BASE_URL } from "../../core/page-meta";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
 import ColoredImg from "../ui/ColoredImg.vue";
@@ -361,9 +362,7 @@ defineExpose({
             <span>{{
               $t("text-learn-more-about-me", "Learn more about me")
             }}</span>
-            <code id="qr-share-card-source"
-              >https://stevehsudrawing.github.io</code
-            >
+            <code id="qr-share-card-source">{{ BASE_URL }}</code>
           </div>
           <div id="qr-share-card-logo-container">
             <InlineSvg

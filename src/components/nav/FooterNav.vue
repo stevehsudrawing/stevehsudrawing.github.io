@@ -5,6 +5,7 @@
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import { BASE_URL, GITHUB_REPO } from "../../core/page-meta";
 </script>
 
 <template>
@@ -64,7 +65,7 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
           <TypeAwareLink
             class="text-nowrap"
             type="external"
-            href="https://github.com/stevehsudrawing/stevehsudrawing.github.io/issues"
+            :href="`https://github.com/${GITHUB_REPO}/issues`"
             no-qr-code
           >
             {{ $t("text-report-an-issue", "Report an Issue") }}
@@ -74,7 +75,7 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
         <div class="ms-auto">
           <QRCodeButton
             class="me-2"
-            :url="'https://stevehsudrawing.github.io'"
+            :url="BASE_URL"
             :colored-props="{
               src: '/images/webp/icons/steve-hsu.webp',
               colorVar: 'bs-primary',
@@ -87,7 +88,7 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
           <TooltipTrigger :title="$t('text-view-code', 'View Code')">
             <TypeAwareLink
               type="external"
-              href="https://github.com/stevehsudrawing/stevehsudrawing.github.io"
+              :href="`https://github.com/${GITHUB_REPO}`"
               hide-indicator
               :colored-props="{
                 src: '/images/webp/icons/github.webp',

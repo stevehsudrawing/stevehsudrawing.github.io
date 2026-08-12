@@ -7,7 +7,7 @@ description: >
 applyTo: >
   src/platform/accessibility.ts;
   src/components/buttons/SkipButton.vue;
-  src/stylesheets/global/accessibility.css
+  src/stylesheets/accessibility.css
 ---
 
 #### 4.4.1 Accessibility

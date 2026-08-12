@@ -5,7 +5,7 @@ description: >
   Segoe UI, CJK fonts), variable font naming convention.  Use when: modifying
   fonts.css or font stacks.
 applyTo: >
-  src/stylesheets/global/fonts.css
+  src/stylesheets/fonts.css
 ---
 
 #### 4.1.4 Fonts & Typography

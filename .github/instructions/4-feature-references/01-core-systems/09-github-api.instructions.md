@@ -58,6 +58,9 @@ GitHubActivityStatsCard.vue                ← Vue SFC
   └─ Toggle buttons with §4.2.6.1 delayed tooltips (destroy→recreate pattern)
 ```
 
+> The site owner's GitHub username comes from `GITHUB_USERNAME` in
+> `src/core/page-meta.ts` — API URLs are built from it via template literals.
+
 ##### 4.1.9.2 Card Template Structure (Unified Placeholder Convention)
 
 **Principle**: `LoadingPlaceholder` MUST be placed at the **`card-body` level**,

@@ -11,7 +11,7 @@ import PageChainNav from "../components/nav/PageChainNav.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
-import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
+import { useLinkCards } from "../composables/useLinkCards";
 
 // =========================================================================
 // Link cards
@@ -48,7 +48,6 @@ const { groups, pagePath } = useLinkCards(ref("about"));
         :title="$t('text-profile', 'Profile')"
         heading-id="profile"
         :page-path="pagePath"
-        :base-url="BASE_URL"
       />
       <table class="table-borderless">
         <tbody>
@@ -159,11 +158,7 @@ const { groups, pagePath } = useLinkCards(ref("about"));
 
   <!-- ==== Link cards ==== -->
   <div v-if="groups" class="container pb-2">
-    <LinkCardGroups
-      :groups="groups"
-      :page-path="pagePath"
-      :base-url="BASE_URL"
-    />
+    <LinkCardGroups :groups="groups" :page-path="pagePath" />
   </div>
 
   <hr />

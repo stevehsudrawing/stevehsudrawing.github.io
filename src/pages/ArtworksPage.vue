@@ -7,7 +7,7 @@ import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
-import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
+import { useLinkCards } from "../composables/useLinkCards";
 
 // =========================================================================
 // Link cards
@@ -49,10 +49,6 @@ const { groups, pagePath } = useLinkCards(ref("artworks-and-videos"));
 
   <!-- ==== Link cards ==== -->
   <div v-if="groups" class="container">
-    <LinkCardGroups
-      :groups="groups"
-      :page-path="pagePath"
-      :base-url="BASE_URL"
-    />
+    <LinkCardGroups :groups="groups" :page-path="pagePath" />
   </div>
 </template>

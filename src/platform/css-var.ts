@@ -9,7 +9,7 @@
  * @returns The trimmed CSS property value, or the fallback.
  *
  * @example
- * cssVar("shlh-primary", "#6f42c1")        // → "#6f42c1"
+ * cssVar("shlh-primary", "#3078cc")        // → "#3078cc"
  * cssVar("nonexistent", "rgb(0,0,0)")      // → "rgb(0,0,0)"
  */
 export function cssVar(prop: string, fallback: string): string {

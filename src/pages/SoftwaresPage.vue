@@ -7,7 +7,7 @@ import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
-import { useLinkCards, BASE_URL } from "../composables/useLinkCards";
+import { useLinkCards } from "../composables/useLinkCards";
 import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import GitHubActivityStatsCard from "../components/cards/GitHubActivityStatsCard.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
@@ -46,7 +46,6 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
     <SectionHeading
       :title="$t('text-my-github-profile', 'My GitHub Profile')"
       :page-path="'softwares.html'"
-      :base-url="'https://stevehsudrawing.github.io'"
     />
     <div class="row g-0">
       <div class="col-lg-6">
@@ -62,10 +61,6 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
 
   <!-- ==== Link cards ==== -->
   <div v-if="groups" class="container">
-    <LinkCardGroups
-      :groups="groups"
-      :page-path="pagePath"
-      :base-url="BASE_URL"
-    />
+    <LinkCardGroups :groups="groups" :page-path="pagePath" />
   </div>
 </template>

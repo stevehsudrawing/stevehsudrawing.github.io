@@ -18,12 +18,14 @@ Renders an `<h2>` with an auto-generated `dash-case` id (or an explicit
 `headingId` for i18n-stable anchors), plus `AnchorButton` for permalink
 sharing and `CopyButton` for clipboard copy.
 
-| Prop        | Type      | Notes                                             |
-| ----------- | --------- | ------------------------------------------------- |
-| `title`     | `string`  | Display text + fallback id source                 |
-| `headingId` | `string?` | Stable, language-independent anchor id            |
-| `pagePath`  | `string?` | Needed for copy-link URL (e.g. `"/about.html"`)   |
-| `baseUrl`   | `string?` | Base URL for the copy-link (e.g. `"https://..."`) |
+| Prop        | Type      | Notes                                           |
+| ----------- | --------- | ----------------------------------------------- |
+| `title`     | `string`  | Display text + fallback id source               |
+| `headingId` | `string?` | Stable, language-independent anchor id          |
+| `pagePath`  | `string?` | Needed for copy-link URL (e.g. `"/about.html"`) |
+
+The copy-link URL is built as `BASE_URL + pagePath + #id`, where `BASE_URL`
+is imported directly from `src/core/page-meta.ts` (no `baseUrl` prop).
 
 When `headingId` is omitted, the id is derived from `title` via
 `toDashCase()`. When the title is an i18n string (language-dependent),

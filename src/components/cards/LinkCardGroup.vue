@@ -21,8 +21,6 @@ const props = defineProps<{
   group: GroupData;
   /** Page path for anchor/copy-link URL generation (e.g. "/about.html"). */
   pagePath: string;
-  /** Base URL for copy-link (e.g. "https://stevehsudrawing.github.io"). */
-  baseUrl: string;
 }>();
 
 // =========================================================================
@@ -69,7 +67,6 @@ const hasCards = computed(
       v-if="props.group.title && titleText"
       :title="titleText"
       :page-path="props.pagePath"
-      :base-url="props.baseUrl"
     >
       <span v-html="titleHtml"></span>
     </SectionHeading>

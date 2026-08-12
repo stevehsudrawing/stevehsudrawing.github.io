@@ -21,7 +21,7 @@ useLinkCards(pageName: Ref)
   └─ returns { groups, pagePath }
 
 LinkCardGroups.vue
-  ├─ receives :groups, :page-path, :base-url
+  ├─ receives :groups, :page-path
   └─ renders each group as LinkCardGroup
 
 LinkCardGroup.vue
@@ -48,6 +48,10 @@ See `src/configs/link-cards/{pageName}.json`. Each file is a JSON array of
 const { groups, pagePath } = useLinkCards(ref("softwares"));
 </script>
 <template>
-  <LinkCardGroups :groups="groups" :page-path="pagePath" :base-url="BASE_URL" />
+  <LinkCardGroups :groups="groups" :page-path="pagePath" />
 </template>
 ```
+
+> `BASE_URL` lives in `src/core/page-meta.ts` — `LinkCardGroups` /
+> `LinkCardGroup` / `SectionHeading` import it directly for copy-link URL
+> generation; pages do not need to pass it as a prop.

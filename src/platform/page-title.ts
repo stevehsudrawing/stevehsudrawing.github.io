@@ -8,6 +8,7 @@
  */
 
 import { extractPageName } from "../core/utils";
+import { SITE_NAME } from "../core/page-meta";
 
 /**
  * Update the document title according to the current page and language.
@@ -29,7 +30,7 @@ export function updatePageTitle(
 
   if (pageName === "index") {
     // Homepage: show site name only
-    document.title = siteTitle || "Steve Hsu's Link-Hub";
+    document.title = siteTitle || SITE_NAME;
   } else if (pageTitle && siteTitle) {
     document.title = pageTitle + " - " + siteTitle;
   } else if (siteTitle) {
@@ -37,6 +38,6 @@ export function updatePageTitle(
     document.title = siteTitle;
   } else {
     // Ultimate fallback
-    document.title = "Steve Hsu's Link-Hub";
+    document.title = SITE_NAME;
   }
 }

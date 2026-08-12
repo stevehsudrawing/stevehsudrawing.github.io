@@ -8,9 +8,6 @@ import type { GroupData } from "../types/app";
 // Constants
 // =========================================================================
 
-/** Canonical base URL of the deployed site (for copy-link generation). */
-export const BASE_URL = "https://stevehsudrawing.github.io";
-
 /** Map of page names to their link-card JSON module loaders. */
 const configLoaders: Record<string, () => Promise<{ default: GroupData[] }>> = {
   about: () => import("../configs/link-cards/about.json"),

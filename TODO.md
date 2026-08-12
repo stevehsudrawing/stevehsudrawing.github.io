@@ -465,7 +465,7 @@ objects restructured to the new `PictureSrcMap` format.
       from `FeatureAwareImg.vue`.
 - [x] Remove `[data-img-feature~="colored"]` (moved to `ColoredImg`).
 
-### 8.3 `src/stylesheets/global/base.css`
+### 8.3 `src/stylesheets/base.css`
 
 - [x] Review §Image Utilities block. Comment updated.
 

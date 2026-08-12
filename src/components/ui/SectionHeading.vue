@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { toDashCase } from "../../core/utils";
+import { BASE_URL } from "../../core/page-meta";
 import AnchorButton from "../buttons/AnchorButton.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 
@@ -27,8 +28,6 @@ const props = defineProps<{
   headingId?: string;
   /** Page path for copy-link URL (e.g. "/about.html"). */
   pagePath?: string;
-  /** Base URL for copy-link (e.g. "https://stevehsudrawing.github.io"). */
-  baseUrl?: string;
 }>();
 
 // =========================================================================
@@ -38,9 +37,7 @@ const props = defineProps<{
 const titleId = computed(() => props.headingId || toDashCase(props.title));
 
 const copyUrl = computed(() =>
-  props.pagePath && props.baseUrl
-    ? `${props.baseUrl}${props.pagePath}#${titleId.value}`
-    : "",
+  props.pagePath ? `${BASE_URL}${props.pagePath}#${titleId.value}` : "",
 );
 </script>
 

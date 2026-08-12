@@ -8,13 +8,14 @@
 
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
 import { StorageKey, type GitHubUser } from "../types/app";
+import { GITHUB_USERNAME } from "../core/page-meta";
 
 // =========================================================================
 // Constants
 // =========================================================================
 
 /** GitHub REST API endpoint for the site owner's user profile. */
-const PROFILE_URL = "https://api.github.com/users/stevehsudrawing";
+const PROFILE_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
 
 // =========================================================================
 // Composable

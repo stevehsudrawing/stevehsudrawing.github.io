@@ -108,22 +108,41 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 
 **Decoupling patterns (when import would violate hierarchy):**
 
-- **Composable extraction**: When multiple components share state or side-effects, extract to `composables/`.
-- **provide/inject**: For sibling-to-sibling communication (e.g. toast notifications), use Vue's provide/inject pattern.
-- **Vue Router guards**: For cross-cutting navigation concerns, use `router.beforeEach` / `router.afterEach` (not imperative DOM listeners).
+- **Composable extraction**: When multiple components share state or side-
+  effects, extract to `composables/`.
+
+- **provide/inject**: For sibling-to-sibling communication (e.g. toast
+  notifications), use Vue's provide/inject pattern.
+
+- **Vue Router guards**: For cross-cutting navigation concerns, use
+  `router.beforeEach` / `router.afterEach` (not imperative DOM listeners).
 
 ### 0.5 File Rules
 
-- **`src/{core,platform,composables}/*`**: define only - no top-level function calls or self-executing code. All wiring happens in entry points. (Vue composables may call `inject()` but must not trigger side effects.)
-- **Entry points**: `src/main.ts` + `src/router.ts` + `src/App.vue` (full-feature pages: index, about, artworks, blogs, chatting, softwares)
-- **CSS comments**: `/* ====...==== Component - description */` banners; `/* --- Child --- */` sub-sections
-- **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS framework, only `public/legacy/base.css`)
-- **Markdown**: numbered headings (`## 1.`, `### 1.2.3`), cross-references with `§X.Y.Z` hyperlink anchors
+- **`src/{core,platform,composables}/*`**: define only - no top-level function
+  calls or self-executing code. All wiring happens in entry points. (Vue
+  composables may call `inject()` but must not trigger side effects.)
+
+- **Entry points**: `src/main.ts` + `src/router.ts` + `src/App.vue` (full-
+  feature pages: index, about, artworks, blogs, chatting, softwares)
+
+- **CSS comments**: `/* ====...==== Component - description */` banners;
+  `/* --- Child --- */` sub-sections
+
+- **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS
+  framework, only `public/legacy/base.css`)
+
+- **Markdown**: numbered headings (`## 1.`, `### 1.2.3`), cross-references with
+  `§X.Y.Z` hyperlink anchors
 
 ### 0.6 HAST Conventions
 
-- JSON properties use **camelCase** (`className`, `dataI18n`, `dataImgFeature`); automatically converted to kebab-case HTML (`class`, `data-i18n`, `data-img-feature`)
-- Node types: `root` (has `children`), `element` (has `tagName`, `properties`, `children`), `text` (has `value`), `comment` (has `value`)
+- JSON properties use **camelCase** (`className`, `dataI18n`, `dataImgFeature`);
+  automatically converted to kebab-case HTML (`class`, `data-i18n`,
+  `data-img-feature`)
+
+- Node types: `root` (has `children`), `element` (has `tagName`, `properties`,
+  `children`), `text` (has `value`), `comment` (has `value`)
 
 ### 0.7 Vue Component Conventions
 
@@ -258,29 +277,30 @@ When generating responses for this project, Copilot should:
    documents in `.github/instructions` according to the user's requirements to
    understand the specifications of this project.
 
-3. **Respond using the language that the user is using**: For example, if the user
-   is conversing in Chinese, responses should be in Chinese.
+3. **Respond using the language that the user is using**: For example, if the
+   user is conversing in Chinese, responses should be in Chinese.
 
 4. **Write code / docs / commit messages in English (United States)**: All code,
-   comments, documentation, commit messages should be in English (United States).
-   When writing, use standard ASCII characters as much as possible. This helps to
-   use `beautify` to format files, as it has poor support for full-width
-   characters.
+   comments, documentation, commit messages should be in English (United
+   States). When writing, use standard ASCII characters as much as possible.
+   This helps to use `beautify` to format files, as it has poor support for
+   full-width characters.
 
-5. **Discuss before executing**: When the user proposes a new function or a change,
-   first explain the approach and analysis. Only proceed with implementation after
-   the user confirms ("go ahead", "执行", "可以", etc.).
+5. **Discuss before executing**: When the user proposes a new function or a
+   change, first explain the approach and analysis. Only proceed with
+   implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 
 6. **Priority of norms/standards**: If there are more normative or standard
-   practices, priority should be given to norms or standards, even if refactoring
-   is required.
+   practices, priority should be given to norms or standards, even if
+   refactoring is required.
 
-7. **Always pay attention to document updates**: When adding, modifying, or deleting
-   new features, it is necessary to add, update or delete the corresponding
-   instruction documents, even if temporarily.
+7. **Always pay attention to document updates**: When adding, modifying, or
+   deleting new features, it is necessary to add, update or delete the
+   corresponding instruction documents, even if temporarily.
 
-8. **Always execute `typecheck` after modification**: After each modification, the
-   following command should be executed to check whether it can be built properly:
+8. **Always execute `typecheck` after modification**: After each modification,
+   the following command should be executed to check whether it can be built
+   properly:
 
    ```pwsh
    pnpm typecheck ; pnpm build

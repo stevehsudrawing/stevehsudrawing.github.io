@@ -14,7 +14,7 @@ applyTo: >
 
 - **HTML** 5
 - **CSS** 3
-- **TypeScript**: Strict mode, compiled by Vite's esbuild (no separate tsc build step)
+- **TypeScript**: Strict mode, compiled by Vite's esbuild (no separate tsc build step); type-checked by `vue-tsc` — `typescript` is aliased to the JS-based TS6 (`@typescript/typescript6`) so vue-tsc can check `.vue` templates (see §1.2.2)
 - **UI Framework**: [Vue 3](https://vuejs.org/) + [bootstrap-vue-next](https://bootstrap-vue-next.github.io/bootstrap-vue-next/)
 - **Build Tool**: [Vite 8](https://vite.dev/)
 - **Package Manager**: [pnpm](https://pnpm.io/)

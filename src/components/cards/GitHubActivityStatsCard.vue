@@ -116,7 +116,7 @@ function createBarChart(
   canvas: HTMLCanvasElement,
   data: ActivityStat[],
 ): Chart {
-  const primary = cssVar("shlh-primary", "#6f42c1");
+  const primary = cssVar("shlh-primary", "#3078cc");
 
   return new Chart(canvas, {
     type: "bar",
@@ -156,7 +156,7 @@ function createBarChart(
 
 /** Build a Chart.js line chart (time-series, daily frequency). */
 function createLineChart(canvas: HTMLCanvasElement, data: DailyStat[]): Chart {
-  const primary = cssVar("shlh-primary", "#6f42c1");
+  const primary = cssVar("shlh-primary", "#3078cc");
   const primaryRgb = cssVar("shlh-primary-500-rgb", "111,66,193");
   const gridColor = cssVar("bs-border-color", "#dee2e6");
   const textColor = cssVar("bs-body-color", "#212529");

@@ -16,14 +16,12 @@ defineProps<{
   groups: GroupData[];
   /** Page path for anchor/copy-link URL generation (e.g. "/about.html"). */
   pagePath: string;
-  /** Base URL for copy-link (e.g. "https://stevehsudrawing.github.io"). */
-  baseUrl: string;
 }>();
 </script>
 
 <template>
   <template v-for="(group, idx) in groups" :key="idx">
     <hr v-if="idx > 0" />
-    <LinkCardGroup :group="group" :page-path="pagePath" :base-url="baseUrl" />
+    <LinkCardGroup :group="group" :page-path="pagePath" />
   </template>
 </template>

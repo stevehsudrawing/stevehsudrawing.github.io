@@ -43,21 +43,28 @@ Production dependencies are bundled and shipped to the browser. They are importe
 
 Dev-only dependencies are used at build time or during development. They are **not** shipped to the browser.
 
-| Resource                   | npm Package                       | Role                       | GitHub Repo                                                                                 | Version |
-| -------------------------- | --------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------- | ------- |
-| TypeScript                 | `typescript`                      | Type Checking              | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                           | 7.0.2   |
-| Vite                       | `vite`                            | Build Tool                 | [`vitejs/vite`](https://github.com/vitejs/vite)                                             | 8.1.5   |
-| Vue Vite Plugin            | `@vitejs/plugin-vue`              | Vue SFC Compiler           | [`vitejs/vite-plugin-vue`](https://github.com/vitejs/vite-plugin-vue)                       | 6.0.8   |
-| Vue Components Resolver    | `unplugin-vue-components`         | Auto-import Vue Components | [`unplugin/unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components)   | 32.1.0  |
-| html-minifier-terser       | `html-minifier-terser`            | HTML Minifier              | [`terser/html-minifier-terser`](https://github.com/terser/html-minifier-terser)             | 7.2.0   |
-| html-minifier-terser Types | `@types/html-minifier-terser`     | Minifier TS types          | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 7.0.2   |
-| Node.js Type Definitions   | `@types/node`                     | Node.js TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 26.1.1  |
-| QR Code Type Definitions   | `@types/qrcode`                   | QR Code TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 1.5.6   |
-| Commitlint CLI             | `@commitlint/cli`                 | Commit Message Linter      | [`conventional-changelog/commitlint`](https://github.com/conventional-changelog/commitlint) | 21.2.1  |
-| Commitlint Config          | `@commitlint/config-conventional` | Conventional Commits Rules | [`conventional-changelog/commitlint`](https://github.com/conventional-changelog/commitlint) | 21.2.0  |
-| Husky                      | `husky`                           | Git Hooks Manager          | [`typicode/husky`](https://github.com/typicode/husky)                                       | 9.1.7   |
-| lint-staged                | `lint-staged`                     | Staged File Linter         | [`lint-staged/lint-staged`](https://github.com/lint-staged/lint-staged)                     | 17.2.0  |
-| Prettier                   | `prettier`                        | Code Formatter             | [`prettier/prettier`](https://github.com/prettier/prettier)                                 | 3.9.6   |
+| Resource                   | npm Package                                      | Role                       | GitHub Repo                                                                                 | Version |
+| -------------------------- | ------------------------------------------------ | -------------------------- | ------------------------------------------------------------------------------------------- | ------- |
+| TypeScript                 | `typescript` (alias → `@typescript/typescript6`) | Type Checking (JS-based)   | [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)                           | 6.0.2   |
+| vue-tsc                    | `vue-tsc`                                        | Vue SFC Type Checking      | [`vuejs/language-tools`](https://github.com/vuejs/language-tools)                           | 3.3.9   |
+| Vite                       | `vite`                                           | Build Tool                 | [`vitejs/vite`](https://github.com/vitejs/vite)                                             | 8.1.5   |
+| Vue Vite Plugin            | `@vitejs/plugin-vue`                             | Vue SFC Compiler           | [`vitejs/vite-plugin-vue`](https://github.com/vitejs/vite-plugin-vue)                       | 6.0.8   |
+| Vue Components Resolver    | `unplugin-vue-components`                        | Auto-import Vue Components | [`unplugin/unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components)   | 32.1.0  |
+| html-minifier-terser       | `html-minifier-terser`                           | HTML Minifier              | [`terser/html-minifier-terser`](https://github.com/terser/html-minifier-terser)             | 7.2.0   |
+| html-minifier-terser Types | `@types/html-minifier-terser`                    | Minifier TS types          | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 7.0.2   |
+| Node.js Type Definitions   | `@types/node`                                    | Node.js TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 26.1.1  |
+| QR Code Type Definitions   | `@types/qrcode`                                  | QR Code TS types           | [`DefinitelyTyped/DefinitelyTyped`](https://github.com/DefinitelyTyped/DefinitelyTyped)     | 1.5.6   |
+| Commitlint CLI             | `@commitlint/cli`                                | Commit Message Linter      | [`conventional-changelog/commitlint`](https://github.com/conventional-changelog/commitlint) | 21.2.1  |
+| Commitlint Config          | `@commitlint/config-conventional`                | Conventional Commits Rules | [`conventional-changelog/commitlint`](https://github.com/conventional-changelog/commitlint) | 21.2.0  |
+| Husky                      | `husky`                                          | Git Hooks Manager          | [`typicode/husky`](https://github.com/typicode/husky)                                       | 9.1.7   |
+| lint-staged                | `lint-staged`                                    | Staged File Linter         | [`lint-staged/lint-staged`](https://github.com/lint-staged/lint-staged)                     | 17.2.0  |
+| Prettier                   | `prettier`                                       | Code Formatter             | [`prettier/prettier`](https://github.com/prettier/prettier)                                 | 3.9.6   |
+
+> **TypeScript alias**: `typescript` is installed as `npm:@typescript/typescript6`
+> (the JS-based TypeScript 6) instead of the native TypeScript 7. The native TS7
+> package no longer ships the JavaScript `lib/tsc` API, which `vue-tsc` requires
+> to type-check `.vue` files. vue-tsc auto-detects the alias and falls back to
+> `@typescript/old/lib/tsc`.
 
 #### 1.2.3 Dependency Principle
 

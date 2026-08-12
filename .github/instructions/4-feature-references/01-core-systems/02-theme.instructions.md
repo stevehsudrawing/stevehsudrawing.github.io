@@ -7,7 +7,7 @@ applyTo: >
   src/composables/useTheme.ts;
   src/platform/theme.ts;
   src/platform/css-var.ts;
-  src/stylesheets/global/theme.css
+  src/stylesheets/theme.css
 ---
 
 #### 4.1.2 Theme System
@@ -50,7 +50,7 @@ is added internally. A fallback value is required — mirroring i18n's `t()`.
 import { cssVar } from "../platform/css-var";
 
 // Return value if set, fallback otherwise
-const primary = cssVar("shlh-primary", "#6f42c1");
+const primary = cssVar("shlh-primary", "#3078cc");
 const primaryRgb = cssVar("shlh-primary-500-rgb", "111,66,193");
 const gridColor = cssVar("bs-border-color", "#dee2e6");
 const textColor = cssVar("bs-body-color", "#212529");

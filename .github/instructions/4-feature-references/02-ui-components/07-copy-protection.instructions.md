@@ -1,11 +1,11 @@
 ---
 description: >
   Copy Protection: platform/no-copy.ts (contextmenu + dragstart event delegation),
-  .no-copy CSS in stylesheets/global/base.css.
+  .no-copy CSS in stylesheets/base.css.
   Use when: modifying copy-protection behavior or the .no-copy CSS class.
 applyTo: >
   src/platform/no-copy.ts;
-  src/stylesheets/global/base.css
+  src/stylesheets/base.css
 ---
 
 #### 4.2.7 Copy Protection
@@ -24,7 +24,7 @@ Called from `App.vue` onMounted. Event handlers check `(e.target).closest(".no-c
 
 ##### 4.2.7.2 .no-copy CSS
 
-Defined in `stylesheets/global/base.css`.
+Defined in `stylesheets/base.css`.
 
 ##### 4.2.7.3 CSS
 

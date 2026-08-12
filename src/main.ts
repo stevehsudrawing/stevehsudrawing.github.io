@@ -16,10 +16,10 @@ import "@fontsource-variable/inter/opsz-italic.css";
 import "@fontsource-variable/roboto-mono/wght.css";
 
 // Project CSS (order matters: base -> theme -> layouts -> components)
-import "./stylesheets/global/base.css";
-import "./stylesheets/global/theme.css";
-import "./stylesheets/global/fonts.css";
-import "./stylesheets/global/accessibility.css";
+import "./stylesheets/base.css";
+import "./stylesheets/theme.css";
+import "./stylesheets/fonts.css";
+import "./stylesheets/accessibility.css";
 
 // =========================================================================
 // npm package imports (replaces CDN <script> tags)

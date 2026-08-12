@@ -6,19 +6,19 @@ description: >
   Use when: creating or modifying any .vue file or .css file.
 applyTo: >
   src/components/**/*.vue;
-  src/stylesheets/global/base.css
+  src/stylesheets/base.css
 ---
 
 ### 3.4 Vue Component Conventions
 
 #### 3.4.1 CSS Style Block Taxonomy
 
-| Style block               | Use case                                                                                                 | Example                                       |
-| ------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| `<style scoped>`          | Styles owned entirely by one `.vue` component                                                            | Modal layout, QR share card, toast animations |
-| `<style>` (non-scoped)    | Component owns the CSS but the target element is static HTML outside Vue's render tree                   | `#loading-bar`, `.scroll-hint`                |
-| `:deep(.selector)`        | Target elements inside a child component (e.g. BModal's `.modal-body`)                                   | `:deep(.modal-body) { display: flex; }`       |
-| `src/stylesheets/global/` | Truly global styles: CSS reset, typography, Bootstrap variable overrides, build-time injected components | `base.css`, `theme.css`, `fonts.css`          |
+| Style block            | Use case                                                                                                 | Example                                       |
+| ---------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `<style scoped>`       | Styles owned entirely by one `.vue` component                                                            | Modal layout, QR share card, toast animations |
+| `<style>` (non-scoped) | Component owns the CSS but the target element is static HTML outside Vue's render tree                   | `#loading-bar`, `.scroll-hint`                |
+| `:deep(.selector)`     | Target elements inside a child component (e.g. BModal's `.modal-body`)                                   | `:deep(.modal-body) { display: flex; }`       |
+| `src/stylesheets/`     | Truly global styles: CSS reset, typography, Bootstrap variable overrides, build-time injected components | `base.css`, `theme.css`, `fonts.css`          |
 
 #### 3.4.2 Static HTML Coexistence
 
