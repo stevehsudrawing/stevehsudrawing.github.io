@@ -53,7 +53,7 @@ function commonTags(): HtmlTagDescriptor[] {
       tag: "meta",
       attrs: {
         name: "apple-mobile-web-app-title",
-        content: "Steve Hsu's Link-Hub",
+        content: "Steve Hsu (什五)'s Link-Hub",
       },
     },
 

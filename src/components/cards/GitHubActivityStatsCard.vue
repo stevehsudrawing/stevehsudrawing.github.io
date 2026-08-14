@@ -21,6 +21,7 @@ import {
   eventTypeIcon,
 } from "../../composables/useGithubActivity";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
+import { useModalStack } from "../../composables/useModalStack";
 import { cssVar } from "../../platform/css-var";
 import {
   Chart,
@@ -37,7 +38,7 @@ import {
   Filler,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import type { ActivityStat, DailyStat } from "../../types/app";
+import type { ActivityStat, DailyStat, GitHubEvent } from "../../types/app";
 
 // =========================================================================
 // Chart.js — tree-shaken registration (module-level guard)
@@ -69,7 +70,8 @@ function ensureChartJs(): void {
 
 const { t } = useI18n();
 const { effectiveTheme } = useTheme();
-const { stats, dailyStats, isLoading, error } = useGithubActivity();
+const { events, stats, dailyStats, isLoading, error } = useGithubActivity();
+const { push } = useModalStack();
 
 // ---- Chart mode ----
 
@@ -111,6 +113,63 @@ const hasData = computed(() =>
 // Chart creation
 // =========================================================================
 
+/** Shared click handling — open the events modal for a filtered subset. */
+function openEventsModal(filtered: GitHubEvent[], title: string): void {
+  if (filtered.length === 0) return;
+  push({ id: "github-events", props: { title, events: filtered } });
+}
+
+/** Bar-mode click: show all events of the clicked event type. */
+function openEventsForBar(index: number): void {
+  const eventType = stats.value[index]?.eventType;
+  if (!eventType) return;
+  const filtered = (events.value ?? [])
+    .filter(
+      (e) =>
+        e.type === eventType &&
+        !(e.type === "IssuesEvent" && e.payload?.action === "labeled"),
+    )
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+  openEventsModal(filtered, labelFor(eventType));
+}
+
+/** Line-mode click: show all events of the clicked day. */
+function openEventsForLine(index: number): void {
+  const ts = dailyStats.value[index]?.x;
+  if (ts === undefined) return;
+  const day = new Date(ts).toISOString().slice(0, 10);
+  const filtered = (events.value ?? [])
+    .filter(
+      (e) =>
+        e.created_at.slice(0, 10) === day &&
+        !(e.type === "IssuesEvent" && e.payload?.action === "labeled"),
+    )
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+  openEventsModal(filtered, day);
+}
+
+/** Shared Chart.js options.onClick handler (pointer cursor + open modal). */
+function chartOnClick(elements: { index: number }[]): void {
+  if (elements.length === 0) return;
+  const index = elements[0].index;
+  if (chartMode.value === "bar") {
+    openEventsForBar(index);
+  } else {
+    openEventsForLine(index);
+  }
+}
+
+/** Shared Chart.js options.onHover handler (pointer cursor feedback). */
+function chartOnHover(
+  event: { native?: Event | null },
+  elements: unknown[],
+): void {
+  const target = event.native?.target as HTMLCanvasElement | null;
+  if (target) {
+    target.style.cursor = elements.length > 0 ? "pointer" : "default";
+  }
+}
+
 /** Build a Chart.js bar chart (horizontal, event-type distribution). */
 function createBarChart(
   canvas: HTMLCanvasElement,
@@ -136,6 +195,8 @@ function createBarChart(
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
+      onClick: (_e, elements) => chartOnClick(elements),
+      onHover: (e, elements) => chartOnHover(e, elements),
       scales: {
         x: {
           type: "linear",
@@ -181,6 +242,8 @@ function createLineChart(canvas: HTMLCanvasElement, data: DailyStat[]): Chart {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
+      onClick: (_e, elements) => chartOnClick(elements),
+      onHover: (e, elements) => chartOnHover(e, elements),
       scales: {
         x: {
           type: "time",

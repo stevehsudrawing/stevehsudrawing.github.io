@@ -10,14 +10,14 @@
         media="(prefers-color-scheme: dark)"
       >
       <img
-        alt="Icon of Steve Hsu's Link-Hub"
+        alt="Icon of Steve Hsu (什五)'s Link-Hub"
         src="public/images/png/favicons/general.png"
         width="64"
         height="64"
       >
     </picture>
   </a><br>
-  <b>Steve Hsu's Link-Hub</b>
+  <b>Steve Hsu (什五)'s Link-Hub</b>
   <p>
     <small>
       A personal link-hub website that consolidates links to all my profiles

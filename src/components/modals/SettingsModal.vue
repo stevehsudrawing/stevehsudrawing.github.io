@@ -1,7 +1,8 @@
 <!--
   SettingsModal.vue — User preferences panel.
-  Replaces ui/settings.ts event delegation + manual localStorage sync.
-  Uses BModal + v-model for reactive form binding.
+  Visibility comes from the shared modal stack (useStackModal).
+  Reset button pushes reset-warning on top; Close pops one level;
+  backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from "vue";
@@ -9,21 +10,19 @@ import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useLocalStorage } from "../../composables/useLocalStorage";
 import { useModalFocus } from "../../composables/useModalFocus";
+import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { StorageKey } from "../../types/app";
-import ResetWarningModal from "./ResetWarningModal.vue";
 import languageList from "../../configs/language-list.json";
 
 // =========================================================================
 // State
 // =========================================================================
 
-const visible = ref(false);
-const resetWarningRef = ref<InstanceType<typeof ResetWarningModal>>();
+const { visible } = useStackModal("settings");
+const { push, pop } = useModalStack();
+
 /** Language-select element for keyboard auto-focus. */
 const langSelectRef = ref<HTMLElement | null>(null);
-
-/** When true, SettingsModal was closed to show ResetWarningModal. */
-let pendingResetWarning = false;
 
 const { locale, setLocale } = useI18n();
 const { preference: themePreference, setPreference: setTheme } = useTheme();
@@ -69,56 +68,10 @@ const languages = languageList.map((item) => ({
 // Actions
 // =========================================================================
 
-function resetAll(): void {
-  openInNewTab.value = true;
-  enableAnimations.value = true;
-  setTheme("auto");
-  locale.value = "en";
-  setLocale("en");
-  visible.value = false;
-  window.location.href = "/index.html";
-}
-
-// -------------------------------------------------------------------------
-// Modal-to-modal switching (Settings ↔ ResetWarning)
-// -------------------------------------------------------------------------
-
-/**
- * Open the ResetWarningModal by hiding this modal first.
- * After SettingsModal finishes its hide animation (@hidden), the
- * ResetWarningModal is shown — avoiding two modals on screen at once.
- */
+/** Open ResetWarningModal on top of this modal (via the modal stack). */
 function openResetWarning(): void {
-  pendingResetWarning = true;
-  visible.value = false;
+  push({ id: "reset-warning", props: null });
 }
-
-/** Called after SettingsModal finishes hiding. */
-function onSettingsHidden(): void {
-  if (pendingResetWarning) {
-    pendingResetWarning = false;
-    resetWarningRef.value?.show();
-  }
-}
-
-/** User cancelled reset — re-show SettingsModal. */
-function onResetCancel(): void {
-  visible.value = true;
-}
-
-// =========================================================================
-// Expose
-// =========================================================================
-
-/** Expose show/hide for external callers (settings-open button). */
-defineExpose({
-  show: () => {
-    visible.value = true;
-  },
-  hide: () => {
-    visible.value = false;
-  },
-});
 </script>
 
 <template>
@@ -135,7 +88,6 @@ defineExpose({
     ok-variant="outline-primary"
     cancel-variant="outline-secondary"
     @shown="onShown"
-    @hidden="onSettingsHidden"
   >
     <div class="d-flex flex-column gap-3">
       <!-- Language -->
@@ -202,13 +154,7 @@ defineExpose({
       </small>
     </div>
 
-    <!-- Reset confirmation (modal-to-modal: opens ResetWarningModal) -->
-    <ResetWarningModal
-      ref="resetWarningRef"
-      @confirm="resetAll"
-      @cancel="onResetCancel"
-    />
-
+    <!-- Reset confirmation: pushed onto the stack by openResetWarning() -->
     <template #footer>
       <div class="w-100 d-flex justify-content-between">
         <button
@@ -221,7 +167,7 @@ defineExpose({
         <button
           type="button"
           class="btn btn-outline-primary btn-no-border"
-          @click="visible = false"
+          @click="pop()"
         >
           {{ $t("text-close", "Close") }}
         </button>

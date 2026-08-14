@@ -226,6 +226,8 @@ export interface GitHubUser {
 
 /** A single event from the GitHub Events API (GET /users/{username}/events/public). */
 export interface GitHubEvent {
+  /** Event id (may be absent in stale caches). */
+  id?: string;
   /** Event type (e.g. "PushEvent", "WatchEvent"). */
   type: string;
   /** ISO 8601 timestamp of when the event was created. */
@@ -237,6 +239,16 @@ export interface GitHubEvent {
   /** Event-specific payload (shape varies by event type). */
   payload: {
     action?: string;
+    /** PushEvent: total number of commits in the push. */
+    size?: number;
+    /** CreateEvent / DeleteEvent: "branch" or "tag". */
+    ref_type?: string;
+    /** IssueEvents / IssueCommentEvent: the referenced issue. */
+    issue?: {
+      number?: number;
+      title?: string;
+      html_url?: string;
+    };
     [key: string]: unknown;
   };
 }
@@ -258,6 +270,58 @@ export interface DailyStat {
   /** Number of events on that day. */
   y: number;
 }
+
+// =========================================================================
+// Modal stack
+// =========================================================================
+
+/** Props for ExternalLinkConfirmModal — stored in a modal-stack item. */
+export interface ExternalLinkConfirmModalProps {
+  /** External URL the user is about to visit. */
+  url: string;
+  /** Optional FeatureAwarePicture props for the link icon. */
+  pictureProps: FeatureAwarePictureProps | null;
+  /** Optional ColoredImg props for the link icon. */
+  coloredProps: ColoredImgProps | null;
+  /** Hide the "Show QR Code" button. */
+  hideQR: boolean;
+}
+
+/** Props for QRCodeModal — stored in a modal-stack item. */
+export interface QRCodeModalProps {
+  /** URL encoded in the QR code. */
+  url: string;
+  /** Optional FeatureAwarePicture props for the centre overlay icon. */
+  pictureProps: FeatureAwarePictureProps | null;
+  /** Optional ColoredImg props for the centre overlay icon. */
+  coloredProps: ColoredImgProps | null;
+  /** Hide the "Open Link" button. */
+  hideOpenLink: boolean;
+}
+
+/** Props for GitHubEventsModal — stored in a modal-stack item. */
+export interface GitHubEventsModalProps {
+  /** Modal title (event-type label or formatted date). */
+  title: string;
+  /** Filtered events to display, reverse chronological. */
+  events: GitHubEvent[];
+}
+
+/** Modal component identifiers in the modal stack. */
+export type ModalId =
+  "external-link" | "qr-code" | "github-events" | "settings" | "reset-warning";
+
+/**
+ * Modal stack entry — discriminated union keyed by `id`.
+ * Narrowing `item.id` also narrows `item.props`.
+ * `settings` and `reset-warning` are prop-less.
+ */
+export type ModalStackItem =
+  | { id: "external-link"; props: ExternalLinkConfirmModalProps }
+  | { id: "qr-code"; props: QRCodeModalProps }
+  | { id: "github-events"; props: GitHubEventsModalProps }
+  | { id: "settings"; props: null }
+  | { id: "reset-warning"; props: null };
 
 // =========================================================================
 // Provide / inject keys (cross-component communication)

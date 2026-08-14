@@ -1,32 +1,29 @@
 <!--
-  ResetWarningModal.vue — Confirmation dialog before clearing all preferences.
-  Replaces the nested #warning-reset-modal from build/page-components/modals.html.
+  ResetWarningModal.vue — Confirmation dialog before clearing all
+  preferences.  Visibility comes from the shared modal stack.
+  Cancel pops back to SettingsModal; Continue resets and clears
+  the stack (then redirects to the homepage).
 -->
 <script setup lang="ts">
 import { ref } from "vue";
+import { useI18n } from "../../composables/useI18n";
+import { useTheme } from "../../composables/useTheme";
+import { useLocalStorage } from "../../composables/useLocalStorage";
 import { useModalFocus } from "../../composables/useModalFocus";
-
-// =========================================================================
-// Props
-// =========================================================================
-
-/**
- * Emits for ResetWarningModal.
- *
- * - confirm: User confirmed reset — parent (SettingsModal) clears all
- *   preferences and redirects to the homepage.
- * - cancel: User cancelled — parent re-shows the SettingsModal.
- */
-const emit = defineEmits<{
-  (e: "confirm"): void;
-  (e: "cancel"): void;
-}>();
+import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { StorageKey } from "../../types/app";
 
 // =========================================================================
 // State
 // =========================================================================
 
-const visible = ref(false);
+const { visible } = useStackModal("reset-warning");
+const { pop, clear } = useModalStack();
+
+const { locale, setLocale } = useI18n();
+const { setPreference: setTheme } = useTheme();
+const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
+const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
 
 /** Cancel-button element for keyboard auto-focus. */
 const cancelBtnRef = ref<HTMLElement | null>(null);
@@ -35,18 +32,19 @@ const cancelBtnRef = ref<HTMLElement | null>(null);
 const { onShown } = useModalFocus(cancelBtnRef);
 
 // =========================================================================
-// Expose
+// Actions
 // =========================================================================
 
-/** Expose show/hide for imperative callers (SettingsModal). */
-defineExpose({
-  show: () => {
-    visible.value = true;
-  },
-  hide: () => {
-    visible.value = false;
-  },
-});
+/** Clear all preferences, dismiss the stack, redirect to the homepage. */
+function resetAll(): void {
+  openInNewTab.value = true;
+  enableAnimations.value = true;
+  setTheme("auto");
+  locale.value = "en";
+  setLocale("en");
+  clear();
+  window.location.href = "/index.html";
+}
 </script>
 
 <template>
@@ -75,20 +73,14 @@ defineExpose({
           ref="cancelBtnRef"
           type="button"
           class="btn btn-outline-secondary btn-no-border"
-          @click="
-            visible = false;
-            emit('cancel');
-          "
+          @click="pop()"
         >
           {{ $t("text-cancel", "Cancel") }}
         </button>
         <button
           type="button"
           class="btn btn-outline-danger btn-no-border"
-          @click="
-            visible = false;
-            emit('confirm');
-          "
+          @click="resetAll()"
         >
           {{ $t("text-continue", "Continue") }}
         </button>

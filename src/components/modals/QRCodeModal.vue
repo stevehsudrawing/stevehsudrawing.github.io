@@ -1,7 +1,8 @@
 <!--
   QRCodeModal.vue — QR code generation + branded share card.
-  Replaces features/qr-code.ts imperative DOM manipulation.
-  Uses qrcode for canvas generation and html-to-image/html2canvas for PNG export.
+  Props + visibility come from the shared modal stack (useStackModal).
+  Close pops one level; Open Link pushes external-link on top (external
+  confirm flow for the QR URL).  backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
 import { ref, watch, nextTick, computed } from "vue";
@@ -9,10 +10,7 @@ import QRCode from "qrcode";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
-import type {
-  FeatureAwarePictureProps,
-  ColoredImgProps,
-} from "../../types/app";
+import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
 import { BASE_URL } from "../../core/page-meta";
@@ -21,44 +19,12 @@ import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
 import ColoredImg from "../ui/ColoredImg.vue";
 
 // =========================================================================
-// Props
-// =========================================================================
-
-/**
- * Props for QRCodeModal.
- *
- * @property url - The URL to encode in the QR code.
- * @property imgProperties - Optional HAST-format icon properties for the
- *   centre overlay image (src, alt, dataI18nAlt, etc.).
- * @property hideOpenLink - When true, the \"Open Link\" button is hidden.
- */
-const props = defineProps<{
-  url: string;
-  pictureProps?: FeatureAwarePictureProps | null;
-  coloredProps?: ColoredImgProps | null;
-  hideOpenLink?: boolean;
-}>();
-
-/**
- * Emits for QRCodeModal.
- *
- * - open-link: User clicked "Open Link" — parent switches to
- *   ExternalLinkConfirmModal with the same URL + icon props.
- */
-const emit = defineEmits<{
-  (
-    e: "open-link",
-    url: string,
-    pictureProps: FeatureAwarePictureProps | null,
-    coloredProps: ColoredImgProps | null,
-  ): void;
-}>();
-
-// =========================================================================
 // State
 // =========================================================================
 
-const visible = ref(false);
+const { visible, props: stackProps } = useStackModal("qr-code");
+const { push, pop } = useModalStack();
+
 const { t } = useI18n();
 const { effectiveTheme } = useTheme();
 const { showToast } = useToast();
@@ -66,14 +32,18 @@ const { showToast } = useToast();
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const buttonsDisabled = ref(false);
 
-// -------------------------------------------------------------------------
-// Center icon (derived from typed pictureProps / coloredProps)
-// -------------------------------------------------------------------------
+// ---- Derived (narrowed from the stack entry) ----
 
+const url = computed(() => stackProps.value?.url ?? "");
+const pictureProps = computed(() => stackProps.value?.pictureProps ?? null);
+const coloredProps = computed(() => stackProps.value?.coloredProps ?? null);
+const hideOpenLink = computed(() => stackProps.value?.hideOpenLink ?? false);
+
+/** Alt text for the centre overlay icon. */
 const centerIconAlt = computed(
   () =>
-    props.pictureProps?.alt ??
-    props.coloredProps?.alt ??
+    pictureProps.value?.alt ??
+    coloredProps.value?.alt ??
     t("text-link", "Link"),
 );
 
@@ -83,7 +53,7 @@ const centerIconAlt = computed(
 
 const isInternal = computed(() => {
   try {
-    const u = new URL(props.url, window.location.origin);
+    const u = new URL(url.value, window.location.origin);
     return u.origin === window.location.origin;
   } catch {
     return false;
@@ -106,8 +76,8 @@ const qrColors = computed(() => ({
 
 const cardTitle = computed(() => {
   const alt =
-    props.pictureProps?.alt ??
-    props.coloredProps?.alt ??
+    pictureProps.value?.alt ??
+    coloredProps.value?.alt ??
     t("text-link", "Link");
   return alt;
 });
@@ -123,11 +93,11 @@ const cardTitle = computed(() => {
 let prevUrl = "";
 
 async function generateQR(): Promise<void> {
-  if (!qrCanvas.value || props.url === prevUrl) return;
-  prevUrl = props.url;
+  if (!qrCanvas.value || url.value === prevUrl) return;
+  prevUrl = url.value;
 
   const { dark, light } = qrColors.value;
-  await QRCode.toCanvas(qrCanvas.value, props.url, {
+  await QRCode.toCanvas(qrCanvas.value, url.value, {
     width: 250,
     margin: 0,
     color: { dark, light },
@@ -150,7 +120,7 @@ watch(effectiveTheme, async () => {
     await nextTick();
     const dark = cssVar("bs-body-color", "#000000");
     const light = cssVar("bs-body-bg", "#ffffff");
-    await QRCode.toCanvas(qrCanvas.value, props.url, {
+    await QRCode.toCanvas(qrCanvas.value, url.value, {
       width: 250,
       margin: 0,
       color: { dark, light },
@@ -264,38 +234,31 @@ async function copyImage(): Promise<void> {
       );
     } catch {
       // ClipboardItem("image/png") not supported — fall back to copying the URL
-      await navigator.clipboard.writeText(props.url);
+      await navigator.clipboard.writeText(url.value);
       showToast(
         "success",
-        `${t("text-copied-text", "Copied text")}: ${props.url}`,
+        `${t("text-copied-text", "Copied text")}: ${url.value}`,
       );
     }
   }, "Failed to copy QR code image");
 }
 
+/**
+ * Open the external-link confirmation for the QR URL (forward push).
+ * Mirrors the pre-stack behavior: Open Link always switches to
+ * ExternalLinkConfirmModal, regardless of how this modal was opened.
+ */
 function openLink(): void {
-  visible.value = false;
-  emit(
-    "open-link",
-    props.url,
-    props.pictureProps ?? null,
-    props.coloredProps ?? null,
-  );
+  push({
+    id: "external-link",
+    props: {
+      url: url.value,
+      pictureProps: pictureProps.value,
+      coloredProps: coloredProps.value,
+      hideQR: false,
+    },
+  });
 }
-
-/** Expose show/hide for imperative callers (parent App.vue). */
-// =========================================================================
-// Expose
-// =========================================================================
-
-defineExpose({
-  show: () => {
-    visible.value = true;
-  },
-  hide: () => {
-    visible.value = false;
-  },
-});
 </script>
 
 <template>
@@ -318,7 +281,7 @@ defineExpose({
               {{
                 $t(
                   "text-from-steve-hsu-s-link-hub",
-                  "from Steve Hsu's Link-Hub",
+                  "from Steve Hsu (什五)'s Link-Hub",
                 )
               }}
             </span>
@@ -427,7 +390,7 @@ defineExpose({
         <button
           type="button"
           class="btn btn-outline-primary btn-no-border"
-          @click="visible = false"
+          @click="pop()"
         >
           {{ $t("text-close", "Close") }}
         </button>

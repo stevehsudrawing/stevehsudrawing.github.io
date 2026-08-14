@@ -1,8 +1,8 @@
 ---
 description: >
-  Project-level context, conventions, and constraints for Steve Hsu's Link-Hub
-  (stevehsudrawing.github.io). Covers tech stack (HTML5/CSS/TypeScript/Vite 8/
-  pnpm), naming conventions, project structure, and feature references.
+  Project-level context, conventions, and constraints for Steve Hsu (什五)'s
+  Link-Hub (stevehsudrawing.github.io). Covers tech stack (HTML5/CSS/TypeScript/
+  Vite 8/pnpm), naming conventions, project structure, and feature references.
   Use when: working on any file in this repository.
 applyTo: "**"
 ---

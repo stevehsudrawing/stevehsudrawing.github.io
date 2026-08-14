@@ -56,7 +56,7 @@ watch(
     id="navbar-offcanvas"
     placement="start"
     class="d-lg-none"
-    :title="$t('text-steve-hsu-s-link-hub', `Steve Hsu's Link-Hub`)"
+    :title="$t('text-steve-hsu-s-link-hub', `Steve Hsu (什五)'s Link-Hub`)"
     :header-close-label="$t('text-close', 'Close')"
   >
     <ul class="navbar-nav mb-3">

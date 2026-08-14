@@ -8,22 +8,20 @@
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
 import { StorageKey } from "../types/app";
 
-export const htmlElement: HTMLElement = document.documentElement;
+const htmlElement: HTMLElement = document.documentElement;
 
-export const supportedThemes = ["auto", "light", "dark"] as const;
+const supportedThemes = ["auto", "light", "dark"] as const;
 
 /** Monotonic counter to cancel superseded transition callbacks. */
-export let themeTransitionId = 0;
+let themeTransitionId = 0;
 
-export const prefersColorScheme = window.matchMedia(
-  "(prefers-color-scheme: dark)",
-);
+const prefersColorScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
 /**
  * Query the OS-level color scheme preference.
  * @returns The current system theme.
  */
-export function getSystemTheme(): EffectiveTheme {
+function getSystemTheme(): EffectiveTheme {
   return prefersColorScheme.matches ? "dark" : "light";
 }
 
@@ -33,7 +31,7 @@ export function getSystemTheme(): EffectiveTheme {
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
  * @returns The effective theme.
  */
-export function getEffectiveTheme(themeChoice: ThemeChoice): EffectiveTheme {
+function getEffectiveTheme(themeChoice: ThemeChoice): EffectiveTheme {
   if (themeChoice === "auto") return getSystemTheme();
   return themeChoice as EffectiveTheme;
 }
@@ -128,7 +126,7 @@ export function applyThemePreference(
  * update the data-bs-theme attribute and refresh theme-based images.
  * No overlay is used - system-initiated changes should be subtle.
  */
-export function updateAutoThemeOnSystemChange(): void {
+function updateAutoThemeOnSystemChange(): void {
   const pref = localStorage.getItem(StorageKey.Theme) ?? "auto";
   if (pref !== "auto") return;
   applyThemeChange("auto");
@@ -140,7 +138,7 @@ export function updateAutoThemeOnSystemChange(): void {
  * general.svg / general-dark.svg, general.png / general-dark.png.
  * @param link - The favicon link element to update.
  */
-export function applyFaviconTheme(link: HTMLLinkElement): void {
+function applyFaviconTheme(link: HTMLLinkElement): void {
   const href = link.getAttribute("href");
   if (!href) return;
 

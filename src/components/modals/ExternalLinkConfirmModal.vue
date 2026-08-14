@@ -1,53 +1,28 @@
 <!--
   ExternalLinkConfirmModal.vue — External link safety check.
-  Receives typed pictureProps / coloredProps directly from App.vue
-  via provide/inject pipeline — no HAST round-trip needed.
+  Props + visibility come from the shared modal stack (useStackModal).
+  Cancel pops one level (back to the previous modal, if any);
+  backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useLocalStorage } from "../../composables/useLocalStorage";
 import { StorageKey } from "../../types/app";
-import type {
-  FeatureAwarePictureProps,
-  ColoredImgProps,
-} from "../../types/app";
 import { useModalFocus } from "../../composables/useModalFocus";
+import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
 import ColoredImg from "../ui/ColoredImg.vue";
 
 // =========================================================================
-// Props
-// =========================================================================
-
-const props = defineProps<{
-  url: string;
-  pictureProps?: FeatureAwarePictureProps | null;
-  coloredProps?: ColoredImgProps | null;
-  hideQRButton?: boolean;
-}>();
-
-// =========================================================================
-// Emits
-// =========================================================================
-
-const emit = defineEmits<{
-  (e: "navigate", url: string, openInNewTab: boolean): void;
-  (
-    e: "show-qr",
-    url: string,
-    pictureProps: FeatureAwarePictureProps | null,
-    coloredProps: ColoredImgProps | null,
-  ): void;
-}>();
-
-// =========================================================================
 // State
 // =========================================================================
 
-const visible = ref(false);
+const { visible, props: stackProps } = useStackModal("external-link");
+const { push, pop, clear } = useModalStack();
+
 const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
 const { t } = useI18n();
 
@@ -57,11 +32,18 @@ const openBtnRef = ref<HTMLElement | null>(null);
 /** Keyboard-aware focus: move focus to Open button when opened via Tab. */
 const { onShown } = useModalFocus(openBtnRef);
 
+// ---- Derived (narrowed from the stack entry) ----
+
+const url = computed(() => stackProps.value?.url ?? "");
+const pictureProps = computed(() => stackProps.value?.pictureProps ?? null);
+const coloredProps = computed(() => stackProps.value?.coloredProps ?? null);
+const hideQRButton = computed(() => stackProps.value?.hideQR ?? false);
+
 /** Alt text for the icon. */
 const iconAlt = computed(
   () =>
-    props.pictureProps?.alt ??
-    props.coloredProps?.alt ??
+    pictureProps.value?.alt ??
+    coloredProps.value?.alt ??
     t("text-link", "Link"),
 );
 
@@ -70,32 +52,25 @@ const iconAlt = computed(
 // =========================================================================
 
 function confirm(): void {
-  emit("navigate", props.url, openInNewTab.value);
-  visible.value = false;
+  if (openInNewTab.value) {
+    window.open(url.value, "_blank", "noopener,noreferrer");
+  } else {
+    window.location.href = url.value;
+  }
+  clear();
 }
 
 function showQR(): void {
-  emit(
-    "show-qr",
-    props.url,
-    props.pictureProps ?? null,
-    props.coloredProps ?? null,
-  );
-  visible.value = false;
+  push({
+    id: "qr-code",
+    props: {
+      url: url.value,
+      pictureProps: pictureProps.value,
+      coloredProps: coloredProps.value,
+      hideOpenLink: false,
+    },
+  });
 }
-
-// =========================================================================
-// Expose
-// =========================================================================
-
-defineExpose({
-  show: () => {
-    visible.value = true;
-  },
-  hide: () => {
-    visible.value = false;
-  },
-});
 </script>
 
 <template>
@@ -170,7 +145,7 @@ defineExpose({
         <button
           type="button"
           class="btn btn-outline-secondary btn-no-border"
-          @click="visible = false"
+          @click="pop()"
         >
           {{ $t("text-cancel", "Cancel") }}
         </button>

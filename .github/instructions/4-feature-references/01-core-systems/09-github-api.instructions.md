@@ -178,6 +178,22 @@ See §4.1.2.3 for the CSS variable naming convention.
 **Toggle buttons** use `<TooltipTrigger>` (§4.2.6.1). Clicking destroys
 the current chart and recreates it in the new mode.
 
+**Click interaction -> events modal**:
+
+Both chart modes push a `github-events` entry onto the modal stack
+(§4.1.7) when an element is clicked:
+
+| Mode   | Clicked element index maps to | Filter applied                         | Modal title          |
+| ------ | ----------------------------- | -------------------------------------- | -------------------- |
+| `bar`  | `stats[index].eventType`      | `e.type === eventType` (labeled dedup) | localized type label |
+| `line` | `dailyStats[index].x` (ms)    | `e.created_at.slice(0,10) === dayStr`  | `YYYY-MM-DD`         |
+
+Filtered events are sorted reverse-chronologically before pushing.
+`onHover` sets `cursor: pointer` on hoverable elements via
+`event.native?.target`. See `GitHubEventsModal.vue` for the list
+rendering (icon + `%L` link-marker description + relative time via
+date-fns locales).
+
 **Event type icons and text** (via `eventTypeIcon()` / `eventTypeI18nKey()`):
 
 | Event Type          | Icon                     | i18n Key                          |
@@ -204,6 +220,23 @@ the current chart and recreates it in the new mode.
 | `text-line-chart`                          | Line chart                          | Line toggle tooltip        |
 | `text-no-data-available`                   | No data available                   | Generic empty state        |
 
+**Event-description templates** (used by `GitHubEventsModal` — `%L` marks
+where the repo/issue `TypeAwareLink` is inserted, `%1` etc. are params):
+
+| Key                              | Fallback                |
+| -------------------------------- | ----------------------- |
+| `text-event-desc-push`           | Pushed %1 commits to %L |
+| `text-event-desc-push-plain`     | Pushed to %L            |
+| `text-event-desc-watch`          | Starred %L              |
+| `text-event-desc-fork`           | Forked %L               |
+| `text-event-desc-issue-opened`   | Opened issue %L         |
+| `text-event-desc-issue-closed`   | Closed issue %L         |
+| `text-event-desc-issue-reopened` | Reopened issue %L       |
+| `text-event-desc-issue-comment`  | Commented on %L         |
+| `text-event-desc-create`         | Created %1 %L           |
+| `text-event-desc-delete`         | Deleted %1 %L           |
+| `text-event-desc-pr`             | %1 pull request %L      |
+
 ##### 4.1.9.8 Adding a New GitHub API Endpoint
 
 Create a thin wrapper composable following the `useGithubProfile` pattern:
@@ -229,10 +262,11 @@ placeholders at `card-body` level, heading hidden during non-data states.
 
 ##### 4.1.9.9 Consumers
 
-| File                          | How                                                                                                                                            |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `IndexPage.vue`               | `<GitHubUserCard variant="compact" />`                                                                                                         |
-| `SoftwaresPage.vue`           | `<GitHubUserCard variant="full" />` + `<GitHubActivityStatsCard />` in a `row > col-lg-6` grid                                                 |
-| `GitHubUserCard.vue`          | `useGithubProfile()` → `{ data, isLoading, error }`; `LoadingPlaceholder` for loading/error/empty                                              |
-| `GitHubActivityStatsCard.vue` | `useGithubActivity()` → `{ stats, dailyStats, isLoading, error }`; Chart.js bar/line; `eventTypeIcon()` for ext. labels; `cssVar()` for colors |
-| `LoadingPlaceholder.vue`      | Shared UI component — no composable dependency; receives `label`, `state`, detail props from parent                                            |
+| File                          | How                                                                                                                                                  |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IndexPage.vue`               | `<GitHubUserCard variant="compact" />`                                                                                                               |
+| `SoftwaresPage.vue`           | `<GitHubUserCard variant="full" />` + `<GitHubActivityStatsCard />` in a `row > col-lg-6` grid                                                       |
+| `GitHubUserCard.vue`          | `useGithubProfile()` → `{ data, isLoading, error }`; `LoadingPlaceholder` for loading/error/empty                                                    |
+| `GitHubActivityStatsCard.vue` | `useGithubActivity()` → `{ events, stats, dailyStats, isLoading, error }`; Chart.js bar/line; chart clicks push `github-events` onto the modal stack |
+| `GitHubEventsModal.vue`       | `useStackModal("github-events")`; icon + `%L` description + relative time (date-fns locales); links via `TypeAwareLink`                              |
+| `LoadingPlaceholder.vue`      | Shared UI component — no composable dependency; receives `label`, `state`, detail props from parent                                                  |

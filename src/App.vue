@@ -18,13 +18,15 @@ import { useTheme } from "./composables/useTheme";
 import { useI18n } from "./composables/useI18n";
 import { useLocalStorage } from "./composables/useLocalStorage";
 import { usePageNavigation } from "./composables/usePageNavigation";
-import { useCrossModalNavigation } from "./composables/useCrossModalNavigation";
+import { useModalStack } from "./composables/useModalStack";
 import { SHOW_TOAST_KEY } from "./composables/useToast";
 
 // UI components (template refs)
 import SettingsModal from "./components/modals/SettingsModal.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
+import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
+import GitHubEventsModal from "./components/modals/GitHubEventsModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
 import SkipButton from "./components/buttons/SkipButton.vue";
@@ -86,9 +88,6 @@ const route = useRoute();
 const currentPage = computed(() => normalizeInternalPath(route.path));
 
 /** Template refs for imperative show/hide via defineExpose. */
-const settingsModalRef = ref<InstanceType<typeof SettingsModal>>();
-const extLinkModalRef = ref<InstanceType<typeof ExternalLinkConfirmModal>>();
-const qrCodeModalRef = ref<InstanceType<typeof QRCodeModal>>();
 const loadingScreenRef = ref<InstanceType<typeof LoadingScreen>>();
 const loadingBarRef = ref<InstanceType<typeof LoadingBar>>();
 const toastStackRef = ref<InstanceType<typeof ToastStack>>();
@@ -97,21 +96,9 @@ const toastStackRef = ref<InstanceType<typeof ToastStack>>();
 
 usePageNavigation(router, loadingBarRef, t);
 
-// ---- Cross-modal state (ExternalLink <-> QRCode) ----
+// ---- Modal stack (all modals coordinate through the shared stack) ----
 
-const {
-  extLinkUrl,
-  extLinkPictureProps,
-  extLinkColoredProps,
-  extLinkHideQR,
-  qrUrl,
-  qrPictureProps,
-  qrColoredProps,
-  qrHideOpenLink,
-  onExtLinkNavigate,
-  onExtLinkShowQR,
-  onQROpenLink,
-} = useCrossModalNavigation(qrCodeModalRef, extLinkModalRef);
+const { push } = useModalStack();
 
 // ---- Toast injection ----
 
@@ -127,7 +114,7 @@ provide(SHOW_TOAST_KEY, (type: "success" | "error", message: string) => {
 // ---- Settings-modal injection (consumed by AppNavbar gear button) ----
 
 provide(OPEN_SETTINGS_KEY, () => {
-  settingsModalRef.value?.show();
+  push({ id: "settings", props: null });
 });
 
 // ---- External-link & QR-code injection (consumed by TypeAwareLink, QRCodeButton) ----
@@ -140,11 +127,10 @@ provide(
     coloredProps: ColoredImgProps | null,
     hideQR: boolean,
   ) => {
-    extLinkUrl.value = url;
-    extLinkPictureProps.value = pictureProps;
-    extLinkColoredProps.value = coloredProps;
-    extLinkHideQR.value = hideQR;
-    extLinkModalRef.value?.show();
+    push({
+      id: "external-link",
+      props: { url, pictureProps, coloredProps, hideQR },
+    });
   },
 );
 
@@ -156,11 +142,15 @@ provide(
     coloredProps: ColoredImgProps | null,
     hideOpenLink?: boolean,
   ) => {
-    qrUrl.value = url;
-    qrPictureProps.value = pictureProps;
-    qrColoredProps.value = coloredProps;
-    qrHideOpenLink.value = hideOpenLink ?? false;
-    qrCodeModalRef.value?.show();
+    push({
+      id: "qr-code",
+      props: {
+        url,
+        pictureProps,
+        coloredProps,
+        hideOpenLink: hideOpenLink ?? false,
+      },
+    });
   },
 );
 
@@ -214,26 +204,13 @@ onMounted(async () => {
   <FooterNav />
 
   <!--
-    Modals + invisible global components: mounted here, shown/hidden
-    via defineExpose + template refs.
+    Modals: mounted here, each reads its props + visibility from the
+    shared modal stack (useStackModal).
   -->
-  <SettingsModal ref="settingsModalRef" />
-  <ExternalLinkConfirmModal
-    ref="extLinkModalRef"
-    :url="extLinkUrl"
-    :picture-props="extLinkPictureProps"
-    :colored-props="extLinkColoredProps"
-    :hide-q-r-button="extLinkHideQR"
-    @navigate="onExtLinkNavigate"
-    @show-qr="onExtLinkShowQR"
-  />
-  <QRCodeModal
-    ref="qrCodeModalRef"
-    :url="qrUrl"
-    :picture-props="qrPictureProps"
-    :colored-props="qrColoredProps"
-    :hide-open-link="qrHideOpenLink"
-    @open-link="onQROpenLink"
-  />
+  <SettingsModal />
+  <ExternalLinkConfirmModal />
+  <QRCodeModal />
+  <ResetWarningModal />
+  <GitHubEventsModal />
   <ToastStack ref="toastStackRef" />
 </template>

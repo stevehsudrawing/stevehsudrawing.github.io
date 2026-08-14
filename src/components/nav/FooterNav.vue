@@ -26,7 +26,7 @@ import { BASE_URL, GITHUB_REPO } from "../../core/page-meta";
                 $t('text-about-me-and-my-emails', 'About Me and E-mail')
               "
             >
-              {{ $t("text-steve-hsu", "Steve Hsu") }}
+              {{ $t("text-steve-hsu", "Steve Hsu (什五)") }}
             </TypeAwareLink>
           </TooltipTrigger>
           {{ $t("text-copyright-part-2", ". All rights reserved.") }}
