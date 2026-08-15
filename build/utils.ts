@@ -11,15 +11,6 @@ import { join, extname } from "node:path";
 // ---------------------------------------------------------------------------
 
 /**
- * Convert arbitrary text to a URL-safe dash-case slug.
- * @param text - The input string to slugify.
- * @returns A lowercase, dash-separated slug with special characters removed.
- */
-import { toDashCase, extractPlainText } from "../src/core/utils";
-
-export { toDashCase, extractPlainText };
-
-/**
  * Recursively extract the first href from a HAST node tree (from an <a> element).
  * Returns null if no href is found.
  * @param node - A HAST node object.

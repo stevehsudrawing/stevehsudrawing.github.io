@@ -1,6 +1,6 @@
 /**
  * Runtime site metadata — site-wide constants shared across the application.
- * Build-time counterpart: build/page-meta.ts.
+ * Build-time counterpart: build/page-meta.ts (imports from here).
  */
 
 /** Canonical base URL of the deployed site (for copy-link generation). */

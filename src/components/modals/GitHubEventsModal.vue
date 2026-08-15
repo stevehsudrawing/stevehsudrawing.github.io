@@ -7,8 +7,8 @@
 -->
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { formatDistanceToNow, type Locale } from "date-fns";
-import { enUS, zhCN, zhTW } from "date-fns/locale";
+import { formatDistanceToNow } from "date-fns";
+import { DATE_LOCALES } from "../../configs/language-list";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { useModalFocus } from "../../composables/useModalFocus";
@@ -17,7 +17,7 @@ import {
   eventTypeI18nKey,
 } from "../../composables/useGithubActivity";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-import type { GitHubEvent, Lang } from "../../types/app";
+import type { GitHubEvent } from "../../types/app";
 
 // =========================================================================
 // State
@@ -41,13 +41,6 @@ const events = computed(() => stackProps.value?.events ?? []);
 // =========================================================================
 // Helpers
 // =========================================================================
-
-/** Date-fns locales keyed by app language. */
-const DATE_LOCALES: Record<Lang, Locale> = {
-  en: enUS,
-  "zh-Hans": zhCN,
-  "zh-Hant": zhTW,
-};
 
 /**
  * Translate an event-description template and split it at the `%L`
@@ -155,7 +148,7 @@ function linkTarget(ev: GitHubEvent): { href: string; text: string } {
 function relativeTime(iso: string): string {
   return formatDistanceToNow(new Date(iso), {
     addSuffix: true,
-    locale: DATE_LOCALES[locale.value] ?? enUS,
+    locale: DATE_LOCALES[locale.value],
   });
 }
 

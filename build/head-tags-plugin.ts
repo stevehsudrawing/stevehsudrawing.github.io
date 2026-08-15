@@ -5,15 +5,10 @@
  * separate content-injection-plugin.ts.
  */
 
-import {
-  BASE_URL,
-  OG_IMAGE,
-  SITE_AUTHOR,
-  SITE_NAME,
-  TWITTER_CREATOR,
-  PAGE_META,
-} from "./page-meta";
+import { OG_IMAGE, TWITTER_CREATOR, PAGE_META } from "./page-meta";
+import { BASE_URL, SITE_AUTHOR, SITE_NAME } from "../src/configs/page-meta";
 import { getPageName } from "./utils";
+import { LANGUAGE_LIST } from "../src/configs/language-list";
 import type {
   IndexHtmlTransformContext,
   IndexHtmlTransformResult,
@@ -260,35 +255,25 @@ function twitterTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
   ];
 }
 
-/** Generate hreflang `<link>` tags for en, zh-Hans, zh-Hant, and x-default. */
+/** Canonical codes of all supported languages (derived from the config). */
+const LANGUAGE_CODES = LANGUAGE_LIST.map((lang) => lang.code);
+
+/** Generate hreflang `<link>` tags for each supported language plus x-default. */
 function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
   const url = `${BASE_URL}${meta.pagePath}`;
-  return [
-    {
-      tag: "link",
-      attrs: { rel: "alternate", hreflang: "en", href: `${url}?lang=en` },
+  const tags: HtmlTagDescriptor[] = LANGUAGE_LIST.map((lang) => ({
+    tag: "link",
+    attrs: {
+      rel: "alternate",
+      hreflang: lang.code,
+      href: `${url}?lang=${lang.code}`,
     },
-    {
-      tag: "link",
-      attrs: {
-        rel: "alternate",
-        hreflang: "zh-Hans",
-        href: `${url}?lang=zh-Hans`,
-      },
-    },
-    {
-      tag: "link",
-      attrs: {
-        rel: "alternate",
-        hreflang: "zh-Hant",
-        href: `${url}?lang=zh-Hant`,
-      },
-    },
-    {
-      tag: "link",
-      attrs: { rel: "alternate", hreflang: "x-default", href: url },
-    },
-  ];
+  }));
+  tags.push({
+    tag: "link",
+    attrs: { rel: "alternate", hreflang: "x-default", href: url },
+  });
+  return tags;
 }
 
 /** Generate basic SEO tags: `<title>`, description, robots, and canonical URL. */
@@ -353,7 +338,7 @@ function homepageJSONLD(): string {
     description: "Amateur creator - draws, makes videos, and codes sometimes.",
     email: "stevehsudrawing@outlook.com",
     image: OG_IMAGE,
-    knowsLanguage: ["en", "zh-Hans", "zh-Hant"],
+    knowsLanguage: LANGUAGE_CODES,
     gender: "Male",
   });
 }
@@ -367,7 +352,7 @@ function websiteJSONLD(): string {
     url: `${BASE_URL}/`,
     description:
       "A curated collection of links to Steve Hsu (什五)'s artworks, software projects, social media, and more.",
-    inLanguage: ["en", "zh-Hans", "zh-Hant"],
+    inLanguage: LANGUAGE_CODES,
     potentialAction: {
       "@type": "SearchAction",
       target: {

@@ -12,7 +12,7 @@ import { useLocalStorage } from "../../composables/useLocalStorage";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { StorageKey } from "../../types/app";
-import languageList from "../../configs/language-list.json";
+import { LANGUAGE_LIST } from "../../configs/language-list";
 
 // =========================================================================
 // State
@@ -59,7 +59,7 @@ const themes = [
   { value: "dark" as const, i18nKey: "text-dark" },
 ];
 
-const languages = languageList.map((item) => ({
+const languages = LANGUAGE_LIST.map((item) => ({
   code: item.code,
   name: item.localizedName,
 }));

@@ -8,7 +8,7 @@
  */
 
 import { extractPageName } from "../core/utils";
-import { SITE_NAME } from "../core/page-meta";
+import { SITE_NAME } from "../configs/page-meta";
 
 /**
  * Update the document title according to the current page and language.

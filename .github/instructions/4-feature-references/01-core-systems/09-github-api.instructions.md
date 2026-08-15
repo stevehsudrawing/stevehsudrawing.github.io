@@ -59,7 +59,7 @@ GitHubActivityStatsCard.vue                ← Vue SFC
 ```
 
 > The site owner's GitHub username comes from `GITHUB_USERNAME` in
-> `src/core/page-meta.ts` — API URLs are built from it via template literals.
+> `src/configs/page-meta.ts` — API URLs are built from it via template literals.
 
 ##### 4.1.9.2 Card Template Structure (Unified Placeholder Convention)
 

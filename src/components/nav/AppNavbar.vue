@@ -50,8 +50,7 @@ const showOffcanvas = ref(false);
 // Edge-swipe gestures: left-edge right-swipe to open, right-edge left-swipe to close
 useGesture(showOffcanvas);
 
-/** Supported languages (imported at build time from language-list.json). */
-import languageList from "../../configs/language-list.json";
+import { LANGUAGE_LIST } from "../../configs/language-list";
 
 const navItems: NavItem[] = [
   { href: "/index.html", i18nKey: "text-home", label: "Home" },
@@ -150,7 +149,7 @@ const themeOptions = [
 /** Current language display name (e.g. "English", "中文 (简体)"). */
 const currentLanguageName = computed(
   () =>
-    languageList.find((l) => l.code === locale.value)?.localizedName ??
+    LANGUAGE_LIST.find((l) => l.code === locale.value)?.localizedName ??
     locale.value,
 );
 
@@ -311,7 +310,7 @@ defineExpose({
               }}</span>
             </template>
             <BDropdownItem
-              v-for="lang in languageList"
+              v-for="lang in LANGUAGE_LIST"
               :key="lang.code"
               :active="locale === lang.code"
               @click="switchLanguage(lang.code)"

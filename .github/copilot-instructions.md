@@ -77,6 +77,9 @@ that apply to every session.
 types/       -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
   ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts)
   |
+configs/     -> pure runtime config data — no DOM, no events (page-meta.ts, language-list.ts,
+  ￪            link-cards/, link-button-groups/)
+  |
 core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts)
   ￪
 composables/ -> Vue reactive state + side-effects (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
@@ -96,15 +99,16 @@ router.ts    -> Vue Router config (routes, scrollBehavior, error recovery)
 App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                                   | May import from                                      | Must NOT import from                                    |
-| -------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- |
-| `types/`       | Shared type definitions                                                                     | npm, browser APIs                                    | `core/*`, `platform/*`, `composables/*`, `components/*` |
-| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**                       | `types/*`                                            | `platform/*`, `composables/*`, `components/*`           |
-| `composables/` | Vue reactive state + side-effects. May call `inject()`.                                     | `types/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
-| `platform/`    | Browser platform services — imperative DOM APIs.                                            | `types/*`, `core/*`                                  | `composables/*`, `components/*`                         |
-| `components/`  | Vue SFCs — `nav/`, `ui/`, `modals/`, `cards/`, `buttons/`, `links/`. Own template + styles. | `types/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
-| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content.                 | `types/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                                          | `types/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |
+| Layer          | Semantics                                                                                   | May import from                                                   | Must NOT import from                                    |
+| -------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+| `types/`       | Shared type definitions                                                                     | npm, browser APIs                                                 | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `configs/`     | Pure config data — constants + JSON. **No DOM, no events.**                                 | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**                       | `types/*`, `configs/*`                                            | `platform/*`, `composables/*`, `components/*`           |
+| `composables/` | Vue reactive state + side-effects. May call `inject()`.                                     | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
+| `platform/`    | Browser platform services — imperative DOM APIs.                                            | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
+| `components/`  | Vue SFCs — `nav/`, `ui/`, `modals/`, `cards/`, `buttons/`, `links/`. Own template + styles. | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
+| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content.                 | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
+| `plugins/`     | Vue plugins — global provide/inject registrations.                                          | `types/*`, `configs/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |
 
 **Decoupling patterns (when import would violate hierarchy):**
 

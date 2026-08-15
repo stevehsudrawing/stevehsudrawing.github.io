@@ -5,7 +5,7 @@
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
-import { BASE_URL, GITHUB_REPO } from "../../core/page-meta";
+import { BASE_URL, GITHUB_REPO } from "../../configs/page-meta";
 </script>
 
 <template>

@@ -7,12 +7,10 @@
 
 import type { PageMetaMap } from "../types";
 
-/** Site name used in `<title>`, OG tags, JSON-LD, and PWA manifest. */
-export const SITE_NAME = "Steve Hsu (什五)'s Link-Hub";
-/** Site author used in `<meta name="author">`. */
-export const SITE_AUTHOR = "Steve Hsu (什五)";
-/** Canonical base URL of the deployed site. */
-export const BASE_URL = "https://stevehsudrawing.github.io";
+// Single source of truth: runtime metadata lives in src/configs/page-meta.ts.
+// (build/* may import from src/*; the reverse is forbidden.)
+import { BASE_URL, SITE_NAME } from "../src/configs/page-meta";
+
 /** Absolute URL of the Open Graph / Twitter Card share image (1200x630). */
 export const OG_IMAGE = `${BASE_URL}/images/png/banner.png`;
 /** Twitter/X handle for `twitter:creator` meta tag. */

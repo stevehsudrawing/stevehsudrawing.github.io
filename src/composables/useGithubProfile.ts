@@ -8,7 +8,7 @@
 
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
 import { StorageKey, type GitHubUser } from "../types/app";
-import { GITHUB_USERNAME } from "../core/page-meta";
+import { GITHUB_USERNAME } from "../configs/page-meta";
 
 // =========================================================================
 // Constants

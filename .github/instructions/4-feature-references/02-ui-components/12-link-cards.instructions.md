@@ -52,6 +52,6 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
 </template>
 ```
 
-> `BASE_URL` lives in `src/core/page-meta.ts` — `LinkCardGroups` /
+> `BASE_URL` lives in `src/configs/page-meta.ts` — `LinkCardGroups` /
 > `LinkCardGroup` / `SectionHeading` import it directly for copy-link URL
 > generation; pages do not need to pass it as a prop.

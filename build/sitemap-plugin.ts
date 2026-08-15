@@ -6,30 +6,13 @@
  * always set to the build date (today), never read from config.
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
-import { PAGE_META, BASE_URL } from "./page-meta";
+import { PAGE_META } from "./page-meta";
+import { BASE_URL } from "../src/configs/page-meta";
+import { LANGUAGE_LIST, type LanguageEntry } from "../src/configs/language-list";
 import type { PageMetaEntry } from "./types";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-/** Supported language codes derived from language-list.json. */
-interface LanguageEntry {
-  code: string;
-  localizedName: string;
-}
-
-/**
- * Load the language list from the JSON config file.
- * @returns Array of language entries with `code` and `localizedName`.
- */
-function loadLanguageList(): LanguageEntry[] {
-  const jsonPath = resolve(__dirname, "..", "src", "configs", "language-list.json");
-  const raw = readFileSync(jsonPath, "utf-8");
-  return JSON.parse(raw) as LanguageEntry[];
-}
 
 /**
  * Generate a single `<url>` block for the sitemap, including hreflang
@@ -41,7 +24,7 @@ function loadLanguageList(): LanguageEntry[] {
  */
 function generateUrlEntry(
   meta: PageMetaEntry,
-  languages: LanguageEntry[],
+  languages: readonly LanguageEntry[],
   lastmod: string,
 ): string {
   const loc = `${BASE_URL}${meta.pagePath}`;
@@ -88,7 +71,6 @@ function isIndexable(meta: PageMetaEntry): boolean {
  * @returns Full XML string for sitemap.xml.
  */
 function generateSitemap(lastmod: string): string {
-  const languages = loadLanguageList();
   const indexablePages = Object.values(PAGE_META).filter(isIndexable);
 
   const lines: string[] = [];
@@ -98,7 +80,7 @@ function generateSitemap(lastmod: string): string {
   );
 
   for (const meta of indexablePages) {
-    lines.push(generateUrlEntry(meta, languages, lastmod));
+    lines.push(generateUrlEntry(meta, LANGUAGE_LIST, lastmod));
   }
 
   lines.push("</urlset>");

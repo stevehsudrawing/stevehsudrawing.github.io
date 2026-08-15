@@ -22,14 +22,14 @@ applyTo: >
 | `src/`                 | **Vite source** — all TS, Vue SFCs, CSS, HTML entry points                                                                                                                                                                 | See sub-folders below                                 |
 | `src/*.html`           | MPA entry points (index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares). Static `<noscript>` + `<div id="app">`.                                                                                      | —                                                     |
 | `src/types/`           | Shared type definitions, enums, module declarations                                                                                                                                                                        | New shared type or enum                               |
-| `src/core/`            | **Pure logic** — no DOM, no events. `i18n.ts`, `utils.ts`, `page-meta.ts`.                                                                                                                                                 | New pure utility or state module                      |
+| `src/core/`            | **Pure logic** — no DOM, no events. `i18n.ts`, `utils.ts`.                                                                                                                                                                 | New pure utility or state module                      |
 | `src/composables/`     | **Vue composables** — reactive state + side-effects. `useI18n.ts`, `useTheme.ts`, `useLocalStorage.ts`, etc.                                                                                                               | New composable when extracting reactive logic         |
 | `src/plugins/`         | **Vue plugins** — global provide/inject. `i18n.ts`.                                                                                                                                                                        | New plugin when adding app-level injection            |
 | `src/components/`      | **Vue SFCs** — organized by function: `nav/` (navigation bars, page chain), `ui/` (shared primitives), `modals/` (dialog overlays), `cards/` (content cards), `buttons/` (clickable elements), `links/` (link components). | New `.vue` component in the appropriate sub-directory |
 | `src/pages/`           | **Page components** — one `.vue` per route. `IndexPage.vue`, `AboutPage.vue`, etc.                                                                                                                                         | New page component when adding a route                |
 | `src/platform/`        | **Browser platform services** — imperative DOM APIs (document, window, navigator, localStorage) that Vue cannot own. `theme.ts`, `accessibility.ts`, `page-title.ts`, `bootstrap-css-detection.ts`.                        | Only for browser APIs with no Vue equivalent          |
 | `src/stylesheets/`     | **Global CSS** — reset, theme variables, fonts, accessibility. No component-specific styles.                                                                                                                               | New global style or add to existing file              |
-| `src/configs/`         | **Runtime JSON configs** — `link-cards/`, `link-button-groups/`, `language-list.json`.                                                                                                                                     | New config file for runtime data                      |
+| `src/configs/`         | **Runtime configs** — TS constants (`page-meta.ts`, `language-list.ts`) + JSON data (`link-cards/`, `link-button-groups/`).                                                                                                | New config file for runtime data                      |
 | `tools/`               | Build-time helper scripts (local only)                                                                                                                                                                                     | New helper script                                     |
 
 **Layered architecture (`src/`):**
@@ -38,7 +38,10 @@ applyTo: >
 types/       -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
   ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts, raw-imports.d.ts)
   |
-core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts, page-meta.ts)
+configs/     -> pure runtime config data — no DOM, no events (page-meta.ts, language-list.ts,
+  ￪            link-cards/, link-button-groups/)
+  |
+core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts)
   ￪
 composables/ -> Vue reactive state + side-effects (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
   ￪
@@ -57,15 +60,16 @@ router.ts    -> Vue Router config (routes, scrollBehavior, error recovery)
 App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                   | May import from                                      | Must NOT import from                              |
-| -------------- | --------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------- |
-| `types/`       | Shared type definitions                                                     | npm, browser APIs                                    | `core/*`, `ui/*`, `composables/*`, `components/*` |
-| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**       | `types/*`                                            | `ui/*`, `composables/*`, `components/*`           |
-| `composables/` | Vue reactive state + side-effects. May call `inject()`.                     | `types/*`, `core/*`, `platform/*` (limited)          | `components/*`                                    |
-| `platform/`    | Browser platform services — imperative DOM APIs.                            | `types/*`, `core/*`                                  | `composables/*`, `components/*`                   |
-| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, platform. | `types/*`, `core/*`, `composables/*`, `platform/*`   | —                                                 |
-| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content. | `types/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)            |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                          | `types/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`           |
+| Layer          | Semantics                                                                   | May import from                                                   | Must NOT import from                                    |
+| -------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+| `types/`       | Shared type definitions                                                     | npm, browser APIs                                                 | `core/*`, `ui/*`, `composables/*`, `components/*`       |
+| `configs/`     | Pure config data — constants + JSON. **No DOM, no events.**                 | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**       | `types/*`, `configs/*`                                            | `ui/*`, `composables/*`, `components/*`                 |
+| `composables/` | Vue reactive state + side-effects. May call `inject()`.                     | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
+| `platform/`    | Browser platform services — imperative DOM APIs.                            | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
+| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, platform. | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
+| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content. | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
+| `plugins/`     | Vue plugins — global provide/inject registrations.                          | `types/*`, `configs/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`                 |
 
 **Decoupling patterns (when a direct import would violate the hierarchy):**
 
@@ -98,6 +102,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
   - `links/` — Link-handling components (TypeAwareLink).
 - Put page-level components in `src/pages/` — one per route.
 - Put global CSS in `src/stylesheets/` — reset, theme, fonts, accessibility.
-- Put runtime JSON configs in `src/configs/` — link-cards, link-button-groups, language-list.
+- Put runtime configs in `src/configs/` — TS constants (`page-meta.ts`, `language-list.ts`) or JSON data (`link-cards/`, `link-button-groups/`).
+- **build ↔ src import direction**: `build/*` may import from `src/*` (pure modules only — `types/`, `core/`, `configs/`); `src/*` must NEVER import from `build/*`. Mirrored declarations in `build/` should be replaced with imports of the `src` equivalents.
 - Put translation JSON in `public/configs/i18n/` — one file per language.
 - Put broad-compatibility assets in `public/legacy/`.
