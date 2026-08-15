@@ -19,19 +19,14 @@ const { groups, pagePath } = useLinkCards(ref("blogs-and-sponsor"));
 <template>
   <!-- ==== Hero section ==== -->
   <HeroSection
-    :title="$t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor')"
-    :description="
-      $t(
-        'text-blogs-and-sponsor-description',
-        'Welcome to read my blogs about me or my projects!',
-      )
-    "
+    :title="$t('text-blogs-and-sponsor')"
+    :description="$t('text-blogs-and-sponsor-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/blogs.avif' } },
         webp: { light: { en: '/images/webp/covers/blogs.webp' } },
       },
-      alt: $t('text-blogs-and-sponsor', 'Blogs'),
+      alt: $t('text-blogs-and-sponsor'),
       class: 'img-fluid img-fit rounded',
     }"
   />

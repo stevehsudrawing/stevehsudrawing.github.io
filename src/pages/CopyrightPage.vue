@@ -18,24 +18,14 @@ import copyrightMd from "../../public/images/README.md?raw";
 <template>
   <!-- ==== Hero section ==== -->
   <HeroSection
-    :title="
-      $t(
-        'text-copyright-notice-title',
-        'Copyright Notice for Original Artworks',
-      )
-    "
-    :description="
-      $t(
-        'text-copyright-notice-description',
-        'Copyright notice and usage terms for original artworks by Steve Hsu (什五).',
-      )
-    "
+    :title="$t('text-copyright-notice-title')"
+    :description="$t('text-copyright-notice-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/about.avif' } },
         webp: { light: { en: '/images/webp/covers/about.webp' } },
       },
-      alt: $t('text-artworks', 'Artworks'),
+      alt: $t('text-artworks'),
       class: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />

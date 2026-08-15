@@ -7,10 +7,13 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { useLocalStorage } from "../../composables/useLocalStorage";
-import { StorageKey } from "../../types/app";
+import { useStoredValue } from "../../composables/useStoredValue";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import {
+  getStoredOpenInNewTab,
+  setStoredOpenInNewTab,
+} from "../../platform/storage";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
@@ -23,7 +26,11 @@ import ColoredImg from "../ui/ColoredImg.vue";
 const { visible, props: stackProps } = useStackModal("external-link");
 const { push, pop, clear } = useModalStack();
 
-const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
+const openInNewTab = useStoredValue(
+  getStoredOpenInNewTab,
+  setStoredOpenInNewTab,
+  true,
+);
 const { t } = useI18n();
 
 /** Open-button element for keyboard auto-focus. */
@@ -41,10 +48,7 @@ const hideQRButton = computed(() => stackProps.value?.hideQR ?? false);
 
 /** Alt text for the icon. */
 const iconAlt = computed(
-  () =>
-    pictureProps.value?.alt ??
-    coloredProps.value?.alt ??
-    t("text-link", "Link"),
+  () => pictureProps.value?.alt ?? coloredProps.value?.alt ?? t("text-link"),
 );
 
 // =========================================================================
@@ -76,7 +80,7 @@ function showQR(): void {
 <template>
   <BModal
     v-model="visible"
-    :title="$t('text-external-link', 'External Link')"
+    :title="$t('text-external-link')"
     header-class="h5 modal-title"
     title-tag="span"
     no-header-close
@@ -85,12 +89,7 @@ function showQR(): void {
     @shown="onShown"
   >
     <p class="mb-2">
-      {{
-        $t(
-          "text-you-are-about-to-leave",
-          "You are about to leave this site and go to:",
-        )
-      }}
+      {{ $t("text-you-are-about-to-leave") }}
     </p>
 
     <div class="d-flex align-items-start mb-3">
@@ -119,17 +118,17 @@ function showQR(): void {
     </div>
 
     <BFormCheckbox id="ext-link-new-tab-toggle" v-model="openInNewTab" switch>
-      {{ $t("text-open-in-new-tab", "Open in new tab") }}
+      {{ $t("text-open-in-new-tab") }}
     </BFormCheckbox>
 
     <template #footer>
       <div class="w-100 d-flex">
-        <TooltipTrigger :title="t('text-show-qr-code', 'Show QR Code')">
+        <TooltipTrigger :title="t('text-show-qr-code')">
           <button
             v-if="!hideQRButton"
             type="button"
             class="btn btn-outline-primary btn-no-border"
-            :aria-label="$t('text-show-qr-code', 'Show QR Code')"
+            :aria-label="$t('text-show-qr-code')"
             @click="showQR"
           >
             <i class="bi bi-qr-code"></i>
@@ -147,7 +146,7 @@ function showQR(): void {
           class="btn btn-outline-secondary btn-no-border"
           @click="pop()"
         >
-          {{ $t("text-cancel", "Cancel") }}
+          {{ $t("text-cancel") }}
         </button>
         <button
           ref="openBtnRef"
@@ -155,7 +154,7 @@ function showQR(): void {
           class="btn btn-outline-primary btn-no-border"
           @click="confirm"
         >
-          {{ $t("text-open", "Open") }}
+          {{ $t("text-open") }}
         </button>
       </div>
     </template>

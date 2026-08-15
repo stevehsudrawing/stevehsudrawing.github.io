@@ -4,6 +4,7 @@
  */
 
 import type { HastProperties } from "../types/hast";
+import { INTERNAL_PAGES, EXCLUDED_PAGES } from "../configs/pages";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
@@ -75,29 +76,6 @@ export function errMsg(error: unknown): string {
 }
 
 /**
- * List of internal page paths that support page transitions.
- */
-export const INTERNAL_PAGES = [
-  "/index.html",
-  "/about.html",
-  "/artworks-and-videos.html",
-  "/blogs-and-sponsor.html",
-  "/chatting.html",
-  "/softwares.html",
-  "/copyright-notice.html",
-] as const;
-
-/**
- * List of page paths excluded from the page transition system.
- * These pages will always trigger a full browser navigation.
- */
-export const EXCLUDED_PAGES = [
-  "/404.html",
-  "/error-javascript-disabled.html",
-  "/error-unsupported-browser.html",
-] as const;
-
-/**
  * Determine if a URL is an internal page that should be handled by the transition system.
  * @param url - The URL to check, can be relative or absolute.
  * @returns True if the URL points to an internal page eligible for transitions.
@@ -112,7 +90,7 @@ export function isInternalPage(url: string): boolean {
     // Must be one of our known internal pages
     const path = target.pathname;
     return (
-      (INTERNAL_PAGES as readonly string[]).includes(path) &&
+      INTERNAL_PAGES.includes(path) &&
       !(EXCLUDED_PAGES as readonly string[]).includes(path)
     );
   } catch {
@@ -163,13 +141,13 @@ export function extractPlainText(node: unknown): string {
  * handle HAST-rendered content (link cards, button groups).
  *
  * @param html - Raw HTML string from `toHtml()`.
- * @param t - i18n translation function (`t(key, fallback)`).
+ * @param t - i18n translation function (`t(key)`).
  * @returns HTML with all `data-i18n` attributes resolved to translated text,
  *          and the `data-i18n` / `data-i18n-html` attributes removed.
  */
 export function resolveI18nInHtml(
   html: string,
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
 ): string {
   if (!html) return "";
 
@@ -179,7 +157,7 @@ export function resolveI18nInHtml(
   doc.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
     if (key) {
-      el.textContent = t(key, el.textContent ?? "");
+      el.textContent = t(key);
     }
     el.removeAttribute("data-i18n");
   });
@@ -188,7 +166,7 @@ export function resolveI18nInHtml(
   doc.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const key = el.getAttribute("data-i18n-html");
     if (key) {
-      el.innerHTML = t(key, el.innerHTML);
+      el.innerHTML = t(key);
     }
     el.removeAttribute("data-i18n-html");
   });

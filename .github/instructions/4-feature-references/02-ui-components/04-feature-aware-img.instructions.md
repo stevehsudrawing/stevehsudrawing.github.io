@@ -60,11 +60,10 @@ Two components handle all image rendering:
 ```ts
 type ImgFeature = "follow-theme" | "follow-language";
 
-interface LanguageAwareImgSrcMap {
+// Keys derived from Lang — en required, others optional.
+type LanguageAwareImgSrcMap = {
   en: string; // Required — ultimate fallback
-  "zh-Hans"?: string;
-  "zh-Hant"?: string;
-}
+} & Partial<Record<Exclude<Lang, "en">, string>>;
 
 interface ThemeAwareImgSrcMap {
   light: LanguageAwareImgSrcMap; // Required — ultimate fallback
@@ -79,7 +78,7 @@ interface PictureSrcMap {
 
 **Fallback chain:**
 
-- Language: `zh-Hant` → `zh-Hans` → `en`
+- Language: exact match → `en` (no intermediate chain)
 - Theme: `dark` → `light`
 - Format: `avif` → `webp` (browser-native via `<picture>`)
 

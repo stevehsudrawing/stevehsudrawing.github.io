@@ -18,7 +18,7 @@ import { SITE_NAME } from "../configs/page-meta";
  * @param pathname - Optional pathname override.  Defaults to window.location.pathname.
  */
 export function updatePageTitle(
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
   pathname?: string,
 ): void {
   const pageName = extractPageName(pathname ?? window.location.pathname);

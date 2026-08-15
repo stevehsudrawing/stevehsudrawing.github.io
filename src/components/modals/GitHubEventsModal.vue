@@ -18,6 +18,7 @@ import {
 } from "../../composables/useGithubActivity";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import type { GitHubEvent } from "../../types/app";
+import TooltipTrigger from "../ui/TooltipTrigger.vue";
 
 // =========================================================================
 // State
@@ -47,16 +48,14 @@ const events = computed(() => stackProps.value?.events ?? []);
  * link marker into prefix / suffix around the link.
  *
  * @param key - i18n key (template contains `%L` where the link goes).
- * @param fallback - English fallback template.
  * @param params - Positional params for `%1`, `%2`, ...
  * @returns Text before and after the link marker.
  */
 function splitTemplate(
   key: string,
-  fallback: string,
   params?: string[],
 ): { prefix: string; suffix: string } {
-  const s = t(key, fallback, params);
+  const s = t(key, params);
   const i = s.indexOf("%L");
   if (i === -1) return { prefix: s, suffix: "" };
   return { prefix: s.slice(0, i), suffix: s.slice(i + 2) };
@@ -74,44 +73,39 @@ function describe(ev: GitHubEvent): { prefix: string; suffix: string } {
       const size =
         typeof ev.payload.size === "number" ? String(ev.payload.size) : null;
       return size !== null
-        ? splitTemplate("text-event-desc-push", "Pushed %1 commits to %L", [
-            size,
-          ])
-        : splitTemplate("text-event-desc-push-plain", "Pushed to %L");
+        ? splitTemplate("text-event-desc-push", [size])
+        : splitTemplate("text-event-desc-push-plain");
     }
     case "WatchEvent":
-      return splitTemplate("text-event-desc-watch", "Starred %L");
+      return splitTemplate("text-event-desc-watch");
     case "ForkEvent":
-      return splitTemplate("text-event-desc-fork", "Forked %L");
+      return splitTemplate("text-event-desc-fork");
     case "IssuesEvent":
       if (ev.payload.action === "closed") {
-        return splitTemplate("text-event-desc-issue-closed", "Closed issue %L");
+        return splitTemplate("text-event-desc-issue-closed");
       }
       if (ev.payload.action === "reopened") {
-        return splitTemplate(
-          "text-event-desc-issue-reopened",
-          "Reopened issue %L",
-        );
+        return splitTemplate("text-event-desc-issue-reopened");
       }
-      return splitTemplate("text-event-desc-issue-opened", "Opened issue %L");
+      return splitTemplate("text-event-desc-issue-opened");
     case "IssueCommentEvent":
-      return splitTemplate("text-event-desc-issue-comment", "Commented on %L");
+      return splitTemplate("text-event-desc-issue-comment");
     case "CreateEvent":
-      return splitTemplate("text-event-desc-create", "Created %1 %L", [
+      return splitTemplate("text-event-desc-create", [
         String(ev.payload.ref_type ?? "branch"),
       ]);
     case "DeleteEvent":
-      return splitTemplate("text-event-desc-delete", "Deleted %1 %L", [
+      return splitTemplate("text-event-desc-delete", [
         String(ev.payload.ref_type ?? "branch"),
       ]);
     case "PullRequestEvent":
-      return splitTemplate("text-event-desc-pr", "%1 pull request %L", [
+      return splitTemplate("text-event-desc-pr", [
         String(ev.payload.action ?? "opened"),
       ]);
     default:
       // Unknown event types: show the localized type label, link the repo
       return {
-        prefix: t(eventTypeI18nKey(ev.type), ev.type),
+        prefix: t(eventTypeI18nKey(ev.type)),
         suffix: "",
       };
   }
@@ -203,20 +197,23 @@ const rows = computed<EventRow[]>(() =>
           :class="`bi ${row.icon} text-body-secondary flex-shrink-0`"
           aria-hidden="true"
         ></i>
-        <div class="flex-grow-1 small text-truncate">
-          <span>{{ row.prefix }}</span>
-          <TypeAwareLink
-            type="external"
-            :href="row.linkHref"
-            no-q-r-code
-            hide-indicator
-            class="fw-semibold"
-          >
-            {{ row.linkText }}
-          </TypeAwareLink>
-          <span v-if="row.suffix">{{ row.suffix }}</span>
+        <div class="event-row-text flex-grow-1 small d-flex gap-1">
+          <span class="flex-shrink-0">{{ row.prefix }}</span>
+          <TooltipTrigger :title="row.linkText">
+            <TypeAwareLink
+              type="external"
+              :href="row.linkHref"
+              no-q-r-code
+              class="event-row-link fw-semibold"
+            >
+              {{ row.linkText }}
+            </TypeAwareLink>
+          </TooltipTrigger>
+          <span v-if="row.suffix" class="flex-shrink-0">{{ row.suffix }}</span>
         </div>
-        <span class="text-body-secondary small text-nowrap flex-shrink-0">
+        <span
+          class="text-body-secondary small text-nowrap flex-shrink-0 time-text"
+        >
           {{ row.timeText }}
         </span>
       </li>
@@ -229,8 +226,29 @@ const rows = computed<EventRow[]>(() =>
         class="btn btn-outline-primary btn-no-border ms-auto"
         @click="pop()"
       >
-        {{ $t("text-close", "Close") }}
+        {{ $t("text-close") }}
       </button>
     </template>
   </BModal>
 </template>
+
+<style scoped>
+/* --- Row text truncation: prefix/suffix stay fixed, the link shrinks --- */
+
+.event-row-text {
+  min-width: 0;
+}
+
+/* TypeAwareLink root: flex item + blockified, so text-overflow applies. */
+.event-row-link {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Time text: enable "tnum" for better number display */
+.time-text {
+  font-feature-settings: "tnum";
+}
+</style>

@@ -8,7 +8,7 @@
 
   Usage:
   ```vue
-  <TooltipTrigger :title="$t('text-settings', 'Settings')">
+  <TooltipTrigger :title="$t('text-settings')">
     <button class="btn">⚙</button>
   </TooltipTrigger>
   ```

@@ -143,10 +143,14 @@ code {
 
 /* --- Modal --- */
 
+.modal {
+  perspective: 16rem;
+}
+
 /* Open / Close Animation */
 .modal.fade .modal-dialog {
-  transform: scale(0.8);
-  filter: blur(15px);
+  transform: rotateX(3deg) scale(0.85);
+  filter: blur(5px);
   transition:
     transform 0.3s ease-out,
     filter 0.3s ease-out;

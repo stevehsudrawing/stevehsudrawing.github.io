@@ -14,34 +14,30 @@ import { BASE_URL, GITHUB_REPO } from "../../configs/page-meta";
       <div class="text-muted d-flex flex-wrap align-items-center gap-2">
         <!-- ==== Copyright ==== -->
         <div class="flex-grow-1 align-items-center">
-          {{ $t("text-copyright-part-1", "Copyright") }} &copy; 2024 - 2026
-          <TooltipTrigger
-            :title="$t('text-about-me-and-my-emails', 'About Me and E-mail')"
-          >
+          {{ $t("text-copyright-part-1") }} &copy; 2024 - 2026
+          <TooltipTrigger :title="$t('text-about-me-and-my-emails')">
             <TypeAwareLink
               type="internal"
               href="/about.html"
               class="link"
-              :aria-label="
-                $t('text-about-me-and-my-emails', 'About Me and E-mail')
-              "
+              :aria-label="$t('text-about-me-and-my-emails')"
             >
-              {{ $t("text-steve-hsu", "Steve Hsu (什五)") }}
+              {{ $t("text-steve-hsu") }}
             </TypeAwareLink>
           </TooltipTrigger>
-          {{ $t("text-copyright-part-2", ". All rights reserved.") }}
+          {{ $t("text-copyright-part-2") }}
           <TypeAwareLink
             type="internal"
             href="/copyright-notice.html"
             class="link"
           >
-            {{ $t("text-artwork-copyright", "Artwork Copyright") }}
+            {{ $t("text-artwork-copyright") }}
           </TypeAwareLink>
         </div>
 
         <!-- ==== Powered by ==== -->
         <div>
-          <span>{{ $t("text-powered-by-part-1", "Powered by") }}</span>
+          <span>{{ $t("text-powered-by-part-1") }}</span>
           <TypeAwareLink
             href="https://vite.dev/"
             type="external"
@@ -49,15 +45,15 @@ import { BASE_URL, GITHUB_REPO } from "../../configs/page-meta";
             class="link"
             >Vite</TypeAwareLink
           >
-          <span>{{ $t("text-and", "and") }}</span>
+          <span>{{ $t("text-and") }}</span>
           <TypeAwareLink
-            :href="$t('text-vue-js-site', 'https://vuejs.org/')"
+            :href="$t('text-vue-js-site')"
             type="external"
             no-qr-code
             class="link"
             >Vue.js</TypeAwareLink
           >
-          <span>{{ $t("text-powered-by-part-2", ".") }}</span>
+          <span>{{ $t("text-powered-by-part-2") }}</span>
         </div>
 
         <!-- ==== Issue ==== -->
@@ -68,7 +64,7 @@ import { BASE_URL, GITHUB_REPO } from "../../configs/page-meta";
             :href="`https://github.com/${GITHUB_REPO}/issues`"
             no-qr-code
           >
-            {{ $t("text-report-an-issue", "Report an Issue") }}
+            {{ $t("text-report-an-issue") }}
           </TypeAwareLink>
         </div>
         <!-- ==== Share + View Code ==== -->
@@ -79,13 +75,13 @@ import { BASE_URL, GITHUB_REPO } from "../../configs/page-meta";
             :colored-props="{
               src: '/images/webp/icons/steve-hsu.webp',
               colorVar: 'bs-primary',
-              alt: $t('text-steve-hsu-s-link-hub', 'Steve Hsu\'s Link-Hub'),
+              alt: $t('text-steve-hsu-s-link-hub'),
             }"
             hide-open-link
           >
             <i class="bi bi-share-fill"></i>
           </QRCodeButton>
-          <TooltipTrigger :title="$t('text-view-code', 'View Code')">
+          <TooltipTrigger :title="$t('text-view-code')">
             <TypeAwareLink
               type="external"
               :href="`https://github.com/${GITHUB_REPO}`"
@@ -93,12 +89,9 @@ import { BASE_URL, GITHUB_REPO } from "../../configs/page-meta";
               :colored-props="{
                 src: '/images/webp/icons/github.webp',
                 colorVar: 'bs-body-color',
-                alt: $t(
-                  'text-repo-of-steve-hsu-s-link-hub',
-                  'Repo of Steve Hsu\'s Link-Hub',
-                ),
+                alt: $t('text-repo-of-steve-hsu-s-link-hub'),
               }"
-              :aria-label="$t('text-view-code', 'View Code')"
+              :aria-label="$t('text-view-code')"
             >
               <i class="bi bi-github"></i>
             </TypeAwareLink>

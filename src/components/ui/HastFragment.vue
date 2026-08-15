@@ -113,11 +113,7 @@ export default defineComponent({
 
         // Resolve dataI18n: replace children with the translated text
         if (i18nKey) {
-          const fallback = (node.children ?? [])
-            .filter((c) => c.type === "text")
-            .map((c) => (c.value as string) ?? "")
-            .join("");
-          return h(tagName, vueProps, t(i18nKey, fallback));
+          return h(tagName, vueProps, t(i18nKey));
         }
 
         return h(tagName, vueProps, children);

@@ -107,7 +107,8 @@ simultaneously; no @hidden sequencing needed).
 | External navigation confirmed | navigate (window.open / location.href) + `clear()`     |
 
 Navigation logic lives inside `ExternalLinkConfirmModal` itself
-(`useLocalStorage(StorageKey.OpenInNewTab)` + window.open). There is no
+(`useStoredValue(getStoredOpenInNewTab, setStoredOpenInNewTab, true)` +
+window.open). There is no
 cross-modal state composable anymore — `useCrossModalNavigation` was
 removed in v3.7.0.
 

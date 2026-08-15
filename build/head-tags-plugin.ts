@@ -9,6 +9,8 @@ import { OG_IMAGE, TWITTER_CREATOR, PAGE_META } from "./page-meta";
 import { BASE_URL, SITE_AUTHOR, SITE_NAME } from "../src/configs/page-meta";
 import { getPageName } from "./utils";
 import { LANGUAGE_LIST } from "../src/configs/language-list";
+import indexButtonGroups from "../src/configs/link-button-groups/index.json";
+import type { LinkButtonGroupData } from "../src/types/app";
 import type {
   IndexHtmlTransformContext,
   IndexHtmlTransformResult,
@@ -258,6 +260,17 @@ function twitterTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
 /** Canonical codes of all supported languages (derived from the config). */
 const LANGUAGE_CODES = LANGUAGE_LIST.map((lang) => lang.code);
 
+/**
+ * Personal profile URLs for JSON-LD `sameAs` — the single source of truth
+ * is the index link-button config (buttons flagged with `sameAs: true`).
+ */
+const SOCIAL_PROFILE_URLS: string[] = (
+  indexButtonGroups as LinkButtonGroupData[]
+)
+  .flatMap((group) => group.buttons)
+  .filter((button) => button.externalLink && button.sameAs)
+  .map((button) => button.linkHref);
+
 /** Generate hreflang `<link>` tags for each supported language plus x-default. */
 function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {
   const url = `${BASE_URL}${meta.pagePath}`;
@@ -325,16 +338,7 @@ function homepageJSONLD(): string {
     name: "Steve Hsu",
     alternateName: ["什五", "Steve Hsu (什五)"],
     url: `${BASE_URL}/`,
-    sameAs: [
-      "https://www.pixiv.net/users/70732361",
-      "https://www.deviantart.com/stevehsudrawing",
-      "https://x.com/stevehsudrawing",
-      "https://weibo.com/stevehsudrawing",
-      "https://space.bilibili.com/298733903",
-      "https://github.com/stevehsudrawing",
-      "https://medibang.com/u/stevehsu",
-      "https://www.patreon.com/QuantoSeries",
-    ],
+    sameAs: SOCIAL_PROFILE_URLS,
     description: "Amateur creator - draws, makes videos, and codes sometimes.",
     email: "stevehsudrawing@outlook.com",
     image: OG_IMAGE,

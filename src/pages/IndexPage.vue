@@ -65,20 +65,10 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         <h1 v-html="$t('html-steve-hsu-s-link-hub')"></h1>
         <div class="py-2">
           <p>
-            {{
-              $t(
-                "text-homepage-welcome",
-                "Welcome! I'm an amateur creator. I draw something, make video, and code sometimes.",
-              )
-            }}
+            {{ $t("text-homepage-welcome") }}
           </p>
           <p>
-            {{
-              $t(
-                "text-homepage-introduction-artworks",
-                "You might know me through my artworks and videos. You can view my more artworks from my Pixiv profile or my profile on other platforms.",
-              )
-            }}
+            {{ $t("text-homepage-introduction-artworks") }}
           </p>
         </div>
         <LinkButtonGroup
@@ -104,7 +94,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                 href="https://www.pixiv.net/artworks/145641748"
                 :picture-props="{
                   src: '/images/webp/icons/pixiv.webp',
-                  alt: $t('text-pixiv', 'Pixiv'),
+                  alt: $t('text-pixiv'),
                 }"
                 hide-indicator
               >
@@ -128,7 +118,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                     },
                   }"
                   :feature="['follow-theme']"
-                  :alt="$t('text-illustration', 'Illustration')"
+                  :alt="$t('text-illustration')"
                   fetchpriority="high"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -140,7 +130,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                 href="https://www.pixiv.net/artworks/144184773"
                 :picture-props="{
                   src: '/images/webp/icons/pixiv.webp',
-                  alt: $t('text-pixiv', 'Pixiv'),
+                  alt: $t('text-pixiv'),
                 }"
                 hide-indicator
               >
@@ -153,7 +143,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                       light: { en: '/images/webp/covers/illustration-1.webp' },
                     },
                   }"
-                  :alt="$t('text-illustration', 'Illustration')"
+                  :alt="$t('text-illustration')"
                   loading="lazy"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -174,7 +164,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                       light: { en: '/images/webp/covers/illustration-2.webp' },
                     },
                   }"
-                  :alt="$t('text-illustration', 'Illustration')"
+                  :alt="$t('text-illustration')"
                   loading="lazy"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -195,7 +185,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                       light: { en: '/images/webp/covers/illustration-3.webp' },
                     },
                   }"
-                  :alt="$t('text-illustration', 'Illustration')"
+                  :alt="$t('text-illustration')"
                   loading="lazy"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -213,7 +203,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         </div>
       </div>
     </div>
-    <TooltipTrigger :title="$t('text-my-softwares', 'My Softwares')">
+    <TooltipTrigger :title="$t('text-my-softwares')">
       <TypeAwareLink
         class="scroll-down-tip"
         href="#softwares-section"
@@ -221,7 +211,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         hide-indicator
         v-if="breakpoint !== 'mobile'"
       >
-        <span>{{ $t("text-scroll-down", "scroll down") }}</span>
+        <span>{{ $t("text-scroll-down") }}</span>
         <i class="bi bi-chevron-down"></i>
       </TypeAwareLink>
     </TooltipTrigger>
@@ -237,15 +227,10 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   >
     <div class="row align-items-center align-content-center flex-grow-1">
       <div class="col-lg-6 order-lg-1 order-2">
-        <h2 class="h1">{{ $t("text-my-softwares", "My Softwares") }}</h2>
+        <h2 class="h1">{{ $t("text-my-softwares") }}</h2>
         <div class="py-2">
           <p>
-            {{
-              $t(
-                "text-homepage-introduction-software",
-                'You might also know me through softwares I made (such as Quanto Series). You can check my GitHub profile to view open source projects, or go to the "Software" page to see more.',
-              )
-            }}
+            {{ $t("text-homepage-introduction-software") }}
           </p>
         </div>
         <div class="pb-4">
@@ -262,12 +247,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
             avif: { light: { en: '/images/avif/covers/projects.avif' } },
             webp: { light: { en: '/images/webp/covers/projects.webp' } },
           }"
-          :alt="$t('text-softwares', 'Softwares')"
+          :alt="$t('text-softwares')"
           class="img-fluid img-fit rounded"
         />
       </div>
     </div>
-    <TooltipTrigger :title="$t('text-more-links', 'More Links')">
+    <TooltipTrigger :title="$t('text-more-links')">
       <TypeAwareLink
         class="scroll-down-tip"
         href="#blogs-sponsor-section"
@@ -275,7 +260,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         hide-indicator
         v-if="breakpoint !== 'mobile'"
       >
-        <span>{{ $t("text-scroll-down", "scroll down") }}</span>
+        <span>{{ $t("text-scroll-down") }}</span>
         <i class="bi bi-chevron-down"></i>
       </TypeAwareLink>
     </TooltipTrigger>
@@ -287,19 +272,14 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <HeroSection
     id="blogs-sponsor-section"
     heading-tag="h2"
-    :title="$t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor')"
-    :description="
-      $t(
-        'text-blogs-and-sponsor-description',
-        'Welcome to read my blogs about me or my projects!',
-      )
-    "
+    :title="$t('text-blogs-and-sponsor')"
+    :description="$t('text-blogs-and-sponsor-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/blogs.avif' } },
         webp: { light: { en: '/images/webp/covers/blogs.webp' } },
       },
-      alt: $t('text-blogs-and-sponsor', 'Blogs &amp; Sponsor'),
+      alt: $t('text-blogs-and-sponsor'),
       class: 'img-fluid img-fit rounded',
     }"
     :padding="false"
@@ -315,19 +295,14 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <!-- ==== Chatting section ==== -->
   <HeroSection
     heading-tag="h2"
-    :title="$t('text-chatting', 'Chatting')"
-    :description="
-      $t(
-        'text-chatting-description',
-        'Welcome to join my chat room for interaction!',
-      )
-    "
+    :title="$t('text-chatting')"
+    :description="$t('text-chatting-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/chatting.avif' } },
         webp: { light: { en: '/images/webp/covers/chatting.webp' } },
       },
-      alt: $t('text-chatting', 'Chatting'),
+      alt: $t('text-chatting'),
       class: 'img-fluid img-fit rounded',
     }"
     :padding="false"
@@ -341,18 +316,13 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   <hr />
 
   <!-- ==== Footer sticker + about link ==== -->
-  <StickerSection
-    sticker-id="thumb"
-    :sticker-title="$t('text-sticker-of-thumb', 'Sticker (Thumb)')"
-  >
+  <StickerSection sticker-id="thumb">
     <TypeAwareLink
       type="internal"
       href="/about.html"
       class="link link-hover-change-background link-secondary-shlh fw-semibold mt-3"
     >
-      <span>{{
-        $t("text-about-me-and-my-emails", "About me and my emails")
-      }}</span>
+      <span>{{ $t("text-about-me-and-my-emails") }}</span>
       <i class="bi bi-arrow-right"></i>
     </TypeAwareLink>
   </StickerSection>

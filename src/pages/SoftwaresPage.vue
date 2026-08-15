@@ -22,16 +22,14 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
 <template>
   <!-- ==== Hero section ==== -->
   <HeroSection
-    :title="$t('text-softwares', 'Softwares')"
-    :description="
-      $t('text-softwares-description', 'Welcome to view my softwares!')
-    "
+    :title="$t('text-softwares')"
+    :description="$t('text-softwares-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/projects.avif' } },
         webp: { light: { en: '/images/webp/covers/projects.webp' } },
       },
-      alt: $t('text-softwares', 'Softwares'),
+      alt: $t('text-softwares'),
       class: 'img-fluid img-fit rounded',
     }"
   >
@@ -44,7 +42,7 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
   <!-- === My GitHub Profile === -->
   <div class="container pb-2">
     <SectionHeading
-      :title="$t('text-my-github-profile', 'My GitHub Profile')"
+      :title="$t('text-my-github-profile')"
       :page-path="'softwares.html'"
     />
     <div class="row g-0">

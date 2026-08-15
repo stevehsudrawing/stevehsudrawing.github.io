@@ -6,11 +6,9 @@
  */
 
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
-import { StorageKey } from "../types/app";
+import { getStoredTheme, SUPPORTED_THEMES } from "./storage";
 
 const htmlElement: HTMLElement = document.documentElement;
-
-const supportedThemes = ["auto", "light", "dark"] as const;
 
 /** Monotonic counter to cancel superseded transition callbacks. */
 let themeTransitionId = 0;
@@ -56,7 +54,8 @@ export function applyThemeChange(theme: string): void {
  * removes it after the transition completes — avoids permanent backdrop-filter
  * GPU compositing overhead.
  *
- * Persistence (localStorage) is owned by useLocalStorage() in useTheme.ts;
+ * Persistence (localStorage) is owned by the storage accessors
+ * (platform/storage.ts) via useStoredValue() in useTheme.ts;
  * this function only handles DOM side-effects.
  *
  * @param themeChoice - One of 'auto', 'light', or 'dark'.
@@ -66,9 +65,7 @@ export function applyThemePreference(
   themeChoice: ThemeChoice,
   useOverlay = true,
 ): void {
-  const theme: ThemeChoice = (supportedThemes as readonly string[]).includes(
-    themeChoice,
-  )
+  const theme: ThemeChoice = SUPPORTED_THEMES.includes(themeChoice)
     ? themeChoice
     : "auto";
 
@@ -127,7 +124,7 @@ export function applyThemePreference(
  * No overlay is used - system-initiated changes should be subtle.
  */
 function updateAutoThemeOnSystemChange(): void {
-  const pref = localStorage.getItem(StorageKey.Theme) ?? "auto";
+  const pref = getStoredTheme();
   if (pref !== "auto") return;
   applyThemeChange("auto");
 }

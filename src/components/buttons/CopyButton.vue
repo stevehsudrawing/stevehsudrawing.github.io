@@ -37,10 +37,7 @@ const { showToast } = useToast();
 async function onClick(): Promise<void> {
   try {
     await navigator.clipboard.writeText(props.copyText);
-    showToast(
-      "success",
-      `${t("text-copied-text", "Copied text")}: ${props.copyText}`,
-    );
+    showToast("success", `${t("text-copied-text")}: ${props.copyText}`);
   } catch (err) {
     showToast("error", "Failed to copy text");
     console.error("Failed to copy text:", err);
@@ -49,12 +46,12 @@ async function onClick(): Promise<void> {
 </script>
 
 <template>
-  <TooltipTrigger :title="$t('text-copy', 'Copy')">
+  <TooltipTrigger :title="$t('text-copy')">
     <a
       v-if="tag !== 'button'"
       ref="elRef"
       href="#"
-      :aria-label="$t('text-copy', 'Copy')"
+      :aria-label="$t('text-copy')"
       @click.prevent="onClick"
     >
       <slot />
@@ -63,7 +60,7 @@ async function onClick(): Promise<void> {
       v-else
       ref="elRef"
       type="button"
-      :aria-label="$t('text-copy', 'Copy')"
+      :aria-label="$t('text-copy')"
       @click="onClick"
     >
       <slot />

@@ -22,8 +22,7 @@ const props = defineProps<{
    * Derives AVIF/WebP paths for both light and dark themes.
    */
   stickerId: string;
-  /** Fallback alt text for the sticker image. */
-  stickerTitle: string;
+
   /** Optional plain-text caption below the sticker. */
   caption?: string;
 }>();
@@ -52,7 +51,7 @@ const i18nKey = computed(() => `text-sticker-of-${props.stickerId}`);
       <FeatureAwarePicture
         :src-map="stickerSrcMap"
         :feature="['follow-theme']"
-        :alt="$t(i18nKey, stickerTitle)"
+        :alt="$t(i18nKey)"
         :width="150"
         :height="150"
         class="no-copy solid-bg"

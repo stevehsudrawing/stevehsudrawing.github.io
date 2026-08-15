@@ -82,6 +82,8 @@ export interface LinkButtonData {
   iconProps: HastProperties;
   /** When true, the button gets btn-primary styling. */
   primary?: boolean;
+  /** When true, the URL is a personal profile listed in JSON-LD `sameAs`. */
+  sameAs?: boolean;
 }
 
 /** Link-button-group descriptor — a set of buttons with a group ID. */
@@ -108,15 +110,13 @@ export type ImgFeature = "follow-theme" | "follow-language";
 // -------------------------------------------------------------------------
 
 /**
- * Language-keyed image source map.
+ * Language-keyed image source map — keys derived from `Lang`.
  * `en` is required — it is the ultimate fallback when a language variant
  * is not specified.
  */
-export interface LanguageAwareImgSrcMap {
+export type LanguageAwareImgSrcMap = {
   en: string;
-  "zh-Hans"?: string;
-  "zh-Hant"?: string;
-}
+} & Partial<Record<Exclude<Lang, "en">, string>>;
 
 /**
  * Theme-keyed image source map.

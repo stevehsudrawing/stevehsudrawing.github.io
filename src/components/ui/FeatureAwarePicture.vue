@@ -83,9 +83,6 @@ const resolvedLang = computed(() =>
 // Source resolution
 // -------------------------------------------------------------------------
 
-/** Language fallback chain: exact match → zh-Hans → zh-Hant → en. */
-const LANG_FALLBACK_CHAIN: readonly string[] = ["zh-Hans", "zh-Hant", "en"];
-
 /**
  * Resolve a single theme-keyed src map to a URL.
  *
@@ -108,14 +105,8 @@ function resolveThemeSrc(
     langMap = themeMap.light;
   }
 
-  // Language: try target → fallback chain
-  const candidates = [lang, ...LANG_FALLBACK_CHAIN];
-  for (const l of candidates) {
-    const src = langMap[l as keyof LanguageAwareImgSrcMap];
-    if (src) return src;
-  }
-
-  return langMap.en;
+  // Language: exact match → fall straight back to en
+  return langMap[lang as keyof LanguageAwareImgSrcMap] ?? langMap.en;
 }
 
 /** Resolved <img> src — always from webp (or static `src`). */

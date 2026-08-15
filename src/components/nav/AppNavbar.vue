@@ -37,7 +37,6 @@ const props = defineProps<{
 interface NavItem {
   href: string;
   i18nKey: string;
-  label: string;
 }
 
 // =========================================================================
@@ -51,22 +50,21 @@ const showOffcanvas = ref(false);
 useGesture(showOffcanvas);
 
 import { LANGUAGE_LIST } from "../../configs/language-list";
+import { THEME_OPTIONS } from "../../configs/theme-options";
 
 const navItems: NavItem[] = [
-  { href: "/index.html", i18nKey: "text-home", label: "Home" },
+  { href: "/index.html", i18nKey: "text-home" },
   {
     href: "/artworks-and-videos.html",
     i18nKey: "text-artworks-and-videos",
-    label: "Artworks & Videos",
   },
-  { href: "/softwares.html", i18nKey: "text-softwares", label: "Softwares" },
+  { href: "/softwares.html", i18nKey: "text-softwares" },
   {
     href: "/blogs-and-sponsor.html",
     i18nKey: "text-blogs-and-sponsor",
-    label: "Blogs & Sponsor",
   },
-  { href: "/chatting.html", i18nKey: "text-chatting", label: "Chatting" },
-  { href: "/about.html", i18nKey: "text-about", label: "About" },
+  { href: "/chatting.html", i18nKey: "text-chatting" },
+  { href: "/about.html", i18nKey: "text-about" },
 ];
 
 const { t, locale, setLocale } = useI18n();
@@ -119,32 +117,11 @@ const brandProgress = computed(() =>
 const pageI18nKey = computed(
   () => "text-" + extractPageName(props.currentPage),
 );
-const pageName = computed(() => t(pageI18nKey.value, ""));
+const pageName = computed(() => t(pageI18nKey.value));
 
 // -------------------------------------------------------------------------
-// Theme options + dropdown labels
+// Theme dropdown labels
 // -------------------------------------------------------------------------
-
-const themeOptions = [
-  {
-    value: "auto" as const,
-    i18nKey: "text-auto",
-    label: "Auto",
-    icon: "bi-circle-half",
-  },
-  {
-    value: "light" as const,
-    i18nKey: "text-light",
-    label: "Light",
-    icon: "bi-sun-fill",
-  },
-  {
-    value: "dark" as const,
-    i18nKey: "text-dark",
-    label: "Dark",
-    icon: "bi-moon-stars-fill",
-  },
-];
 
 /** Current language display name (e.g. "English", "中文 (简体)"). */
 const currentLanguageName = computed(
@@ -156,18 +133,16 @@ const currentLanguageName = computed(
 /** Current theme icon class (reacts to preference change). */
 const currentThemeIcon = computed(
   () =>
-    themeOptions.find((o) => o.value === preference.value)?.icon ??
+    THEME_OPTIONS.find((o) => o.value === preference.value)?.icon ??
     "bi-circle-half",
 );
 
 /** Current theme display name (reacts to preference change). */
-const currentThemeLabel = computed(() =>
-  t(
-    themeOptions.find((o) => o.value === preference.value)?.i18nKey ??
-      "text-auto",
-    "Auto",
-  ),
-);
+const currentThemeLabel = computed(() => {
+  const opt =
+    THEME_OPTIONS.find((o) => o.value === preference.value) ?? THEME_OPTIONS[0];
+  return t(opt.i18nKey);
+});
 
 // =========================================================================
 // Inject
@@ -226,12 +201,7 @@ defineExpose({
           <TypeAwareLink
             type="internal"
             href="/index.html"
-            :aria-label="
-              $t(
-                'text-homepage-of-steve-hsu-s-link-hub',
-                'Homepage of Steve Hsu\'s Link-Hub',
-              )
-            "
+            :aria-label="$t('text-homepage-of-steve-hsu-s-link-hub')"
           >
             <InlineSvg
               src="/images/svg/icons/steve-hsu.svg"
@@ -266,7 +236,7 @@ defineExpose({
         type="button"
         @click="showOffcanvas = !showOffcanvas"
         :aria-expanded="showOffcanvas"
-        :aria-label="$t('text-toggle-navigation', 'Toggle Navigation')"
+        :aria-label="$t('text-toggle-navigation')"
       >
         <i class="bi bi-list navbar-toggler-icon-font"></i>
       </button>
@@ -288,7 +258,7 @@ defineExpose({
                   ? 'page'
                   : undefined
               "
-              >{{ $t(item.i18nKey, item.label) }}</TypeAwareLink
+              >{{ $t(item.i18nKey) }}</TypeAwareLink
             >
           </li>
         </ul>
@@ -334,13 +304,13 @@ defineExpose({
               }}</span>
             </template>
             <BDropdownItem
-              v-for="opt in themeOptions"
+              v-for="opt in THEME_OPTIONS"
               :key="opt.value"
               :active="preference === opt.value"
               @click="setPreference(opt.value)"
             >
               <i :class="['bi', opt.icon, 'me-2']"></i>
-              {{ $t(opt.i18nKey, opt.label) }}
+              {{ $t(opt.i18nKey) }}
             </BDropdownItem>
           </BDropdown>
         </ul>
@@ -352,7 +322,7 @@ defineExpose({
           <a
             class="nav-link"
             href="#"
-            :aria-label="$t('text-settings', 'Settings')"
+            :aria-label="$t('text-settings')"
             @click.prevent="openSettings()"
           >
             <i class="bi bi-gear"></i>
@@ -402,7 +372,16 @@ defineExpose({
   font-weight: calc(var(--bs-body-font-weight) + 100);
 }
 
-/* BDropdown toggle buttons look like nav-links, not Bootstrap buttons */
+/* --- BDropdown Tweaks --- */
+
+:deep(.dropdown-menu.fade) {
+  transition:
+    opacity 0.1s linear,
+    background-color 0.1s linear,
+    backdrop-filter 0.1s linear;
+}
+
+/* --- BDropdown toggle buttons look like nav-links, not Bootstrap buttons */
 :deep(.dropdown-toggle.btn) {
   --bs-btn-padding-x: var(--bs-nav-link-padding-x, 0);
   --bs-btn-padding-y: var(--bs-nav-link-padding-y, 0);

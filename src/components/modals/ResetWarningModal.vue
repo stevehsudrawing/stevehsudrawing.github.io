@@ -8,10 +8,15 @@
 import { ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
-import { useLocalStorage } from "../../composables/useLocalStorage";
+import { useStoredValue } from "../../composables/useStoredValue";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { StorageKey } from "../../types/app";
+import {
+  getStoredEnableAnimations,
+  getStoredOpenInNewTab,
+  setStoredEnableAnimations,
+  setStoredOpenInNewTab,
+} from "../../platform/storage";
 
 // =========================================================================
 // State
@@ -22,8 +27,16 @@ const { pop, clear } = useModalStack();
 
 const { locale, setLocale } = useI18n();
 const { setPreference: setTheme } = useTheme();
-const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
-const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
+const openInNewTab = useStoredValue(
+  getStoredOpenInNewTab,
+  setStoredOpenInNewTab,
+  true,
+);
+const enableAnimations = useStoredValue(
+  getStoredEnableAnimations,
+  setStoredEnableAnimations,
+  true,
+);
 
 /** Cancel-button element for keyboard auto-focus. */
 const cancelBtnRef = ref<HTMLElement | null>(null);
@@ -50,7 +63,7 @@ function resetAll(): void {
 <template>
   <BModal
     v-model="visible"
-    :title="$t('text-warning', 'Warning')"
+    :title="$t('text-warning')"
     header-class="h5 modal-title"
     title-tag="span"
     no-header-close
@@ -59,12 +72,7 @@ function resetAll(): void {
     @shown="onShown"
   >
     <p>
-      {{
-        $t(
-          "text-warning-reset-description",
-          "If you choose to continue, this will clear your preferences, including language and color scheme settings. After clearing, you will be redirected to the homepage.",
-        )
-      }}
+      {{ $t("text-warning-reset-description") }}
     </p>
 
     <template #footer>
@@ -75,14 +83,14 @@ function resetAll(): void {
           class="btn btn-outline-secondary btn-no-border"
           @click="pop()"
         >
-          {{ $t("text-cancel", "Cancel") }}
+          {{ $t("text-cancel") }}
         </button>
         <button
           type="button"
           class="btn btn-outline-danger btn-no-border"
           @click="resetAll()"
         >
-          {{ $t("text-continue", "Continue") }}
+          {{ $t("text-continue") }}
         </button>
       </div>
     </template>

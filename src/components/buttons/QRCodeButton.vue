@@ -67,12 +67,12 @@ function onClick(e: MouseEvent): void {
 </script>
 
 <template>
-  <TooltipTrigger :title="t('text-show-qr-code', 'Show QR Code')">
+  <TooltipTrigger :title="t('text-show-qr-code')">
     <a
       href="javascript:void(0)"
       role="button"
       class="text-decoration-none"
-      :aria-label="$t('text-show-qr-code', 'Show QR Code')"
+      :aria-label="$t('text-show-qr-code')"
       @click="onClick"
     >
       <i v-if="!$slots.default" class="bi bi-qr-code"></i>

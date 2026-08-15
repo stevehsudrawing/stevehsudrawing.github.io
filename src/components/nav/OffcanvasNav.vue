@@ -19,7 +19,6 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
 interface NavItem {
   href: string;
   i18nKey: string;
-  label: string;
 }
 
 // =========================================================================
@@ -56,8 +55,8 @@ watch(
     id="navbar-offcanvas"
     placement="start"
     class="d-lg-none"
-    :title="$t('text-steve-hsu-s-link-hub', `Steve Hsu (什五)'s Link-Hub`)"
-    :header-close-label="$t('text-close', 'Close')"
+    :title="$t('text-steve-hsu-s-link-hub')"
+    :header-close-label="$t('text-close')"
   >
     <ul class="navbar-nav mb-3">
       <li v-for="item in navItems" :key="item.href" class="nav-item">
@@ -71,7 +70,7 @@ watch(
               ? 'page'
               : undefined
           "
-          >{{ $t(item.i18nKey, item.label) }}</TypeAwareLink
+          >{{ $t(item.i18nKey) }}</TypeAwareLink
         >
       </li>
     </ul>

@@ -12,7 +12,7 @@
     class="btn btn-primary"
     role="button"
   >
-    {{ $t("text-skip-to-content", "Skip to Content") }}
+    {{ $t("text-skip-to-content") }}
   </a>
 </template>
 

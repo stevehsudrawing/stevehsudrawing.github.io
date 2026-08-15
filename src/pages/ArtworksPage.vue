@@ -19,13 +19,8 @@ const { groups, pagePath } = useLinkCards(ref("artworks-and-videos"));
 <template>
   <!-- ==== Hero section ==== -->
   <HeroSection
-    :title="$t('text-artworks-and-videos', 'Artworks &amp; Videos')"
-    :description="
-      $t(
-        'text-artworks-and-videos-description',
-        'Welcome to view my personal artworks and videos through other platforms!',
-      )
-    "
+    :title="$t('text-artworks-and-videos')"
+    :description="$t('text-artworks-and-videos-description')"
     :image="{
       srcMap: {
         avif: {
@@ -38,7 +33,7 @@ const { groups, pagePath } = useLinkCards(ref("artworks-and-videos"));
         },
       },
       feature: ['follow-theme'],
-      alt: $t('text-artworks', 'Artworks'),
+      alt: $t('text-artworks'),
       class: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />

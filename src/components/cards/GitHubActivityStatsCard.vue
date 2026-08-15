@@ -92,15 +92,13 @@ const totalCount = computed(() =>
 
 const headingText = computed(() =>
   chartMode.value === "bar"
-    ? t("text-x-activities-recently", "%1 events", [String(totalCount.value)])
-    : t("text-x-activities-recently", "%1 events", [
+    ? t("text-x-activities-recently", [String(totalCount.value)])
+    : t("text-x-activities-recently", [
         String(dailyStats.value.reduce((s, d) => s + d.y, 0)),
       ]),
 );
 
-const placeholderLabel = computed(() =>
-  t("text-github-activity-stats", "Recent Activity"),
-);
+const placeholderLabel = computed(() => t("text-github-activity-stats"));
 
 /** Whether any chart data is present for the current mode. */
 const hasData = computed(() =>
@@ -305,7 +303,7 @@ onBeforeUnmount(() => {
 // =========================================================================
 
 function labelFor(eventType: string): string {
-  return t(eventTypeI18nKey(eventType), eventType);
+  return t(eventTypeI18nKey(eventType));
 }
 </script>
 
@@ -319,16 +317,13 @@ function labelFor(eventType: string): string {
         <div>
           <h3 class="h5 card-title mb-0">{{ headingText }}</h3>
           <span class="text-body-secondary small">{{
-            $t(
-              "text-displaying-data-from-the-past-month",
-              "displaying data from the past month",
-            )
+            $t("text-displaying-data-from-the-past-month")
           }}</span>
         </div>
 
         <!-- Toggle buttons -->
         <div class="btn-group btn-group-sm" role="group">
-          <TooltipTrigger :title="$t('text-bar-chart', 'Bar chart')">
+          <TooltipTrigger :title="$t('text-bar-chart')">
             <button
               type="button"
               class="btn btn-outline-secondary"
@@ -338,7 +333,7 @@ function labelFor(eventType: string): string {
               <i class="bi bi-bar-chart"></i>
             </button>
           </TooltipTrigger>
-          <TooltipTrigger :title="$t('text-line-chart', 'Line chart')">
+          <TooltipTrigger :title="$t('text-line-chart')">
             <button
               type="button"
               class="btn btn-outline-secondary"
@@ -395,7 +390,7 @@ function labelFor(eventType: string): string {
         v-else
         :label="placeholderLabel"
         state="empty"
-        :empty-message="t('text-github-activity-empty', 'No recent activity')"
+        :empty-message="t('text-github-activity-empty')"
       />
     </div>
   </div>

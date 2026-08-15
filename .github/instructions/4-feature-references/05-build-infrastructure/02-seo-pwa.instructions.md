@@ -23,7 +23,9 @@ Injects per-page `<head>` content at build time:
 - Open Graph (`og:title`, `og:description`, `og:image`)
 - Twitter/X Card (`twitter:card: summary_large_image`)
 - `<link rel="alternate" hreflang="...">` for language variants
-- JSON-LD structured data (`Person` on homepage, `WebSite` + `BreadcrumbList` on sub-pages)
+- JSON-LD structured data (`Person` on homepage, `WebSite` + `BreadcrumbList` on sub-pages).
+  The Person `sameAs` array is derived from `src/configs/link-button-groups/index.json`
+  (external buttons flagged `sameAs: true`) — never hardcoded.
 
 ##### 4.5.2.2 sitemap-plugin.ts
 

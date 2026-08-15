@@ -1,7 +1,7 @@
 /**
  * Read a CSS custom property from the document root with a fallback.
  *
- * Similar to i18n's t(key, fallback): if the property is not set,
+ * Similar to i18n's t(key): if the property is not set,
  * empty, or unavailable (SSR), the fallback value is returned.
  *
  * @param prop - CSS custom property name with leading `--` (e.g. "--shlh-primary").

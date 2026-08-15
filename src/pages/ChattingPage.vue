@@ -19,19 +19,14 @@ const { groups, pagePath } = useLinkCards(ref("chatting"));
 <template>
   <!-- ==== Hero section ==== -->
   <HeroSection
-    :title="$t('text-chatting', 'Chatting')"
-    :description="
-      $t(
-        'text-chatting-description',
-        'Welcome to join my chat room for interaction!',
-      )
-    "
+    :title="$t('text-chatting')"
+    :description="$t('text-chatting-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/chatting.avif' } },
         webp: { light: { en: '/images/webp/covers/chatting.webp' } },
       },
-      alt: $t('text-chatting', 'Chatting'),
+      alt: $t('text-chatting'),
       class: 'img-fluid img-fit rounded',
     }"
   />

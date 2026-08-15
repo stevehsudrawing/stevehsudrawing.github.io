@@ -61,16 +61,16 @@ pipeline routes to `ColoredImg`; otherwise `FeatureAwarePicture`. See
 
 Located in `build/types.ts` and used by Vite plugins and build scripts. Type-checked by `tsconfig.build.json` (targets `Node` lib via `@types/node`).
 
-| Type                  | Purpose                                                                             |
-| --------------------- | ----------------------------------------------------------------------------------- |
-| `PageMetaEntry`       | Single page metadata entry (title, description, pagePath, robots, jsonLDType, tier) |
-| `PageMetaMap`         | `Record<string, PageMetaEntry>` - the shape of `PAGE_META` in `page-meta.ts`        |
-| `PageTier`            | `'full' \| 'none'` - controls which head tags are used                              |
-| `JsonLDType`          | `'homepage' \| 'breadcrumb' \| 'none'` - determines JSON-LD structured data format  |
-| `CardData`            | Link-card descriptor (`available`, `icon`, `title`, `description`)                  |
-| `GroupData`           | Link-card group descriptor (`title`, `description`, `contents`)                     |
-| `LinkButtonData`      | Link-button descriptor (`externalLink`, `linkHref`, `iconProps`, `primary?`)        |
-| `LinkButtonGroupData` | Link-button-group descriptor (`groupId`, `buttons`)                                 |
+| Type                  | Purpose                                                                                 |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| `PageMetaEntry`       | Single page metadata entry (title, description, pagePath, robots, jsonLDType, tier)     |
+| `PageMetaMap`         | `Record<string, PageMetaEntry>` - the shape of `PAGE_META` in `page-meta.ts`            |
+| `PageTier`            | `'full' \| 'none'` - controls which head tags are used                                  |
+| `JsonLDType`          | `'homepage' \| 'breadcrumb' \| 'none'` - determines JSON-LD structured data format      |
+| `CardData`            | Link-card descriptor (`available`, `icon`, `title`, `description`)                      |
+| `GroupData`           | Link-card group descriptor (`title`, `description`, `contents`)                         |
+| `LinkButtonData`      | Link-button descriptor (`externalLink`, `linkHref`, `iconProps`, `primary?`, `sameAs?`) |
+| `LinkButtonGroupData` | Link-button-group descriptor (`groupId`, `buttons`)                                     |
 
 Build-time types may import from npm packages, Node.js APIs, and `src/types/`. They exist only at build time - never bundled into browser output.
 

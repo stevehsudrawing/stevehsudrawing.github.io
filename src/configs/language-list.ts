@@ -24,6 +24,9 @@ export const LANGUAGE_LIST: readonly LanguageEntry[] = [
   { code: "zh-Hant", localizedName: "中文 (繁體)" },
 ];
 
+/** Default language used when no preference is stored. */
+export const DEFAULT_LANG: Lang = "en";
+
 // ---- date-fns locales ----
 
 /** date-fns locales keyed by app language (relative-time formatting). */

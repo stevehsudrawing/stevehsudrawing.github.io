@@ -2,17 +2,19 @@
  * i18n Vue plugin.
  *
  * Registers reactive locale + messages state globally via provide/inject
- * and exposes a convenience `$t(key, fallback?)` method on every component
+ * and exposes a convenience `$t(key, params?)` method on every component
  * instance (mimicking vue-i18n's API for easier future migration).
  *
- * Coexists with core/i18n.ts: the plugin holds reactive STATE;
- * core/i18n.ts still handles DOM manipulation (updatePageText, etc.)
- * for the existing data-i18n attribute system.
+ * Translations are bundled at build time (src/configs/i18n); the initial
+ * messages are the default language, so `$t` always falls back to the
+ * English text without a per-call fallback string.
  */
 
 import type { App } from "vue";
 import { ref, type Ref } from "vue";
 import type { Lang } from "../types/app";
+import { DEFAULT_LANG } from "../configs/language-list";
+import { TRANSLATIONS } from "../configs/i18n/translations";
 
 /** Key used for provide/inject. */
 export const I18N_LOCALE_KEY = Symbol("i18nLocale");
@@ -29,8 +31,10 @@ export const I18N_MESSAGES_KEY = Symbol("i18nMessages");
  */
 export const i18nPlugin = {
   install(app: App): void {
-    const locale = ref<Lang>("en");
-    const messages = ref<Record<string, unknown>>({});
+    const locale = ref<Lang>(DEFAULT_LANG);
+    const messages = ref<Record<string, unknown>>({
+      ...TRANSLATIONS[DEFAULT_LANG],
+    });
 
     app.provide(I18N_LOCALE_KEY, locale);
     app.provide(I18N_MESSAGES_KEY, messages);
@@ -39,11 +43,10 @@ export const i18nPlugin = {
     // Only returns string values; HAST nodes use useI18n().h() instead.
     app.config.globalProperties.$t = (
       key: string,
-      fallback?: string,
       params?: string[],
     ): string => {
-      const raw = messages.value[key];
-      let result: string = typeof raw === "string" ? raw : (fallback ?? "");
+      const raw = messages.value[key] ?? TRANSLATIONS[DEFAULT_LANG][key];
+      let result: string = typeof raw === "string" ? raw : "";
       if (params && params.length > 0) {
         result = result.replace(
           /%(\d+)/g,

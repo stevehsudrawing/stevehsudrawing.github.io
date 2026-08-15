@@ -27,23 +27,30 @@ applyTo: >
 | `setElementAttributes(el, props)` | Batch-set attributes |
 | `extractPlainText(html)`          | Strip HTML tags      |
 
-##### 4.5.3.3 Internal Page Lists
+##### 4.5.3.3 Internal Page Lists (`src/configs/pages.ts`)
+
+Page names live once in `PAGE_NAMES`; `INTERNAL_PAGES` is derived from it.
+`build/types.ts` derives `PageName` from the same source, so `PAGE_META`
+must cover every page (compile-time completeness check).
 
 ```ts
-const INTERNAL_PAGES = [
-  "/index.html",
-  "/about.html",
-  "/artworks-and-videos.html",
-  "/blogs-and-sponsor.html",
-  "/chatting.html",
-  "/softwares.html",
-  "/copyright-notice.html",
-];
+const PAGE_NAMES = [
+  "index",
+  "about",
+  "artworks-and-videos",
+  "blogs-and-sponsor",
+  "chatting",
+  "softwares",
+  "copyright-notice",
+] as const;
+
+const INTERNAL_PAGES = PAGE_NAMES.map((name) => `/${name}.html`);
+
 const EXCLUDED_PAGES = [
   "/404.html",
   "/error-javascript-disabled.html",
   "/error-unsupported-browser.html",
-];
+] as const;
 ```
 
 ##### 4.5.3.4 Page Title (`src/platform/page-title.ts`)

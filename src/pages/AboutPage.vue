@@ -23,16 +23,14 @@ const { groups, pagePath } = useLinkCards(ref("about"));
 <template>
   <!-- ==== Hero section ==== -->
   <HeroSection
-    :title="$t('text-about', 'About')"
-    :description="
-      $t('text-about-description', 'Learn more about me through this page!')
-    "
+    :title="$t('text-about')"
+    :description="$t('text-about-description')"
     :image="{
       srcMap: {
         avif: { light: { en: '/images/avif/covers/about.avif' } },
         webp: { light: { en: '/images/webp/covers/about.webp' } },
       },
-      alt: $t('text-artworks', 'Artworks'),
+      alt: $t('text-artworks'),
       class: 'img-fluid img-fit rounded no-copy solid-bg',
     }"
   />
@@ -45,7 +43,7 @@ const { groups, pagePath } = useLinkCards(ref("about"));
   <div class="container">
     <div>
       <SectionHeading
-        :title="$t('text-profile', 'Profile')"
+        :title="$t('text-profile')"
         heading-id="profile"
         :page-path="pagePath"
       />
@@ -58,57 +56,37 @@ const { groups, pagePath } = useLinkCards(ref("about"));
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🗣</th>
             <td>
-              <span>{{
-                $t(
-                  "text-profile-part-1",
-                  'Pronunciation: /stiːv ɕy/. You can also call me "什五 (shí wǔ, ㄕˊ ㄨˇ or ジュウゴ)".',
-                )
-              }}</span>
+              <span>{{ $t("text-profile-part-1") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">👤</th>
             <td>
-              <span>{{
-                $t(
-                  "text-profile-part-2",
-                  "He/Him. Virgo. MBTI personality: ISTP.",
-                )
-              }}</span>
+              <span>{{ $t("text-profile-part-2") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🖌</th>
             <td>
-              <span>{{
-                $t(
-                  "text-profile-part-3",
-                  "I'm an amateur creator. I draw something and make video sometimes.",
-                )
-              }}</span>
+              <span>{{ $t("text-profile-part-3") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">💾</th>
             <td>
-              <span>{{ $t("text-profile-part-4", "Sometimes I code.") }}</span>
+              <span>{{ $t("text-profile-part-4") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🤔</th>
             <td>
-              <span>{{
-                $t(
-                  "text-profile-part-5",
-                  "I want to create more, code more and sleep more.",
-                )
-              }}</span>
+              <span>{{ $t("text-profile-part-5") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🎨</th>
             <td>
-              <span>{{ $t("text-profile-part-6", "My major color:") }}</span>
+              <span>{{ $t("text-profile-part-6") }}</span>
               <CopyButton
                 class="link text-nowrap"
                 copy-text="#47c4ee"
@@ -132,21 +110,14 @@ const { groups, pagePath } = useLinkCards(ref("about"));
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">👾</th>
             <td>
-              <span
-                v-html="
-                  $t(
-                    'html-profile-part-7',
-                    `Character settings of Steve Hsu in the <cite>Codename Staub</cite> worldview:`,
-                  )
-                "
-              ></span>
+              <span v-html="$t('html-profile-part-7')"></span>
               <TypeAwareLink
                 type="external"
                 href="https://afdian.com/p/590c0408806111f1b05f52540025c377"
                 no-qr-code
                 class="link"
               >
-                <span>{{ $t("text-learn-more", "Learn More") }}</span>
+                <span>{{ $t("text-learn-more") }}</span>
               </TypeAwareLink>
             </td>
           </tr>
@@ -166,7 +137,6 @@ const { groups, pagePath } = useLinkCards(ref("about"));
   <!-- ==== Footer sticker ==== -->
   <StickerSection
     sticker-id="thanks"
-    :sticker-title="$t('text-sticker-of-thanks', 'Sticker (Thanks)')"
-    :caption="$t('text-thanks-for-your-visiting', 'Thanks for your visiting!')"
+    :caption="$t('text-thanks-for-your-visiting')"
   />
 </template>

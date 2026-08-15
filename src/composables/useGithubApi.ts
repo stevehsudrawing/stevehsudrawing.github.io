@@ -6,26 +6,19 @@
  * reactive ref and a single in-flight fetch (deduped via module-level
  * promise tracking).
  *
- * Cache entries are stored as `{ data, fetchedAt }` JSON objects under
- * the given cache key.  The `maxAge` option controls freshness (default:
- * 1 hour).  Stale caches are served immediately while a background
- * re-fetch runs; on network error or 403 (rate-limit), cached data is
- * returned regardless of age.
+ * Cache entries (`{ data, fetchedAt }` JSON) are read and written via a
+ * storage accessor from platform/storage.ts.  The `maxAge` option controls
+ * freshness (default: 1 hour).  Stale caches are served immediately while
+ * a background re-fetch runs; on network error or 403 (rate-limit),
+ * cached data is returned regardless of age.
  */
 
 import { ref, type Ref } from "vue";
+import type { GithubCacheAccessor } from "../platform/storage";
 
 // =========================================================================
 // Types
 // =========================================================================
-
-/** Wrapper stored in localStorage alongside each API response. */
-interface CacheEntry<T> {
-  /** The API response data. */
-  data: T;
-  /** `Date.now()` when the data was fetched. */
-  fetchedAt: number;
-}
 
 /** Return type for the useGithubApi composable. */
 export interface GithubApiState<T> {
@@ -59,58 +52,6 @@ const errorCache = new Map<string, Ref<string | null>>();
 const promiseCache = new Map<string, Promise<void>>();
 
 // =========================================================================
-// Helpers
-// =========================================================================
-
-/**
- * Attempt to read a cached entry from localStorage.
- *
- * @param cacheKey - localStorage key for this API endpoint.
- * @returns The parsed cache entry, or null if not found / corrupted.
- */
-function readCache<T>(cacheKey: string): CacheEntry<T> | null {
-  if (typeof window === "undefined") return null;
-
-  try {
-    const raw = localStorage.getItem(cacheKey);
-    if (raw === null) return null;
-    const entry = JSON.parse(raw) as CacheEntry<T>;
-    // Basic guard: ensure the parsed object has the expected shape
-    if (
-      !entry ||
-      typeof entry.fetchedAt !== "number" ||
-      entry.data === undefined
-    ) {
-      return null;
-    }
-    return entry;
-  } catch {
-    // Corrupted JSON — treat as cache miss
-    return null;
-  }
-}
-
-/**
- * Write a cache entry to localStorage.
- *
- * @param cacheKey - localStorage key for this API endpoint.
- * @param data - The API response data to cache.
- */
-function writeCache<T>(cacheKey: string, data: T): void {
-  if (typeof window === "undefined") return;
-
-  const entry: CacheEntry<T> = {
-    data,
-    fetchedAt: Date.now(),
-  };
-  try {
-    localStorage.setItem(cacheKey, JSON.stringify(entry));
-  } catch {
-    // localStorage full or disabled — silently ignore
-  }
-}
-
-// =========================================================================
 // Composable
 // =========================================================================
 
@@ -127,21 +68,24 @@ function writeCache<T>(cacheKey: string, data: T): void {
  * is set.
  *
  * @param url - Full GitHub REST API URL (e.g. "https://api.github.com/users/stevehsudrawing").
- * @param cacheKey - localStorage key for this endpoint's cache.
+ * @param cache - Storage accessor for this endpoint's cache
+ *   (GITHUB_PROFILE_CACHE / GITHUB_EVENTS_CACHE in platform/storage.ts).
  * @param maxAge - Cache freshness threshold in ms (default: 1 hour).
  * @returns Reactive state ({@link GithubApiState}) shared across all callers.
  *
  * @example
  * const { data, isLoading, error, refresh } = useGithubApi<GitHubUser>(
  *   'https://api.github.com/users/stevehsudrawing',
- *   'githubProfile',
+ *   GITHUB_PROFILE_CACHE,
  * );
  */
 export function useGithubApi<T>(
   url: string,
-  cacheKey: string,
+  cache: GithubCacheAccessor<T>,
   maxAge: number = DEFAULT_MAX_AGE,
 ): GithubApiState<T> {
+  const cacheKey = cache.key;
+
   // ---- Return cached singleton if already initialised ----
 
   const existingData = dataCache.get(cacheKey);
@@ -150,7 +94,7 @@ export function useGithubApi<T>(
       data: existingData as Ref<T | null>,
       isLoading: loadingCache.get(cacheKey)! as Ref<boolean>,
       error: errorCache.get(cacheKey)! as Ref<string | null>,
-      refresh: () => performFetch(cacheKey, url, maxAge),
+      refresh: () => performFetch(cache, url, maxAge),
     };
   }
 
@@ -165,23 +109,23 @@ export function useGithubApi<T>(
   errorCache.set(cacheKey, error);
 
   // Initialise from cache (synchronous)
-  const cached = readCache<T>(cacheKey);
+  const cached = cache.read();
   if (cached) {
     data.value = cached.data;
     // If stale, trigger background refresh
     if (Date.now() - cached.fetchedAt > maxAge) {
-      void performFetch(cacheKey, url, maxAge);
+      void performFetch(cache, url, maxAge);
     }
   } else {
     // No cache — fetch immediately
-    void performFetch(cacheKey, url, maxAge);
+    void performFetch(cache, url, maxAge);
   }
 
   return {
     data,
     isLoading,
     error,
-    refresh: () => performFetch(cacheKey, url, maxAge),
+    refresh: () => performFetch(cache, url, maxAge),
   };
 }
 
@@ -193,18 +137,20 @@ export function useGithubApi<T>(
  * Fetch data from the given URL, update cache and reactive state.
  *
  * Deduplicates concurrent calls: if a fetch is already in-flight for
- * `cacheKey`, subsequent callers wait on the same promise.
+ * this endpoint, subsequent callers wait on the same promise.
  *
- * @param cacheKey - localStorage key for this endpoint's cache.
+ * @param cache - Storage accessor for this endpoint's cache.
  * @param url - GitHub REST API URL.
  * @param maxAge - Cache freshness threshold in ms (not used here, but
  *   carried for potential future use in background refresh logic).
  */
 async function performFetch<T>(
-  cacheKey: string,
+  cache: GithubCacheAccessor<T>,
   url: string,
   maxAge: number,
 ): Promise<void> {
+  const cacheKey = cache.key;
+
   // Dedup: if a fetch is already in-flight, piggyback on it
   const existing = promiseCache.get(cacheKey);
   if (existing) {
@@ -237,7 +183,7 @@ async function performFetch<T>(
 
       const json = (await response.json()) as T;
       if (data) data.value = json;
-      writeCache(cacheKey, json);
+      cache.write(json);
     } catch (err: unknown) {
       // Network error — keep cached data if we have it
       if (error) {

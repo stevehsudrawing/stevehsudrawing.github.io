@@ -2,6 +2,8 @@
  * Build-time TypeScript type definitions.
  */
 
+import type { PAGE_NAMES } from "../src/configs/pages";
+
 /**
  * Internal HAST node alias.
  *
@@ -47,7 +49,8 @@ export interface PageMetaEntry {
   priority?: number;
 }
 
+/** Page identifier (without .html extension), derived from configs/pages.ts. */
+export type PageName = (typeof PAGE_NAMES)[number];
+
 /** Map of page names to their metadata entries; the shape of PAGE_META in page-meta.ts. */
-export interface PageMetaMap {
-  [pageName: string]: PageMetaEntry;
-}
+export type PageMetaMap = Record<PageName, PageMetaEntry>;

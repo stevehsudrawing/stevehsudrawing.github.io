@@ -8,11 +8,17 @@
 import { ref, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
-import { useLocalStorage } from "../../composables/useLocalStorage";
+import { useStoredValue } from "../../composables/useStoredValue";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { StorageKey } from "../../types/app";
 import { LANGUAGE_LIST } from "../../configs/language-list";
+import { THEME_OPTIONS } from "../../configs/theme-options";
+import {
+  getStoredEnableAnimations,
+  getStoredOpenInNewTab,
+  setStoredEnableAnimations,
+  setStoredOpenInNewTab,
+} from "../../platform/storage";
 
 // =========================================================================
 // State
@@ -27,8 +33,16 @@ const langSelectRef = ref<HTMLElement | null>(null);
 const { locale, setLocale } = useI18n();
 const { preference: themePreference, setPreference: setTheme } = useTheme();
 
-const openInNewTab = useLocalStorage(StorageKey.OpenInNewTab, true);
-const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
+const openInNewTab = useStoredValue(
+  getStoredOpenInNewTab,
+  setStoredOpenInNewTab,
+  true,
+);
+const enableAnimations = useStoredValue(
+  getStoredEnableAnimations,
+  setStoredEnableAnimations,
+  true,
+);
 
 /** Keyboard-aware focus: move focus to language select when opened via Tab. */
 const { onShown } = useModalFocus(langSelectRef);
@@ -53,12 +67,6 @@ onBeforeUnmount(() => {
 // Theme / language options
 // -------------------------------------------------------------------------
 
-const themes = [
-  { value: "auto" as const, i18nKey: "text-auto" },
-  { value: "light" as const, i18nKey: "text-light" },
-  { value: "dark" as const, i18nKey: "text-dark" },
-];
-
 const languages = LANGUAGE_LIST.map((item) => ({
   code: item.code,
   name: item.localizedName,
@@ -78,7 +86,7 @@ function openResetWarning(): void {
   <!-- ==== Settings Modal ==== -->
   <BModal
     v-model="visible"
-    :title="$t('text-settings', 'Settings')"
+    :title="$t('text-settings')"
     header-class="h5 modal-title"
     title-tag="span"
     no-header-close
@@ -93,7 +101,7 @@ function openResetWarning(): void {
       <!-- Language -->
       <div>
         <label for="settings-language-select" class="form-label fw-semibold">
-          {{ $t("text-language", "Language") }}
+          {{ $t("text-language") }}
         </label>
         <select
           id="settings-language-select"
@@ -110,29 +118,24 @@ function openResetWarning(): void {
 
       <!-- Theme -->
       <div>
-        <div class="mb-2 fw-semibold">{{ $t("text-theme", "Theme") }}</div>
+        <div class="mb-2 fw-semibold">{{ $t("text-theme") }}</div>
         <div class="btn-group d-flex flex-wrap" role="group">
           <button
-            v-for="t in themes"
+            v-for="t in THEME_OPTIONS"
             :key="t.value"
             type="button"
             class="btn btn-outline-secondary flex-fill"
             :class="{ active: themePreference === t.value }"
             @click="setTheme(t.value)"
           >
-            {{ $t(t.i18nKey, t.value) }}
+            {{ $t(t.i18nKey) }}
           </button>
         </div>
       </div>
 
       <!-- New-tab toggle -->
       <BFormCheckbox id="settings-new-tab-toggle" v-model="openInNewTab" switch>
-        {{
-          $t(
-            "text-always-open-external-links-in-a-new-tab",
-            "Always open external links in a new tab",
-          )
-        }}
+        {{ $t("text-always-open-external-links-in-a-new-tab") }}
       </BFormCheckbox>
 
       <!-- Animations toggle -->
@@ -142,15 +145,10 @@ function openResetWarning(): void {
         switch
         :disabled="reducedMotion"
       >
-        {{ $t("text-enable-animations", "Enable animations") }}
+        {{ $t("text-enable-animations") }}
       </BFormCheckbox>
       <small v-if="reducedMotion" class="text-muted d-block mb-3">
-        {{
-          $t(
-            "text-animations-disabled-by-system-description",
-            "Animations are disabled by your system settings.",
-          )
-        }}
+        {{ $t("text-animations-disabled-by-system-description") }}
       </small>
     </div>
 
@@ -162,14 +160,14 @@ function openResetWarning(): void {
           class="btn btn-outline-danger btn-no-border"
           @click="openResetWarning"
         >
-          {{ $t("text-reset", "Reset") }}
+          {{ $t("text-reset") }}
         </button>
         <button
           type="button"
           class="btn btn-outline-primary btn-no-border"
           @click="pop()"
         >
-          {{ $t("text-close", "Close") }}
+          {{ $t("text-close") }}
         </button>
       </div>
     </template>

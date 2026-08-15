@@ -7,8 +7,9 @@
  */
 
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
-import { StorageKey, type GitHubUser } from "../types/app";
+import type { GitHubUser } from "../types/app";
 import { GITHUB_USERNAME } from "../configs/page-meta";
+import { GITHUB_PROFILE_CACHE } from "../platform/storage";
 
 // =========================================================================
 // Constants
@@ -31,5 +32,5 @@ const PROFILE_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
  * // data.value?.public_repos → 8
  */
 export function useGithubProfile(): GithubApiState<GitHubUser> {
-  return useGithubApi<GitHubUser>(PROFILE_URL, StorageKey.GithubProfile);
+  return useGithubApi<GitHubUser>(PROFILE_URL, GITHUB_PROFILE_CACHE);
 }

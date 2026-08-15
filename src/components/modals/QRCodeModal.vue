@@ -41,10 +41,7 @@ const hideOpenLink = computed(() => stackProps.value?.hideOpenLink ?? false);
 
 /** Alt text for the centre overlay icon. */
 const centerIconAlt = computed(
-  () =>
-    pictureProps.value?.alt ??
-    coloredProps.value?.alt ??
-    t("text-link", "Link"),
+  () => pictureProps.value?.alt ?? coloredProps.value?.alt ?? t("text-link"),
 );
 
 // -------------------------------------------------------------------------
@@ -76,9 +73,7 @@ const qrColors = computed(() => ({
 
 const cardTitle = computed(() => {
   const alt =
-    pictureProps.value?.alt ??
-    coloredProps.value?.alt ??
-    t("text-link", "Link");
+    pictureProps.value?.alt ?? coloredProps.value?.alt ?? t("text-link");
   return alt;
 });
 
@@ -225,20 +220,11 @@ async function copyImage(): Promise<void> {
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
-      showToast(
-        "success",
-        t(
-          "text-copied-image",
-          "Copied image. You can paste it into a supported input field.",
-        ),
-      );
+      showToast("success", t("text-copied-image"));
     } catch {
       // ClipboardItem("image/png") not supported — fall back to copying the URL
       await navigator.clipboard.writeText(url.value);
-      showToast(
-        "success",
-        `${t("text-copied-text", "Copied text")}: ${url.value}`,
-      );
+      showToast("success", `${t("text-copied-text")}: ${url.value}`);
     }
   }, "Failed to copy QR code image");
 }
@@ -264,7 +250,7 @@ function openLink(): void {
 <template>
   <BModal
     v-model="visible"
-    :title="$t('text-qr-code', 'QR Code')"
+    :title="$t('text-qr-code')"
     header-class="h5 modal-title"
     title-tag="span"
     no-header-close
@@ -278,12 +264,7 @@ function openLink(): void {
           <div id="qr-share-card-header-text">
             <span id="qr-share-card-title">{{ cardTitle }}</span>
             <span id="qr-share-card-brand">
-              {{
-                $t(
-                  "text-from-steve-hsu-s-link-hub",
-                  "from Steve Hsu (什五)'s Link-Hub",
-                )
-              }}
+              {{ $t("text-from-steve-hsu-s-link-hub") }}
             </span>
           </div>
         </div>
@@ -322,9 +303,7 @@ function openLink(): void {
 
         <div id="qr-share-card-footer">
           <div id="qr-share-card-footer-text">
-            <span>{{
-              $t("text-learn-more-about-me", "Learn more about me")
-            }}</span>
+            <span>{{ $t("text-learn-more-about-me") }}</span>
             <code id="qr-share-card-source">{{ BASE_URL }}</code>
           </div>
           <div id="qr-share-card-logo-container">
@@ -342,45 +321,45 @@ function openLink(): void {
 
     <template #footer>
       <div class="w-100 d-flex">
-        <TooltipTrigger :title="t('text-open', 'Open')">
+        <TooltipTrigger :title="t('text-open')">
           <button
             v-if="!isInternal && !hideOpenLink"
             type="button"
             class="btn btn-outline-primary btn-no-border"
-            :aria-label="$t('text-open', 'Open')"
+            :aria-label="$t('text-open')"
             @click="openLink"
           >
             <i class="bi bi-box-arrow-up-right"></i>
           </button>
         </TooltipTrigger>
-        <TooltipTrigger :title="t('text-share', 'Share')">
+        <TooltipTrigger :title="t('text-share')">
           <button
             v-if="shareApiSupported"
             type="button"
             class="btn btn-outline-primary btn-no-border"
-            :aria-label="$t('text-share', 'Share')"
+            :aria-label="$t('text-share')"
             @click="shareImage()"
             :disabled="buttonsDisabled"
           >
             <i class="bi bi-share"></i>
           </button>
         </TooltipTrigger>
-        <TooltipTrigger :title="t('text-download', 'Download')">
+        <TooltipTrigger :title="t('text-download')">
           <button
             type="button"
             class="btn btn-outline-primary btn-no-border"
-            :aria-label="$t('text-download', 'Download')"
+            :aria-label="$t('text-download')"
             @click="downloadPNG()"
             :disabled="buttonsDisabled"
           >
             <i class="bi bi-download"></i>
           </button>
         </TooltipTrigger>
-        <TooltipTrigger :title="t('text-copy', 'Copy')">
+        <TooltipTrigger :title="t('text-copy')">
           <button
             type="button"
             class="btn btn-outline-primary btn-no-border me-auto"
-            :aria-label="$t('text-copy', 'Copy')"
+            :aria-label="$t('text-copy')"
             @click="copyImage()"
             :disabled="buttonsDisabled"
           >
@@ -392,7 +371,7 @@ function openLink(): void {
           class="btn btn-outline-primary btn-no-border"
           @click="pop()"
         >
-          {{ $t("text-close", "Close") }}
+          {{ $t("text-close") }}
         </button>
       </div>
     </template>

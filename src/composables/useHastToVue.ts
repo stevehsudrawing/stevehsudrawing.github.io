@@ -62,7 +62,7 @@ function isColored(raw: string | undefined): boolean {
  */
 export function extractPictureProps(
   imgNode: HastNode,
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
 ): FeatureAwarePictureProps | null {
   if (imgNode.type !== "element" || imgNode.tagName !== "img") return null;
 
@@ -72,9 +72,7 @@ export function extractPictureProps(
 
   return {
     src,
-    alt: altKey
-      ? t(altKey, (props.alt as string) ?? "")
-      : ((props.alt as string) ?? ""),
+    alt: altKey ? t(altKey) : ((props.alt as string) ?? ""),
     feature: parseFeatures(props.dataImgFeature as string | undefined),
   };
 }
@@ -93,7 +91,7 @@ export function extractPictureProps(
  */
 export function extractColoredImgProps(
   imgNode: HastNode,
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
 ): ColoredImgProps | null {
   if (imgNode.type !== "element" || imgNode.tagName !== "img") return null;
 
@@ -103,9 +101,7 @@ export function extractColoredImgProps(
   return {
     src: (props.dataSrcMask as string) ?? (props.src as string) ?? "",
     colorVar: (props.dataColorVar as string) ?? "shlh-primary-color",
-    alt: altKey
-      ? t(altKey, (props.alt as string) ?? "")
-      : ((props.alt as string) ?? ""),
+    alt: altKey ? t(altKey) : ((props.alt as string) ?? ""),
   };
 }
 
@@ -123,7 +119,7 @@ export function extractColoredImgProps(
  */
 export function extractLinkProps(
   aNode: HastNode,
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
 ): ExtractedLinkProps | null {
   if (aNode.type !== "element" || aNode.tagName !== "a") return null;
 
@@ -164,7 +160,7 @@ export function extractLinkProps(
  */
 function resolveHastTextContent(
   node: HastNode,
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
 ): string {
   if (node.type === "text") return (node.value as string) ?? "";
 
@@ -172,13 +168,12 @@ function resolveHastTextContent(
     const props = node.properties ?? {};
     const i18nKey =
       (props.dataI18n as string) ?? (props.dataI18nAlt as string) ?? "";
-    const fallback = (props.alt as string) ?? "";
 
     const childText = (node.children ?? [])
       .map((c) => resolveHastTextContent(c, t))
       .join("");
 
-    if (i18nKey) return t(i18nKey, childText || fallback);
+    if (i18nKey) return t(i18nKey);
     return childText;
   }
 

@@ -1,12 +1,12 @@
 /**
  * Internationalization (i18n) module.
- * Translates page text from JSON files, manages the language selector UI,
- * and persists the user's preference. The language list itself is
- * pre-rendered at build time by the content-injection-plugin.
+ * Applies loaded translation data to the page (DOM side-effects: the
+ * <html lang> attribute, the ?lang= URL parameter, and the legacy
+ * language-select dropdown).  Translation content itself is bundled in
+ * src/configs/i18n/ and switched synchronously by useI18n().
  */
 
 import type { Lang } from "../types/app";
-import { StorageKey } from "../types/app";
 
 export let currentLang: Lang = "en";
 export let langData: Record<string, unknown> = {};
@@ -60,10 +60,10 @@ export function normalizeLang(lang: string): Lang {
 
 /**
  * Apply already-loaded translation data to the page.
- * Stores the data, persists the preference, updates the URL query
- * parameter, the <html lang> attribute, and the language-select dropdown.
- * Callers are responsible for fetching the JSON and for syncing
- * ui-layer elements (page title).
+ * Stores the data, updates the URL query parameter, the <html lang>
+ * attribute, and the language-select dropdown.  Callers are responsible
+ * for fetching the JSON, persisting via setStoredLang() (platform/storage),
+ * and syncing ui-layer elements (page title).
  * @param lang - The normalized language code.
  * @param data - The parsed translation JSON object.
  */
@@ -71,8 +71,6 @@ export function applyLangData(lang: Lang, data: Record<string, unknown>): void {
   langData = data;
   currentLang = lang;
 
-  // Save preference
-  localStorage.setItem(StorageKey.Lang, lang);
   // Update URL query parameter without reloading
   const url = new URL(window.location.href);
   url.searchParams.set("lang", lang);

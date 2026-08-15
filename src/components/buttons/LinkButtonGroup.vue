@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
     aria-hidden="true"
   >
     <i class="bi bi-chevron-left"></i>
-    <span>{{ t("text-scroll-horizontally", "scroll horizontally") }}</span>
+    <span>{{ t("text-scroll-horizontally") }}</span>
     <i class="bi bi-chevron-right"></i>
   </div>
 </template>

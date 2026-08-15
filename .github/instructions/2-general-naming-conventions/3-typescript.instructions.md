@@ -20,6 +20,26 @@ applyTo: >
 
 A function should perform only one task to ensure it can be reused.
 
+**Single Source of Truth**
+
+Every piece of data must have exactly one defining location; all other
+modules consume it via imports. Duplicate definitions, mirrored
+constants, and parallel storage formats are forbidden.
+
+- The **Direct Import Principle** below is a corollary — re-export
+  middlemen are themselves a second source.
+- Site-wide constants live once in `src/configs/` (e.g. `page-meta.ts`,
+  `language-list.ts` — language list, localized names, and date-fns locales).
+- Every localStorage key has exactly one typed accessor pair in
+  `src/platform/storage.ts` (see §4.1.3.2); storage formats are defined
+  only there.
+- Build scripts import src declarations instead of mirroring them (e.g.
+  `build/page-meta.ts` imports `BASE_URL` / `SITE_NAME` from
+  `src/configs/page-meta.ts`).
+- Documented exceptions are allowed when libraries are incompatible (e.g.
+  `build/types.ts`'s `Node` alias vs `HastNode`), but MUST carry an
+  explanatory comment.
+
 **Naming table:**
 
 | Category               | Convention             | Examples                                                      |

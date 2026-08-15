@@ -13,18 +13,19 @@
  */
 
 import { ref, computed, watch, onMounted, onUnmounted, type Ref } from "vue";
-import { useLocalStorage } from "./useLocalStorage";
+import { useStoredValue } from "./useStoredValue";
 import type { ThemeChoice, EffectiveTheme } from "../types/app";
-import { StorageKey } from "../types/app";
 import { applyThemePreference } from "../platform/theme";
+import { getStoredTheme, setStoredTheme } from "../platform/storage";
 
 // =========================================================================
 // Module-level shared state (singleton — all components share the same ref)
 // =========================================================================
 
 /** Shared theme preference ref — initialized once, shared across all callers. */
-const preference = useLocalStorage<ThemeChoice>(
-  StorageKey.Theme,
+const preference = useStoredValue<ThemeChoice>(
+  getStoredTheme,
+  setStoredTheme,
   "auto",
 ) as Ref<ThemeChoice>;
 
@@ -105,14 +106,15 @@ export function useTheme(): {
 
   /**
    * Set the theme preference.
-   * Writes to localStorage (via useLocalStorage watch) and applies
-   * the full theme change including overlay transition via ui/theme.ts.
+   * Writes to localStorage (via useStoredValue's watch calling
+   * setStoredTheme) and applies the full theme change including
+   * overlay transition via ui/theme.ts.
    */
   function setPreference(choice: ThemeChoice): void {
     preference.value = choice;
 
     // Apply DOM side-effects (data-bs-theme + overlay transition + favicon).
-    // Persistence is handled by useLocalStorage's watcher on preference.
+    // Persistence is handled by useStoredValue's watcher on preference.
     applyThemePreference(choice);
   }
 

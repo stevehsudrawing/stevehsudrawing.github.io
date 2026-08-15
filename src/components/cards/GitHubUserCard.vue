@@ -54,9 +54,7 @@ const showError = computed(
 );
 
 /** Label shown below the loading spinner / error icon. */
-const placeholderLabel = computed(() =>
-  t("text-my-github-profile", "My GitHub Profile"),
-);
+const placeholderLabel = computed(() => t("text-my-github-profile"));
 
 /** GitHub @handle string. */
 const handle = computed(() => (profile.value ? `@${profile.value.login}` : ""));
@@ -65,9 +63,9 @@ const handle = computed(() => (profile.value ? `@${profile.value.login}` : ""));
 const statsText = computed(() => {
   if (!profile.value) return "";
   const p = profile.value;
-  const reposText = t("text-repos", "repos");
-  const followersText = t("text-followers", "followers");
-  const followingText = t("text-following", "following");
+  const reposText = t("text-repos");
+  const followersText = t("text-followers");
+  const followingText = t("text-following");
   return `${p.public_repos} ${reposText} · ${p.followers} ${followersText} · ${p.following} ${followingText}`;
 });
 </script>
@@ -108,11 +106,11 @@ const statsText = computed(() => {
               :href="profile!.html_url"
               :picture-props="{
                 src: '/images/webp/icons/github.webp',
-                alt: $t('text-github', 'GitHub'),
+                alt: $t('text-github'),
               }"
             >
               <i class="bi bi-github me-1"></i>
-              <span>{{ $t("text-view-profile", "View Profile") }}</span>
+              <span>{{ $t("text-view-profile") }}</span>
             </TypeAwareLink>
           </div>
         </div>
@@ -134,7 +132,7 @@ const statsText = computed(() => {
         v-else
         :label="placeholderLabel"
         state="empty"
-        :empty-message="$t('text-no-data-available', 'No data available')"
+        :empty-message="$t('text-no-data-available')"
       />
     </div>
   </div>
@@ -167,16 +165,13 @@ const statsText = computed(() => {
                 :colored-props="{
                   src: '/images/webp/icons/github.webp',
                   colorVar: 'bs-body-color',
-                  alt: $t('text-github', 'GitHub'),
+                  alt: $t('text-github'),
                 }"
               >
                 <i class="bi bi-github me-1"></i>
-                <span>{{ $t("text-view-profile", "View Profile") }}</span>
+                <span>{{ $t("text-view-profile") }}</span>
               </TypeAwareLink>
-              <TooltipTrigger
-                :title="$t('text-more-information', 'More Information')"
-                teleport
-              >
+              <TooltipTrigger :title="$t('text-more-information')" teleport>
                 <TypeAwareLink
                   class="btn btn-outline-secondary btn-sm"
                   type="internal"
@@ -207,7 +202,7 @@ const statsText = computed(() => {
       v-else
       :label="placeholderLabel"
       state="empty"
-      :empty-message="$t('text-no-data-available', 'No data available')"
+      :empty-message="$t('text-no-data-available')"
     />
   </template>
 </template>

@@ -1,7 +1,8 @@
 ---
 description: >
   GitHub REST API integration: useGithubApi() generic fetch+cache composable (stale-while-revalidate,
-  localStorage caching, 1-hour freshness, module-level singleton with request dedup),
+  storage-accessor caching via platform/storage.ts, 1-hour freshness, module-level singleton with
+  request dedup),
   useGithubProfile() profile composable, useGithubActivity() events+stats composable,
   LoadingPlaceholder.vue (loading/error/empty), GitHubUserCard.vue (full/compact variants),
   GitHubActivityStatsCard.vue (Chart.js bar/line charts with external-icon labels).
@@ -19,7 +20,7 @@ applyTo: >
 ##### 4.1.9.1 Architecture
 
 ```
-useGithubApi<T>(url, cacheKey, maxAge?)    ← generic fetch + cache
+useGithubApi<T>(url, cache, maxAge?)       ← generic fetch + cache (storage accessor)
   ├─ data: Ref<T | null>                   ← shared singleton per cacheKey
   ├─ isLoading: Ref<boolean>
   ├─ error: Ref<string | null>
@@ -29,13 +30,13 @@ useGithubApi<T>(url, cacheKey, maxAge?)    ← generic fetch + cache
 useGithubProfile()                         ← thin wrapper
   └─ useGithubApi<GitHubUser>(             ← for GET /users/stevehsudrawing
        PROFILE_URL,
-       StorageKey.GithubProfile,
+       GITHUB_PROFILE_CACHE,
      )
 
 useGithubActivity()                        ← events + computed stats
   ├─ useGithubApi<GitHubEvent[]>(          ← for GET /users/.../events/public
   │    EVENTS_URL,
-  │    StorageKey.GithubEvents,
+  │    GITHUB_EVENTS_CACHE,
   │  )
   ├─ events: Ref<GitHubEvent[] | null>
   ├─ stats: Computed<ActivityStat[]>       ← sorted by count desc (bar chart)

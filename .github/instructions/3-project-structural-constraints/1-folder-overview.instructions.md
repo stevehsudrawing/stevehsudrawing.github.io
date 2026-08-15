@@ -11,65 +11,60 @@ applyTo: >
 
 ### 3.1 Folder Overview
 
-| Folder                 | Purpose                                                                                                                                                                                                                    | Where to Add New Code                                 |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| `.github/`             | GitHub-specific configurations (Copilot instructions, CI)                                                                                                                                                                  | —                                                     |
-| `build/`               | **Build-time scripts** — Vite plugins, page meta, shared utilities. Flat structure (no sub-directories).                                                                                                                   | New Vite plugin or build utility                      |
-| `public/`              | **Static assets** served as-is by Vite, no processing                                                                                                                                                                      | See sub-folders below                                 |
-| `public/configs/i18n/` | Translation JSON files, one per language                                                                                                                                                                                   | New translation file for each added language          |
-| `public/images/`       | Image assets organized by format (avif, png, svg, webp)                                                                                                                                                                    | New images in the appropriate sub-folder              |
-| `public/legacy/`       | Broad-compatibility assets (IE11 compatible)                                                                                                                                                                               | New legacy compatibility asset                        |
-| `src/`                 | **Vite source** — all TS, Vue SFCs, CSS, HTML entry points                                                                                                                                                                 | See sub-folders below                                 |
-| `src/*.html`           | MPA entry points (index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares). Static `<noscript>` + `<div id="app">`.                                                                                      | —                                                     |
-| `src/types/`           | Shared type definitions, enums, module declarations                                                                                                                                                                        | New shared type or enum                               |
-| `src/core/`            | **Pure logic** — no DOM, no events. `i18n.ts`, `utils.ts`.                                                                                                                                                                 | New pure utility or state module                      |
-| `src/composables/`     | **Vue composables** — reactive state + side-effects. `useI18n.ts`, `useTheme.ts`, `useLocalStorage.ts`, etc.                                                                                                               | New composable when extracting reactive logic         |
-| `src/plugins/`         | **Vue plugins** — global provide/inject. `i18n.ts`.                                                                                                                                                                        | New plugin when adding app-level injection            |
-| `src/components/`      | **Vue SFCs** — organized by function: `nav/` (navigation bars, page chain), `ui/` (shared primitives), `modals/` (dialog overlays), `cards/` (content cards), `buttons/` (clickable elements), `links/` (link components). | New `.vue` component in the appropriate sub-directory |
-| `src/pages/`           | **Page components** — one `.vue` per route. `IndexPage.vue`, `AboutPage.vue`, etc.                                                                                                                                         | New page component when adding a route                |
-| `src/platform/`        | **Browser platform services** — imperative DOM APIs (document, window, navigator, localStorage) that Vue cannot own. `theme.ts`, `accessibility.ts`, `page-title.ts`, `bootstrap-css-detection.ts`.                        | Only for browser APIs with no Vue equivalent          |
-| `src/stylesheets/`     | **Global CSS** — reset, theme variables, fonts, accessibility. No component-specific styles.                                                                                                                               | New global style or add to existing file              |
-| `src/configs/`         | **Runtime configs** — TS constants (`page-meta.ts`, `language-list.ts`) + JSON data (`link-cards/`, `link-button-groups/`).                                                                                                | New config file for runtime data                      |
-| `tools/`               | Build-time helper scripts (local only)                                                                                                                                                                                     | New helper script                                     |
+| Folder             | Purpose                                                                                                                                                                                                                    | Where to Add New Code                                 |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `.github/`         | GitHub-specific configurations (Copilot instructions, CI)                                                                                                                                                                  | —                                                     |
+| `build/`           | **Build-time scripts** — Vite plugins, page meta, shared utilities. Flat structure (no sub-directories).                                                                                                                   | New Vite plugin or build utility                      |
+| `public/`          | **Static assets** served as-is by Vite, no processing                                                                                                                                                                      | See sub-folders below                                 |
+| `public/images/`   | Image assets organized by format (avif, png, svg, webp)                                                                                                                                                                    | New images in the appropriate sub-folder              |
+| `public/legacy/`   | Broad-compatibility assets (IE11 compatible)                                                                                                                                                                               | New legacy compatibility asset                        |
+| `src/`             | **Vite source** — all TS, Vue SFCs, CSS, HTML entry points                                                                                                                                                                 | See sub-folders below                                 |
+| `src/*.html`       | MPA entry points (index, about, artworks-and-videos, blogs-and-sponsor, chatting, softwares). Static `<noscript>` + `<div id="app">`.                                                                                      | —                                                     |
+| `src/types/`       | Shared type definitions, enums, module declarations                                                                                                                                                                        | New shared type or enum                               |
+| `src/core/`        | **Pure logic** — no DOM, no events. `i18n.ts`, `utils.ts`.                                                                                                                                                                 | New pure utility or state module                      |
+| `src/composables/` | **Vue composables** — reactive state + side-effects. `useI18n.ts`, `useTheme.ts`, `useStoredValue.ts`, etc.                                                                                                                | New composable when extracting reactive logic         |
+| `src/plugins/`     | **Vue plugins** — global provide/inject. `i18n.ts`.                                                                                                                                                                        | New plugin when adding app-level injection            |
+| `src/components/`  | **Vue SFCs** — organized by function: `nav/` (navigation bars, page chain), `ui/` (shared primitives), `modals/` (dialog overlays), `cards/` (content cards), `buttons/` (clickable elements), `links/` (link components). | New `.vue` component in the appropriate sub-directory |
+| `src/pages/`       | **Page components** — one `.vue` per route. `IndexPage.vue`, `AboutPage.vue`, etc.                                                                                                                                         | New page component when adding a route                |
+| `src/platform/`    | **Browser platform services** — imperative DOM APIs (document, window, navigator, localStorage) that Vue cannot own. `theme.ts`, `accessibility.ts`, `page-title.ts`, `bootstrap-css-detection.ts`, `storage.ts`.          | Only for browser APIs with no Vue equivalent          |
+| `src/stylesheets/` | **Global CSS** — reset, theme variables, fonts, accessibility. No component-specific styles.                                                                                                                               | New global style or add to existing file              |
+| `src/configs/`     | **Runtime configs** — TS constants (`page-meta.ts`, `language-list.ts`, `pages.ts`, `theme-options.ts`, `i18n/`) + JSON data (`link-cards/`, `link-button-groups/`).                                                       | New config file for runtime data                      |
+| `tools/`           | Build-time helper scripts (local only)                                                                                                                                                                                     | New helper script                                     |
 
 **Layered architecture (`src/`):**
 
 ```
-types/       -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
-  ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts, raw-imports.d.ts)
-  |
-configs/     -> pure runtime config data — no DOM, no events (page-meta.ts, language-list.ts,
-  ￪            link-cards/, link-button-groups/)
-  |
-core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts)
-  ￪
-composables/ -> Vue reactive state + side-effects (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
-  ￪
+types/       -> shared type definitions and enums
+  ↑
+configs/     -> pure runtime config data — no DOM, no events
+  ↑
+core/        -> pure logic & global state — no DOM, no events
+  ↑
+composables/ -> Vue reactive state + side-effects
+  ↑
 platform/    -> browser platform services — imperative DOM APIs that Vue cannot own
-  ￪            (theme.ts, accessibility.ts, page-title.ts, bootstrap-css-detection.ts)
-  |            Only used for browser APIs with no Vue equivalent (matchMedia, favicon).
-  |
-components/  -> Vue SFCs (nav/, ui/, modals/, cards/, buttons/, links/)
-  ￪
+  ↑
+components/  -> Vue SFCs
+  ↑
 pages/       -> PascalCase filenames, <script setup> + <style scoped>.
-  ￪
-plugins/     -> Vue plugins — global provide/inject (i18n.ts)
-  ￪
+  ↑
+plugins/     -> Vue plugins — global provide/inject
+  ↑
 main.ts      -> Entry point: CSS imports + globals + createApp + mount
 router.ts    -> Vue Router config (routes, scrollBehavior, error recovery)
 App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                   | May import from                                                   | Must NOT import from                                    |
-| -------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
-| `types/`       | Shared type definitions                                                     | npm, browser APIs                                                 | `core/*`, `ui/*`, `composables/*`, `components/*`       |
-| `configs/`     | Pure config data — constants + JSON. **No DOM, no events.**                 | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
-| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**       | `types/*`, `configs/*`                                            | `ui/*`, `composables/*`, `components/*`                 |
-| `composables/` | Vue reactive state + side-effects. May call `inject()`.                     | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
-| `platform/`    | Browser platform services — imperative DOM APIs.                            | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
-| `components/`  | Vue SFCs. Own template + styles. May use composables, core utils, platform. | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
-| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content. | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                          | `types/*`, `configs/*`, `core/*`                                  | `ui/*`, `composables/*`, `components/*`                 |
+| Layer          | May import from                                                   | Must NOT import from                                    |
+| -------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+| `types/`       | npm, browser APIs                                                 | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `configs/`     | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `core/`        | `types/*`, `configs/*`                                            | `platform/*`, `composables/*`, `components/*`           |
+| `composables/` | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
+| `platform/`    | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
+| `components/`  | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
+| `pages/`       | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
+| `plugins/`     | `types/*`, `configs/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |
 
 **Decoupling patterns (when a direct import would violate the hierarchy):**
 
@@ -104,5 +99,9 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 - Put global CSS in `src/stylesheets/` — reset, theme, fonts, accessibility.
 - Put runtime configs in `src/configs/` — TS constants (`page-meta.ts`, `language-list.ts`) or JSON data (`link-cards/`, `link-button-groups/`).
 - **build ↔ src import direction**: `build/*` may import from `src/*` (pure modules only — `types/`, `core/`, `configs/`); `src/*` must NEVER import from `build/*`. Mirrored declarations in `build/` should be replaced with imports of the `src` equivalents.
-- Put translation JSON in `public/configs/i18n/` — one file per language.
+- **Storage access mandate**: all localStorage access MUST go through typed
+  getter/setter accessors in `src/platform/storage.ts`; raw `localStorage`
+  usage outside that module is forbidden.
+- Put translation JSON in `src/configs/i18n/` — one file per language,
+  statically imported by `translations.ts`.
 - Put broad-compatibility assets in `public/legacy/`.

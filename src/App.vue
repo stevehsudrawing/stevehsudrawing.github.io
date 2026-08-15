@@ -16,7 +16,7 @@ import { useRouter, useRoute } from "vue-router";
 // Composables
 import { useTheme } from "./composables/useTheme";
 import { useI18n } from "./composables/useI18n";
-import { useLocalStorage } from "./composables/useLocalStorage";
+import { useStoredValue } from "./composables/useStoredValue";
 import { usePageNavigation } from "./composables/usePageNavigation";
 import { useModalStack } from "./composables/useModalStack";
 import { SHOW_TOAST_KEY } from "./composables/useToast";
@@ -36,12 +36,18 @@ import ToastStack from "./components/ui/ToastStack.vue";
 
 // Platform-level modules
 import {
-  StorageKey,
   OPEN_EXTERNAL_LINK_KEY,
   OPEN_QR_CODE_KEY,
   OPEN_SETTINGS_KEY,
 } from "./types/app";
 import type { FeatureAwarePictureProps, ColoredImgProps } from "./types/app";
+
+import {
+  getStoredEnableAnimations,
+  getStoredOpenInNewTab,
+  setStoredEnableAnimations,
+  setStoredOpenInNewTab,
+} from "./platform/storage";
 
 import { initBootstrapCSSDetection } from "./platform/bootstrap-css-detection";
 import {
@@ -56,9 +62,13 @@ import { normalizeInternalPath } from "./core/utils";
 // =========================================================================
 
 useTheme();
-const { initLang, isLanguageLoading, messages, t } = useI18n();
-useLocalStorage(StorageKey.OpenInNewTab, true);
-const enableAnimations = useLocalStorage(StorageKey.EnableAnimations, true);
+const { initLang, messages, t } = useI18n();
+useStoredValue(getStoredOpenInNewTab, setStoredOpenInNewTab, true);
+const enableAnimations = useStoredValue(
+  getStoredEnableAnimations,
+  setStoredEnableAnimations,
+  true,
+);
 
 // ---- Sync .no-animations class to <html> ----
 
@@ -69,16 +79,6 @@ watch(
   },
   { immediate: true },
 );
-
-// ---- LoadingBar via i18n language-loading state ----
-
-watch(isLanguageLoading, (loading) => {
-  if (loading) {
-    loadingBarRef.value?.show();
-  } else {
-    loadingBarRef.value?.complete();
-  }
-});
 
 /** Vue Router instance (for guards + programmatic navigation). */
 const router = useRouter();
@@ -167,13 +167,9 @@ onMounted(async () => {
     initBootstrapCSSDetection();
     initInputModalityDetection();
     initNoCopyProtection();
-
-    await initLang();
-
+    initLang();
     await nextTick();
-
     initHashChangeScroll();
-
     loadingScreenRef.value?.hide();
   } catch (error) {
     console.error("Failed to initialize: " + error);

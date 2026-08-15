@@ -39,7 +39,7 @@ const nav = computed(() => getPageNavLinks(props.pageName));
       class="link link-hover-change-background link-secondary-shlh fw-semibold"
     >
       <i class="bi bi-arrow-left me-1"></i>
-      <span>{{ $t("text-previous-page", "Previous") }}</span>
+      <span>{{ $t("text-previous-page") }}</span>
     </TypeAwareLink>
     <div v-else></div>
 
@@ -50,7 +50,7 @@ const nav = computed(() => getPageNavLinks(props.pageName));
       :href="nav.next"
       class="link link-hover-change-background link-primary fw-semibold"
     >
-      <span>{{ $t("text-next-page", "Next") }}</span>
+      <span>{{ $t("text-next-page") }}</span>
       <i class="bi bi-arrow-right ms-1"></i>
     </TypeAwareLink>
     <div v-else></div>

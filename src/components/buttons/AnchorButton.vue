@@ -41,11 +41,11 @@ function onClick(targetId: string): void {
 </script>
 
 <template>
-  <TooltipTrigger :title="$t('text-anchor', 'Anchor')" teleport>
+  <TooltipTrigger :title="$t('text-anchor')" teleport>
     <a
       class="link title-link-anchor"
       :href="`#${targetId}`"
-      :aria-label="$t('text-anchor-to-x', 'Anchor to %1', [props.headingTitle])"
+      :aria-label="$t('text-anchor-to-x', [props.headingTitle])"
       @click.prevent="onClick(targetId)"
     >
       <i class="bi bi-paragraph"></i>

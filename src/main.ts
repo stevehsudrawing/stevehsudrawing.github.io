@@ -58,12 +58,10 @@ import {
   initSystemThemeListener,
   applyThemePreference,
 } from "./platform/theme";
-import { StorageKey } from "./types/app";
-import type { ThemeChoice } from "./types/app";
+import { getStoredTheme } from "./platform/storage";
 
 initSystemThemeListener();
-const initialTheme =
-  (localStorage.getItem(StorageKey.Theme) as ThemeChoice | null) ?? "auto";
+const initialTheme = getStoredTheme();
 applyThemePreference(initialTheme, false);
 
 // =========================================================================

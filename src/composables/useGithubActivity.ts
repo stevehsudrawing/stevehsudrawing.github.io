@@ -12,12 +12,12 @@
 import { computed, type ComputedRef } from "vue";
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
 import {
-  StorageKey,
   type GitHubEvent,
   type ActivityStat,
   type DailyStat,
 } from "../types/app";
 import { GITHUB_USERNAME } from "../configs/page-meta";
+import { GITHUB_EVENTS_CACHE } from "../platform/storage";
 
 // =========================================================================
 // Constants
@@ -103,7 +103,7 @@ export function useGithubActivity(): {
     isLoading,
     error,
     refresh,
-  } = useGithubApi<GitHubEvent[]>(EVENTS_URL, StorageKey.GithubEvents);
+  } = useGithubApi<GitHubEvent[]>(EVENTS_URL, GITHUB_EVENTS_CACHE);
 
   const stats = computed<ActivityStat[]>(() => {
     if (!events.value || events.value.length === 0) return [];

@@ -46,6 +46,10 @@ that apply to every session.
 - **`import type`** for type-only imports (erased at build time):
   `import type { Lang } from '../types/app.js'`
 
+- **Single Source of Truth**: every piece of data must have exactly one
+  defining location; all other modules consume it via imports. Duplicate
+  definitions, mirrored constants, and parallel storage formats are forbidden.
+
 - **Direct Import Principle**: import directly from the source module; do not
   re-export through intermediate modules
 
@@ -74,41 +78,37 @@ that apply to every session.
 **Layered architecture with semantic constraints:**
 
 ```
-types/       -> shared type definitions and enums (app.ts, hast.ts, globals.d.ts, css.d.ts,
-  ￪            vue-shims.d.ts, vue-augment.d.ts, bootstrap.d.ts)
-  |
-configs/     -> pure runtime config data — no DOM, no events (page-meta.ts, language-list.ts,
-  ￪            link-cards/, link-button-groups/)
-  |
-core/        -> pure logic & global state — no DOM, no events (i18n.ts, utils.ts)
-  ￪
-composables/ -> Vue reactive state + side-effects (useI18n.ts, useTheme.ts, useLocalStorage.ts, etc.)
-  ￪
+types/       -> shared type definitions and enums
+  ↑
+configs/     -> pure runtime config data — no DOM, no events
+  ↑
+core/        -> pure logic & global state — no DOM, no events
+  ↑
+composables/ -> Vue reactive state + side-effects
+  ↑
 platform/    -> browser platform services — imperative DOM APIs that Vue cannot own
-  ￪            (theme.ts, accessibility.ts, page-title.ts, bootstrap-css-detection.ts)
-  |            Only used for browser APIs with no Vue equivalent (matchMedia, favicon).
-  |
-components/  -> Vue SFCs (nav/, ui/, modals/, cards/, buttons/, links/)
-  ￪
+  ↑
+components/  -> Vue SFCs
+  ↑
 pages/       -> PascalCase filenames, <script setup> + <style scoped>.
-  ￪
-plugins/     -> Vue plugins — global provide/inject (i18n.ts)
-  ￪
+  ↑
+plugins/     -> Vue plugins — global provide/inject
+  ↑
 main.ts      -> Entry point: CSS imports + globals + createApp + mount
 router.ts    -> Vue Router config (routes, scrollBehavior, error recovery)
 App.vue      -> Root shell (nav, router-view, modals, initialization)
 ```
 
-| Layer          | Semantics                                                                                   | May import from                                                   | Must NOT import from                                    |
-| -------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
-| `types/`       | Shared type definitions                                                                     | npm, browser APIs                                                 | `core/*`, `platform/*`, `composables/*`, `components/*` |
-| `configs/`     | Pure config data — constants + JSON. **No DOM, no events.**                                 | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
-| `core/`        | Pure functions, data transforms, global state. **No DOM, no events.**                       | `types/*`, `configs/*`                                            | `platform/*`, `composables/*`, `components/*`           |
-| `composables/` | Vue reactive state + side-effects. May call `inject()`.                                     | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
-| `platform/`    | Browser platform services — imperative DOM APIs.                                            | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
-| `components/`  | Vue SFCs — `nav/`, `ui/`, `modals/`, `cards/`, `buttons/`, `links/`. Own template + styles. | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
-| `pages/`       | Page-level components. One per route. Renders cards, buttons, hero content.                 | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
-| `plugins/`     | Vue plugins — global provide/inject registrations.                                          | `types/*`, `configs/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |
+| Layer          | May import from                                                   | Must NOT import from                                    |
+| -------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+| `types/`       | npm, browser APIs                                                 | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `configs/`     | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
+| `core/`        | `types/*`, `configs/*`                                            | `platform/*`, `composables/*`, `components/*`           |
+| `composables/` | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
+| `platform/`    | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
+| `components/`  | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
+| `pages/`       | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
+| `plugins/`     | `types/*`, `configs/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |
 
 **Decoupling patterns (when import would violate hierarchy):**
 
@@ -130,14 +130,19 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 - **Entry points**: `src/main.ts` + `src/router.ts` + `src/App.vue` (full-
   feature pages: index, about, artworks, blogs, chatting, softwares)
 
+- **Storage access mandate**: every localStorage key has typed getter/setter
+  accessors (`getStoredX` / `setStoredX`) in `src/platform/storage.ts`; raw
+  `localStorage` usage outside `storage.ts` is forbidden.
+
 - **CSS comments**: `/* ====...==== Component - description */` banners;
   `/* --- Child --- */` sub-sections
 
 - **HTML page tiers**: `full` (`src/main.ts`) / `error` (minimal, no JS
   framework, only `public/legacy/base.css`)
 
-- **Markdown**: numbered headings (`## 1.`, `### 1.2.3`), cross-references with
-  `§X.Y.Z` hyperlink anchors
+- **Markdown**: numbered headings (`## 1.`, `#### 1.2.3`), cross-references with
+  `§X.Y.Z` hyperlink anchors; when inserting chapters of the same level, do not
+  use decimal points; continue the numbering sequentially instead.
 
 ### 0.6 HAST Conventions
 
@@ -152,10 +157,10 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 
 **Naming** (see [§2.3.3](./instructions/2-general-naming-conventions/3-typescript.instructions.md#233-vue-specific-rules)):
 
-| Context      | Convention   | Examples                                          |
-| ------------ | ------------ | ------------------------------------------------- |
-| `.vue` files | `PascalCase` | `AppNavbar.vue`, `SettingsModal.vue`              |
-| Composables  | `useXxx.ts`  | `useI18n.ts`, `useTheme.ts`, `useLocalStorage.ts` |
+| Context      | Convention   | Examples                                         |
+| ------------ | ------------ | ------------------------------------------------ |
+| `.vue` files | `PascalCase` | `AppNavbar.vue`, `SettingsModal.vue`             |
+| Composables  | `useXxx.ts`  | `useI18n.ts`, `useTheme.ts`, `useStoredValue.ts` |
 
 **`<script setup>` section order** (see [§3.4.5](./instructions/3-project-structural-constraints/4-vue-component-conventions.instructions.md#345-script-setup-langts-section-conventions)):
 
@@ -302,8 +307,8 @@ When generating responses for this project, Copilot should:
    deleting new features, it is necessary to add, update or delete the
    corresponding instruction documents, even if temporarily.
 
-8. **Always execute `typecheck` after modification**: After each modification,
-   the following command should be executed to check whether it can be built
+8. **Always `typecheck` after modification**: After each modification, the
+   following command should be executed to check whether it can be built
    properly:
 
    ```pwsh

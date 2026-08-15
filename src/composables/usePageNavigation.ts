@@ -20,7 +20,7 @@ import { updatePageTitle } from "../platform/page-title";
 export function usePageNavigation(
   router: Router,
   loadingBarRef: Ref<{ show: () => void; complete: () => void } | undefined>,
-  t: (key: string, fallback?: string) => string,
+  t: (key: string) => string,
 ): void {
   // ---- LoadingBar ----
   router.beforeEach(() => loadingBarRef.value?.show());

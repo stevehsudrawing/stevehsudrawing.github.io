@@ -27,40 +27,40 @@ function isBotOrCrawler() {
 
   // Known search engine and SEO tool bots
   var knownBots = [
-    "googlebot",
-    "adsbot-google",
-    "google-other",
-    "google-extended",
-    "bingbot",
-    "msnbot",
-    "bingpreview",
-    "baiduspider",
-    "yandexbot",
-    "yandex",
-    "duckduckbot",
-    "slurp", // Yahoo
-    "facebookexternalhit",
-    "facebookcatalog",
-    "twitterbot",
-    "linkedinbot",
-    "discordbot",
-    "applebot",
-    "petalbot", // Huawei
-    "sogou",
     "360spider",
-    "bytespider", // ByteDance
+    "adsbot-google",
     "ahrefsbot",
-    "semrushbot",
-    "dotbot",
-    "rogerbot", // Moz
-    "mj12bot", // Majestic
-    "sitebulb",
-    "seobility",
-    "screaming frog",
-    "gptbot", // OpenAI
+    "applebot",
+    "baiduspider",
+    "bingbot",
+    "bingpreview",
+    "bytespider", // ByteDance
     "claudebot", // Anthropic
-    "perplexitybot",
     "deepseekbot",
+    "discordbot",
+    "dotbot",
+    "duckduckbot",
+    "facebookcatalog",
+    "facebookexternalhit",
+    "google-extended",
+    "google-other",
+    "googlebot",
+    "gptbot", // OpenAI
+    "linkedinbot",
+    "mj12bot", // Majestic
+    "msnbot",
+    "perplexitybot",
+    "petalbot", // Huawei
+    "rogerbot", // Moz
+    "screaming frog",
+    "semrushbot",
+    "seobility",
+    "sitebulb",
+    "slurp", // Yahoo
+    "sogou",
+    "twitterbot",
+    "yandex",
+    "yandexbot",
   ];
   for (var i = 0; i < knownBots.length; i++) {
     if (isStringIncludes(userAgent, knownBots[i])) return true;
@@ -111,21 +111,19 @@ function isWebPSupported() {
 }
 
 /**
- * Check whether the browser is supported.
+ * Check whether the environment is supported.
  * Crawlers always pass. For real users, the JS engine must support
  * both ES modules and WebP - the features that currently constrain
  * our baseline.
- * @returns {boolean} True if the browser is supported.
+ * @returns {boolean} True if the environment is supported.
  */
-function isBrowserSupported() {
+function isEnvSupported() {
   // Search engine bots and crawlers are always treated as supported
   if (isBotOrCrawler()) return true;
 
   return isESModuleSupported() && isWebPSupported();
 }
 
-var isEnvSupported = isBrowserSupported();
-
-if (!isEnvSupported) {
+if (!isEnvSupported()) {
   window.location.href = "/error-unsupported-browser.html";
 }

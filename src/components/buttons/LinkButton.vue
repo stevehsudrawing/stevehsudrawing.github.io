@@ -103,12 +103,10 @@ const modalPictureProps = computed<FeatureAwarePictureProps | null>(() => {
   };
 });
 
-/** Tooltip title: prefer i18n alt, fall back to plain alt. */
+/** Tooltip title: prefer the i18n alt; plain alt otherwise. */
 const tooltipTitle = computed(() => {
   const i18nKey = iconProps.dataI18nAlt as string | undefined;
-  return i18nKey
-    ? t(i18nKey, iconProps.alt as string)
-    : (iconProps.alt as string);
+  return i18nKey ? t(i18nKey) : (iconProps.alt as string);
 });
 </script>
 

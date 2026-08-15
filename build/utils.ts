@@ -5,6 +5,7 @@
 
 import { readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
+import type { PageName } from "../types";
 
 // ---------------------------------------------------------------------------
 // HAST utilities
@@ -46,8 +47,12 @@ export function cloneNode<T>(node: T): T {
  * @param filename - The absolute file path from Vite's transform context.
  * @returns e.g. "index", "about"
  */
-export function getPageName(filename: string): string {
-  return filename.replace(/\\/g, "/").split("/").pop()!.replace(".html", "");
+export function getPageName(filename: string): PageName {
+  return filename
+    .replace(/\\/g, "/")
+    .split("/")
+    .pop()!
+    .replace(".html", "") as PageName;
 }
 
 // ---------------------------------------------------------------------------
