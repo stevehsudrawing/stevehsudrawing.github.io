@@ -7,9 +7,9 @@
 
 import type { PageMetaMap } from "../types";
 
-// Single source of truth: runtime metadata lives in src/configs/page-meta.ts.
+// Single source of truth: runtime metadata lives in src/configs/site-meta.ts.
 // (build/* may import from src/*; the reverse is forbidden.)
-import { BASE_URL, SITE_NAME } from "../src/configs/page-meta";
+import { BASE_URL, SITE_NAME } from "../src/configs/site-meta";
 
 /** Absolute URL of the Open Graph / Twitter Card share image (1200x630). */
 export const OG_IMAGE = `${BASE_URL}/images/png/banner.png`;

@@ -5,8 +5,8 @@
  * separate content-injection-plugin.ts.
  */
 
-import { OG_IMAGE, TWITTER_CREATOR, PAGE_META } from "./page-meta";
-import { BASE_URL, SITE_AUTHOR, SITE_NAME } from "../src/configs/page-meta";
+import { OG_IMAGE, TWITTER_CREATOR, PAGE_META } from "./site-meta";
+import { BASE_URL, SITE_AUTHOR, SITE_NAME } from "../src/configs/site-meta";
 import { getPageName } from "./utils";
 import { LANGUAGE_LIST } from "../src/configs/language-list";
 import indexButtonGroups from "../src/configs/link-button-groups/index.json";

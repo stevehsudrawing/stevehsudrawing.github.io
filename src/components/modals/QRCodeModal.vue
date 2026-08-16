@@ -13,7 +13,7 @@ import { useToast } from "../../composables/useToast";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
-import { BASE_URL } from "../../configs/page-meta";
+import { BASE_URL } from "../../configs/site-meta";
 import InlineSvg from "../ui/InlineSvg.vue";
 import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
 import ColoredImg from "../ui/ColoredImg.vue";

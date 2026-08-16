@@ -10,7 +10,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { getPageName, extractHastHref } from "./utils";
 import { extractPlainText } from "../src/core/utils";
-import { PAGE_META } from "./page-meta";
+import { PAGE_META } from "./site-meta";
 import type { IndexHtmlTransformContext } from "vite";
 
 // =========================================================================

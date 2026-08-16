@@ -16,7 +16,7 @@ import {
   type ActivityStat,
   type DailyStat,
 } from "../types/app";
-import { GITHUB_USERNAME } from "../configs/page-meta";
+import { GITHUB_USERNAME } from "../configs/site-meta";
 import { GITHUB_EVENTS_CACHE } from "../platform/storage";
 
 // =========================================================================

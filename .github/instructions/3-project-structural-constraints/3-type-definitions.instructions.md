@@ -66,7 +66,7 @@ Located in `build/types.ts` and used by Vite plugins and build scripts. Type-che
 | Type                  | Purpose                                                                                 |
 | --------------------- | --------------------------------------------------------------------------------------- |
 | `PageMetaEntry`       | Single page metadata entry (title, description, pagePath, robots, jsonLDType, tier)     |
-| `PageMetaMap`         | `Record<string, PageMetaEntry>` - the shape of `PAGE_META` in `page-meta.ts`            |
+| `PageMetaMap`         | `Record<string, PageMetaEntry>` - the shape of `PAGE_META` in `site-meta.ts`            |
 | `PageTier`            | `'full' \| 'none'` - controls which head tags are used                                  |
 | `JsonLDType`          | `'homepage' \| 'breadcrumb' \| 'none'` - determines JSON-LD structured data format      |
 | `CardData`            | Link-card descriptor (`available`, `icon`, `title`, `description`)                      |

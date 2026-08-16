@@ -25,7 +25,7 @@ sharing and `CopyButton` for clipboard copy.
 | `pagePath`  | `string?` | Needed for copy-link URL (e.g. `"/about.html"`) |
 
 The copy-link URL is built as `BASE_URL + pagePath + #id`, where `BASE_URL`
-is imported directly from `src/configs/page-meta.ts` (no `baseUrl` prop).
+is imported directly from `src/configs/site-meta.ts` (no `baseUrl` prop).
 
 When `headingId` is omitted, the id is derived from `title` via
 `toDashCase()`. When the title is an i18n string (language-dependent),

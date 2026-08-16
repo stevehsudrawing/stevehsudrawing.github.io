@@ -29,7 +29,7 @@ applyTo: >
 | `src/pages/`       | **Page components** — one `.vue` per route. `IndexPage.vue`, `AboutPage.vue`, etc.                                                                                                                                         | New page component when adding a route                |
 | `src/platform/`    | **Browser platform services** — imperative DOM APIs (document, window, navigator, localStorage) that Vue cannot own. `theme.ts`, `accessibility.ts`, `page-title.ts`, `bootstrap-css-detection.ts`, `storage.ts`.          | Only for browser APIs with no Vue equivalent          |
 | `src/stylesheets/` | **Global CSS** — reset, theme variables, fonts, accessibility. No component-specific styles.                                                                                                                               | New global style or add to existing file              |
-| `src/configs/`     | **Runtime configs** — TS constants (`page-meta.ts`, `language-list.ts`, `pages.ts`, `theme-options.ts`, `i18n/`) + JSON data (`link-cards/`, `link-button-groups/`).                                                       | New config file for runtime data                      |
+| `src/configs/`     | **Runtime configs** — TS constants (`site-meta.ts`, `language-list.ts`, `pages.ts`, `theme-options.ts`, `i18n/`) + JSON data (`link-cards/`, `link-button-groups/`).                                                       | New config file for runtime data                      |
 | `tools/`           | Build-time helper scripts (local only)                                                                                                                                                                                     | New helper script                                     |
 
 **Layered architecture (`src/`):**
@@ -113,7 +113,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
   - `links/` — Link-handling components
 - Put page-level components in `src/pages/` — one per route.
 - Put global CSS in `src/stylesheets/` — reset, theme, fonts, accessibility.
-- Put runtime configs in `src/configs/` — TS constants (`page-meta.ts`,
+- Put runtime configs in `src/configs/` — TS constants (`site-meta.ts`,
   `language-list.ts`) or JSON data (`link-cards/`, `link-button-groups/`).
 - **build ↔ src import direction**: `build/*` may import from `src/*` (pure
   modules only — `types/`, `core/`, `configs/`); `src/*` must NEVER import from

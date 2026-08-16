@@ -1,7 +1,7 @@
 /**
  * Gesture composable — edge-swipe gestures to open/close offcanvas.
  *
- * On mobile viewports (≤ 992 px) with touch input (`html.user-input-touch`):
+ * On mobile viewports (≤ 768 px) with touch input (`html.user-input-touch`):
  * - **Open**: rightward swipe from the left edge → sets `model.value = true`
  * - **Close**: leftward swipe from the right edge → sets `model.value = false`
  *
@@ -225,7 +225,7 @@ function removeTouchListeners(): void {
  * Detect edge-swipe gestures and toggle the given model ref.
  *
  * Only active when:
- * - The viewport is in the mobile breakpoint (≤ 992 px), AND
+ * - The viewport is in the mobile breakpoint (≤ 768 px), AND
  * - The user is using touch input (`html.user-input-touch`).
  *
  * Gesture criteria:

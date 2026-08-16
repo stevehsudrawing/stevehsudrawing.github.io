@@ -52,5 +52,5 @@ export interface PageMetaEntry {
 /** Page identifier (without .html extension), derived from configs/pages.ts. */
 export type PageName = (typeof PAGE_NAMES)[number];
 
-/** Map of page names to their metadata entries; the shape of PAGE_META in page-meta.ts. */
+/** Map of page names to their metadata entries; the shape of PAGE_META in site-meta.ts. */
 export type PageMetaMap = Record<PageName, PageMetaEntry>;

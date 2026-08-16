@@ -9,8 +9,8 @@
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
-import { PAGE_META } from "./page-meta";
-import { BASE_URL } from "../src/configs/page-meta";
+import { PAGE_META } from "./site-meta";
+import { BASE_URL } from "../src/configs/site-meta";
 import { LANGUAGE_LIST, type LanguageEntry } from "../src/configs/language-list";
 import type { PageMetaEntry } from "./types";
 

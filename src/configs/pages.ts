@@ -1,7 +1,7 @@
 /**
  * Page inventory — the single source of truth for the site's page names.
  * Consumed by core/utils (transition whitelist), page-chain navigation,
- * and build/page-meta (SEO metadata completeness check).
+ * and build/site-meta (SEO metadata completeness check).
  */
 
 /** All full page names (without the .html extension). */

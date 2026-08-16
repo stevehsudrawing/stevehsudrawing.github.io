@@ -37,7 +37,7 @@ Uses `:class="{ active: isActive(item.href) }"` and `:aria-current`.
 
 ##### 4.2.1.3 Mobile Brand Scroll Swap
 
-On mobile screens (< 992 px):
+On mobile screens (< 768 px):
 
 - `brandProgress` computed (0->1 over first 64 px of scroll)
 - Logo slides up, page name slides in from below
@@ -50,7 +50,7 @@ On mobile screens (< 992 px):
 
 ##### 4.2.1.5 Edge-Swipe Gestures (Mobile Touch)
 
-On mobile viewports (≤ 992 px) with touch input (`html.user-input-touch`),
+On mobile viewports (≤ 768 px) with touch input (`html.user-input-touch`),
 the offcanvas can be opened and closed via edge-swipe gestures:
 
 - **Open**: swipe right from the **left** edge → sets `showOffcanvas = true`

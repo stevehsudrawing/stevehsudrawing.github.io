@@ -10,7 +10,7 @@ applyTo: >
   build/content-injection-plugin.ts;
   public/manifest.json;
   public/robots.txt;
-  build/page-meta.ts
+  build/site-meta.ts
 ---
 
 #### 4.5.2 SEO & PWA

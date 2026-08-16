@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { toDashCase } from "../../core/utils";
-import { BASE_URL } from "../../configs/page-meta";
+import { BASE_URL } from "../../configs/site-meta";
 import AnchorButton from "../buttons/AnchorButton.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 
@@ -87,8 +87,8 @@ const copyUrl = computed(() =>
     visibility 0.2s ease;
 }
 
-/* Mobile (< 992px) */
-@media (max-width: 991.98px) {
+/* Mobile (< 768px) */
+@media (max-width: 767.98px) {
   .title-link-anchor {
     opacity: 1;
     visibility: visible;
@@ -96,8 +96,8 @@ const copyUrl = computed(() =>
   }
 }
 
-/* Desktop (>= 992px) */
-@media (min-width: 992px) {
+/* Tablet & Desktop (>= 768px) */
+@media (min-width: 768px) {
   .title-link-anchor {
     opacity: 0;
     visibility: hidden;
