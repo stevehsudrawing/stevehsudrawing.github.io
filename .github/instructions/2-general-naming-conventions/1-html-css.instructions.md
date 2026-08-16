@@ -1,8 +1,9 @@
 ---
 description: >
   HTML/CSS naming conventions: element IDs (dash-case), CSS classes (dash-case),
-  custom data-* attributes (dash-case), Bootstrap classes (use Bootstrap-native naming).
-  Use when: writing HTML, adding CSS classes, or creating custom data attributes.
+  custom data-* attributes (dash-case), Bootstrap classes (use Bootstrap-native
+  naming). Use when: writing HTML, adding CSS classes, or creating custom data
+  attributes.
 applyTo: >
   **/*.html;
   src/stylesheets/**;

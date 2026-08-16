@@ -31,7 +31,7 @@ const { groups, pagePath } = useLinkCards(ref("about"));
         webp: { light: { en: '/images/webp/covers/about.webp' } },
       },
       alt: $t('text-artworks'),
-      class: 'img-fluid img-fit rounded no-copy solid-bg',
+      class: 'rounded no-copy solid-bg',
     }"
   />
 

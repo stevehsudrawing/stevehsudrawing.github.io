@@ -1,9 +1,9 @@
 ---
 description: >
-  Utilities: path normalization (normalizeInternalPath, extractPageName, isInternalPage),
-  DOM helpers (setElementAttributes, extractPlainText), page title update, internal page
-  lists (INTERNAL_PAGES, EXCLUDED_PAGES), dash-case conversion (toDashCase).
-  Use when: adding shared utility functions or modifying existing ones.
+  Utilities: path normalization (normalizeInternalPath, extractPageName),
+  DOM helpers (extractPlainText), page title update, internal page lists
+  (INTERNAL_PAGES, EXCLUDED_PAGES), dash-case conversion (toDashCase). Use
+  when: adding shared utility functions or modifying existing ones.
 applyTo: >
   src/core/utils.ts;
   src/platform/page-title.ts
@@ -17,15 +17,13 @@ applyTo: >
 | ----------------------------- | ----------------------------------- |
 | `normalizeInternalPath(path)` | Normalize to `/lowercase.html`      |
 | `extractPageName(path)`       | `/about.html` -> `about`            |
-| `isInternalPage(href)`        | Check if internal page              |
 | `toDashCase(str)`             | camelCase / PascalCase -> dash-case |
 
 ##### 4.5.3.2 DOM Utilities (`src/core/utils.ts`)
 
-| Function                          | Purpose              |
-| --------------------------------- | -------------------- |
-| `setElementAttributes(el, props)` | Batch-set attributes |
-| `extractPlainText(html)`          | Strip HTML tags      |
+| Function                 | Purpose         |
+| ------------------------ | --------------- |
+| `extractPlainText(html)` | Strip HTML tags |
 
 ##### 4.5.3.3 Internal Page Lists (`src/configs/pages.ts`)
 

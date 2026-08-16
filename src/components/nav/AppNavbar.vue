@@ -183,7 +183,7 @@ defineExpose({
 
 <template>
   <nav
-    class="navbar navbar-expand-lg fixed-top"
+    class="navbar navbar-expand-md fixed-top"
     :class="{ 'navbar-scrolled': scrolled }"
   >
     <div class="container container-fluid navbar-container">
@@ -243,7 +243,8 @@ defineExpose({
 
       <!-- ==== Desktop nav ==== -->
       <div
-        class="collapse navbar-collapse d-none d-lg-flex"
+        v-if="breakpoint === 'tablet' || breakpoint === 'desktop'"
+        class="collapse navbar-collapse d-flex"
         id="navbar-content"
       >
         <ul class="navbar-nav flex-grow-1">
@@ -435,15 +436,19 @@ defineExpose({
   color: var(--bs-body-color);
 }
 
+#navbar-content {
+  height: inherit;
+}
+
 .navbar-brand-text {
   font-size: 1rem;
   font-weight: calc(var(--bs-body-font-weight) + 100);
   white-space: nowrap;
 }
 
-/* --- Mobile (< 992px) --- */
+/* --- Mobile (< 768px) --- */
 
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
   .navbar .container {
     position: relative;
   }
@@ -476,9 +481,9 @@ defineExpose({
   }
 }
 
-/* --- Desktop (>= 992px) --- */
+/* --- Tablet & Desktop (>= 768px) --- */
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .navbar .navbar-collapse {
     flex-wrap: nowrap;
     min-width: 0;

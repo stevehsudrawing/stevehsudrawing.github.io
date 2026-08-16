@@ -1,8 +1,8 @@
 ---
 description: >
-  CSS custom properties naming: --shlh-* prefix for project-specific variables (colors, fonts),
-  --bs-* prefix for Bootstrap overrides.
-  Use when: adding CSS custom properties, defining theme colors, or setting font stacks.
+  CSS custom properties naming: --shlh-* prefix for project-specific variables
+  (colors, fonts), --bs-* prefix for Bootstrap overrides. Use when: adding CSS
+  custom properties, defining theme colors, or setting font stacks.
 applyTo: >
   src/stylesheets/**;
   public/legacy/*.css

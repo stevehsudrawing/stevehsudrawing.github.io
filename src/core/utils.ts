@@ -30,75 +30,6 @@ export function extractPageName(pathname: string): string {
 }
 
 /**
- * Set multiple attributes and/or classes on a DOM element from a properties object.
- * Special handling: 'className' can be a string or array and is added via classList.
- * camelCase data* keys (hast convention) are converted to data-* kebab-case.
- * Values of false, null, or undefined are skipped.
- * @param element - The target element.
- * @param properties - Key/value pairs to set as attributes.
- */
-export function setElementAttributes(
-  element: HTMLElement,
-  properties: HastProperties = {},
-): void {
-  Object.entries(properties).forEach(([key, value]) => {
-    if (key === "className") {
-      if (Array.isArray(value)) {
-        (value as string[]).forEach((cls) => element.classList.add(cls));
-      }
-      return;
-    }
-
-    if (value === false || value === null || value === undefined) {
-      return;
-    }
-
-    // Convert camelCase data* keys to data-* kebab-case (hast convention).
-    // e.g. dataImgFeature -> data-img-feature, dataI18n -> data-i18n.
-    const attrName = /^data[A-Z]/.test(key)
-      ? key
-          .replace(/^data([A-Z])/, (_, c: string) => "data-" + c.toLowerCase())
-          .replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())
-      : key;
-
-    element.setAttribute(attrName, String(value));
-  });
-}
-
-/**
- * Extract a readable message from any rejection value.
- * @param error - The rejection value.
- */
-export function errMsg(error: unknown): string {
-  return error && typeof error === "object" && "message" in error
-    ? String((error as { message: unknown }).message)
-    : JSON.stringify(error);
-}
-
-/**
- * Determine if a URL is an internal page that should be handled by the transition system.
- * @param url - The URL to check, can be relative or absolute.
- * @returns True if the URL points to an internal page eligible for transitions.
- */
-export function isInternalPage(url: string): boolean {
-  try {
-    // Hash anchors are obviously internal pages
-    if (url.indexOf("#") === 0) return true;
-    const target = new URL(url, window.location.origin);
-    // Must be same origin
-    if (target.origin !== window.location.origin) return false;
-    // Must be one of our known internal pages
-    const path = target.pathname;
-    return (
-      INTERNAL_PAGES.includes(path) &&
-      !(EXCLUDED_PAGES as readonly string[]).includes(path)
-    );
-  } catch {
-    return false;
-  }
-}
-
-/**
  * Convert a string to dash-case.
  * Strips non-alphanumeric characters, replaces whitespace/underscores with hyphens.
  * @param text - The input string.
@@ -137,8 +68,8 @@ export function extractPlainText(node: unknown): string {
  * Post-process HTML output from `toHtml()` to resolve `data-i18n` and
  * `data-i18n-html` attributes into their translated values.
  *
- * This eliminates the need for the legacy `core/i18n.ts` DOM walker to
- * handle HAST-rendered content (link cards, button groups).
+ * This resolves HAST-rendered content (link cards, button groups)
+ * without a legacy DOM walker.
  *
  * @param html - Raw HTML string from `toHtml()`.
  * @param t - i18n translation function (`t(key)`).

@@ -42,13 +42,18 @@ defineProps<{
     <!-- Empty icon -->
     <i v-else class="bi bi-slash-circle text-body-secondary mb-1 fs-3"></i>
 
+    <!-- Label — Always shows -->
     <span class="small fw-semibold">{{ label }}</span>
+
+    <!-- Error Message -->
     <span
       v-if="state === 'error' && errorMessage"
       class="small text-center px-2"
     >
       {{ errorMessage }}
     </span>
+
+    <!-- Empty Message -->
     <span
       v-if="state === 'empty' && emptyMessage"
       class="small text-center px-2"

@@ -13,7 +13,18 @@ applyTo: >
 
 `HeroSection.vue` replaces ~15 lines of repetitive HTML across 8 hero
 sections on 7 pages. It renders a heading, description, and cover image
-in a responsive two-column flex layout.
+in a responsive flex layout driven by `useBreakpoint()`.
+
+##### 4.2.8.0 Layout & CLS
+
+- **Wide** (`breakpoint !== "mobile"`, i.e. tablet/desktop): row layout —
+  text left, image right, vertically centered.
+- **Mobile**: column layout — image pinned to the **top-right**, text and
+  slot content below.
+- The image is forced to a **fixed 240×240 box** (`width` / `height`
+  props overridden to `240`, and `.hero-img-wrapper` reserves 240×240 in
+  CSS), so the hero contributes **zero CLS**. No `img-fluid` / `img-fit`
+  classes are needed on hero images.
 
 ##### 4.2.8.1 Props
 
@@ -33,7 +44,10 @@ Injected after the description, before the image column. Used for
 ##### 4.2.8.3 FeatureAwarePictureProps
 
 Defined in `src/types/app.ts`. Props are passed through directly to
-`FeatureAwarePicture` via `v-bind="image"`.
+`FeatureAwarePicture` via `v-bind="image"`, except `width` / `height`
+which are always overridden to `240` by `HeroSection`. Do **not** pass
+`img-fluid` / `img-fit` in `image.class` — the fixed 240×240 box handles
+sizing and CLS.
 
 ##### 4.2.8.4 Usage by Page
 
@@ -50,3 +64,46 @@ Defined in `src/types/app.ts`. Props are passed through directly to
 
 IndexPage sub-sections use `headingTag="h2"` for SEO (page already has
 an `<h1>`) and `:padding="false"` for compact spacing.
+
+##### 4.2.8.5 IndexPage Inline Hero Sections (CLS)
+
+IndexPage's illustration carousel and Softwares cover are **not**
+`HeroSection` instances — they are inline `.large-hero-section` blocks
+with responsive `w-100` square images. To keep them CLS-free, each image
+is wrapped in a `.hero-cover-box`:
+
+```css
+.hero-cover-box {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* reserves a 1:1 box in all baseline browsers */
+}
+.hero-cover-box > .carousel,
+.hero-cover-box > picture,
+.hero-cover-box > img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.hero-cover-box > picture > img,
+.hero-cover-box > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+```
+
+> **Scoping is mandatory.** Use the `>` (direct child) selectors exactly
+> as shown. A descendant selector (`.hero-cover-box picture`) also hits
+> the `<picture>` elements _inside_ the carousel slides, removing them
+> from flow and collapsing every `.carousel-item` to 0 height — which
+> makes the whole carousel invisible.
+
+The `padding-top` percentage technique (the same approach Bootstrap's
+`.ratio` uses) reserves the square box **before** the image loads, so
+lazy-loaded carousel slides and the Softwares cover cause zero layout
+shift. No `img-fluid` / `img-fit` needed inside — sizing comes from the
+box. This is preferred over the `aspect-ratio` CSS property, which is
+not supported by the Safari 14 / Chrome 61 baseline.

@@ -20,14 +20,14 @@ TypeScript type definitions are split into two groups: browser types (used by `s
 
 Located in `src/types/` and bundled into the browser output. Type-checked by the root `tsconfig.json` (targets `DOM` lib).
 
-| File               | Types                                                                                                                                                                          | Purpose                                                                                                                                |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `app.ts`           | `Lang`, `ThemeChoice`, `StorageKey`, `AppEvent`, `ImgFeature`, `LanguageAwareImgSrcMap`, `ThemeAwareImgSrcMap`, `PictureSrcMap`, `ColoredImgProps`, `FeatureAwarePictureProps` | Application-wide enums, string literals, and image component props                                                                     |
-| `hast.ts`          | `HastNode`, `HastProperties`                                                                                                                                                   | Hypertext Abstract Syntax Tree node structures - used by `utils.ts` for `setElementAttributes`, and by `qr-code.ts` for icon rendering |
-| `globals.d.ts`     | `Window` interface extensions                                                                                                                                                  | Type declarations for `window.bootstrap`, `window.toHtml`, `window.htmlToImage`, `window.html2canvas`                                  |
-| `css.d.ts`         | `*.css` module declaration                                                                                                                                                     | Allows TypeScript to resolve CSS imports                                                                                               |
-| `vue-shims.d.ts`   | `.vue` module declaration                                                                                                                                                      | Allows TypeScript to resolve `.vue` imports (`declare module "*.vue"`)                                                                 |
-| `vue-augment.d.ts` | `@vue/runtime-core` augmentation                                                                                                                                               | Extends `ComponentCustomProperties` with global `$t()` type                                                                            |
+| File               | Types                                                                                                                                                                          | Purpose                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `app.ts`           | `Lang`, `ThemeChoice`, `StorageKey`, `AppEvent`, `ImgFeature`, `LanguageAwareImgSrcMap`, `ThemeAwareImgSrcMap`, `PictureSrcMap`, `ColoredImgProps`, `FeatureAwarePictureProps` | Application-wide enums, string literals, and image component props                                    |
+| `hast.ts`          | `HastNode`, `HastProperties`                                                                                                                                                   | Hypertext Abstract Syntax Tree node structures                                                        |
+| `globals.d.ts`     | `Window` interface extensions                                                                                                                                                  | Type declarations for `window.bootstrap`, `window.toHtml`, `window.htmlToImage`, `window.html2canvas` |
+| `css.d.ts`         | `*.css` module declaration                                                                                                                                                     | Allows TypeScript to resolve CSS imports                                                              |
+| `vue-shims.d.ts`   | `.vue` module declaration                                                                                                                                                      | Allows TypeScript to resolve `.vue` imports (`declare module "*.vue"`)                                |
+| `vue-augment.d.ts` | `@vue/runtime-core` augmentation                                                                                                                                               | Extends `ComponentCustomProperties` with global `$t()` type                                           |
 
 **Layered constraints**: `types/` may import from npm packages and browser APIs, but **must NOT** import from `core/`, `ui/`, or `features/`.
 
@@ -40,7 +40,9 @@ Located in `src/types/` and bundled into the browser output. Type-checked by the
 | `text`    | `{ "type": "text", "value": "..." }`                                              | Text node                         |
 | `comment` | `{ "type": "comment", "value": "..." }`                                           | HTML comment                      |
 
-**HAST Property Naming**: HAST uses `className` (string or array) instead of `class`, and `data*` attributes are camelCase (e.g. `dataI18n` -> `data-i18n`). Both `hast-util-to-html` and `setElementAttributes` (in `utils.ts`) handle kebab-case conversion automatically.
+**HAST Property Naming**: HAST uses `className` (string or array) instead of
+`class`, and `data*` attributes are camelCase (e.g. `dataI18n` -> `data-i18n`).
+`hast-util-to-html` handles kebab-case conversion automatically.
 
 ```json
 {

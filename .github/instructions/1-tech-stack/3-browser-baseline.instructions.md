@@ -1,9 +1,11 @@
 ---
 description: >
-  Browser baseline: minimum browser versions (Chrome 61+, Edge 79+, Firefox 60+, Opera 48+, Safari 14+),
-  per-dependency browser requirements (Bootstrap, qrcode, html-to-image, html2canvas, Popper, HAST),
-  and required browser features (ES modules, WebP, WOFF2, variable fonts, AVIF).
-  Use when: evaluating browser compatibility, modifying env-detection.js, or changing feature requirements.
+  Browser baseline: minimum browser versions (Chrome 61+, Edge 79+, Firefox 60+,
+  Opera 48+, Safari 14+), per-dependency browser requirements (Bootstrap,
+  qrcode, html-to-image, html2canvas, Popper, HAST), and required browser
+  features (ES modules, WebP, WOFF2, variable fonts, AVIF). Use when: evaluating
+  browser compatibility, modifying env-detection.js, or changing feature
+  requirements.
 applyTo: >
   public/legacy/env-detection.js;
   src/platform/bootstrap-css-detection.ts
@@ -11,7 +13,14 @@ applyTo: >
 
 ### 1.3 Browser Baseline
 
-The minimum browser versions are determined by both **npm dependencies** and **browser feature requirements**. Instead of UA-based version checks, the enforced baseline uses feature detection in `public/legacy/env-detection.js` to verify that the browser supports (1) ES modules (`'noModule' in HTMLScriptElement`) and (2) WebP image format (`canvas.toDataURL('image/webp')`). Modern JS syntax (optional chaining, nullish coalescing, etc.) is down-leveled to ES2015 by Vite at build time, so they are no longer a browser requirement.
+The minimum browser versions are determined by both **npm dependencies** and
+**browser feature requirements**. Instead of UA-based version checks, the
+enforced baseline uses feature detection in `public/legacy/env-detection.js`
+to verify that the browser supports (1) ES modules
+(`'noModule' in HTMLScriptElement`) and (2) WebP image format
+(`canvas.toDataURL('image/webp')`). Modern JS syntax (optional chaining, nullish
+coalescing, etc.) is down-leveled to ES2015 by Vite at build time, so they are
+no longer a browser requirement.
 
 | Browser | Min Version       | Constrained By          | Best Experience     | Benefiting from |
 | ------- | ----------------- | ----------------------- | ------------------- | --------------- |
@@ -45,7 +54,9 @@ The minimum browser versions are determined by both **npm dependencies** and **b
 
 #### 1.3.2 Browser Feature Requirements
 
-The following browser features are required by this project. Their minimum browser versions are determined by [Can I Use](https://caniuse.com/) support tables (full support across all usage, not partial or behind a flag).
+The following browser features are required by this project. Their minimum
+browser versions are determined by [Can I Use](https://caniuse.com/) support
+tables (full support across all usage, not partial or behind a flag).
 
 | Enforced | Feature                                                                 | Used By                          | Chrome | Edge      | Firefox | Opera  | Safari |
 | -------- | ----------------------------------------------------------------------- | -------------------------------- | ------ | --------- | ------- | ------ | ------ |
@@ -57,4 +68,5 @@ The following browser features are required by this project. Their minimum brows
 
 > **Notes**:
 >
-> 1. "Can I Use" website claims that Edge 18 supports WebP, but practical tests have shown that **it does not**.
+> 1. "Can I Use" website claims that Edge 18 supports WebP, but practical tests
+>    have shown that **it does not**.

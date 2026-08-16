@@ -84,9 +84,9 @@ configs/     -> pure runtime config data — no DOM, no events
   ↑
 core/        -> pure logic & global state — no DOM, no events
   ↑
-composables/ -> Vue reactive state + side-effects
-  ↑
 platform/    -> browser platform services — imperative DOM APIs that Vue cannot own
+  ↑↓
+composables/ -> Vue reactive state + side-effects
   ↑
 components/  -> Vue SFCs
   ↑
@@ -104,8 +104,8 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 | `types/`       | npm, browser APIs                                                 | `core/*`, `platform/*`, `composables/*`, `components/*` |
 | `configs/`     | npm (data-only libraries), `types/*`                              | `core/*`, `platform/*`, `composables/*`, `components/*` |
 | `core/`        | `types/*`, `configs/*`                                            | `platform/*`, `composables/*`, `components/*`           |
+| `platform/`    | `types/*`, `configs/*`, `core/*`, `composables/` (limited)        | `components/*`                                          |
 | `composables/` | `types/*`, `configs/*`, `core/*`, `platform/*` (limited)          | `components/*`                                          |
-| `platform/`    | `types/*`, `configs/*`, `core/*`                                  | `composables/*`, `components/*`                         |
 | `components/`  | `types/*`, `configs/*`, `core/*`, `composables/*`, `platform/*`   | —                                                       |
 | `pages/`       | `types/*`, `configs/*`, `core/*`, `composables/*`, `components/*` | `platform/*` (use composables instead)                  |
 | `plugins/`     | `types/*`, `configs/*`, `core/*`                                  | `platform/*`, `composables/*`, `components/*`           |

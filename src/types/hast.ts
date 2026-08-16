@@ -1,6 +1,6 @@
 /**
  * Shared hast (Hypertext Abstract Syntax Tree) types.
- * Used by src/core/utils.ts and src/features/qr-code.ts.
+ * Used by src/core/utils.ts.
  *
  * Link-card types (CardData, GroupData) have been moved to build/types.ts
  * since they are only used at build time.
@@ -22,7 +22,6 @@ export interface HastNode {
 /**
  * Properties object for hast-style element attribute setting.
  * Supports className (string or string[]), camelCase data* keys
- * (converted to data-* kebab-case by setElementAttributes),
  * and arbitrary attribute values.
  */
 export interface HastProperties {

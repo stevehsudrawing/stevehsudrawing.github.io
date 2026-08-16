@@ -27,7 +27,7 @@ const { groups, pagePath } = useLinkCards(ref("blogs-and-sponsor"));
         webp: { light: { en: '/images/webp/covers/blogs.webp' } },
       },
       alt: $t('text-blogs-and-sponsor'),
-      class: 'img-fluid img-fit rounded',
+      class: 'rounded',
     }"
   />
 

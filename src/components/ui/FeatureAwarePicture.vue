@@ -168,6 +168,7 @@ onMounted(() => {
       :alt="alt"
       :width="width"
       :height="height"
+      :style="{ width: width, height: height }"
       :class="class"
       :loading="loading"
       :fetchpriority="fetchpriority"
@@ -185,6 +186,7 @@ onMounted(() => {
     :alt="alt"
     :width="width"
     :height="height"
+    :style="{ width: width, height: height }"
     :class="class"
     :loading="loading"
     :fetchpriority="fetchpriority"
@@ -194,7 +196,7 @@ onMounted(() => {
   />
 </template>
 
-<style>
+<style scoped>
 /* ==== Image loading opacity (global, applies site-wide) ==== */
 
 img {

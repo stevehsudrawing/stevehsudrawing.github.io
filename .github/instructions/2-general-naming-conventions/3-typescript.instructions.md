@@ -1,10 +1,12 @@
 ---
 description: >
-  TypeScript naming conventions: camelCase variables/functions, SCREAMING_SNAKE_CASE constants,
-  PascalCase interfaces/types/enums. Import conventions (no .ts suffix, import type, Direct Import
-  Principle). Legacy DOM-function prefixes (init/dispose/create/remove/add/mark/handle/update/apply/
-  get/set/extract/normalize) for src/platform/. Vue-specific naming for components/composables/plugins.
-  Use when: writing or refactoring TypeScript code.
+  TypeScript naming conventions: camelCase variables/functions,
+  SCREAMING_SNAKE_CASE constants, PascalCase interfaces/types/enums. Import
+  conventions (no .ts suffix, import type, Direct Import Principle). Legacy DOM-
+  function prefixes (init/dispose/create/remove/add/mark/handle/update/apply/
+  get/set/extract/normalize) for src/platform/. Vue-specific naming for
+  components/composables/plugins. Use when: writing or refactoring TypeScript
+  code.
 applyTo: >
   build/**/*.ts;
   src/**/*.ts
@@ -16,7 +18,7 @@ applyTo: >
 
 #### 2.3.1 General Rules (all TypeScript)
 
-**The principle of "high cohesion and low coupling"**
+**High Cohesion and Low Coupling**
 
 A function should perform only one task to ensure it can be reused.
 
@@ -55,7 +57,9 @@ constants, and parallel storage formats are forbidden.
 
 **Import conventions:**
 
-- **No extension**: `import { foo } from '../core/bar'` (not `../core/bar.ts` or `../core/bar.js`).
+- **No extension**: `import { foo } from '../core/bar'` (not `../core/bar.ts`
+  or `../core/bar.js`).
+
 - **`import type`** for type-only imports (erased at build time):
 
   ```ts
@@ -64,7 +68,8 @@ constants, and parallel storage formats are forbidden.
   import { StorageKey, AppEvent } from "../types/app";
   ```
 
-- **Direct Import Principle**: import directly from the source module; do not re-export through intermediate modules.
+- **Direct Import Principle**: import directly from the source module; do not
+  re-export through intermediate modules.
 
   ```ts
   // Correct

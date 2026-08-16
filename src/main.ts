@@ -5,7 +5,7 @@
  */
 
 // =========================================================================
-// CSS imports (replaces <link> CDN tags)
+// CSS imports
 // =========================================================================
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -22,7 +22,7 @@ import "./stylesheets/fonts.css";
 import "./stylesheets/accessibility.css";
 
 // =========================================================================
-// npm package imports (replaces CDN <script> tags)
+// npm package imports
 // =========================================================================
 import * as bootstrap from "bootstrap";
 import * as htmlToImage from "html-to-image";
@@ -37,18 +37,9 @@ window.html2canvas = html2canvas;
 // Project JS modules (order matters: dependencies before dependents)
 // These side-effect imports register global handlers / extend prototypes.
 // =========================================================================
-
-// --- Utilities (used by everything else) ---
 import "./core/utils";
-
-// --- Core systems ---
-import "./core/i18n";
 import "./platform/theme";
-
-// --- UI features ---
 import "./platform/accessibility";
-
-// --- Detection helpers ---
 import "./platform/bootstrap-css-detection";
 
 // =========================================================================
@@ -61,8 +52,7 @@ import {
 import { getStoredTheme } from "./platform/storage";
 
 initSystemThemeListener();
-const initialTheme = getStoredTheme();
-applyThemePreference(initialTheme, false);
+applyThemePreference(getStoredTheme(), false);
 
 // =========================================================================
 // Vue 3 application bootstrap

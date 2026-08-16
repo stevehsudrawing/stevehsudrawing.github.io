@@ -3,9 +3,9 @@
  *
  * Returns a SINGLE shared `Ref<Breakpoint>` that all components can observe.
  * The breakpoint is derived from `window.innerWidth` against Bootstrap's
- * `lg` (992 px) and `xl` (1200 px) thresholds:
+ * `md` (768 px) and `xl` (1200 px) thresholds:
  *
- *   ≤ 992 px  →  "mobile"
+ *   ≤ 768 px  →  "mobile"
  *   ≤ 1200 px →  "tablet"
  *   > 1200 px →  "desktop"
  *
@@ -67,7 +67,7 @@ function removeResizeListener(): void {
 function computeBreakpoint(): Breakpoint {
   if (typeof window === "undefined") return "desktop";
   const w = window.innerWidth;
-  if (w <= 992) return "mobile";
+  if (w <= 768) return "mobile";
   if (w <= 1200) return "tablet";
   return "desktop";
 }

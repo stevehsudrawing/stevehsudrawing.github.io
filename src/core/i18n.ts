@@ -1,15 +1,13 @@
 /**
- * Internationalization (i18n) module.
- * Applies loaded translation data to the page (DOM side-effects: the
- * <html lang> attribute, the ?lang= URL parameter, and the legacy
- * language-select dropdown).  Translation content itself is bundled in
- * src/configs/i18n/ and switched synchronously by useI18n().
+ * Internationalization (i18n) pure logic — no DOM, no events.
+ *
+ * Translation CONTENT is bundled in src/configs/i18n/; language-switching
+ * orchestration and document side-effects live in useI18n() (composables).
+ * Both the plugin's `$t()` and the composable's `t()` delegate the shared
+ * lookup/fallback/param-replacement logic to `translateMessage()` here.
  */
 
 import type { Lang } from "../types/app";
-
-export let currentLang: Lang = "en";
-export let langData: Record<string, unknown> = {};
 
 /**
  * Normalize a language code to one of the site's supported languages.
@@ -59,29 +57,29 @@ export function normalizeLang(lang: string): Lang {
 }
 
 /**
- * Apply already-loaded translation data to the page.
- * Stores the data, updates the URL query parameter, the <html lang>
- * attribute, and the language-select dropdown.  Callers are responsible
- * for fetching the JSON, persisting via setStoredLang() (platform/storage),
- * and syncing ui-layer elements (page title).
- * @param lang - The normalized language code.
- * @param data - The parsed translation JSON object.
+ * Resolve an i18n key to translated text: active language first, then the
+ * fallback messages (English), then replace `%1`, `%2`, ... placeholders.
+ *
+ * @param messages - Active language messages.
+ * @param fallbackMessages - Fallback messages (English).
+ * @param key - i18n message key.
+ * @param params - Optional positional params for `%1`, `%2`, ... (1-based).
+ *   Unmatched placeholders are left as-is; extra params are ignored.
+ * @returns The translated string ('' when the key is missing everywhere).
  */
-export function applyLangData(lang: Lang, data: Record<string, unknown>): void {
-  langData = data;
-  currentLang = lang;
-
-  // Update URL query parameter without reloading
-  const url = new URL(window.location.href);
-  url.searchParams.set("lang", lang);
-  history.replaceState(null, "", url);
-  // Update <html lang>
-  document.documentElement.lang = lang;
-
-  const languageSelect = document.getElementById(
-    "language-select",
-  ) as HTMLSelectElement | null;
-  if (languageSelect) {
-    languageSelect.value = currentLang;
+export function translateMessage(
+  messages: Record<string, unknown>,
+  fallbackMessages: Record<string, unknown>,
+  key: string,
+  params?: string[],
+): string {
+  const raw = messages[key] ?? fallbackMessages[key];
+  let result: string = typeof raw === "string" ? raw : "";
+  if (params && params.length > 0) {
+    result = result.replace(
+      /%(\d+)/g,
+      (_m: string, n: string) => params[+n - 1] ?? _m,
+    );
   }
+  return result;
 }

@@ -27,7 +27,7 @@ const { groups, pagePath } = useLinkCards(ref("chatting"));
         webp: { light: { en: '/images/webp/covers/chatting.webp' } },
       },
       alt: $t('text-chatting'),
-      class: 'img-fluid img-fit rounded',
+      class: 'rounded',
     }"
   />
 

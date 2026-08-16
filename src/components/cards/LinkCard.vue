@@ -106,7 +106,7 @@ const availableClass = computed(() =>
 </script>
 
 <template>
-  <div class="card-wrapper col-lg-6 col-xxl-4" :class="availableClass">
+  <div class="card-wrapper col-md-6 col-xl-4" :class="availableClass">
     <div class="card flex-grow-1">
       <div class="d-flex card-body">
         <!-- Icon (colored) -->

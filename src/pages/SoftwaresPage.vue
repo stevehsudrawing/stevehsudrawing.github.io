@@ -30,7 +30,7 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
         webp: { light: { en: '/images/webp/covers/projects.webp' } },
       },
       alt: $t('text-softwares'),
-      class: 'img-fluid img-fit rounded',
+      class: 'rounded',
     }"
   >
   </HeroSection>

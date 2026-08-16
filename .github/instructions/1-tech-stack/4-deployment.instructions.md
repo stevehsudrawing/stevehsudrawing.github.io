@@ -1,8 +1,8 @@
 ---
 description: >
-  Deployment: GitHub Pages via GitHub Actions workflow. Build step: pnpm build (Vite bundles to dist/),
-  deployed by .github/workflows/deploy.yml.
-  Use when: modifying CI/CD, deployment workflow, or build output configuration.
+  Deployment: GitHub Pages via GitHub Actions workflow. Build step: pnpm build
+  (Vite bundles to dist/), deployed by .github/workflows/deploy.yml. Use when:
+  modifying CI/CD, deployment workflow, or build output configuration.
 applyTo: >
   .github/workflows/*.yml;
   .github/workflows/*.yaml

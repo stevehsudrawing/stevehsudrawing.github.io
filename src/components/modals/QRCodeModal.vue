@@ -131,7 +131,7 @@ watch(effectiveTheme, async () => {
 /**
  * Render the QR share card to a PNG blob.
  *
- * Uses the same two-tier fallback as the original features/qr-code.ts:
+ * Uses the same two-tier fallback as the legacy features/qr-code.ts:
  * 1. html-to-image toPng (primary — canvas via SVG foreignObject)
  * 2. html2canvas (fallback for mobile / environments without foreignObject)
  */

@@ -15,6 +15,7 @@ import { ref, type Ref } from "vue";
 import type { Lang } from "../types/app";
 import { DEFAULT_LANG } from "../configs/language-list";
 import { TRANSLATIONS } from "../configs/i18n/translations";
+import { translateMessage } from "../core/i18n";
 
 /** Key used for provide/inject. */
 export const I18N_LOCALE_KEY = Symbol("i18nLocale");
@@ -39,21 +40,10 @@ export const i18nPlugin = {
     app.provide(I18N_LOCALE_KEY, locale);
     app.provide(I18N_MESSAGES_KEY, messages);
 
-    // Global template helper — mirrors vue-i18n's $t signature.
-    // Only returns string values; HAST nodes use useI18n().h() instead.
-    app.config.globalProperties.$t = (
-      key: string,
-      params?: string[],
-    ): string => {
-      const raw = messages.value[key] ?? TRANSLATIONS[DEFAULT_LANG][key];
-      let result: string = typeof raw === "string" ? raw : "";
-      if (params && params.length > 0) {
-        result = result.replace(
-          /%(\d+)/g,
-          (_m: string, n: string) => params[+n - 1] ?? _m,
-        );
-      }
-      return result;
-    };
+    // Global template helper — delegates to the shared pure translator.
+    // (Cannot call useI18n().t() here: plugins must not import composables,
+    // and inject() only works inside component setup.)
+    app.config.globalProperties.$t = (key: string, params?: string[]): string =>
+      translateMessage(messages.value, TRANSLATIONS[DEFAULT_LANG], key, params);
   },
 };

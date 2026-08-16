@@ -1,14 +1,31 @@
 <!--
   HeroSection.vue — Reusable page hero section.
   Renders a heading, description, and FeatureAwarePicture in a
-  responsive two-column flex layout (text left/bottom, image right/top).
+  responsive flex layout (text left/bottom, image right/top).
+
+  Layout is driven by the shared useBreakpoint() composable:
+    - mobile:        image top-right, text below
+    - tablet+ / wide: text left, image right
+
+  The image is pinned to a fixed 240×240 box — width/height attributes
+  plus an inline style reserve the space before the image loads, so the
+  hero contributes zero CLS.
 
   Used by all 7 full pages (About, Artworks, Softwares, Blogs,
   Chatting, Copyright, and IndexPage sub-sections).
 -->
 <script setup lang="ts">
+import { computed } from "vue";
 import FeatureAwarePicture from "./FeatureAwarePicture.vue";
+import { useBreakpoint } from "../../composables/useBreakpoint";
 import type { FeatureAwarePictureProps } from "../../types/app";
+
+// =========================================================================
+// Constants
+// =========================================================================
+
+/** Fixed hero image box size in px — reserved before load to prevent CLS. */
+const HERO_IMG_SIZE = 240;
 
 // =========================================================================
 // Props
@@ -34,12 +51,22 @@ defineProps<{
    */
   padding?: boolean;
 }>();
+
+// =========================================================================
+// State
+// =========================================================================
+
+const breakpoint = useBreakpoint();
+const isMobile = computed(() => breakpoint.value === "mobile");
 </script>
 
 <template>
   <div class="container" :class="{ 'py-4': padding !== false }">
-    <div class="d-flex align-items-center flex-wrap">
-      <div class="col-12 col-md-8 col-lg-9 order-md-1 order-2">
+    <div
+      class="hero-layout"
+      :class="isMobile ? 'hero-layout--mobile' : 'hero-layout--wide'"
+    >
+      <div class="hero-text">
         <component :is="headingTag ?? 'h1'" class="h1">{{ title }}</component>
         <div v-if="description" class="py-2">
           {{ description }}
@@ -47,32 +74,54 @@ defineProps<{
         <!-- Extra content (LinkButtonGroup, GitHub link, etc.) -->
         <slot />
       </div>
-      <div class="hero-img-wrapper col-md-3 order-md-2 order-1 mb-4 mb-md-0">
-        <FeatureAwarePicture v-bind="image" />
+      <div class="hero-img-wrapper">
+        <FeatureAwarePicture
+          v-bind="image"
+          :width="HERO_IMG_SIZE"
+          :height="HERO_IMG_SIZE"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* --- Sub Cover Wrapper --- */
+/* --- Hero layout (flex, CLS-safe) --- */
 
-.hero-img-wrapper {
+.hero-layout {
   display: flex;
-  justify-content: flex-end;
+  gap: 1.5rem;
+}
+
+/* Wide (tablet + desktop): text left, image right */
+.hero-layout--wide {
   flex-direction: row;
-  align-content: space-around;
-  flex-grow: 1;
+  align-items: center;
 }
 
-.hero-img-wrapper picture {
+.hero-layout--wide .hero-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Mobile: image top-right, content below */
+.hero-layout--mobile {
+  flex-direction: column;
+}
+
+.hero-layout--mobile .hero-text {
+  order: 2;
+}
+
+.hero-layout--mobile .hero-img-wrapper {
+  order: 1;
+  align-self: flex-end;
+}
+
+/* Fixed 240×240 image box — reserved dimensions prevent CLS */
+.hero-img-wrapper {
+  flex: 0 0 auto;
   width: 240px;
-}
-
-/* Mobile (< 768px) */
-@media (max-width: 767.98px) {
-  .hero-img-wrapper picture {
-    width: 50%;
-  }
+  height: 240px;
 }
 </style>

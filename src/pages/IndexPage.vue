@@ -61,7 +61,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
     id="illustration-section"
   >
     <div class="row align-items-center align-content-center flex-grow-1">
-      <div class="col-lg-6 order-lg-1 order-2">
+      <div class="col-md-6 order-md-1 order-2">
         <h1 v-html="$t('html-steve-hsu-s-link-hub')"></h1>
         <div class="py-2">
           <p>
@@ -78,8 +78,8 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       </div>
 
       <!-- Illustration Carousel -->
-      <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
-        <div class="position-relative">
+      <div class="col-md-6 order-md-2 order-1 mb-4 mb-md-0">
+        <div class="hero-cover-box">
           <BCarousel
             ref="carouselRef"
             class="rounded overflow-hidden"
@@ -226,7 +226,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
     id="softwares-section"
   >
     <div class="row align-items-center align-content-center flex-grow-1">
-      <div class="col-lg-6 order-lg-1 order-2">
+      <div class="col-md-6 order-md-1 order-2">
         <h2 class="h1">{{ $t("text-my-softwares") }}</h2>
         <div class="py-2">
           <p>
@@ -241,15 +241,17 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
           :buttons="findGroup('softwares')!.buttons"
         />
       </div>
-      <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
-        <FeatureAwarePicture
-          :src-map="{
-            avif: { light: { en: '/images/avif/covers/projects.avif' } },
-            webp: { light: { en: '/images/webp/covers/projects.webp' } },
-          }"
-          :alt="$t('text-softwares')"
-          class="img-fluid img-fit rounded"
-        />
+      <div class="col-md-6 order-md-2 order-1 mb-4 mb-md-0">
+        <div class="hero-cover-box">
+          <FeatureAwarePicture
+            :src-map="{
+              avif: { light: { en: '/images/avif/covers/projects.avif' } },
+              webp: { light: { en: '/images/webp/covers/projects.webp' } },
+            }"
+            :alt="$t('text-softwares')"
+            class="rounded"
+          />
+        </div>
       </div>
     </div>
     <TooltipTrigger :title="$t('text-more-links')">
@@ -280,7 +282,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         webp: { light: { en: '/images/webp/covers/blogs.webp' } },
       },
       alt: $t('text-blogs-and-sponsor'),
-      class: 'img-fluid img-fit rounded',
+      class: 'rounded',
     }"
     :padding="false"
   >
@@ -303,7 +305,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         webp: { light: { en: '/images/webp/covers/chatting.webp' } },
       },
       alt: $t('text-chatting'),
-      class: 'img-fluid img-fit rounded',
+      class: 'rounded',
     }"
     :padding="false"
   >
@@ -333,6 +335,31 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 64px);
+}
+
+/* --- CLS-safe square cover box (padding-top reserves the 1:1 box) --- */
+
+.hero-cover-box {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.hero-cover-box > .carousel,
+.hero-cover-box > picture,
+.hero-cover-box > img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.hero-cover-box > picture > img,
+.hero-cover-box > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .scroll-down-tip {

@@ -12,7 +12,7 @@ import type { Lang } from "../types/app";
 import { getStoredLang, setStoredLang } from "../platform/storage";
 import { DEFAULT_LANG } from "../configs/language-list";
 import { TRANSLATIONS } from "../configs/i18n/translations";
-import { normalizeLang, applyLangData } from "../core/i18n";
+import { normalizeLang, translateMessage } from "../core/i18n";
 import { updatePageTitle } from "../platform/page-title";
 
 /**
@@ -40,6 +40,7 @@ export function useI18n(): {
 
   /**
    * Synchronous translation function for templates and script.
+   * Delegates to the shared pure translator in core/i18n.ts.
    *
    * @param key - i18n message key.
    * @param params - Optional array of strings to replace `%1`, `%2`,
@@ -47,15 +48,12 @@ export function useI18n(): {
    *   left as-is; extra params are ignored.
    */
   function t(key: string, params?: string[]): string {
-    const raw = messages.value[key] ?? TRANSLATIONS[DEFAULT_LANG][key];
-    let result: string = typeof raw === "string" ? raw : "";
-    if (params && params.length > 0) {
-      result = result.replace(
-        /%(\d+)/g,
-        (_m: string, n: string) => params[+n - 1] ?? _m,
-      );
-    }
-    return result;
+    return translateMessage(
+      messages.value,
+      TRANSLATIONS[DEFAULT_LANG],
+      key,
+      params,
+    );
   }
 
   // ---- Language switching ----
@@ -72,8 +70,12 @@ export function useI18n(): {
     locale.value = lang;
     messages.value = data;
 
-    // Update DOM for existing data-i18n elements (backward compat)
-    applyLangData(lang, data);
+    // Apply language side-effects to the document
+    document.documentElement.lang = lang;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("lang", lang);
+    history.replaceState(null, "", url);
 
     // Update page title
     updatePageTitle(t);
