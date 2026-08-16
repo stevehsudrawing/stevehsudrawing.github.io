@@ -1,8 +1,9 @@
 ---
 description: >
   Breakpoint detection: useBreakpoint() composable providing a shared reactive
-  Breakpoint ref (mobile ≤ 768 px / tablet ≤ 1200 px / desktop > 1200 px),
-  aligned with Bootstrap's md and xl thresholds.  Module-level singleton with
+  Breakpoint ref (mobile ≤ 768 px / tablet ≤ 1200 px / desktop ≤ 1400 px /
+  wideDesktop > 1400 px), aligned with Bootstrap's md, xl, and xxl
+  thresholds.  Module-level singleton with
   ref-counted resize listener and requestAnimationFrame throttling.
   Use when: modifying responsive layout logic, adding new breakpoint-dependent
   components, or changing breakpoint thresholds.
@@ -18,9 +19,10 @@ applyTo: >
 ```
 useBreakpoint() composable
   └─ breakpoint: Ref<Breakpoint>  (module-level singleton)
-       ├─ "mobile"  — ≤ 768 px  (Bootstrap md)
-       ├─ "tablet"  — ≤ 1200 px (Bootstrap xl)
-       └─ "desktop" — > 1200 px
+       ├─ "mobile"      — ≤ 768 px  (Bootstrap md)
+       ├─ "tablet"      — ≤ 1200 px (Bootstrap xl)
+       ├─ "desktop"     — ≤ 1400 px (Bootstrap xl)
+       └─ "wideDesktop" — > 1400 px (Bootstrap xxl)
 ```
 
 - **Singleton**: all components share one `Ref<Breakpoint>` and one global resize listener.
@@ -31,7 +33,7 @@ useBreakpoint() composable
 
 ```ts
 // src/types/app.ts
-export type Breakpoint = "mobile" | "tablet" | "desktop";
+export type Breakpoint = "mobile" | "tablet" | "desktop" | "wideDesktop";
 ```
 
 ##### 4.1.8.3 Consumers
@@ -46,11 +48,12 @@ export type Breakpoint = "mobile" | "tablet" | "desktop";
 
 The JS breakpoint thresholds mirror Bootstrap's CSS media queries:
 
-| Tier    | JS condition         | CSS equivalent                                         |
-| ------- | -------------------- | ------------------------------------------------------ |
-| mobile  | `width ≤ 768`        | `@media (max-width: 991.98px)`                         |
-| tablet  | `768 < width ≤ 1200` | `@media (min-width: 768px) and (max-width: 1199.98px)` |
-| desktop | `width > 1200`       | `@media (min-width: 1200px)`                           |
+| Tier        | JS condition          | CSS equivalent                                          |
+| ----------- | --------------------- | ------------------------------------------------------- |
+| mobile      | `width ≤ 768`         | `@media (max-width: 991.98px)`                          |
+| tablet      | `768 < width ≤ 1200`  | `@media (min-width: 768px) and (max-width: 1199.98px)`  |
+| desktop     | `1200 < width ≤ 1400` | `@media (min-width: 1200px) and (max-width: 1399.98px)` |
+| wideDesktop | `width > 1400`        | `@media (min-width: 1400px)`                            |
 
 When a conditional can be expressed purely in CSS (e.g. layout changes), prefer
 CSS media queries over JS breakpoint detection. Use `useBreakpoint()` only when

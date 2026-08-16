@@ -53,6 +53,18 @@ export const PAGE_META: PageMetaMap = {
     changefreq: "monthly",
     priority: 0.8,
   },
+  gallery: {
+    title: `Gallery - ${SITE_NAME}`,
+    description:
+      "Explore the poster gallery of Steve Hsu (什五)'s artwork series, including Sticker Collections.",
+    pagePath: "/gallery.html",
+    robots: "index, follow",
+    jsonLDType: "breadcrumb",
+    jsonLDPageName: "Gallery",
+    tier: "full",
+    changefreq: "monthly",
+    priority: 0.8,
+  },
   "blogs-and-sponsor": {
     title: `Blogs & Sponsor - ${SITE_NAME}`,
     description:

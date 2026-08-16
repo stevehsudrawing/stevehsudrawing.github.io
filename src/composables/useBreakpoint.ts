@@ -3,11 +3,12 @@
  *
  * Returns a SINGLE shared `Ref<Breakpoint>` that all components can observe.
  * The breakpoint is derived from `window.innerWidth` against Bootstrap's
- * `md` (768 px) and `xl` (1200 px) thresholds:
+ * `md` (768 px), `xl` (1200 px), and `xxl` (1400 px) thresholds:
  *
- *   ≤ 768 px  →  "mobile"
- *   ≤ 1200 px →  "tablet"
- *   > 1200 px →  "desktop"
+ *   ≤ 768 px   →  "mobile"
+ *   ≤ 1200 px  →  "tablet"
+ *   ≤ 1400 px  →  "desktop"
+ *   > 1400 px  →  "wideDesktop"
  *
  * Uses a **module-level singleton** pattern: the resize listener is
  * registered once (on first call) and torn down when the last consumer
@@ -17,7 +18,7 @@
  *
  * @example
  * const breakpoint = useBreakpoint();
- * // breakpoint.value === "mobile" | "tablet" | "desktop"
+ * // breakpoint.value === "mobile" | "tablet" | "desktop" | "wideDesktop"
  */
 
 import { ref, onMounted, onBeforeUnmount, type Ref } from "vue";
@@ -69,7 +70,8 @@ function computeBreakpoint(): Breakpoint {
   const w = window.innerWidth;
   if (w <= 768) return "mobile";
   if (w <= 1200) return "tablet";
-  return "desktop";
+  if (w <= 1400) return "desktop";
+  return "wideDesktop";
 }
 
 // =========================================================================

@@ -17,8 +17,11 @@ export type ThemeChoice = "auto" | "light" | "dark";
 /** Effective (resolved) theme - always light or dark. */
 export type EffectiveTheme = "light" | "dark";
 
-/** Responsive breakpoint tiers aligned with Bootstrap's lg / xl thresholds. */
-export type Breakpoint = "mobile" | "tablet" | "desktop";
+/**
+ * Responsive breakpoint tiers aligned with Bootstrap's md / xl / xxl
+ * thresholds.
+ */
+export type Breakpoint = "mobile" | "tablet" | "desktop" | "wideDesktop";
 
 // =========================================================================
 // localStorage keys
@@ -92,6 +95,50 @@ export interface LinkButtonGroupData {
   groupId: string;
   /** Array of button definitions within this group. */
   buttons: LinkButtonData[];
+}
+
+// =========================================================================
+// Picture-list data (Gallery page)
+// =========================================================================
+
+/** Picture descriptor — a single displayable poster in a gallery group. */
+export interface DisplayPictureData {
+  /**
+   * Unique id — i18n key suffix (`t("text-" + id)`) for the alt-text
+   * fallback and the lightbox deep-link target (`?preview=<id>`).
+   */
+  id: string;
+  /**
+   * FeatureAwarePictureProps for the poster.
+   * `alt` is optional here — when omitted the component falls back to
+   * `t("text-" + id)`.  width/height are omitted (masonry CSS controls
+   * the layout) and `loading` defaults to lazy in the card component.
+   */
+  pictureProps: Omit<FeatureAwarePictureProps, "alt"> & { alt?: string };
+  /** QR share-card centre overlay icon — picture variant (optional). */
+  qrCodeIconPictureProps?: Omit<FeatureAwarePictureProps, "alt"> & {
+    alt?: string;
+  };
+  /** QR share-card centre overlay icon — colored variant (optional). */
+  qrCodeIconColoredProps?: ColoredImgProps | null;
+  /**
+   * Internal link back to a related section on another page
+   * (e.g. "/artworks-and-videos.html#sticker-collections").
+   */
+  relatedLink?: string;
+}
+
+/** Picture-list group descriptor — a titled gallery section. */
+export interface DisplayPictureGroupData {
+  /**
+   * i18n key suffix for the SectionHeading title (`t("text-" + id)`)
+   * plus the stable, language-independent anchor id.
+   */
+  id: string;
+  /** HAST node for the group description (rendered like LinkCardGroup). */
+  description?: HastNode | null;
+  /** Array of pictures within this group. */
+  contents: DisplayPictureData[];
 }
 
 // =========================================================================
@@ -307,9 +354,25 @@ export interface GitHubEventsModalProps {
   events: GitHubEvent[];
 }
 
+/** Props for PictureViewerModal — stored in a modal-stack item. */
+export interface PictureViewerModalProps {
+  /**
+   * The group's pictures — the viewer navigates within this list
+   * (prev/next, keyboard arrows, touch swipe).
+   */
+  contents: DisplayPictureData[];
+  /** Id of the picture to display initially (deep-link target). */
+  currentId: string;
+}
+
 /** Modal component identifiers in the modal stack. */
 export type ModalId =
-  "external-link" | "qr-code" | "github-events" | "settings" | "reset-warning";
+  | "external-link"
+  | "qr-code"
+  | "github-events"
+  | "picture-viewer"
+  | "settings"
+  | "reset-warning";
 
 /**
  * Modal stack entry — discriminated union keyed by `id`.
@@ -320,6 +383,7 @@ export type ModalStackItem =
   | { id: "external-link"; props: ExternalLinkConfirmModalProps }
   | { id: "qr-code"; props: QRCodeModalProps }
   | { id: "github-events"; props: GitHubEventsModalProps }
+  | { id: "picture-viewer"; props: PictureViewerModalProps }
   | { id: "settings"; props: null }
   | { id: "reset-warning"; props: null };
 

@@ -47,6 +47,7 @@ export default defineConfig({
           "src",
           "artworks-and-videos.html",
         ),
+        gallery: resolve(__dirname, "src", "gallery.html"),
         "blogs-and-sponsor": resolve(
           __dirname,
           "src",

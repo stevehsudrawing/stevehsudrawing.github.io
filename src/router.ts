@@ -28,6 +28,10 @@ const routes = [
     component: () => import("./pages/ArtworksPage.vue"),
   },
   {
+    path: "/gallery.html",
+    component: () => import("./pages/GalleryPage.vue"),
+  },
+  {
     path: "/blogs-and-sponsor.html",
     component: () => import("./pages/BlogsPage.vue"),
   },

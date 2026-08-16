@@ -1,0 +1,164 @@
+[
+  {
+    "id": "sticker-collections",
+    "description": {
+      "type": "element",
+      "tagName": "span",
+      "children": [
+        {
+          "type": "text",
+          "value": "This section displays the posters of various Sticker Collections. You can visit the \"Artworks & Videos\" page to see the methods of downloading."
+        }
+      ],
+      "properties": {
+        "dataI18n": "text-sticker-collections-display-description"
+      }
+    },
+    "contents": [
+      {
+        "id": "sticker-collection-series-1-vol-1",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/posters/en/sticker-collection-series-1-vol-1.avif",
+                "zh-Hans": "/images/avif/posters/zh-Hans/sticker-collection-series-1-vol-1.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/posters/en/sticker-collection-series-1-vol-1.webp",
+                "zh-Hans": "/images/webp/posters/zh-Hans/sticker-collection-series-1-vol-1.webp"
+              }
+            }
+          },
+          "feature": ["follow-language"]
+        },
+        "qrCodeIconPictureProps": {
+          "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp"
+        },
+        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+      },
+      {
+        "id": "sticker-collection-series-1-vol-2",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/posters/en/sticker-collection-series-1-vol-2.avif",
+                "zh-Hans": "/images/avif/posters/zh-Hans/sticker-collection-series-1-vol-2.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/posters/en/sticker-collection-series-1-vol-2.webp",
+                "zh-Hans": "/images/webp/posters/zh-Hans/sticker-collection-series-1-vol-2.webp"
+              }
+            }
+          },
+          "feature": ["follow-language"]
+        },
+        "qrCodeIconPictureProps": {
+          "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp"
+        },
+        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+      },
+      {
+        "id": "sticker-collection-series-1-vol-3",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/posters/en/sticker-collection-series-1-vol-3.avif",
+                "zh-Hans": "/images/avif/posters/zh-Hans/sticker-collection-series-1-vol-3.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/posters/en/sticker-collection-series-1-vol-3.webp",
+                "zh-Hans": "/images/webp/posters/zh-Hans/sticker-collection-series-1-vol-3.webp"
+              }
+            }
+          },
+          "feature": ["follow-language"]
+        },
+        "qrCodeIconPictureProps": {
+          "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp"
+        },
+        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+      },
+      {
+        "id": "sticker-collection-series-2-vol-1",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/posters/en/sticker-collection-series-2-vol-1.avif",
+                "zh-Hans": "/images/avif/posters/zh-Hans/sticker-collection-series-2-vol-1.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/posters/en/sticker-collection-series-2-vol-1.webp",
+                "zh-Hans": "/images/webp/posters/zh-Hans/sticker-collection-series-2-vol-1.webp"
+              }
+            }
+          },
+          "feature": ["follow-language"]
+        },
+        "qrCodeIconPictureProps": {
+          "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp"
+        },
+        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+      },
+      {
+        "id": "sticker-collection-series-2-vol-2",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/posters/en/sticker-collection-series-2-vol-2.avif",
+                "zh-Hans": "/images/avif/posters/zh-Hans/sticker-collection-series-2-vol-2.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/posters/en/sticker-collection-series-2-vol-2.webp",
+                "zh-Hans": "/images/webp/posters/zh-Hans/sticker-collection-series-2-vol-2.webp"
+              }
+            }
+          },
+          "feature": ["follow-language"]
+        },
+        "qrCodeIconPictureProps": {
+          "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp"
+        },
+        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+      },
+      {
+        "id": "sticker-collection-series-2-vol-3",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/posters/en/sticker-collection-series-2-vol-3.avif",
+                "zh-Hans": "/images/avif/posters/zh-Hans/sticker-collection-series-2-vol-3.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/posters/en/sticker-collection-series-2-vol-3.webp",
+                "zh-Hans": "/images/webp/posters/zh-Hans/sticker-collection-series-2-vol-3.webp"
+              }
+            }
+          },
+          "feature": ["follow-language"]
+        },
+        "qrCodeIconPictureProps": {
+          "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp"
+        },
+        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+      }
+    ]
+  }
+]

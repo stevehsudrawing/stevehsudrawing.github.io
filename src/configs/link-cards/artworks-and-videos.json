@@ -427,7 +427,7 @@
           "tagName": "img",
           "properties": {
             "alt": "Steve Hsu & Kato Vol. 1",
-            "dataI18nAlt": "text-sticker-collections-series-1",
+            "dataI18nAlt": "text-sticker-collection-series-1-vol-1",
             "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp",
             "className": ["no-copy"]
           },
@@ -437,8 +437,8 @@
           "type": "element",
           "tagName": "a",
           "properties": {
-            "href": "https://afdian.com/p/b35828fc38a811f1a22252540025c377",
-            "className": ["external-link"]
+            "href": "/gallery.html?preview=sticker-collection-series-1-vol-1",
+            "className": ["internal-link"]
           },
           "children": [
             {
@@ -451,7 +451,7 @@
                 }
               ],
               "properties": {
-                "dataI18n": "text-sticker-collections-series-1"
+                "dataI18n": "text-sticker-collection-series-1-vol-1"
               }
             }
           ]
@@ -518,7 +518,7 @@
           "tagName": "img",
           "properties": {
             "alt": "Steve Hsu & Kato Vol. 2",
-            "dataI18nAlt": "text-sticker-collections-series-1-vol-2",
+            "dataI18nAlt": "text-sticker-collection-series-1-vol-2",
             "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp",
             "className": ["no-copy"]
           },
@@ -528,8 +528,8 @@
           "type": "element",
           "tagName": "a",
           "properties": {
-            "href": "https://afdian.com/p/8a9d008241f811f185ea52540025c377",
-            "className": ["external-link"]
+            "href": "/gallery.html?preview=sticker-collection-series-1-vol-2",
+            "className": ["internal-link"]
           },
           "children": [
             {
@@ -542,7 +542,7 @@
                 }
               ],
               "properties": {
-                "dataI18n": "text-sticker-collections-series-1-vol-2"
+                "dataI18n": "text-sticker-collection-series-1-vol-2"
               }
             }
           ]
@@ -609,7 +609,7 @@
           "tagName": "img",
           "properties": {
             "alt": "Steve Hsu & Kato Vol. 3",
-            "dataI18nAlt": "text-sticker-collections-series-1-vol-3",
+            "dataI18nAlt": "text-sticker-collection-series-1-vol-3",
             "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp",
             "className": ["no-copy"]
           },
@@ -619,8 +619,8 @@
           "type": "element",
           "tagName": "a",
           "properties": {
-            "href": "https://afdian.com/p/1db1e3465e5111f1afae52540025c377",
-            "className": ["external-link"]
+            "href": "/gallery.html?preview=sticker-collection-series-1-vol-3",
+            "className": ["internal-link"]
           },
           "children": [
             {
@@ -633,7 +633,7 @@
                 }
               ],
               "properties": {
-                "dataI18n": "text-sticker-collections-series-1-vol-3"
+                "dataI18n": "text-sticker-collection-series-1-vol-3"
               }
             }
           ]
@@ -700,7 +700,7 @@
           "tagName": "img",
           "properties": {
             "alt": "Steve Hsu's SC Dynamic Edition Vol. 1",
-            "dataI18nAlt": "text-sticker-collections-series-2",
+            "dataI18nAlt": "text-sticker-collection-series-2-vol-1",
             "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp",
             "className": ["no-copy"]
           },
@@ -710,8 +710,8 @@
           "type": "element",
           "tagName": "a",
           "properties": {
-            "href": "https://afdian.com/p/02009fb6689711f193cf5254001e7c00",
-            "className": ["external-link"]
+            "href": "/gallery.html?preview=sticker-collection-series-2-vol-1",
+            "className": ["internal-link"]
           },
           "children": [
             {
@@ -724,7 +724,7 @@
                 }
               ],
               "properties": {
-                "dataI18n": "text-sticker-collections-series-2"
+                "dataI18n": "text-sticker-collection-series-2-vol-1"
               }
             }
           ]
@@ -824,7 +824,7 @@
           "tagName": "img",
           "properties": {
             "alt": "Steve Hsu's SC Dynamic Edition Vol. 2",
-            "dataI18nAlt": "text-sticker-collections-series-2-vol-2",
+            "dataI18nAlt": "text-sticker-collection-series-2-vol-2",
             "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp",
             "className": ["no-copy"]
           },
@@ -834,8 +834,8 @@
           "type": "element",
           "tagName": "a",
           "properties": {
-            "href": "https://afdian.com/p/fbcfb0966ae411f1a16f5254001e7c00",
-            "className": ["external-link"]
+            "href": "/gallery.html?preview=sticker-collection-series-2-vol-2",
+            "className": ["internal-link"]
           },
           "children": [
             {
@@ -848,7 +848,7 @@
                 }
               ],
               "properties": {
-                "dataI18n": "text-sticker-collections-series-2-vol-2"
+                "dataI18n": "text-sticker-collection-series-2-vol-2"
               }
             }
           ]
@@ -948,7 +948,7 @@
           "tagName": "img",
           "properties": {
             "alt": "Steve Hsu's SC Dynamic Edition Vol. 3",
-            "dataI18nAlt": "text-sticker-collections-series-2-vol-3",
+            "dataI18nAlt": "text-sticker-collection-series-2-vol-3",
             "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp",
             "className": ["no-copy"]
           },
@@ -958,8 +958,8 @@
           "type": "element",
           "tagName": "a",
           "properties": {
-            "href": "https://afdian.com/p/a3c998786fc911f1b8895254001e7c00",
-            "className": ["external-link"]
+            "href": "/gallery.html?preview=sticker-collection-series-2-vol-3",
+            "className": ["internal-link"]
           },
           "children": [
             {
@@ -972,7 +972,7 @@
                 }
               ],
               "properties": {
-                "dataI18n": "text-sticker-collections-series-2-vol-3"
+                "dataI18n": "text-sticker-collection-series-2-vol-3"
               }
             }
           ]

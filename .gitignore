@@ -28,3 +28,6 @@ temp/
 
 # Windows shortcuts
 *.lnk
+
+# To-do files
+**todo**

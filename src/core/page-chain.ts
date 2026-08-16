@@ -17,6 +17,7 @@
  */
 const MAIN_CHAIN = [
   "artworks-and-videos",
+  "gallery",
   "softwares",
   "blogs-and-sponsor",
   "chatting",

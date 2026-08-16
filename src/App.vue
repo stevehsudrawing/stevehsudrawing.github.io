@@ -27,6 +27,7 @@ import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmMod
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
 import GitHubEventsModal from "./components/modals/GitHubEventsModal.vue";
+import PictureViewerModal from "./components/modals/PictureViewerModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
 import SkipButton from "./components/buttons/SkipButton.vue";
@@ -208,5 +209,6 @@ onMounted(async () => {
   <QRCodeModal />
   <ResetWarningModal />
   <GitHubEventsModal />
+  <PictureViewerModal />
   <ToastStack ref="toastStackRef" />
 </template>

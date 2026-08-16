@@ -58,6 +58,7 @@ const navItems: NavItem[] = [
     href: "/artworks-and-videos.html",
     i18nKey: "text-artworks-and-videos",
   },
+  { href: "/gallery.html", i18nKey: "text-gallery" },
   { href: "/softwares.html", i18nKey: "text-softwares" },
   {
     href: "/blogs-and-sponsor.html",
@@ -243,7 +244,7 @@ defineExpose({
 
       <!-- ==== Desktop nav ==== -->
       <div
-        v-if="breakpoint === 'tablet' || breakpoint === 'desktop'"
+        v-if="breakpoint !== 'mobile'"
         class="collapse navbar-collapse d-flex"
         id="navbar-content"
       >

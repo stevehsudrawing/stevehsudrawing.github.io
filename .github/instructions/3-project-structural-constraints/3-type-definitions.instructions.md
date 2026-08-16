@@ -2,14 +2,17 @@
 description: >
   TypeScript type definitions: browser types (src/types/ - app.ts, hast.ts, globals.d.ts, css.d.ts)
   vs build-time types (build/types.ts). HAST node types (root/element/text/comment) and property
-  naming conventions (className, camelCase data* attributes). Link-card JSON format (GroupData/CardData)
-  and Link-button-group JSON format (LinkButtonData/LinkButtonGroupData).
-  Use when: defining new types, modifying HAST structures, or creating link-card/link-button-group configs.
+  naming conventions (className, camelCase data* attributes). Link-card JSON format (GroupData/CardData),
+  Link-button-group JSON format (LinkButtonData/LinkButtonGroupData), and picture-list JSON format
+  (DisplayPictureGroupData/DisplayPictureData).
+  Use when: defining new types, modifying HAST structures, or creating link-card / link-button-group /
+  picture-list configs.
 applyTo: >
   src/types/**;
   build/types.ts;
   src/configs/link-cards/**;
-  src/configs/link-button-groups/**
+  src/configs/link-button-groups/**;
+  src/configs/picture-list/**
 ---
 
 ### 3.3 Type Definitions
@@ -20,14 +23,14 @@ TypeScript type definitions are split into two groups: browser types (used by `s
 
 Located in `src/types/` and bundled into the browser output. Type-checked by the root `tsconfig.json` (targets `DOM` lib).
 
-| File               | Types                                                                                                                                                                          | Purpose                                                                                               |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
-| `app.ts`           | `Lang`, `ThemeChoice`, `StorageKey`, `AppEvent`, `ImgFeature`, `LanguageAwareImgSrcMap`, `ThemeAwareImgSrcMap`, `PictureSrcMap`, `ColoredImgProps`, `FeatureAwarePictureProps` | Application-wide enums, string literals, and image component props                                    |
-| `hast.ts`          | `HastNode`, `HastProperties`                                                                                                                                                   | Hypertext Abstract Syntax Tree node structures                                                        |
-| `globals.d.ts`     | `Window` interface extensions                                                                                                                                                  | Type declarations for `window.bootstrap`, `window.toHtml`, `window.htmlToImage`, `window.html2canvas` |
-| `css.d.ts`         | `*.css` module declaration                                                                                                                                                     | Allows TypeScript to resolve CSS imports                                                              |
-| `vue-shims.d.ts`   | `.vue` module declaration                                                                                                                                                      | Allows TypeScript to resolve `.vue` imports (`declare module "*.vue"`)                                |
-| `vue-augment.d.ts` | `@vue/runtime-core` augmentation                                                                                                                                               | Extends `ComponentCustomProperties` with global `$t()` type                                           |
+| File               | Types                                                                                                                                                                                                                           | Purpose                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `app.ts`           | `Lang`, `ThemeChoice`, `StorageKey`, `AppEvent`, `ImgFeature`, `LanguageAwareImgSrcMap`, `ThemeAwareImgSrcMap`, `PictureSrcMap`, `ColoredImgProps`, `FeatureAwarePictureProps`, `DisplayPictureData`, `DisplayPictureGroupData` | Application-wide enums, string literals, image component props, and picture-list data                 |
+| `hast.ts`          | `HastNode`, `HastProperties`                                                                                                                                                                                                    | Hypertext Abstract Syntax Tree node structures                                                        |
+| `globals.d.ts`     | `Window` interface extensions                                                                                                                                                                                                   | Type declarations for `window.bootstrap`, `window.toHtml`, `window.htmlToImage`, `window.html2canvas` |
+| `css.d.ts`         | `*.css` module declaration                                                                                                                                                                                                      | Allows TypeScript to resolve CSS imports                                                              |
+| `vue-shims.d.ts`   | `.vue` module declaration                                                                                                                                                                                                       | Allows TypeScript to resolve `.vue` imports (`declare module "*.vue"`)                                |
+| `vue-augment.d.ts` | `@vue/runtime-core` augmentation                                                                                                                                                                                                | Extends `ComponentCustomProperties` with global `$t()` type                                           |
 
 **Layered constraints**: `types/` may import from npm packages and browser APIs, but **must NOT** import from `core/`, `ui/`, or `features/`.
 
@@ -173,3 +176,66 @@ Each page's link button groups are defined as a JSON array of **Link Button Grou
 - `iconProps`: `HastProperties` for the `<img>` child. `alt` is also used to derive `data-bs-title`; `dataI18nAlt` is used to derive `data-i18n-tooltip`.
 
 For how button groups are rendered and injected, see §4.2.5 Link Button Group Injection in the [Build-time Injection](../4-feature-references/2-build-time-injection.instructions.md#425-link-button-group-injection) documentation.
+
+#### 3.3.5 Picture-list JSON Format (`src/configs/picture-list/*.json`)
+
+Each page's picture list (currently the Gallery page) is a JSON array of
+**Picture Groups** (`DisplayPictureGroupData[]`).
+
+**Top-level: Picture Group**
+
+```json
+{
+  "id": "sticker-collections",
+  "description": {
+    "type": "element",
+    "tagName": "span",
+    "properties": {
+      "dataI18n": "text-sticker-collections-display-description"
+    },
+    "children": [{ "type": "text", "value": "..." }]
+  },
+  "contents": [/* array of Pictures */]
+}
+```
+
+- `id`: Also the i18n key suffix (`t("text-" + id)`) for the `SectionHeading`
+  title and the stable anchor id. Naming: individual series use **singular**
+  (`sticker-collection-series-1-vol-1`), the collective group uses **plural**
+  (`sticker-collections`).
+- `description`: A HAST node (`null` if absent) — rendered exactly like
+  `LinkCardGroup` (`v-html` + `resolveI18nInHtml` + `toHtml`).
+- `contents`: Array of Pictures.
+
+**Picture**
+
+```json
+{
+  "id": "sticker-collection-series-1-vol-1",
+  "pictureProps": {
+    "srcMap": {
+      "webp": { "light": { "en": "...", "zh-Hans": "..." } },
+      "avif": { "light": { "en": "...", "zh-Hans": "..." } }
+    },
+    "feature": ["follow-language"]
+  },
+  "qrCodeIconPictureProps": {
+    "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp"
+  },
+  "relatedLink": "/artworks-and-videos.html#sticker-collections"
+}
+```
+
+- `id`: Also the i18n alt-key suffix (`alt` falls back to `t("text-" + id)`)
+  and the lightbox deep-link target (`?preview=<id>`).
+- `pictureProps`: `Omit<FeatureAwarePictureProps, "alt">` — `alt` is optional
+  (falls back to `t("text-" + id)`), width/height omitted (masonry CSS), and
+  `loading` defaults to lazy.
+- `qrCodeIconPictureProps` / `qrCodeIconColoredProps`: QR share-card centre
+  overlay icon — set at most one (picture preferred; colored only when no
+  picture variant). MUST never reference the poster itself.
+- `relatedLink`: Optional internal link back to a related section on another
+  page (e.g. `/artworks-and-videos.html#sticker-collections`).
+
+For how picture groups are rendered, see
+[§4.2.15 Picture List](../4-feature-references/02-ui-components/15-picture-list.instructions.md).

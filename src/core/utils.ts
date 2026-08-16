@@ -5,6 +5,7 @@
 
 import type { HastProperties } from "../types/hast";
 import { INTERNAL_PAGES, EXCLUDED_PAGES } from "../configs/pages";
+import type { LocationQueryRaw } from "vue-router";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
@@ -103,4 +104,20 @@ export function resolveI18nInHtml(
   });
 
   return doc.body.innerHTML;
+}
+
+/**
+ * Merge the current `?lang=` query param into a replacement query object.
+ *
+ * Reads the live URL directly because `useI18n.setLocale()` writes the lang
+ * param via `history.replaceState`, which Vue Router does not observe
+ * reactively — so `route.query` can be stale after a language switch.
+ *
+ * @param query - New query object for `router.replace`.
+ * @returns The query with `lang` merged (when present in the URL).
+ */
+export function preserveLangParam(query: LocationQueryRaw): LocationQueryRaw {
+  const lang = new URLSearchParams(window.location.search).get("lang");
+  if (lang) return { ...query, lang };
+  return query;
 }

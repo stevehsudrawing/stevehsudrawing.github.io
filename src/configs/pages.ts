@@ -9,6 +9,7 @@ export const PAGE_NAMES = [
   "index",
   "about",
   "artworks-and-videos",
+  "gallery",
   "blogs-and-sponsor",
   "chatting",
   "softwares",

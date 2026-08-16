@@ -52,6 +52,21 @@ type GestureDirection = "open" | "close";
 /** Reference count for touch listeners — same pattern as useBreakpoint. */
 let listenerCount = 0;
 
+/**
+ * Master switch for swipe tracking.  Temporarily disabled while a
+ * fullscreen lightbox (PictureViewerModal) is open so edge-swipes cannot
+ * open/close the offcanvas behind it.
+ */
+let swipeTrackingEnabled = true;
+
+/**
+ * Enable or disable offcanvas edge-swipe tracking.
+ * @param enabled - `false` while a fullscreen lightbox is open.
+ */
+export function setSwipeTrackingEnabled(enabled: boolean): void {
+  swipeTrackingEnabled = enabled;
+}
+
 /** touchstart X coordinate of the current tracking session. */
 let touchStartX = 0;
 
@@ -86,6 +101,7 @@ let breakpointRef: Ref<
  * or the user is not using touch input.
  */
 function shouldTrack(): boolean {
+  if (!swipeTrackingEnabled) return false;
   if (activeModel === null) return false;
   if (!breakpointRef || breakpointRef.value !== "mobile") return false;
   if (!document.documentElement.classList.contains("user-input-touch"))
