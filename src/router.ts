@@ -67,7 +67,13 @@ const MAX_HASH_POLL_ATTEMPTS = 60;
 export const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to) {
+  scrollBehavior(to, from) {
+    // Same-page navigation with only a ?query change (?preview=, ?lang=) is
+    // a soft update — preserve the current scroll position instead of
+    // jumping to top.
+    if (to.path === from.path && !to.hash) {
+      return false;
+    }
     if (to.hash) {
       // Poll for async-rendered content (link cards, button groups)
       // to mount before scrolling.  If the element never appears,

@@ -9,7 +9,7 @@
   (Modal / .modal-backdrop).
 -->
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from "vue";
+import { ref, computed, watch, onBeforeUnmount, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
@@ -17,13 +17,13 @@ import { useHorizontalSwipe } from "../../composables/useHorizontalSwipe";
 import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { preserveLangParam } from "../../core/utils";
 import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
-import QRCodeButton from "../buttons/QRCodeButton.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import type {
   DisplayPictureData,
   FeatureAwarePictureProps,
   ColoredImgProps,
+  TypeAwareLinkProps,
 } from "../../types/app";
 
 // =========================================================================
@@ -31,7 +31,7 @@ import type {
 // =========================================================================
 
 const { visible, props: stackProps } = useStackModal("picture-viewer");
-const { push, pop } = useModalStack();
+const { push, clear } = useModalStack();
 
 const { t } = useI18n();
 const route = useRoute();
@@ -115,8 +115,13 @@ const qrIconColoredProps = computed<ColoredImgProps | null>(() => {
   };
 });
 
-/** Related link back to another page section. */
-const relatedLink = computed(() => current.value?.relatedLink ?? "");
+/** Direction of the current picture switch ("next" | "prev"). */
+const dir = ref<"next" | "prev">("next");
+
+/** Related link back to another page section (typed, from the config). */
+const relatedLink = computed<TypeAwareLinkProps | null>(
+  () => current.value?.relatedLink ?? null,
+);
 
 // -------------------------------------------------------------------------
 // QR share URL: canonical deep link of the current picture
@@ -137,6 +142,9 @@ const shareUrl = computed(() => {
 /** Navigate to a picture index and sync the ?preview= deep link. */
 function goTo(target: number): void {
   if (target < 0 || target >= contents.value.length) return;
+  // Direction is set BEFORE the picture id changes (same render batch), so
+  // the leaving picture reads the new direction for its exit.
+  dir.value = target > index.value ? "next" : "prev";
   index.value = target;
   const id = current.value?.id;
   if (id) {
@@ -164,6 +172,32 @@ function showQR(): void {
       hideOpenLink: true,
     },
   });
+}
+
+/**
+ * Close the viewer: browser Back returns to the plain gallery page; the
+ * GalleryPage route watch pops the viewer when `?preview=` disappears.
+ */
+function close(): void {
+  router.back();
+}
+
+/**
+ * Related-link click — dismiss the whole overlay first (so it never lingers
+ * over the destination page), then navigate.
+ *
+ * Internal links: the navigation is deferred to the next tick because the
+ * viewer-close URL cleanup (`stripPreview` → `router.replace`) runs in the
+ * same flush and would otherwise cancel a synchronous push.  External
+ * links: TypeAwareLink opens the confirm modal as usual.
+ */
+function onRelatedLinkClick(): void {
+  const link = relatedLink.value;
+  if (!link) return;
+  clear();
+  if (link.type === "internal") {
+    nextTick(() => router.push(link.href));
+  }
 }
 
 // ---- Keyboard (arrows switch; Esc closes via BModal) ----
@@ -208,6 +242,7 @@ useHorizontalSwipe(stageRef, {
     :title="title"
     header-class="h5 modal-title"
     title-tag="span"
+    size="lg"
     no-header-close
     centered
     @shown="onShown"
@@ -215,11 +250,29 @@ useHorizontalSwipe(stageRef, {
   >
     <!-- ==== Image stage (touch-swipe target) ==== -->
     <div ref="stageRef" class="picture-viewer-stage">
-      <FeatureAwarePicture
-        v-if="pictureProps"
-        v-bind="pictureProps"
-        class="picture-viewer-img no-copy solid-bg"
-      />
+      <!-- Picture-switch slide transition (symmetric mirror flow) -->
+      <Transition
+        mode="out-in"
+        enter-active-class="picture-slide-enter-active"
+        leave-active-class="picture-slide-leave-active"
+        :enter-from-class="
+          dir === 'prev'
+            ? 'picture-slide-enter-from-prev'
+            : 'picture-slide-enter-from-next'
+        "
+        :leave-to-class="
+          dir === 'prev'
+            ? 'picture-slide-leave-to-prev'
+            : 'picture-slide-leave-to-next'
+        "
+      >
+        <div v-if="pictureProps" :key="current?.id" class="picture-slide-wrap">
+          <FeatureAwarePicture
+            v-bind="pictureProps"
+            class="picture-viewer-img no-copy solid-bg"
+          />
+        </div>
+      </Transition>
     </div>
 
     <template #footer>
@@ -256,13 +309,13 @@ useHorizontalSwipe(stageRef, {
             <i class="bi bi-share"></i>
           </button>
         </TooltipTrigger>
-        <TooltipTrigger v-if="relatedLink" :title="t('text-open-related-page')">
+        <TooltipTrigger :title="t('text-open-related-page')">
           <TypeAwareLink
-            :href="relatedLink"
-            type="internal"
+            v-if="relatedLink"
+            v-bind="relatedLink"
             class="btn btn-outline-primary btn-no-border"
             :aria-label="$t('text-open-related-page')"
-            @click="pop()"
+            @click="onRelatedLinkClick()"
           >
             <i class="bi bi-box-arrow-up-right"></i>
           </TypeAwareLink>
@@ -270,7 +323,7 @@ useHorizontalSwipe(stageRef, {
         <button
           type="button"
           class="btn btn-outline-primary btn-no-border ms-auto"
-          @click="pop()"
+          @click="close()"
         >
           {{ $t("text-close") }}
         </button>
@@ -282,6 +335,7 @@ useHorizontalSwipe(stageRef, {
 <style scoped>
 /* --- Image stage (centred, touch-swipe target) --- */
 .picture-viewer-stage {
+  perspective: 16rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -293,5 +347,38 @@ useHorizontalSwipe(stageRef, {
   max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
+}
+
+/* --- Picture-switch slide transition (symmetric mirror flow) --- */
+
+/* Wrapper: keeps the transformed element block-level (transforms do not
+   apply to inline elements like <picture>) and caps its width. */
+.picture-slide-wrap {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.picture-slide-enter-active,
+.picture-slide-leave-active {
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out,
+    filter 0.3s ease-in-out;
+}
+
+/* next: old exits left, new enters from the mirrored (right) side */
+.picture-slide-enter-from-next,
+.picture-slide-leave-to-prev {
+  opacity: 0;
+  transform: translateX(8rem) rotateY(15deg) scale(0.75);
+  filter: blur(1rem);
+}
+
+.picture-slide-leave-to-next,
+.picture-slide-enter-from-prev {
+  opacity: 0;
+  transform: translateX(-8rem) rotateY(-15deg) scale(0.75);
+  filter: blur(1rem);
 }
 </style>

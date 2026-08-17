@@ -372,7 +372,7 @@ a {
 
 .theme-transition-overlay.active {
   background-color: rgb(144, 146, 148);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(1rem);
   pointer-events: auto;
   cursor: wait;
 }

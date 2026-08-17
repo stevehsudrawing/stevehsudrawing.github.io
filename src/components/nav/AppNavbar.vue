@@ -352,14 +352,14 @@ defineExpose({
 .navbar {
   height: calc(64px + var(--safe-area-inset-top, 0px));
   background-color: rgba(var(--bs-body-bg-rgb), 0.8);
-  backdrop-filter: blur(15px) saturate(1.5);
+  backdrop-filter: blur(1rem) saturate(1.5);
   box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
   padding: 0;
   padding-top: var(--safe-area-inset-top, 0px);
   transition: box-shadow 0.2s ease-in-out;
 }
 
-@supports not (backdrop-filter: blur(15px)) {
+@supports not (backdrop-filter: blur(1rem)) {
   .navbar {
     background-color: rgba(var(--bs-body-bg-rgb), 1);
   }

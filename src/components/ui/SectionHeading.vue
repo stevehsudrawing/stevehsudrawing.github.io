@@ -71,7 +71,7 @@ const copyUrl = computed(() =>
 /* ---- Group header ---- */
 .title-link-group {
   margin-top: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .title-link-group-wrapper {

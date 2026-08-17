@@ -18,23 +18,25 @@ use `router.push()` intercepted by App.vue's delegated click handler.
 ```
 App.vue (delegated click on .internal-link)
   └─ router.push(href)
-       ├─ beforeEach: LoadingBar.show() + ?lang= preservation
+       ├─ beforeEach: LoadingBar.show() (skipped same-page) + ?lang= preservation
        ├─ lazy import(page component)
        ├─ <router-view> renders component
-       ├─ afterEach: LoadingBar.complete()
-       └─ scrollBehavior: async hash polling (up to 20 rAF)
+       ├─ afterEach: LoadingBar.complete() (skipped same-page)
+       └─ scrollBehavior: same-page query nav → false (keep scroll);
+            hash → async polling (up to 20 rAF); else { top: 0 }
 ```
 
 ##### 4.4.2.2 Key Features
 
-| Feature              | Implementation                                              |
-| -------------------- | ----------------------------------------------------------- |
-| URL bar updates      | `createWebHistory` — `history.pushState` on navigation      |
-| Back/forward buttons | `createWebHistory` — native `popstate` handling             |
-| Progress bar         | `router.beforeEach` (show) + `router.afterEach` (complete)  |
-| Hash scroll          | `scrollBehavior` — async `requestAnimationFrame` polling    |
-| Language persistence | `router.beforeEach` copies `?lang=` from `from` to `to`     |
-| Chunk-load fallback  | `router.onError` — full `window.location.assign` on failure |
+| Feature              | Implementation                                                       |
+| -------------------- | -------------------------------------------------------------------- |
+| URL bar updates      | `createWebHistory` — `history.pushState` on navigation               |
+| Back/forward buttons | `createWebHistory` — native `popstate` handling                      |
+| Progress bar         | `router.beforeEach` (show) + `router.afterEach` (complete)           |
+| Hash scroll          | `scrollBehavior` — async `requestAnimationFrame` polling             |
+| Same-page query nav  | `scrollBehavior` → `false` (keep scroll); LoadingBar/dimming skipped |
+| Language persistence | `router.beforeEach` copies `?lang=` from `from` to `to`              |
+| Chunk-load fallback  | `router.onError` — full `window.location.assign` on failure          |
 
 ##### 4.4.2.3 Known Issue: Edge + Vue Router Window Minimize
 

@@ -37,7 +37,10 @@
         "qrCodeIconPictureProps": {
           "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp"
         },
-        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+        "relatedLink": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html#sticker-collections"
+        }
       },
       {
         "id": "sticker-collection-series-1-vol-2",
@@ -61,7 +64,10 @@
         "qrCodeIconPictureProps": {
           "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp"
         },
-        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+        "relatedLink": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html#sticker-collections"
+        }
       },
       {
         "id": "sticker-collection-series-1-vol-3",
@@ -85,7 +91,10 @@
         "qrCodeIconPictureProps": {
           "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp"
         },
-        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+        "relatedLink": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html#sticker-collections"
+        }
       },
       {
         "id": "sticker-collection-series-2-vol-1",
@@ -109,7 +118,10 @@
         "qrCodeIconPictureProps": {
           "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp"
         },
-        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+        "relatedLink": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html#sticker-collections"
+        }
       },
       {
         "id": "sticker-collection-series-2-vol-2",
@@ -133,7 +145,10 @@
         "qrCodeIconPictureProps": {
           "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp"
         },
-        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+        "relatedLink": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html#sticker-collections"
+        }
       },
       {
         "id": "sticker-collection-series-2-vol-3",
@@ -157,7 +172,10 @@
         "qrCodeIconPictureProps": {
           "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp"
         },
-        "relatedLink": "/artworks-and-videos.html#sticker-collections"
+        "relatedLink": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html#sticker-collections"
+        }
       }
     ]
   }

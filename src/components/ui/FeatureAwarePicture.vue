@@ -16,36 +16,16 @@ import { ref, computed, onMounted } from "vue";
 import { useTheme } from "../../composables/useTheme";
 import { useI18n } from "../../composables/useI18n";
 import type {
-  PictureSrcMap,
   ThemeAwareImgSrcMap,
   LanguageAwareImgSrcMap,
-  ImgFeature,
+  FeatureAwarePictureProps,
 } from "../../types/app";
 
 // =========================================================================
 // Props
 // =========================================================================
 
-const props = defineProps<{
-  /** Static src URL.  Mutually exclusive with `srcMap`. */
-  src?: string;
-  /** Structured multi-format source map.  Mutually exclusive with `src`. */
-  srcMap?: PictureSrcMap;
-  /** Feature flags driving theme/language resolution on `srcMap`. */
-  feature?: ImgFeature[];
-  /** Alt text (pre-resolved from i18n). */
-  alt?: string;
-  /** Image width. */
-  width?: number;
-  /** Image height. */
-  height?: number;
-  /** Additional CSS classes for the img element. */
-  class?: string;
-  /** fetchpriority attribute (e.g. "high" for hero images). */
-  fetchpriority?: "high" | "low" | "auto" | undefined;
-  /** Native lazy loading. */
-  loading?: "lazy" | "eager";
-}>();
+const props = defineProps<FeatureAwarePictureProps>();
 
 // =========================================================================
 // State

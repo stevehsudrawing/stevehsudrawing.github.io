@@ -16,14 +16,19 @@ side effects that were previously inlined in App.vue's `<script setup>`.
 
 ##### 4.1.6.1 Guards Installed
 
-| Guard        | Side Effect                                               |
-| ------------ | --------------------------------------------------------- |
-| `beforeEach` | `loadingBarRef.value?.show()`                             |
-| `afterEach`  | `loadingBarRef.value?.complete()`                         |
-| `beforeEach` | Add `.content-dimming` to `#page-content` (not first nav) |
-| `afterEach`  | Remove `.content-dimming` from `#page-content`            |
-| `afterEach`  | `updatePageTitle()`                                       |
-| `beforeEach` | Preserve `?lang=` query param from previous route         |
+| Guard        | Side Effect                                                              |
+| ------------ | ------------------------------------------------------------------------ |
+| `beforeEach` | `loadingBarRef.value?.show()` — skipped for same-page nav                |
+| `afterEach`  | `loadingBarRef.value?.complete()` — skipped for same-page                |
+| `beforeEach` | Add `.content-dimming` to `#page-content` (not first nav, not same-page) |
+| `afterEach`  | Remove `.content-dimming` from `#page-content`                           |
+| `afterEach`  | `updatePageTitle()`                                                      |
+| `beforeEach` | Preserve `?lang=` query param from previous route                        |
+
+Same-page navigations (`to.path === from.path`, e.g. `?preview=` / `?lang=`
+changes) are soft — the LoadingBar and content dimming are skipped so
+thumbnail clicks / prev / next / close stay silent. Scroll is preserved
+too (`scrollBehavior` returns `false`, see §4.4.2).
 
 ##### 4.1.6.2 Why a Composable
 

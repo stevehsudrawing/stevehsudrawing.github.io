@@ -110,7 +110,7 @@ const columns = computed<DisplayPictureData[][]>(() => {
 /* --- Masonry columns (row-wise distribution, driven by JS) --- */
 .picture-columns {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: flex-start;
 }
 
@@ -119,6 +119,6 @@ const columns = computed<DisplayPictureData[][]>(() => {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 </style>

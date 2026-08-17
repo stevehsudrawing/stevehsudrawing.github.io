@@ -23,18 +23,24 @@ export function usePageNavigation(
   t: (key: string) => string,
 ): void {
   // ---- LoadingBar ----
-  router.beforeEach(() => loadingBarRef.value?.show());
-  router.afterEach(() => loadingBarRef.value?.complete());
+  // Same-page navigations (only ?query / #hash change) are soft — skip the
+  // LoadingBar so thumbnail clicks / prev / next / close stay silent.
+  router.beforeEach((to, from) => {
+    if (to.path !== from.path) loadingBarRef.value?.show();
+  });
+  router.afterEach((to, from) => {
+    if (to.path !== from.path) loadingBarRef.value?.complete();
+  });
 
   // ---- Content dimming ----
   let initialNavigationDone = false;
-  router.beforeEach(() => {
-    if (initialNavigationDone) {
+  router.beforeEach((to, from) => {
+    if (initialNavigationDone && to.path !== from.path) {
       document.getElementById("page-content")?.classList.add("content-dimming");
     }
   });
-  router.afterEach(() => {
-    if (initialNavigationDone) {
+  router.afterEach((to, from) => {
+    if (initialNavigationDone && to.path !== from.path) {
       document
         .getElementById("page-content")
         ?.classList.remove("content-dimming");

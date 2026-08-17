@@ -7,31 +7,17 @@
   different rendering approach (CSS mask) from feature-driven
   src-switching (follow-theme / follow-language).
 
-  Props mirror ColoredImgProps in types/app.ts.
+  Props = ColoredImgProps in types/app.ts (single source of truth).
 -->
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
+import type { ColoredImgProps } from "../../types/app";
 
 // =========================================================================
 // Props
 // =========================================================================
 
-const props = defineProps<{
-  /** Mask image source (the SVG/WebP shape). */
-  src: string;
-  /** CSS variable name for the tint color (e.g. "shlh-primary-color"). */
-  colorVar: string;
-  /** Alt text (pre-resolved from i18n). */
-  alt: string;
-  /** Image width. */
-  width?: number;
-  /** Image height. */
-  height?: number;
-  /** Additional CSS classes. */
-  class?: string;
-  /** Native lazy loading. */
-  loading?: "lazy" | "eager";
-}>();
+const props = defineProps<ColoredImgProps>();
 
 // =========================================================================
 // State

@@ -47,7 +47,7 @@ hr {
 
 #page-content.content-dimming {
   opacity: 0.5;
-  filter: blur(5px);
+  filter: blur(0.5rem);
 }
 
 /* --- Safe Area (iOS standalone PWA) --- */
@@ -138,7 +138,7 @@ code {
 .offcanvas-backdrop.show {
   background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
   opacity: 1;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(0.5rem);
 }
 
 /* --- Modal --- */
@@ -150,7 +150,7 @@ code {
 /* Open / Close Animation */
 .modal.fade .modal-dialog {
   transform: rotateX(3deg) scale(0.85);
-  filter: blur(5px);
+  filter: blur(0.5rem);
   transition:
     transform 0.3s ease-out,
     filter 0.3s ease-out;
@@ -188,7 +188,7 @@ code {
 .modal-backdrop.show {
   background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
   opacity: 1;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(0.5rem);
 }
 
 /* --- Links --- */

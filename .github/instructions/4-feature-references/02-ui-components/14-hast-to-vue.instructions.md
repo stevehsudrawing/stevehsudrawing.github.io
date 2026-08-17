@@ -30,7 +30,9 @@ HastFragment.vue
   └─ Replaces all v-html usage (LinkCard, MarkdownArticle)
 
 TypeAwareLink.vue
-  ├─ Props: { href, type, imgProps?, noQRCode? }
+  ├─ Props: TypeAwareLinkProps (shared in types/app.ts — also used by
+  │    gallery.json relatedLink configs):
+  │    { href, type, pictureProps?, coloredProps?, noQRCode?, hideIndicator? }
   ├─ type detection: # → anchor, mailto: → email,
   │   .internal-link → internal, default → external
   ├─ Icons: bi-arrow-up-right (external), bi-envelope (email),

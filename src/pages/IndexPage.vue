@@ -152,7 +152,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
             <BCarouselSlide>
               <TypeAwareLink
                 type="internal"
-                href="/artworks-and-videos.html#sticker-collections"
+                href="/gallery.html?preview=sticker-collection-series-1-vol-1"
                 hide-indicator
               >
                 <FeatureAwarePicture
@@ -173,7 +173,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
             <BCarouselSlide>
               <TypeAwareLink
                 type="internal"
-                href="/artworks-and-videos.html#sticker-collections"
+                href="/gallery.html?preview=sticker-collection-series-2-vol-2"
                 hide-indicator
               >
                 <FeatureAwarePicture

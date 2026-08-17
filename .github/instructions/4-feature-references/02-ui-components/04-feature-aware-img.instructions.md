@@ -32,7 +32,7 @@ Two components handle all image rendering:
 | `src`              | `string?`                    | Static URL. Mutually exclusive with `srcMap`.                          |
 | `srcMap`           | `PictureSrcMap?`             | Multi-format source map. Mutually exclusive with `src`.                |
 | `feature`          | `ImgFeature[]?`              | `"follow-theme"` / `"follow-language"` — drive resolution on `srcMap`. |
-| `alt`              | `string`                     | Alt text (pre-resolved from i18n).                                     |
+| `alt`              | `string?`                    | Alt text (pre-resolved from i18n). Optional — the img may omit it.     |
 | `class`            | `string?`                    | Additional CSS classes.                                                |
 | `fetchpriority`    | `"high" \| "low" \| "auto"?` | Native fetchpriority.                                                  |
 | `loading`          | `"lazy" \| "eager"?`         | Native lazy loading.                                                   |
@@ -43,6 +43,10 @@ Two components handle all image rendering:
 - `src` provided → bare `<img>` with static src
 - `srcMap` without `avif` → bare `<img>` with theme/language-resolved src
 - `srcMap` with `avif` → `<picture>` with AVIF + WebP `<source>` elements
+
+The props are the shared `FeatureAwarePictureProps` interface in
+`src/types/app.ts` — `FeatureAwarePicture.vue` consumes it directly
+(`defineProps<FeatureAwarePictureProps>()`), no inline mirror.
 
 ##### 4.2.4.2 ColoredImg Props
 

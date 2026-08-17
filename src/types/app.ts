@@ -110,22 +110,20 @@ export interface DisplayPictureData {
   id: string;
   /**
    * FeatureAwarePictureProps for the poster.
-   * `alt` is optional here — when omitted the component falls back to
+   * `alt` is optional — when omitted the card/viewer falls back to
    * `t("text-" + id)`.  width/height are omitted (masonry CSS controls
    * the layout) and `loading` defaults to lazy in the card component.
    */
-  pictureProps: Omit<FeatureAwarePictureProps, "alt"> & { alt?: string };
+  pictureProps: FeatureAwarePictureProps;
   /** QR share-card centre overlay icon — picture variant (optional). */
-  qrCodeIconPictureProps?: Omit<FeatureAwarePictureProps, "alt"> & {
-    alt?: string;
-  };
+  qrCodeIconPictureProps?: FeatureAwarePictureProps;
   /** QR share-card centre overlay icon — colored variant (optional). */
   qrCodeIconColoredProps?: ColoredImgProps | null;
   /**
-   * Internal link back to a related section on another page
-   * (e.g. "/artworks-and-videos.html#sticker-collections").
+   * Typed link back to a related section on another page
+   * (e.g. internal → "/artworks-and-videos.html#sticker-collections").
    */
-  relatedLink?: string;
+  relatedLink?: TypeAwareLinkProps;
 }
 
 /** Picture-list group descriptor — a titled gallery section. */
@@ -228,8 +226,8 @@ export interface FeatureAwarePictureProps {
   srcMap?: PictureSrcMap;
   /** Feature flags — drive theme/language resolution on `srcMap`. */
   feature?: ImgFeature[];
-  /** Alt text (pre-resolved from i18n). */
-  alt: string;
+  /** Alt text (pre-resolved from i18n).  Optional — the img may omit it. */
+  alt?: string;
   /** Image width. */
   width?: number;
   /** Image height. */
@@ -240,6 +238,26 @@ export interface FeatureAwarePictureProps {
   fetchpriority?: "high" | "low" | "auto";
   /** Native lazy loading. */
   loading?: "lazy" | "eager";
+}
+
+// -------------------------------------------------------------------------
+// TypeAwareLink props
+// -------------------------------------------------------------------------
+
+/** Props for the TypeAwareLink component — smart link with type-aware behavior. */
+export interface TypeAwareLinkProps {
+  /** Target URL. */
+  href: string;
+  /** Link type — determines click behavior. */
+  type: "external" | "internal" | "email" | "anchor";
+  /** Optional FeatureAwarePicture props for the ExternalLinkConfirmModal. */
+  pictureProps?: FeatureAwarePictureProps | null;
+  /** Optional ColoredImg props for the ExternalLinkConfirmModal. */
+  coloredProps?: ColoredImgProps | null;
+  /** Hide the QR-code button in ExternalLinkConfirmModal. */
+  noQRCode?: boolean;
+  /** Hide the type indicator icon (arrow / envelope / paragraph). */
+  hideIndicator?: boolean;
 }
 
 // =========================================================================

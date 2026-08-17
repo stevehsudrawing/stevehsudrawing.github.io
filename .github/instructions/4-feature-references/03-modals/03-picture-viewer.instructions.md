@@ -20,16 +20,20 @@ applyTo: >
 ```
 GalleryPage.vue (owns ?preview= deep link + modal stack)
   ├─ watch route.query.preview + groups → push { id: "picture-viewer",
-  │    props: { contents, currentId } }
-  ├─ PictureCard @select → openViewer + router.replace(?preview=)
-  └─ watch viewerOpen (stack) → strip ?preview= on close
+  │    props: { contents, currentId } }  (pop when ?preview= removed)
+  ├─ PictureCard @select → openViewer + router.push(?preview=)  (history entry)
+  ├─ watch viewerOpen (stack) → strip ?preview= on close
+  └─ onBeforeUnmount → clear() the stack when the route leaves /gallery.html
 
 PictureViewerModal.vue
   ├─ useStackModal("picture-viewer") → visible + props
   ├─ contents + currentId → internal index (prev/next)
-  ├─ Chrome: bottom bar (desktop) / top+bottom bars (mobile), via useBreakpoint
+  ├─ Chrome: footer icon buttons (prev/next/QR/related) + text Close
   ├─ QR share: QRCodeButton → qr-code modal (current deep link, hideOpenLink)
-  ├─ Related link: TypeAwareLink (internal)
+  ├─ Related link: TypeAwareLink v-bind="relatedLink" (TypeAwareLinkProps;
+  │    click clears the whole stack before navigating)
+  ├─ Close button: router.back() (the route watch pops the viewer)
+  ├─ Slide transition: symmetric <Transition mode="out-in"> on prev/next
   └─ useHorizontalSwipe(stageRef, { onLeft, onRight }) — touch swipe
 
 useHorizontalSwipe.ts — generic threshold-based swipe composable
@@ -45,15 +49,23 @@ useGesture.ts — setSwipeTrackingEnabled(false) while the lightbox is open
 - The image is centred in the stage (`object-fit: contain`, `.no-copy`),
   `size="lg"` dialog — no fullscreen on mobile, no responsive bars.
 
-##### 4.3.3.3 Deep link (?preview=<id>)
+##### 4.3.3.3 Deep link (?preview=<id>) + history management
 
 - GalleryPage reads `route.query.preview`; when it matches a picture id and
-  the viewer is not already open, it pushes the viewer.
-- Thumbnail clicks open the viewer first, then `router.replace` to sync
-  `?preview=` (so the QR deep link works from any entry point).
-- Prev/next navigation updates `?preview=` via `router.replace` (the page
-  ignores route changes while the viewer is open).
-- Closing the viewer strips `?preview=` (keeping `?lang=`).
+  the viewer is not already open, it pushes the viewer; when `?preview=` is
+  removed while the viewer is open, it pops it (idempotent).
+- Thumbnail clicks open the viewer first, then `router.push` to create a
+  history entry (so Back / the Close button return to the plain gallery
+  page, keeping scroll; the page ignores route changes while open).
+- Prev/next navigation updates `?preview=` via `router.replace` (single
+  modal history entry).
+- **Close button** = `router.back()` (no pushed-vs-deep-link flag): a
+  thumbnail-opened viewer backs to `gallery.html` (the route watch pops);
+  a cross-page deep link backs to that page (GalleryPage `onBeforeUnmount`
+  clears the stack). Esc / backdrop close via `clear()`, and the
+  `viewerOpen` watch strips `?preview=` (keeping `?lang=`).
+- Same-page navigations skip the LoadingBar and scroll — see §4.1.6 and
+  §4.4.2.
 
 ##### 4.3.3.4 Navigation
 
@@ -64,6 +76,15 @@ useGesture.ts — setSwipeTrackingEnabled(false) while the lightbox is open
   progressive enhancement over buttons + keyboard. Offcanvas edge-swipes
   are suppressed while the lightbox is open
   (`useGesture.setSwipeTrackingEnabled(false)`).
+- **Slide transition**: prev/next uses a symmetric mirror animation
+  (`<Transition mode="out-in">` keyed by the picture id, wrapped in a
+  `.picture-slide-wrap` div so transforms apply to a block element).
+  `dir` ("next"/"prev") is set in `goTo` before the id changes so the
+  leaving picture exits toward the side the new one enters from. The
+  enter/exit offset rules collapse to two because `enter-from-next` ≡
+  `leave-to-prev` and `leave-to-next` ≡ `enter-from-prev`. No animation
+  on open (no `appear`); reduced-motion / `.no-animations` are handled
+  globally by `accessibility.css`.
 
 ##### 4.3.3.5 Preview-only
 

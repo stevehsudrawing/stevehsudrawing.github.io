@@ -4,7 +4,7 @@
   shared modal stack (PictureViewerModal).
 -->
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import HeroSection from "../components/ui/HeroSection.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
@@ -26,7 +26,7 @@ const { groups, pagePath } = usePictureList(ref("gallery"));
 
 const route = useRoute();
 const router = useRouter();
-const { push, stack } = useModalStack();
+const { push, pop, clear, stack } = useModalStack();
 
 /** Whether the picture viewer is currently in the stack (open). */
 const viewerOpen = computed(() =>
@@ -69,13 +69,29 @@ watch(viewerOpen, (open) => {
   if (!open) stripPreview();
 });
 
-// ---- Deep link: ?preview=<id> opens the viewer once data is ready ----
+// ---- Leaving the gallery page ----
+// GalleryPage unmounts when the route changes away (related link, Back to
+// another page); dismiss any leftover overlay so it never stays over the
+// destination page.
+
+onBeforeUnmount(() => {
+  if (viewerOpen.value) clear();
+});
+
+// ---- Route-driven open/close ----
+// ?preview=<id> opens the viewer once data is ready; removing ?preview=
+// while it is open (Close button / Back) pops it.  Opening is ignored
+// while the viewer is already open (thumbnails / prev / next manage it).
 
 watch(
   [() => route.query.preview, groups],
   ([preview, g]) => {
     const id = typeof preview === "string" ? preview : null;
-    if (!id || !g || viewerOpen.value) return;
+    if (viewerOpen.value) {
+      if (!id) pop();
+      return;
+    }
+    if (!id || !g) return;
     const found = findPicture(id);
     if (found) openViewer(found.picture, found.group.contents);
   },
@@ -87,10 +103,11 @@ watch(
 function onSelect(picture: DisplayPictureData): void {
   const found = findPicture(picture.id);
   if (!found || viewerOpen.value) return;
-  // Open first, then sync the URL (so the QR deep link works from any
-  // entry point) — the route watch ignores changes while the viewer is open.
+  // Open first, then push a history entry (so Back / the Close button can
+  // return to the plain gallery page) — the route watch ignores changes
+  // while the viewer is open.
   openViewer(found.picture, found.group.contents);
-  router.replace({
+  router.push({
     query: preserveLangParam({ ...route.query, preview: picture.id }),
   });
 }

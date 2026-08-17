@@ -18,6 +18,7 @@ import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
 import type {
   FeatureAwarePictureProps,
   ColoredImgProps,
+  TypeAwareLinkProps,
 } from "../../types/app";
 
 // =========================================================================
@@ -36,20 +37,7 @@ type OpenExternalLinkFn = (
 // Props
 // =========================================================================
 
-const props = defineProps<{
-  /** Target URL. */
-  href: string;
-  /** Link type — determines click behavior. */
-  type: "external" | "internal" | "email" | "anchor";
-  /** Optional FeatureAwarePicture props for the ExternalLinkConfirmModal. */
-  pictureProps?: FeatureAwarePictureProps | null;
-  /** Optional ColoredImg props for the ExternalLinkConfirmModal. */
-  coloredProps?: ColoredImgProps | null;
-  /** Hide the QR-code button in ExternalLinkConfirmModal. */
-  noQRCode?: boolean;
-  /** Hide the type indicator icon (arrow / envelope / paragraph). */
-  hideIndicator?: boolean;
-}>();
+const props = defineProps<TypeAwareLinkProps>();
 
 // =========================================================================
 // Inject

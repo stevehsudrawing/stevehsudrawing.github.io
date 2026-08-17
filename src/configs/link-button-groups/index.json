@@ -23,6 +23,15 @@
       },
       {
         "externalLink": true,
+        "linkHref": "https://medibang.com/u/stevehsu",
+        "sameAs": true,
+        "iconProps": {
+          "alt": "MediBang ART street",
+          "src": "/images/webp/icons/medibang-art-street.webp"
+        }
+      },
+      {
+        "externalLink": true,
         "linkHref": "https://x.com/stevehsudrawing",
         "sameAs": true,
         "iconProps": {
@@ -63,17 +72,8 @@
         }
       },
       {
-        "externalLink": true,
-        "linkHref": "https://medibang.com/u/stevehsu",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "MediBang ART street",
-          "src": "/images/webp/icons/medibang-art-street.webp"
-        }
-      },
-      {
         "externalLink": false,
-        "linkHref": "/artworks-and-videos.html#sticker-collections",
+        "linkHref": "/gallery.html#sticker-collections",
         "iconProps": {
           "alt": "Sticker Collections",
           "dataI18nAlt": "text-sticker-collections",
