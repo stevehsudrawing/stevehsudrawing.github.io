@@ -21,7 +21,7 @@ export type EffectiveTheme = "light" | "dark";
  * Responsive breakpoint tiers aligned with Bootstrap's md / xl / xxl
  * thresholds.
  */
-export type Breakpoint = "mobile" | "tablet" | "desktop" | "wideDesktop";
+export type Breakpoint = "mobile" | "tablet" | "desktop" | "wide-desktop";
 
 // =========================================================================
 // localStorage keys

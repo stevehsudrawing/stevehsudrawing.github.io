@@ -52,7 +52,7 @@ See `src/configs/picture-list/{pageName}.json` and the type definitions
 ##### 4.2.15.3 Masonry: row-wise distribution
 
 - Column count per breakpoint (`COLUMN_COUNTS` in `PictureGroup.vue`):
-  `mobile` 2 / `tablet` 3 / `desktop` 4 / `wideDesktop` 6.
+  `mobile` 2 / `tablet` 3 / `desktop` 4 / `wide-desktop` 6.
 - Items are distributed round-robin (`item i → column i % N`) so they read
   left-to-right row by row. CSS multi-column (`column-count`) is NOT used —
   it fills each column top-to-bottom (vertical ordering).

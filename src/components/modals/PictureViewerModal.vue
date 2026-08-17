@@ -15,7 +15,7 @@ import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { useHorizontalSwipe } from "../../composables/useHorizontalSwipe";
 import { setSwipeTrackingEnabled } from "../../composables/useGesture";
-import { preserveLangParam } from "../../core/utils";
+import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
 import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
@@ -31,7 +31,7 @@ import type {
 // =========================================================================
 
 const { visible, props: stackProps } = useStackModal("picture-viewer");
-const { push, clear } = useModalStack();
+const { push, pop, clear } = useModalStack();
 
 const { t } = useI18n();
 const route = useRoute();
@@ -123,6 +123,31 @@ const relatedLink = computed<TypeAwareLinkProps | null>(
   () => current.value?.relatedLink ?? null,
 );
 
+/**
+ * Whether the viewer was entered via a cross-page navigation.  Vue Router
+ * stores the previous entry's URL in `history.state.back`; comparing its
+ * normalized path with the current page tells us whether a "Back" button
+ * makes sense (returns to the original page) vs a plain Close (stay).
+ *
+ * `history.state` is NOT reactive — the computed re-evaluates whenever the
+ * viewer (de)activates (`visible`), at which point `state.back` already
+ * reflects the entry we were opened from.
+ */
+const cameFromAnotherPage = computed(() => {
+  if (!visible.value) return false;
+  const back = history.state?.back;
+  if (typeof back !== "string" || !back) return false;
+  try {
+    const backPath = new URL(back, window.location.origin).pathname;
+    return (
+      normalizeInternalPath(backPath) !==
+      normalizeInternalPath(window.location.pathname)
+    );
+  } catch {
+    return false;
+  }
+});
+
 // -------------------------------------------------------------------------
 // QR share URL: canonical deep link of the current picture
 // -------------------------------------------------------------------------
@@ -174,11 +199,16 @@ function showQR(): void {
   });
 }
 
-/**
- * Close the viewer: browser Back returns to the plain gallery page; the
- * GalleryPage route watch pops the viewer when `?preview=` disappears.
- */
+/** Close the viewer: pop it and stay on the gallery page. */
 function close(): void {
+  pop();
+}
+
+/**
+ * Back: return to the page we came from (only reachable when the viewer
+ * was entered via a cross-page navigation — see `cameFromAnotherPage`).
+ */
+function goBack(): void {
   router.back();
 }
 
@@ -313,7 +343,7 @@ useHorizontalSwipe(stageRef, {
           <TypeAwareLink
             v-if="relatedLink"
             v-bind="relatedLink"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-outline-primary btn-no-border me-auto"
             :aria-label="$t('text-open-related-page')"
             @click="onRelatedLinkClick()"
           >
@@ -321,8 +351,17 @@ useHorizontalSwipe(stageRef, {
           </TypeAwareLink>
         </TooltipTrigger>
         <button
+          v-if="cameFromAnotherPage"
           type="button"
-          class="btn btn-outline-primary btn-no-border ms-auto"
+          class="btn btn-outline-primary btn-no-border"
+          :aria-label="$t('text-back')"
+          @click="goBack()"
+        >
+          {{ $t("text-back") }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-no-border"
           @click="close()"
         >
           {{ $t("text-close") }}

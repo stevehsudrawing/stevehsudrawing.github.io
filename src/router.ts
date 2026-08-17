@@ -67,12 +67,38 @@ const MAX_HASH_POLL_ATTEMPTS = 60;
 export const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from) {
-    // Same-page navigation with only a ?query change (?preview=, ?lang=) is
-    // a soft update — preserve the current scroll position instead of
-    // jumping to top.
+  scrollBehavior(to, from, savedPosition) {
+    // Back / forward (popstate): restore the saved scroll position so
+    // returning to a page keeps where the user left off.  The restored
+    // offset is only applied once the page is tall enough — async content
+    // (link cards, GitHub cards) mounts after the navigation, and an early
+    // restore would be clamped to the top.
+    if (savedPosition) {
+      return new Promise((resolve) => {
+        const target = savedPosition.top ?? 0;
+        let attempts = 0;
+        const check = (): void => {
+          const maxScroll =
+            Math.max(
+              document.documentElement.scrollHeight,
+              document.body.scrollHeight,
+            ) - window.innerHeight;
+          if (maxScroll >= target || ++attempts >= MAX_HASH_POLL_ATTEMPTS) {
+            resolve(savedPosition);
+          } else {
+            requestAnimationFrame(check);
+          }
+        };
+        check();
+      });
+    }
     if (to.path === from.path && !to.hash) {
-      return false;
+      // Lightbox soft navigation (?preview= open / prev / next / close):
+      // preserve scroll.  A same-page link click (preview unchanged) falls
+      // through and scrolls to top (pre-v3.9.1 behavior).
+      if (to.query.preview !== from.query.preview) {
+        return false;
+      }
     }
     if (to.hash) {
       // Poll for async-rendered content (link cards, button groups)

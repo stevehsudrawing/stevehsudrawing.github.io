@@ -1,9 +1,9 @@
 ---
 description: >
   Project-level context, conventions, and constraints for Steve Hsu (什五)'s
-  Link-Hub (stevehsudrawing.github.io). Covers tech stack (HTML5/CSS/TypeScript/
-  Vite 8/pnpm), naming conventions, project structure, and feature references.
-  Use when: working on any file in this repository.
+  Link-Hub (stevehsudrawing.github.io). Covers tech stack (HTML5 / CSS /
+  TypeScript / Vite 8 / pnpm), naming conventions, project structure, and
+  feature references. Use when: working on any file in this repository.
 applyTo: "**"
 ---
 
@@ -267,11 +267,13 @@ The remainder of this document links to detailed reference files in `instruction
 
 ---
 
-## 5. Response Conventions for Copilot
+## 5. Copilot Working Conventions
+
+### 5.1 Response Conventions
 
 When generating responses for this project, Copilot should:
 
-0. **ALWAYS place the final response OUTSIDE the `thinking` block**: The
+0. _**ALWAYS PLACE THE FINAL RESPONSE OUTSIDE THE `thinking` BLOCK**_: The
    `thinking` XML tag is for internal reasoning only — anything inside it is
    invisible to the user and will render as "Sorry, no response was returned."
    All user-facing content (summaries, explanations, code suggestions,
@@ -282,38 +284,87 @@ When generating responses for this project, Copilot should:
 1. **Think in English**: Internal reasoning and analysis should be in English.
 
 2. **Read the necessary documents**: Instructions are organized in the form of
-   folders. Before generating a response, Copilot should first read the relevant
-   documents in `.github/instructions` according to the user's requirements to
-   understand the specifications of this project.
+   folders. Before generating a response, Copilot should first read the
+   relevant documents in `.github/instructions` according to the user's
+   requirements to understand the specifications of this project.
 
 3. **Respond using the language that the user is using**: For example, if the
    user is conversing in Chinese, responses should be in Chinese.
 
-4. **Write code / docs / commit messages in English (United States)**: All code,
-   comments, documentation, commit messages should be in English (United
-   States). When writing, use standard ASCII characters as much as possible.
-   This helps to use `beautify` to format files, as it has poor support for
-   full-width characters.
+### 5.2 Writing & Implementation Conventions
 
-5. **Discuss before executing**: When the user proposes a new function or a
+0. **Write code / docs / commit messages in English (United States)**: All
+   code, comments, documentation, commit messages should be in English
+   (United States). When writing, use standard ASCII characters as much as
+   possible. This helps to use `beautify` to format files, as it has poor
+   support for full-width characters.
+
+1. **Discuss before executing**: When the user proposes a new function or a
    change, first explain the approach and analysis. Only proceed with
    implementation after the user confirms ("go ahead", "执行", "可以", etc.).
 
-6. **Priority of norms/standards**: If there are more normative or standard
+2. **Priority of norms/standards**: If there are more normative or standard
    practices, priority should be given to norms or standards, even if
    refactoring is required.
 
-7. **Always pay attention to document updates**: When adding, modifying, or
+3. **Always pay attention to document updates**: When adding, modifying, or
    deleting new features, it is necessary to add, update or delete the
    corresponding instruction documents, even if temporarily.
 
-8. **Always `typecheck` after modification**: After each modification, the
+4. **Always `typecheck` after modification**: After each modification, the
    following command should be executed to check whether it can be built
    properly:
 
    ```pwsh
    pnpm typecheck ; pnpm build
    ```
+
+### 5.3 Debugging & Browser Verification
+
+When adding a new feature, restructuring in a large scale or fixing a behavior,
+verify in the browser — `pnpm typecheck ; pnpm build` alone cannot catch
+runtime issues (scroll behavior, modal state, history).
+
+0. **Start the dev server** with `pnpm dev` (Vite). If port 5173 is busy,
+   Vite picks another port — use the printed URL. Open the page in the VS
+   Code integrated browser and walk through the affected flows (navigation,
+   deep links, back/forward, modal open/close).
+
+1. **Brief Playwright usage**:
+   - `open_browser_page` to open a URL; `read_page` (accessibility snapshot)
+     to assert rendered state; `click_element` / `type_in_page` to interact.
+   - Prefer `page.evaluate` for precise assertions: read `location.href`,
+     `window.scrollY`, `document.querySelector('.modal.show')`, etc.
+   - Check the dev-server terminal for HMR updates and runtime errors.
+
+2. **Modal-selector gotcha**: `App.vue` renders ALL six modals at once —
+   hidden modals' buttons are still in the DOM. Scope selectors to the
+   visible one (`.modal.show ...`), otherwise a click may land on a hidden
+   modal's button (e.g. a second "Close" that pops the top modal).
+
+3. **Playwright "Element is not visible"**: `page.click` often refuses modal
+   footer buttons. Use
+   `locator('.modal.show .modal-footer button').dispatchEvent('click')` to
+   fire a real click event that triggers Vue's handlers.
+
+4. **Window API patches**: patches installed via `page.evaluate` (e.g.
+   wrapping `history.go`) are wiped by full-page navigations. Use
+   `page.addInitScript` to install them before the app loads.
+
+5. **`history.state` is NOT reactive**: a computed that reads
+   `history.state` must also depend on a reactive source (e.g. the modal's
+   `visible`) so it re-evaluates when it matters (e.g. after navigation).
+
+6. **vue-router 5.2 scroll restore**: the saved position comes from
+   `history.state.scroll`; a plain `return savedPosition` in
+   `scrollBehavior` gets clamped to 0 while async content (link cards,
+   GitHub cards) mounts. Poll (rAF) until the page is tall enough before
+   resolving.
+
+---
+
+> The following content was automatically added by the VS Code Mermaid
+> extension.
 
 <!-- mermaid-ai-skills:start -->
 

@@ -25,7 +25,7 @@ const COLUMN_COUNTS: Record<Breakpoint, number> = {
   mobile: 2,
   tablet: 3,
   desktop: 4,
-  wideDesktop: 6,
+  "wide-desktop": 6,
 };
 
 // =========================================================================

@@ -22,7 +22,8 @@ App.vue (delegated click on .internal-link)
        ├─ lazy import(page component)
        ├─ <router-view> renders component
        ├─ afterEach: LoadingBar.complete() (skipped same-page)
-       └─ scrollBehavior: same-page query nav → false (keep scroll);
+       └─ scrollBehavior: savedPosition (back/forward restore);
+            same-path ?preview= change → false (keep scroll);
             hash → async polling (up to 20 rAF); else { top: 0 }
 ```
 
@@ -34,7 +35,9 @@ App.vue (delegated click on .internal-link)
 | Back/forward buttons | `createWebHistory` — native `popstate` handling                      |
 | Progress bar         | `router.beforeEach` (show) + `router.afterEach` (complete)           |
 | Hash scroll          | `scrollBehavior` — async `requestAnimationFrame` polling             |
-| Same-page query nav  | `scrollBehavior` → `false` (keep scroll); LoadingBar/dimming skipped |
+| Scroll restore       | `scrollBehavior` returns `savedPosition` on back/forward (popstate)  |
+| Same-page ?preview=  | `scrollBehavior` → `false` (keep scroll); LoadingBar/dimming skipped |
+| Same-page link click | `scrollBehavior` → `{ top: 0 }` (preview unchanged — scrolls to top) |
 | Language persistence | `router.beforeEach` copies `?lang=` from `from` to `to`              |
 | Chunk-load fallback  | `router.onError` — full `window.location.assign` on failure          |
 

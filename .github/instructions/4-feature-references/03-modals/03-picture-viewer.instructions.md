@@ -32,7 +32,9 @@ PictureViewerModal.vue
   ├─ QR share: QRCodeButton → qr-code modal (current deep link, hideOpenLink)
   ├─ Related link: TypeAwareLink v-bind="relatedLink" (TypeAwareLinkProps;
   │    click clears the whole stack before navigating)
-  ├─ Close button: router.back() (the route watch pops the viewer)
+  ├─ Close button: pop() (stay on the gallery); Back button
+  │    (router.back(), shown only when entered cross-page — derived from
+  │    history.state.back vs the current path)
   ├─ Slide transition: symmetric <Transition mode="out-in"> on prev/next
   └─ useHorizontalSwipe(stageRef, { onLeft, onRight }) — touch swipe
 
@@ -45,7 +47,9 @@ useGesture.ts — setSwipeTrackingEnabled(false) while the lightbox is open
 - Uses the standard `BModal` chrome (consistent with QRCodeModal):
   - Header title = picture description (`t("text-" + id)`).
   - Footer: icon buttons on the left (prev / next / QR-share /
-    related-link) and a text **Close** button on the right.
+    related-link); on the right a text **Back** button (only when the
+    viewer was entered from another page — `cameFromAnotherPage` via
+    `history.state.back`) and a text **Close** button.
 - The image is centred in the stage (`object-fit: contain`, `.no-copy`),
   `size="lg"` dialog — no fullscreen on mobile, no responsive bars.
 
@@ -59,11 +63,13 @@ useGesture.ts — setSwipeTrackingEnabled(false) while the lightbox is open
   page, keeping scroll; the page ignores route changes while open).
 - Prev/next navigation updates `?preview=` via `router.replace` (single
   modal history entry).
-- **Close button** = `router.back()` (no pushed-vs-deep-link flag): a
-  thumbnail-opened viewer backs to `gallery.html` (the route watch pops);
-  a cross-page deep link backs to that page (GalleryPage `onBeforeUnmount`
-  clears the stack). Esc / backdrop close via `clear()`, and the
-  `viewerOpen` watch strips `?preview=` (keeping `?lang=`).
+- **Close button** = `pop()` — always dismiss the viewer and stay on the
+  gallery (the `viewerOpen` watch strips `?preview=`, keeping `?lang=`).
+- **Back button** (shown only when the viewer was entered via a cross-page
+  navigation — derived from `history.state.back` vs the current path) =
+  `router.back()`: returns to the original page; GalleryPage
+  `onBeforeUnmount` clears the stack; `scrollBehavior` restores the
+  original scroll (§4.4.2). Esc / backdrop close via `clear()`.
 - Same-page navigations skip the LoadingBar and scroll — see §4.1.6 and
   §4.4.2.
 

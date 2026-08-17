@@ -8,7 +8,7 @@
  *   ≤ 768 px   →  "mobile"
  *   ≤ 1200 px  →  "tablet"
  *   ≤ 1400 px  →  "desktop"
- *   > 1400 px  →  "wideDesktop"
+ *   > 1400 px  →  "wide-desktop"
  *
  * Uses a **module-level singleton** pattern: the resize listener is
  * registered once (on first call) and torn down when the last consumer
@@ -18,7 +18,7 @@
  *
  * @example
  * const breakpoint = useBreakpoint();
- * // breakpoint.value === "mobile" | "tablet" | "desktop" | "wideDesktop"
+ * // breakpoint.value === "mobile" | "tablet" | "desktop" | "wide-desktop"
  */
 
 import { ref, onMounted, onBeforeUnmount, type Ref } from "vue";
@@ -71,7 +71,7 @@ function computeBreakpoint(): Breakpoint {
   if (w <= 768) return "mobile";
   if (w <= 1200) return "tablet";
   if (w <= 1400) return "desktop";
-  return "wideDesktop";
+  return "wide-desktop";
 }
 
 // =========================================================================
