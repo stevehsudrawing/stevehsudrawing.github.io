@@ -41,7 +41,7 @@ import {
   OPEN_QR_CODE_KEY,
   OPEN_SETTINGS_KEY,
 } from "./types/app";
-import type { FeatureAwarePictureProps, ColoredImgProps } from "./types/app";
+import type { TypeAwareImageProps } from "./types/app";
 
 import {
   getStoredEnableAnimations,
@@ -122,33 +122,22 @@ provide(OPEN_SETTINGS_KEY, () => {
 
 provide(
   OPEN_EXTERNAL_LINK_KEY,
-  (
-    url: string,
-    pictureProps: FeatureAwarePictureProps | null,
-    coloredProps: ColoredImgProps | null,
-    hideQR: boolean,
-  ) => {
+  (url: string, icon: TypeAwareImageProps | null, hideQR: boolean) => {
     push({
       id: "external-link",
-      props: { url, pictureProps, coloredProps, hideQR },
+      props: { url, icon, hideQR },
     });
   },
 );
 
 provide(
   OPEN_QR_CODE_KEY,
-  (
-    url: string,
-    pictureProps: FeatureAwarePictureProps | null,
-    coloredProps: ColoredImgProps | null,
-    hideOpenLink?: boolean,
-  ) => {
+  (url: string, icon: TypeAwareImageProps | null, hideOpenLink?: boolean) => {
     push({
       id: "qr-code",
       props: {
         url,
-        pictureProps,
-        coloredProps,
+        icon,
         hideOpenLink: hideOpenLink ?? false,
       },
     });

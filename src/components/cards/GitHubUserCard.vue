@@ -10,7 +10,7 @@
 import { computed } from "vue";
 import { useGithubProfile } from "../../composables/useGithubProfile";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import { useI18n } from "../../composables/useI18n";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
@@ -104,9 +104,12 @@ const statsText = computed(() => {
               class="btn btn-outline-secondary btn-sm"
               type="external"
               :href="profile!.html_url"
-              :picture-props="{
-                src: '/images/webp/icons/github.webp',
-                alt: $t('text-github'),
+              :icon="{
+                type: 'picture',
+                imgProps: {
+                  src: '/images/webp/icons/github.webp',
+                  alt: $t('text-github'),
+                },
               }"
             >
               <i class="bi bi-github me-1"></i>
@@ -162,10 +165,13 @@ const statsText = computed(() => {
                 class="btn btn-outline-secondary btn-sm flex-shrink-0"
                 type="external"
                 :href="profile!.html_url"
-                :colored-props="{
-                  src: '/images/webp/icons/github.webp',
-                  colorVar: 'bs-body-color',
-                  alt: $t('text-github'),
+                :icon="{
+                  type: 'colored-img',
+                  imgProps: {
+                    src: '/images/webp/icons/github.webp',
+                    colorVar: 'bs-body-color',
+                    alt: $t('text-github'),
+                  },
                 }"
               >
                 <i class="bi bi-github me-1"></i>

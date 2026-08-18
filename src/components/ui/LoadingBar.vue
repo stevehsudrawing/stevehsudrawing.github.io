@@ -81,7 +81,7 @@ defineExpose({ show, complete, hide });
 #loading-bar-fill {
   height: 3px;
   width: 0;
-  background-color: rgb(var(--bs-link-color-rgb, 13, 110, 253));
+  background-color: rgb(var(--bs-primary-rgb));
   transition: width 0.2s ease-out;
 }
 

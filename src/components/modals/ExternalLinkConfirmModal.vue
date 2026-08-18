@@ -16,8 +16,8 @@ import {
 } from "../../platform/storage";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import CopyButton from "../buttons/CopyButton.vue";
-import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
-import ColoredImg from "../ui/ColoredImg.vue";
+import TypeAwareImage from "../images/TypeAwareImage.vue";
+import type { TypeAwareImageProps } from "../../types/app";
 
 // =========================================================================
 // State
@@ -42,14 +42,29 @@ const { onShown } = useModalFocus(openBtnRef);
 // ---- Derived (narrowed from the stack entry) ----
 
 const url = computed(() => stackProps.value?.url ?? "");
-const pictureProps = computed(() => stackProps.value?.pictureProps ?? null);
-const coloredProps = computed(() => stackProps.value?.coloredProps ?? null);
+const icon = computed<TypeAwareImageProps | null>(
+  () => stackProps.value?.icon ?? null,
+);
 const hideQRButton = computed(() => stackProps.value?.hideQR ?? false);
 
 /** Alt text for the icon. */
-const iconAlt = computed(
-  () => pictureProps.value?.alt ?? coloredProps.value?.alt ?? t("text-link"),
-);
+const iconAlt = computed(() => icon.value?.imgProps.alt ?? t("text-link"));
+
+/** Icon with the resolved alt injected (ColoredImg requires alt). */
+const displayIcon = computed<TypeAwareImageProps | null>(() => {
+  const i = icon.value;
+  if (!i) return null;
+  if (i.type === "picture") {
+    return {
+      type: "picture",
+      imgProps: { ...i.imgProps, alt: iconAlt.value },
+    };
+  }
+  return {
+    type: "colored-img",
+    imgProps: { ...i.imgProps, alt: iconAlt.value },
+  };
+});
 
 // =========================================================================
 // Actions
@@ -69,8 +84,7 @@ function showQR(): void {
     id: "qr-code",
     props: {
       url: url.value,
-      pictureProps: pictureProps.value,
-      coloredProps: coloredProps.value,
+      icon: icon.value,
       hideOpenLink: false,
     },
   });
@@ -93,22 +107,9 @@ function showQR(): void {
     </p>
 
     <div class="d-flex align-items-start mb-3">
-      <div v-if="coloredProps" class="link-icon-wrapper me-2">
-        <ColoredImg
-          :src="coloredProps.src"
-          :color-var="coloredProps.colorVar"
-          :alt="iconAlt"
-          :width="32"
-          :height="32"
-          class="img-fluid"
-        />
-      </div>
-      <div v-else-if="pictureProps" class="link-icon-wrapper me-2">
-        <FeatureAwarePicture
-          :src="pictureProps.src"
-          :src-map="pictureProps.srcMap"
-          :feature="pictureProps.feature"
-          :alt="iconAlt"
+      <div v-if="displayIcon" class="link-icon-wrapper me-2">
+        <TypeAwareImage
+          :image="displayIcon"
           :width="32"
           :height="32"
           class="img-fluid"

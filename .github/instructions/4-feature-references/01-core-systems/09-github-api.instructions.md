@@ -211,15 +211,15 @@ date-fns locales).
 
 **Relevant i18n keys** (beyond event-type labels):
 
-| Key                                        | Fallback                            | Usage                      |
-| ------------------------------------------ | ----------------------------------- | -------------------------- |
-| `text-github-activity-stats`               | Recent Activity                     | Placeholder label          |
-| `text-x-activities-recently`               | %1 activities recently              | Heading (%1 = total count) |
-| `text-github-activity-empty`               | No recent activity                  | Empty state message        |
-| `text-displaying-data-from-the-past-month` | displaying data from the past month | Subtitle                   |
-| `text-bar-chart`                           | Bar chart                           | Bar toggle tooltip         |
-| `text-line-chart`                          | Line chart                          | Line toggle tooltip        |
-| `text-no-data-available`                   | No data available                   | Generic empty state        |
+| Key                               | Fallback                            | Usage                      |
+| --------------------------------- | ----------------------------------- | -------------------------- |
+| `text-github-activity-stats`      | Recent Activity                     | Placeholder label          |
+| `text-x-activities-recently`      | %1 activities recently              | Heading (%1 = total count) |
+| `text-github-activity-empty`      | No recent activity                  | Empty state message        |
+| `text-github-event-display-range` | displaying data from the past month | Subtitle                   |
+| `text-bar-chart`                  | Bar chart                           | Bar toggle tooltip         |
+| `text-line-chart`                 | Line chart                          | Line toggle tooltip        |
+| `text-no-data-available`          | No data available                   | Generic empty state        |
 
 **Event-description templates** (used by `GitHubEventsModal` — `%L` marks
 where the repo/issue `TypeAwareLink` is inserted, `%1` etc. are params):

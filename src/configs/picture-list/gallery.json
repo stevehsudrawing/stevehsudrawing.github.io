@@ -34,8 +34,11 @@
           },
           "feature": ["follow-language"]
         },
-        "qrCodeIconPictureProps": {
-          "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp"
+        "qrCodeIcon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp"
+          }
         },
         "relatedLink": {
           "type": "internal",
@@ -61,8 +64,11 @@
           },
           "feature": ["follow-language"]
         },
-        "qrCodeIconPictureProps": {
-          "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp"
+        "qrCodeIcon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp"
+          }
         },
         "relatedLink": {
           "type": "internal",
@@ -88,8 +94,11 @@
           },
           "feature": ["follow-language"]
         },
-        "qrCodeIconPictureProps": {
-          "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp"
+        "qrCodeIcon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp"
+          }
         },
         "relatedLink": {
           "type": "internal",
@@ -115,8 +124,11 @@
           },
           "feature": ["follow-language"]
         },
-        "qrCodeIconPictureProps": {
-          "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp"
+        "qrCodeIcon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp"
+          }
         },
         "relatedLink": {
           "type": "internal",
@@ -142,8 +154,11 @@
           },
           "feature": ["follow-language"]
         },
-        "qrCodeIconPictureProps": {
-          "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp"
+        "qrCodeIcon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp"
+          }
         },
         "relatedLink": {
           "type": "internal",
@@ -169,8 +184,11 @@
           },
           "feature": ["follow-language"]
         },
-        "qrCodeIconPictureProps": {
-          "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp"
+        "qrCodeIcon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp"
+          }
         },
         "relatedLink": {
           "type": "internal",

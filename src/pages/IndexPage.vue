@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
-import FeatureAwarePicture from "../components/ui/FeatureAwarePicture.vue";
+import FeatureAwarePicture from "../components/images/FeatureAwarePicture.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
@@ -92,9 +92,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               <TypeAwareLink
                 type="external"
                 href="https://www.pixiv.net/artworks/145641748"
-                :picture-props="{
-                  src: '/images/webp/icons/pixiv.webp',
-                  alt: $t('text-pixiv'),
+                :icon="{
+                  type: 'picture',
+                  imgProps: {
+                    src: '/images/webp/icons/pixiv.webp',
+                    alt: $t('text-pixiv'),
+                  },
                 }"
                 hide-indicator
               >
@@ -128,9 +131,12 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               <TypeAwareLink
                 type="external"
                 href="https://www.pixiv.net/artworks/144184773"
-                :picture-props="{
-                  src: '/images/webp/icons/pixiv.webp',
-                  alt: $t('text-pixiv'),
+                :icon="{
+                  type: 'picture',
+                  imgProps: {
+                    src: '/images/webp/icons/pixiv.webp',
+                    alt: $t('text-pixiv'),
+                  },
                 }"
                 hide-indicator
               >

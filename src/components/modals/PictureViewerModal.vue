@@ -16,13 +16,13 @@ import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { useHorizontalSwipe } from "../../composables/useHorizontalSwipe";
 import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
-import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import type {
   DisplayPictureData,
   FeatureAwarePictureProps,
-  ColoredImgProps,
+  TypeAwareImageProps,
   TypeAwareLinkProps,
 } from "../../types/app";
 
@@ -88,30 +88,39 @@ const title = computed(() =>
 );
 
 /**
- * QR centre icon — resolution: colored → picture → default signature.
- * NEVER the poster itself (keeps the full artwork out of the share card).
+ * QR centre icon — resolution: config icon (with id-derived alt) → default
+ * signature.  NEVER the poster itself (keeps the full artwork out of the
+ * share card).
  */
-const qrIconPictureProps = computed<FeatureAwarePictureProps | null>(() => {
+const qrIcon = computed<TypeAwareImageProps>(() => {
   const p = current.value;
-  if (!p || p.qrCodeIconColoredProps) return null;
-  if (p.qrCodeIconPictureProps) {
+  const configured = p?.qrCodeIcon;
+  if (configured) {
+    if (configured.type === "picture") {
+      return {
+        type: "picture",
+        imgProps: {
+          ...configured.imgProps,
+          alt: configured.imgProps.alt ?? t("text-" + p!.id),
+        },
+      };
+    }
     return {
-      ...p.qrCodeIconPictureProps,
-      alt: p.qrCodeIconPictureProps.alt ?? t("text-" + p.id),
-    } as FeatureAwarePictureProps;
+      type: "colored-img",
+      imgProps: {
+        ...configured.imgProps,
+        alt: configured.imgProps.alt ?? t("text-" + p!.id),
+      },
+    };
   }
-  return null;
-});
-
-const qrIconColoredProps = computed<ColoredImgProps | null>(() => {
-  const p = current.value;
-  if (p?.qrCodeIconColoredProps) return p.qrCodeIconColoredProps;
-  if (p?.qrCodeIconPictureProps) return null;
   // Default icon: site signature.
   return {
-    src: "/images/svg/icons/steve-hsu.svg",
-    colorVar: "bs-primary",
-    alt: t("text-steve-hsu"),
+    type: "colored-img",
+    imgProps: {
+      src: "/images/webp/icons/steve-hsu.webp",
+      colorVar: "bs-primary",
+      alt: t("text-steve-hsu"),
+    },
   };
 });
 
@@ -192,8 +201,7 @@ function showQR(): void {
     id: "qr-code",
     props: {
       url: shareUrl.value,
-      pictureProps: qrIconPictureProps.value,
-      coloredProps: qrIconColoredProps.value,
+      icon: qrIcon.value,
       hideOpenLink: true,
     },
   });
@@ -299,7 +307,7 @@ useHorizontalSwipe(stageRef, {
         <div v-if="pictureProps" :key="current?.id" class="picture-slide-wrap">
           <FeatureAwarePicture
             v-bind="pictureProps"
-            class="picture-viewer-img no-copy solid-bg"
+            class="picture-viewer-img no-copy"
           />
         </div>
       </Transition>
@@ -410,14 +418,14 @@ useHorizontalSwipe(stageRef, {
 .picture-slide-enter-from-next,
 .picture-slide-leave-to-prev {
   opacity: 0;
-  transform: translateX(8rem) rotateY(15deg) scale(0.75);
+  transform: translateX(25%) rotateY(15deg) scale(0.75);
   filter: blur(1rem);
 }
 
 .picture-slide-leave-to-next,
 .picture-slide-enter-from-prev {
   opacity: 0;
-  transform: translateX(-8rem) rotateY(-15deg) scale(0.75);
+  transform: translateX(-25%) rotateY(-15deg) scale(0.75);
   filter: blur(1rem);
 }
 </style>

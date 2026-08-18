@@ -268,8 +268,8 @@ const SOCIAL_PROFILE_URLS: string[] = (
   indexButtonGroups as LinkButtonGroupData[]
 )
   .flatMap((group) => group.buttons)
-  .filter((button) => button.externalLink && button.sameAs)
-  .map((button) => button.linkHref);
+  .filter((button) => button.link.type === "external" && button.sameAs)
+  .map((button) => button.link.href);
 
 /** Generate hreflang `<link>` tags for each supported language plus x-default. */
 function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {

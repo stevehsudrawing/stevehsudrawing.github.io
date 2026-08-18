@@ -1,7 +1,7 @@
 ---
 description: >
   External Link Confirmation: ExternalLinkConfirmModal.vue (props: url,
-  pictureProps, coloredProps, hideQRButton; emits: navigate, show-qr).
+  icon, hideQR; emits: navigate, show-qr).
   Typed props passthrough via TypeAwareLink / App.vue.
   Use when: modifying external link behavior, confirmation modal UI, or link interception.
 applyTo: >
@@ -17,7 +17,7 @@ App.vue (provide/inject pipeline)
   └─ OPEN_EXTERNAL_LINK_KEY → TypeAwareLink calls openExternalLink()
 
 ExternalLinkConfirmModal.vue
-  ├─ Props: url, pictureProps?, coloredProps?, hideQRButton?
+  ├─ Props: url, icon, hideQR
   ├─ State: visible, openInNewTab
   ├─ Actions: confirm(), showQR()
   └─ Expose: show(), hide()
@@ -25,23 +25,21 @@ ExternalLinkConfirmModal.vue
 
 ##### 4.3.1.2 Props
 
-| Prop           | Type                                | Purpose                                |
-| -------------- | ----------------------------------- | -------------------------------------- |
-| `url`          | `string`                            | External URL                           |
-| `pictureProps` | `FeatureAwarePictureProps \| null?` | Icon props for non-colored icon        |
-| `coloredProps` | `ColoredImgProps \| null?`          | Icon props for colored (CSS mask) icon |
-| `hideQRButton` | `boolean?`                          | Hide "Show QR Code" button             |
+| Prop     | Type                          | Purpose                            |
+| -------- | ----------------------------- | ---------------------------------- |
+| `url`    | `string`                      | External URL                       |
+| `icon`   | `TypeAwareImageProps \| null` | Optional icon (picture or colored) |
+| `hideQR` | `boolean`                     | Hide "Show QR Code" button         |
 
 ##### 4.3.1.3 Emits
 
-| Event      | Payload                             | When                       |
-| ---------- | ----------------------------------- | -------------------------- |
-| `navigate` | `(url, openInNewTab)`               | User clicks "Open"         |
-| `show-qr`  | `(url, pictureProps, coloredProps)` | User clicks "Show QR Code" |
+| Event      | Payload               | When                       |
+| ---------- | --------------------- | -------------------------- |
+| `navigate` | `(url, openInNewTab)` | User clicks "Open"         |
+| `show-qr`  | `(url, icon)`         | User clicks "Show QR Code" |
 
 ##### 4.3.1.4 Typed Props Passthrough
 
-Icons are passed as typed `pictureProps` / `coloredProps` through the
-`TypeAwareLink` → `App.vue` provide/inject pipeline. The modal renders
-`<ColoredImg>` when `coloredProps` is set, `<FeatureAwarePicture>` when
-`pictureProps` is set. No HAST round-trip or `useImgDisplayProps` needed.
+The icon is passed as typed `icon: TypeAwareImageProps | null` through the
+`TypeAwareLink` → `App.vue` provide/inject pipeline. The modal renders it via
+`TypeAwareImage` (with the resolved alt injected). No HAST round-trip needed.

@@ -1,18 +1,6 @@
 [
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "children": [
-        {
-          "type": "text",
-          "value": "Artworks"
-        }
-      ],
-      "properties": {
-        "dataI18n": "text-artworks"
-      }
-    },
+    "id": "artworks",
     "description": {
       "type": "element",
       "tagName": "span",
@@ -28,35 +16,16 @@
     },
     "contents": [
       {
-        "available": true,
+        "id": "pixiv",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Pixiv",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/pixiv.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.pixiv.net/users/70732361",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Pixiv"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.pixiv.net/users/70732361"
         },
         "description": {
           "type": "element",
@@ -70,35 +39,16 @@
         }
       },
       {
-        "available": true,
+        "id": "deviantart",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "DeviantArt",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/deviant-art.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.deviantart.com/stevehsudrawing",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "DeviantArt"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.deviantart.com/stevehsudrawing"
         },
         "description": {
           "type": "element",
@@ -112,35 +62,16 @@
         }
       },
       {
-        "available": true,
+        "id": "medibang-art-street",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "MediBang ART street",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/medibang-art-street.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://medibang.com/u/stevehsu",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "MediBang ART street"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://medibang.com/u/stevehsu"
         },
         "description": {
           "type": "element",
@@ -154,38 +85,17 @@
         }
       },
       {
-        "available": true,
+        "id": "x",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "X",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/x-twitter.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/x-twitter.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://x.com/stevehsudrawing",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "X"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://x.com/stevehsudrawing"
         },
         "description": {
           "type": "element",
@@ -199,39 +109,16 @@
         }
       },
       {
-        "available": true,
+        "id": "weibo",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Weibo",
-            "dataI18nAlt": "text-weibo",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/weibo.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://weibo.com/stevehsudrawing",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Weibo"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-weibo"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://weibo.com/stevehsudrawing"
         },
         "description": {
           "type": "root",
@@ -263,39 +150,16 @@
         }
       },
       {
-        "available": true,
+        "id": "bilibili",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Bilibili",
-            "dataI18nAlt": "text-bilibili",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/bilibili.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://space.bilibili.com/298733903",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Bilibili"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-bilibili"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://space.bilibili.com/298733903"
         },
         "description": {
           "type": "root",
@@ -327,39 +191,16 @@
         }
       },
       {
-        "available": true,
+        "id": "rednote",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Rednote",
-            "dataI18nAlt": "text-rednote",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/rednote.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Rednote"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-rednote"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.xiaohongshu.com/user/profile/6a3004dd0000000010000000"
         },
         "description": {
           "type": "root",
@@ -393,19 +234,7 @@
     ]
   },
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "children": [
-        {
-          "type": "text",
-          "value": "Sticker Collections"
-        }
-      ],
-      "properties": {
-        "dataI18n": "text-sticker-collections"
-      }
-    },
+    "id": "sticker-collections",
     "description": {
       "type": "element",
       "tagName": "span",
@@ -421,40 +250,17 @@
     },
     "contents": [
       {
-        "available": true,
+        "id": "sticker-collection-series-1-vol-1",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Steve Hsu & Kato Vol. 1",
-            "dataI18nAlt": "text-sticker-collection-series-1-vol-1",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sticker-collection-series-1-vol-1.webp",
-            "className": ["no-copy"]
-          },
-          "children": []
+            "class": "no-copy"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "/gallery.html?preview=sticker-collection-series-1-vol-1",
-            "className": ["internal-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Steve Hsu & Kato Vol. 1"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-sticker-collection-series-1-vol-1"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-1-vol-1"
         },
         "description": {
           "type": "root",
@@ -512,40 +318,17 @@
         }
       },
       {
-        "available": true,
+        "id": "sticker-collection-series-1-vol-2",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Steve Hsu & Kato Vol. 2",
-            "dataI18nAlt": "text-sticker-collection-series-1-vol-2",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sticker-collection-series-1-vol-2.webp",
-            "className": ["no-copy"]
-          },
-          "children": []
+            "class": "no-copy"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "/gallery.html?preview=sticker-collection-series-1-vol-2",
-            "className": ["internal-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Steve Hsu & Kato Vol. 2"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-sticker-collection-series-1-vol-2"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-1-vol-2"
         },
         "description": {
           "type": "root",
@@ -603,40 +386,17 @@
         }
       },
       {
-        "available": true,
+        "id": "sticker-collection-series-1-vol-3",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Steve Hsu & Kato Vol. 3",
-            "dataI18nAlt": "text-sticker-collection-series-1-vol-3",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sticker-collection-series-1-vol-3.webp",
-            "className": ["no-copy"]
-          },
-          "children": []
+            "class": "no-copy"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "/gallery.html?preview=sticker-collection-series-1-vol-3",
-            "className": ["internal-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Steve Hsu & Kato Vol. 3"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-sticker-collection-series-1-vol-3"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-1-vol-3"
         },
         "description": {
           "type": "root",
@@ -694,40 +454,17 @@
         }
       },
       {
-        "available": true,
+        "id": "sticker-collection-series-2-vol-1",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Steve Hsu's SC Dynamic Edition Vol. 1",
-            "dataI18nAlt": "text-sticker-collection-series-2-vol-1",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sticker-collection-series-2-vol-1.webp",
-            "className": ["no-copy"]
-          },
-          "children": []
+            "class": "no-copy"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "/gallery.html?preview=sticker-collection-series-2-vol-1",
-            "className": ["internal-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Steve Hsu's SC Dynamic Edition Vol. 1"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-sticker-collection-series-2-vol-1"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-2-vol-1"
         },
         "description": {
           "type": "root",
@@ -818,40 +555,17 @@
         }
       },
       {
-        "available": true,
+        "id": "sticker-collection-series-2-vol-2",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Steve Hsu's SC Dynamic Edition Vol. 2",
-            "dataI18nAlt": "text-sticker-collection-series-2-vol-2",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sticker-collection-series-2-vol-2.webp",
-            "className": ["no-copy"]
-          },
-          "children": []
+            "class": "no-copy"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "/gallery.html?preview=sticker-collection-series-2-vol-2",
-            "className": ["internal-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Steve Hsu's SC Dynamic Edition Vol. 2"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-sticker-collection-series-2-vol-2"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-2-vol-2"
         },
         "description": {
           "type": "root",
@@ -942,40 +656,17 @@
         }
       },
       {
-        "available": true,
+        "id": "sticker-collection-series-2-vol-3",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Steve Hsu's SC Dynamic Edition Vol. 3",
-            "dataI18nAlt": "text-sticker-collection-series-2-vol-3",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sticker-collection-series-2-vol-3.webp",
-            "className": ["no-copy"]
-          },
-          "children": []
+            "class": "no-copy"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "/gallery.html?preview=sticker-collection-series-2-vol-3",
-            "className": ["internal-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Steve Hsu's SC Dynamic Edition Vol. 3"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-sticker-collection-series-2-vol-3"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-2-vol-3"
         },
         "description": {
           "type": "root",
@@ -1068,19 +759,7 @@
     ]
   },
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "children": [
-        {
-          "type": "text",
-          "value": "Videos"
-        }
-      ],
-      "properties": {
-        "dataI18n": "text-videos"
-      }
-    },
+    "id": "videos",
     "description": {
       "type": "element",
       "tagName": "span",
@@ -1096,35 +775,16 @@
     },
     "contents": [
       {
-        "available": true,
+        "id": "youtube",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Youtube",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/youtube.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://youtube.com/@stevehsu4277",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Youtube"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://youtube.com/@stevehsu4277"
         },
         "description": {
           "type": "root",
@@ -1156,39 +816,16 @@
         }
       },
       {
-        "available": true,
+        "id": "bilibili",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Bilibili",
-            "dataI18nAlt": "text-bilibili",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/bilibili.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://space.bilibili.com/298733903",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Bilibili"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-bilibili"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://space.bilibili.com/298733903"
         },
         "description": {
           "type": "root",
@@ -1222,19 +859,7 @@
     ]
   },
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "children": [
-        {
-          "type": "text",
-          "value": "Unused or Deprecated"
-        }
-      ],
-      "properties": {
-        "dataI18n": "text-unused-or-deprecated"
-      }
-    },
+    "id": "unused-or-deprecated",
     "description": {
       "type": "element",
       "tagName": "span",
@@ -1250,35 +875,16 @@
     },
     "contents": [
       {
-        "available": true,
+        "id": "instagram",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Instagram",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/instagram.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.instagram.com/stevehsudrawing",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Instagram"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.instagram.com/stevehsudrawing"
         },
         "description": {
           "type": "element",
@@ -1292,38 +898,17 @@
         }
       },
       {
-        "available": true,
+        "id": "threads",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Threads",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/threads.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/threads.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.threads.com/@stevehsudrawing",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Threads"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.threads.com/@stevehsudrawing"
         },
         "description": {
           "type": "element",
@@ -1337,38 +922,17 @@
         }
       },
       {
-        "available": true,
+        "id": "lofter",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Lofter",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/link.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/link.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://stevehsu.lofter.com/",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Lofter"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://stevehsu.lofter.com/"
         },
         "description": {
           "type": "element",
@@ -1382,42 +946,17 @@
         }
       },
       {
-        "available": true,
+        "id": "mihuashi",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Mihuashi",
-            "dataI18nAlt": "text-mihuashi",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/link.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/link.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.mihuashi.com/profiles/10398496",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Mihuashi"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-mihuashi"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.mihuashi.com/profiles/10398496"
         },
         "description": {
           "type": "root",
@@ -1449,42 +988,17 @@
         }
       },
       {
-        "available": true,
+        "id": "douyin",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Douyin",
-            "dataI18nAlt": "text-douyin",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/link.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/link.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Douyin"
-                }
-              ],
-              "properties": {
-                "dataI18n": "text-douyin"
-              }
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://www.douyin.com/user/MS4wLjABAAAAjVT-6OnagWQXuQ9MVUwG3Vk9b6E6OPXg23gm2dA60W4gaTRp51wy3qsS2KvQsTw3"
         },
         "description": {
           "type": "root",

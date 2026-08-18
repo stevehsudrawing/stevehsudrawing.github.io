@@ -7,10 +7,7 @@
 import { inject } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import TooltipTrigger from "../ui/TooltipTrigger.vue";
-import type {
-  FeatureAwarePictureProps,
-  ColoredImgProps,
-} from "../../types/app";
+import type { TypeAwareImageProps } from "../../types/app";
 import { OPEN_QR_CODE_KEY } from "../../types/app";
 
 // =========================================================================
@@ -19,8 +16,7 @@ import { OPEN_QR_CODE_KEY } from "../../types/app";
 
 type OpenQRCodeFn = (
   url: string,
-  pictureProps: FeatureAwarePictureProps | null,
-  coloredProps: ColoredImgProps | null,
+  icon: TypeAwareImageProps | null,
   hideOpenLink?: boolean,
 ) => void;
 
@@ -31,10 +27,8 @@ type OpenQRCodeFn = (
 const props = defineProps<{
   /** URL to encode in the QR code. */
   url: string;
-  /** Optional FeatureAwarePicture props for the QR overlay icon. */
-  pictureProps?: FeatureAwarePictureProps | null;
-  /** Optional ColoredImg props for the QR overlay icon. */
-  coloredProps?: ColoredImgProps | null;
+  /** Optional icon for the QR overlay (picture or colored). */
+  icon?: TypeAwareImageProps | null;
   /** Hide the "Open Link" button in the QRCodeModal. */
   hideOpenLink?: boolean;
 }>();
@@ -56,12 +50,7 @@ const openQRCode = inject<OpenQRCodeFn | undefined>(
 function onClick(e: MouseEvent): void {
   if (openQRCode) {
     e.preventDefault();
-    openQRCode(
-      props.url,
-      props.pictureProps ?? null,
-      props.coloredProps ?? null,
-      props.hideOpenLink,
-    );
+    openQRCode(props.url, props.icon ?? null, props.hideOpenLink);
   }
 }
 </script>

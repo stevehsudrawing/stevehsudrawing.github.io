@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import type { DisplayPictureData } from "../../types/app";
 import type { FeatureAwarePictureProps } from "../../types/app";
 
@@ -43,9 +43,7 @@ const imgProps = computed<FeatureAwarePictureProps>(() => {
     ...base,
     alt: alt.value,
     loading: "lazy",
-    class: [baseClass, "no-copy", "solid-bg", "picture-card-img"]
-      .filter(Boolean)
-      .join(" "),
+    class: [baseClass, "no-copy", "picture-card-img"].filter(Boolean).join(" "),
   };
 });
 

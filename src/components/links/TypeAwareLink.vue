@@ -15,11 +15,7 @@ import { computed, inject } from "vue";
 import { useRouter } from "vue-router";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
-import type {
-  FeatureAwarePictureProps,
-  ColoredImgProps,
-  TypeAwareLinkProps,
-} from "../../types/app";
+import type { TypeAwareImageProps, TypeAwareLinkProps } from "../../types/app";
 
 // =========================================================================
 // Types
@@ -28,8 +24,7 @@ import type {
 /** Signature of the openExternalLink function provided by App.vue. */
 type OpenExternalLinkFn = (
   url: string,
-  pictureProps: FeatureAwarePictureProps | null,
-  coloredProps: ColoredImgProps | null,
+  icon: TypeAwareImageProps | null,
   hideQR: boolean,
 ) => void;
 
@@ -85,16 +80,11 @@ function onClick(e: MouseEvent): void {
     scrollToHashTarget(props.href);
   } else if (props.type === "external" && openExternalLink) {
     e.preventDefault();
-    // QR is shown only when icon props are provided AND noQRCode is
+    // QR is shown only when an icon is provided AND noQRCode is
     // not explicitly true (default: hide QR).
-    const hasIcon = !!(props.pictureProps || props.coloredProps);
+    const hasIcon = !!props.icon;
     const hideQR = props.noQRCode !== false || !hasIcon;
-    openExternalLink(
-      props.href,
-      props.pictureProps ?? null,
-      props.coloredProps ?? null,
-      hideQR,
-    );
+    openExternalLink(props.href, props.icon ?? null, hideQR);
   }
   // email: native browser behavior
 }

@@ -3,94 +3,131 @@
     "groupId": "artworks",
     "buttons": [
       {
-        "externalLink": true,
-        "linkHref": "https://www.pixiv.net/users/70732361",
+        "id": "pixiv",
+        "link": {
+          "type": "external",
+          "href": "https://www.pixiv.net/users/70732361"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/pixiv.webp"
+          }
+        },
         "primary": true,
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Pixiv",
-          "src": "/images/webp/icons/pixiv.webp"
+        "sameAs": true
+      },
+      {
+        "id": "deviantart",
+        "link": {
+          "type": "external",
+          "href": "https://www.deviantart.com/stevehsudrawing"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/deviant-art.webp"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "medibang-art-street",
+        "link": {
+          "type": "external",
+          "href": "https://medibang.com/u/stevehsu"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/medibang-art-street.webp"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "x",
+        "link": {
+          "type": "external",
+          "href": "https://x.com/stevehsudrawing"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/x-twitter.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "weibo",
+        "link": {
+          "type": "external",
+          "href": "https://weibo.com/stevehsudrawing"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/weibo.webp"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "youtube",
+        "link": {
+          "type": "external",
+          "href": "https://youtube.com/@stevehsu4277"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/youtube.webp"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "bilibili",
+        "link": {
+          "type": "external",
+          "href": "https://space.bilibili.com/298733903"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/bilibili.webp"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "sticker-collections",
+        "link": {
+          "type": "internal",
+          "href": "/gallery.html#sticker-collections"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/sticker-collections.webp",
+            "class": "no-copy"
+          }
         }
       },
       {
-        "externalLink": true,
-        "linkHref": "https://www.deviantart.com/stevehsudrawing",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "DeviantArt",
-          "src": "/images/webp/icons/deviant-art.webp"
-        }
-      },
-      {
-        "externalLink": true,
-        "linkHref": "https://medibang.com/u/stevehsu",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "MediBang ART street",
-          "src": "/images/webp/icons/medibang-art-street.webp"
-        }
-      },
-      {
-        "externalLink": true,
-        "linkHref": "https://x.com/stevehsudrawing",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "X",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/x-twitter.webp",
-          "dataColorVar": "bs-body-color"
-        }
-      },
-      {
-        "externalLink": true,
-        "linkHref": "https://weibo.com/stevehsudrawing",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Weibo",
-          "dataI18nAlt": "text-weibo",
-          "src": "/images/webp/icons/weibo.webp"
-        }
-      },
-      {
-        "externalLink": true,
-        "linkHref": "https://youtube.com/@stevehsu4277",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Youtube",
-          "src": "/images/webp/icons/youtube.webp"
-        }
-      },
-      {
-        "externalLink": true,
-        "linkHref": "https://space.bilibili.com/298733903",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Bilibili",
-          "dataI18nAlt": "text-bilibili",
-          "src": "/images/webp/icons/bilibili.webp"
-        }
-      },
-      {
-        "externalLink": false,
-        "linkHref": "/gallery.html#sticker-collections",
-        "iconProps": {
-          "alt": "Sticker Collections",
-          "dataI18nAlt": "text-sticker-collections",
-          "src": "/images/webp/icons/sticker-collections.webp",
-          "className": ["no-copy"]
-        }
-      },
-      {
-        "externalLink": false,
-        "linkHref": "/artworks-and-videos.html",
-        "iconProps": {
-          "alt": "More links",
-          "dataI18nAlt": "text-more-links",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/more.webp",
-          "dataColorVar": "bs-secondary"
+        "id": "more-links",
+        "link": {
+          "type": "internal",
+          "href": "/artworks-and-videos.html"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/more.webp",
+            "colorVar": "bs-secondary"
+          }
         }
       }
     ]
@@ -99,44 +136,59 @@
     "groupId": "softwares",
     "buttons": [
       {
-        "externalLink": true,
-        "linkHref": "https://github.com/stevehsudrawing",
+        "id": "github",
+        "link": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/github.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
         "primary": true,
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Github",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/github.webp",
-          "dataColorVar": "bs-body-color"
+        "sameAs": true
+      },
+      {
+        "id": "quanto-ult",
+        "link": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/QuantoUlt"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/quanto-ult.webp"
+          }
         }
       },
       {
-        "externalLink": true,
-        "linkHref": "https://github.com/stevehsudrawing/QuantoUlt",
-        "iconProps": {
-          "alt": "Quanto Ult",
-          "src": "/images/webp/icons/quanto-ult.webp"
+        "id": "quanto-flx",
+        "link": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/quantoflx"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/quanto-flx.webp"
+          }
         }
       },
       {
-        "externalLink": true,
-        "linkHref": "https://github.com/stevehsudrawing/quantoflx",
-        "iconProps": {
-          "alt": "Quanto Flx",
-          "src": "/images/webp/icons/quanto-flx.webp"
-        }
-      },
-      {
-        "externalLink": false,
-        "linkHref": "/softwares.html",
-        "iconProps": {
-          "alt": "More links",
-          "dataI18nAlt": "text-more-links",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/more.webp",
-          "dataColorVar": "bs-secondary"
+        "id": "more-links",
+        "link": {
+          "type": "internal",
+          "href": "/softwares.html"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/more.webp",
+            "colorVar": "bs-secondary"
+          }
         }
       }
     ]
@@ -145,38 +197,46 @@
     "groupId": "blogs-and-sponsor",
     "buttons": [
       {
-        "externalLink": true,
-        "linkHref": "https://www.patreon.com/QuantoSeries",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Patreon (Quanto Series)",
-          "dataI18nAlt": "text-patreon-quanto-series",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/patreon.webp",
-          "dataColorVar": "bs-body-color"
-        }
+        "id": "patreon-quanto-series",
+        "link": {
+          "type": "external",
+          "href": "https://www.patreon.com/QuantoSeries"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/patreon.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
+        "sameAs": true
       },
       {
-        "externalLink": true,
-        "linkHref": "https://afdian.com/a/stevehsu",
-        "sameAs": true,
-        "iconProps": {
-          "alt": "Afdian",
-          "dataI18nAlt": "text-afdian",
-          "src": "/images/webp/icons/afdian.webp"
-        }
+        "id": "afdian",
+        "link": {
+          "type": "external",
+          "href": "https://afdian.com/a/stevehsu"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/afdian.webp"
+          }
+        },
+        "sameAs": true
       },
       {
-        "externalLink": false,
-        "linkHref": "/blogs-and-sponsor.html",
-        "iconProps": {
-          "alt": "More links",
-          "dataI18nAlt": "text-more-links",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/more.webp",
-          "dataColorVar": "bs-secondary"
+        "id": "more-links",
+        "link": {
+          "type": "internal",
+          "href": "/blogs-and-sponsor.html"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/more.webp",
+            "colorVar": "bs-secondary"
+          }
         }
       }
     ]
@@ -185,24 +245,30 @@
     "groupId": "chatting",
     "buttons": [
       {
-        "externalLink": false,
-        "linkHref": "/chatting.html#qq-groups",
-        "iconProps": {
-          "alt": "QQ Groups",
-          "dataI18nAlt": "text-qq-groups",
-          "src": "/images/webp/icons/qq.webp"
+        "id": "qq-groups",
+        "link": {
+          "type": "internal",
+          "href": "/chatting.html#qq-groups"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/qq.webp"
+          }
         }
       },
       {
-        "externalLink": false,
-        "linkHref": "/chatting.html",
-        "iconProps": {
-          "alt": "More links",
-          "dataI18nAlt": "text-more-links",
-          "src": "/images/webp/null.webp",
-          "dataImgFeature": "colored",
-          "dataSrcMask": "/images/webp/icons/more.webp",
-          "dataColorVar": "bs-secondary"
+        "id": "more-links",
+        "link": {
+          "type": "internal",
+          "href": "/chatting.html"
+        },
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/more.webp",
+            "colorVar": "bs-secondary"
+          }
         }
       }
     ]

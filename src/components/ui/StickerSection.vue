@@ -9,7 +9,7 @@
   Alt text uses i18n key `text-sticker-of-{stickerId}`.
 -->
 <script setup lang="ts">
-import FeatureAwarePicture from "./FeatureAwarePicture.vue";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import { computed } from "vue";
 
 // =========================================================================

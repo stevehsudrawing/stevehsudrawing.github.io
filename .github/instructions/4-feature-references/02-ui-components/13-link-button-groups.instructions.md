@@ -27,14 +27,16 @@ LinkButtonGroup.vue
 
 LinkButton.vue
   ├─ Props: { button: LinkButtonData }
-  └─ Renders a single link button with icon + label
+  └─ Renders TypeAwareLink (button.link) + TypeAwareImage (button.icon)
 ```
 
 ##### 4.2.13.2 JSON Config Format
 
 See `src/configs/link-button-groups/{groupName}.json`. Each file is a JSON
-array of `LinkButtonGroupData[]`. Groups contain buttons with `icon`, `label`,
-and link properties.
+array of `LinkButtonGroupData[]`. Groups have `groupId` + `buttons`. Buttons
+have `id`, `link` (`TypeAwareLinkProps`), `icon` (`TypeAwareImageProps`), and
+optional `primary` / `sameAs`. Tooltip and icon alt resolve from
+`t("text-" + id)`. See [§3.3.4](../3-project-structural-constraints/3-type-definitions.instructions.md#334-link-button-group-json-format-srcconfigslink-button-groupsjson).
 
 ##### 4.2.13.3 Scroll Hint
 

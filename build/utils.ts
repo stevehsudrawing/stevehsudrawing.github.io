@@ -12,28 +12,6 @@ import type { PageName } from "../types";
 // ---------------------------------------------------------------------------
 
 /**
- * Recursively extract the first href from a HAST node tree (from an <a> element).
- * Returns null if no href is found.
- * @param node - A HAST node object.
- * @returns The first href string encountered, or null.
- */
-export function extractHastHref(node: unknown): string | null {
-  if (!node || typeof node !== "object") return null;
-  const n = node as Record<string, unknown>;
-  if (n.type === "element" && n.tagName === "a" && n.properties) {
-    const props = n.properties as Record<string, unknown>;
-    if (typeof props.href === "string") return props.href;
-  }
-  if (Array.isArray(n.children)) {
-    for (const child of n.children) {
-      const href = extractHastHref(child);
-      if (href) return href;
-    }
-  }
-  return null;
-}
-
-/**
  * Deep-clone a HAST node via JSON round-trip.
  * @param node - The HAST node to clone.
  * @returns A deep copy of the node, independent of the original.

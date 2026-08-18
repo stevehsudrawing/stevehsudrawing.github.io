@@ -34,7 +34,7 @@ PictureGroup.vue
 PictureCard.vue
   └─ Props: { picture: DisplayPictureData }
   └─ FeatureAwarePicture with alt = pictureProps.alt ?? t("text-" + id),
-     loading="lazy", class="no-copy solid-bg picture-card-img"
+     loading="lazy", class="no-copy picture-card-img"
 ```
 
 ##### 4.2.15.2 JSON Config Format

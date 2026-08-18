@@ -1,16 +1,15 @@
 <!--
   LinkCardGroup.vue — Single link-card group with heading and card grid.
-  Renders one GroupData item from the link-cards JSON config.
+  Renders one LinkCardGroupData item from the link-cards JSON config.
 -->
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { extractPlainText, resolveI18nInHtml } from "../../core/utils";
+import { resolveI18nInHtml } from "../../core/utils";
 import LinkCard from "./LinkCard.vue";
 import SectionHeading from "../ui/SectionHeading.vue";
 import { toHtml } from "hast-util-to-html";
-import type { GroupData } from "../../types/app";
-import type { HastNode } from "../../types/hast";
+import type { LinkCardGroupData } from "../../types/app";
 
 // =========================================================================
 // Props
@@ -18,7 +17,7 @@ import type { HastNode } from "../../types/hast";
 
 const props = defineProps<{
   /** Group data from JSON config. */
-  group: GroupData;
+  group: LinkCardGroupData;
   /** Page path for anchor/copy-link URL generation (e.g. "/about.html"). */
   pagePath: string;
 }>();
@@ -28,16 +27,6 @@ const props = defineProps<{
 // =========================================================================
 
 const { t } = useI18n();
-
-/** HAST -> HTML for the group title. */
-const titleHtml = computed(() =>
-  props.group.title
-    ? resolveI18nInHtml(
-        toHtml(props.group.title as Parameters<typeof toHtml>[0]),
-        t,
-      )
-    : "",
-);
 
 /** HAST -> HTML for the group description. */
 const descHtml = computed(() =>
@@ -49,27 +38,18 @@ const descHtml = computed(() =>
     : "",
 );
 
-/** Plain-text title for SectionHeading and id generation. */
-const titleText = computed(() =>
-  props.group.title ? extractPlainText(props.group.title as HastNode) : "",
-);
-
 /** Whether the group has any cards. */
-const hasCards = computed(
-  () => Array.isArray(props.group.contents) && props.group.contents.length > 0,
-);
+const hasCards = computed(() => props.group.contents.length > 0);
 </script>
 
 <template>
   <div>
     <!-- ==== Group header ==== -->
     <SectionHeading
-      v-if="props.group.title && titleText"
-      :title="titleText"
+      :title="t('text-' + props.group.id)"
+      :heading-id="props.group.id"
       :page-path="props.pagePath"
-    >
-      <span v-html="titleHtml"></span>
-    </SectionHeading>
+    />
 
     <!-- Group description -->
     <p v-if="descHtml" class="card-text" v-html="descHtml"></p>

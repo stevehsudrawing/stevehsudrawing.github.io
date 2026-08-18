@@ -18,7 +18,7 @@ App.vue (click delegation)
   └─ onQRTrigger(e) -> reads data-qr-url, data-qr-icon -> qrCodeModalRef.show()
 
 QRCodeModal.vue
-  ├─ Props: url, pictureProps?, coloredProps?, hideOpenLink?
+  ├─ Props: url, icon?, hideOpenLink?
   ├─ State: visible, qrCanvas, computed helpers
   ├─ Actions: generateQR(), renderShareCardBlob(), downloadPNG(), shareImage(), copyImage()
   └─ Expose: show(), hide()
@@ -44,12 +44,16 @@ QRCodeModal.vue
 | Download  | Blob -> `<a download>`                                              |
 | Close     | Hide modal                                                          |
 
-##### 4.3.2.5 data-qr-url / data-qr-icon Attributes
+##### 4.3.2.5 icon / data-qr-icon
+
+The centre overlay icon is passed as typed `icon: TypeAwareImageProps | null`
+via `QRCodeButton` / `App.vue` provide/inject (or `DisplayPictureData.qrCodeIcon`
+from the gallery config). It is rendered by `TypeAwareImage`.
 
 ```html
 <a
   data-qr-url="https://example.com"
-  data-qr-icon='{"alt":"...","src":"...","dataImgFeature":"colored",...}'
+  data-qr-icon='{"type":"colored-img","imgProps":{"src":"...","colorVar":"bs-primary","alt":"..."}}'
   data-no-open-link
 ></a>
 ```

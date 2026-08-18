@@ -1,57 +1,20 @@
 [
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "properties": {
-        "dataI18n": "text-emails"
-      },
-      "children": [
-        {
-          "type": "text",
-          "value": "Emails"
-        }
-      ]
-    },
+    "id": "emails",
     "description": null,
     "contents": [
       {
-        "available": true,
+        "id": "quanto-series-team",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Quanto Series Team",
-            "dataI18nAlt": "text-quanto-series-team",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/email.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/email.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "mailto:quantoseries@outlook.com",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-quanto-series-team"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Quanto Series Team"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "email",
+          "href": "mailto:quantoseries@outlook.com"
         },
         "description": {
           "type": "root",
@@ -83,42 +46,17 @@
         }
       },
       {
-        "available": true,
+        "id": "my-personal-email",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "My personal email",
-            "dataI18nAlt": "text-my-personal-email",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/email.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/email.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "mailto:stevehsudrawing@outlook.com",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-my-personal-email"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "My personal email"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "email",
+          "href": "mailto:stevehsudrawing@outlook.com"
         },
         "description": {
           "type": "root",

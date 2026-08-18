@@ -1,18 +1,6 @@
 [
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "properties": {
-        "dataI18n": "text-qq-groups"
-      },
-      "children": [
-        {
-          "type": "text",
-          "value": "QQ Groups"
-        }
-      ]
-    },
+    "id": "qq-groups",
     "description": {
       "type": "root",
       "children": [
@@ -33,35 +21,16 @@
     },
     "contents": [
       {
-        "available": true,
+        "id": "sawtooth",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "SawtootH",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/sawtooth.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "SawtootH"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://jq.qq.com/?_wv=1027&k=lmhL9d2Q"
         },
         "description": {
           "type": "root",
@@ -139,35 +108,16 @@
         }
       },
       {
-        "available": true,
+        "id": "quantum",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "QuantuM",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/quantum.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "QuantuM"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://jq.qq.com/?_wv=1027&k=qn8NFmSS"
         },
         "description": {
           "type": "root",

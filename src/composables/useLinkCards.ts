@@ -2,14 +2,14 @@
  * Link cards composable — loads the link-card JSON config for the current page.
  */
 import { ref, computed, type Ref } from "vue";
-import type { GroupData } from "../types/app";
+import type { LinkCardGroupData } from "../types/app";
 
 // =========================================================================
 // Constants
 // =========================================================================
 
 /** Map of page names to their link-card JSON module loaders. */
-const configLoaders: Record<string, () => Promise<{ default: GroupData[] }>> = {
+const configLoaders: Record<string, () => Promise<{ default: unknown }>> = {
   about: () => import("../configs/link-cards/about.json"),
   "artworks-and-videos": () =>
     import("../configs/link-cards/artworks-and-videos.json"),
@@ -30,10 +30,10 @@ const configLoaders: Record<string, () => Promise<{ default: GroupData[] }>> = {
  * @returns Reactive refs for groups and page path.
  */
 export function useLinkCards(pageName: Ref<string>): {
-  groups: Ref<GroupData[] | null>;
+  groups: Ref<LinkCardGroupData[] | null>;
   pagePath: Ref<string>;
 } {
-  const groups = ref<GroupData[] | null>(null);
+  const groups = ref<LinkCardGroupData[] | null>(null);
 
   const pagePath = computed(() => {
     const name = pageName.value;
@@ -47,7 +47,9 @@ export function useLinkCards(pageName: Ref<string>): {
       return;
     }
     const mod = await loader();
-    groups.value = mod.default;
+    // JSON imports widen string literal types (e.g. type: "picture" becomes
+    // string) — cast to the strict runtime shape.
+    groups.value = mod.default as LinkCardGroupData[];
   }
 
   // Load immediately

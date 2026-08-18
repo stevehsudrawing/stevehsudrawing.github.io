@@ -1,29 +1,31 @@
 ---
 description: >
   Image components: FeatureAwarePicture.vue (universal non-colored image),
-  ColoredImg.vue (CSS mask + tint), useImgDisplayProps.ts (HAST extraction).
-  srcMap-based responsive source maps with theme + language awareness.
+  ColoredImg.vue (CSS mask + tint), TypeAwareImage.vue (picture | colored-img
+  discriminator), useHastToVue.ts (HAST extraction). srcMap-based responsive
+  source maps with theme + language awareness.
   Use when: modifying image behavior, adding new image feature modes, or
-  working with PictureSrcMap / ColoredImgProps types.
+  working with PictureSrcMap / ColoredImgProps / TypeAwareImageProps types.
 applyTo: >
-  src/components/ui/FeatureAwarePicture.vue;
-  src/components/ui/ColoredImg.vue;
-  src/composables/useImgDisplayProps.ts;
+  src/components/images/FeatureAwarePicture.vue;
+  src/components/images/ColoredImg.vue;
+  src/components/images/TypeAwareImage.vue;
   src/composables/useHastToVue.ts;
   src/types/app.ts
 ---
 
 #### 4.2.4 Image Components
 
-Two components handle all image rendering:
+Two components handle all image rendering, plus a discriminator wrapper:
 
-| Component                 | Purpose                                                                                                     |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `FeatureAwarePicture.vue` | Universal non-colored images: static `<img>`, feature-driven `<img>`, or `<picture>` with AVIF/WebP sources |
-| `ColoredImg.vue`          | CSS mask + tint rendering (`data-img-feature="colored"`)                                                    |
+| Component                 | Purpose                                                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `FeatureAwarePicture.vue` | Universal non-colored images: static `<img>`, feature-driven `<img>`, or `<picture>` with AVIF/WebP sources                    |
+| `ColoredImg.vue`          | CSS mask + tint rendering (`data-img-feature="colored"`)                                                                       |
+| `TypeAwareImage.vue`      | `{ image: TypeAwareImageProps }` — renders `FeatureAwarePicture` for `type: "picture"`, `ColoredImg` for `type: "colored-img"` |
 
 `FeatureAwareImg.vue` has been removed — its functionality is merged into
-`FeatureAwarePicture.vue`.
+`FeatureAwarePicture.vue`. All three live in `src/components/images/`.
 
 ##### 4.2.4.1 FeatureAwarePicture Props
 
@@ -99,17 +101,19 @@ extractColoredImgProps(imgNode, t) → ColoredImgProps | null
 Branching rule: if `dataImgFeature` contains `"colored"` → `ColoredImg`,
 otherwise → `FeatureAwarePicture`.
 
-##### 4.2.4.5 useImgDisplayProps() Composable
-
-Used by modal components that receive HAST-like properties:
+##### 4.2.4.5 TypeAwareImageProps
 
 ```ts
-const { src, alt, feature, colorVar, colorMaskSrc, isColored } =
-  useImgDisplayProps(source);
+type TypeAwareImageProps =
+  | { type: "picture"; imgProps: FeatureAwarePictureProps }
+  | { type: "colored-img"; imgProps: ColoredImgProps };
 ```
 
-- `feature` — parsed `ImgFeature[]` (space-separated string in HAST → array)
-- `isColored` — `true` when `dataImgFeature` includes `"colored"`
+`TypeAwareImage.vue` consumes `{ image: TypeAwareImageProps }` and dispatches to
+`FeatureAwarePicture` or `ColoredImg`. It is used by `LinkCard`, `LinkButton`,
+`ExternalLinkConfirmModal`, `QRCodeModal`, and `PictureViewerModal`.
 
-> Prefer the typed `pictureProps` / `coloredProps` passthrough in
-> `TypeAwareLink` and `QRCodeButton` over the HAST round-trip.
+> Prefer the typed `icon: TypeAwareImageProps` passthrough on `TypeAwareLink`
+> and `QRCodeButton` over the HAST round-trip. `useImgDisplayProps.ts` has been
+> removed — HAST content uses `extractPictureProps` / `extractColoredImgProps`
+> directly.

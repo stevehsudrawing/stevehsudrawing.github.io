@@ -1,11 +1,11 @@
 <!--
   LinkCardGroups.vue — Page-level link-card section.
-  Iterates over GroupData[] from the link-cards JSON config and renders
-  each group with <hr> separators between them.
+  Iterates over LinkCardGroupData[] from the link-cards JSON config and
+  renders each group with <hr> separators between them.
 -->
 <script setup lang="ts">
 import LinkCardGroup from "./LinkCardGroup.vue";
-import type { GroupData } from "../../types/app";
+import type { LinkCardGroupData } from "../../types/app";
 
 // =========================================================================
 // Props
@@ -13,7 +13,7 @@ import type { GroupData } from "../../types/app";
 
 defineProps<{
   /** All link-card groups for this page. */
-  groups: GroupData[];
+  groups: LinkCardGroupData[];
   /** Page path for anchor/copy-link URL generation (e.g. "/about.html"). */
   pagePath: string;
 }>();

@@ -10,10 +10,7 @@ import type { LinkButtonGroupData } from "../types/app";
 // =========================================================================
 
 /** Map of page names to their link-button-group JSON module loaders. */
-const configLoaders: Record<
-  string,
-  () => Promise<{ default: LinkButtonGroupData[] }>
-> = {
+const configLoaders: Record<string, () => Promise<{ default: unknown }>> = {
   index: () => import("../configs/link-button-groups/index.json"),
 };
 
@@ -39,7 +36,9 @@ export function useLinkButtonGroups(pageName: Ref<string>): {
       return;
     }
     const mod = await loader();
-    groups.value = mod.default;
+    // JSON imports widen string literal types (e.g. type: "picture" becomes
+    // string) — cast to the strict runtime shape.
+    groups.value = mod.default as LinkButtonGroupData[];
   }
 
   // Load immediately

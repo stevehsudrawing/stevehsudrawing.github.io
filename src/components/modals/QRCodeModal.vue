@@ -15,8 +15,8 @@ import TooltipTrigger from "../ui/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
 import { BASE_URL } from "../../configs/site-meta";
 import InlineSvg from "../ui/InlineSvg.vue";
-import FeatureAwarePicture from "../ui/FeatureAwarePicture.vue";
-import ColoredImg from "../ui/ColoredImg.vue";
+import TypeAwareImage from "../images/TypeAwareImage.vue";
+import type { TypeAwareImageProps } from "../../types/app";
 
 // =========================================================================
 // State
@@ -35,14 +35,31 @@ const buttonsDisabled = ref(false);
 // ---- Derived (narrowed from the stack entry) ----
 
 const url = computed(() => stackProps.value?.url ?? "");
-const pictureProps = computed(() => stackProps.value?.pictureProps ?? null);
-const coloredProps = computed(() => stackProps.value?.coloredProps ?? null);
+const icon = computed<TypeAwareImageProps | null>(
+  () => stackProps.value?.icon ?? null,
+);
 const hideOpenLink = computed(() => stackProps.value?.hideOpenLink ?? false);
 
 /** Alt text for the centre overlay icon. */
 const centerIconAlt = computed(
-  () => pictureProps.value?.alt ?? coloredProps.value?.alt ?? t("text-link"),
+  () => icon.value?.imgProps.alt ?? t("text-link"),
 );
+
+/** Icon with the resolved alt injected (ColoredImg requires alt). */
+const displayIcon = computed<TypeAwareImageProps | null>(() => {
+  const i = icon.value;
+  if (!i) return null;
+  if (i.type === "picture") {
+    return {
+      type: "picture",
+      imgProps: { ...i.imgProps, alt: centerIconAlt.value },
+    };
+  }
+  return {
+    type: "colored-img",
+    imgProps: { ...i.imgProps, alt: centerIconAlt.value },
+  };
+});
 
 // -------------------------------------------------------------------------
 // Computed
@@ -71,11 +88,7 @@ const qrColors = computed(() => ({
   light: cssVar("bs-body-bg", "#ffffff"),
 }));
 
-const cardTitle = computed(() => {
-  const alt =
-    pictureProps.value?.alt ?? coloredProps.value?.alt ?? t("text-link");
-  return alt;
-});
+const cardTitle = computed(() => centerIconAlt.value);
 
 // =========================================================================
 // Actions
@@ -239,8 +252,7 @@ function openLink(): void {
     id: "external-link",
     props: {
       url: url.value,
-      pictureProps: pictureProps.value,
-      coloredProps: coloredProps.value,
+      icon: icon.value,
       hideQR: false,
     },
   });
@@ -279,20 +291,10 @@ function openLink(): void {
             id="qr-code-icon-bg"
             class="position-absolute top-50 start-50 translate-middle rounded-2 d-flex align-items-center justify-content-center"
           >
-            <ColoredImg
-              v-if="coloredProps"
+            <TypeAwareImage
+              v-if="displayIcon"
               id="qr-code-icon"
-              :src="coloredProps.src"
-              :color-var="coloredProps.colorVar"
-              :alt="centerIconAlt"
-              :width="32"
-              :height="32"
-            />
-            <FeatureAwarePicture
-              v-else-if="pictureProps"
-              id="qr-code-icon"
-              :src="pictureProps.src"
-              :alt="centerIconAlt"
+              :image="displayIcon"
               :width="32"
               :height="32"
             />
@@ -450,7 +452,7 @@ code {
 
 #qr-share-card-logo {
   display: block;
-  color: var(--bs-link-color);
+  color: var(--bs-primary);
 }
 
 /* --- QR code container + centre icon --- */

@@ -317,12 +317,12 @@ function labelFor(eventType: string): string {
         <div>
           <h3 class="h5 card-title mb-0">{{ headingText }}</h3>
           <span class="text-body-secondary small">{{
-            $t("text-displaying-data-from-the-past-month")
+            $t("text-github-event-display-range")
           }}</span>
         </div>
 
         <!-- Toggle buttons -->
-        <div class="btn-group btn-group-sm" role="group">
+        <div class="btn-group btn-group-sm my-2" role="group">
           <TooltipTrigger :title="$t('text-bar-chart')">
             <button
               type="button"

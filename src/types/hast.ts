@@ -1,9 +1,10 @@
 /**
  * Shared hast (Hypertext Abstract Syntax Tree) types.
- * Used by src/core/utils.ts.
+ * Used by src/core/utils.ts and src/configs/*.
  *
- * Link-card types (CardData, GroupData) have been moved to build/types.ts
- * since they are only used at build time.
+ * Link-card / link-button config types (LinkCardData, LinkCardGroupData,
+ * LinkButtonData, …) live in src/types/app.ts and are shared by the Vue
+ * components and the build-time builders.
  */
 
 /**

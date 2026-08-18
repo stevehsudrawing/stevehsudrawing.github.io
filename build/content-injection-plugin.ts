@@ -8,7 +8,7 @@
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { getPageName, extractHastHref } from "./utils";
+import { getPageName } from "./utils";
 import { extractPlainText } from "../src/core/utils";
 import { PAGE_META } from "./site-meta";
 import type { IndexHtmlTransformContext } from "vite";
@@ -25,29 +25,65 @@ interface HastNode {
   children?: HastNode[];
 }
 
+interface TypeAwareLink {
+  href: string;
+  type: string;
+}
+
+interface TypeAwareImage {
+  type: "picture" | "colored-img";
+  imgProps?: {
+    src?: string;
+    alt?: string;
+  };
+}
+
 interface LinkCard {
-  title: HastNode;
+  id: string;
+  available?: boolean;
+  icon?: TypeAwareImage;
+  titleLink?: TypeAwareLink;
   description?: HastNode | null;
 }
 
 interface LinkCardGroup {
-  title?: HastNode | null;
+  id: string;
   description?: HastNode | null;
   contents?: LinkCard[];
 }
 
 interface LinkButton {
-  linkHref?: string;
-  externalLink?: boolean;
-  iconProps?: {
-    alt?: string;
-    src?: string;
-  };
+  id: string;
+  link: TypeAwareLink;
+  icon: TypeAwareImage;
 }
 
 interface LinkButtonGroup {
   groupId?: string;
   buttons?: LinkButton[];
+}
+
+// =========================================================================
+// i18n text resolution (en.json is the single source of truth)
+// =========================================================================
+
+let enCache: Record<string, string> | null = null;
+
+/** Load en.json once (group/card/button titles + icon alt fallbacks). */
+function getEn(): Record<string, string> {
+  if (!enCache) {
+    const raw = readFileSync(
+      resolve(process.cwd(), "src/configs/i18n/en.json"),
+      "utf-8",
+    );
+    enCache = JSON.parse(raw) as Record<string, string>;
+  }
+  return enCache;
+}
+
+/** Resolve `text-<id>` from en.json, falling back to the raw id. */
+function textFor(id: string): string {
+  return getEn()["text-" + id] ?? id;
 }
 
 // =========================================================================
@@ -64,7 +100,7 @@ function generateCardNoscript(groups: LinkCardGroup[]): string {
   const parts: string[] = [];
 
   for (const group of groups) {
-    const groupTitle = extractPlainText(group.title);
+    const groupTitle = textFor(group.id);
     if (groupTitle) {
       parts.push(`<h3>${escapeHtml(groupTitle)}</h3>`);
     }
@@ -77,11 +113,9 @@ function generateCardNoscript(groups: LinkCardGroup[]): string {
     if (group.contents && group.contents.length > 0) {
       parts.push("<ul>");
       for (const card of group.contents) {
-        const cardTitle = extractPlainText(card.title);
-        const cardHref = extractHastHref(card.title);
+        const cardTitle = textFor(card.id);
+        const cardHref = card.titleLink?.href;
         const cardDesc = extractPlainText(card.description);
-
-        if (!cardTitle) continue;
 
         const link = cardHref
           ? `<a href="${escapeAttr(cardHref)}">${escapeHtml(cardTitle)}</a>`
@@ -120,8 +154,8 @@ function generateButtonNoscript(groups: LinkButtonGroup[]): string {
     if (group.buttons && group.buttons.length > 0) {
       parts.push("<ul>");
       for (const btn of group.buttons) {
-        const label = btn.iconProps?.alt || btn.linkHref || "";
-        const href = btn.linkHref || "";
+        const label = btn.icon?.imgProps?.alt || textFor(btn.id) || "";
+        const href = btn.link?.href || "";
 
         if (!label) continue;
 

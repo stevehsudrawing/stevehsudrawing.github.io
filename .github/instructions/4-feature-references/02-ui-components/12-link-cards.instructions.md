@@ -29,17 +29,20 @@ LinkCardGroup.vue
   └─ renders each card as LinkCard
 
 LinkCard.vue
-  ├─ Props: { card: CardData }
-  ├─ Icon:    extractPictureProps / extractColoredImgProps → FeatureAwarePicture / ColoredImg
-  ├─ Title:   extractLinkProps → TypeAwareLink
+  ├─ Props: { card: LinkCardData }
+  ├─ Icon:    TypeAwareImage (typed TypeAwareImageProps; alt from t("text-" + id))
+  ├─ Title:   TypeAwareLink (titleLink; text from t("text-" + id)); plain-text when available === false
   └─ Description: HastFragment
 ```
 
 ##### 4.2.12.2 JSON Config Format
 
 See `src/configs/link-cards/{pageName}.json`. Each file is a JSON array of
-`GroupData[]`. Groups contain cards; each card has `icon`, `title`, and
-`description` as HAST subtrees.
+`LinkCardGroupData[]`. Groups have `id` + optional HAST `description` + `contents`.
+Cards use typed props: `id`, optional `icon` (`TypeAwareImageProps`), `titleLink`
+(`TypeAwareLinkProps`), and optional `description` (HAST). Title text and icon
+alt resolve from `t("text-" + id)`; `available: false` cards render their title
+as plain text. See [§3.3.3](../3-project-structural-constraints/3-type-definitions.instructions.md#333-link-card-json-format-srcconfigslink-cardsjson).
 
 ##### 4.2.12.3 Usage
 

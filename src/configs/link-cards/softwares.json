@@ -1,18 +1,6 @@
 [
   {
-    "title": {
-      "type": "element",
-      "tagName": "span",
-      "properties": {
-        "dataI18n": "text-quanto-series"
-      },
-      "children": [
-        {
-          "type": "text",
-          "value": "Quanto Series"
-        }
-      ]
-    },
+    "id": "quanto-series",
     "description": {
       "type": "root",
       "children": [
@@ -33,35 +21,16 @@
     },
     "contents": [
       {
-        "available": true,
+        "id": "quanto-ult",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Quanto Ult",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/quanto-ult.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://github.com/stevehsudrawing/QuantoUlt",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Quanto Ult"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/QuantoUlt"
         },
         "description": {
           "type": "root",
@@ -106,35 +75,16 @@
         }
       },
       {
-        "available": true,
+        "id": "quanto-flx",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Quanto Flx",
+          "type": "picture",
+          "imgProps": {
             "src": "/images/webp/icons/quanto-flx.webp"
-          },
-          "children": []
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://github.com/stevehsudrawing/quantoflx",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Quanto Flx"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/quantoflx"
         },
         "description": {
           "type": "root",
@@ -166,38 +116,17 @@
         }
       },
       {
-        "available": true,
+        "id": "quanto-original",
         "icon": {
-          "type": "element",
-          "tagName": "img",
-          "properties": {
-            "alt": "Quanto Original",
-            "src": "/images/webp/null.webp",
-            "dataImgFeature": "colored",
-            "dataSrcMask": "/images/webp/icons/github.webp",
-            "dataColorVar": "bs-body-color"
-          },
-          "children": []
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/github.webp",
+            "colorVar": "bs-body-color"
+          }
         },
-        "title": {
-          "type": "element",
-          "tagName": "a",
-          "properties": {
-            "href": "https://github.com/stevehsudrawing/quanto",
-            "className": ["external-link"]
-          },
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Quanto Original"
-                }
-              ]
-            }
-          ]
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/quanto"
         },
         "description": {
           "type": "root",

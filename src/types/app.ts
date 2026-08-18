@@ -51,38 +51,51 @@ export const enum AppEvent {
 // Link-card data (used by Vue components and the build-time builder)
 // =========================================================================
 
-import type { HastNode, HastProperties } from "./hast";
+import type { HastNode } from "./hast";
 
-/** Link-card descriptor — a single card with icon, title, and description. */
-export interface CardData {
-  /** When not true, the card gets an opacity-75 treatment. */
-  available?: boolean;
-  /** HAST `<img>` element for the card icon. */
-  icon?: HastNode;
-  /** HAST node (usually `<a>` or `<span>`) for the card title. */
-  title?: HastNode;
-  /** HAST root node for the card description text. */
-  description?: HastNode | null;
-}
+/** Link-card descriptor — a single card with icon, link title, and description. */
+export type LinkCardData =
+  | {
+      /** i18n key suffix: `t("text-" + id)` for the title text + icon alt. */
+      id: string;
+      /** Available (default) — the title is a link. */
+      available?: true;
+      /** Card icon — typed image (was `icon?: HastNode`). */
+      icon?: TypeAwareImageProps;
+      /** Title link (was `title?: HastNode`; renamed `titleLink`). */
+      titleLink: TypeAwareLinkProps;
+      /** Complex HAST — unchanged. */
+      description?: HastNode | null;
+    }
+  | {
+      /** i18n key suffix: `t("text-" + id)` for the title text + icon alt. */
+      id: string;
+      /** Unavailable — card is dimmed; the title renders as plain text. */
+      available: false;
+      /** Card icon — typed image (was `icon?: HastNode`). */
+      icon?: TypeAwareImageProps;
+      /** Complex HAST — unchanged. */
+      description?: HastNode | null;
+    };
 
 /** Link-card group descriptor — a titled section containing multiple link cards. */
-export interface GroupData {
-  /** HAST node for the group title (rendered inside `<h2>`). */
-  title?: HastNode;
-  /** HAST root node for the group description (rendered inside `<p class="card-text">`). */
+export interface LinkCardGroupData {
+  /** i18n key suffix for the group title (`t("text-" + id)`). */
+  id: string;
+  /** HAST root node for the group description. */
   description?: HastNode | null;
   /** Array of link cards within this group. */
-  contents?: CardData[];
+  contents: LinkCardData[];
 }
 
 /** Link-button descriptor for a single button in a button group. */
 export interface LinkButtonData {
-  /** Whether the link points to an external site. */
-  externalLink: boolean;
-  /** Target URL for the button link. */
-  linkHref: string;
-  /** HAST-format properties for the button's icon `<img>`. */
-  iconProps: HastProperties;
+  /** i18n key suffix for the icon alt (`t("text-" + id)`). */
+  id: string;
+  /** Unified link (was `externalLink` + `linkHref`). */
+  link: TypeAwareLinkProps;
+  /** Icon — typed image (was `iconProps: HastProperties`, renamed). */
+  icon: TypeAwareImageProps;
   /** When true, the button gets btn-primary styling. */
   primary?: boolean;
   /** When true, the URL is a personal profile listed in JSON-LD `sameAs`. */
@@ -115,10 +128,8 @@ export interface DisplayPictureData {
    * the layout) and `loading` defaults to lazy in the card component.
    */
   pictureProps: FeatureAwarePictureProps;
-  /** QR share-card centre overlay icon — picture variant (optional). */
-  qrCodeIconPictureProps?: FeatureAwarePictureProps;
-  /** QR share-card centre overlay icon — colored variant (optional). */
-  qrCodeIconColoredProps?: ColoredImgProps | null;
+  /** QR share-card centre overlay icon (picture or colored). */
+  qrCodeIcon?: TypeAwareImageProps;
   /**
    * Typed link back to a related section on another page
    * (e.g. internal → "/artworks-and-videos.html#sticker-collections").
@@ -241,6 +252,15 @@ export interface FeatureAwarePictureProps {
 }
 
 // -------------------------------------------------------------------------
+// TypeAwareImage props
+// -------------------------------------------------------------------------
+
+/** A display image that is either a FeatureAwarePicture or a ColoredImg. */
+export type TypeAwareImageProps =
+  | { type: "picture"; imgProps: FeatureAwarePictureProps }
+  | { type: "colored-img"; imgProps: ColoredImgProps };
+
+// -------------------------------------------------------------------------
 // TypeAwareLink props
 // -------------------------------------------------------------------------
 
@@ -250,10 +270,8 @@ export interface TypeAwareLinkProps {
   href: string;
   /** Link type — determines click behavior. */
   type: "external" | "internal" | "email" | "anchor";
-  /** Optional FeatureAwarePicture props for the ExternalLinkConfirmModal. */
-  pictureProps?: FeatureAwarePictureProps | null;
-  /** Optional ColoredImg props for the ExternalLinkConfirmModal. */
-  coloredProps?: ColoredImgProps | null;
+  /** Optional icon for the ExternalLinkConfirmModal (external links). */
+  icon?: TypeAwareImageProps | null;
   /** Hide the QR-code button in ExternalLinkConfirmModal. */
   noQRCode?: boolean;
   /** Hide the type indicator icon (arrow / envelope / paragraph). */
@@ -344,10 +362,8 @@ export interface DailyStat {
 export interface ExternalLinkConfirmModalProps {
   /** External URL the user is about to visit. */
   url: string;
-  /** Optional FeatureAwarePicture props for the link icon. */
-  pictureProps: FeatureAwarePictureProps | null;
-  /** Optional ColoredImg props for the link icon. */
-  coloredProps: ColoredImgProps | null;
+  /** Optional icon for the link (picture or colored). */
+  icon: TypeAwareImageProps | null;
   /** Hide the "Show QR Code" button. */
   hideQR: boolean;
 }
@@ -356,10 +372,8 @@ export interface ExternalLinkConfirmModalProps {
 export interface QRCodeModalProps {
   /** URL encoded in the QR code. */
   url: string;
-  /** Optional FeatureAwarePicture props for the centre overlay icon. */
-  pictureProps: FeatureAwarePictureProps | null;
-  /** Optional ColoredImg props for the centre overlay icon. */
-  coloredProps: ColoredImgProps | null;
+  /** Optional centre overlay icon (picture or colored). */
+  icon: TypeAwareImageProps | null;
   /** Hide the "Open Link" button. */
   hideOpenLink: boolean;
 }
