@@ -14,7 +14,7 @@ import {
   getStoredOpenInNewTab,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import CopyButton from "../buttons/CopyButton.vue";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
 import type { TypeAwareImageProps } from "../../types/app";
@@ -115,7 +115,7 @@ function showQR(): void {
           class="img-fluid"
         />
       </div>
-      <code class="d-block p-2 flex-grow-1">{{ url }}</code>
+      <code class="d-block p-2 flex-grow-1 user-select-all">{{ url }}</code>
     </div>
 
     <BFormCheckbox id="ext-link-new-tab-toggle" v-model="openInNewTab" switch>

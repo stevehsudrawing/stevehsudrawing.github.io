@@ -14,7 +14,7 @@
 import { computed, ref, watch, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import {
   useGithubActivity,
   eventTypeI18nKey,

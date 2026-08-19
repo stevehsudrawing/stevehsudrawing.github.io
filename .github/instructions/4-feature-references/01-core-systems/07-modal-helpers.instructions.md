@@ -3,9 +3,9 @@ description: >
   Modal helpers: useModalStack() composable (unified modal stack — push/pop/clear,
   discriminated-union ModalStackItem entries, reactive visibility via useStackModal)
   and useModalFocus() composable (keyboard-aware auto-focus when a BModal opens via
-  Tab navigation).  All five modals (Settings, ResetWarning, ExternalLinkConfirm,
-  QRCode, GitHubEvents) are rendered in App.vue and coordinated exclusively through
-  the stack.
+  Tab navigation).  All six modals (Settings, ResetWarning,
+  ExternalLinkConfirm, QRCode, GitHubEvents, Sticker) are rendered in App.vue
+  and coordinated exclusively through the stack.
   Use when: modifying modal-to-modal flow, adding a new modal, or keyboard
   accessibility for modals.
 applyTo: >

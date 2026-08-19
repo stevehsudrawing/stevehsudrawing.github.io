@@ -88,10 +88,16 @@ ruby {
 }
 
 code {
+  font-size: 1rem;
   word-break: break-all;
   color: inherit;
   background-color: var(--bs-tertiary-bg);
   outline: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
+}
+
+.code-no-bg {
+  background-color: transparent;
+  outline: none;
 }
 
 /* ========================================================================

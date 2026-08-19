@@ -9,7 +9,7 @@
 -->
 <script setup lang="ts">
 import { scrollToHashTarget } from "../../platform/accessibility";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props

@@ -162,6 +162,11 @@
   box-shadow: none !important;
 }
 
+*::selection {
+  color: var(--shlh-primary-color);
+  background: var(--shlh-primary);
+}
+
 /* ========================================================================
    Bootstrap Overrides
    ======================================================================== */

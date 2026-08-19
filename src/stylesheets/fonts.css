@@ -73,3 +73,26 @@ html[lang="zh-Hant"] code {
     var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
     var(--shlh-font-emoji) !important;
 }
+
+.code {
+  font-family:
+    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-ja),
+    var(--shlh-font-monospace-system), var(--shlh-font-sans-serif-en),
+    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji) !important;
+}
+
+html[lang="zh-Hans"] .code {
+  font-family:
+    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hans),
+    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
+    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
+    var(--shlh-font-emoji) !important;
+}
+
+html[lang="zh-Hant"] .code {
+  font-family:
+    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hant),
+    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
+    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
+    var(--shlh-font-emoji) !important;
+}

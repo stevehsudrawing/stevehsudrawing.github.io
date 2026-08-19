@@ -18,7 +18,7 @@ import { BRow, BCol } from "bootstrap-vue-next";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import { useBreakpoint } from "../../composables/useBreakpoint";
-import HastFragment from "./HastFragment.vue";
+import HastFragment from "../render-functions/HastFragment.vue";
 import type { HastNode } from "../../types/hast";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 

@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { useI18n } from "../../composables/useI18n";
 import { useToast } from "../../composables/useToast";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props

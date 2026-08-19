@@ -3,7 +3,7 @@
   Previously static content in about.html's <main id="page-content">.
 -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
@@ -12,12 +12,37 @@ import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
 import { useLinkCards } from "../composables/useLinkCards";
+import { useMajorColorSequence } from "../composables/useMajorColorSequence";
+import { OPEN_STICKER_KEY } from "../types/app";
 
 // =========================================================================
 // Link cards
 // =========================================================================
 
 const { groups, pagePath } = useLinkCards(ref("about"));
+
+// =========================================================================
+// Major-color buttons
+// =========================================================================
+
+const openSticker = inject<(() => void) | undefined>(
+  OPEN_STICKER_KEY,
+  undefined,
+);
+const majorColorSequence = useMajorColorSequence();
+
+/**
+ * Record a click on a major-color button (copying still happens via the
+ * inner CopyButton).  When the sequence completes, open the sticker modal
+ * (the modal celebrates behind itself on show).
+ */
+function onMajorColorClick(event: Event): void {
+  const el = event.currentTarget as HTMLElement;
+  const color = el.dataset.majorColor ?? "";
+  if (majorColorSequence.record(color)) {
+    openSticker?.();
+  }
+}
 </script>
 
 <template>
@@ -87,24 +112,28 @@ const { groups, pagePath } = useLinkCards(ref("about"));
             <th scope="row" class="pe-2 align-top">🎨</th>
             <td>
               <span>{{ $t("text-profile-part-6") }}</span>
-              <CopyButton
-                class="link text-nowrap"
-                copy-text="#47c4ee"
-                style="color: #47c4ee"
-              >
-                <i class="bi bi-square-fill"></i>
-                <code>#47c4ee</code>
-                <i class="bi bi-clipboard"></i> </CopyButton
+              <span data-major-color="#47c4ee" @click="onMajorColorClick">
+                <CopyButton
+                  class="link text-nowrap"
+                  copy-text="#47c4ee"
+                  style="color: #47c4ee"
+                >
+                  <i class="bi bi-square-fill"></i>
+                  <code class="code-no-bg">#47c4ee</code>
+                  <i class="bi bi-clipboard"></i>
+                </CopyButton> </span
               >,&nbsp;
-              <CopyButton
-                class="link text-nowrap"
-                copy-text="#3c96ff"
-                style="color: #3c96ff"
-              >
-                <i class="bi bi-square-fill"></i>
-                <code>#3c96ff</code>
-                <i class="bi bi-clipboard"></i>
-              </CopyButton>
+              <span data-major-color="#3c96ff" @click="onMajorColorClick">
+                <CopyButton
+                  class="link text-nowrap"
+                  copy-text="#3c96ff"
+                  style="color: #3c96ff"
+                >
+                  <i class="bi bi-square-fill"></i>
+                  <code class="code-no-bg">#3c96ff</code>
+                  <i class="bi bi-clipboard"></i>
+                </CopyButton>
+              </span>
             </td>
           </tr>
           <tr class="pb-1">

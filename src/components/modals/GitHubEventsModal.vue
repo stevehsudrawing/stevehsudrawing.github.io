@@ -18,7 +18,7 @@ import {
 } from "../../composables/useGithubActivity";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import type { GitHubEvent } from "../../types/app";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // State

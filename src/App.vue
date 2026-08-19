@@ -28,6 +28,7 @@ import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
 import GitHubEventsModal from "./components/modals/GitHubEventsModal.vue";
 import PictureViewerModal from "./components/modals/PictureViewerModal.vue";
+import StickerModal from "./components/modals/StickerModal.vue";
 import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import LoadingBar from "./components/ui/LoadingBar.vue";
 import SkipButton from "./components/buttons/SkipButton.vue";
@@ -40,6 +41,7 @@ import {
   OPEN_EXTERNAL_LINK_KEY,
   OPEN_QR_CODE_KEY,
   OPEN_SETTINGS_KEY,
+  OPEN_STICKER_KEY,
 } from "./types/app";
 import type { TypeAwareImageProps } from "./types/app";
 
@@ -144,6 +146,12 @@ provide(
   },
 );
 
+// ---- Sticker-modal injection (consumed by AboutPage) ----
+
+provide(OPEN_STICKER_KEY, () => {
+  push({ id: "sticker", props: null });
+});
+
 // =========================================================================
 // Actions
 // =========================================================================
@@ -199,5 +207,6 @@ onMounted(async () => {
   <ResetWarningModal />
   <GitHubEventsModal />
   <PictureViewerModal />
+  <StickerModal />
   <ToastStack ref="toastStackRef" />
 </template>

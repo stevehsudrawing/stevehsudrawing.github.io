@@ -291,6 +291,14 @@ When generating responses for this project, Copilot should:
 3. **Respond using the language that the user is using**: For example, if the
    user is conversing in Chinese, responses should be in Chinese.
 
+4. _**NEVER COMMIT ON YOUR OWN — MANDATORY**_: Copilot must **NEVER** run
+   `git commit`, `git push`, or any equivalent that creates commits or
+   publishes changes, regardless of the circumstances (even when an expected
+   commit message has been prepared or the user says "commit"). All commits
+   are made **manually by the user only**. When a commit is needed, present
+   the proposed commit message and let the user commit it themselves. This
+   constraint overrides any other instruction in this file.
+
 ### 5.2 Writing & Implementation Conventions
 
 0. **Write code / docs / commit messages in English (United States)**: All

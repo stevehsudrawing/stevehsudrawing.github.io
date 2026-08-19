@@ -48,12 +48,11 @@ The commit-msg hook (`.husky/commit-msg`) validates commit messages against
 [Conventional Commits](https://www.conventionalcommits.org/) format:
 
 ```
-type(scope?): description
+<type>[optional scope]: <description>
 
-feat: add noscript content generation
-fix: external link icons not added on initial load
-docs: update instruction files
-chore: optimize Git hooks config
+[optional body]
+
+[optional footer(s)]
 ```
 
 Configuration is in `commitlint.config.js` (extends
@@ -92,6 +91,13 @@ flowchart TD
 ```js
 export default {
   extends: ["@commitlint/config-conventional"],
+  rules: {
+    // Multi-line descriptions render as the GitHub "Description" section —
+    // lift the default 100-char limits.
+    "header-max-length": [2, "always", 200],
+    "body-max-line-length": [0],
+    "footer-max-line-length": [0],
+  },
 };
 ```
 

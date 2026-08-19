@@ -11,7 +11,7 @@ import { useI18n } from "../../composables/useI18n";
 import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import { cssVar } from "../../platform/css-var";
 import { BASE_URL } from "../../configs/site-meta";
 import InlineSvg from "../ui/InlineSvg.vue";

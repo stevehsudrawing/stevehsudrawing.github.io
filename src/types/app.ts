@@ -261,6 +261,18 @@ export type TypeAwareImageProps =
   | { type: "colored-img"; imgProps: ColoredImgProps };
 
 // -------------------------------------------------------------------------
+// Sticker props (shared by StickerSection and StickerModal)
+// -------------------------------------------------------------------------
+
+/** Sticker descriptor shared by StickerSection and StickerModal. */
+export interface StickerProps {
+  /** Sticker filename stem — derives AVIF/WebP paths for light/dark. */
+  stickerId: string;
+  /** Optional plain-text line/caption below the sticker. */
+  caption?: string;
+}
+
+// -------------------------------------------------------------------------
 // TypeAwareLink props
 // -------------------------------------------------------------------------
 
@@ -404,7 +416,8 @@ export type ModalId =
   | "github-events"
   | "picture-viewer"
   | "settings"
-  | "reset-warning";
+  | "reset-warning"
+  | "sticker";
 
 /**
  * Modal stack entry — discriminated union keyed by `id`.
@@ -417,7 +430,8 @@ export type ModalStackItem =
   | { id: "github-events"; props: GitHubEventsModalProps }
   | { id: "picture-viewer"; props: PictureViewerModalProps }
   | { id: "settings"; props: null }
-  | { id: "reset-warning"; props: null };
+  | { id: "reset-warning"; props: null }
+  | { id: "sticker"; props: null };
 
 // =========================================================================
 // Provide / inject keys (cross-component communication)
@@ -440,3 +454,9 @@ export const OPEN_QR_CODE_KEY = Symbol("openQRCode");
  * Provided by App.vue; consumed by AppNavbar (gear button).
  */
 export const OPEN_SETTINGS_KEY = Symbol("openSettings");
+
+/**
+ * Injection key for the sticker modal.
+ * Provided by App.vue; consumed by AboutPage.
+ */
+export const OPEN_STICKER_KEY = Symbol("openSticker");

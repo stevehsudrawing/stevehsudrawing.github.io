@@ -13,7 +13,7 @@ import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import { useBreakpoint } from "../composables/useBreakpoint";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
-import TooltipTrigger from "../components/ui/TooltipTrigger.vue";
+import TooltipTrigger from "../components/render-functions/TooltipTrigger.vue";
 import type { LinkButtonGroupData } from "../types/app";
 
 // =========================================================================

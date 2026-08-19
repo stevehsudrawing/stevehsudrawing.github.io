@@ -13,7 +13,7 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import { useI18n } from "../../composables/useI18n";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props

@@ -6,6 +6,7 @@
 import type { HastProperties } from "../types/hast";
 import { INTERNAL_PAGES, EXCLUDED_PAGES } from "../configs/pages";
 import type { LocationQueryRaw } from "vue-router";
+import type { PictureSrcMap } from "../types/app";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
@@ -120,4 +121,30 @@ export function preserveLangParam(query: LocationQueryRaw): LocationQueryRaw {
   const lang = new URLSearchParams(window.location.search).get("lang");
   if (lang) return { ...query, lang };
   return query;
+}
+
+// =========================================================================
+// Sticker image source maps
+// =========================================================================
+
+/**
+ * Build the theme/format-aware source map for a sticker image.
+ * Derives the four paths from a `stickerId`:
+ *   `/images/{avif|webp}/stickers/{light|dark}/{stickerId}.{ext}`
+ * Shared by StickerSection and StickerModal (single source of truth).
+ *
+ * @param stickerId - Sticker filename stem (e.g. "observing").
+ * @returns A PictureSrcMap with avif + webp light/dark variants.
+ */
+export function createStickerSrcMap(stickerId: string): PictureSrcMap {
+  return {
+    avif: {
+      light: { en: `/images/avif/stickers/light/${stickerId}.avif` },
+      dark: { en: `/images/avif/stickers/dark/${stickerId}.avif` },
+    },
+    webp: {
+      light: { en: `/images/webp/stickers/light/${stickerId}.webp` },
+      dark: { en: `/images/webp/stickers/dark/${stickerId}.webp` },
+    },
+  };
 }

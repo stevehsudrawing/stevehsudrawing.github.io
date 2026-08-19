@@ -6,7 +6,7 @@ description: >
   Use when: modifying HAST rendering, adding link types, or changing HAST property extraction.
 applyTo: >
   src/components/links/TypeAwareLink.vue;
-  src/components/ui/HastFragment.vue;
+  src/components/render-functions/HastFragment.vue;
   src/composables/useHastToVue.ts
 ---
 

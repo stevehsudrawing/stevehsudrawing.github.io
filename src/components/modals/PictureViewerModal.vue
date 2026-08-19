@@ -18,7 +18,7 @@ import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-import TooltipTrigger from "../ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import type {
   DisplayPictureData,
   FeatureAwarePictureProps,

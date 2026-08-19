@@ -102,7 +102,7 @@ function generateCardNoscript(groups: LinkCardGroup[]): string {
   for (const group of groups) {
     const groupTitle = textFor(group.id);
     if (groupTitle) {
-      parts.push(`<h3>${escapeHtml(groupTitle)}</h3>`);
+      parts.push(`<h2>${escapeHtml(groupTitle)}</h2>`);
     }
 
     const description = extractPlainText(group.description);
@@ -148,7 +148,7 @@ function generateButtonNoscript(groups: LinkButtonGroup[]): string {
       : "";
 
     if (groupTitle) {
-      parts.push(`<h3>${escapeHtml(groupTitle)}</h3>`);
+      parts.push(`<h2>${escapeHtml(groupTitle)}</h2>`);
     }
 
     if (group.buttons && group.buttons.length > 0) {

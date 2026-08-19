@@ -5,7 +5,7 @@ description: >
   composable. Use when: adding tooltips, modifying toast behavior, or changing
   notification patterns.
 applyTo: >
-  src/components/ui/TooltipTrigger.vue;
+  src/components/render-functions/TooltipTrigger.vue;
   src/components/ui/ToastStack.vue;
   src/composables/useToast.ts
 ---
@@ -21,7 +21,7 @@ the first slot child.
 
 ```vue
 <script setup>
-import TooltipTrigger from "../components/ui/TooltipTrigger.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 </script>
 
 <template>

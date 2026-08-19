@@ -8,7 +8,7 @@ import { useI18n } from "../../composables/useI18n";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
-import HastFragment from "../ui/HastFragment.vue";
+import HastFragment from "../render-functions/HastFragment.vue";
 import type {
   LinkCardData,
   TypeAwareImageProps,
