@@ -8,7 +8,8 @@
   progress-bar countdown indicator.
 -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useBreakpoint } from "../../composables/useBreakpoint";
 
 // =========================================================================
 // Constants
@@ -16,7 +17,12 @@ import { ref } from "vue";
 
 /** Auto-dismiss duration in milliseconds (5 seconds). */
 const TOAST_DURATION_MS = 5000;
-// const TOAST_DURATION_MS = true;
+
+/** Max toasts visible at once on small screens (mobile / tablet). */
+const MOBILE_MAX_VISIBLE_TOASTS = 1;
+
+/** Max toasts visible at once on large screens (desktop / wide-desktop). */
+const DESKTOP_MAX_VISIBLE_TOASTS = 5;
 
 // =========================================================================
 // Types
@@ -35,6 +41,20 @@ interface ToastEntry {
 
 let nextId = 1;
 const toasts = ref<ToastEntry[]>([]);
+
+/** Shared viewport breakpoint — drives the visible-toast cap. */
+const breakpoint = useBreakpoint();
+
+/**
+ * Max toasts shown at once: 1 on mobile/tablet, 5 on larger screens.
+ * Overflow toasts stay in the stack (their own 5 s timer still dismisses
+ * them and fires `@hidden`) but are hidden via `.toast-overflow`.
+ */
+const maxVisibleToasts = computed(() =>
+  breakpoint.value === "mobile" || breakpoint.value === "tablet"
+    ? MOBILE_MAX_VISIBLE_TOASTS
+    : DESKTOP_MAX_VISIBLE_TOASTS,
+);
 
 // =========================================================================
 // Actions
@@ -59,6 +79,16 @@ function removeToast(id: number): void {
   toasts.value = toasts.value.filter((t) => t.id !== id);
 }
 
+/**
+ * Whether a toast (by render index) exceeds the visible cap and should be
+ * hidden.  Newest toasts are appended last, so the newest N stay visible
+ * and the older ones are hidden.
+ * @param index - The toast's index in the rendered list.
+ */
+function isOverflowToast(index: number): boolean {
+  return index < toasts.value.length - maxVisibleToasts.value;
+}
+
 // =========================================================================
 // Expose
 // =========================================================================
@@ -76,13 +106,14 @@ defineExpose({ showToast });
   >
     <TransitionGroup name="toast-slide">
       <BToast
-        v-for="t in toasts"
+        v-for="(t, index) in toasts"
         :key="t.id"
         :model-value="TOAST_DURATION_MS"
         :variant="t.type === 'error' ? 'danger' : 'success'"
         :progress-props="{
           variant: t.type === 'error' ? 'danger' : 'success',
         }"
+        :class="{ 'toast-overflow': isOverflowToast(index) }"
         solid
         @hidden="removeToast(t.id)"
       >
@@ -114,6 +145,14 @@ defineExpose({ showToast });
 }
 
 /* --- Toast Tweaks  --- */
+
+/* Overflow toasts: kept in the stack (their auto-dismiss timer still runs
+   and removes them) but not rendered on screen.  `!important` is required —
+   BToast sets an inline `display: block` during its enter animation, which
+   would otherwise beat this class rule. */
+.toast-overflow {
+  display: none !important;
+}
 
 :deep(.progress-bar) {
   transition: width 0s linear;

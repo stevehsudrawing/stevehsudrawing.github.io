@@ -107,7 +107,9 @@ export const router = createRouter({
       return new Promise((resolve) => {
         let attempts = 0;
         const check = (): void => {
-          const el = document.querySelector(to.hash);
+          // getElementById (not querySelector) — digit-leading hashes
+          // (e.g. "#47c4ee") are invalid CSS selectors and would throw.
+          const el = document.getElementById(to.hash.slice(1));
           if (el) {
             // Manually compute scroll position so the 64 px fixed
             // navbar does not cover the target heading.

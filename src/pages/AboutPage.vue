@@ -11,6 +11,7 @@ import PageChainNav from "../components/nav/PageChainNav.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
+import SequenceStatusBar from "../components/ui/SequenceStatusBar.vue";
 import { useLinkCards } from "../composables/useLinkCards";
 import { useMajorColorSequence } from "../composables/useMajorColorSequence";
 import { OPEN_STICKER_KEY } from "../types/app";
@@ -168,4 +169,7 @@ function onMajorColorClick(event: Event): void {
     sticker-id="thanks"
     :caption="$t('text-thanks-for-your-visiting')"
   />
+
+  <!-- ==== Easter-egg sequence status bar (fixed overlay) ==== -->
+  <SequenceStatusBar />
 </template>

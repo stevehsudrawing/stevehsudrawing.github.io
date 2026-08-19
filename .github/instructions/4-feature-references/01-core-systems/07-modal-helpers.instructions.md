@@ -11,7 +11,9 @@ description: >
 applyTo: >
   src/composables/useModalStack.ts;
   src/composables/useModalFocus.ts;
+  src/composables/useMajorColorSequence.ts;
   src/components/modals/*.vue;
+  src/components/ui/SequenceStatusBar.vue;
   src/types/app.ts
 ---
 
@@ -142,3 +144,27 @@ BModal's default focus management works as normal.
 | `ResetWarningModal`        | "Cancel" button     |
 | `GitHubEventsModal`        | "Close" button      |
 | `QRCodeModal`              | (no intervention)   |
+
+##### 4.1.7.6 StickerModal trigger paths
+
+`StickerModal` (the sticker easter egg) opens through two routes:
+
+| Trigger                               | Mechanism                                       |
+| ------------------------------------- | ----------------------------------------------- |
+| About-page major-color sequence       | `useMajorColorSequence` (singleton state        |
+|                                       | machine) → `OPEN_STICKER_KEY` push in AboutPage |
+| Secret URL hash `#47c4ee` / `#3c96ff` | `App.vue` watch on `route.hash`                 |
+|                                       | (configs/easter-egg.ts) → `push({ id:           |
+|                                       | "sticker", props: null })` + hash clear         |
+
+- `useMajorColorSequence` is a **module-level singleton**: AboutPage feeds
+  `record()`; `SequenceStatusBar.vue` reads the reactive `status`
+  (`"idle" | "detecting" | "error"`) and renders a fixed bottom "system
+  log" bar. The bar text is deliberately NOT i18n (language-neutral
+  terminal English), like the modal title; the error state is emphasized
+  with Bootstrap's `text-danger` color.
+- While the bar is visible, `<html>` gets `sequence-bar-visible` so
+  `base.css` shifts the toast container up (`.sequence-bar-visible
+.toast-container { bottom: 3.5rem !important }`).
+- The exact unlock pattern is kept secret — it lives only in gitignored
+  `docs/*todo.md`.

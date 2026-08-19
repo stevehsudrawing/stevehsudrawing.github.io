@@ -315,3 +315,15 @@ img.no-copy.solid-bg {
   outline: 0.5px solid var(--bs-body-bg);
   outline-offset: -0.5px;
 }
+
+/* ========================================================================
+   Sequence Status Bar — toast overlap
+   (SequenceStatusBar.vue adds `sequence-bar-visible` to <html> while the
+   About-page easter-egg bar is visible; shift the toast container up so
+   toasts do not cover the bar.  `!important` beats Bootstrap's `bottom-0`
+   utility.)
+   ======================================================================== */
+
+.sequence-bar-visible .toast-container {
+  bottom: 3.5rem !important;
+}

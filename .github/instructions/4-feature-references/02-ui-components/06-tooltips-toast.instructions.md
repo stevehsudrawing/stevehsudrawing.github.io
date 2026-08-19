@@ -74,6 +74,17 @@ App.vue
 
 Auto-dismiss via BToast timer. Stack managed by reactive `toasts[]` array.
 
+##### 4.2.6.4 Visible-toast cap (v3.10.2)
+
+Display is capped by viewport breakpoint (`useBreakpoint()`): at most **1**
+toast on `mobile` / `tablet`, at most **5** on `desktop` / `wide-desktop`.
+Overflow toasts are **hidden with `.toast-overflow { display: none
+!important }`**, not dropped — each BToast keeps its own 5 s auto-dismiss
+timer, so `@hidden` → `removeToast` still fires and the `toasts[]` array
+never leaks. The newest N toasts (appended last) stay visible.
+(`!important` is required because BToast sets an inline `display: block`
+during its enter animation, which would otherwise override the class rule.)
+
 ##### 4.2.6.5 useToast() Composable
 
 Injects `SHOW_TOAST_KEY` (symbol). Throws if called outside a component tree

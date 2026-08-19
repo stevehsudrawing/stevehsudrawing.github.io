@@ -1,17 +1,26 @@
 /**
  * Major-color sequence state machine (About page).
  *
- * Records clicks on the two profile "major color" buttons and reports when
- * the expected pattern is completed.  Pure logic — no DOM access.
+ * Module-level singleton: AboutPage feeds clicks via `record()` and the
+ * status-bar component reads the reactive `status` — both observe the
+ * same state.
+ *
+ * States: "idle" (bar hidden) -> "detecting" (bar shows
+ * "> Sequence detected") -> "error" (bar shows
+ * "> Sequence error — authentication failed" for ERROR_MESSAGE_MS, then
+ * back to "idle").  A CLICK_WINDOW_MS inactivity timer hides the bar and
+ * resets the sequence; a successful pattern hides the bar and `record()`
+ * returns `true` exactly once.
  */
-import { ref } from "vue";
+import { onScopeDispose, ref, type Ref } from "vue";
+import { MAJOR_COLORS } from "../configs/easter-egg";
 
 // =========================================================================
 // Constants
 // =========================================================================
 
 /** The unlock pattern — matches the two profile major-color buttons. */
-const PATTERN = ["#47c4ee", "#3c96ff", "#3c96ff", "#47c4ee"];
+const PATTERN = [...MAJOR_COLORS, ...MAJOR_COLORS.slice().reverse()];
 
 /** Maximum gap between two clicks before the sequence resets, in ms. */
 const CLICK_WINDOW_MS = 5000;
@@ -19,47 +28,133 @@ const CLICK_WINDOW_MS = 5000;
 /** Cooldown after a successful unlock before it can trigger again, in ms. */
 const UNLOCK_COOLDOWN_MS = 10000;
 
+/** How long the "authentication failed" message stays visible, in ms. */
+const ERROR_MESSAGE_MS = 3000;
+
+// =========================================================================
+// Types
+// =========================================================================
+
+/** Bottom-bar visibility states for the sequence state machine. */
+export type SequenceStatus = "idle" | "detecting" | "error";
+
+// =========================================================================
+// Module-level shared state (singleton — AboutPage + status bar share it)
+// =========================================================================
+
+/** Current position in the unlock pattern (0 = not started). */
+const position = ref(0);
+
+/** Timestamp of the last click (ms epoch). */
+const lastClickAt = ref(0);
+
+/** Timestamp of the last successful unlock (ms epoch) — cooldown source. */
+const lastUnlockAt = ref(0);
+
+/** Reactive bar status consumed by SequenceStatusBar. */
+const status = ref<SequenceStatus>("idle");
+
+/** Inactivity timer — hides the bar and resets the sequence. */
+let inactivityTimer: ReturnType<typeof setTimeout> | undefined;
+
+/** Error-message timer — hides the bar after ERROR_MESSAGE_MS. */
+let errorTimer: ReturnType<typeof setTimeout> | undefined;
+
+// =========================================================================
+// Helpers
+// =========================================================================
+
+/** Clear both pending timers. */
+function clearTimers(): void {
+  if (inactivityTimer !== undefined) {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = undefined;
+  }
+  if (errorTimer !== undefined) {
+    clearTimeout(errorTimer);
+    errorTimer = undefined;
+  }
+}
+
+/**
+ * Reset the sequence to its initial state and hide the bar.  Used by the
+ * inactivity timer and when leaving the About page.
+ */
+function reset(): void {
+  clearTimers();
+  position.value = 0;
+  status.value = "idle";
+}
+
 // =========================================================================
 // Composable
 // =========================================================================
 
 /**
- * Sequence state machine for the major-color easter egg.
- *
- * @returns `record(color)` — feed the clicked color; returns `true` exactly
- *   once when the full pattern completes, otherwise `false`.
+ * Record a click on a major-color button.
+ * @param color - The clicked color (from `data-major-color`).
+ * @returns `true` exactly once when the full pattern completes, else `false`.
  */
-export function useMajorColorSequence(): {
-  record: (color: string) => boolean;
-} {
-  const position = ref(0);
-  const lastClickAt = ref(0);
-  const lastUnlockAt = ref(0);
+function record(color: string): boolean {
+  const now = Date.now();
 
-  function record(color: string): boolean {
-    const now = Date.now();
+  // Cooldown after a successful unlock (prevents repeat spam).
+  if (now - lastUnlockAt.value < UNLOCK_COOLDOWN_MS) return false;
 
-    // Cooldown after a successful unlock (prevents repeat spam).
-    if (now - lastUnlockAt.value < UNLOCK_COOLDOWN_MS) return false;
+  // While the failure message is showing, ignore further clicks.
+  if (status.value === "error") return false;
 
-    // Reset when the gap between clicks exceeds the window.
-    if (now - lastClickAt.value > CLICK_WINDOW_MS) position.value = 0;
+  clearTimeout(inactivityTimer);
+  inactivityTimer = undefined;
 
-    if (color === PATTERN[position.value]) {
-      position.value += 1;
-      lastClickAt.value = now;
-      if (position.value === PATTERN.length) {
-        position.value = 0;
-        lastUnlockAt.value = now;
-        return true;
-      }
-    } else {
-      // Mismatch — restart (a first-position click re-arms from step one).
-      position.value = color === PATTERN[0] ? 1 : 0;
-      lastClickAt.value = now;
+  // Lazy safety net — normally the inactivity timer resets the sequence,
+  // but if one was somehow missed, reset on the next click.
+  if (now - lastClickAt.value > CLICK_WINDOW_MS) reset();
+
+  if (color === PATTERN[position.value]) {
+    position.value += 1;
+    lastClickAt.value = now;
+    status.value = "detecting";
+    if (position.value === PATTERN.length) {
+      position.value = 0;
+      lastUnlockAt.value = now;
+      status.value = "idle";
+      return true;
     }
+    // Arm the inactivity timer — when it fires, the bar hides and the
+    // sequence resets.
+    inactivityTimer = setTimeout(reset, CLICK_WINDOW_MS);
     return false;
   }
 
-  return { record };
+  // Mismatch.  With no sequence in progress a stray click is ignored
+  // silently; otherwise show the failure message for a moment, then reset.
+  if (position.value === 0) {
+    lastClickAt.value = now;
+    return false;
+  }
+  position.value = 0;
+  lastClickAt.value = now;
+  status.value = "error";
+  errorTimer = setTimeout(() => {
+    status.value = "idle";
+    errorTimer = undefined;
+  }, ERROR_MESSAGE_MS);
+  return false;
+}
+
+/**
+ * Shared major-color sequence controller.
+ *
+ * @returns `record` (feed clicks), reactive `status`, and `reset`.
+ */
+export function useMajorColorSequence(): {
+  record: (color: string) => boolean;
+  status: Ref<SequenceStatus>;
+  reset: () => void;
+} {
+  // Clear timers + reset when the consumer (About page) unmounts.
+  onScopeDispose(() => reset());
+
+  return { record, status, reset };
 }

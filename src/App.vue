@@ -59,6 +59,7 @@ import {
 } from "./platform/accessibility";
 import { initNoCopyProtection } from "./platform/no-copy";
 import { normalizeInternalPath } from "./core/utils";
+import { STICKER_TRIGGER_HASHES } from "./configs/easter-egg";
 
 // =========================================================================
 // State
@@ -151,6 +152,28 @@ provide(
 provide(OPEN_STICKER_KEY, () => {
   push({ id: "sticker", props: null });
 });
+
+// ---- Secret-hash sticker trigger (#47c4ee / #3c96ff) ----
+
+/**
+ * Open the sticker modal directly when the URL hash is one of the two
+ * major colors (shareable easter-egg link), then clear the hash so a
+ * refresh does not re-trigger and the router does not try to scroll to
+ * it.  The modal's @shown handler fires the confetti burst as usual.
+ *
+ * `route.hash` includes the leading "#" (e.g. "#47c4ee"), so it is
+ * compared directly against STICKER_TRIGGER_HASHES.
+ */
+watch(
+  () => route.hash,
+  (hash) => {
+    if (STICKER_TRIGGER_HASHES.includes(hash)) {
+      push({ id: "sticker", props: null });
+      void router.replace({ hash: "" });
+    }
+  },
+  { immediate: true },
+);
 
 // =========================================================================
 // Actions
