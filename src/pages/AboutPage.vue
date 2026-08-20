@@ -142,9 +142,8 @@ function onMajorColorClick(event: Event): void {
             <td>
               <span v-html="$t('html-profile-part-7')"></span>
               <TypeAwareLink
-                type="external"
-                href="https://afdian.com/p/590c0408806111f1b05f52540025c377"
-                no-qr-code
+                type="internal"
+                href="/worldview.html"
                 class="link"
               >
                 <span>{{ $t("text-learn-more") }}</span>

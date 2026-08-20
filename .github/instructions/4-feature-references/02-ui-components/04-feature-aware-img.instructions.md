@@ -67,14 +67,19 @@ The props are the shared `FeatureAwarePictureProps` interface in
 type ImgFeature = "follow-theme" | "follow-language";
 
 // Keys derived from Lang — en required, others optional.
-type LanguageAwareImgSrcMap = {
+// Shared with markdown content selection (useMarkdownContent).
+type LanguageAwareString = {
   en: string; // Required — ultimate fallback
 } & Partial<Record<Exclude<Lang, "en">, string>>;
 
 interface ThemeAwareImgSrcMap {
-  light: LanguageAwareImgSrcMap; // Required — ultimate fallback
-  dark?: LanguageAwareImgSrcMap;
+  light: LanguageAwareString; // Required — ultimate fallback
+  dark?: LanguageAwareString;
 }
+
+// Language resolution (theme → light/dark, language → exact/en fallback)
+// is centralized in `resolveLanguageAwareString` (core/utils.ts), shared
+// with markdown content selection.
 
 interface PictureSrcMap {
   webp: ThemeAwareImgSrcMap; // Required

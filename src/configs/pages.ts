@@ -14,6 +14,7 @@ export const PAGE_NAMES = [
   "chatting",
   "softwares",
   "copyright-notice",
+  "worldview",
 ] as const;
 
 /** Internal page paths that support page transitions. */

@@ -139,9 +139,9 @@ const message = computed(() => t("text-sticker-message-observing"));
   display: block;
 }
 
-/* Command prompt — "#" before the command. */
+/* Command prompt — "$" before the command. */
 .sticker-modal-header::before {
-  content: "#";
+  content: "$";
   padding-right: 0.6rem;
   color: var(--bs-primary);
 }

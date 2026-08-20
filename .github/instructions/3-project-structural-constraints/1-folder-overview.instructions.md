@@ -125,6 +125,7 @@ App.vue      -> Root shell (nav, router-view, modals, initialization)
 - **Storage access mandate**: all localStorage access MUST go through typed
   getter/setter accessors in `src/platform/storage.ts`; raw `localStorage`
   usage outside that module is forbidden.
-- Put translation JSON in `src/configs/i18n/` — one file per language,
-  statically imported by `translations.ts`.
+- Put translation JSON in `src/configs/i18n/<lang>/translation.json` — one
+  folder per language (also holds per-language markdown, e.g.
+  `worldview.md`), statically imported by `translations.ts`.
 - Put broad-compatibility assets in `public/legacy/`.

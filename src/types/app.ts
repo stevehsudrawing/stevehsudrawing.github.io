@@ -166,11 +166,11 @@ export type ImgFeature = "follow-theme" | "follow-language";
 // -------------------------------------------------------------------------
 
 /**
- * Language-keyed image source map — keys derived from `Lang`.
- * `en` is required — it is the ultimate fallback when a language variant
- * is not specified.
+ * Language-keyed string (image src URL or markdown content) — keys derived
+ * from `Lang`.  `en` is required — it is the ultimate fallback when a
+ * language variant is not specified.
  */
-export type LanguageAwareImgSrcMap = {
+export type LanguageAwareString = {
   en: string;
 } & Partial<Record<Exclude<Lang, "en">, string>>;
 
@@ -180,8 +180,8 @@ export type LanguageAwareImgSrcMap = {
  * is not specified.
  */
 export interface ThemeAwareImgSrcMap {
-  light: LanguageAwareImgSrcMap;
-  dark?: LanguageAwareImgSrcMap;
+  light: LanguageAwareString;
+  dark?: LanguageAwareString;
 }
 
 /**

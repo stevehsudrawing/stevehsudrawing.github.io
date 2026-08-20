@@ -5,9 +5,9 @@
  */
 
 import type { Lang } from "../../types/app";
-import en from "./en.json";
-import zhHans from "./zh-Hans.json";
-import zhHant from "./zh-Hant.json";
+import en from "./en/translation.json";
+import zhHans from "./zh-Hans/translation.json";
+import zhHant from "./zh-Hant/translation.json";
 
 /** All translations keyed by language code. */
 export const TRANSLATIONS: Record<Lang, Record<string, unknown>> = {

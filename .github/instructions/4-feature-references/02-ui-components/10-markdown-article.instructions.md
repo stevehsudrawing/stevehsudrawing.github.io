@@ -2,7 +2,8 @@
 description: >
   Markdown rendering and scrollspy navigation: MarkdownArticle.vue (marked
   -> HAST pipeline, heading extraction for sidebar scrollspy, table/link
-  annotation, mobile collapsible heading bar).  Used on the Copyright page.
+  annotation, mobile collapsible heading bar).  Used on the Copyright and
+  Worldview pages.
   Use when: modifying markdown rendering, scrollspy behavior, or adding new
   markdown-based pages.
 applyTo: >
@@ -55,8 +56,10 @@ mobile:  64 (navbar) + 48 (mobile bar) + mobileList.offsetHeight
 <MarkdownArticle :content="copyrightMd" />
 ```
 
-Currently used only on `/copyright-notice.html` (CopyrightPage.vue).
-The raw `.md` file is imported at build time via `?raw`:
+Used on `/copyright-notice.html` (CopyrightPage.vue, static `?raw` import)
+and `/worldview.html` (WorldviewPage.vue, per-language selection via
+`useMarkdownContent("worldview")` — see `01-i18n` §4.1.1.5). Static raw
+import example:
 
 ```ts
 import copyrightMd from "../../public/images/README.md?raw";

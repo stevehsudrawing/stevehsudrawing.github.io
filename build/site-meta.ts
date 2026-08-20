@@ -113,4 +113,16 @@ export const PAGE_META: PageMetaMap = {
     changefreq: "monthly",
     priority: 0.5,
   },
+  worldview: {
+    title: `Worldview - ${SITE_NAME}`,
+    description:
+      "The worldview and character settings of Steve Hsu (什五): a fictional character document.",
+    pagePath: "/worldview.html",
+    robots: "index, follow",
+    jsonLDType: "breadcrumb",
+    jsonLDPageName: "Worldview",
+    tier: "full",
+    changefreq: "monthly",
+    priority: 0.5,
+  },
 };

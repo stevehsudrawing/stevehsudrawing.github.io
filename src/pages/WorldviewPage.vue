@@ -1,0 +1,40 @@
+<!--
+  WorldviewPage.vue — Internationalized worldview / character-settings page.
+  Renders the per-language worldview.md (selected reactively by
+  useMarkdownContent) via the reusable MarkdownArticle component.
+-->
+<script setup lang="ts">
+import HeroSection from "../components/ui/HeroSection.vue";
+import PageChainNav from "../components/nav/PageChainNav.vue";
+import MarkdownArticle from "../components/ui/MarkdownArticle.vue";
+import { useMarkdownContent } from "../composables/useMarkdownContent";
+
+// =========================================================================
+// Markdown content (per-language raw import, reactive to language)
+// =========================================================================
+
+const { content } = useMarkdownContent("worldview");
+</script>
+
+<template>
+  <!-- ==== Hero section ==== -->
+  <HeroSection
+    :title="$t('text-worldview')"
+    :description="$t('text-worldview-description')"
+    :image="{
+      srcMap: {
+        avif: { light: { en: '/images/avif/covers/about.avif' } },
+        webp: { light: { en: '/images/webp/covers/about.webp' } },
+      },
+      alt: $t('text-worldview'),
+      class: 'rounded no-copy solid-bg',
+    }"
+  />
+
+  <PageChainNav page-name="worldview" />
+
+  <hr />
+
+  <!-- ==== Markdown content with built-in scrollspy ==== -->
+  <MarkdownArticle :content="content" class="no-copy" />
+</template>

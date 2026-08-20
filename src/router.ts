@@ -47,6 +47,10 @@ const routes = [
     path: "/copyright-notice.html",
     component: () => import("./pages/CopyrightPage.vue"),
   },
+  {
+    path: "/worldview.html",
+    component: () => import("./pages/WorldviewPage.vue"),
+  },
 ];
 
 // =========================================================================

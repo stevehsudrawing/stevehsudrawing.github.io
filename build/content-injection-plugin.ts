@@ -64,16 +64,16 @@ interface LinkButtonGroup {
 }
 
 // =========================================================================
-// i18n text resolution (en.json is the single source of truth)
+// i18n text resolution (en/translation.json is the single source of truth)
 // =========================================================================
 
 let enCache: Record<string, string> | null = null;
 
-/** Load en.json once (group/card/button titles + icon alt fallbacks). */
+/** Load the English translations once (titles + icon alt fallbacks). */
 function getEn(): Record<string, string> {
   if (!enCache) {
     const raw = readFileSync(
-      resolve(process.cwd(), "src/configs/i18n/en.json"),
+      resolve(process.cwd(), "src/configs/i18n/en/translation.json"),
       "utf-8",
     );
     enCache = JSON.parse(raw) as Record<string, string>;
@@ -81,7 +81,7 @@ function getEn(): Record<string, string> {
   return enCache;
 }
 
-/** Resolve `text-<id>` from en.json, falling back to the raw id. */
+/** Resolve `text-<id>` from the English translations, falling back to the raw id. */
 function textFor(id: string): string {
   return getEn()["text-" + id] ?? id;
 }

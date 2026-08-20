@@ -33,6 +33,7 @@ const CHAIN_ROOT = "index";
  */
 const LEAVES: Record<string, string> = {
   "copyright-notice": "index",
+  worldview: "about",
 };
 
 // =========================================================================

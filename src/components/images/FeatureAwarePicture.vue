@@ -17,9 +17,11 @@ import { useTheme } from "../../composables/useTheme";
 import { useI18n } from "../../composables/useI18n";
 import type {
   ThemeAwareImgSrcMap,
-  LanguageAwareImgSrcMap,
+  LanguageAwareString,
   FeatureAwarePictureProps,
+  Lang,
 } from "../../types/app";
+import { resolveLanguageAwareString } from "../../core/utils";
 
 // =========================================================================
 // Props
@@ -79,14 +81,11 @@ function resolveThemeSrc(
   if (!themeMap) return undefined;
 
   // Theme: try target → fall back to light
-  let langMap: LanguageAwareImgSrcMap | undefined =
-    themeMap[theme as keyof ThemeAwareImgSrcMap];
-  if (!langMap) {
-    langMap = themeMap.light;
-  }
+  const langMap =
+    themeMap[theme as keyof ThemeAwareImgSrcMap] ?? themeMap.light;
 
-  // Language: exact match → fall straight back to en
-  return langMap[lang as keyof LanguageAwareImgSrcMap] ?? langMap.en;
+  // Language: exact match → fall back to en (shared resolver)
+  return resolveLanguageAwareString(langMap, lang as Lang) || undefined;
 }
 
 /** Resolved <img> src — always from webp (or static `src`). */

@@ -25,8 +25,9 @@ can index the links without executing JavaScript.
 ##### 4.5.1.2 Text Resolution
 
 Group / card / button titles and labels resolve from their `id` via
-`t("text-" + id)`. At build time this reads `src/configs/i18n/en.json` (the
-single source of truth; zh-Hans / zh-Hant naturally fall back to en). A
+`t("text-" + id)`. At build time this reads
+`src/configs/i18n/en/translation.json` (the single source of truth;
+zh-Hans / zh-Hant naturally fall back to en). A
 button/card `imgProps.alt`, when present, is preferred for the label.
 
 ##### 4.5.1.3 Link Cards

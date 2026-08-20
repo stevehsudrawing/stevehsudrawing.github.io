@@ -56,6 +56,7 @@ export default defineConfig({
         chatting: resolve(__dirname, "src", "chatting.html"),
         softwares: resolve(__dirname, "src", "softwares.html"),
         copyright: resolve(__dirname, "src", "copyright-notice.html"),
+        worldview: resolve(__dirname, "src", "worldview.html"),
       },
     },
   },

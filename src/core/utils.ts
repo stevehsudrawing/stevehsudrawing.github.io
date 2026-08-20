@@ -6,7 +6,7 @@
 import type { HastProperties } from "../types/hast";
 import { INTERNAL_PAGES, EXCLUDED_PAGES } from "../configs/pages";
 import type { LocationQueryRaw } from "vue-router";
-import type { PictureSrcMap } from "../types/app";
+import type { Lang, LanguageAwareString, PictureSrcMap } from "../types/app";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.
@@ -16,6 +16,20 @@ import type { PictureSrcMap } from "../types/app";
 export function normalizeInternalPath(pathname: string): string {
   if (pathname === "/" || pathname === "") return "/index.html";
   return pathname;
+}
+
+/**
+ * Resolve a language-aware value (image src URL or markdown content) with
+ * an English fallback.
+ * @param value - The language-keyed map, or undefined.
+ * @param lang - The active language.
+ * @returns The value for `lang`, falling back to `en`, or "".
+ */
+export function resolveLanguageAwareString(
+  value: LanguageAwareString | undefined,
+  lang: Lang,
+): string {
+  return value?.[lang as keyof LanguageAwareString] ?? value?.en ?? "";
 }
 
 /**

@@ -364,6 +364,12 @@ onBeforeUnmount(() => {
 <style scoped>
 /* ==== Article content ==== */
 
+:deep(blockquote) {
+  opacity: 0.8;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(var(--bs-body-color-rgb), 0.5);
+}
+
 .markdown-article :deep(.article *) {
   line-height: 1.7;
 }
