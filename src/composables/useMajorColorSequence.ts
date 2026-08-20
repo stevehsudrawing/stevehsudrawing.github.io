@@ -2,17 +2,17 @@
  * Major-color sequence state machine (About page).
  *
  * Module-level singleton: AboutPage feeds clicks via `record()` and the
- * status-bar component reads the reactive `status` — both observe the
- * same state.
+ * status-bar component reads the reactive `status` / `progress` — both
+ * observe the same state.
  *
- * States: "idle" (bar hidden) -> "detecting" (bar shows
- * "> Sequence detected") -> "error" (bar shows
- * "> Sequence error — authentication failed" for ERROR_MESSAGE_MS, then
- * back to "idle").  A CLICK_WINDOW_MS inactivity timer hides the bar and
- * resets the sequence; a successful pattern hides the bar and `record()`
- * returns `true` exactly once.
+ * States: "idle" (bar hidden) -> "detecting" (bar shows the progress
+ * line) -> "error" ("Authentication failed" for ERROR_MESSAGE_MS) /
+ * "success" ("Authentication successful" for SUCCESS_MESSAGE_MS), then
+ * back to "idle".  A CLICK_WINDOW_MS inactivity timer hides the bar and
+ * resets the sequence; a successful pattern shows the success line and
+ * `record()` returns `true` exactly once (AboutPage opens the modal).
  */
-import { onScopeDispose, ref, type Ref } from "vue";
+import { computed, onScopeDispose, ref, type Ref } from "vue";
 import { MAJOR_COLORS } from "../configs/easter-egg";
 
 // =========================================================================
@@ -31,12 +31,18 @@ const UNLOCK_COOLDOWN_MS = 10000;
 /** How long the "authentication failed" message stays visible, in ms. */
 const ERROR_MESSAGE_MS = 3000;
 
+/** How long the "authentication successful" message stays visible, in ms. */
+const SUCCESS_MESSAGE_MS = 3000;
+
+/** Length of the unlock sequence (also the progress-bracket width). */
+export const SEQUENCE_LENGTH = PATTERN.length;
+
 // =========================================================================
 // Types
 // =========================================================================
 
 /** Bottom-bar visibility states for the sequence state machine. */
-export type SequenceStatus = "idle" | "detecting" | "error";
+export type SequenceStatus = "idle" | "detecting" | "error" | "success";
 
 // =========================================================================
 // Module-level shared state (singleton — AboutPage + status bar share it)
@@ -60,11 +66,14 @@ let inactivityTimer: ReturnType<typeof setTimeout> | undefined;
 /** Error-message timer — hides the bar after ERROR_MESSAGE_MS. */
 let errorTimer: ReturnType<typeof setTimeout> | undefined;
 
+/** Success-message timer — hides the bar after SUCCESS_MESSAGE_MS. */
+let successTimer: ReturnType<typeof setTimeout> | undefined;
+
 // =========================================================================
 // Helpers
 // =========================================================================
 
-/** Clear both pending timers. */
+/** Clear all pending timers. */
 function clearTimers(): void {
   if (inactivityTimer !== undefined) {
     clearTimeout(inactivityTimer);
@@ -74,7 +83,26 @@ function clearTimers(): void {
     clearTimeout(errorTimer);
     errorTimer = undefined;
   }
+  if (successTimer !== undefined) {
+    clearTimeout(successTimer);
+    successTimer = undefined;
+  }
 }
+
+/**
+ * Progress cells shown in the status bar's bracket: `position` while
+ * detecting, full on success, empty otherwise.
+ */
+const progress = computed<number>(() => {
+  switch (status.value) {
+    case "detecting":
+      return position.value;
+    case "success":
+      return SEQUENCE_LENGTH;
+    default:
+      return 0;
+  }
+});
 
 /**
  * Reset the sequence to its initial state and hide the bar.  Used by the
@@ -101,8 +129,8 @@ function record(color: string): boolean {
   // Cooldown after a successful unlock (prevents repeat spam).
   if (now - lastUnlockAt.value < UNLOCK_COOLDOWN_MS) return false;
 
-  // While the failure message is showing, ignore further clicks.
-  if (status.value === "error") return false;
+  // While a failure/success message is showing, ignore further clicks.
+  if (status.value === "error" || status.value === "success") return false;
 
   clearTimeout(inactivityTimer);
   inactivityTimer = undefined;
@@ -118,7 +146,11 @@ function record(color: string): boolean {
     if (position.value === PATTERN.length) {
       position.value = 0;
       lastUnlockAt.value = now;
-      status.value = "idle";
+      status.value = "success";
+      successTimer = setTimeout(() => {
+        status.value = "idle";
+        successTimer = undefined;
+      }, SUCCESS_MESSAGE_MS);
       return true;
     }
     // Arm the inactivity timer — when it fires, the bar hides and the
@@ -146,15 +178,17 @@ function record(color: string): boolean {
 /**
  * Shared major-color sequence controller.
  *
- * @returns `record` (feed clicks), reactive `status`, and `reset`.
+ * @returns `record` (feed clicks), reactive `status`, `progress` (filled
+ *   cells 0–SEQUENCE_LENGTH), and `reset`.
  */
 export function useMajorColorSequence(): {
   record: (color: string) => boolean;
   status: Ref<SequenceStatus>;
+  progress: Ref<number>;
   reset: () => void;
 } {
   // Clear timers + reset when the consumer (About page) unmounts.
   onScopeDispose(() => reset());
 
-  return { record, status, reset };
+  return { record, status, progress, reset };
 }

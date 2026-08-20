@@ -61,3 +61,13 @@ The raw `.md` file is imported at build time via `?raw`:
 ```ts
 import copyrightMd from "../../public/images/README.md?raw";
 ```
+
+##### 4.2.10.5 Mobile List Animation (v3.10.3)
+
+The mobile collapsible heading list (`ul.scrollspy-mobile-list`) animates
+its expand/collapse with an **exact measured height** — the Vue
+`<Transition>` hooks measure `scrollHeight` and animate `max-height` to
+the real pixel value (no fixed `max-height` approximation), capped at the
+resting `60vh` (`.scrollspy-mobile-list`) so long lists keep their
+internal scroll. `prefers-reduced-motion` / `.no-animations` snap the
+toggle via the global accessibility.css rules.

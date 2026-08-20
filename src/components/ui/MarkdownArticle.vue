@@ -189,6 +189,13 @@ function onScroll(): void {
 const NAVBAR_HEIGHT = 64;
 const MOBILE_BAR_HEIGHT = 48;
 
+/**
+ * Mobile list expand/collapse height cap (mirrors the CSS
+ * `max-height: 60vh` on .scrollspy-mobile-list) — avoids a post-animation
+ * snap when an article has more headings than fit on screen.
+ */
+const MOBILE_LIST_MAX_HEIGHT_VH = 0.6;
+
 /** Scroll smoothly to a heading and update the URL hash. */
 function onHeadingClick(id: string, isMobileClick: boolean = false): void {
   const baseOffset = isMobileClick
@@ -199,6 +206,57 @@ function onHeadingClick(id: string, isMobileClick: boolean = false): void {
   history.pushState(null, "", `#${id}`);
   scrollToHashTarget(id, false, baseOffset);
   if (isMobileClick) headingExpanded.value = false;
+}
+
+// -------------------------------------------------------------------------
+// Mobile list expand/collapse (exact measured height)
+// -------------------------------------------------------------------------
+
+/**
+ * Cap a list height at the resting 60vh CSS max-height.
+ * @param list - The mobile heading list element.
+ */
+function cappedListHeight(list: HTMLElement): number {
+  return Math.min(
+    list.scrollHeight,
+    Math.floor(window.innerHeight * MOBILE_LIST_MAX_HEIGHT_VH),
+  );
+}
+
+/**
+ * Expand animation — measure the list's real height (capped at 60vh) and
+ * animate max-height from 0 to that exact pixel value.
+ * @param el - The list element being inserted.
+ */
+function onMobileListEnter(el: Element): void {
+  const list = el as HTMLElement;
+  list.style.maxHeight = "none";
+  const height = cappedListHeight(list);
+  list.style.maxHeight = "0px";
+  void list.offsetHeight; // force reflow so the 0px start applies
+  list.style.maxHeight = `${height}px`;
+}
+
+/** Clear the inline max-height so the resting 60vh CSS cap applies. */
+function onMobileListAfterEnter(el: Element): void {
+  (el as HTMLElement).style.maxHeight = "";
+}
+
+/**
+ * Collapse animation — start from the list's real height (capped), then
+ * animate down to 0.
+ * @param el - The list element being removed.
+ */
+function onMobileListLeave(el: Element): void {
+  const list = el as HTMLElement;
+  list.style.maxHeight = `${cappedListHeight(list)}px`;
+  void list.offsetHeight; // force reflow so the current height applies
+  list.style.maxHeight = "0px";
+}
+
+/** Clear the inline max-height when the element is fully removed. */
+function onMobileListAfterLeave(el: Element): void {
+  (el as HTMLElement).style.maxHeight = "";
 }
 
 onMounted(() => {
@@ -228,28 +286,36 @@ onBeforeUnmount(() => {
           :class="headingExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"
         ></i>
       </div>
-      <ul
-        v-if="headingExpanded"
-        ref="mobileListRef"
-        class="scrollspy-mobile-list px-3"
+      <Transition
+        name="scrollspy-mobile"
+        @enter="onMobileListEnter"
+        @after-enter="onMobileListAfterEnter"
+        @leave="onMobileListLeave"
+        @after-leave="onMobileListAfterLeave"
       >
-        <li v-for="item in headings" :key="item.id">
-          <TypeAwareLink
-            type="anchor"
-            :href="`#${item.id}`"
-            hide-indicator
-            class="scrollspy-link"
-            :class="{
-              active: activeId === item.id,
-              'ps-3': item.level >= 3,
-              'ps-0': item.level < 3,
-            }"
-            @click.prevent="onHeadingClick(item.id, true)"
-          >
-            {{ item.text }}
-          </TypeAwareLink>
-        </li>
-      </ul>
+        <ul
+          v-if="headingExpanded"
+          ref="mobileListRef"
+          class="scrollspy-mobile-list px-3"
+        >
+          <li v-for="item in headings" :key="item.id">
+            <TypeAwareLink
+              type="anchor"
+              :href="`#${item.id}`"
+              hide-indicator
+              class="scrollspy-link"
+              :class="{
+                active: activeId === item.id,
+                'ps-3': item.level >= 3,
+                'ps-0': item.level < 3,
+              }"
+              @click.prevent="onHeadingClick(item.id, true)"
+            >
+              {{ item.text }}
+            </TypeAwareLink>
+          </li>
+        </ul>
+      </Transition>
     </nav>
 
     <BRow>
@@ -378,6 +444,7 @@ onBeforeUnmount(() => {
   max-height: 60vh;
   overflow-y: auto;
   border-bottom: 1px solid var(--bs-border-color);
+  box-shadow: var(--bs-box-shadow-sm);
 }
 
 .scrollspy-mobile-list li {
@@ -400,5 +467,20 @@ onBeforeUnmount(() => {
 .scrollspy-mobile-list a.active {
   color: var(--bs-primary);
   font-weight: calc(var(--bs-body-font-weight) + 100);
+}
+
+/* --- Expand/collapse animation (exact measured height via JS hooks) --- */
+
+.scrollspy-mobile-enter-active,
+.scrollspy-mobile-leave-active {
+  overflow: hidden;
+  transition:
+    max-height 0.25s ease,
+    opacity 0.2s ease;
+}
+
+.scrollspy-mobile-enter-from,
+.scrollspy-mobile-leave-to {
+  opacity: 0;
 }
 </style>

@@ -159,10 +159,14 @@ BModal's default focus management works as normal.
 
 - `useMajorColorSequence` is a **module-level singleton**: AboutPage feeds
   `record()`; `SequenceStatusBar.vue` reads the reactive `status`
-  (`"idle" | "detecting" | "error"`) and renders a fixed bottom "system
-  log" bar. The bar text is deliberately NOT i18n (language-neutral
-  terminal English), like the modal title; the error state is emphasized
-  with Bootstrap's `text-danger` color.
+  (`"idle" | "detecting" | "error" | "success"`) and `progress`
+  (filled cells 0–`SEQUENCE_LENGTH`) and renders a fixed bottom "system
+  log" bar with a terminal progress line
+  (`> [==--] Sequence detected` / `> [====] Authentication successful`
+  (`.text-success`) / `> [----] Authentication failed` (`.text-danger`)).
+  The bar text is deliberately NOT i18n (language-neutral terminal
+  English), like the modal title. The bar slides up/down via a
+  `<Transition>` (0.25 s) on show/hide.
 - While the bar is visible, `<html>` gets `sequence-bar-visible` so
   `base.css` shifts the toast container up (`.sequence-bar-visible
 .toast-container { bottom: 3.5rem !important }`).

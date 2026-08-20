@@ -101,7 +101,7 @@ export const PAGE_META: PageMetaMap = {
     changefreq: "monthly",
     priority: 0.7,
   },
-  copyright: {
+  "copyright-notice": {
     title: `Copyright Notice - ${SITE_NAME}`,
     description:
       "Copyright notice and usage terms for original artworks by Steve Hsu (什五). Read about restricted works, open-licensed works, and attribution requirements.",

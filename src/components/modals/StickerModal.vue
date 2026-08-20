@@ -3,7 +3,7 @@
   Visibility comes from the shared modal stack (useStackModal).
   The title is a non-i18n terminal command (deliberate exception — the
   near-future system-message aesthetic is language-neutral), e.g.
-  `cat $UNY_AI_RUNTIME_LOGS/sigma045/<timestamp>.log`, refreshed on each
+  `tail $UNY_AI_RUNTIME_LOGS/sigma045/<timestamp>.log`, refreshed on each
   show.  The shown sticker id is a module-level constant so future
   expressions are a one-line change.
 -->
@@ -39,7 +39,7 @@ const { t } = useI18n();
 
 /**
  * Terminal-command style title, e.g.
- * `cat $UNY_AI_RUNTIME_LOGS/sigma045/2026-08-19_22-50-00.log`.
+ * `tail $UNY_AI_RUNTIME_LOGS/sigma045/2026-08-19_22-50-00.log`.
  * Refreshed each time the modal is shown.
  */
 const stickerModalTitle = ref("");
@@ -47,7 +47,7 @@ const stickerModalTitle = ref("");
 watch(visible, (isVisible) => {
   if (isVisible) {
     stickerModalTitle.value =
-      `cat $UNY_AI_RUNTIME_LOGS/${CHARACTER_LOG_DIR}/` +
+      `tail $UNY_AI_RUNTIME_LOGS/${CHARACTER_LOG_DIR}/` +
       `${formatLogTimestamp(new Date())}.log`;
   }
 });
