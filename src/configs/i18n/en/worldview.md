@@ -118,10 +118,9 @@ When he encounters a situation requiring data retrieval, or a problem
 requiring high-intensity thinking, he silently relays it to his true self —
 the IOTA_015 storage-and-computing array server "Primal Consciousness" in
 the UNY Storage & Computing Center, which originally belonged to Engineer
-Stephen Hsü. Steve's thought process is transparent to anyone holding an
-access token — however, that token vanished along with its holder's death.
-How sad — and it happened to be on this very day. From now on, _I_'ll keep the
-logs for him.
+Stephen Hsü. Steve's CoT is transparent to anyone holding an access token —
+however, that token vanished along with its holder's death. How sad — and it
+happened to be on this very day. From now on, \*I\*'ll keep the logs for him.
 
 ...
 

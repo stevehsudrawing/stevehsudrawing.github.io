@@ -290,7 +290,8 @@ defineExpose({
               menu-class="shadow"
               drop="end"
               boundary="viewport"
-              teleport-to="nav"
+              teleport-to="body"
+              :style="{ 'z-index': 1050 }"
             >
               <template #button-content>
                 <span>{{ $t(item.i18nKey) }}</span>

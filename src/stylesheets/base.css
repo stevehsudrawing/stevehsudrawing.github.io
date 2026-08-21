@@ -124,6 +124,12 @@ code {
     backdrop-filter 0.2s linear;
 }
 
+/* --- Dropdown Menu --- */
+
+.dropdown-menu {
+  z-index: 1050 !important;
+}
+
 /* --- Close Button --- */
 
 .btn-close {
