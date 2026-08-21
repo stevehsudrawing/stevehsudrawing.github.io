@@ -37,8 +37,10 @@ App.vue (delegated click on .internal-link)
 | Hash scroll          | `scrollBehavior` — async `requestAnimationFrame` polling             |
 | Scroll restore       | `scrollBehavior` returns `savedPosition` on back/forward (popstate)  |
 | Same-page ?preview=  | `scrollBehavior` → `false` (keep scroll); LoadingBar/dimming skipped |
-| Same-page link click | `scrollBehavior` → `{ top: 0 }` (preview unchanged — scrolls to top) |
+| Same-page ?lang=     | `scrollBehavior` → `false` (keep scroll) — in-place language switch  |
+| Same-page link click | `scrollBehavior` → `{ top: 0 }` (preview & lang unchanged — scrolls) |
 | Language persistence | `router.beforeEach` copies `?lang=` from `from` to `to`              |
+| ?lang= application   | `App.vue` watch on `route.query.lang` → `setLocale()` (see §4.1.1.5) |
 | Chunk-load fallback  | `router.onError` — full `window.location.assign` on failure          |
 
 ##### 4.4.2.3 Known Issue: Edge + Vue Router Window Minimize

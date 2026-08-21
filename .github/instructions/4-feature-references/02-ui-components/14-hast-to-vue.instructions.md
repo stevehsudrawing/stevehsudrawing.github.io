@@ -33,8 +33,9 @@ TypeAwareLink.vue
   ├─ Props: TypeAwareLinkProps (shared in types/app.ts — also used by
   │    gallery.json relatedLink configs):
   │    { href, type, icon?, noQRCode?, hideIndicator? }
-  ├─ type detection: # → anchor, mailto: → email,
-  │   .internal-link → internal, default → external
+  ├─ type detection: # → anchor, mailto:/tel: → email,
+  │   .internal-link → internal, scheme-less href → internal,
+  │   default → external
   ├─ Icons: bi-arrow-up-right (external), bi-envelope (email),
   │   bi-paragraph (anchor) — suppressed for image-only links
   ├─ QRCodeButton: shown only when icon present AND noQRCode !== true
@@ -48,6 +49,8 @@ TypeAwareLink.vue
 | `href` starts with `#`       | `anchor`   | `scrollToHashTarget(hash)`            |
 | `href` starts with `mailto:` | `email`    | Native browser behavior               |
 | `.internal-link` class       | `internal` | `router.push(href)`                   |
+| Scheme-less href (`/...` or  | `internal` | `router.push(href)`                   |
+| relative, incl. query)       |            | (v3.11.1 — markdown links)            |
 | Else                         | `external` | `openExternalLink(url, icon, hideQR)` |
 
 ##### 4.2.14.3 Usage

@@ -97,10 +97,14 @@ export const router = createRouter({
       });
     }
     if (to.path === from.path && !to.hash) {
-      // Lightbox soft navigation (?preview= open / prev / next / close):
-      // preserve scroll.  A same-page link click (preview unchanged) falls
-      // through and scrolls to top (pre-v3.9.1 behavior).
-      if (to.query.preview !== from.query.preview) {
+      // Same-page query-only navigation: preserve scroll for in-place
+      // language switches (?lang=) and the lightbox (?preview= open /
+      // prev / next / close).  Other same-page link clicks fall through
+      // and scroll to top (pre-v3.9.1 behavior).
+      if (
+        to.query.preview !== from.query.preview ||
+        to.query.lang !== from.query.lang
+      ) {
         return false;
       }
     }

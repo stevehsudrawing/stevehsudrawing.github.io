@@ -22,7 +22,7 @@ AppNavbar.vue (one-shot Vue render)
   └─ Actions: switchLanguage(), scroll/resize handlers
        │
        ├── OffcanvasNav.vue (mobile sidebar)
-       │     ├─ Types: NavItem interface
+       │     ├─ Types: NavItem union (shared from types/app)
        │     └─ Props: navItems, currentPage
        │
        └── useGesture.ts (module-level singleton composable)
@@ -47,6 +47,16 @@ On mobile screens (< 768 px):
 - **Language**: `<BDropdown>` with `<BDropdownItem>`, calls `setLocale()`
 - **Theme**: `<BDropdown>` with icon + label, calls `setPreference()`
 - **Settings gear**: `<a data-settings-open>` captured by App.vue delegation
+- **Articles (v3.11.1)**: `NavItem` is a discriminated union
+  (`NavLinkItem` `{ type: "link"; href; i18nKey }` |
+  `NavDropdownItem` `{ type: "dropdown"; i18nKey; children: NavLinkItem[] }`)
+  shared from `types/app.ts`. Desktop renders a dropdown as `<BDropdown>`
+  with `toggle-class="nav-link"` and children as plain `<li>` +
+  `TypeAwareLink class="dropdown-item"` (SPA navigation); the toggle is
+  `active` when any child is active (`isDropdownActive`). Mobile
+  (OffcanvasNav) renders a dropdown as a muted group label
+  (`.offcanvas-nav-group-label`) + indented child links
+  (`.offcanvas-nav-group`).
 
 ##### 4.2.1.5 Edge-Swipe Gestures (Mobile Touch)
 

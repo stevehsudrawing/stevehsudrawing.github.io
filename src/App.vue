@@ -66,7 +66,7 @@ import { STICKER_TRIGGER_HASHES } from "./configs/easter-egg";
 // =========================================================================
 
 useTheme();
-const { initLang, messages, t } = useI18n();
+const { initLang, messages, t, locale, setLocale } = useI18n();
 useStoredValue(getStoredOpenInNewTab, setStoredOpenInNewTab, true);
 const enableAnimations = useStoredValue(
   getStoredEnableAnimations,
@@ -173,6 +173,24 @@ watch(
     }
   },
   { immediate: true },
+);
+
+// ---- Sync ?lang= query changes to the active language ----
+
+/**
+ * Internal links that change only the language (e.g. the worldview page's
+ * cross-language links) navigate without a page reload.  Apply the new
+ * `?lang=` instead of leaving the URL and the active language out of sync.
+ * The dropdown path is unaffected (setLocale writes the URL via
+ * history.replaceState, which does not change `route.query`).
+ */
+watch(
+  () => route.query.lang,
+  (lang) => {
+    if (typeof lang === "string" && lang !== locale.value) {
+      setLocale(lang);
+    }
+  },
 );
 
 // =========================================================================

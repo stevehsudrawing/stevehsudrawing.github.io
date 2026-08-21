@@ -58,7 +58,7 @@ mobile:  64 (navbar) + 48 (mobile bar) + mobileList.offsetHeight
 
 Used on `/copyright-notice.html` (CopyrightPage.vue, static `?raw` import)
 and `/worldview.html` (WorldviewPage.vue, per-language selection via
-`useMarkdownContent("worldview")` — see `01-i18n` §4.1.1.5). Static raw
+`useMarkdownContent("worldview")` — see `01-i18n` §4.1.1.6). Static raw
 import example:
 
 ```ts

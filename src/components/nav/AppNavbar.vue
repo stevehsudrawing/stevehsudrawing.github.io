@@ -21,6 +21,7 @@ import OffcanvasNav from "./OffcanvasNav.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import { OPEN_SETTINGS_KEY } from "../../types/app";
+import type { NavItem, NavDropdownItem } from "../../types/app";
 
 // =========================================================================
 // Props
@@ -29,15 +30,6 @@ import { OPEN_SETTINGS_KEY } from "../../types/app";
 const props = defineProps<{
   currentPage: string;
 }>();
-
-// =========================================================================
-// Types
-// =========================================================================
-
-interface NavItem {
-  href: string;
-  i18nKey: string;
-}
 
 // =========================================================================
 // State
@@ -53,19 +45,33 @@ import { LANGUAGE_LIST } from "../../configs/language-list";
 import { THEME_OPTIONS } from "../../configs/theme-options";
 
 const navItems: NavItem[] = [
-  { href: "/index.html", i18nKey: "text-home" },
+  { type: "link", href: "/index.html", i18nKey: "text-home" },
   {
+    type: "link",
     href: "/artworks-and-videos.html",
     i18nKey: "text-artworks-and-videos",
   },
-  { href: "/gallery.html", i18nKey: "text-gallery" },
-  { href: "/softwares.html", i18nKey: "text-softwares" },
+  { type: "link", href: "/gallery.html", i18nKey: "text-gallery" },
+  { type: "link", href: "/softwares.html", i18nKey: "text-softwares" },
   {
+    type: "link",
     href: "/blogs-and-sponsor.html",
     i18nKey: "text-blogs-and-sponsor",
   },
-  { href: "/chatting.html", i18nKey: "text-chatting" },
-  { href: "/about.html", i18nKey: "text-about" },
+  { type: "link", href: "/chatting.html", i18nKey: "text-chatting" },
+  { type: "link", href: "/about.html", i18nKey: "text-about" },
+  {
+    type: "dropdown",
+    i18nKey: "text-articles",
+    children: [
+      { type: "link", href: "/worldview.html", i18nKey: "text-worldview" },
+      {
+        type: "link",
+        href: "/copyright-notice.html",
+        i18nKey: "text-copyright-notice",
+      },
+    ],
+  },
 ];
 
 const { t, locale, setLocale } = useI18n();
@@ -77,6 +83,15 @@ const { preference, setPreference } = useTheme();
 
 function isActive(href: string): boolean {
   return props.currentPage === normalizeInternalPath(href);
+}
+
+/**
+ * Whether a nav dropdown is considered active — true when any of its
+ * child links points to the current page.
+ * @param item - The dropdown nav item.
+ */
+function isDropdownActive(item: NavDropdownItem): boolean {
+  return item.children.some((c) => isActive(c.href));
 }
 
 // -------------------------------------------------------------------------
@@ -249,8 +264,13 @@ defineExpose({
         id="navbar-content"
       >
         <ul class="navbar-nav flex-grow-1">
-          <li v-for="item in navItems" :key="item.href" class="nav-item">
+          <li
+            v-for="item in navItems"
+            :key="item.type === 'link' ? item.href : item.i18nKey"
+            class="nav-item"
+          >
             <TypeAwareLink
+              v-if="item.type === 'link'"
               type="internal"
               :href="item.href"
               class="nav-link"
@@ -262,6 +282,29 @@ defineExpose({
               "
               >{{ $t(item.i18nKey) }}</TypeAwareLink
             >
+            <BDropdown
+              v-else
+              :toggle-class="
+                isDropdownActive(item) ? 'nav-link active' : 'nav-link'
+              "
+              menu-class="shadow"
+              drop="end"
+              boundary="viewport"
+              teleport-to="nav"
+            >
+              <template #button-content>
+                <span>{{ $t(item.i18nKey) }}</span>
+              </template>
+              <li v-for="child in item.children" :key="child.href">
+                <TypeAwareLink
+                  type="internal"
+                  :href="child.href"
+                  class="dropdown-item"
+                  :class="{ active: isActive(child.href) }"
+                  >{{ $t(child.i18nKey) }}</TypeAwareLink
+                >
+              </li>
+            </BDropdown>
           </li>
         </ul>
 

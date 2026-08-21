@@ -273,6 +273,27 @@ export interface StickerProps {
 }
 
 // -------------------------------------------------------------------------
+// Navbar item types (shared by AppNavbar and OffcanvasNav)
+// -------------------------------------------------------------------------
+
+/** A direct internal navbar link. */
+export interface NavLinkItem {
+  type: "link";
+  href: string;
+  i18nKey: string;
+}
+
+/** A navbar dropdown grouping internal page links (single level). */
+export interface NavDropdownItem {
+  type: "dropdown";
+  i18nKey: string;
+  children: NavLinkItem[];
+}
+
+/** A navbar entry: a direct link or a dropdown. */
+export type NavItem = NavLinkItem | NavDropdownItem;
+
+// -------------------------------------------------------------------------
 // TypeAwareLink props
 // -------------------------------------------------------------------------
 

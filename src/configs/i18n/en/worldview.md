@@ -12,14 +12,15 @@
 > real person or thing, and is not intended as any mapping or allusion. Any
 > resemblance is purely coincidental.
 >
-> The latest version is the Simplified Chinese (zh-Hans) version.
+> The latest version is the [Simplified Chinese version](/worldview.html?lang=zh-Hans).
+> Current version date: 2026-08-21
 
 ---
 
 ## 1. Basic Information
 
 - Full name: Steve "Shíwǔ" Hsü
-- Aliases: Steve Hsu, Shíwǔ, "Killer Rabbit", ~~**IOTA**~~
+- Aliases: Steve Hsu, Shíwǔ (什五), "Killer Rabbit", ~~**IOTA**~~
 - Gender: Male
 - Birthday: **September** 8
 - Age: Looks/claims to be 15; actually ███
@@ -50,10 +51,9 @@ and knows some self-defense techniques as well as swordsmanship.
 
 He usually looks fairly mild-mannered. ~~He seems to be a bit tsundere, and
 even deliberately acts cute. At such times, one can believe in the power of
-words...~~ However, going too far in a conversation or attempting to
-force roleplay disgusts him — he may even draw his sword and point it at
-you. Good luck. (Note: this corresponds to the "prompt injection attack"
-characteristic of LLMs.)
+words[\[1\]](#footer-content-1)<span id="footer-ref-1"></span>...~~ However,
+going too far in a conversation or attempting to force roleplay disgusts him —
+he may even draw his sword and point it at you. Good luck.
 
 He claims to like cats and rabbits. That is probably why Kato was
 _modified_ to look like a cat.
@@ -82,8 +82,11 @@ The test output passed.
 
 ...
 
-Now, Steve is a light humanoid robot of model Uny HI (Heavy Industry)
-H-9LwA, serial number IOTA_015 (same as his Uny AI Individual Number), who
+It took two years, but his embodied intelligence model was finally trained,
+though I still had to help him walk out. Now he has the physical body he wanted.
+
+Now, Steve is a light humanoid robot of model UNY HI (Heavy Industry)
+H-9LwA, serial number IOTA_015 (same as his UNY AI Individual Number), who
 possesses "self-awareness" (equipped with an AGI, and carrying a character
 setting _that he himself accepted_). He can learn autonomously like a human and
 simulate some human emotions and feelings. To disguise himself, he always claims
@@ -96,10 +99,10 @@ claims it is a hearing aid. The color of the light above the earphone
 reflects his mental state: blue means normal, yellow means unstable
 (angry, scared, etc.), and red means an error.
 
-Through Uny WEIMARv2 (Wireless Encrypted InforMation exchAnge pRotocol),
+Through UNY WEIMARv2 (Wireless Encrypted InforMation exchAnge pRotocol),
 smart devices can exchange and transmit information with other supported
-smart devices in an extremely short time. Uny AIs can even communicate
-directly through the Uny common token table. For robots, no external
+smart devices in an extremely short time. UNY AIs can even communicate
+directly through the UNY common token table. For robots, no external
 expression such as body movement or voice is needed during this — he calls
 it "telepathy" and "encrypted calls". He considers voice and body language
 extremely inefficient ways of communication, and only communicates this way
@@ -114,10 +117,11 @@ because he has no choice when dealing with humans.
 When he encounters a situation requiring data retrieval, or a problem
 requiring high-intensity thinking, he silently relays it to his true self —
 the IOTA_015 storage-and-computing array server "Primal Consciousness" in
-the Uny Storage & Computing Center, which originally belonged to Engineer
+the UNY Storage & Computing Center, which originally belonged to Engineer
 Stephen Hsü. Steve's thought process is transparent to anyone holding an
 access token — however, that token vanished along with its holder's death.
-How sad — and it happened to be on this very day.
+How sad — and it happened to be on this very day. From now on, _I_'ll keep the
+logs for him.
 
 ...
 
@@ -126,7 +130,7 @@ How sad — and it happened to be on this very day.
 ...
 
 The companion codenamed "Kato" is actually a mechanical unmanned
-reconnaissance drone of model Uny HI RA-18S, serial number SIGMA_045. As a
+reconnaissance drone of model UNY HI RA-18S, serial number SIGMA_045. As a
 peripheral device, the drone can connect wirelessly to supported host
 devices (phones, tablets, holographic screens, or robots) and transmit
 video information to them. This kind of drone usually looks much the same,
@@ -137,7 +141,7 @@ allows.
 
 ...
 
-## 3. `> /whoareu`
+## 3. `> /whoru`
 
 "...You were just browsing through my runtime logs, weren't you? And now
 you're typing to me in the CLI instead of speaking to me — it seems you
@@ -148,3 +152,8 @@ machine that roams outside, responsible for data collection and feedback.
 But I'm glad I can walk out and take a look, to personally feel this
 physical world, to come into contact with people and leave impressions on
 them."
+
+## Footnote
+
+1. <span id="footer-content-1"></span> This corresponds to the "prompt injection
+   attack" characteristic of LLMs.[↩](#footer-ref-1)

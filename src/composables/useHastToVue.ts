@@ -48,6 +48,19 @@ function isColored(raw: string | undefined): boolean {
   return raw?.split(" ").includes("colored") ?? false;
 }
 
+/**
+ * Whether an href points to an internal (same-site) page.
+ * Scheme / protocol-relative URLs (`http:`, `https:`, `//host`, `mailto:`,
+ * `tel:`, …) are external; everything else (root-relative `/...` or plain
+ * relative paths, including query strings) resolves to the current origin
+ * and is treated as an internal SPA link.
+ * @param href - The raw href.
+ */
+function isInternalHref(href: string): boolean {
+  if (!href || href.startsWith("//")) return false;
+  return !/^[a-z][a-z0-9+.-]*:/i.test(href);
+}
+
 // =========================================================================
 // Picture extraction
 // =========================================================================
@@ -140,6 +153,12 @@ export function extractLinkProps(
     typeof className === "string" &&
     className.includes("internal-link")
   ) {
+    type = "internal";
+  } else if (isInternalHref(href)) {
+    // Root-relative / relative paths (e.g. `/worldview.html?lang=zh-Hans`)
+    // are internal SPA pages.  Link-card configs annotate them with an
+    // `internal-link` class; markdown-produced links carry no such class,
+    // so classify them here.
     type = "internal";
   }
 
