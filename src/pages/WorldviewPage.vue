@@ -36,5 +36,9 @@ const { content } = useMarkdownContent("worldview");
   <hr />
 
   <!-- ==== Markdown content with built-in scrollspy ==== -->
-  <MarkdownArticle :content="content" class="no-copy" />
+  <MarkdownArticle
+    :content="content"
+    page-path="/worldview.html"
+    class="no-copy"
+  />
 </template>

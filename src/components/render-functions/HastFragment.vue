@@ -2,8 +2,9 @@
   HastFragment.vue — Recursive HAST-to-Vue renderer.
 
   Converts a HAST node tree (from markdown or link-card JSON) into
-  Vue VNodes, upgrading `<a>` to `<TypeAwareLink>` and `<img>` to
-  `<FeatureAwarePicture>` or `<ColoredImg>`.  Other elements are
+  Vue VNodes, upgrading `<a>` to `<TypeAwareLink>`, `<img>` to
+  `<FeatureAwarePicture>` or `<ColoredImg>`, and `<section-heading>`
+  (markdown heading markers) to `<SectionHeading>`.  Other elements are
   rendered as native HTML elements with their attributes passed
   through.
 -->
@@ -18,6 +19,7 @@ import {
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import ColoredImg from "../images/ColoredImg.vue";
+import SectionHeading from "../ui/SectionHeading.vue";
 import type { HastNode } from "../../types/hast";
 
 type RenderResult = VNode | string;
@@ -84,6 +86,22 @@ export default defineComponent({
               return h(FeatureAwarePicture, pictureProps as any);
             }
           }
+        }
+
+        // <section-heading> → SectionHeading (markdown heading markers
+        // produced by MarkdownArticle; inline children become slot content)
+        if (node.tagName === "section-heading") {
+          const { headingId, title, level, pagePath } = properties;
+          return h(
+            SectionHeading,
+            {
+              title: typeof title === "string" ? title : "",
+              headingId: typeof headingId === "string" ? headingId : undefined,
+              level: typeof level === "number" ? level : 2,
+              pagePath: typeof pagePath === "string" ? pagePath : undefined,
+            },
+            { default: () => children },
+          );
         }
 
         // — Native HTML element --

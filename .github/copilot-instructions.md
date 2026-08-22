@@ -307,9 +307,15 @@ When generating responses for this project, Copilot should:
    possible. This helps to use `beautify` to format files, as it has poor
    support for full-width characters.
 
-1. **Discuss before executing**: When the user proposes a new function or a
-   change, first explain the approach and analysis. Only proceed with
-   implementation after the user confirms ("go ahead", "执行", "可以", etc.).
+1. **TODO-driven update workflow**: Project updates follow a fixed loop:
+   1. **Discuss** the proposal
+   2. **Write a versioned TODO doc** in `docs/todos/vX.Y.Z.md`
+   3. **Iterate on the TODO** with the user
+   4. After the user confirms, **execute all the TODO's updates in one pass**
+   5. Continue iterating on the results
+   6. The **user commits manually**
+      Do not start implementing before the user has confirmed the TODO ("go ahead",
+      "执行", "可以", etc.).
 
 2. **Priority of norms/standards**: If there are more normative or standard
    practices, priority should be given to norms or standards, even if

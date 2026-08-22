@@ -2,13 +2,18 @@
   MarkdownArticle.vue — Reusable markdown renderer with built-in scrollspy.
 
   Accepts a raw markdown string via the `content` prop and renders it through
-  a full HAST post-processing pipeline (marked -> fromHtml -> process -> toHtml),
-  then displays the result alongside a desktop sidebar scrollspy and a mobile
-  sticky collapsible heading nav.
+  a full HAST post-processing pipeline (marked -> fromHtml -> process ->
+  HastFragment), then displays the result alongside a desktop sidebar
+  scrollspy and a mobile sticky collapsible heading nav.
+
+  Markdown headings (h2–h6) are replaced with `<section-heading>` HAST
+  markers that HastFragment renders as SectionHeading, giving every heading
+  anchor + copy-link buttons for free.
 
   Props:
     content      - Raw markdown string (required)
     scrollOffset - Scroll offset for heading clicks, desktop (default 64)
+    pagePath     - Page path for heading copy-link URLs (e.g. "/worldview.html")
 -->
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
@@ -43,6 +48,8 @@ const props = withDefaults(
     content: string;
     /** Scroll offset from top for desktop heading clicks. */
     scrollOffset?: number;
+    /** Page path for heading copy-link URLs (e.g. "/worldview.html"). */
+    pagePath?: string;
   }>(),
   {
     scrollOffset: 64,
@@ -85,18 +92,13 @@ const breakpoint = useBreakpoint();
 // HAST post-processing
 // -------------------------------------------------------------------------
 
-/** Heading level -> Bootstrap heading class mapping: h2->.h4, h3->.h5, etc. */
-function headingClass(tagName: string): string {
-  const match = /^h(\d)$/.exec(tagName);
-  if (!match) return "";
-  const level = parseInt(match[1], 10);
-  return `h${Math.min(level + 2, 6)}`;
-}
-
 /**
  * Walk the HAST tree recursively and apply transformations:
  * - Remove h1 elements (title provided by page hero section)
- * - Add dash-case id + Bootstrap heading class to h2–h6
+ * - Replace h2–h6 with a `<section-heading>` marker — HastFragment renders
+ *   it as SectionHeading (heading with anchor + copy-link buttons); the
+ *   original inline children are kept as the heading's slot content so
+ *   inline formatting (e.g. `<code>`) is preserved
  * - Collect headings into the reactive `headings` array for scrollspy
  * - Add .table to <table> elements
  * @param node - A HAST node (mutated in place).
@@ -112,22 +114,26 @@ function processHastNode(node: HastNode): void {
     // Remove h1
     if (el.type === "element" && el.tagName === "h1") continue;
 
-    // Add id + heading class to h2–h6; collect for scrollspy
+    // Replace h2–h6 with a SectionHeading marker; collect for scrollspy
     if (el.type === "element" && el.tagName && /^h[2-6]$/.test(el.tagName)) {
-      const text = extractPlainText(el as unknown as HastNode);
+      const text = extractPlainText(el);
       if (text) {
         const id = toDashCase(text);
         const level = parseInt(el.tagName.slice(1), 10);
         headings.value.push({ id, text, level });
 
-        el.properties = el.properties || {};
-        el.properties.id = id;
-        const cls = headingClass(el.tagName);
-        if (cls) {
-          el.properties.className = el.properties.className
-            ? [...(el.properties.className as string[]), cls]
-            : [cls];
-        }
+        newChildren.push({
+          type: "element",
+          tagName: "section-heading",
+          properties: {
+            headingId: id,
+            title: text,
+            level,
+            pagePath: props.pagePath,
+          },
+          children: el.children ?? [],
+        });
+        continue;
       }
     }
 
@@ -374,22 +380,6 @@ onBeforeUnmount(() => {
   line-height: 1.7;
 }
 
-.markdown-article :deep(.article h1),
-.markdown-article :deep(.article h2),
-.markdown-article :deep(.article h3),
-.markdown-article :deep(.article h4),
-.markdown-article :deep(.article h5),
-.markdown-article :deep(.article h6),
-.markdown-article :deep(.article .h1),
-.markdown-article :deep(.article .h2),
-.markdown-article :deep(.article .h3),
-.markdown-article :deep(.article .h4),
-.markdown-article :deep(.article .h5),
-.markdown-article :deep(.article .h6) {
-  margin-top: 0.5rem;
-  border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.25);
-}
-
 /* ==== Desktop scrollspy nav ==== */
 
 .scrollspy-nav .nav-link {
@@ -405,6 +395,10 @@ onBeforeUnmount(() => {
 .scrollspy-nav .nav-link.active {
   color: var(--bs-primary);
   font-weight: calc(var(--bs-body-font-weight) + 100);
+}
+
+.markdown-article :deep(.section-heading-wrapper) {
+  border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
 }
 
 /* ==== Mobile scrollspy: sticky collapsible bar ==== */

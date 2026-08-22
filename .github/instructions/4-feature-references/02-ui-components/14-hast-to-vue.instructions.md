@@ -23,10 +23,11 @@ useHastToVue.ts
 HastFragment.vue
   ├─ Props: { nodes: HastNode[] }
   ├─ Recursive h() renderer:
-  │    <a>   → TypeAwareLink
-  │    <img> → FeatureAwarePicture or ColoredImg (based on dataImgFeature)
-  │    text  → data-i18n resolution → $t() or raw text
-  │    other → native element via h(tagName, vueProps, children)
+  │    <a>                → TypeAwareLink
+  │    <img>              → FeatureAwarePicture or ColoredImg (dataImgFeature)
+  │    <section-heading>  → SectionHeading (markdown heading markers, v3.11.2)
+  │    text               → data-i18n resolution → $t() or raw text
+  │    other              → native element via h(tagName, vueProps, children)
   └─ Replaces all v-html usage (LinkCard, MarkdownArticle)
 
 TypeAwareLink.vue

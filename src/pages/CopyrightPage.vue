@@ -35,5 +35,5 @@ import copyrightMd from "../../public/images/README.md?raw";
   <hr />
 
   <!-- ==== Markdown content with built-in scrollspy ==== -->
-  <MarkdownArticle :content="copyrightMd" />
+  <MarkdownArticle :content="copyrightMd" page-path="/copyright-notice.html" />
 </template>

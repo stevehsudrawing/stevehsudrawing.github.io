@@ -1,10 +1,12 @@
 <!--
   SectionHeading.vue — Section heading with anchor and copy-link buttons.
-  Renders an <h2> with a dash-case id (auto-generated from the title),
-  an AnchorButton for permalink sharing, and a CopyButton for clipboard copy.
+  Renders a heading (default <h2>) with a dash-case id (auto-generated from
+  the title), an AnchorButton for permalink sharing, and a CopyButton for
+  clipboard copy.
 
-  Used by LinkCardGroup.vue (HAST titles via slot) and page components
-  (static i18n titles via prop).
+  Used by LinkCardGroup.vue / PictureGroup.vue (HAST titles via slot),
+  page components (static i18n titles via prop), and MarkdownArticle.vue
+  (markdown headings, rendered through a `section-heading` HAST marker).
 -->
 <script setup lang="ts">
 import { computed } from "vue";
@@ -17,18 +19,27 @@ import CopyButton from "../buttons/CopyButton.vue";
 // Props
 // =========================================================================
 
-const props = defineProps<{
-  /** Plain-text heading (used for id generation and aria-label). */
-  title: string;
-  /**
-   * Stable, language-independent anchor ID.
-   * When provided, used directly as the heading's HTML id.
-   * When omitted, derived from `title` via toDashCase().
-   */
-  headingId?: string;
-  /** Page path for copy-link URL (e.g. "/about.html"). */
-  pagePath?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    /** Plain-text heading (used for id generation and aria-label). */
+    title: string;
+    /**
+     * Stable, language-independent anchor ID.
+     * When provided, used directly as the heading's HTML id.
+     * When omitted, derived from `title` via toDashCase().
+     */
+    headingId?: string;
+    /** Page path for copy-link URL (e.g. "/about.html"). */
+    pagePath?: string;
+    /**
+     * Semantic heading level, an integer in [2, 6] (default 2).
+     * Renders `<h{level}>` with the Bootstrap size class
+     * `.h{min(level + 2, 6)}` — i.e. level 2 -> .h4, 3 -> .h5, 4+ -> .h6.
+     */
+    level?: number;
+  }>(),
+  { level: 2 },
+);
 
 // =========================================================================
 // State
@@ -36,29 +47,37 @@ const props = defineProps<{
 
 const titleId = computed(() => props.headingId || toDashCase(props.title));
 
+/** Heading level clamped to the [2, 6] range. */
+const headingLevel = computed(() => Math.min(Math.max(props.level, 2), 6));
+
+/** Bootstrap heading size class: .h4 / .h5 / .h6 (never exceeds 6). */
+const headingClass = computed(() => `h${Math.min(headingLevel.value + 2, 6)}`);
+
 const copyUrl = computed(() =>
   props.pagePath ? `${BASE_URL}${props.pagePath}#${titleId.value}` : "",
 );
 </script>
 
 <template>
-  <div class="title-link-group-wrapper">
-    <h2 v-if="titleId" :id="titleId" class="title-link-group h4">
+  <div class="section-heading-wrapper">
+    <component
+      :is="`h${headingLevel}`"
+      :id="titleId || undefined"
+      class="section-heading"
+      :class="headingClass"
+    >
       <slot>{{ title }}</slot>
-    </h2>
-    <h2 v-else class="title-link-group h4">
-      <slot>{{ title }}</slot>
-    </h2>
-    <div>
+    </component>
+    <div class="section-heading-buttons-wrapper">
       <AnchorButton
         v-if="titleId"
-        class="me-2"
+        class="my-auto me-1"
         :target-id="titleId"
         :heading-title="title"
       />
       <CopyButton
         v-if="titleId && copyUrl"
-        class="link title-link-anchor"
+        class="my-auto link title-link-anchor"
         :copy-text="copyUrl"
       >
         <i class="bi bi-link-45deg"></i>
@@ -68,16 +87,16 @@ const copyUrl = computed(() =>
 </template>
 
 <style scoped>
-/* ---- Group header ---- */
-.title-link-group {
-  margin-top: 10px;
-  margin-bottom: 1rem;
+.section-heading-wrapper {
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.title-link-group-wrapper {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
+.section-heading-buttons-wrapper {
+  display: flex;
+  font-size: 1rem;
+  margin-left: 0.5rem;
 }
 
 /* ---- Title link anchors ---- */
@@ -104,8 +123,8 @@ const copyUrl = computed(() =>
     pointer-events: none;
   }
 
-  .title-link-group-wrapper:hover .title-link-anchor,
-  .title-link-group-wrapper:focus-within .title-link-anchor {
+  .section-heading-wrapper:hover .title-link-anchor,
+  .section-heading-wrapper:focus-within .title-link-anchor {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;

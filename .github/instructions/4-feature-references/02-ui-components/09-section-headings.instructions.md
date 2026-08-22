@@ -14,15 +14,22 @@ applyTo: >
 
 ##### 4.2.9.1 SectionHeading.vue
 
-Renders an `<h2>` with an auto-generated `dash-case` id (or an explicit
-`headingId` for i18n-stable anchors), plus `AnchorButton` for permalink
-sharing and `CopyButton` for clipboard copy.
+Renders a heading (default `<h2>`) with an auto-generated `dash-case` id (or
+an explicit `headingId` for i18n-stable anchors), plus `AnchorButton` for
+permalink sharing and `CopyButton` for clipboard copy.
 
-| Prop        | Type      | Notes                                           |
-| ----------- | --------- | ----------------------------------------------- |
-| `title`     | `string`  | Display text + fallback id source               |
-| `headingId` | `string?` | Stable, language-independent anchor id          |
-| `pagePath`  | `string?` | Needed for copy-link URL (e.g. `"/about.html"`) |
+| Prop        | Type      | Notes                                                 |
+| ----------- | --------- | ----------------------------------------------------- |
+| `title`     | `string`  | Display text + fallback id source                     |
+| `headingId` | `string?` | Stable, language-independent anchor id                |
+| `pagePath`  | `string?` | Needed for copy-link URL (e.g. `"/about.html"`)       |
+| `level`     | `number?` | Semantic heading level, integer in [2, 6] (default 2) |
+
+The `level` prop drives both the semantic tag and the Bootstrap size class:
+`<h{level}>` with `.h{min(level + 2, 6)}` — level 2 → `.h4`, 3 → `.h5`,
+4+ → `.h6` (the class number never exceeds 6). The heading tag is rendered
+via a dynamic `<component :is>`, so `level` can be used to render
+markdown h3/h4 headings (see `10-markdown-article` §4.2.10.2).
 
 The copy-link URL is built as `BASE_URL + pagePath + #id`, where `BASE_URL`
 is imported directly from `src/configs/site-meta.ts` (no `baseUrl` prop).
