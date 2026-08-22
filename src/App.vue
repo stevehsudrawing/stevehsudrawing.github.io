@@ -4,46 +4,46 @@
   main.ts's DOMContentLoaded handler.
 -->
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, nextTick, provide } from "vue";
+import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
 
 // =========================================================================
 // Imports
 // =========================================================================
 
 // Vue Router
-import { useRouter, useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 // Composables
-import { useTheme } from "./composables/useTheme";
 import { useI18n } from "./composables/useI18n";
-import { useStoredValue } from "./composables/useStoredValue";
-import { usePageNavigation } from "./composables/usePageNavigation";
 import { useModalStack } from "./composables/useModalStack";
+import { usePageNavigation } from "./composables/usePageNavigation";
+import { useStoredValue } from "./composables/useStoredValue";
+import { useTheme } from "./composables/useTheme";
 import { SHOW_TOAST_KEY } from "./composables/useToast";
 
 // UI components (template refs)
-import SettingsModal from "./components/modals/SettingsModal.vue";
+import SkipButton from "./components/buttons/SkipButton.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
-import QRCodeModal from "./components/modals/QRCodeModal.vue";
-import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
 import GitHubEventsModal from "./components/modals/GitHubEventsModal.vue";
 import PictureViewerModal from "./components/modals/PictureViewerModal.vue";
+import QRCodeModal from "./components/modals/QRCodeModal.vue";
+import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
+import SettingsModal from "./components/modals/SettingsModal.vue";
 import StickerModal from "./components/modals/StickerModal.vue";
-import LoadingScreen from "./components/ui/LoadingScreen.vue";
-import LoadingBar from "./components/ui/LoadingBar.vue";
-import SkipButton from "./components/buttons/SkipButton.vue";
 import AppNavbar from "./components/nav/AppNavbar.vue";
 import FooterNav from "./components/nav/FooterNav.vue";
+import LoadingBar from "./components/ui/LoadingBar.vue";
+import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 // Platform-level modules
+import type { TypeAwareImageProps } from "./types/app";
 import {
   OPEN_EXTERNAL_LINK_KEY,
   OPEN_QR_CODE_KEY,
   OPEN_SETTINGS_KEY,
   OPEN_STICKER_KEY,
 } from "./types/app";
-import type { TypeAwareImageProps } from "./types/app";
 
 import {
   getStoredEnableAnimations,
@@ -52,14 +52,14 @@ import {
   setStoredOpenInNewTab,
 } from "./platform/storage";
 
-import { initBootstrapCSSDetection } from "./platform/bootstrap-css-detection";
+import { STICKER_TRIGGER_HASHES } from "./configs/easter-egg";
+import { normalizeInternalPath } from "./core/utils";
 import {
   initHashChangeScroll,
   initInputModalityDetection,
 } from "./platform/accessibility";
+import { initBootstrapCSSDetection } from "./platform/bootstrap-css-detection";
 import { initNoCopyProtection } from "./platform/no-copy";
-import { normalizeInternalPath } from "./core/utils";
-import { STICKER_TRIGGER_HASHES } from "./configs/easter-egg";
 
 // =========================================================================
 // State

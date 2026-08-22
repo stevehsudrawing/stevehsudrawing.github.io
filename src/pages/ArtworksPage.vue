@@ -5,8 +5,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
-import HeroSection from "../components/ui/HeroSection.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
+import HeroSection from "../components/ui/HeroSection.vue";
 import { useLinkCards } from "../composables/useLinkCards";
 
 // =========================================================================

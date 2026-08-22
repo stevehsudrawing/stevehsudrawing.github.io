@@ -6,7 +6,7 @@
   Replaces ui/svg-utils.ts and composables/useSvgInjection.ts.
 -->
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 // =========================================================================
 // Helpers (module-level — shared across component instances)

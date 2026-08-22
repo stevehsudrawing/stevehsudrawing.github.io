@@ -13,9 +13,9 @@
  * - All accessors validate on read and fail closed to a safe default.
  */
 
+import { DEFAULT_LANG, LANGUAGE_LIST } from "../configs/language-list";
+import type { GitHubEvent, GitHubUser, Lang, ThemeChoice } from "../types/app";
 import { StorageKey } from "../types/app";
-import type { ThemeChoice, Lang, GitHubUser, GitHubEvent } from "../types/app";
-import { LANGUAGE_LIST, DEFAULT_LANG } from "../configs/language-list";
 
 // =========================================================================
 // Low-level primitives (private)

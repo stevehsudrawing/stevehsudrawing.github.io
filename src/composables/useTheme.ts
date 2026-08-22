@@ -12,11 +12,11 @@
  * existing exported functions.
  */
 
-import { ref, computed, watch, onMounted, onUnmounted, type Ref } from "vue";
-import { useStoredValue } from "./useStoredValue";
-import type { ThemeChoice, EffectiveTheme } from "../types/app";
-import { applyThemePreference } from "../platform/theme";
+import { computed, onMounted, onUnmounted, ref, watch, type Ref } from "vue";
 import { getStoredTheme, setStoredTheme } from "../platform/storage";
+import { applyThemePreference } from "../platform/theme";
+import type { EffectiveTheme, ThemeChoice } from "../types/app";
+import { useStoredValue } from "./useStoredValue";
 
 // =========================================================================
 // Module-level shared state (singleton — all components share the same ref)

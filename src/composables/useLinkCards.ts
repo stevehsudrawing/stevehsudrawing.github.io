@@ -1,7 +1,7 @@
 /**
  * Link cards composable — loads the link-card JSON config for the current page.
  */
-import { ref, computed, type Ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import type { LinkCardGroupData } from "../types/app";
 
 // =========================================================================

@@ -6,18 +6,18 @@
   auto-hiding this modal; Cancel pops back.
 -->
 <script setup lang="ts">
-import { ref, computed } from "vue";
 import { formatDistanceToNow } from "date-fns";
-import { DATE_LOCALES } from "../../configs/language-list";
-import { useI18n } from "../../composables/useI18n";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { useModalFocus } from "../../composables/useModalFocus";
+import { computed, ref } from "vue";
 import {
-  eventTypeIcon,
   eventTypeI18nKey,
+  eventTypeIcon,
 } from "../../composables/useGithubActivity";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
+import { useI18n } from "../../composables/useI18n";
+import { useModalFocus } from "../../composables/useModalFocus";
+import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { DATE_LOCALES } from "../../configs/language-list";
 import type { GitHubEvent } from "../../types/app";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================

@@ -5,16 +5,16 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import TypeAwareImage from "../images/TypeAwareImage.vue";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
-import QRCodeButton from "../buttons/QRCodeButton.vue";
-import HastFragment from "../render-functions/HastFragment.vue";
 import type {
   LinkCardData,
   TypeAwareImageProps,
   TypeAwareLinkProps,
 } from "../../types/app";
 import type { HastNode } from "../../types/hast";
+import QRCodeButton from "../buttons/QRCodeButton.vue";
+import TypeAwareImage from "../images/TypeAwareImage.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import HastFragment from "../render-functions/HastFragment.vue";
 
 // =========================================================================
 // Props
@@ -102,11 +102,11 @@ const showQR = computed(() => {
               v-if="titleLink"
               v-bind="titleLink"
               :icon="icon"
-              class="card-title h6 flex-grow-1"
+              class="card-title mb-1 flex-grow-1"
             >
               {{ titleText }}
             </TypeAwareLink>
-            <span v-else class="card-title h6">{{ titleText }}</span>
+            <span v-else class="card-title mb-1">{{ titleText }}</span>
             <!-- QR button -->
             <QRCodeButton
               v-if="showQR && titleLink"

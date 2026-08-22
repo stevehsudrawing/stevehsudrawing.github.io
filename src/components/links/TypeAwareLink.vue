@@ -14,8 +14,8 @@
 import { computed, inject } from "vue";
 import { useRouter } from "vue-router";
 import { scrollToHashTarget } from "../../platform/accessibility";
-import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
 import type { TypeAwareImageProps, TypeAwareLinkProps } from "../../types/app";
+import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
 
 // =========================================================================
 // Types

@@ -5,12 +5,12 @@
   backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { useTheme } from "../../composables/useTheme";
-import { useStoredValue } from "../../composables/useStoredValue";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useStoredValue } from "../../composables/useStoredValue";
+import { useTheme } from "../../composables/useTheme";
 import { LANGUAGE_LIST } from "../../configs/language-list";
 import { THEME_OPTIONS } from "../../configs/theme-options";
 import {

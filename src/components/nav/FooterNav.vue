@@ -2,10 +2,10 @@
   FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
+import { BASE_URL, GITHUB_REPO } from "../../configs/site-meta.js";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
-import { BASE_URL, GITHUB_REPO } from "../../configs/site-meta.js";
 </script>
 
 <template>

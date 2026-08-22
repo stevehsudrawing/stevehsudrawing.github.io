@@ -16,16 +16,16 @@
   See §4.2.6.1 for the manual tooltip pattern this replaces.
 -->
 <script lang="ts">
+import { vBTooltip } from "bootstrap-vue-next";
 import {
-  defineComponent,
   cloneVNode,
-  withDirectives,
-  ref,
-  reactive,
+  defineComponent,
   onUnmounted,
+  reactive,
+  ref,
+  withDirectives,
   type VNode,
 } from "vue";
-import { vBTooltip } from "bootstrap-vue-next";
 
 export default defineComponent({
   props: {

@@ -21,7 +21,7 @@
  * // breakpoint.value === "mobile" | "tablet" | "desktop" | "wide-desktop"
  */
 
-import { ref, onMounted, onBeforeUnmount, type Ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, type Ref } from "vue";
 import type { Breakpoint } from "../types/app";
 
 // =========================================================================

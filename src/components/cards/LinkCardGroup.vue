@@ -3,13 +3,13 @@
   Renders one LinkCardGroupData item from the link-cards JSON config.
 -->
 <script setup lang="ts">
+import { toHtml } from "hast-util-to-html";
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { resolveI18nInHtml } from "../../core/utils";
-import LinkCard from "./LinkCard.vue";
-import SectionHeading from "../ui/SectionHeading.vue";
-import { toHtml } from "hast-util-to-html";
 import type { LinkCardGroupData } from "../../types/app";
+import SectionHeading from "../ui/SectionHeading.vue";
+import LinkCard from "./LinkCard.vue";
 
 // =========================================================================
 // Props

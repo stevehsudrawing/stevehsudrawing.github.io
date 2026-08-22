@@ -5,18 +5,18 @@
   confirm flow for the QR URL).  backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from "vue";
 import QRCode from "qrcode";
+import { computed, nextTick, ref, watch } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { useTheme } from "../../composables/useTheme";
 import { useToast } from "../../composables/useToast";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
-import { cssVar } from "../../platform/css-var";
 import { BASE_URL } from "../../configs/site-meta";
-import InlineSvg from "../ui/InlineSvg.vue";
-import TypeAwareImage from "../images/TypeAwareImage.vue";
+import { cssVar } from "../../platform/css-var";
 import type { TypeAwareImageProps } from "../../types/app";
+import TypeAwareImage from "../images/TypeAwareImage.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import InlineSvg from "../ui/InlineSvg.vue";
 
 // =========================================================================
 // State

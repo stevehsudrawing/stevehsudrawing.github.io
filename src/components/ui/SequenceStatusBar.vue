@@ -3,9 +3,9 @@
   easter egg.  Driven by the shared useMajorColorSequence singleton.
   Shows a terminal-style progress line as the color sequence is entered:
 
-detecting: < [==  ] Sequence detected
-  success:   < [====] Authentication successful  (.text-success, 3 s)
-  error:     < [    ] Authentication failed      (.text-danger, 3 s)
+detecting: < [##--] Sequence detected
+  success:   < [####] Authentication successful  (.text-success, 3 s)
+  error:     < [----] Authentication failed      (.text-danger, 3 s)
 
   A 5 s inactivity timeout hides the bar too.  Text is deliberately NOT
   i18n (like the sticker-modal title) — a language-neutral terminal log
@@ -28,13 +28,13 @@ import {
 const { status, progress } = useMajorColorSequence();
 
 /**
- * Terminal progress cells, e.g. `==  ` for 2 of SEQUENCE_LENGTH signals.
- * Filled `=` count comes from the composable's `progress` (0 for idle /
+ * Terminal progress cells, e.g. `##--` for 2 of SEQUENCE_LENGTH signals.
+ * Filled `#` count comes from the composable's `progress` (0 for idle /
  * error, full for success).
  */
 const progressCells = computed(() => {
   const filled = Math.min(progress.value, SEQUENCE_LENGTH);
-  return "=".repeat(filled) + "-".repeat(SEQUENCE_LENGTH - filled);
+  return "#".repeat(filled) + "-".repeat(SEQUENCE_LENGTH - filled);
 });
 
 /**

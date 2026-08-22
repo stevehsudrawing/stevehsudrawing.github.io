@@ -10,10 +10,10 @@
   Alt text uses i18n key `text-sticker-of-{stickerId}`.
 -->
 <script setup lang="ts">
-import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import { computed } from "vue";
 import { createStickerSrcMap } from "../../core/utils";
 import type { StickerProps } from "../../types/app";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 
 // =========================================================================
 // Props

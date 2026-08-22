@@ -3,8 +3,6 @@
  * Provides shared helpers for some logic used across multiple modules.
  */
 
-import type { HastProperties } from "../types/hast";
-import { INTERNAL_PAGES, EXCLUDED_PAGES } from "../configs/pages";
 import type { LocationQueryRaw } from "vue-router";
 import type { Lang, LanguageAwareString, PictureSrcMap } from "../types/app";
 

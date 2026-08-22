@@ -10,14 +10,14 @@
  */
 
 import { computed, type ComputedRef } from "vue";
-import { useGithubApi, type GithubApiState } from "./useGithubApi";
-import {
-  type GitHubEvent,
-  type ActivityStat,
-  type DailyStat,
-} from "../types/app";
 import { GITHUB_USERNAME } from "../configs/site-meta";
 import { GITHUB_EVENTS_CACHE } from "../platform/storage";
+import {
+  type ActivityStat,
+  type DailyStat,
+  type GitHubEvent,
+} from "../types/app";
+import { useGithubApi, type GithubApiState } from "./useGithubApi";
 
 // =========================================================================
 // Constants

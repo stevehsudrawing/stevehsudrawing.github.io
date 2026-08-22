@@ -9,11 +9,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useGithubProfile } from "../../composables/useGithubProfile";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
-import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
-import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import { useI18n } from "../../composables/useI18n";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 
 // =========================================================================
 // Props

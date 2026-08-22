@@ -11,17 +11,17 @@
   - Scroll border via @scroll + :class
 -->
 <script setup lang="ts">
-import { ref, computed, inject, onMounted, onBeforeUnmount } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { useTheme } from "../../composables/useTheme";
+import { computed, inject, onBeforeUnmount, onMounted, ref } from "vue";
 import { useBreakpoint } from "../../composables/useBreakpoint";
 import { useGesture } from "../../composables/useGesture";
-import { normalizeInternalPath, extractPageName } from "../../core/utils";
-import OffcanvasNav from "./OffcanvasNav.vue";
-import InlineSvg from "../ui/InlineSvg.vue";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
+import { useI18n } from "../../composables/useI18n";
+import { useTheme } from "../../composables/useTheme";
+import { extractPageName, normalizeInternalPath } from "../../core/utils";
+import type { NavDropdownItem, NavItem } from "../../types/app";
 import { OPEN_SETTINGS_KEY } from "../../types/app";
-import type { NavItem, NavDropdownItem } from "../../types/app";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import InlineSvg from "../ui/InlineSvg.vue";
+import OffcanvasNav from "./OffcanvasNav.vue";
 
 // =========================================================================
 // Props

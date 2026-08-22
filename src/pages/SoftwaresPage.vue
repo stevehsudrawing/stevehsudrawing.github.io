@@ -4,13 +4,13 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
-import HeroSection from "../components/ui/HeroSection.vue";
-import PageChainNav from "../components/nav/PageChainNav.vue";
-import { useLinkCards } from "../composables/useLinkCards";
-import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import GitHubActivityStatsCard from "../components/cards/GitHubActivityStatsCard.vue";
+import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
+import PageChainNav from "../components/nav/PageChainNav.vue";
+import HeroSection from "../components/ui/HeroSection.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
+import { useLinkCards } from "../composables/useLinkCards";
 
 // =========================================================================
 // Link cards

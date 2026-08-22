@@ -10,8 +10,8 @@
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
 import { getPageNavLinks } from "../../core/page-chain";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
 // Props

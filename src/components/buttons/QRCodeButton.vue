@@ -6,9 +6,9 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import type { TypeAwareImageProps } from "../../types/app";
 import { OPEN_QR_CODE_KEY } from "../../types/app";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Types

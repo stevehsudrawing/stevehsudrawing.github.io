@@ -4,11 +4,11 @@
   and renders each group with <hr> separators between them.
 -->
 <script setup lang="ts">
-import PictureGroup from "./PictureGroup.vue";
 import type {
   DisplayPictureData,
   DisplayPictureGroupData,
 } from "../../types/app";
+import PictureGroup from "./PictureGroup.vue";
 
 // =========================================================================
 // Props / Emits

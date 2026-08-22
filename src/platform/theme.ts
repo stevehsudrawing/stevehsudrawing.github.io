@@ -5,7 +5,7 @@
  * theme-aware image swapping, and UI toggle synchronization.
  */
 
-import type { ThemeChoice, EffectiveTheme } from "../types/app";
+import type { EffectiveTheme, ThemeChoice } from "../types/app";
 import { getStoredTheme, SUPPORTED_THEMES } from "./storage";
 
 const htmlElement: HTMLElement = document.documentElement;

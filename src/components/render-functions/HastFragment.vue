@@ -9,18 +9,18 @@
   through.
 -->
 <script lang="ts">
-import { h, defineComponent, type VNode } from "vue";
-import { useI18n } from "../../composables/useI18n";
+import { defineComponent, h, type VNode } from "vue";
 import {
+  extractColoredImgProps,
   extractLinkProps,
   extractPictureProps,
-  extractColoredImgProps,
 } from "../../composables/useHastToVue";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
-import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
-import ColoredImg from "../images/ColoredImg.vue";
-import SectionHeading from "../ui/SectionHeading.vue";
+import { useI18n } from "../../composables/useI18n";
 import type { HastNode } from "../../types/hast";
+import ColoredImg from "../images/ColoredImg.vue";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import SectionHeading from "../ui/SectionHeading.vue";
 
 type RenderResult = VNode | string;
 

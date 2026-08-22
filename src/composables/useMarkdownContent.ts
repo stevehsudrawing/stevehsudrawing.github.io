@@ -8,9 +8,10 @@
  * MarkdownArticle re-parses when the content changes.
  */
 import { computed, type ComputedRef } from "vue";
-import { useI18n } from "./useI18n";
 import { resolveLanguageAwareString } from "../core/utils";
 import type { LanguageAwareString } from "../types/app";
+import { useI18n } from "./useI18n";
+
 import enWorldview from "../configs/i18n/en/worldview.md?raw";
 import zhHansWorldview from "../configs/i18n/zh-Hans/worldview.md?raw";
 import zhHantWorldview from "../configs/i18n/zh-Hant/worldview.md?raw";

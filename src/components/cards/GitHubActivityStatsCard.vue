@@ -11,34 +11,34 @@
   Chart.js lifecycle: destroy → recreate on mode / data / theme change.
 -->
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { useTheme } from "../../composables/useTheme";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import {
-  useGithubActivity,
-  eventTypeI18nKey,
-  eventTypeIcon,
-} from "../../composables/useGithubActivity";
-import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
-import { useModalStack } from "../../composables/useModalStack";
-import { cssVar } from "../../platform/css-var";
-import {
-  Chart,
   BarController,
   BarElement,
+  CategoryScale,
+  Chart,
+  Filler,
+  Legend,
+  LinearScale,
   LineController,
   LineElement,
   PointElement,
-  CategoryScale,
-  LinearScale,
   TimeScale,
   Tooltip,
-  Legend,
-  Filler,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import {
+  eventTypeI18nKey,
+  eventTypeIcon,
+  useGithubActivity,
+} from "../../composables/useGithubActivity";
+import { useI18n } from "../../composables/useI18n";
+import { useModalStack } from "../../composables/useModalStack";
+import { useTheme } from "../../composables/useTheme";
+import { cssVar } from "../../platform/css-var";
 import type { ActivityStat, DailyStat, GitHubEvent } from "../../types/app";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 
 // =========================================================================
 // Chart.js — tree-shaken registration (module-level guard)

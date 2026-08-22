@@ -4,14 +4,14 @@
 -->
 <script setup lang="ts">
 import { inject, ref } from "vue";
-import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
+import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
-import SectionHeading from "../components/ui/SectionHeading.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
-import StickerSection from "../components/ui/StickerSection.vue";
+import SectionHeading from "../components/ui/SectionHeading.vue";
 import SequenceStatusBar from "../components/ui/SequenceStatusBar.vue";
+import StickerSection from "../components/ui/StickerSection.vue";
 import { useLinkCards } from "../composables/useLinkCards";
 import { useMajorColorSequence } from "../composables/useMajorColorSequence";
 import { OPEN_STICKER_KEY } from "../types/app";

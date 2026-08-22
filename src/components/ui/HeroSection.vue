@@ -16,9 +16,9 @@
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import { useBreakpoint } from "../../composables/useBreakpoint";
 import type { FeatureAwarePictureProps } from "../../types/app";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 
 // =========================================================================
 // Constants

@@ -17,7 +17,6 @@ import { useTheme } from "../../composables/useTheme";
 import { useI18n } from "../../composables/useI18n";
 import type {
   ThemeAwareImgSrcMap,
-  LanguageAwareString,
   FeatureAwarePictureProps,
   Lang,
 } from "../../types/app";

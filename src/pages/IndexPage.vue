@@ -6,14 +6,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
+import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import FeatureAwarePicture from "../components/images/FeatureAwarePicture.vue";
+import TypeAwareLink from "../components/links/TypeAwareLink.vue";
+import TooltipTrigger from "../components/render-functions/TooltipTrigger.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
-import TypeAwareLink from "../components/links/TypeAwareLink.vue";
-import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import { useBreakpoint } from "../composables/useBreakpoint";
 import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
-import TooltipTrigger from "../components/render-functions/TooltipTrigger.vue";
 import type { LinkButtonGroupData } from "../types/app";
 
 // =========================================================================

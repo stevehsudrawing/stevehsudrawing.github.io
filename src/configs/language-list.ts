@@ -6,8 +6,8 @@
  */
 
 import type { Locale } from "date-fns";
-import type { Lang } from "../types/app";
 import { enUS, zhCN, zhTW } from "date-fns/locale";
+import type { Lang } from "../types/app";
 
 /** One supported language: canonical code + display name. */
 export interface LanguageEntry {

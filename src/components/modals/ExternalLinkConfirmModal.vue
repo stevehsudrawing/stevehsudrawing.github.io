@@ -5,19 +5,19 @@
   backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { useStoredValue } from "../../composables/useStoredValue";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useStoredValue } from "../../composables/useStoredValue";
 import {
   getStoredOpenInNewTab,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import type { TypeAwareImageProps } from "../../types/app";
 import CopyButton from "../buttons/CopyButton.vue";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
-import type { TypeAwareImageProps } from "../../types/app";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // State

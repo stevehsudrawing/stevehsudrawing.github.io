@@ -19,7 +19,7 @@
  * useGesture(showOffcanvas);
  */
 
-import { onMounted, onBeforeUnmount, type Ref } from "vue";
+import { onBeforeUnmount, onMounted, type Ref } from "vue";
 import { useBreakpoint } from "./useBreakpoint";
 
 // =========================================================================

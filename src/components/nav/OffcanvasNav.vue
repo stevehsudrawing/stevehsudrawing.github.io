@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import { normalizeInternalPath } from "../../core/utils";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
 import type { NavItem } from "../../types/app";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
 // Props

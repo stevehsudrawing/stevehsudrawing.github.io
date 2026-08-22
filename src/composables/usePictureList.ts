@@ -2,7 +2,7 @@
  * Picture list composable — loads the picture-list JSON config for the
  * current page (currently only the Gallery page).
  */
-import { ref, computed, type Ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import type { DisplayPictureGroupData } from "../types/app";
 
 // =========================================================================

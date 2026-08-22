@@ -7,19 +7,19 @@
 // =========================================================================
 // CSS imports
 // =========================================================================
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // Self-hosted fonts (replaces CDN <link> tags)
-import "@fontsource-variable/inter/opsz.css";
 import "@fontsource-variable/inter/opsz-italic.css";
+import "@fontsource-variable/inter/opsz.css";
 import "@fontsource-variable/roboto-mono/wght.css";
 
 // Project CSS (order matters: base -> theme -> layouts -> components)
-import "./stylesheets/base.css";
-import "./stylesheets/theme.css";
-import "./stylesheets/fonts.css";
 import "./stylesheets/accessibility.css";
+import "./stylesheets/base.css";
+import "./stylesheets/fonts.css";
+import "./stylesheets/theme.css";
 
 // =========================================================================
 // npm package imports
@@ -38,18 +38,18 @@ window.html2canvas = html2canvas;
 // These side-effect imports register global handlers / extend prototypes.
 // =========================================================================
 import "./core/utils";
-import "./platform/theme";
 import "./platform/accessibility";
 import "./platform/bootstrap-css-detection";
+import "./platform/theme";
 
 // =========================================================================
 // Early initialization (before Vue mounts - prevents theme flash)
 // =========================================================================
-import {
-  initSystemThemeListener,
-  applyThemePreference,
-} from "./platform/theme";
 import { getStoredTheme } from "./platform/storage";
+import {
+  applyThemePreference,
+  initSystemThemeListener,
+} from "./platform/theme";
 
 initSystemThemeListener();
 applyThemePreference(getStoredTheme(), false);
@@ -58,11 +58,11 @@ applyThemePreference(getStoredTheme(), false);
 // Vue 3 application bootstrap
 // Feature initialization is now orchestrated by App.vue's onMounted.
 // =========================================================================
-import { createApp } from "vue";
 import { vBTooltip } from "bootstrap-vue-next";
+import { createApp } from "vue";
+import App from "./App.vue";
 import { i18nPlugin } from "./plugins/i18n";
 import { router } from "./router";
-import App from "./App.vue";
 
 const app = createApp(App);
 app.use(i18nPlugin);

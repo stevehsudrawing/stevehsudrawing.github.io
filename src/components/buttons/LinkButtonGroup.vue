@@ -4,10 +4,10 @@
   "scroll horizontally" indicator that appears when the group overflows.
 -->
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
-import LinkButton from "./LinkButton.vue";
-import type { LinkButtonData } from "../../types/app";
+import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import type { LinkButtonData } from "../../types/app";
+import LinkButton from "./LinkButton.vue";
 
 // =========================================================================
 // Props

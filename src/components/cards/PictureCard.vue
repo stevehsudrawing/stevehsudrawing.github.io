@@ -6,9 +6,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import type {
+  DisplayPictureData,
+  FeatureAwarePictureProps,
+} from "../../types/app";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
-import type { DisplayPictureData } from "../../types/app";
-import type { FeatureAwarePictureProps } from "../../types/app";
 
 // =========================================================================
 // Props / Emits

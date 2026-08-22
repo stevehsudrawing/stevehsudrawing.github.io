@@ -11,11 +11,11 @@
  */
 
 import type { App } from "vue";
-import { ref, type Ref } from "vue";
-import type { Lang } from "../types/app";
-import { DEFAULT_LANG } from "../configs/language-list";
+import { ref } from "vue";
 import { TRANSLATIONS } from "../configs/i18n/translations";
+import { DEFAULT_LANG } from "../configs/language-list";
 import { translateMessage } from "../core/i18n";
+import type { Lang } from "../types/app";
 
 /** Key used for provide/inject. */
 export const I18N_LOCALE_KEY = Symbol("i18nLocale");

@@ -6,9 +6,9 @@
   via $attrs.
 -->
 <script setup lang="ts">
-import FeatureAwarePicture from "./FeatureAwarePicture.vue";
-import ColoredImg from "./ColoredImg.vue";
 import type { TypeAwareImageProps } from "../../types/app";
+import ColoredImg from "./ColoredImg.vue";
+import FeatureAwarePicture from "./FeatureAwarePicture.vue";
 
 // =========================================================================
 // Props

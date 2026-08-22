@@ -6,14 +6,14 @@
  */
 
 import { inject, type Ref } from "vue";
-import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../plugins/i18n";
-import { AppEvent } from "../types/app";
-import type { Lang } from "../types/app";
-import { getStoredLang, setStoredLang } from "../platform/storage";
-import { DEFAULT_LANG } from "../configs/language-list";
 import { TRANSLATIONS } from "../configs/i18n/translations";
+import { DEFAULT_LANG } from "../configs/language-list";
 import { normalizeLang, translateMessage } from "../core/i18n";
 import { updatePageTitle } from "../platform/page-title";
+import { getStoredLang, setStoredLang } from "../platform/storage";
+import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../plugins/i18n";
+import type { Lang } from "../types/app";
+import { AppEvent } from "../types/app";
 
 /**
  * Reactive i18n composable.

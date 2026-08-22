@@ -7,12 +7,12 @@
  * pipeline.
  */
 
-import type { HastNode } from "../types/hast";
 import type {
-  ImgFeature,
-  FeatureAwarePictureProps,
   ColoredImgProps,
+  FeatureAwarePictureProps,
+  ImgFeature,
 } from "../types/app";
+import type { HastNode } from "../types/hast";
 
 // =========================================================================
 // Types
@@ -41,11 +41,6 @@ function parseFeatures(raw: string | undefined): ImgFeature[] {
   return raw
     .split(" ")
     .filter((f): f is ImgFeature => (validFeatures as string[]).includes(f));
-}
-
-/** Check whether the HAST feature string includes "colored". */
-function isColored(raw: string | undefined): boolean {
-  return raw?.split(" ").includes("colored") ?? false;
 }
 
 /**
@@ -147,18 +142,15 @@ export function extractLinkProps(
     type = "anchor";
   } else if (href.startsWith("mailto:") || href.startsWith("tel:")) {
     type = "email";
-  } else if (Array.isArray(className) && className.includes("internal-link")) {
-    type = "internal";
   } else if (
-    typeof className === "string" &&
-    className.includes("internal-link")
-  ) {
-    type = "internal";
-  } else if (isInternalHref(href)) {
+    (Array.isArray(className) && className.includes("internal-link")) ||
+    (typeof className === "string" && className.includes("internal-link")) ||
     // Root-relative / relative paths (e.g. `/worldview.html?lang=zh-Hans`)
     // are internal SPA pages.  Link-card configs annotate them with an
     // `internal-link` class; markdown-produced links carry no such class,
     // so classify them here.
+    isInternalHref(href)
+  ) {
     type = "internal";
   }
 

@@ -7,10 +7,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { useTheme } from "../../composables/useTheme";
-import { useStoredValue } from "../../composables/useStoredValue";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useStoredValue } from "../../composables/useStoredValue";
+import { useTheme } from "../../composables/useTheme";
 import {
   getStoredEnableAnimations,
   getStoredOpenInNewTab,

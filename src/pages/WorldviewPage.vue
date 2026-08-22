@@ -4,8 +4,8 @@
   useMarkdownContent) via the reusable MarkdownArticle component.
 -->
 <script setup lang="ts">
-import HeroSection from "../components/ui/HeroSection.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
+import HeroSection from "../components/ui/HeroSection.vue";
 import MarkdownArticle from "../components/ui/MarkdownArticle.vue";
 import { useMarkdownContent } from "../composables/useMarkdownContent";
 

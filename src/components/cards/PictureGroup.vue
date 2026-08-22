@@ -3,18 +3,18 @@
   and a masonry grid of PictureCards (row-wise distribution).
 -->
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { useBreakpoint } from "../../composables/useBreakpoint";
-import { resolveI18nInHtml } from "../../core/utils";
-import SectionHeading from "../ui/SectionHeading.vue";
-import PictureCard from "./PictureCard.vue";
 import { toHtml } from "hast-util-to-html";
+import { computed } from "vue";
+import { useBreakpoint } from "../../composables/useBreakpoint";
+import { useI18n } from "../../composables/useI18n";
+import { resolveI18nInHtml } from "../../core/utils";
 import type {
   Breakpoint,
   DisplayPictureData,
   DisplayPictureGroupData,
 } from "../../types/app";
+import SectionHeading from "../ui/SectionHeading.vue";
+import PictureCard from "./PictureCard.vue";
 
 // =========================================================================
 // Constants

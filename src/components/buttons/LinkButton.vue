@@ -5,14 +5,14 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import TypeAwareImage from "../images/TypeAwareImage.vue";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import type {
   LinkButtonData,
   TypeAwareImageProps,
   TypeAwareLinkProps,
 } from "../../types/app";
+import TypeAwareImage from "../images/TypeAwareImage.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props

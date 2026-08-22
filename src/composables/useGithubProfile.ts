@@ -6,10 +6,10 @@
  * module-level singleton mechanism.  Cache freshness: 1 hour (default).
  */
 
-import { useGithubApi, type GithubApiState } from "./useGithubApi";
-import type { GitHubUser } from "../types/app";
 import { GITHUB_USERNAME } from "../configs/site-meta";
 import { GITHUB_PROFILE_CACHE } from "../platform/storage";
+import type { GitHubUser } from "../types/app";
+import { useGithubApi, type GithubApiState } from "./useGithubApi";
 
 // =========================================================================
 // Constants

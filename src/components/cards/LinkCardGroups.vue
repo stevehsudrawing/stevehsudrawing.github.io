@@ -4,8 +4,8 @@
   renders each group with <hr> separators between them.
 -->
 <script setup lang="ts">
-import LinkCardGroup from "./LinkCardGroup.vue";
 import type { LinkCardGroupData } from "../../types/app";
+import LinkCardGroup from "./LinkCardGroup.vue";
 
 // =========================================================================
 // Props

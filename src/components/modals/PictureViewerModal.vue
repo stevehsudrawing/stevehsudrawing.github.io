@@ -9,22 +9,22 @@
   (Modal / .modal-backdrop).
 -->
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount, nextTick } from "vue";
+import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { setSwipeTrackingEnabled } from "../../composables/useGesture";
+import { useHorizontalSwipe } from "../../composables/useHorizontalSwipe";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { useHorizontalSwipe } from "../../composables/useHorizontalSwipe";
-import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
-import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import type {
   DisplayPictureData,
   FeatureAwarePictureProps,
   TypeAwareImageProps,
   TypeAwareLinkProps,
 } from "../../types/app";
+import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // State

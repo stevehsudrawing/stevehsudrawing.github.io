@@ -16,16 +16,16 @@
     pagePath     - Page path for heading copy-link URLs (e.g. "/worldview.html")
 -->
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { marked } from "marked";
+import { BCol, BRow } from "bootstrap-vue-next";
 import { fromHtml } from "hast-util-from-html";
-import { BRow, BCol } from "bootstrap-vue-next";
+import { marked } from "marked";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useBreakpoint } from "../../composables/useBreakpoint";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
-import { useBreakpoint } from "../../composables/useBreakpoint";
-import HastFragment from "../render-functions/HastFragment.vue";
 import type { HastNode } from "../../types/hast";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
+import HastFragment from "../render-functions/HastFragment.vue";
 
 // =========================================================================
 // Types

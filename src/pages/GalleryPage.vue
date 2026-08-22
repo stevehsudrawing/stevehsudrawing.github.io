@@ -4,13 +4,13 @@
   shared modal stack (PictureViewerModal).
 -->
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import HeroSection from "../components/ui/HeroSection.vue";
-import PageChainNav from "../components/nav/PageChainNav.vue";
 import PictureListGroups from "../components/cards/PictureListGroups.vue";
-import { usePictureList } from "../composables/usePictureList";
+import PageChainNav from "../components/nav/PageChainNav.vue";
+import HeroSection from "../components/ui/HeroSection.vue";
 import { useModalStack } from "../composables/useModalStack";
+import { usePictureList } from "../composables/usePictureList";
 import { preserveLangParam } from "../core/utils";
 import type { DisplayPictureData, DisplayPictureGroupData } from "../types/app";
 
