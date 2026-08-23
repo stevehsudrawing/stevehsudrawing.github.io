@@ -307,7 +307,12 @@ When generating responses for this project, Copilot should:
    possible. This helps to use `beautify` to format files, as it has poor
    support for full-width characters.
 
-1. **TODO-driven update workflow**: Project updates follow a fixed loop:
+1. **Wrap English Markdown at 80 columns**: English (or any other language
+   that separates words with spaces) Markdown document body text should wrap
+   at 80 columns for readability. This rule does NOT apply to Chinese and
+   other languages that do not separate words with spaces.
+
+2. **TODO-driven update workflow**: Project updates follow a fixed loop:
    1. **Discuss** the proposal
    2. **Write a versioned TODO doc** in `docs/todos/vX.Y.Z.md`
    3. **Iterate on the TODO** with the user
@@ -317,15 +322,15 @@ When generating responses for this project, Copilot should:
       Do not start implementing before the user has confirmed the TODO ("go ahead",
       "执行", "可以", etc.).
 
-2. **Priority of norms/standards**: If there are more normative or standard
+3. **Priority of norms/standards**: If there are more normative or standard
    practices, priority should be given to norms or standards, even if
    refactoring is required.
 
-3. **Always pay attention to document updates**: When adding, modifying, or
+4. **Always pay attention to document updates**: When adding, modifying, or
    deleting new features, it is necessary to add, update or delete the
    corresponding instruction documents, even if temporarily.
 
-4. **Always `typecheck` after modification**: After each modification, the
+5. **Always `typecheck` after modification**: After each modification, the
    following command should be executed to check whether it can be built
    properly:
 

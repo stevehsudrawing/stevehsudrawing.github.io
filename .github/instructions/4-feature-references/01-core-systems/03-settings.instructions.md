@@ -1,9 +1,9 @@
 ---
 description: >
-  Settings & preferences: SettingsModal.vue (theme, language, new-tab, animations toggles),
-  storage accessors (platform/storage.ts), useStoredValue() composable (ref ↔ storage),
-  StorageKey enum, ResetWarningModal confirmation flow.  Use when: modifying settings UI,
-  localStorage keys, or preference logic.
+  Settings & preferences: SettingsModal.vue (theme, language, new-tab, animations
+  toggles), storage accessors (platform/storage.ts), useStoredValue() composable
+  (ref ↔ storage), StorageKey enum, ResetWarningModal confirmation flow.
+  Use when: modifying settings UI, localStorage keys, or preference logic.
 applyTo: >
   src/components/modals/SettingsModal.vue;
   src/components/modals/ResetWarningModal.vue;

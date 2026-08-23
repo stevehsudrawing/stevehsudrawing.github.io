@@ -1,9 +1,9 @@
 ---
 description: >
-  Modal helpers: useModalStack() composable (unified modal stack — push/pop/clear,
-  discriminated-union ModalStackItem entries, reactive visibility via useStackModal)
-  and useModalFocus() composable (keyboard-aware auto-focus when a BModal opens via
-  Tab navigation).  All six modals (Settings, ResetWarning,
+  Modal helpers: useModalStack() composable (unified modal stack — push/pop/
+  clear, discriminated-union ModalStackItem entries, reactive visibility via
+  useStackModal) and useModalFocus() composable (keyboard-aware auto-focus when
+  a BModal opens via Tab navigation).  All six modals (Settings, ResetWarning,
   ExternalLinkConfirm, QRCode, GitHubEvents, Sticker) are rendered in App.vue
   and coordinated exclusively through the stack.
   Use when: modifying modal-to-modal flow, adding a new modal, or keyboard
@@ -173,5 +173,5 @@ BModal's default focus management works as normal.
 - The modal title is the static terminal line `< Response` (`<` marks
   system output — language-neutral, character-agnostic).
 - The unlock pattern is the two profile major colors in sequence
-  (`#47c4ee → #3c96ff → #3c96ff → #47c4ee`); the egg is documented openly
-  (only the commit message keeps it unnamed).
+  (`#47c4ee → #3c96ff → #3c96ff → #47c4ee`); the egg is documented
+  openly (only the commit message keeps it unnamed).

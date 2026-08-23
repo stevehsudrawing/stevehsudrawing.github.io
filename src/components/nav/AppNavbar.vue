@@ -418,15 +418,6 @@ defineExpose({
   font-weight: calc(var(--bs-body-font-weight) + 100);
 }
 
-/* --- BDropdown Tweaks --- */
-
-:deep(.dropdown-menu.fade) {
-  transition:
-    opacity 0.1s linear,
-    background-color 0.1s linear,
-    backdrop-filter 0.1s linear;
-}
-
 /* --- BDropdown toggle buttons look like nav-links, not Bootstrap buttons */
 :deep(.dropdown-toggle.btn) {
   --bs-btn-padding-x: var(--bs-nav-link-padding-x, 0);

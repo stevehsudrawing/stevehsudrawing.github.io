@@ -2,11 +2,11 @@
 description: >
   Breakpoint detection: useBreakpoint() composable providing a shared reactive
   Breakpoint ref (mobile ≤ 768 px / tablet ≤ 1200 px / desktop ≤ 1400 px /
-  wide-desktop > 1400 px), aligned with Bootstrap's md, xl, and xxl
-  thresholds.  Module-level singleton with
-  ref-counted resize listener and requestAnimationFrame throttling.
-  Use when: modifying responsive layout logic, adding new breakpoint-dependent
-  components, or changing breakpoint thresholds.
+  wide-desktop > 1400 px), aligned with Bootstrap's md, xl, and xxl thresholds.
+  Module-level singleton with ref-counted resize listener and
+  requestAnimationFrame throttling.  Use when: modifying responsive layout
+  logic, adding new breakpoint-dependent components, or changing breakpoint
+  thresholds.
 applyTo: >
   src/composables/useBreakpoint.ts;
   src/types/app.ts
@@ -21,7 +21,7 @@ useBreakpoint() composable
   └─ breakpoint: Ref<Breakpoint>  (module-level singleton)
        ├─ "mobile"       — ≤ 768 px  (Bootstrap md)
        ├─ "tablet"       — ≤ 1200 px (Bootstrap xl)
-       ├─ "desktop"      — ≤ 1400 px (Bootstrap xl)
+       ├─ "desktop"      — ≤ 1400 px (Bootstrap xxl)
        └─ "wide-desktop" — > 1400 px (Bootstrap xxl)
 ```
 
@@ -50,7 +50,7 @@ The JS breakpoint thresholds mirror Bootstrap's CSS media queries:
 
 | Tier         | JS condition          | CSS equivalent                                          |
 | ------------ | --------------------- | ------------------------------------------------------- |
-| mobile       | `width ≤ 768`         | `@media (max-width: 991.98px)`                          |
+| mobile       | `width ≤ 768`         | `@media (max-width: 767.98px)`                          |
 | tablet       | `768 < width ≤ 1200`  | `@media (min-width: 768px) and (max-width: 1199.98px)`  |
 | desktop      | `1200 < width ≤ 1400` | `@media (min-width: 1200px) and (max-width: 1399.98px)` |
 | wide-desktop | `width > 1400`        | `@media (min-width: 1400px)`                            |

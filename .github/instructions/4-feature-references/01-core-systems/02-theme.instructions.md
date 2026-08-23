@@ -1,8 +1,10 @@
 ---
 description: >
-  Theme system: light/dark/auto color themes via Bootstrap data-bs-theme attribute, useTheme()
-  composable (preference + effectiveTheme), --shlh-* CSS custom properties, favicon switching.
-  Use when: modifying theme colors, useTheme.ts, theme.ts, theme.css, or favicon assets.
+  Theme system: light/dark/auto color themes via Bootstrap data-bs-theme
+  attribute, useTheme() composable (preference + effectiveTheme), --shlh-* CSS
+  custom properties, favicon switching.
+  Use when: modifying theme colors, useTheme.ts, theme.ts, theme.css, or favicon
+  assets.
 applyTo: >
   src/composables/useTheme.ts;
   src/platform/theme.ts;
@@ -42,7 +44,7 @@ Project-specific variables use `--shlh-*` prefix:
 Bootstrap overrides use `--bs-*` prefix.
 
 **Programmatic access**: use `cssVar()` from `src/platform/css-var.ts` to read
-CSS custom properties at runtime (e.g. for Chart.js / canvas colours). The
+CSS custom properties at runtime (e.g. for Chart.js / canvas colors). The
 first argument is the **bare property name** (without `--`); the `--` prefix
 is added internally. A fallback value is required — mirroring i18n's `t()`.
 

@@ -1,12 +1,13 @@
 ---
 description: >
-  TypeScript type definitions: browser types (src/types/ - app.ts, hast.ts, globals.d.ts, css.d.ts)
-  vs build-time types (build/types.ts). HAST node types (root/element/text/comment) and property
-  naming conventions (className, camelCase data* attributes). Link-card JSON format (LinkCardGroupData/
-  LinkCardData), Link-button-group JSON format (LinkButtonData/LinkButtonGroupData), and picture-list
-  JSON format (DisplayPictureGroupData/DisplayPictureData).
-  Use when: defining new types, modifying HAST structures, or creating link-card / link-button-group /
-  picture-list configs.
+  TypeScript type definitions: browser types (src/types/ - app.ts, hast.ts,
+  globals.d.ts, css.d.ts) vs build-time types (build/types.ts). HAST node types
+  (root/element/text/comment) and property naming conventions (className,
+  camelCase data* attributes). Link-card JSON format (LinkCardGroupData/
+  LinkCardData), Link-button-group JSON format (LinkButtonData/
+  LinkButtonGroupData), and picture-list JSON format (DisplayPictureGroupData/
+  DisplayPictureData). Use when: defining new types, modifying HAST structures,
+  or creating link-card / link-button-group / picture-list configs.
 applyTo: >
   src/types/**;
   build/types.ts;
@@ -17,11 +18,13 @@ applyTo: >
 
 ### 3.3 Type Definitions
 
-TypeScript type definitions are split into two groups: browser types (used by `src/`) and build-time types (used by `build/` and `vite.config.ts`).
+TypeScript type definitions are split into two groups: browser types (used by
+`src/`) and build-time types (used by `build/` and `vite.config.ts`).
 
 #### 3.3.1 Browser Types (`src/types/`)
 
-Located in `src/types/` and bundled into the browser output. Type-checked by the root `tsconfig.json` (targets `DOM` lib).
+Located in `src/types/` and bundled into the browser output. Type-checked by the
+root `tsconfig.json` (targets `DOM` lib).
 
 | File               | Types                                                                                                                                                                                                                                                                                                                                                                                                           | Purpose                                                                                                                                 |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -64,7 +67,8 @@ pipeline routes to `ColoredImg`; otherwise `FeatureAwarePicture`. See
 
 #### 3.3.2 Build-time Types (`build/types.ts`)
 
-Located in `build/types.ts` and used by Vite plugins and build scripts. Type-checked by `tsconfig.build.json` (targets `Node` lib via `@types/node`).
+Located in `build/types.ts` and used by Vite plugins and build scripts. Type-
+checked by `tsconfig.build.json` (targets `Node` lib via `@types/node`).
 
 | Type            | Purpose                                                                             |
 | --------------- | ----------------------------------------------------------------------------------- |
@@ -73,11 +77,13 @@ Located in `build/types.ts` and used by Vite plugins and build scripts. Type-che
 | `PageTier`      | `'full' \| 'none'` - controls which head tags are used                              |
 | `JsonLDType`    | `'homepage' \| 'breadcrumb' \| 'none'` - determines JSON-LD structured data format  |
 
-> Link-card / link-button config types (`LinkCardData`, `LinkCardGroupData`, `LinkButtonData`,
-> `LinkButtonGroupData`, `TypeAwareImageProps`, `TypeAwareLinkProps`) are defined in
-> `src/types/app.ts` and shared by the Vue components and the build-time builders.
+> Link-card / link-button config types (`LinkCardData`, `LinkCardGroupData`,
+> `LinkButtonData`, `LinkButtonGroupData`, `TypeAwareImageProps`,
+> `TypeAwareLinkProps`) are defined in `src/types/app.ts` and shared by the Vue
+> components and the build-time builders.
 
-Build-time types may import from npm packages, Node.js APIs, and `src/types/`. They exist only at build time - never bundled into browser output.
+Build-time types may import from npm packages, Node.js APIs, and `src/types/`.
+They exist only at build time - never bundled into browser output.
 
 #### 3.3.3 Link-card JSON Format (`src/configs/link-cards/*.json`)
 
@@ -91,8 +97,15 @@ HAST for the icon and title (only `description` keeps its HAST subtree). All
 ```json
 {
   "id": "artworks",
-  "description": { "type": "element", "tagName": "span", "properties": { "dataI18n": "text-artworks-description" }, "children": [...] },
-  "contents": [ /* array of Link Cards */ ]
+  "description": {
+    "type": "element",
+    "tagName": "span",
+    "properties": {
+      "dataI18n": "text-artworks-description"
+    },
+    "children": [/* ... */]
+  },
+  "contents": [/* array of Link Cards */]
 }
 ```
 
@@ -115,14 +128,14 @@ HAST for the icon and title (only `description` keeps its HAST subtree). All
     "type": "external",
     "href": "https://www.pixiv.net/users/70732361"
   },
-  "description": { "type": "root", "children": [...] }
+  "description": { "type": "root", "children": [/* ... */] }
 }
 ```
 
 - `id`: i18n key suffix for the title text and icon alt (`t("text-" + id)`).
 - `available`: Omit (default `true`) for a normal card, or set `false` for an
-  unavailable card. `available: false` cards are dimmed (`opacity-75`) and render
-  their title as plain text (no `titleLink`).
+  unavailable card. `available: false` cards are dimmed (`opacity-75`) and
+  render their title as plain text (no `titleLink`).
 - `icon`: A `TypeAwareImageProps` (`null`/omitted if absent) - either
   `{ "type": "picture", "imgProps": FeatureAwarePictureProps }` or
   `{ "type": "colored-img", "imgProps": ColoredImgProps }`. Rendered via
@@ -146,7 +159,8 @@ Groups** (`LinkButtonGroupData[]`).
 }
 ```
 
-- `groupId`: String identifier matching the `data-group-id` attribute of the placeholder in HTML.
+- `groupId`: String identifier matching the `data-group-id` attribute of the
+  placeholder in HTML.
 - `buttons`: Array of Link Buttons.
 
 **Link Button**

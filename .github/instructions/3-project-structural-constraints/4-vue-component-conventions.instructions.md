@@ -1,9 +1,9 @@
 ---
 description: >
-  Vue SFC conventions: CSS style block taxonomy (scoped / non-scoped / :deep() / global),
-  CSS ownership comments in base.css, static HTML coexistence pattern,
-  <script setup> section conventions (Types -> Props -> State -> Actions -> Expose).
-  Use when: creating or modifying any .vue file or .css file.
+  Vue SFC conventions: CSS style block taxonomy (scoped / non-scoped / :deep() /
+   global), CSS ownership comments in base.css, static HTML coexistence pattern,
+  <script setup> section conventions (Types -> Props -> State -> Actions ->
+  Expose). Use when: creating or modifying any .vue file or .css file.
 applyTo: >
   src/components/**/*.vue;
   src/stylesheets/base.css

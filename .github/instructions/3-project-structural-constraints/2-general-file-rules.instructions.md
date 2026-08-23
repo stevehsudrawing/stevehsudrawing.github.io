@@ -177,4 +177,9 @@ Both sub-folders use the same CSS commenting format:
   Eu ad in ut do amet et aute Lorem esse cillum.
   ```
 
-- The deepest level is a level 6 heading.
+- **Line wrapping (space-delimited languages only)**: English (or any other
+  language that separates words with spaces) Markdown document body text
+  should wrap at 80 columns for readability. This rule does NOT apply to
+  Chinese and other languages that do not separate words with spaces.
+
+- The deepest level is a level 6 heading `######`.

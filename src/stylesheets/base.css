@@ -147,6 +147,13 @@ h6,
   z-index: 1050 !important;
 }
 
+.dropdown-menu.fade {
+  transition:
+    opacity 0.1s linear,
+    background-color 0.1s linear,
+    backdrop-filter 0.1s linear;
+}
+
 /* --- Close Button --- */
 
 .btn-close {

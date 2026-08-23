@@ -1,10 +1,11 @@
 ---
 description: >
-  External npm dependencies: production (Bootstrap, Bootstrap Icons, Popper, Inter & Roboto Mono fonts,
-  qrcode, html-to-image, html2canvas, HAST utilities) and dev (TypeScript, Vite, html-minifier-terser,
-  @types/*, Husky, lint-staged, Prettier). Dependency principle: prefer well-maintained lightweight
-  libraries over hand-rolled workarounds.
-  Use when: adding/removing/updating dependencies, evaluating new libraries, or modifying package.json.
+  External npm dependencies: production (Bootstrap, Bootstrap Icons, Popper,
+  Inter & Roboto Mono fonts, qrcode, html-to-image, html2canvas, HAST utilities)
+  and dev (TypeScript, Vite, html-minifier-terser, @types/*, Husky, lint-staged,
+  Prettier). Dependency principle: prefer well-maintained lightweight libraries
+  over hand-rolled workarounds. Use when: adding/removing/updating dependencies,
+  evaluating new libraries, or modifying package.json.
 applyTo: >
   package.json;
   pnpm-lock.yaml;
@@ -68,4 +69,9 @@ Dev-only dependencies are used at build time or during development. They are **n
 
 #### 1.2.3 Dependency Principle
 
-Prefer adding a well-maintained, lightweight external dependency when it significantly improves code maintainability, correctness, or readability. Hand-rolling fragile workarounds (regex-based HTML parsing, manual attribute escaping, etc.) is more error-prone than using a purpose-built library. Prefer dependencies from the same ecosystem (e.g., unified/syntax-tree for HAST manipulation) to minimize integration risk.
+Prefer adding a well-maintained, lightweight external dependency when it
+significantly improves code maintainability, correctness, or readability. Hand-
+rolling fragile workarounds (regex-based HTML parsing, manual attribute escaping,
+etc.) is more error-prone than using a purpose-built library. Prefer
+dependencies from the same ecosystem (e.g., unified/syntax-tree for HAST
+manipulation) to minimize integration risk.

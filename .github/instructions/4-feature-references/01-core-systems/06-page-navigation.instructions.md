@@ -1,9 +1,10 @@
 ---
 description: >
-  Page navigation via usePageNavigation() composable: Vue Router guard orchestration
-  (LoadingBar integration, content dimming, external-link indicators, page-title
-  updates, ?lang= preservation).  Extracted from App.vue to keep the root shell lean.
-  Use when: modifying router guards, navigation side-effects, or the navigation-loading flow.
+  Page navigation via usePageNavigation() composable: Vue Router guard
+  orchestration (LoadingBar integration, content dimming, external-link
+  indicators, page-title updates, ?lang= preservation).  Extracted from App.vue
+  to keep the root shell lean.  Use when: modifying router guards, navigation
+  side-effects, or the navigation-loading flow.
 applyTo: >
   src/composables/usePageNavigation.ts;
   src/App.vue

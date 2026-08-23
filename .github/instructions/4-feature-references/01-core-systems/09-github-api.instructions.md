@@ -1,13 +1,14 @@
 ---
 description: >
-  GitHub REST API integration: useGithubApi() generic fetch+cache composable (stale-while-revalidate,
-  storage-accessor caching via platform/storage.ts, 1-hour freshness, module-level singleton with
-  request dedup),
-  useGithubProfile() profile composable, useGithubActivity() events+stats composable,
-  LoadingPlaceholder.vue (loading/error/empty), GitHubUserCard.vue (full/compact variants),
-  GitHubActivityStatsCard.vue (Chart.js bar/line charts with external-icon labels).
-  Use when: adding new GitHub API endpoints, modifying cache strategy, changing GitHub cards,
-  or integrating with useGithubApi.
+  GitHub REST API integration: useGithubApi() generic fetch+cache composable
+  (stale-while-revalidate, storage-accessor caching via platform/storage.ts, 1-
+  hour freshness, module-level singleton with request dedup),
+  useGithubProfile() profile composable, useGithubActivity() events+stats
+  composable, LoadingPlaceholder.vue (loading/error/empty), GitHubUserCard.vue
+  (full/compact variants), GitHubActivityStatsCard.vue (Chart.js bar/line charts
+  with external-icon labels).
+  Use when: adding new GitHub API endpoints, modifying cache strategy, changing
+  GitHub cards, or integrating with useGithubApi.
 applyTo: >
   src/composables/useGithub*.ts;
   src/components/ui/LoadingPlaceholder.vue;
@@ -96,8 +97,9 @@ Key rules:
 | `error`   | `bi-x-circle-fill` | `text-danger`         | `errorMessage` |
 | `empty`   | `bi-slash-circle`  | `text-body-secondary` | `emptyMessage` |
 
-Props: `label` (always shown below the icon), `state`, `errorMessage?`, `emptyMessage?`.
-Uses `flex-grow-1` and `justify-content-center` to fill the parent card body.
+Props: `label` (always shown below the icon), `state`, `errorMessage?`,
+`emptyMessage?`. Uses `flex-grow-1` and `justify-content-center` to fill the
+parent card body.
 
 ##### 4.1.9.4 Cache Strategy (stale-while-revalidate)
 
@@ -117,8 +119,9 @@ Uses `flex-grow-1` and `justify-content-center` to fill the parent card body.
 
 ##### 4.1.9.5 Singleton & Request Dedup
 
-- **Module-level Maps** (`dataCache`, `loadingCache`, `errorCache`, `promiseCache`)
-  keyed by cache key ensure all callers share the same reactive refs.
+- **Module-level Maps** (`dataCache`, `loadingCache`, `errorCache`,
+  `promiseCache`) keyed by cache key ensure all callers share the same reactive
+  refs.
 - **In-flight dedup**: if a fetch is already in progress for a cache key,
   subsequent `refresh()` or auto-fetch calls wait on the existing promise
   instead of issuing duplicate requests.
