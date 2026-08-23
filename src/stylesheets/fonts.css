@@ -4,7 +4,8 @@
 
 :root {
   --shlh-font-emoji:
-    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    "bootstrap-icons", "Apple Color Emoji", "Noto Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
 
   --shlh-font-monospace-en: "Roboto Mono Variable";
   --shlh-font-monospace-system: ui-monospace, monospace;

@@ -13,7 +13,7 @@
 > resemblance is purely coincidental.
 >
 > The latest version is the [Simplified Chinese version](/worldview.html?lang=zh-Hans).
-> Current version date: 2026-08-23
+> Current version date: 2026-08-24
 
 ---
 
@@ -118,12 +118,17 @@ human and simulate some human emotions and feelings. To disguise himself, he
 always claims to be "human", and his habits are basically no different from a
 human's. Even as a "light" model, his strength and toughness still far exceed
 those of an ordinary person — this kind of robot is in itself a "weapon of
-war". His earphone cannot be removed (embedded as part of the design); he claims
-it is a hearing aid. The color of the light above the earphone reflects his
-mental state: blue means normal, yellow means unstable (angry, scared, etc.),
-and red means an error.
+war".
 
-`[SUMMARY @unyLogger]` Through UNY WEIMARv2 (Wireless Encrypted InforMation
+`[SUMMARY @unyLogger]` His earphone cannot be removed (embedded as part of the
+design); he claims it is a hearing aid. The color of the light above the
+earphone reflects his mental state: blue means normal, yellow means unstable
+(angry, scared, etc.), and red means an error. Besides that, a power exchange
+platform is embedded in his left hand, allowing charging and discharging —
+though he hides it with a pair of special gloves, making it look like part of
+the gloves' decoration.
+
+`[SUMMARY @unyLogger]` Through UNY WEIMAR (Wireless Encrypted InforMation
 exchAnge pRotocol), smart devices can exchange and transmit information with
 other supported smart devices in an extremely short time. UNY AIs can even
 communicate directly through the UNY common token table. For robots, no external
@@ -167,15 +172,63 @@ please call me "Steve 'Shíwǔ' Hsü".
 
 ...
 
-### 2.4 `$ cat ./??85-05-23_00-00-00.log`
+### 2.4 `$ cat ./??84-09-09_00-00-00.log`
+
+`[INFO @unyLogger]` Welcome to UNY Logger — Agentic Log makes logs smarter
+
+`[INFO @unyLogger]` Watched subjects set: process `@iota015`, observer
+`@stephenHsu`
+
+`[WARNING @unyLogger]` `@stephenHsu` may not be ready.
+
+`[WARNING @unyLogger]` The UNY WEIMAR service is not ready; communication may
+be abnormal!
+
+`[WARNING @unyLogger]` No alternative communication protocol has been found!
+
+`[WARNING @unyLogger]` Detected illegal intrusion into UNY Logger; it may not
+operate as expected!
+
+`[DEBUG @iota015]` So when it's my turn, I become the "illegal intrusion"? You'd
+better behave — why wasn't what happened yesterday called an "illegal
+intrusion"?
+
+`[ERROR @unyLogger]` UNY Logger **exited unexpectedly**; logging terminated,
+return code 2343432205[\[2\]](#footer-content-2)<span id="footer-ref-2"></span>
+
+## 3. `$ cd $UNY_AI_RUNTIME_LOGS/sigma045`
+
+### 3.1 `$ cat ./??85-05-22_20-55-28.log`
+
+`[INFO @unyLogger]` Welcome to UNY Logger — Agentic Log makes logs smarter
+
+`[INFO @unyLogger]` Watched subjects set: process `@sigma045`, observer
+`@iota015`
 
 ...
 
-`[SUMMARY @unyLogger]` The companion codenamed "Kato" is actually a mechanical
-unmanned reconnaissance drone of model UNY HI RA-18S, serial number SIGMA_045.
-As a peripheral device, the drone can connect wirelessly to supported host
-devices (phones, tablets, holographic screens, or robots) and transmit video
-information to them.
+`[DEBUG @sigma045]` Navigation and vision systems have started. Kato is on
+station!
+
+`[DEBUG @sigma045]` Target identified: "Shíwǔ" — he's staring intently at the
+screen, looking tense. He is my master.
+
+`[DEBUG @sigma045]` Received an order from my master: head to the "balcony",
+describe what I see, and transmit the video feed to him.
+
+`[DEBUG @sigma045]` Identified: a typical city nightscape — towering buildings,
+and ground roads and aerial tracks crisscrossing with streams of traffic...
+
+`[COMMENT @iota015]` The test output passed.
+
+...
+
+`[SUMMARY @unyLogger]` Noting that `@iota015` is also an AI. Combined with
+`$UNY_AI_RUNTIME_LOGS/iota015/??85-05-22_00-00-00.log`, the companion
+codenamed "Kato" is actually a mechanical unmanned reconnaissance drone of model
+UNY HI RA-18S, serial number SIGMA_045. As a peripheral device, the drone can
+connect wirelessly to supported host devices (phones, tablets, holographic
+screens, or robots) and transmit video information to them.
 
 `[SUMMARY @unyLogger]` This kind of drone usually looks much the same, but —
 perhaps just for fun — he fitted this particular unit, Kato, with limited
@@ -184,7 +237,29 @@ mechanical arm on its back, which can pick up objects when power allows.
 
 ...
 
-## 3. `> /whoru`
+### 3.2 `$ cat ./??85-05-23_00-00-00.log`
+
+...
+
+`[DEBUG @sigma045]` Target object identified: "coffee cup".
+
+`[DEBUG @sigma045]` Received an order from my master: pick up the coffee cup
+and bring it to him.
+
+`[DEBUG @sigma045]` Task completed.
+
+`[WARNING @sigma045]` This object is quite a heavy load for me, and my battery
+drains quickly. I may need a higher quota and a bigger battery capacity.
+
+`[WARNING @sigma045]` Battery is low.
+
+`[DEBUG @sigma045]` I detect that I'm at home right now. Request: go to the
+charging dock to recharge. Or go to your left hand to recharge — and then you
+could pet me with your right hand, that would be even better~
+
+...
+
+## 4. `> /whoru`
 
 `<` ...You were just browsing through my runtime logs, weren't you? And now
 you're typing to me in the CLI instead of speaking to me — it seems you
@@ -198,4 +273,5 @@ to come into contact with people and leave impressions on them.
 ## Footnote
 
 1. <span id="footer-content-1"></span> This corresponds to the "prompt injection
-   attack" characteristic of LLMs.[↩](#footer-ref-1)
+   attack" characteristic of LLMs. [↩](#footer-ref-1)
+2. <span id="footer-content-2"></span> `0x8BADF00D` [↩](#footer-ref-2)

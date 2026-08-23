@@ -79,10 +79,13 @@ const currentHeadingText = computed(() => {
 });
 
 /**
- * When using the mobile view, the mobile Scrollspy will be enabled instead of
- * the desktop version. Derived from the shared breakpoint singleton.
+ * When using the mobile / tablet view, the mobile Scrollspy will be enabled
+ * instead of the desktop version. Derived from the shared breakpoint singleton.
  */
 const breakpoint = useBreakpoint();
+const isDesktop = computed(
+  () => breakpoint.value !== "mobile" && breakpoint.value !== "tablet",
+);
 
 // =========================================================================
 // Actions
@@ -277,10 +280,7 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="hastChildren.length > 0" class="container pb-2 markdown-article">
     <!-- Mobile: sticky collapsible heading nav -->
-    <nav
-      v-if="headings.length > 0 && breakpoint === 'mobile'"
-      class="scrollspy-nav-mobile"
-    >
+    <nav v-if="headings.length > 0 && !isDesktop" class="scrollspy-nav-mobile">
       <div
         class="scrollspy-current-bar"
         role="button"
@@ -327,9 +327,9 @@ onBeforeUnmount(() => {
     <BRow>
       <!-- Desktop scrollspy nav -->
       <BCol
-        v-if="headings.length > 0 && breakpoint !== 'mobile'"
+        v-if="headings.length > 0 && isDesktop"
         cols="12"
-        lg="3"
+        xl="3"
         class="order-2"
       >
         <nav
@@ -358,7 +358,7 @@ onBeforeUnmount(() => {
       </BCol>
 
       <!-- Article content -->
-      <BCol cols="12" :lg="headings.length > 0 ? 9 : 12" class="order-1">
+      <BCol cols="12" :xl="headings.length > 0 ? 9 : 12" class="order-1">
         <div class="article">
           <HastFragment :nodes="hastChildren" />
         </div>
