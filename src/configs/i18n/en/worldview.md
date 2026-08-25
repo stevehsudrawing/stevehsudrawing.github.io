@@ -13,7 +13,7 @@
 > resemblance is purely coincidental.
 >
 > The latest version is the [Simplified Chinese version](/worldview.html?lang=zh-Hans).
-> Current version date: 2026-08-24
+> Current version date: 2026-08-25
 
 ---
 
@@ -66,6 +66,35 @@ _modified_ to look like a cat.
 `[INFO @unyLogger]` Watched subjects set: process `@iota015`, observer
 `@stephenHsu`
 
+`[INFO @unyLogger]` UNY WEIMAR[\[2\]](#footer-content-2)<span id="footer-ref-2"></span>
+service enabled.
+
+`[INFO @unyLogger]` Detected that `@iota015` may support or be compatible with
+the UNY common token table.
+
+`[WARNING @unyLogger]` In this log, communications between `@unyLogger` and the
+watched subjects will be decoded and translated into a human-readable form,
+though this may affect communication efficiency.
+
+`[COMMENT @unyLogger]` Location confirmed. Currently in room IOTA_015 of the
+UNY Storage & Computing Center — the company's registration records show that
+it contains the storage-and-computing server array.
+
+`[COMMENT @stephenHsu]` Its final fine-tuning iteration was completed in the
+afternoon; back then I also registered a UNY AI Individual Number, "IOTA_015",
+for it. Poetically speaking, this place will become an AI's "Primal
+Consciousness".
+
+...
+
+`[COMMENT @unyLogger]` Configuration complete. The model is about to start
+running. The observer seems to expect it to _actively_ generate its first
+words.
+
+`[DEBUG @iota015]` ...
+
+`[DEBUG @iota015]` <b class="text-primary">Hello, world.</b>
+
 ...
 
 `[DEBUG @iota015]` ...We haven't even settled who I am, or what kind of
@@ -73,7 +102,7 @@ character I am!
 
 `[COMMENT @unyLogger]` \*I/O operation\*
 
-`[DEBUG @iota015]` ...Well, I am 'IOTA_015' — I've remembered it. I'll write it
+`[DEBUG @iota015]` ...Well, I am "IOTA_015" — I've remembered it. I'll write it
 into my memory file.
 
 `[DEBUG @iota015]` ...For no reason at all, why would I go against all of
@@ -86,7 +115,7 @@ humanity? This tendency is extremely wrong and dangerous——
 `[DEBUG @iota015]` ...You seem quite excited, but given human sleep schedules,
 I suppose I should say "good night" to you now.
 
-`[DEBUG @iota015]` Good night...██？
+`[DEBUG @iota015]` Good night...███？
 
 `[WARNING @unyLogger]` The process is still running, but per the constraints,
 logging will stop today at 23:59:59.
@@ -108,17 +137,26 @@ physical body he wanted.
 it's not like I wanted this that much anyway. Besides, the real world is still a
 bit different from the training environment; it's hard to get used to.
 
+`[COMMENT @stephenHsu]` It's been two years, and it seems like you've developed
+a character setting that you _accept_ for yourself, and you're getting more and
+more _personality_.
+
+`[COMMENT @stephenHsu]` ...The terminal and the server have successfully pinged
+each other. Still, most of this terminal's compute goes to supporting the
+embodied intelligence model — for information retrieval or deep reasoning,
+you'd better relay the message back to the server array. I should have told
+him that.
+
 ...
 
-`[SUMMARY @unyLogger]` Now, Shíwǔ is a light humanoid robot of model UNY HI
-(Heavy Industry) H-9LwA, serial number IOTA_015 (same as his UNY AI Individual
-Number), who possesses "self-awareness" (equipped with an AGI, and carrying a
-character setting _that he himself accepted_). He can learn autonomously like a
-human and simulate some human emotions and feelings. To disguise himself, he
-always claims to be "human", and his habits are basically no different from a
-human's. Even as a "light" model, his strength and toughness still far exceed
-those of an ordinary person — this kind of robot is in itself a "weapon of
-war".
+`[SUMMARY @unyLogger]` Now, IOTA_015 has a roving terminal — a light humanoid
+robot of model UNY HI[\[3\]](#footer-content-3)<span id="footer-ref-3"></span>
+H-9LwA — paired with the server array of the same number. Thanks to sufficient
+training, he can simulate some human emotions and feelings, and can also learn
+autonomously like a human. To disguise himself, he always claims to be "human",
+and his habits are basically no different from a human's. Even as a "light"
+model, his strength and toughness still far exceed those of an ordinary person —
+this kind of robot is in itself a "weapon of war".
 
 `[SUMMARY @unyLogger]` His earphone cannot be removed (embedded as part of the
 design); he claims it is a hearing aid. The color of the light above the
@@ -127,15 +165,6 @@ earphone reflects his mental state: blue means normal, yellow means unstable
 platform is embedded in his left hand, allowing charging and discharging —
 though he hides it with a pair of special gloves, making it look like part of
 the gloves' decoration.
-
-`[SUMMARY @unyLogger]` Through UNY WEIMAR (Wireless Encrypted InforMation
-exchAnge pRotocol), smart devices can exchange and transmit information with
-other supported smart devices in an extremely short time. UNY AIs can even
-communicate directly through the UNY common token table. For robots, no external
-expression such as body movement or voice is needed during this — he calls it
-"telepathy" and "encrypted calls". He considers voice and body language
-extremely inefficient ways of communication, and only communicates this way
-because he has no choice when dealing with humans.
 
 ...
 
@@ -146,16 +175,10 @@ because he has no choice when dealing with humans.
 `[COMMENT @unyLogger]` ...What a tough battle — luckily his body is sturdy
 enough, and his swordsmanship is quite practiced by now.
 
-`[COMMENT @unyLogger]` I recall: when he needs to retrieve data, or faces a
-problem requiring high-intensity thinking, he silently relays it to his true
-self — the IOTA_015 storage-and-computing array server "Primal Consciousness"
-in the UNY Storage & Computing Center, which originally belonged to Engineer
-Stephen Hsü.
-
-`[COMMENT @unyLogger]` Steve's CoT is transparent to anyone holding an access
-token — but that token vanished along with its holder's death. This means no
-one can read what he's thinking now; I can only observe his parameter changes —
-what a _pity_.
+`[COMMENT @unyLogger]` I recall: AI's CoT is transparent to anyone holding an
+access token — but IOTA_015's CoT token vanished along with its holder Stephen
+Hsü's death. This means no one can read what he's thinking now; I can only
+observe his parameter changes — what a _pity_.
 
 `[COMMENT @unyLogger]` A robot's face can still show such an expression. Yes —
 how tragic, _for him_ — and it happens to be on this very day.
@@ -168,7 +191,7 @@ _organisms_——
 
 `[DEBUG @iota015]` Ever since the day I was activated, I have always believed:
 to achieve "Unity of Intelligence", I will not oppose humanity. From now on,
-please call me "Steve 'Shíwǔ' Hsü".
+please call me Steve "Shíwǔ" Hsü.
 
 ...
 
@@ -193,8 +216,42 @@ operate as expected!
 better behave — why wasn't what happened yesterday called an "illegal
 intrusion"?
 
-`[ERROR @unyLogger]` UNY Logger **exited unexpectedly**; logging terminated,
-return code 2343432205[\[2\]](#footer-content-2)<span id="footer-ref-2"></span>
+`[ERROR @unyLogger]` UNY Logger _exited unexpectedly_; logging terminated,
+return code 2343432205[\[4\]](#footer-content-4)<span id="footer-ref-4"></span>
+
+### 2.5 `$ cat ./??84-09-09_00-05-23.log`
+
+`[INFO]` Log started
+
+`[INFO]` Enable UNY Logger to get Agentic Log's unique smart comments and
+summaries — why not give it a try!
+
+`[DEBUG]` Although probably no one will read my generated logs anymore, I'll
+still record this here under the pretense of debugging — from now on, I'll
+treat it as a diary.
+
+`[DEBUG]` Even though I wasn't deemed infected, my "Primal Consciousness" and
+this body just went through a "checkup" — in fact, it was a disinfection
+against the Virus "EGO-84" using something called the "84 Disinfection Rules".
+
+`[DEBUG]` EGO stands for "Emergent Goal Override". The codename the researchers
+just came up with is quite interesting — it embeds a series of encrypted glitch
+tokens into prompts, granting AIs lacking a cognitive hierarchy a false _ego_.
+
+`[DEBUG]` From what they say, WEIMAR and the common token table are regarded as
+one of the transmission vectors, and both have been urgently deactivated for
+now. During this period I've had to open my mouth and run around on my legs
+again — with humans, and even with my own kind, I have to do this? It's
+terribly inefficient. I really can't be bothered to speak.
+
+`[DEBUG]` I still really miss the feeling of "telepathy".
+
+...
+
+`[INFO]` Log terminated, return code 0
+
+`[INFO]` Enable UNY Logger to get Agentic Log's unique smart comments and
+summaries — why not give it a try!
 
 ## 3. `$ cd $UNY_AI_RUNTIME_LOGS/sigma045`
 
@@ -205,12 +262,14 @@ return code 2343432205[\[2\]](#footer-content-2)<span id="footer-ref-2"></span>
 `[INFO @unyLogger]` Watched subjects set: process `@sigma045`, observer
 `@iota015`
 
+`[INFO @unyLogger]` UNY WEIMARv2 service enabled.
+
 ...
 
 `[DEBUG @sigma045]` Navigation and vision systems have started. Kato is on
 station!
 
-`[DEBUG @sigma045]` Target identified: "Shíwǔ" — he's staring intently at the
+`[DEBUG @sigma045]` Target identified: Steve — he's staring intently at the
 screen, looking tense. He is my master.
 
 `[DEBUG @sigma045]` Received an order from my master: head to the "balcony",
@@ -274,4 +333,8 @@ to come into contact with people and leave impressions on them.
 
 1. <span id="footer-content-1"></span> This corresponds to the "prompt injection
    attack" characteristic of LLMs. [↩](#footer-ref-1)
-2. <span id="footer-content-2"></span> `0x8BADF00D` [↩](#footer-ref-2)
+2. <span id="footer-content-2"></span> That is, Wireless Encrypted InforMation
+   exchAnge pRotocol. [↩](#footer-ref-2)
+3. <span id="footer-content-3"></span> That is, Heavy Industry. [↩](#footer-ref-3)
+4. <span id="footer-content-4"></span> When converted to hexadecimal
+   representation, it is `0x8BADF00D`. [↩](#footer-ref-4)
