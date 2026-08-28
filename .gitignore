@@ -31,3 +31,5 @@ temp/
 
 # Local-only documents
 docs/
+.github/copilot-instructions.md
+.github/instructions/

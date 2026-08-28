@@ -71,8 +71,6 @@
 | Opera   | ≥ 48        | ≥ 71            |
 | Safari  | ≥ 14        | ≥ 16.1          |
 
-For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseline.instructions.md).
-
 ## 3. Tech Stack
 
 | Category           | Choice                                                                                                              |
@@ -92,16 +90,7 @@ For more details, read [this](.github/instructions/1-tech-stack/3-browser-baseli
 | Markdown Rendering | [Marked](https://marked.js.org/)                                                                                    |
 | Hosting            | [GitHub Pages](https://pages.github.com/)                                                                           |
 
-## 4. Development
-
-```bash
-pnpm install # Install dependencies
-pnpm dev     # Start dev server (http://localhost:5173)
-pnpm build   # Build for production (output: dist/)
-pnpm preview # Preview production build locally
-```
-
-## 5. Copyright
+## 4. Copyright
 
 All original artworks in `public/images/` (including covers, icons, and
 stickers) are created by **Steve Hsu (什五)**. See
