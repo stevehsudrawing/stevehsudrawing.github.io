@@ -1,7 +1,7 @@
 # Copyright Notice for Original Artworks
 
 **Author:** Steve Hsu (什五) \
-**Last updated:** 2026-08-16
+**Last updated:** 2026-08-29
 
 ---
 
@@ -11,19 +11,20 @@ All files listed in this section are **original artworks** created by me, Steve 
 
 ### 1.1 Restricted Works - All Rights Reserved
 
-| Path / Pattern                                | Description                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------- |
-| `*/banner.*`                                  | Website preview banner                                                 |
-| `*/covers/about.*`                            | Cover image for the About page                                         |
-| `*/covers/artworks-*.*`                       | Cover images for the Artworks & Videos page (light & dark variants)    |
-| `*/covers/illustration-*.*`                   | Illustration as a cover image for the homepage (light & dark variants) |
-| `*/favicons/*`                                | Website icon                                                           |
-| `*/icons/steve-hsu.*`                         | My personal signature                                                  |
-| `*/icons/sticker-collection-series-*-vol-*.*` | Icons for individual sticker collection volumes                        |
-| `*/icons/sticker-collections.*`               | Icon for sticker collections                                           |
-| `*/posters/*`                                 | Poster images for the Gallery page (sticker collection series)         |
-| `*/splash/*`                                  | Splash screen images for Apple Safari PWA                              |
-| `*/stickers/*`                                | All sticker artwork files in the stickers directory                    |
+| Path / Pattern                                | Description                                                    |
+| --------------------------------------------- | -------------------------------------------------------------- |
+| `*/banner.*`                                  | Website preview banner                                         |
+| `*/covers/about.*`                            | Cover image for the About page                                 |
+| `*/covers/artworks-*.*`                       | Cover images for the Artworks & Videos page                    |
+| `*/covers/illustration-*.*`                   | Illustrations as cover images for the homepage                 |
+| `*/covers/worldview-*.*`                      | Cover image for the Worldview page                             |
+| `*/favicons/*`                                | Website icon                                                   |
+| `*/icons/steve-hsu.*`                         | My personal signature                                          |
+| `*/icons/sticker-collection-series-*-vol-*.*` | Icons for individual sticker collection volumes                |
+| `*/icons/sticker-collections.*`               | Icon for sticker collections                                   |
+| `*/posters/*`                                 | Poster images for the Gallery page (sticker collection series) |
+| `*/splash/*`                                  | Splash screen images for Apple Safari PWA                      |
+| `*/stickers/*`                                | All sticker artwork files in the stickers directory            |
 
 These works are provided **for display purposes only** on this website. The following actions are **strictly prohibited** without my prior written permission:
 

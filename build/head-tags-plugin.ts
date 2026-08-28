@@ -204,6 +204,27 @@ function fullPageTags(): HtmlTagDescriptor[] {
   ];
 }
 
+/**
+ * llms.txt discovery tags for full pages: the clean markdown version
+ * (rel="alternate" type="text/markdown") and the covering llms.txt
+ * (rel="describedby"), per the llms.txt v2 spec.
+ * @param pageName - Page name (e.g. "about"); the index page is "index".
+ * @returns Two `<link>` tag descriptors.
+ */
+function llmsTags(pageName: string): HtmlTagDescriptor[] {
+  return [
+    {
+      tag: "link",
+      attrs: {
+        rel: "alternate",
+        type: "text/markdown",
+        href: `/${pageName}.html.md`,
+      },
+    },
+    { tag: "link", attrs: { rel: "describedby", href: "/llms.txt" } },
+  ];
+}
+
 // =========================================================================
 // Per-page tags
 // =========================================================================
@@ -419,7 +440,7 @@ export function headTagsPlugin() {
           ...ogTags(meta),
           ...twitterTags(meta),
           ...hreflangTags(meta),
-          ...(isFull ? fullPageTags() : []),
+          ...(isFull ? [...fullPageTags(), ...llmsTags(pageName)] : []),
           ...structuredData(meta),
           { tag: "script", attrs: { type: "module", src: "/main.ts" } },
         ];

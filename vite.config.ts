@@ -1,11 +1,12 @@
-import { defineConfig } from "vite";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 import vue from "@vitejs/plugin-vue";
-import Components from "unplugin-vue-components/vite";
 import { BootstrapVueNextResolver } from "bootstrap-vue-next/resolvers";
-import { headTagsPlugin } from "./build/head-tags-plugin";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import Components from "unplugin-vue-components/vite";
+import { defineConfig } from "vite";
 import { contentInjectionPlugin } from "./build/content-injection-plugin";
+import { headTagsPlugin } from "./build/head-tags-plugin";
+import { llmsTxtPlugin } from "./build/llms-txt-plugin";
 import { minifyPlugin } from "./build/minify-plugin";
 import { sitemapPlugin } from "./build/sitemap-plugin";
 
@@ -26,6 +27,7 @@ export default defineConfig({
     headTagsPlugin(),
     minifyPlugin(),
     sitemapPlugin(),
+    llmsTxtPlugin(),
   ],
 
   server: {

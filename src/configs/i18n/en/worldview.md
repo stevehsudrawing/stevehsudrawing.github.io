@@ -31,7 +31,7 @@
   - Name: Kato
   - Manufacture date: █85-05-22
   - Abilities & traits: reconnaissance and surveillance, picking up small items,
-    limited intelligence
+    ANI
 
 His eyes are blue, with diamond-shaped pupils. His hair is mainly a
 coffee-brown → dark-gray gradient, with a streak of cyan-blue highlights.

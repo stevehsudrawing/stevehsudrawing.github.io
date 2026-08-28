@@ -3,88 +3,21 @@
  *
  * Reads link-card and link-button-group JSON configs at build time and
  * generates plain-text link lists that crawlers can index without
- * executing JavaScript.
+ * executing JavaScript. Config loading + i18n resolution lives in
+ * content-extract.ts (shared with llms-txt-plugin).
  */
 
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { getPageName } from "./utils";
 import { extractPlainText } from "../src/core/utils";
 import { PAGE_META } from "./site-meta";
+import {
+  loadLinkCardGroups,
+  loadLinkButtonGroups,
+  textFor,
+  type LinkCardGroup,
+  type LinkButtonGroup,
+} from "./content-extract";
 import type { IndexHtmlTransformContext } from "vite";
-
-// =========================================================================
-// JSON config types (subset of runtime types)
-// =========================================================================
-
-interface HastNode {
-  type: string;
-  value?: string;
-  tagName?: string;
-  properties?: Record<string, unknown>;
-  children?: HastNode[];
-}
-
-interface TypeAwareLink {
-  href: string;
-  type: string;
-}
-
-interface TypeAwareImage {
-  type: "picture" | "colored-img";
-  imgProps?: {
-    src?: string;
-    alt?: string;
-  };
-}
-
-interface LinkCard {
-  id: string;
-  available?: boolean;
-  icon?: TypeAwareImage;
-  titleLink?: TypeAwareLink;
-  description?: HastNode | null;
-}
-
-interface LinkCardGroup {
-  id: string;
-  description?: HastNode | null;
-  contents?: LinkCard[];
-}
-
-interface LinkButton {
-  id: string;
-  link: TypeAwareLink;
-  icon: TypeAwareImage;
-}
-
-interface LinkButtonGroup {
-  groupId?: string;
-  buttons?: LinkButton[];
-}
-
-// =========================================================================
-// i18n text resolution (en/translation.json is the single source of truth)
-// =========================================================================
-
-let enCache: Record<string, string> | null = null;
-
-/** Load the English translations once (titles + icon alt fallbacks). */
-function getEn(): Record<string, string> {
-  if (!enCache) {
-    const raw = readFileSync(
-      resolve(process.cwd(), "src/configs/i18n/en/translation.json"),
-      "utf-8",
-    );
-    enCache = JSON.parse(raw) as Record<string, string>;
-  }
-  return enCache;
-}
-
-/** Resolve `text-<id>` from the English translations, falling back to the raw id. */
-function textFor(id: string): string {
-  return getEn()["text-" + id] ?? id;
-}
 
 // =========================================================================
 // Content generation
@@ -177,36 +110,23 @@ function generateButtonNoscript(groups: LinkButtonGroup[]): string {
  */
 function generateNoscriptContent(pageName: string): string {
   const parts: string[] = [];
-  const root = process.cwd();
 
   // --- Link cards ---
-  const cardsPath = resolve(root, "src/configs/link-cards", `${pageName}.json`);
-  try {
-    const cardsRaw = readFileSync(cardsPath, "utf-8");
-    const cards = JSON.parse(cardsRaw) as LinkCardGroup[];
+  const cards = loadLinkCardGroups(pageName);
+  if (cards) {
     const html = generateCardNoscript(cards);
     if (html) {
       parts.push("<!-- auto-generated: link cards -->", html);
     }
-  } catch {
-    // No link-card config for this page — skip
   }
 
   // --- Link button groups ---
-  const buttonsPath = resolve(
-    root,
-    "src/configs/link-button-groups",
-    `${pageName}.json`,
-  );
-  try {
-    const buttonsRaw = readFileSync(buttonsPath, "utf-8");
-    const buttons = JSON.parse(buttonsRaw) as LinkButtonGroup[];
+  const buttons = loadLinkButtonGroups(pageName);
+  if (buttons) {
     const html = generateButtonNoscript(buttons);
     if (html) {
       parts.push("<!-- auto-generated: link buttons -->", html);
     }
-  } catch {
-    // No link-button-group config for this page — skip
   }
 
   return parts.join("\n");

@@ -23,8 +23,8 @@ const { content } = useMarkdownContent("worldview");
     :description="$t('text-worldview-description')"
     :image="{
       srcMap: {
-        avif: { light: { en: '/images/avif/covers/about.avif' } },
-        webp: { light: { en: '/images/webp/covers/about.webp' } },
+        avif: { light: { en: '/images/avif/covers/worldview.avif' } },
+        webp: { light: { en: '/images/webp/covers/worldview.webp' } },
       },
       alt: $t('text-worldview'),
       class: 'rounded no-copy solid-bg',

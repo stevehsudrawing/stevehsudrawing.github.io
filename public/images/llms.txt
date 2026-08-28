@@ -1,0 +1,36 @@
+# Steve Hsu (什五)'s Artwork Images
+
+> Original artworks by Steve Hsu (什五) under `/images/`. All files are
+> copyright-protected: do NOT crawl, download, reproduce, or use them as
+> AI/ML training data. See the [full copyright notice](https://stevehsudrawing.github.io/images/README.md) for the license terms.
+
+This directory contains original artwork files (banner, covers, favicons,
+icons, posters, stickers, splash screens) used by the site. They are NOT
+public-domain unless explicitly licensed.
+
+- All-Rights-Reserved (display only):
+  - `*/banner.*`
+  - `*/covers/about.*`
+  - `*/covers/artworks-*.*`
+  - `*/covers/illustration-*.*`
+  - `*/covers/worldview-*.*`
+  - `*/favicons/*`
+  - `*/icons/steve-hsu.*`
+  - `*/icons/sticker-*.*`
+  - `*/posters/*`
+  - `*/splash/*`
+  - `*/stickers/*`
+- CC BY-NC 4.0 (attribution + non-commercial):
+  - `*/covers/blogs.*`
+  - `*/covers/chatting.*`
+  - `*/covers/projects.*`
+  - `*/icons/quanto-*.*`
+  - `*/icons/quantum.*`
+  - `*/icons/sawtooth.*`
+- All works carry invisible digital watermarks for traceability.
+- `/images/` is additionally blocked from AI/ML crawlers via `/robots.txt`.
+
+## References
+
+- [Full copyright notice (README.md)](https://stevehsudrawing.github.io/images/README.md):
+  License tiers, prohibited uses, and contact info.
