@@ -11,8 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BCarousel: typeof import('bootstrap-vue-next/components/BCarousel')['BCarousel']
-    BCarouselSlide: typeof import('bootstrap-vue-next/components/BCarousel')['BCarouselSlide']
     BDropdown: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdown']
     BDropdownItem: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdownItem']
     BFormCheckbox: typeof import('bootstrap-vue-next/components/BFormCheckbox')['BFormCheckbox']
