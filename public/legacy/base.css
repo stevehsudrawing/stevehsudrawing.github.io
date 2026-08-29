@@ -137,6 +137,24 @@ body {
    Custom Selectors - Project-specific styles for error pages
    ======================================================================== */
 
+/* --- CSS-based Copy Protection --- */
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* --- Selection --- */
+
+*::selection {
+  color: #ffffff;
+  background: #3c96ff;
+}
+
 /* --- Base Link Styles --- */
 
 a {
@@ -209,6 +227,13 @@ a:hover {
     background-color: #212529;
   }
 
+  /* --- Selection --- */
+
+  *::selection {
+    color: #212529;
+    background: #47c4ee;
+  }
+
   /* --- Links --- */
 
   a {
@@ -223,16 +248,16 @@ a:hover {
 
   .btn-primary {
     background-color: #47c4ee;
-    color: #000000;
+    color: #212529;
   }
 
   .btn-primary:hover {
     background-color: #89d9f4;
-    color: #000000;
+    color: #212529;
   }
 
   .btn-primary:active {
     background-color: #a7e3f7;
-    color: #000000;
+    color: #212529;
   }
 }

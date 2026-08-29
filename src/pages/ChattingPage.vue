@@ -26,7 +26,7 @@ const { groups, pagePath } = useLinkCards(ref("chatting"));
         avif: { light: { en: '/images/avif/covers/chatting.avif' } },
         webp: { light: { en: '/images/webp/covers/chatting.webp' } },
       },
-      alt: $t('text-chatting'),
+      alt: $t('text-chatting-alt'),
       class: 'rounded',
     }"
   />

@@ -26,7 +26,7 @@ const { groups, pagePath } = useLinkCards(ref("blogs-and-sponsor"));
         avif: { light: { en: '/images/avif/covers/blogs.avif' } },
         webp: { light: { en: '/images/webp/covers/blogs.webp' } },
       },
-      alt: $t('text-blogs-and-sponsor'),
+      alt: $t('text-blogs-alt'),
       class: 'rounded',
     }"
   />

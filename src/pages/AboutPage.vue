@@ -56,7 +56,7 @@ function onMajorColorClick(event: Event): void {
         avif: { light: { en: '/images/avif/covers/about.avif' } },
         webp: { light: { en: '/images/webp/covers/about.webp' } },
       },
-      alt: $t('text-artworks'),
+      alt: $t('text-about-alt'),
       class: 'rounded no-copy solid-bg',
     }"
   />
@@ -82,37 +82,37 @@ function onMajorColorClick(event: Event): void {
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🗣</th>
             <td>
-              <span>{{ $t("text-profile-part-1") }}</span>
+              <span>{{ $t("text-profile-1") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">👤</th>
             <td>
-              <span>{{ $t("text-profile-part-2") }}</span>
+              <span>{{ $t("text-profile-2") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🖌</th>
             <td>
-              <span>{{ $t("text-profile-part-3") }}</span>
+              <span>{{ $t("text-profile-3") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">💾</th>
             <td>
-              <span>{{ $t("text-profile-part-4") }}</span>
+              <span>{{ $t("text-profile-4") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🤔</th>
             <td>
-              <span>{{ $t("text-profile-part-5") }}</span>
+              <span>{{ $t("text-profile-5") }}</span>
             </td>
           </tr>
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">🎨</th>
             <td>
-              <span>{{ $t("text-profile-part-6") }}</span>
+              <span>{{ $t("text-profile-6") }}</span>
               <span data-major-color="#47c4ee" @click="onMajorColorClick">
                 <CopyButton
                   class="link text-nowrap"
@@ -140,7 +140,7 @@ function onMajorColorClick(event: Event): void {
           <tr class="pb-1">
             <th scope="row" class="pe-2 align-top">👾</th>
             <td>
-              <span v-html="$t('html-profile-part-7')"></span>
+              <span v-html="$t('html-profile-7')"></span>
               <TypeAwareLink
                 type="internal"
                 href="/worldview.html"

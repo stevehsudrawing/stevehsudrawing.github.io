@@ -26,7 +26,7 @@ const { content } = useMarkdownContent("worldview");
         avif: { light: { en: '/images/avif/covers/worldview.avif' } },
         webp: { light: { en: '/images/webp/covers/worldview.webp' } },
       },
-      alt: $t('text-worldview'),
+      alt: $t('text-worldview-alt'),
       class: 'rounded no-copy solid-bg',
     }"
   />

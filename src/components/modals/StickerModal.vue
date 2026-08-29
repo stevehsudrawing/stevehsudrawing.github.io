@@ -61,7 +61,7 @@ function onShown(): void {
 const stickerSrcMap = computed(() => createStickerSrcMap(STICKER_ID));
 
 /** Alt text for the sticker. */
-const stickerAlt = computed(() => t(`text-sticker-of-${STICKER_ID}`));
+const stickerAlt = computed(() => t(`text-sticker-of-${STICKER_ID}-alt`));
 
 /** Short line shown below the sticker. */
 const message = computed(() => t("text-sticker-message-observing"));

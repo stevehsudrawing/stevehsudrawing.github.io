@@ -33,7 +33,7 @@ const { groups, pagePath } = useLinkCards(ref("artworks-and-videos"));
         },
       },
       feature: ['follow-theme'],
-      alt: $t('text-artworks'),
+      alt: $t('text-artworks-alt'),
       class: 'rounded no-copy solid-bg',
     }"
   />

@@ -121,7 +121,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                     },
                   }"
                   :feature="['follow-theme']"
-                  :alt="$t('text-illustration')"
+                  :alt="$t('text-illustration-0-alt')"
                   fetchpriority="high"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -149,7 +149,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                       light: { en: '/images/webp/covers/illustration-1.webp' },
                     },
                   }"
-                  :alt="$t('text-illustration')"
+                  :alt="$t('text-illustration-1-alt')"
                   loading="lazy"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -170,7 +170,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                       light: { en: '/images/webp/covers/illustration-2.webp' },
                     },
                   }"
-                  :alt="$t('text-illustration')"
+                  :alt="$t('text-illustration-2-alt')"
                   loading="lazy"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -191,7 +191,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
                       light: { en: '/images/webp/covers/illustration-3.webp' },
                     },
                   }"
-                  :alt="$t('text-illustration')"
+                  :alt="$t('text-illustration-3-alt')"
                   loading="lazy"
                   class="d-block w-100 no-copy solid-bg"
                 />
@@ -254,7 +254,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
               avif: { light: { en: '/images/avif/covers/projects.avif' } },
               webp: { light: { en: '/images/webp/covers/projects.webp' } },
             }"
-            :alt="$t('text-softwares')"
+            :alt="$t('text-projects-alt')"
             class="rounded"
           />
         </div>
@@ -287,7 +287,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         avif: { light: { en: '/images/avif/covers/blogs.avif' } },
         webp: { light: { en: '/images/webp/covers/blogs.webp' } },
       },
-      alt: $t('text-blogs-and-sponsor'),
+      alt: $t('text-blogs-alt'),
       class: 'rounded',
     }"
     :padding="false"
@@ -310,7 +310,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         avif: { light: { en: '/images/avif/covers/chatting.avif' } },
         webp: { light: { en: '/images/webp/covers/chatting.webp' } },
       },
-      alt: $t('text-chatting'),
+      alt: $t('text-chatting-alt'),
       class: 'rounded',
     }"
     :padding="false"

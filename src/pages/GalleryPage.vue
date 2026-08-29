@@ -130,7 +130,7 @@ function onSelect(picture: DisplayPictureData): void {
         },
       },
       feature: ['follow-theme'],
-      alt: $t('text-gallery'),
+      alt: $t('text-artworks-alt'),
       class: 'rounded no-copy solid-bg',
     }"
   />

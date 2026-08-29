@@ -29,7 +29,7 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
         avif: { light: { en: '/images/avif/covers/projects.avif' } },
         webp: { light: { en: '/images/webp/covers/projects.webp' } },
       },
-      alt: $t('text-softwares'),
+      alt: $t('text-projects-alt'),
       class: 'rounded',
     }"
   >

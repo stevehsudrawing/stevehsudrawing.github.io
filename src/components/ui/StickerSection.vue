@@ -7,7 +7,7 @@
   `createStickerSrcMap()` (shared with StickerModal):
     AVIF: /images/avif/stickers/{light|dark}/{stickerId}.avif
     WebP: /images/webp/stickers/{light|dark}/{stickerId}.webp
-  Alt text uses i18n key `text-sticker-of-{stickerId}`.
+  Alt text uses i18n key `text-sticker-of-{stickerId}-alt`.
 -->
 <script setup lang="ts">
 import { computed } from "vue";
@@ -27,7 +27,7 @@ const props = defineProps<StickerProps>();
 
 const stickerSrcMap = computed(() => createStickerSrcMap(props.stickerId));
 
-const i18nKey = computed(() => `text-sticker-of-${props.stickerId}`);
+const i18nKey = computed(() => `text-sticker-of-${props.stickerId}-alt`);
 </script>
 
 <template>

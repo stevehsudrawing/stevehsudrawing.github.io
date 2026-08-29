@@ -78,7 +78,7 @@ const pictureProps = computed<FeatureAwarePictureProps | null>(() => {
   if (!p) return null;
   return {
     ...p.pictureProps,
-    alt: p.pictureProps.alt ?? t("text-" + p.id),
+    alt: p.pictureProps.alt ?? t("text-" + p.id + "-alt"),
   } as FeatureAwarePictureProps;
 });
 

@@ -117,15 +117,16 @@ export interface LinkButtonGroupData {
 /** Picture descriptor — a single displayable poster in a gallery group. */
 export interface DisplayPictureData {
   /**
-   * Unique id — i18n key suffix (`t("text-" + id)`) for the alt-text
-   * fallback and the lightbox deep-link target (`?preview=<id>`).
+   * Unique id — i18n key suffix (`t("text-" + id + "-alt")`) for the
+   * alt-text fallback and the lightbox deep-link target (`?preview=<id>`).
    */
   id: string;
   /**
    * FeatureAwarePictureProps for the poster.
    * `alt` is optional — when omitted the card/viewer falls back to
-   * `t("text-" + id)`.  width/height are omitted (masonry CSS controls
-   * the layout) and `loading` defaults to lazy in the card component.
+   * `t("text-" + id + "-alt")`.  width/height are omitted (masonry CSS
+   * controls the layout) and `loading` defaults to lazy in the card
+   * component.
    */
   pictureProps: FeatureAwarePictureProps;
   /** QR share-card centre overlay icon (picture or colored). */

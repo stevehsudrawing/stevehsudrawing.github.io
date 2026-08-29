@@ -34,7 +34,8 @@ const { t } = useI18n();
 
 /** Resolved alt text — explicit alt or i18n fallback from the id. */
 const alt = computed(
-  () => props.picture.pictureProps.alt ?? t("text-" + props.picture.id),
+  () =>
+    props.picture.pictureProps.alt ?? t("text-" + props.picture.id + "-alt"),
 );
 
 /** Resolved FeatureAwarePicture props (alt, lazy loading, no-copy class). */

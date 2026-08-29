@@ -25,7 +25,7 @@ import copyrightMd from "../../public/images/README.md?raw";
         avif: { light: { en: '/images/avif/covers/about.avif' } },
         webp: { light: { en: '/images/webp/covers/about.webp' } },
       },
-      alt: $t('text-artworks'),
+      alt: $t('text-about-alt'),
       class: 'rounded no-copy solid-bg',
     }"
   />
