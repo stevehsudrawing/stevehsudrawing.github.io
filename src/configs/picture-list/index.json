@@ -1,0 +1,116 @@
+[
+  {
+    "id": "carousel-illustration",
+    "contents": [
+      {
+        "id": "illustration-0",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/covers/illustration-0-light.avif"
+              },
+              "dark": {
+                "en": "/images/avif/covers/illustration-0-dark.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/covers/illustration-0-light.webp"
+              },
+              "dark": {
+                "en": "/images/webp/covers/illustration-0-dark.webp"
+              }
+            }
+          },
+          "feature": ["follow-theme"],
+          "fetchpriority": "high"
+        },
+        "relatedLink": {
+          "type": "external",
+          "href": "https://www.pixiv.net/artworks/145641748",
+          "icon": {
+            "type": "picture",
+            "imgProps": {
+              "src": "/images/webp/icons/pixiv.webp",
+              "alt": "Pixiv"
+            }
+          }
+        }
+      },
+      {
+        "id": "illustration-1",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/covers/illustration-1.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/covers/illustration-1.webp"
+              }
+            }
+          },
+          "loading": "lazy"
+        },
+        "relatedLink": {
+          "type": "external",
+          "href": "https://www.pixiv.net/artworks/144184773",
+          "icon": {
+            "type": "picture",
+            "imgProps": {
+              "src": "/images/webp/icons/pixiv.webp",
+              "alt": "Pixiv"
+            }
+          }
+        }
+      },
+      {
+        "id": "illustration-2",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/covers/illustration-2.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/covers/illustration-2.webp"
+              }
+            }
+          },
+          "loading": "lazy"
+        },
+        "relatedLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-1-vol-1"
+        }
+      },
+      {
+        "id": "illustration-3",
+        "pictureProps": {
+          "srcMap": {
+            "avif": {
+              "light": {
+                "en": "/images/avif/covers/illustration-3.avif"
+              }
+            },
+            "webp": {
+              "light": {
+                "en": "/images/webp/covers/illustration-3.webp"
+              }
+            }
+          },
+          "loading": "lazy"
+        },
+        "relatedLink": {
+          "type": "internal",
+          "href": "/gallery.html?preview=sticker-collection-series-2-vol-2"
+        }
+      }
+    ]
+  }
+]

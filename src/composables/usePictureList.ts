@@ -11,6 +11,7 @@ import type { DisplayPictureGroupData } from "../types/app";
 
 /** Map of page names to their picture-list JSON module loaders. */
 const configLoaders: Record<string, () => Promise<{ default: unknown }>> = {
+  index: () => import("../configs/picture-list/index.json"),
   gallery: () => import("../configs/picture-list/gallery.json"),
 };
 

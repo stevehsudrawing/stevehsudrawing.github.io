@@ -51,7 +51,6 @@ const navItems: NavItem[] = [
     href: "/artworks-and-videos.html",
     i18nKey: "text-artworks-and-videos",
   },
-  { type: "link", href: "/gallery.html", i18nKey: "text-gallery" },
   { type: "link", href: "/softwares.html", i18nKey: "text-softwares" },
   {
     type: "link",
@@ -60,6 +59,7 @@ const navItems: NavItem[] = [
   },
   { type: "link", href: "/chatting.html", i18nKey: "text-chatting" },
   { type: "link", href: "/about.html", i18nKey: "text-about" },
+  { type: "link", href: "/gallery.html", i18nKey: "text-gallery" },
   {
     type: "dropdown",
     i18nKey: "text-articles",

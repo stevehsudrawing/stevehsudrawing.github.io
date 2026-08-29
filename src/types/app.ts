@@ -262,6 +262,31 @@ export type TypeAwareImageProps =
   | { type: "colored-img"; imgProps: ColoredImgProps };
 
 // -------------------------------------------------------------------------
+// Illustration carousel slide (IndexPage hero)
+// -------------------------------------------------------------------------
+
+/**
+ * One slide descriptor of the IndexPage illustration carousel, rendered by
+ * `IllustrationCarousel.vue` (Swiper v14).
+ */
+export interface IllustrationSlideData {
+  /** Link type for `TypeAwareLink` (external / internal). */
+  linkType: "external" | "internal";
+  /** Destination href (external URL or internal page path). */
+  href: string;
+  /** Optional link icon shown for external links. */
+  icon?: TypeAwareImageProps;
+  /** i18n key of the image alt text (e.g. "text-illustration-0-alt"). */
+  altKey: string;
+  /** Multi-format source map for `FeatureAwarePicture`. */
+  srcMap: PictureSrcMap;
+  /** fetchpriority attribute (e.g. "high" for the first slide). */
+  fetchpriority?: "high" | "low" | "auto";
+  /** Native lazy loading. */
+  loading?: "lazy" | "eager";
+}
+
+// -------------------------------------------------------------------------
 // Sticker props (shared by StickerSection and StickerModal)
 // -------------------------------------------------------------------------
 

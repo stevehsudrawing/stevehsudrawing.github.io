@@ -10,6 +10,7 @@ import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
 import FeatureAwarePicture from "../components/images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import TooltipTrigger from "../components/render-functions/TooltipTrigger.vue";
+import Carousel from "../components/ui/Carousel.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
 import { useBreakpoint } from "../composables/useBreakpoint";
@@ -20,26 +21,8 @@ import type { LinkButtonGroupData } from "../types/app";
 // State
 // =========================================================================
 
-/** BCarousel template ref for pause/resume. */
-const carouselRef = ref<{ pause: () => void; resume: () => void } | null>(null);
-/** Whether the carousel is currently auto-playing. */
-const isPlaying = ref(true);
 /** Reactive breakpoint (mobile / tablet / desktop) — shared singleton. */
 const breakpoint = useBreakpoint();
-
-// =========================================================================
-// Actions
-// =========================================================================
-
-/** Toggle the carousel between auto-play and paused. */
-function togglePlay(): void {
-  if (isPlaying.value) {
-    carouselRef.value?.pause();
-  } else {
-    carouselRef.value?.resume();
-  }
-  isPlaying.value = !isPlaying.value;
-}
 
 // =========================================================================
 // Link button groups
@@ -80,132 +63,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       <!-- Illustration Carousel -->
       <div class="col-md-6 order-md-2 order-1 mb-4 mb-md-0">
         <div class="hero-cover-box">
-          <BCarousel
-            ref="carouselRef"
-            class="rounded overflow-hidden"
-            controls
-            indicators
-            :interval="6000"
-            :ride="'carousel'"
-          >
-            <BCarouselSlide>
-              <TypeAwareLink
-                type="external"
-                href="https://www.pixiv.net/artworks/145641748"
-                :icon="{
-                  type: 'picture',
-                  imgProps: {
-                    src: '/images/webp/icons/pixiv.webp',
-                    alt: $t('text-pixiv'),
-                  },
-                }"
-                hide-indicator
-              >
-                <FeatureAwarePicture
-                  :src-map="{
-                    avif: {
-                      light: {
-                        en: '/images/avif/covers/illustration-0-light.avif',
-                      },
-                      dark: {
-                        en: '/images/avif/covers/illustration-0-dark.avif',
-                      },
-                    },
-                    webp: {
-                      light: {
-                        en: '/images/webp/covers/illustration-0-light.webp',
-                      },
-                      dark: {
-                        en: '/images/webp/covers/illustration-0-dark.webp',
-                      },
-                    },
-                  }"
-                  :feature="['follow-theme']"
-                  :alt="$t('text-illustration-0-alt')"
-                  fetchpriority="high"
-                  class="d-block w-100 no-copy solid-bg"
-                />
-              </TypeAwareLink>
-            </BCarouselSlide>
-            <BCarouselSlide>
-              <TypeAwareLink
-                type="external"
-                href="https://www.pixiv.net/artworks/144184773"
-                :icon="{
-                  type: 'picture',
-                  imgProps: {
-                    src: '/images/webp/icons/pixiv.webp',
-                    alt: $t('text-pixiv'),
-                  },
-                }"
-                hide-indicator
-              >
-                <FeatureAwarePicture
-                  :src-map="{
-                    avif: {
-                      light: { en: '/images/avif/covers/illustration-1.avif' },
-                    },
-                    webp: {
-                      light: { en: '/images/webp/covers/illustration-1.webp' },
-                    },
-                  }"
-                  :alt="$t('text-illustration-1-alt')"
-                  loading="lazy"
-                  class="d-block w-100 no-copy solid-bg"
-                />
-              </TypeAwareLink>
-            </BCarouselSlide>
-            <BCarouselSlide>
-              <TypeAwareLink
-                type="internal"
-                href="/gallery.html?preview=sticker-collection-series-1-vol-1"
-                hide-indicator
-              >
-                <FeatureAwarePicture
-                  :src-map="{
-                    avif: {
-                      light: { en: '/images/avif/covers/illustration-2.avif' },
-                    },
-                    webp: {
-                      light: { en: '/images/webp/covers/illustration-2.webp' },
-                    },
-                  }"
-                  :alt="$t('text-illustration-2-alt')"
-                  loading="lazy"
-                  class="d-block w-100 no-copy solid-bg"
-                />
-              </TypeAwareLink>
-            </BCarouselSlide>
-            <BCarouselSlide>
-              <TypeAwareLink
-                type="internal"
-                href="/gallery.html?preview=sticker-collection-series-2-vol-2"
-                hide-indicator
-              >
-                <FeatureAwarePicture
-                  :src-map="{
-                    avif: {
-                      light: { en: '/images/avif/covers/illustration-3.avif' },
-                    },
-                    webp: {
-                      light: { en: '/images/webp/covers/illustration-3.webp' },
-                    },
-                  }"
-                  :alt="$t('text-illustration-3-alt')"
-                  loading="lazy"
-                  class="d-block w-100 no-copy solid-bg"
-                />
-              </TypeAwareLink>
-            </BCarouselSlide>
-          </BCarousel>
-          <button
-            class="btn btn-outline-body-color btn-no-border carousel-play-toggle position-absolute bottom-0 start-0"
-            type="button"
-            :aria-label="isPlaying ? 'Pause' : 'Play'"
-            @click="togglePlay"
-          >
-            <i :class="isPlaying ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
-          </button>
+          <Carousel />
         </div>
       </div>
     </div>
@@ -351,7 +209,6 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   padding-top: 100%;
 }
 
-.hero-cover-box > .carousel,
 .hero-cover-box > picture,
 .hero-cover-box > img {
   position: absolute;
@@ -382,56 +239,5 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
 
 .scroll-down-tip > i {
   font-size: 1rem;
-}
-
-.carousel-indicators *,
-.carousel-control-prev,
-.carousel-control-next {
-  filter: invert(1) drop-shadow(0 0 4px rgba(var(--bs-body-bg-rgb), 0.5));
-}
-
-[data-bs-theme="dark"] .carousel-control-prev,
-[data-bs-theme="dark"] .carousel-control-next {
-  filter: drop-shadow(0 0 4px rgba(var(--bs-body-bg-rgb), 0.5));
-}
-
-/* --- BCarouselSlide Tweaks --- */
-
-.carousel-item > img.b-img[src=""],
-.carousel-item > img.b-img:not([src]) {
-  display: none;
-}
-
-.carousel-item .carousel-caption {
-  position: static;
-  padding: 0;
-}
-
-/* --- Carousel controls: visible on mouse hover, always visible for keyboard --- */
-
-.carousel-control-prev,
-.carousel-control-next {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-html.user-input-keyboard .carousel-control-prev,
-html.user-input-keyboard .carousel-control-next {
-  opacity: 1 !important;
-}
-
-html.user-input-pointer .carousel:hover .carousel-control-prev,
-html.user-input-pointer .carousel:hover .carousel-control-next {
-  opacity: 1 !important;
-}
-
-/* --- Play/pause toggle --- */
-
-.carousel-play-toggle {
-  padding: 0.25rem 0.6rem;
-  font-size: 2rem;
-  z-index: 1005;
-  opacity: 1;
-  transition: opacity 0.2s ease;
 }
 </style>
