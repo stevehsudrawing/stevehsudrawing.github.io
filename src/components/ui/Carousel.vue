@@ -24,11 +24,11 @@ import { A11y, Autoplay, EffectCreative, Keyboard } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, ref, shallowRef, watch } from "vue";
-import { useEdgeLuminance } from "../../composables/useEdgeLuminance";
 import { useI18n } from "../../composables/useI18n";
 import { usePictureList } from "../../composables/usePictureList";
 import { useTheme } from "../../composables/useTheme";
 import { isSwiperSupported } from "../../platform/advanced-feat-support";
+import { isImageBottomBandDark } from "../../platform/image-luminance";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 
@@ -69,10 +69,28 @@ const activeIndex = ref(0);
 /** Autoplay countdown fill for the active bar (0–1, elapsed fraction). */
 const progressElapsed = ref(0);
 
-/** URL of the active image (drives edge-luminance detection). */
+/** URL of the active image (drives bottom-band luminance detection). */
 const luminanceSrc = ref<string | null>(null);
 
-const { isDark } = useEdgeLuminance(luminanceSrc);
+/** `true` = dark bottom edge → white controls; `null` while loading. */
+const isDark = ref<boolean | null>(null);
+
+// Reactive luminance detection — bottom band of the active image only
+// (inlined from the former useEdgeLuminance composable; the sampling
+// lives in platform/image-luminance.ts, the math in core/).
+watch(
+  luminanceSrc,
+  (src) => {
+    isDark.value = null;
+    if (!src) return;
+    const token = src;
+    void isImageBottomBandDark(src).then((dark) => {
+      // Ignore stale results after a rapid slide change.
+      if (luminanceSrc.value === token) isDark.value = dark;
+    });
+  },
+  { immediate: true },
+);
 
 const { t } = useI18n();
 const { effectiveTheme } = useTheme();
@@ -317,11 +335,6 @@ watch(effectiveTheme, () => {
 /* ==== Carousel - Swiper hero carousel ==== */
 
 .illustration-carousel {
-  /* --- Control colors (adaptive: overridden by .controls-on-image-dark) --- */
-  --shlh-carousel-control-color: var(--bs-body-color);
-  --shlh-carousel-control-bg: rgba(var(--bs-body-bg-rgb), 0.72);
-  --shlh-carousel-bar-bg: rgba(var(--bs-body-color-rgb), 0.35);
-  --shlh-carousel-bar-fill: var(--bs-body-color);
   position: absolute;
   top: 0;
   right: 0;
@@ -331,50 +344,73 @@ watch(effectiveTheme, () => {
   overflow: hidden;
 }
 
-.illustration-carousel.controls-on-image-dark {
+/* --- Control palettes: THEME-INDEPENDENT, image-bottom-edge driven --- */
+/* Bright bottom edge -> black controls; dark bottom edge -> white. */
+
+.illustration-carousel.controls-on-image-light {
   --shlh-carousel-control-color: #fff;
-  --shlh-carousel-control-bg: rgba(0, 0, 0, 0.55);
-  --shlh-carousel-bar-bg: rgba(255, 255, 255, 0.35);
+  --shlh-carousel-control-bg: #000;
+  --shlh-carousel-control-hover-color: #000;
+  --shlh-carousel-control-hover-bg: #fff;
+  --shlh-carousel-bar-bg: #000;
   --shlh-carousel-bar-fill: #fff;
+}
+
+.illustration-carousel.controls-on-image-dark {
+  --shlh-carousel-control-color: #000;
+  --shlh-carousel-control-bg: #fff;
+  --shlh-carousel-control-hover-color: #fff;
+  --shlh-carousel-control-hover-bg: #000;
+  --shlh-carousel-bar-bg: #fff;
+  --shlh-carousel-bar-fill: #000;
 }
 
 /* --- Controls group (play/pause + bars + related link) --- */
 
 .carousel-controls {
   position: absolute;
-  bottom: 0.9rem;
-  left: 0.75rem;
-  right: 0.75rem;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1px;
 }
 
-/* Square 1rem buttons (hidden until the expanded state). */
+/* 1.5rem-square end buttons — width 0 until the expanded state (the
+   bars then span the full group width). */
 .carousel-play-toggle,
 .carousel-related-link {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;
-  height: 1rem;
+  width: 0;
+  height: 1.5rem;
   padding: 0;
   border: 0;
-  border-radius: 0.25rem;
+  border-radius: 0;
   background: var(--shlh-carousel-control-bg);
   color: var(--shlh-carousel-control-color);
   text-decoration: none;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   line-height: 1;
-  opacity: 0;
-  visibility: hidden;
+  overflow: hidden;
   pointer-events: none;
-  transition:
-    opacity 0.1s ease,
-    visibility 0.1s ease;
+  transition: width 0.1s ease;
   cursor: pointer;
+}
+
+/* Hover / active / keyboard-focus inversion (colors swap). */
+.carousel-play-toggle:hover,
+.carousel-play-toggle:active,
+.carousel-play-toggle:focus-visible,
+.carousel-related-link:hover,
+.carousel-related-link:active,
+.carousel-related-link:focus-visible {
+  background: var(--shlh-carousel-control-hover-bg);
+  color: var(--shlh-carousel-control-hover-color);
 }
 
 /* --- Per-slide long bars (countdown embedded) --- */
@@ -382,7 +418,7 @@ watch(effectiveTheme, () => {
 .carousel-bars {
   flex: 1 1 0;
   display: flex;
-  gap: 0.35rem;
+  gap: 1px;
   min-width: 0;
 }
 
@@ -392,18 +428,25 @@ watch(effectiveTheme, () => {
   min-width: 0;
   padding: 0;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0;
   background: var(--shlh-carousel-bar-bg);
   opacity: 0.5;
   cursor: pointer;
   overflow: hidden;
-  transition:
-    height 0.1s ease,
-    opacity 0.2s ease;
+  transition: height 0.1s ease;
 }
 
 .carousel-bar.active {
   opacity: 1;
+}
+
+/* Hover inversion: track <-> fill swap (same as the end buttons). */
+.carousel-bar:hover {
+  background: var(--shlh-carousel-bar-fill);
+}
+
+.carousel-bar:hover .carousel-bar-fill {
+  background: var(--shlh-carousel-bar-bg);
 }
 
 .carousel-bar-fill {
@@ -436,50 +479,47 @@ watch(effectiveTheme, () => {
 }
 
 /* --- Expanded state: hover (pointer), keyboard modality, touch --- */
+/* End buttons expand by width (gradual squeeze of the bars), not opacity. */
 
 .illustration-carousel:hover .carousel-bar {
-  height: 1rem;
+  height: 1.5rem;
 }
 
 .illustration-carousel:hover .carousel-play-toggle,
 .illustration-carousel:hover .carousel-related-link {
-  opacity: 1;
-  visibility: visible;
+  width: 1.5rem;
   pointer-events: auto;
 }
 
 html.user-input-keyboard .illustration-carousel .carousel-bar {
-  height: 1rem;
+  height: 1.5rem;
 }
 
 html.user-input-keyboard .illustration-carousel .carousel-play-toggle,
 html.user-input-keyboard .illustration-carousel .carousel-related-link {
-  opacity: 1;
-  visibility: visible;
+  width: 1.5rem;
   pointer-events: auto;
 }
 
 @media (hover: none) {
   .illustration-carousel .carousel-bar {
-    height: 1rem;
+    height: 1.5rem;
   }
 
   .illustration-carousel .carousel-play-toggle,
   .illustration-carousel .carousel-related-link {
-    opacity: 1;
-    visibility: visible;
+    width: 1.5rem;
     pointer-events: auto;
   }
 }
 
-/* --- Static fallback related-link: always visible --- */
+/* --- Static fallback related-link: always visible (1.5rem wide) --- */
 
 .illustration-carousel-static .carousel-related-link {
   position: absolute;
-  bottom: 0.9rem;
-  right: 0.75rem;
-  opacity: 1;
-  visibility: visible;
+  bottom: 1px;
+  right: 1px;
+  width: 1.5rem;
   pointer-events: auto;
 }
 
