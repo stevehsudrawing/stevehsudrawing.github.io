@@ -16,10 +16,6 @@
 // Constants
 // =========================================================================
 
-/** Human-readable Swiper v14 baseline description (for docs/comments). */
-export const SWIPER_BASELINE =
-  "Safari/iOS ≥ 16.4, Chrome/Edge/Opera ≥ 110, Firefox ≥ 110";
-
 /** Comparable score helper base: score = major * 100 + minor. */
 const SAFARI_MIN_SCORE = 16 * 100 + 4; // 16.4
 const CHROMIUM_MIN_SCORE = 110 * 100; // 110.0

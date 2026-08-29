@@ -23,7 +23,7 @@ const LUMINANCE_COEFF_B = 0.0722;
 const ALPHA_SKIP_THRESHOLD = 128;
 
 /** Mean-luminance threshold under which the region counts as dark. */
-export const LUMINANCE_THRESHOLD = 0.5;
+const LUMINANCE_THRESHOLD = 0.5;
 
 // =========================================================================
 // Functions
@@ -46,11 +46,11 @@ export function isImgDark(pixels: Uint8ClampedArray): boolean {
   let sum = 0;
   let count = 0;
   for (let i = 0; i < pixels.length; i += 4) {
-    const alpha = pixels[i + 3] ?? 0;
+    const alpha = pixels[i + 3];
     if (alpha < ALPHA_SKIP_THRESHOLD) continue;
-    const r = pixels[i] ?? 0;
-    const g = pixels[i + 1] ?? 0;
-    const b = pixels[i + 2] ?? 0;
+    const r = pixels[i];
+    const g = pixels[i + 1];
+    const b = pixels[i + 2];
     sum +=
       LUMINANCE_COEFF_R * r + LUMINANCE_COEFF_G * g + LUMINANCE_COEFF_B * b;
     count += 1;

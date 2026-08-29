@@ -33,10 +33,6 @@ import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
-// Types
-// =========================================================================
-
-// =========================================================================
 // State
 // =========================================================================
 
@@ -113,22 +109,28 @@ const currentSlide = computed(() => slides.value[activeIndex.value] ?? null);
 const currentLink = computed(() => currentSlide.value?.relatedLink ?? null);
 
 // -------------------------------------------------------------------------
-// Swiper params
+// Swiper params (static — created once per component instance)
 // -------------------------------------------------------------------------
 
 /** Autoplay config — the play/pause button is the single switch. */
-const autoplayConfig = {
+const AUTOPLAY_CONFIG = {
   delay: AUTOPLAY_DELAY,
   disableOnInteraction: false,
   pauseOnMouseEnter: true,
 };
 
 /** Creative-effect config (placeholders — tune after usability test). */
-const creativeEffect = {
+const CREATIVE_EFFECT = {
   prev: { translate: ["-18%", 0, -1], opacity: 0 },
   next: { translate: ["18%", 0, -1], opacity: 0 },
   limitProgress: 1,
 };
+
+/** Keyboard module config (arrow keys navigate). */
+const KEYBOARD_CONFIG = { enabled: true };
+
+/** A11y module config (ARIA region / labels). */
+const A11Y_CONFIG = { enabled: true };
 
 /** Fill width of the active bar: full when paused/stopped. */
 const displayedElapsed = computed(() =>
@@ -244,10 +246,10 @@ watch(effectiveTheme, () => {
       :rewind="true"
       :speed="600"
       effect="creative"
-      :creative-effect="creativeEffect"
-      :autoplay="autoplayConfig"
-      :keyboard="{ enabled: true }"
-      :a11y="{ enabled: true }"
+      :creative-effect="CREATIVE_EFFECT"
+      :autoplay="AUTOPLAY_CONFIG"
+      :keyboard="KEYBOARD_CONFIG"
+      :a11y="A11Y_CONFIG"
       :lazy-preload="false"
       class="hero-swiper"
       @swiper="onSwiper"
