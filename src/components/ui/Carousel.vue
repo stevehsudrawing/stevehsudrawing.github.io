@@ -347,26 +347,27 @@ watch(effectiveTheme, () => {
 /* --- Control palettes: THEME-INDEPENDENT, image-bottom-edge driven --- */
 /* Bright bottom edge -> black controls; dark bottom edge -> white. */
 
+/* NOTE: hover uses `filter: invert(1)` — valid ONLY while these
+   palettes stay pure #000/#fff (see docs/todos/v3.12.0.md §15.2). */
+
 .illustration-carousel.controls-on-image-light {
   --shlh-carousel-control-color: #fff;
   --shlh-carousel-control-bg: #000;
-  --shlh-carousel-control-hover-color: #000;
-  --shlh-carousel-control-hover-bg: #fff;
-  --shlh-carousel-bar-bg: #000;
-  --shlh-carousel-bar-fill: #fff;
+  --shlh-carousel-bar-bg: rgba(0, 0, 0, 0.3);
+  --shlh-carousel-bar-fill: #000;
 }
 
 .illustration-carousel.controls-on-image-dark {
   --shlh-carousel-control-color: #000;
   --shlh-carousel-control-bg: #fff;
-  --shlh-carousel-control-hover-color: #fff;
-  --shlh-carousel-control-hover-bg: #000;
-  --shlh-carousel-bar-bg: #fff;
-  --shlh-carousel-bar-fill: #000;
+  --shlh-carousel-bar-bg: rgba(255, 255, 255, 0.3);
+  --shlh-carousel-bar-fill: #fff;
 }
 
 /* --- Controls group (play/pause + bars + related link) --- */
 
+/* Bottom-anchored: bars hug the bottom edge and grow UPWARD on
+   expand (flex-end aligns the whole group to the 1px bottom line). */
 .carousel-controls {
   position: absolute;
   bottom: 1px;
@@ -374,7 +375,7 @@ watch(effectiveTheme, () => {
   right: 1px;
   z-index: 10;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 1px;
 }
 
@@ -398,19 +399,21 @@ watch(effectiveTheme, () => {
   line-height: 1;
   overflow: hidden;
   pointer-events: none;
-  transition: width 0.1s ease;
+  transition:
+    width 0.1s ease,
+    filter 0.1s ease;
   cursor: pointer;
 }
 
-/* Hover / active / keyboard-focus inversion (colors swap). */
+/* Hover / active / keyboard-focus inversion via pixel invert (see the
+   palette note: pure #000/#fff only). */
 .carousel-play-toggle:hover,
 .carousel-play-toggle:active,
 .carousel-play-toggle:focus-visible,
 .carousel-related-link:hover,
 .carousel-related-link:active,
 .carousel-related-link:focus-visible {
-  background: var(--shlh-carousel-control-hover-bg);
-  color: var(--shlh-carousel-control-hover-color);
+  filter: invert(1);
 }
 
 /* --- Per-slide long bars (countdown embedded) --- */
@@ -430,23 +433,17 @@ watch(effectiveTheme, () => {
   border: 0;
   border-radius: 0;
   background: var(--shlh-carousel-bar-bg);
-  opacity: 0.5;
   cursor: pointer;
   overflow: hidden;
-  transition: height 0.1s ease;
+  transition:
+    height 0.1s ease,
+    filter 0.1s ease;
 }
 
-.carousel-bar.active {
-  opacity: 1;
-}
-
-/* Hover inversion: track <-> fill swap (same as the end buttons). */
+/* Hover inversion: the whole bar inverts (track + fill, incl. the
+   active progress) — same pixel-invert approach as the end buttons. */
 .carousel-bar:hover {
-  background: var(--shlh-carousel-bar-fill);
-}
-
-.carousel-bar:hover .carousel-bar-fill {
-  background: var(--shlh-carousel-bar-bg);
+  filter: invert(1);
 }
 
 .carousel-bar-fill {
