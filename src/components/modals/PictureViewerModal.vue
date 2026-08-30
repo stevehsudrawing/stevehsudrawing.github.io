@@ -1,21 +1,32 @@
 <!--
   PictureViewerModal.vue — Lightbox for the Gallery page.
   Uses the standard BModal chrome (consistent with QRCodeModal): the header
-  title shows the picture description; the footer has icon buttons on the
-  left (prev / next / QR-share / related-link) and a text Close button on
-  the right.  Navigation: footer buttons, keyboard arrows, and touch swipe
-  over the image stage.  Preview-only: `.no-copy`, no download /
-  open-original buttons.  Open/close animation + backdrop come from base.css
-  (Modal / .modal-backdrop).
+  title shows the picture description; the footer has QR-share /
+  related-link / Back (conditional) / Close.  Navigation:
+    - Swiper coverflow stage (supported browsers): click a side image to
+      switch (slideToClickedSlide), keyboard arrows + touch swipe via
+      Swiper; bottom-center fraction indicator.
+    - Static fallback (old browsers): current picture + looping footer
+      prev/next buttons + the same fraction; keyboard arrows via a window
+      listener.
+  Preview-only: `.no-copy`, no download / open-original buttons.
+  Open/close animation + backdrop come from base.css (Modal / .modal-backdrop).
 -->
 <script setup lang="ts">
+import "swiper/css";
+import "swiper/css/a11y";
+import "swiper/css/effect-coverflow";
+import "swiper/css/keyboard";
+import { A11y, EffectCoverflow, Keyboard } from "swiper/modules";
+import type { Swiper as SwiperClass } from "swiper/types";
+import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { setSwipeTrackingEnabled } from "../../composables/useGesture";
-import { useHorizontalSwipe } from "../../composables/useHorizontalSwipe";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
+import { isSwiperSupported } from "../../platform/advanced-feat-support";
 import type {
   DisplayPictureData,
   FeatureAwarePictureProps,
@@ -37,8 +48,26 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
-/** Image stage (touch-swipe target). */
-const stageRef = ref<HTMLElement | null>(null);
+/** Whether the interactive Swiper stage can run (static fallback else). */
+const isSwiper = isSwiperSupported();
+
+/** Swiper v14 module set used by the coverflow stage. */
+const modules = [EffectCoverflow, Keyboard, A11y];
+
+/** Coverflow config (initial values — tune after a usability pass). */
+const COVERFLOW_EFFECT = {
+  rotate: 50,
+  stretch: 0,
+  depth: 100,
+  modifier: 1,
+  slideShadows: false,
+};
+
+/** Keyboard module config (arrow keys navigate). */
+const KEYBOARD_CONFIG = { enabled: true };
+
+/** A11y module config (ARIA region / labels). */
+const A11Y_CONFIG = { enabled: true };
 
 // -------------------------------------------------------------------------
 // Current picture (initialized from currentId, then navigated internally)
@@ -61,26 +90,29 @@ watch(
   { immediate: true },
 );
 
+/** Identity of the current picture list (re-creates the Swiper). */
+const contentsKey = computed(() => contents.value.map((c) => c.id).join(","));
+
 const current = computed<DisplayPictureData | null>(
   () => contents.value[index.value] ?? null,
 );
-
-const hasPrev = computed(() => index.value > 0);
-const hasNext = computed(() => index.value < contents.value.length - 1);
 
 // -------------------------------------------------------------------------
 // Per-picture display props (single source of truth is `contents`)
 // -------------------------------------------------------------------------
 
-/** Enlarged poster props (alt falls back to t("text-" + id)). */
-const pictureProps = computed<FeatureAwarePictureProps | null>(() => {
-  const p = current.value;
-  if (!p) return null;
+/** Poster props for one picture (alt falls back to t("text-" + id)). */
+function picturePropsOf(p: DisplayPictureData): FeatureAwarePictureProps {
   return {
     ...p.pictureProps,
     alt: p.pictureProps.alt ?? t("text-" + p.id + "-alt"),
   } as FeatureAwarePictureProps;
-});
+}
+
+/** Enlarged poster props of the CURRENT picture (fallback branch). */
+const pictureProps = computed<FeatureAwarePictureProps | null>(() =>
+  current.value ? picturePropsOf(current.value) : null,
+);
 
 /** Description shown in the chrome bar. */
 const title = computed(() =>
@@ -123,9 +155,6 @@ const qrIcon = computed<TypeAwareImageProps>(() => {
     },
   };
 });
-
-/** Direction of the current picture switch ("next" | "prev"). */
-const dir = ref<"next" | "prev">("next");
 
 /** Related link back to another page section (typed, from the config). */
 const relatedLink = computed<TypeAwareLinkProps | null>(
@@ -173,13 +202,8 @@ const shareUrl = computed(() => {
 // Actions
 // =========================================================================
 
-/** Navigate to a picture index and sync the ?preview= deep link. */
-function goTo(target: number): void {
-  if (target < 0 || target >= contents.value.length) return;
-  // Direction is set BEFORE the picture id changes (same render batch), so
-  // the leaving picture reads the new direction for its exit.
-  dir.value = target > index.value ? "next" : "prev";
-  index.value = target;
+/** Sync the ?preview= deep link with the current picture. */
+function syncPreview(): void {
   const id = current.value?.id;
   if (id) {
     router.replace({
@@ -188,12 +212,23 @@ function goTo(target: number): void {
   }
 }
 
-function prev(): void {
-  goTo(index.value - 1);
+/** Fallback navigation: looping prev/next (no Swiper). */
+function fallbackGoTo(delta: number): void {
+  const len = contents.value.length;
+  if (len === 0) return;
+  index.value = (index.value + delta + len) % len;
+  syncPreview();
 }
 
-function next(): void {
-  goTo(index.value + 1);
+/**
+ * Swiper transition start — Swiper owns navigation; only update state when
+ * the real index actually changed (loop reorders the slide DOM; ignore the
+ * initial false slideChange) and mirror it to ?preview=.
+ */
+function onSlideChange(instance: SwiperClass): void {
+  if (instance.realIndex === index.value) return;
+  index.value = instance.realIndex;
+  syncPreview();
 }
 
 function showQR(): void {
@@ -238,20 +273,22 @@ function onRelatedLinkClick(): void {
   }
 }
 
-// ---- Keyboard (arrows switch; Esc closes via BModal) ----
+// ---- Keyboard (interactive: Swiper Keyboard module; fallback: window) ----
 
 function onKeydown(e: KeyboardEvent): void {
   if (e.key === "ArrowLeft") {
     e.preventDefault();
-    prev();
+    fallbackGoTo(-1);
   } else if (e.key === "ArrowRight") {
     e.preventDefault();
-    next();
+    fallbackGoTo(1);
   }
 }
 
 function onShown(): void {
-  window.addEventListener("keydown", onKeydown);
+  // The interactive branch uses Swiper's Keyboard module; the fallback
+  // branch keeps this window listener.
+  if (!isSwiper) window.addEventListener("keydown", onKeydown);
   // Fullscreen lightbox: suppress offcanvas edge-swipes while open.
   setSwipeTrackingEnabled(false);
 }
@@ -264,13 +301,6 @@ function onHidden(): void {
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", onKeydown);
   setSwipeTrackingEnabled(true);
-});
-
-// ---- Touch swipe (progressive enhancement over buttons + arrows) ----
-
-useHorizontalSwipe(stageRef, {
-  onLeft: () => next(),
-  onRight: () => prev(),
 });
 </script>
 
@@ -286,53 +316,67 @@ useHorizontalSwipe(stageRef, {
     @shown="onShown"
     @hidden="onHidden"
   >
-    <!-- ==== Image stage (touch-swipe target) ==== -->
-    <div ref="stageRef" class="picture-viewer-stage">
-      <!-- Picture-switch slide transition (symmetric mirror flow) -->
-      <Transition
-        mode="out-in"
-        enter-active-class="picture-slide-enter-active"
-        leave-active-class="picture-slide-leave-active"
-        :enter-from-class="
-          dir === 'prev'
-            ? 'picture-slide-enter-from-prev'
-            : 'picture-slide-enter-from-next'
-        "
-        :leave-to-class="
-          dir === 'prev'
-            ? 'picture-slide-leave-to-prev'
-            : 'picture-slide-leave-to-next'
-        "
+    <!-- ==== Image stage (Swiper coverflow / static fallback) ==== -->
+    <div class="picture-viewer-stage">
+      <Swiper
+        v-if="isSwiper && contents.length > 0"
+        :key="contentsKey"
+        :modules="modules"
+        :initial-slide="index"
+        effect="coverflow"
+        :coverflow-effect="COVERFLOW_EFFECT"
+        :centered-slides="true"
+        :slides-per-view="'auto'"
+        :loop="true"
+        :speed="600"
+        :grab-cursor="true"
+        slide-to-clicked-slide
+        :keyboard="KEYBOARD_CONFIG"
+        :a11y="A11Y_CONFIG"
+        class="picture-viewer-swiper"
+        @slide-change="onSlideChange"
       >
-        <div v-if="pictureProps" :key="current?.id" class="picture-slide-wrap">
+        <SwiperSlide
+          v-for="p in contents"
+          :key="p.id"
+          class="picture-viewer-slide"
+        >
           <FeatureAwarePicture
-            v-bind="pictureProps"
+            v-bind="picturePropsOf(p)"
             class="picture-viewer-img no-copy"
           />
-        </div>
-      </Transition>
+        </SwiperSlide>
+      </Swiper>
+      <FeatureAwarePicture
+        v-else-if="pictureProps"
+        v-bind="pictureProps"
+        class="picture-viewer-img no-copy"
+      />
+
+      <!-- ==== Fraction indicator (current / total) ==== -->
+      <span class="picture-viewer-fraction" aria-hidden="true">
+        {{ index + 1 }} / {{ contents.length }}
+      </span>
     </div>
 
     <template #footer>
       <div class="w-100 d-flex">
-        <TooltipTrigger :title="t('text-previous-page')">
+        <TooltipTrigger v-if="!isSwiper" :title="t('text-previous-page')">
           <button
             type="button"
             class="btn btn-outline-primary btn-no-border"
-            :disabled="!hasPrev"
             :aria-label="$t('text-previous-page')"
-            @click="prev()"
+            @click="fallbackGoTo(-1)"
           >
             <i class="bi bi-arrow-left"></i>
           </button>
         </TooltipTrigger>
-        <TooltipTrigger :title="t('text-next-page')">
+        <TooltipTrigger v-if="!isSwiper" :title="t('text-next-page')">
           <button
             type="button"
             class="btn btn-outline-primary btn-no-border"
-            :disabled="!hasNext"
             :aria-label="$t('text-next-page')"
-            @click="next()"
+            @click="fallbackGoTo(1)"
           >
             <i class="bi bi-arrow-right"></i>
           </button>
@@ -380,14 +424,23 @@ useHorizontalSwipe(stageRef, {
 </template>
 
 <style scoped>
-/* --- Image stage (centred, touch-swipe target) --- */
+/* --- Image stage (Swiper coverflow / static fallback) --- */
 .picture-viewer-stage {
-  perspective: 16rem;
+  position: relative;
+  min-height: 50vh;
+  overflow: hidden;
+}
+
+.picture-viewer-swiper {
+  width: 100%;
+  height: 70vh;
+}
+
+.picture-viewer-slide {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 50vh;
-  overflow: hidden;
+  width: auto;
 }
 
 .picture-viewer-stage :deep(.picture-viewer-img) {
@@ -396,36 +449,20 @@ useHorizontalSwipe(stageRef, {
   object-fit: contain;
 }
 
-/* --- Picture-switch slide transition (symmetric mirror flow) --- */
-
-/* Wrapper: keeps the transformed element block-level (transforms do not
-   apply to inline elements like <picture>) and caps its width. */
-.picture-slide-wrap {
-  display: flex;
-  justify-content: center;
-  max-width: 100%;
-}
-
-.picture-slide-enter-active,
-.picture-slide-leave-active {
-  transition:
-    opacity 0.3s ease-in-out,
-    transform 0.3s ease-in-out,
-    filter 0.3s ease-in-out;
-}
-
-/* next: old exits left, new enters from the mirrored (right) side */
-.picture-slide-enter-from-next,
-.picture-slide-leave-to-prev {
-  opacity: 0;
-  transform: translateX(25%) rotateY(15deg) scale(0.75);
-  filter: blur(1rem);
-}
-
-.picture-slide-leave-to-next,
-.picture-slide-enter-from-prev {
-  opacity: 0;
-  transform: translateX(-25%) rotateY(-15deg) scale(0.75);
-  filter: blur(1rem);
+/* --- Fraction indicator (current / total) --- */
+.picture-viewer-fraction {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 0.125rem 0.625rem;
+  background: rgba(var(--bs-body-color-rgb), 0.15);
+  color: var(--bs-body-color);
+  border-radius: var(--bs-border-radius);
+  font-size: 0.8rem;
+  line-height: 1.25;
+  pointer-events: none;
+  user-select: none;
 }
 </style>
