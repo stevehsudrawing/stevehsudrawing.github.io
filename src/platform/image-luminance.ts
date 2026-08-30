@@ -16,7 +16,7 @@ import { isImgDark } from "../core/image-luminance";
 // =========================================================================
 
 /** Bottom band thickness as a ratio of the shorter image side. */
-const BOTTOM_BAND_RATIO = 0.15;
+const BOTTOM_BAND_RATIO = 0.05;
 
 /** Max long-side sample size in px (keeps the offscreen canvas tiny). */
 const MAX_SAMPLE_SIZE = 64;

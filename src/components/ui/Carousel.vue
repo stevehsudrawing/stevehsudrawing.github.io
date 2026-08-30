@@ -74,6 +74,15 @@ const isDark = ref<boolean | null>(null);
 /** Whether OUR hover currently paused autoplay (vs. the user's pause). */
 const hoverPaused = ref(false);
 
+/** True while a slide transition is running (bar activate is deferred). */
+const isTransitioning = ref(false);
+
+/** Old active index (the bar that drains during the transition). */
+const prevActiveIndex = ref(-1);
+
+/** Fill fraction captured at transition start (drain animation start). */
+const shrinkingFrom = ref(0);
+
 // Reactive luminance detection — bottom band of the active image only
 // (inlined from the former useEdgeLuminance composable; the sampling
 // lives in platform/image-luminance.ts, the math in core/).
@@ -152,13 +161,31 @@ const displayedElapsed = computed(() =>
 
 /**
  * Countdown-fill style for one bar — only the ACTIVE bar carries the fill.
+ * The DRAINING bar (previous active) is styled by the CSS animation
+ * instead (no inline transform).
  *
  * @param index - Bar/slide index.
- * @returns `scaleX` style, or `undefined` for inactive bars.
+ * @returns `scaleX` style, or `undefined` for inactive/draining bars.
  */
 function barFillStyle(index: number): { transform: string } | undefined {
+  if (isTransitioning.value && index === prevActiveIndex.value) {
+    return undefined;
+  }
   if (index !== activeIndex.value) return undefined;
   return { transform: `scaleX(${displayedElapsed.value})` };
+}
+
+/**
+ * Drain-animation start value for a bar via a CSS custom property.
+ *
+ * @param index - Bar/slide index.
+ * @returns `--shlh-carousel-drain-from` style, or `undefined`.
+ */
+function drainStyle(index: number): Record<string, string> | undefined {
+  if (!isTransitioning.value || index !== prevActiveIndex.value) {
+    return undefined;
+  }
+  return { "--shlh-carousel-drain-from": String(shrinkingFrom.value) };
 }
 
 /** Toggle autoplay via the Swiper instance (single source of truth). */
@@ -238,9 +265,25 @@ function onSwiper(instance: SwiperClass): void {
 }
 
 function onSlideChange(instance: SwiperClass): void {
-  // loop mode keeps activeIndex as the physical index — use realIndex.
+  // Ignore init / loopFix noise: a real transition always changes the
+  // real index (the no-animation initial slideChange has the same one).
+  if (instance.realIndex === activeIndex.value) return;
+  // Transition START: keep the OLD bar active and let its fill drain
+  // away (shrinkingFrom → 0) during the transition; the TARGET bar is
+  // activated on transition end (see onSlideChangeTransitionEnd).
+  // loop mode keeps activeIndex as the physical index — use realIndex
+  // when activating.
+  shrinkingFrom.value = displayedElapsed.value;
+  prevActiveIndex.value = activeIndex.value;
+  isTransitioning.value = true;
+}
+
+function onSlideChangeTransitionEnd(instance: SwiperClass): void {
+  // Transition END: activate the target bar. progressElapsed keeps the
+  // real elapsed time (timer re-armed at slide change), so the new fill
+  // continues seamlessly — no timer manipulation.
   activeIndex.value = instance.realIndex;
-  progressElapsed.value = 0;
+  isTransitioning.value = false;
   readActiveSrc(instance);
 }
 
@@ -302,6 +345,7 @@ watch(effectiveTheme, () => {
       class="hero-swiper"
       @swiper="onSwiper"
       @slide-change="onSlideChange"
+      @slide-change-transition-end="onSlideChangeTransitionEnd"
       @autoplay-start="onAutoplayStart"
       @autoplay-stop="onAutoplayStop"
       @autoplay-pause="onAutoplayPause"
@@ -339,7 +383,11 @@ watch(effectiveTheme, () => {
           :key="slide.id"
           type="button"
           class="carousel-bar"
-          :class="{ active: i === activeIndex }"
+          :class="{
+            active: i === activeIndex,
+            draining: isTransitioning && i === prevActiveIndex,
+          }"
+          :style="drainStyle(i)"
           :aria-label="t('text-carousel-go-to-slide', [String(i + 1)])"
           :aria-current="i === activeIndex ? 'true' : undefined"
           @click="goToSlide(i)"
@@ -524,6 +572,31 @@ watch(effectiveTheme, () => {
   background: var(--shlh-carousel-bar-fill);
   transform-origin: left center;
   transform: scaleX(0);
+}
+
+/* During a slide transition the previous bar's fill drains away in
+   the OPPOSITE direction of filling: fill grows left→right (left edge
+   fixed), so it drains with the RIGHT edge fixed — the left part
+   recedes first. Mirrors the Swiper transition duration (speed 600). */
+.carousel-bar.draining .carousel-bar-fill {
+  transform-origin: right center;
+  animation: shlh-carousel-drain 0.6s linear forwards;
+}
+
+@keyframes shlh-carousel-drain {
+  from {
+    transform: scaleX(var(--shlh-carousel-drain-from, 1));
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-bar.draining .carousel-bar-fill {
+    animation: none;
+  }
 }
 </style>
 
