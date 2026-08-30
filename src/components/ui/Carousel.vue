@@ -71,6 +71,9 @@ const luminanceSrc = ref<string | null>(null);
 /** `true` = dark bottom edge → white controls; `null` while loading. */
 const isDark = ref<boolean | null>(null);
 
+/** Whether OUR hover currently paused autoplay (vs. the user's pause). */
+const hoverPaused = ref(false);
+
 // Reactive luminance detection — bottom band of the active image only
 // (inlined from the former useEdgeLuminance composable; the sampling
 // lives in platform/image-luminance.ts, the math in core/).
@@ -102,7 +105,7 @@ const slides = computed(
   () => groups.value?.find((g) => g.id === GROUP_ID)?.contents ?? [],
 );
 
-/** Slide currently active (real index — no loop, so index === realIndex). */
+/** Slide currently active (loop maps activeIndex → realIndex). */
 const currentSlide = computed(() => slides.value[activeIndex.value] ?? null);
 
 /** Related link of the active slide (used by the controls group). */
@@ -112,17 +115,23 @@ const currentLink = computed(() => currentSlide.value?.relatedLink ?? null);
 // Swiper params (static — created once per component instance)
 // -------------------------------------------------------------------------
 
-/** Autoplay config — the play/pause button is the single switch. */
+/** Autoplay config — the play/pause button is the single switch.
+ *  Hover pause is managed by the component (see pointer handlers) —
+ *  Swiper's `pauseOnMouseEnter` binds to `swiper.el` only and would
+ *  resume while hovering the sibling controls group. */
 const AUTOPLAY_CONFIG = {
   delay: AUTOPLAY_DELAY,
   disableOnInteraction: false,
-  pauseOnMouseEnter: true,
 };
 
 /** Creative-effect config (placeholders — tune after usability test). */
 const CREATIVE_EFFECT = {
-  prev: { translate: ["-18%", 0, -1], opacity: 0 },
-  next: { translate: ["18%", 0, -1], opacity: 0 },
+  prev: {
+    translate: [0, 0, -400],
+  },
+  next: {
+    translate: ["100%", 0, 0],
+  },
   limitProgress: 1,
 };
 
@@ -156,6 +165,8 @@ function barFillStyle(index: number): { transform: string } | undefined {
 function togglePlay(): void {
   const instance = swiper.value;
   if (!instance) return;
+  // A manual toggle supersedes any hover-paused state.
+  hoverPaused.value = false;
   if (isPlaying.value) {
     instance.autoplay.pause();
   } else {
@@ -163,9 +174,33 @@ function togglePlay(): void {
   }
 }
 
-/** Jump to a slide via its index. */
+/**
+ * Pointer entered the whole carousel (swiper + controls): pause while
+ * hovering — but only if autoplay was already running, so a manual
+ * pause is never overridden on leave.
+ */
+function onPointerEnter(event: PointerEvent): void {
+  if (event.pointerType !== "mouse") return;
+  if (isPlaying.value) {
+    hoverPaused.value = true;
+    swiper.value?.autoplay.pause();
+  } else {
+    hoverPaused.value = false;
+  }
+}
+
+/** Pointer left the whole carousel: resume only our own hover pause. */
+function onPointerLeave(event: PointerEvent): void {
+  if (event.pointerType !== "mouse") return;
+  if (hoverPaused.value) {
+    hoverPaused.value = false;
+    swiper.value?.autoplay.resume();
+  }
+}
+
+/** Jump to a slide via its real index (loop-safe). */
 function goToSlide(index: number): void {
-  swiper.value?.slideTo(index);
+  swiper.value?.slideToLoop(index);
 }
 
 /**
@@ -175,7 +210,7 @@ function goToSlide(index: number): void {
 function readActiveSrc(instance: SwiperClass): void {
   void nextTick(() => {
     if (instance.destroyed) return;
-    const img = instance.slides?.[instance.activeIndex]?.querySelector("img");
+    const img = instance.slides?.[instance.realIndex]?.querySelector("img");
     luminanceSrc.value = img?.currentSrc || img?.src || null;
   });
 }
@@ -189,12 +224,13 @@ function onSwiper(instance: SwiperClass): void {
   } else {
     isPlaying.value = instance.autoplay.running;
   }
-  activeIndex.value = instance.activeIndex;
+  activeIndex.value = instance.realIndex;
   readActiveSrc(instance);
 }
 
 function onSlideChange(instance: SwiperClass): void {
-  activeIndex.value = instance.activeIndex;
+  // loop mode keeps activeIndex as the physical index — use realIndex.
+  activeIndex.value = instance.realIndex;
   progressElapsed.value = 0;
   readActiveSrc(instance);
 }
@@ -240,11 +276,14 @@ watch(effectiveTheme, () => {
     :class="
       isDark === true ? 'controls-on-image-dark' : 'controls-on-image-light'
     "
+    @pointerenter="onPointerEnter"
+    @pointerleave="onPointerLeave"
   >
     <Swiper
       :modules="modules"
-      :rewind="true"
+      :loop="true"
       :speed="600"
+      :grabCursor="true"
       effect="creative"
       :creative-effect="CREATIVE_EFFECT"
       :autoplay="AUTOPLAY_CONFIG"
@@ -368,8 +407,9 @@ watch(effectiveTheme, () => {
 
 /* --- Controls group (play/pause + bars + related link) --- */
 
-/* Bottom-anchored: bars hug the bottom edge and grow UPWARD on
-   expand (flex-end aligns the whole group to the 1px bottom line). */
+/* Bottom-anchored, SINGLE animation source: the group itself animates
+   height 0.25rem → 1.5rem (grows upward from the 1px bottom line); bars
+   and buttons are height: 100% and follow it. */
 .carousel-controls {
   position: absolute;
   bottom: 1px;
@@ -379,32 +419,52 @@ watch(effectiveTheme, () => {
   display: flex;
   align-items: flex-end;
   gap: 1px;
+  height: 0.25rem;
+  transition: height 0.1s ease;
 }
 
-/* 1.5rem-square end buttons — width 0 until the expanded state (the
-   bars then span the full group width). */
+/* End buttons: 0.25rem collapsed squares (same look as the bar track),
+   growing from their corners to 1.5rem on expand. */
 .carousel-play-toggle,
 .carousel-related-link {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 0;
-  height: 1.5rem;
+  width: 0.25rem;
+  height: 100%;
   padding: 0;
   border: 0;
   border-radius: 0;
-  background: var(--shlh-carousel-control-bg);
+  background: var(--shlh-carousel-bar-bg);
   color: var(--shlh-carousel-control-color);
   text-decoration: none;
   font-size: 0.75rem;
   line-height: 1;
   overflow: hidden;
   pointer-events: none;
+  backdrop-filter: blur(0.5rem);
   transition:
     width 0.1s ease,
+    background-color 0.1s ease,
     filter 0.1s ease;
   cursor: pointer;
+}
+
+.carousel-play-toggle {
+  transform-origin: left bottom;
+}
+
+.carousel-related-link {
+  transform-origin: right bottom;
+}
+
+/* Icon hidden while collapsed; fades in on expand (opacity set in the
+   expanded-state rules). */
+.carousel-play-toggle > i,
+.carousel-related-link > i {
+  opacity: 0;
+  transition: opacity 0.1s ease;
 }
 
 /* Hover / active / keyboard-focus inversion via pixel invert (see the
@@ -422,6 +482,7 @@ watch(effectiveTheme, () => {
 
 .carousel-bars {
   flex: 1 1 0;
+  height: 100%;
   display: flex;
   gap: 1px;
   min-width: 0;
@@ -429,17 +490,16 @@ watch(effectiveTheme, () => {
 
 .carousel-bar {
   flex: 1 1 0;
-  height: 0.25rem;
+  height: 100%;
   min-width: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: var(--shlh-carousel-bar-bg);
+  backdrop-filter: blur(0.5rem);
   cursor: pointer;
   overflow: hidden;
-  transition:
-    height 0.1s ease,
-    filter 0.1s ease;
+  transition: filter 0.1s ease;
 }
 
 /* Hover inversion: the whole bar inverts (track + fill, incl. the
@@ -478,9 +538,9 @@ watch(effectiveTheme, () => {
 }
 
 /* --- Expanded state: hover (pointer), keyboard modality, touch --- */
-/* End buttons expand by width (gradual squeeze of the bars), not opacity. */
+/* ONE source: the group height animates; buttons widen and fade in. */
 
-.illustration-carousel:hover .carousel-bar {
+.illustration-carousel:hover .carousel-controls {
   height: 1.5rem;
 }
 
@@ -488,9 +548,15 @@ watch(effectiveTheme, () => {
 .illustration-carousel:hover .carousel-related-link {
   width: 1.5rem;
   pointer-events: auto;
+  background: var(--shlh-carousel-control-bg);
 }
 
-html.user-input-keyboard .illustration-carousel .carousel-bar {
+.illustration-carousel:hover .carousel-play-toggle > i,
+.illustration-carousel:hover .carousel-related-link > i {
+  opacity: 1;
+}
+
+html.user-input-keyboard .illustration-carousel .carousel-controls {
   height: 1.5rem;
 }
 
@@ -498,10 +564,16 @@ html.user-input-keyboard .illustration-carousel .carousel-play-toggle,
 html.user-input-keyboard .illustration-carousel .carousel-related-link {
   width: 1.5rem;
   pointer-events: auto;
+  background: var(--shlh-carousel-control-bg);
+}
+
+html.user-input-keyboard .illustration-carousel .carousel-play-toggle > i,
+html.user-input-keyboard .illustration-carousel .carousel-related-link > i {
+  opacity: 1;
 }
 
 @media (hover: none) {
-  .illustration-carousel .carousel-bar {
+  .illustration-carousel .carousel-controls {
     height: 1.5rem;
   }
 
@@ -509,17 +581,29 @@ html.user-input-keyboard .illustration-carousel .carousel-related-link {
   .illustration-carousel .carousel-related-link {
     width: 1.5rem;
     pointer-events: auto;
+    background: var(--shlh-carousel-control-bg);
+  }
+
+  .illustration-carousel .carousel-play-toggle > i,
+  .illustration-carousel .carousel-related-link > i {
+    opacity: 1;
   }
 }
 
-/* --- Static fallback related-link: always visible (1.5rem wide) --- */
+/* --- Static fallback related-link: always visible (1.5rem square) --- */
 
 .illustration-carousel-static .carousel-related-link {
   position: absolute;
   bottom: 1px;
   right: 1px;
   width: 1.5rem;
+  height: 1.5rem;
   pointer-events: auto;
+  background: var(--shlh-carousel-control-bg);
+}
+
+.illustration-carousel-static .carousel-related-link > i {
+  opacity: 1;
 }
 
 /* --- Reduced motion: neutralize transform transitions --- */
