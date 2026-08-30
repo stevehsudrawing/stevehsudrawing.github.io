@@ -6,9 +6,10 @@
     - Swiper coverflow stage (supported browsers): click a side image to
       switch (slideToClickedSlide), keyboard arrows + touch swipe via
       Swiper; bottom-center fraction indicator.
-    - Static fallback (old browsers): current picture + looping footer
-      prev/next buttons + the same fraction; keyboard arrows via a window
-      listener.
+    - Static fallback (old browsers): centred current picture with the
+      restored dir-aware slide Transition + looping chevron arrows
+      flanking the stage + the same fraction; keyboard arrows via a
+      window listener.
   Preview-only: `.no-copy`, no download / open-original buttons.
   Open/close animation + backdrop come from base.css (Modal / .modal-backdrop).
 -->
@@ -78,6 +79,9 @@ const contents = computed<DisplayPictureData[]>(
 );
 
 const index = ref(0);
+
+/** Slide direction of the fallback Transition ("next" = enter from right). */
+const dir = ref<"next" | "prev">("next");
 
 watch(
   stackProps,
@@ -212,11 +216,17 @@ function syncPreview(): void {
   }
 }
 
-/** Fallback navigation: looping prev/next (no Swiper). */
+/**
+ * Fallback navigation: looping prev/next (no Swiper).  Direction is set
+ * BEFORE the index change (same render batch), so the leaving picture
+ * reads the new direction for its exit animation.
+ */
 function fallbackGoTo(delta: number): void {
   const len = contents.value.length;
   if (len === 0) return;
-  index.value = (index.value + delta + len) % len;
+  const target = (index.value + delta + len) % len;
+  dir.value = target > index.value ? "next" : "prev";
+  index.value = target;
   syncPreview();
 }
 
@@ -310,7 +320,7 @@ onBeforeUnmount(() => {
     :title="title"
     header-class="h5 modal-title"
     title-tag="span"
-    size="lg"
+    size="xl"
     no-header-close
     centered
     @shown="onShown"
@@ -347,11 +357,51 @@ onBeforeUnmount(() => {
           />
         </SwiperSlide>
       </Swiper>
-      <FeatureAwarePicture
+      <Transition
         v-else-if="pictureProps"
-        v-bind="pictureProps"
-        class="picture-viewer-img no-copy"
-      />
+        mode="out-in"
+        enter-active-class="picture-slide-enter-active"
+        leave-active-class="picture-slide-leave-active"
+        :enter-from-class="
+          dir === 'prev'
+            ? 'picture-slide-enter-from-prev'
+            : 'picture-slide-enter-from-next'
+        "
+        :leave-to-class="
+          dir === 'prev'
+            ? 'picture-slide-leave-to-prev'
+            : 'picture-slide-leave-to-next'
+        "
+      >
+        <div :key="current?.id" class="picture-slide-wrap">
+          <FeatureAwarePicture
+            v-bind="pictureProps"
+            class="picture-viewer-img no-copy"
+          />
+        </div>
+      </Transition>
+
+      <!-- ==== Fallback arrows (old browsers, flank the stage) ==== -->
+      <TooltipTrigger v-if="!isSwiper" :title="t('text-previous-page')">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-no-border picture-viewer-fallback-arrow picture-viewer-fallback-arrow-left"
+          :aria-label="$t('text-previous-page')"
+          @click="fallbackGoTo(-1)"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+      </TooltipTrigger>
+      <TooltipTrigger v-if="!isSwiper" :title="t('text-next-page')">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-no-border picture-viewer-fallback-arrow picture-viewer-fallback-arrow-right"
+          :aria-label="$t('text-next-page')"
+          @click="fallbackGoTo(1)"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </TooltipTrigger>
 
       <!-- ==== Fraction indicator (current / total) ==== -->
       <span class="picture-viewer-fraction" aria-hidden="true">
@@ -361,26 +411,6 @@ onBeforeUnmount(() => {
 
     <template #footer>
       <div class="w-100 d-flex">
-        <TooltipTrigger v-if="!isSwiper" :title="t('text-previous-page')">
-          <button
-            type="button"
-            class="btn btn-outline-primary btn-no-border"
-            :aria-label="$t('text-previous-page')"
-            @click="fallbackGoTo(-1)"
-          >
-            <i class="bi bi-arrow-left"></i>
-          </button>
-        </TooltipTrigger>
-        <TooltipTrigger v-if="!isSwiper" :title="t('text-next-page')">
-          <button
-            type="button"
-            class="btn btn-outline-primary btn-no-border"
-            :aria-label="$t('text-next-page')"
-            @click="fallbackGoTo(1)"
-          >
-            <i class="bi bi-arrow-right"></i>
-          </button>
-        </TooltipTrigger>
         <TooltipTrigger :title="t('text-share')">
           <button
             type="button"
@@ -429,6 +459,9 @@ onBeforeUnmount(() => {
   position: relative;
   min-height: 50vh;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .picture-viewer-swiper {
@@ -443,10 +476,77 @@ onBeforeUnmount(() => {
   width: auto;
 }
 
+/* Side slides are dimmed; hovering one raises it (click-to-switch
+   affordance — slide-level pointer overrides the swiper's grab). */
+.picture-viewer-swiper :deep(.swiper-slide) {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.picture-viewer-swiper :deep(.swiper-slide:not(.swiper-slide-active)) {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.picture-viewer-swiper :deep(.swiper-slide:not(.swiper-slide-active):hover) {
+  opacity: 0.75;
+}
+
 .picture-viewer-stage :deep(.picture-viewer-img) {
   max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
+}
+
+/* --- Fallback arrows (flank the stage, old browsers) --- */
+.picture-viewer-fallback-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  padding: 0.4rem 0.5rem;
+  background: rgba(var(--bs-body-color-rgb), 0.15);
+  border-radius: 50%;
+}
+
+.picture-viewer-fallback-arrow-left {
+  left: 0.5rem;
+}
+
+.picture-viewer-fallback-arrow-right {
+  right: 0.5rem;
+}
+
+/* --- Picture-switch slide transition (symmetric mirror flow) --- */
+
+/* Wrapper: keeps the transformed element block-level (transforms do not
+   apply to inline elements like <picture>) and caps its width. */
+.picture-slide-wrap {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.picture-slide-enter-active,
+.picture-slide-leave-active {
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out,
+    filter 0.3s ease-in-out;
+}
+
+/* next: old exits left, new enters from the mirrored (right) side */
+.picture-slide-enter-from-next,
+.picture-slide-leave-to-prev {
+  opacity: 0;
+  transform: translateX(25%) rotateY(15deg) scale(0.75);
+  filter: blur(1rem);
+}
+
+.picture-slide-leave-to-next,
+.picture-slide-enter-from-prev {
+  opacity: 0;
+  transform: translateX(-25%) rotateY(-15deg) scale(0.75);
+  filter: blur(1rem);
 }
 
 /* --- Fraction indicator (current / total) --- */
