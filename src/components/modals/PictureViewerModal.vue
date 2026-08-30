@@ -28,6 +28,7 @@ import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
 import { isSwiperSupported } from "../../platform/advanced-feat-support";
+import { isImageEdgeDark } from "../../platform/image-luminance";
 import type {
   DisplayPictureData,
   FeatureAwarePictureProps,
@@ -116,6 +117,51 @@ function picturePropsOf(p: DisplayPictureData): FeatureAwarePictureProps {
 /** Enlarged poster props of the CURRENT picture (fallback branch). */
 const pictureProps = computed<FeatureAwarePictureProps | null>(() =>
   current.value ? picturePropsOf(current.value) : null,
+);
+
+// -------------------------------------------------------------------------
+// Fallback arrow contrast (edge-luminance, per side)
+// -------------------------------------------------------------------------
+
+/** Left-edge luminance of the current picture (`null` while unknown). */
+const leftDark = ref<boolean | null>(null);
+
+/** Right-edge luminance of the current picture (`null` while unknown). */
+const rightDark = ref<boolean | null>(null);
+
+/** `.picture-slide-wrap` element (source lookup for the rendered <img>). */
+const pictureWrapRef = ref<HTMLElement | null>(null);
+
+/**
+ * Sample the rendered fallback <img> (theme/lang resolved) — left 10%
+ * and right 10% independently (stale-guard by the current picture id).
+ * Called on the initial mount (watch → nextTick) and after every fallback
+ * enter transition (`@after-enter` — out-in means nextTick alone cannot
+ * see the new image).
+ */
+function sampleArrowLuminance(): void {
+  if (isSwiper) return;
+  const img = pictureWrapRef.value?.querySelector("img");
+  const src = img?.currentSrc || img?.src || null;
+  if (!src) return;
+  const tokenId = current.value?.id;
+  void isImageEdgeDark(src, { edge: "left", ratio: 0.1 }).then((dark) => {
+    if (tokenId && current.value?.id === tokenId) leftDark.value = dark;
+  });
+  void isImageEdgeDark(src, { edge: "right", ratio: 0.1 }).then((dark) => {
+    if (tokenId && current.value?.id === tokenId) rightDark.value = dark;
+  });
+}
+
+watch(
+  pictureProps,
+  () => {
+    if (isSwiper) return;
+    leftDark.value = null;
+    rightDark.value = null;
+    void nextTick(() => sampleArrowLuminance());
+  },
+  { immediate: true },
 );
 
 /** Description shown in the chrome bar. */
@@ -372,8 +418,9 @@ onBeforeUnmount(() => {
             ? 'picture-slide-leave-to-prev'
             : 'picture-slide-leave-to-next'
         "
+        @after-enter="sampleArrowLuminance"
       >
-        <div :key="current?.id" class="picture-slide-wrap">
+        <div :key="current?.id" ref="pictureWrapRef" class="picture-slide-wrap">
           <FeatureAwarePicture
             v-bind="pictureProps"
             class="picture-viewer-img no-copy"
@@ -385,7 +432,14 @@ onBeforeUnmount(() => {
       <TooltipTrigger v-if="!isSwiper" :title="t('text-previous-page')">
         <button
           type="button"
-          class="btn btn-outline-primary btn-no-border picture-viewer-fallback-arrow picture-viewer-fallback-arrow-left"
+          class="btn btn-no-border picture-viewer-fallback-arrow picture-viewer-fallback-arrow-left"
+          :class="
+            leftDark === true
+              ? 'controls-on-image-dark'
+              : leftDark === false
+                ? 'controls-on-image-light'
+                : ''
+          "
           :aria-label="$t('text-previous-page')"
           @click="fallbackGoTo(-1)"
         >
@@ -395,7 +449,14 @@ onBeforeUnmount(() => {
       <TooltipTrigger v-if="!isSwiper" :title="t('text-next-page')">
         <button
           type="button"
-          class="btn btn-outline-primary btn-no-border picture-viewer-fallback-arrow picture-viewer-fallback-arrow-right"
+          class="btn btn-no-border picture-viewer-fallback-arrow picture-viewer-fallback-arrow-right"
+          :class="
+            rightDark === true
+              ? 'controls-on-image-dark'
+              : rightDark === false
+                ? 'controls-on-image-light'
+                : ''
+          "
           :aria-label="$t('text-next-page')"
           @click="fallbackGoTo(1)"
         >
@@ -456,6 +517,7 @@ onBeforeUnmount(() => {
 <style scoped>
 /* --- Image stage (Swiper coverflow / static fallback) --- */
 .picture-viewer-stage {
+  perspective: 16rem;
   position: relative;
   min-height: 50vh;
   overflow: hidden;
@@ -466,7 +528,8 @@ onBeforeUnmount(() => {
 
 .picture-viewer-swiper {
   width: 100%;
-  height: 70vh;
+  /* Viewport-aware: cap by the modal chrome on small screens (dvh). */
+  height: min(70vh, calc(100dvh - 10rem));
 }
 
 .picture-viewer-slide {
@@ -477,9 +540,13 @@ onBeforeUnmount(() => {
 }
 
 /* Side slides are dimmed; hovering one raises it (click-to-switch
-   affordance — slide-level pointer overrides the swiper's grab). */
+   affordance — slide-level pointer overrides the swiper's grab).
+   NOTE: property LIST only (never a shorthand) — a shorthand would
+   override swiper.css `.swiper-slide { transition-property: transform }`
+   and kill the coverflow transform transition.  Duration stays
+   inline-driven by Swiper (600ms during transitions). */
 .picture-viewer-swiper :deep(.swiper-slide) {
-  transition: opacity 0.2s ease-in-out;
+  transition-property: transform, opacity;
 }
 
 .picture-viewer-swiper :deep(.swiper-slide:not(.swiper-slide-active)) {
@@ -493,7 +560,9 @@ onBeforeUnmount(() => {
 
 .picture-viewer-stage :deep(.picture-viewer-img) {
   max-width: 100%;
-  max-height: 70vh;
+  /* Fallback: vh-only (no dvh on old browsers); keeps the picture inside
+     the modal on small screens. */
+  max-height: min(70vh, calc(100vh - 10rem));
   object-fit: contain;
 }
 
@@ -504,7 +573,10 @@ onBeforeUnmount(() => {
   transform: translateY(-50%);
   z-index: 5;
   padding: 0.4rem 0.5rem;
-  background: rgba(var(--bs-body-color-rgb), 0.15);
+  /* Neutral theme tint while luminance is unknown; the shared
+     on-image palette overrides once sampled (per side). */
+  background: var(--shlh-on-image-bar-bg, rgba(var(--bs-body-color-rgb), 0.15));
+  color: var(--shlh-on-image-control-color, var(--bs-body-color));
   border-radius: 50%;
 }
 
@@ -530,8 +602,7 @@ onBeforeUnmount(() => {
 .picture-slide-leave-active {
   transition:
     opacity 0.3s ease-in-out,
-    transform 0.3s ease-in-out,
-    filter 0.3s ease-in-out;
+    transform 0.3s ease-in-out;
 }
 
 /* next: old exits left, new enters from the mirrored (right) side */
@@ -539,14 +610,12 @@ onBeforeUnmount(() => {
 .picture-slide-leave-to-prev {
   opacity: 0;
   transform: translateX(25%) rotateY(15deg) scale(0.75);
-  filter: blur(1rem);
 }
 
 .picture-slide-leave-to-next,
 .picture-slide-enter-from-prev {
   opacity: 0;
   transform: translateX(-25%) rotateY(-15deg) scale(0.75);
-  filter: blur(1rem);
 }
 
 /* --- Fraction indicator (current / total) --- */

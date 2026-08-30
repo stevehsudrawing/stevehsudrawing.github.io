@@ -1,0 +1,25 @@
+/* ==== On-image control palettes (shared: Carousel + PictureViewer) ==== */
+
+/*
+ * THEME-INDEPENDENT, image-edge-luminance driven palettes:
+ * bright image edge -> dark controls; dark image edge -> light controls.
+ *
+ * CONTRACT: these palettes must stay pure #000/#fff because hover uses
+ * `filter: invert(1)` (see docs/todos/v3.12.0.md §15.2).  Consumers:
+ *   - Carousel.vue root (.illustration-carousel)
+ *   - PictureViewerModal.vue fallback arrows (per side)
+ */
+
+.controls-on-image-light {
+  --shlh-on-image-control-color: #fff;
+  --shlh-on-image-control-bg: #000;
+  --shlh-on-image-bar-bg: rgba(0, 0, 0, 0.3);
+  --shlh-on-image-bar-fill: #000;
+}
+
+.controls-on-image-dark {
+  --shlh-on-image-control-color: #000;
+  --shlh-on-image-control-bg: #fff;
+  --shlh-on-image-bar-bg: rgba(255, 255, 255, 0.3);
+  --shlh-on-image-bar-fill: #fff;
+}

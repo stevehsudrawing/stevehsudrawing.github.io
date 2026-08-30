@@ -28,7 +28,7 @@ import { useI18n } from "../../composables/useI18n";
 import { usePictureList } from "../../composables/usePictureList";
 import { useTheme } from "../../composables/useTheme";
 import { isSwiperSupported } from "../../platform/advanced-feat-support";
-import { isImageBottomBandDark } from "../../platform/image-luminance";
+import { isImageEdgeDark } from "../../platform/image-luminance";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 
@@ -92,7 +92,7 @@ watch(
     isDark.value = null;
     if (!src) return;
     const token = src;
-    void isImageBottomBandDark(src).then((dark) => {
+    void isImageEdgeDark(src, { edge: "bottom", ratio: 0.05 }).then((dark) => {
       // Ignore stale results after a rapid slide change.
       if (luminanceSrc.value === token) isDark.value = dark;
     });
@@ -442,25 +442,11 @@ watch(effectiveTheme, () => {
   overflow: hidden;
 }
 
-/* --- Control palettes: THEME-INDEPENDENT, image-bottom-edge driven --- */
-/* Bright bottom edge -> black controls; dark bottom edge -> white. */
-
-/* NOTE: hover uses `filter: invert(1)` — valid ONLY while these
-   palettes stay pure #000/#fff (see docs/todos/v3.12.0.md §15.2). */
-
-.illustration-carousel.controls-on-image-light {
-  --shlh-carousel-control-color: #fff;
-  --shlh-carousel-control-bg: #000;
-  --shlh-carousel-bar-bg: rgba(0, 0, 0, 0.3);
-  --shlh-carousel-bar-fill: #000;
-}
-
-.illustration-carousel.controls-on-image-dark {
-  --shlh-carousel-control-color: #000;
-  --shlh-carousel-control-bg: #fff;
-  --shlh-carousel-bar-bg: rgba(255, 255, 255, 0.3);
-  --shlh-carousel-bar-fill: #fff;
-}
+/* --- Control palettes: shared global stylesheet (on-image-controls.css) ---
+   The `.controls-on-image-light/dark` classes + `--shlh-on-image-*`
+   variables are defined globally (consumed by Carousel and the Gallery
+   picture viewer fallback arrows).  Pure #000/#fff contract — see that
+   file. */
 
 /* --- Controls group (play/pause + bars + related link) --- */
 
@@ -493,8 +479,8 @@ watch(effectiveTheme, () => {
   padding: 0;
   border: 0;
   border-radius: 0;
-  background: var(--shlh-carousel-bar-bg);
-  color: var(--shlh-carousel-control-color);
+  background: var(--shlh-on-image-bar-bg);
+  color: var(--shlh-on-image-control-color);
   text-decoration: none;
   font-size: 0.75rem;
   line-height: 1;
@@ -552,7 +538,7 @@ watch(effectiveTheme, () => {
   padding: 0;
   border: 0;
   border-radius: 0;
-  background: var(--shlh-carousel-bar-bg);
+  background: var(--shlh-on-image-bar-bg);
   backdrop-filter: blur(0.5rem);
   cursor: pointer;
   overflow: hidden;
@@ -569,7 +555,7 @@ watch(effectiveTheme, () => {
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--shlh-carousel-bar-fill);
+  background: var(--shlh-on-image-bar-fill);
   transform-origin: left center;
   transform: scaleX(0);
 }
@@ -630,7 +616,7 @@ watch(effectiveTheme, () => {
 .illustration-carousel:hover .carousel-related-link {
   width: 1.5rem;
   pointer-events: auto;
-  background: var(--shlh-carousel-control-bg);
+  background: var(--shlh-on-image-control-bg);
 }
 
 .illustration-carousel:hover .carousel-play-toggle > i,
@@ -646,7 +632,7 @@ html.user-input-keyboard .illustration-carousel .carousel-play-toggle,
 html.user-input-keyboard .illustration-carousel .carousel-related-link {
   width: 1.5rem;
   pointer-events: auto;
-  background: var(--shlh-carousel-control-bg);
+  background: var(--shlh-on-image-control-bg);
 }
 
 html.user-input-keyboard .illustration-carousel .carousel-play-toggle > i,
@@ -663,7 +649,7 @@ html.user-input-keyboard .illustration-carousel .carousel-related-link > i {
   .illustration-carousel .carousel-related-link {
     width: 1.5rem;
     pointer-events: auto;
-    background: var(--shlh-carousel-control-bg);
+    background: var(--shlh-on-image-control-bg);
   }
 
   .illustration-carousel .carousel-play-toggle > i,
@@ -681,7 +667,7 @@ html.user-input-keyboard .illustration-carousel .carousel-related-link > i {
   width: 1.5rem;
   height: 1.5rem;
   pointer-events: auto;
-  background: var(--shlh-carousel-control-bg);
+  background: var(--shlh-on-image-control-bg);
 }
 
 .illustration-carousel-static .carousel-related-link > i {
