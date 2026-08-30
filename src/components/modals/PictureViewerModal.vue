@@ -120,7 +120,7 @@ const pictureProps = computed<FeatureAwarePictureProps | null>(() =>
 );
 
 // -------------------------------------------------------------------------
-// Fallback arrow contrast (edge-luminance, per side)
+// Stage luminance (arrows: left/right; fraction: bottom) + stage fit
 // -------------------------------------------------------------------------
 
 /** Left-edge luminance of the current picture (`null` while unknown). */
@@ -129,37 +129,84 @@ const leftDark = ref<boolean | null>(null);
 /** Right-edge luminance of the current picture (`null` while unknown). */
 const rightDark = ref<boolean | null>(null);
 
-/** `.picture-slide-wrap` element (source lookup for the rendered <img>). */
+/** Bottom-edge luminance of the current picture (fraction indicator). */
+const bottomDark = ref<boolean | null>(null);
+
+/** `.picture-slide-wrap` element (fallback <img> source lookup). */
 const pictureWrapRef = ref<HTMLElement | null>(null);
 
+/** `.picture-viewer-stage` element (active <img> lookup for sampling). */
+const stageRef = ref<HTMLElement | null>(null);
+
 /**
- * Sample the rendered fallback <img> (theme/lang resolved) — left 10%
- * and right 10% independently (stale-guard by the current picture id).
- * Called on the initial mount (watch → nextTick) and after every fallback
- * enter transition (`@after-enter` — out-in means nextTick alone cannot
- * see the new image).
+ * Rendered <img> of the CURRENT picture per branch (theme/lang resolved).
  */
-function sampleArrowLuminance(): void {
-  if (isSwiper) return;
-  const img = pictureWrapRef.value?.querySelector("img");
-  const src = img?.currentSrc || img?.src || null;
-  if (!src) return;
-  const tokenId = current.value?.id;
-  void isImageEdgeDark(src, { edge: "left", ratio: 0.1 }).then((dark) => {
-    if (tokenId && current.value?.id === tokenId) leftDark.value = dark;
-  });
-  void isImageEdgeDark(src, { edge: "right", ratio: 0.1 }).then((dark) => {
-    if (tokenId && current.value?.id === tokenId) rightDark.value = dark;
+function currentStageImg(): HTMLImageElement | null {
+  const root = isSwiper ? stageRef.value : pictureWrapRef.value;
+  if (!root) return null;
+  return root.querySelector(isSwiper ? ".swiper-slide-active img" : "img");
+}
+
+/**
+ * Sample the current image's edges (stale-guard by the picture id):
+ * left 10% + right 10% only in the fallback branch (arrows); bottom 10%
+ * ALWAYS (fraction indicator).  Called after the initial mount and after
+ * every slide change / fallback enter transition.
+ */
+function sampleStageLuminance(): void {
+  void nextTick(() => {
+    const img = currentStageImg();
+    const src = img?.currentSrc || img?.src || null;
+    if (!src) return;
+    const tokenId = current.value?.id;
+    const apply =
+      (edge: "left" | "right" | "bottom") =>
+      (dark: boolean): void => {
+        if (!tokenId || current.value?.id !== tokenId) return;
+        if (edge === "left") leftDark.value = dark;
+        else if (edge === "right") rightDark.value = dark;
+        else bottomDark.value = dark;
+      };
+    if (!isSwiper) {
+      void isImageEdgeDark(src, { edge: "left", ratio: 0.1 }).then(
+        apply("left"),
+      );
+      void isImageEdgeDark(src, { edge: "right", ratio: 0.1 }).then(
+        apply("right"),
+      );
+    }
+    void isImageEdgeDark(src, { edge: "bottom", ratio: 0.1 }).then(
+      apply("bottom"),
+    );
   });
 }
 
+/** Reset all luminance state before sampling a new picture. */
+function resetStageLuminance(): void {
+  leftDark.value = null;
+  rightDark.value = null;
+  bottomDark.value = null;
+}
+
+/** Swiper transition END: re-sample the stage luminance. */
+function onSlideChangeEnd(): void {
+  sampleStageLuminance();
+}
+
+/** Window resize (visible only): re-sample the stage luminance. */
+function handleResize(): void {
+  sampleStageLuminance();
+}
+
+// Fallback: sample after the out-in enter completes (a plain nextTick
+// sees the leaving image); the Swiper branch is sampled by `onShown` +
+// `@slide-change-transition-end`.
 watch(
   pictureProps,
   () => {
     if (isSwiper) return;
-    leftDark.value = null;
-    rightDark.value = null;
-    void nextTick(() => sampleArrowLuminance());
+    resetStageLuminance();
+    void nextTick(() => sampleStageLuminance());
   },
   { immediate: true },
 );
@@ -347,15 +394,24 @@ function onShown(): void {
   if (!isSwiper) window.addEventListener("keydown", onKeydown);
   // Fullscreen lightbox: suppress offcanvas edge-swipes while open.
   setSwipeTrackingEnabled(false);
+  // Initial sampling for the Swiper branch (the setup-time watch fires
+  // before the modal DOM exists).
+  if (isSwiper) {
+    resetStageLuminance();
+    void nextTick(sampleStageLuminance);
+  }
+  window.addEventListener("resize", handleResize);
 }
 
 function onHidden(): void {
   window.removeEventListener("keydown", onKeydown);
+  window.removeEventListener("resize", handleResize);
   setSwipeTrackingEnabled(true);
 }
 
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", onKeydown);
+  window.removeEventListener("resize", handleResize);
   setSwipeTrackingEnabled(true);
 });
 </script>
@@ -373,7 +429,11 @@ onBeforeUnmount(() => {
     @hidden="onHidden"
   >
     <!-- ==== Image stage (Swiper coverflow / static fallback) ==== -->
-    <div class="picture-viewer-stage">
+    <div
+      ref="stageRef"
+      class="picture-viewer-stage"
+      :class="{ 'picture-viewer-stage-fallback': !isSwiper }"
+    >
       <Swiper
         v-if="isSwiper && contents.length > 0"
         :key="contentsKey"
@@ -391,6 +451,7 @@ onBeforeUnmount(() => {
         :a11y="A11Y_CONFIG"
         class="picture-viewer-swiper"
         @slide-change="onSlideChange"
+        @slide-change-transition-end="onSlideChangeEnd"
       >
         <SwiperSlide
           v-for="p in contents"
@@ -418,7 +479,7 @@ onBeforeUnmount(() => {
             ? 'picture-slide-leave-to-prev'
             : 'picture-slide-leave-to-next'
         "
-        @after-enter="sampleArrowLuminance"
+        @after-enter="sampleStageLuminance"
       >
         <div :key="current?.id" ref="pictureWrapRef" class="picture-slide-wrap">
           <FeatureAwarePicture
@@ -465,7 +526,17 @@ onBeforeUnmount(() => {
       </TooltipTrigger>
 
       <!-- ==== Fraction indicator (current / total) ==== -->
-      <span class="picture-viewer-fraction" aria-hidden="true">
+      <span
+        class="picture-viewer-fraction"
+        :class="
+          bottomDark === true
+            ? 'controls-on-image-dark'
+            : bottomDark === false
+              ? 'controls-on-image-light'
+              : ''
+        "
+        aria-hidden="true"
+      >
         {{ index + 1 }} / {{ contents.length }}
       </span>
     </div>
@@ -516,8 +587,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* --- Image stage (Swiper coverflow / static fallback) --- */
+/* NOTE: no custom `perspective` on the SHARED stage — Swiper ships
+   `.swiper-3d { perspective: 1200px }`; a custom short perspective
+   (e.g. 16rem) distorts the coverflow hit area.  The fallback branch
+   gets its OWN perspective below. */
 .picture-viewer-stage {
-  perspective: 16rem;
   position: relative;
   min-height: 50vh;
   overflow: hidden;
@@ -526,17 +600,28 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 
+/* Fallback-only perspective: the restored slide Transition uses
+   rotateY — without a container perspective it looks flat (no
+   near/far depth).  Applies only when the Swiper stage is absent. */
+.picture-viewer-stage-fallback {
+  perspective: 16rem;
+}
+
 .picture-viewer-swiper {
   width: 100%;
   /* Viewport-aware: cap by the modal chrome on small screens (dvh). */
   height: min(70vh, calc(100dvh - 10rem));
 }
 
+/* Official coverflow sampling: auto-width slides capped below the
+   stage width so the side slides stay partially visible (and clickable
+   via slideToClickedSlide). */
 .picture-viewer-slide {
   display: flex;
   align-items: center;
   justify-content: center;
   width: auto;
+  max-width: 72%;
 }
 
 /* Side slides are dimmed; hovering one raises it (click-to-switch
@@ -545,25 +630,54 @@ onBeforeUnmount(() => {
    override swiper.css `.swiper-slide { transition-property: transform }`
    and kill the coverflow transform transition.  Duration stays
    inline-driven by Swiper (600ms during transitions). */
-.picture-viewer-swiper :deep(.swiper-slide) {
+.picture-viewer-stage :deep(.picture-viewer-swiper .swiper-slide) {
   transition-property: transform, opacity;
+  /* Explicit per-slide cursor: grab ONLY on the active slide; side
+     slides get pointer (click-to-switch affordance). Overrides any
+     cursor inherited from the wrapper (Swiper's grabCursor sets inline
+     `cursor: grab` there). */
+  cursor: auto;
 }
 
-.picture-viewer-swiper :deep(.swiper-slide:not(.swiper-slide-active)) {
+.picture-viewer-stage
+  :deep(.picture-viewer-swiper .swiper-slide:not(.swiper-slide-active)) {
   opacity: 0.5;
   cursor: pointer;
 }
 
-.picture-viewer-swiper :deep(.swiper-slide:not(.swiper-slide-active):hover) {
+.picture-viewer-stage :deep(.picture-viewer-swiper .swiper-slide-active) {
+  cursor: grab;
+}
+
+.picture-viewer-stage
+  :deep(.picture-viewer-swiper .swiper-slide:not(.swiper-slide-active):hover) {
   opacity: 0.75;
 }
 
+/* NOTE: prefix with `.picture-viewer-stage` (scoped) — the `Swiper`
+   component root does NOT carry the scope id, so
+   `.picture-viewer-swiper :deep(...)` never matches. */
 .picture-viewer-stage :deep(.picture-viewer-img) {
   max-width: 100%;
-  /* Fallback: vh-only (no dvh on old browsers); keeps the picture inside
-     the modal on small screens. */
-  max-height: min(70vh, calc(100vh - 10rem));
   object-fit: contain;
+}
+
+/* Swiper branch: the <picture> wrapper gets the slide height (100%) so
+   the img's percentage max-height resolves against it; `object-fit:
+   contain` + the width/height caps keep every aspect ratio fully
+   visible inside the (72%-wide) slide — no clipping needs JS. */
+.picture-viewer-stage :deep(.picture-viewer-swiper picture) {
+  height: 100%;
+}
+
+.picture-viewer-stage :deep(.picture-viewer-swiper img) {
+  max-height: 100%;
+}
+
+/* Fallback branch: the slide wrap has no definite height — keep the
+   viewport-based cap there (vh only, no dvh on old browsers). */
+.picture-viewer-stage :deep(.picture-slide-wrap img) {
+  max-height: min(70vh, calc(100vh - 10rem));
 }
 
 /* --- Fallback arrows (flank the stage, old browsers) --- */
@@ -626,8 +740,10 @@ onBeforeUnmount(() => {
   transform: translateX(-50%);
   z-index: 5;
   padding: 0.125rem 0.625rem;
-  background: rgba(var(--bs-body-color-rgb), 0.15);
-  color: var(--bs-body-color);
+  /* Neutral theme tint while the luminance is unknown; the shared
+     on-image palette overrides once sampled (bottom edge). */
+  background: var(--shlh-on-image-bar-bg, rgba(var(--bs-body-color-rgb), 0.15));
+  color: var(--shlh-on-image-control-color, var(--bs-body-color));
   border-radius: var(--bs-border-radius);
   font-size: 0.8rem;
   line-height: 1.25;
