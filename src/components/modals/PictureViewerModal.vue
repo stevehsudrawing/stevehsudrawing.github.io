@@ -56,7 +56,8 @@ const isSwiper = isSwiperSupported();
 /** Swiper v14 module set used by the coverflow stage. */
 const modules = [EffectCoverflow, Keyboard, A11y];
 
-/** Coverflow config (initial values — tune after a usability pass). */
+/** Coverflow config (final values — side slides = part of the click
+ *  affordance; see R4, no custom perspective). */
 const COVERFLOW_EFFECT = {
   rotate: 50,
   stretch: 0,
@@ -190,11 +191,6 @@ function resetStageLuminance(): void {
 
 /** Swiper transition END: re-sample the stage luminance. */
 function onSlideChangeEnd(): void {
-  sampleStageLuminance();
-}
-
-/** Window resize (visible only): re-sample the stage luminance. */
-function handleResize(): void {
   sampleStageLuminance();
 }
 
@@ -400,18 +396,15 @@ function onShown(): void {
     resetStageLuminance();
     void nextTick(sampleStageLuminance);
   }
-  window.addEventListener("resize", handleResize);
 }
 
 function onHidden(): void {
   window.removeEventListener("keydown", onKeydown);
-  window.removeEventListener("resize", handleResize);
   setSwipeTrackingEnabled(true);
 }
 
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", onKeydown);
-  window.removeEventListener("resize", handleResize);
   setSwipeTrackingEnabled(true);
 });
 </script>
@@ -662,15 +655,14 @@ onBeforeUnmount(() => {
   object-fit: contain;
 }
 
-/* Swiper branch: the <picture> wrapper gets the slide height (100%) so
-   the img's percentage max-height resolves against it; `object-fit:
-   contain` + the width/height caps keep every aspect ratio fully
-   visible inside the (72%-wide) slide — no clipping needs JS. */
-.picture-viewer-stage :deep(.picture-viewer-swiper picture) {
+/* Swiper branch: the <picture> wrapper and its img both follow the
+   slide box (height 100%; the img's percentage max-height then
+   resolves against the picture) — `object-fit: contain` + the caps
+   keep every aspect ratio fully visible inside the (72%-wide) slide —
+   no clipping needs JS. */
+.picture-viewer-stage :deep(.picture-viewer-swiper picture),
+.picture-viewer-stage :deep(.picture-viewer-swiper picture img) {
   height: 100%;
-}
-
-.picture-viewer-stage :deep(.picture-viewer-swiper img) {
   max-height: 100%;
 }
 

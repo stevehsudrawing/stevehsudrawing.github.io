@@ -114,13 +114,18 @@ function sampleEdge(image: HTMLImageElement, region: ImageEdgeRegion): boolean {
  *
  * @param src - Same-origin image URL to analyze.
  * @param region - Edge + band thickness (see {@link ImageEdgeRegion}).
+ *   `ratio` is clamped to [0.05, 1] before sampling (degenerate
+ *   values are normalized at this single entry point).
  * @returns Promise of `isDark`; resolves `false` on any failure.
  */
 export function isImageEdgeDark(
   src: string,
   region: ImageEdgeRegion,
 ): Promise<boolean> {
-  const cacheKey = `${src}|${region.edge}|${region.ratio}`;
+  // Normalize the band ratio once (extreme values would produce
+  // degenerate stripes): 0 → 0.05 minimum, > 1 → full edge.
+  const ratio = Math.min(1, Math.max(0.05, region.ratio));
+  const cacheKey = `${src}|${region.edge}|${ratio}`;
   let promise = CACHE.get(cacheKey);
   if (!promise) {
     promise = new Promise<boolean>((resolve) => {
@@ -128,7 +133,7 @@ export function isImageEdgeDark(
       image.decoding = "async";
       image.onload = () => {
         try {
-          resolve(sampleEdge(image, region));
+          resolve(sampleEdge(image, { edge: region.edge, ratio }));
         } catch {
           resolve(false);
         }
