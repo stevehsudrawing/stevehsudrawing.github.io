@@ -17,11 +17,11 @@
  */
 const MAIN_CHAIN = [
   "artworks-and-videos",
-  "gallery",
   "softwares",
   "blogs-and-sponsor",
   "chatting",
   "about",
+  "gallery",
 ] as const;
 
 /** Landing page — linked back to by the first MAIN_CHAIN entry. */
