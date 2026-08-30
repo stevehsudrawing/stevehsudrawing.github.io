@@ -206,11 +206,20 @@ function goToSlide(index: number): void {
 /**
  * Re-read the active image URL for edge-luminance detection.
  * Guards against stale/destroyed instances (e.g. after HMR).
+ * Loop mode reorders the slide DOM nodes, so the real index is mapped
+ * via Swiper's `data-swiper-slide-index` attribute (same mechanism
+ * Swiper core uses in slideToLoop), NOT by array position.
  */
 function readActiveSrc(instance: SwiperClass): void {
   void nextTick(() => {
     if (instance.destroyed) return;
-    const img = instance.slides?.[instance.realIndex]?.querySelector("img");
+    const slideEl =
+      instance.slides?.find(
+        (el) =>
+          el.getAttribute("data-swiper-slide-index") ===
+          String(instance.realIndex),
+      ) ?? instance.slides?.[instance.realIndex];
+    const img = slideEl?.querySelector("img");
     luminanceSrc.value = img?.currentSrc || img?.src || null;
   });
 }
