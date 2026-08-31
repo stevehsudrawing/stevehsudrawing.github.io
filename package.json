@@ -1,11 +1,11 @@
 {
   "name": "stevehsudrawing-link-hub",
   "private": true,
-  "version": "3.12.1",
+  "version": "3.12.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --emptyOutDir",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit",
     "format": "prettier . --write",
