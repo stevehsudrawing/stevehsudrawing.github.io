@@ -109,8 +109,12 @@ const current = computed<DisplayPictureData | null>(
 
 /** Poster props for one picture (alt falls back to t("text-" + id)). */
 function picturePropsOf(p: DisplayPictureData): FeatureAwarePictureProps {
+  // `aspectRatio` is a card-layer loading placeholder — the viewer
+  // stage owns the displayed size (max-width: 72% + height: 100% +
+  // object-fit: contain), so an inline aspect-ratio must not leak in.
+  const { aspectRatio: _ignored, ...rest } = p.pictureProps;
   return {
-    ...p.pictureProps,
+    ...rest,
     alt: p.pictureProps.alt ?? t("text-" + p.id + "-alt"),
   } as FeatureAwarePictureProps;
 }

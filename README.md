@@ -65,11 +65,11 @@
 
 | Browser | Min Version | Best Experience |
 | ------- | ----------- | --------------- |
-| Chrome  | ≥ 61        | ≥ 85            |
+| Chrome  | ≥ 61        | ≥ 110           |
 | Edge    | ≥ 79        | ≥ 121           |
-| Firefox | ≥ 60        | ≥ 93            |
-| Opera   | ≥ 48        | ≥ 71            |
-| Safari  | ≥ 14        | ≥ 16.1          |
+| Firefox | ≥ 60        | ≥ 110           |
+| Opera   | ≥ 48        | ≥ 110           |
+| Safari  | ≥ 14        | ≥ 16.4          |
 
 ## 3. Tech Stack
 

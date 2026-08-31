@@ -244,6 +244,14 @@ export interface FeatureAwarePictureProps {
   width?: number;
   /** Image height. */
   height?: number;
+  /**
+   * Explicit width/height ratio (width ÷ height), e.g. 3:4 → 0.75.
+   * Reserves layout space before the image loads (native lazy
+   * loading).  Mutually exclusive with `width`/`height`; rendered as
+   * CSS `aspect-ratio` — a progressive enhancement (browsers without
+   * it show today's no-slot behavior).
+   */
+  aspectRatio?: number;
   /** Additional CSS classes for the img element. */
   class?: string;
   /** fetchpriority attribute (e.g. "high" for hero images). */

@@ -12,15 +12,15 @@
   component.  This component does NOT output data-img-feature.
 -->
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useTheme } from "../../composables/useTheme";
+import { computed, onMounted, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import { useTheme } from "../../composables/useTheme";
+import { resolveLanguageAwareString } from "../../core/utils";
 import type {
-  ThemeAwareImgSrcMap,
   FeatureAwarePictureProps,
   Lang,
+  ThemeAwareImgSrcMap,
 } from "../../types/app";
-import { resolveLanguageAwareString } from "../../core/utils";
 
 // =========================================================================
 // Props
@@ -113,6 +113,16 @@ const resolvedAvifSrc = computed(() => {
 /** Whether to render a full <picture> element. */
 const renderPicture = computed(() => !!props.srcMap?.avif);
 
+/**
+ * Combined class: the passed-in class plus the conditional
+ * `img-aspect-ratio` marker (drives the shimmer placeholder only
+ * when an explicit aspect ratio is provided).
+ */
+const imgClass = computed(() => [
+  props.class,
+  { "img-aspect-ratio": props.aspectRatio !== undefined },
+]);
+
 // =========================================================================
 // Actions
 // =========================================================================
@@ -146,8 +156,13 @@ onMounted(() => {
       :alt="alt"
       :width="width"
       :height="height"
-      :style="{ width: width, height: height }"
-      :class="class"
+      :style="{
+        width: width,
+        height: height,
+        aspectRatio:
+          aspectRatio !== undefined ? String(aspectRatio) : undefined,
+      }"
+      :class="imgClass"
       :loading="loading"
       :fetchpriority="fetchpriority"
       :data-img-loaded="loaded ? '' : undefined"
@@ -164,8 +179,12 @@ onMounted(() => {
     :alt="alt"
     :width="width"
     :height="height"
-    :style="{ width: width, height: height }"
-    :class="class"
+    :style="{
+      width: width,
+      height: height,
+      aspectRatio: aspectRatio !== undefined ? String(aspectRatio) : undefined,
+    }"
+    :class="imgClass"
     :loading="loading"
     :fetchpriority="fetchpriority"
     :data-img-loaded="loaded ? '' : undefined"
@@ -186,5 +205,44 @@ img {
 img[data-img-loaded] {
   opacity: 1;
   cursor: inherit;
+}
+
+/* --- Image placeholder (aspect-ratio reservation + shimmer) ---
+   Only on imgs that carry an explicit aspectRatio (e.g. gallery
+   posters): while the lazy image is still downloading the slot shows
+   a themed shimmer; on load the existing fade-in takes over and the
+   shimmer background is removed.  Browsers without CSS `aspect-ratio`
+   simply skip the slot (progressive enhancement). */
+
+.img-aspect-ratio:not([data-img-loaded]) {
+  opacity: 0;
+  background-color: var(--bs-secondary-bg);
+  background-image: linear-gradient(
+    100deg,
+    transparent 40%,
+    rgba(var(--bs-body-color-rgb), 0.08) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: picture-shimmer 1.4s linear infinite;
+}
+
+.img-aspect-ratio[data-img-loaded] {
+  background: none;
+}
+
+@keyframes picture-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img-aspect-ratio:not([data-img-loaded]) {
+    animation: none;
+  }
 }
 </style>

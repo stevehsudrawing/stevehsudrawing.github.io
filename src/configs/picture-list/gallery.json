@@ -32,7 +32,8 @@
               }
             }
           },
-          "feature": ["follow-language"]
+          "feature": ["follow-language"],
+          "aspectRatio": 0.75
         },
         "qrCodeIcon": {
           "type": "picture",
@@ -62,7 +63,8 @@
               }
             }
           },
-          "feature": ["follow-language"]
+          "feature": ["follow-language"],
+          "aspectRatio": 0.75
         },
         "qrCodeIcon": {
           "type": "picture",
@@ -92,7 +94,8 @@
               }
             }
           },
-          "feature": ["follow-language"]
+          "feature": ["follow-language"],
+          "aspectRatio": 0.75
         },
         "qrCodeIcon": {
           "type": "picture",
@@ -122,7 +125,8 @@
               }
             }
           },
-          "feature": ["follow-language"]
+          "feature": ["follow-language"],
+          "aspectRatio": 0.75
         },
         "qrCodeIcon": {
           "type": "picture",
@@ -152,7 +156,8 @@
               }
             }
           },
-          "feature": ["follow-language"]
+          "feature": ["follow-language"],
+          "aspectRatio": 0.75
         },
         "qrCodeIcon": {
           "type": "picture",
@@ -182,7 +187,8 @@
               }
             }
           },
-          "feature": ["follow-language"]
+          "feature": ["follow-language"],
+          "aspectRatio": 0.75
         },
         "qrCodeIcon": {
           "type": "picture",
