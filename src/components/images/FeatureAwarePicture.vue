@@ -210,12 +210,15 @@ img[data-img-loaded] {
 /* --- Image placeholder (aspect-ratio reservation + shimmer) ---
    Only on imgs that carry an explicit aspectRatio (e.g. gallery
    posters): while the lazy image is still downloading the slot shows
-   a themed shimmer; on load the existing fade-in takes over and the
-   shimmer background is removed.  Browsers without CSS `aspect-ratio`
-   simply skip the slot (progressive enhancement). */
+   a themed shimmer; on load the shimmer background is removed and a
+   short reveal animation fades the poster in.  Browsers without CSS
+   `aspect-ratio` simply skip the slot (progressive enhancement).
+   NOTE: the shimmer is the element's own background — keep
+   `opacity: 1` here, an element-level opacity would hide the
+   placeholder too. */
 
 .img-aspect-ratio:not([data-img-loaded]) {
-  opacity: 0;
+  opacity: 1;
   background-color: var(--bs-secondary-bg);
   background-image: linear-gradient(
     100deg,
@@ -229,6 +232,7 @@ img[data-img-loaded] {
 
 .img-aspect-ratio[data-img-loaded] {
   background: none;
+  animation: picture-reveal 0.2s ease;
 }
 
 @keyframes picture-shimmer {
@@ -240,8 +244,21 @@ img[data-img-loaded] {
   }
 }
 
+@keyframes picture-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .img-aspect-ratio:not([data-img-loaded]) {
+    animation: none;
+  }
+
+  .img-aspect-ratio[data-img-loaded] {
     animation: none;
   }
 }
