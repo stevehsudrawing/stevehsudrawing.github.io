@@ -27,7 +27,7 @@ const { content } = useMarkdownContent("worldview");
         webp: { light: { en: '/images/webp/covers/worldview.webp' } },
       },
       alt: $t('text-worldview-alt'),
-      class: 'rounded no-copy solid-bg',
+      class: 'no-copy solid-bg',
     }"
   />
 

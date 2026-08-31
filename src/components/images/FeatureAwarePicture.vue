@@ -114,13 +114,24 @@ const resolvedAvifSrc = computed(() => {
 const renderPicture = computed(() => !!props.srcMap?.avif);
 
 /**
+ * Whether the layout space is reserved before the image loads —
+ * either via an explicit `aspectRatio` (ratio box) or via both
+ * `width` and `height` (fixed pixel box, e.g. HeroSection).
+ */
+const hasReservedSpace = computed(
+  () =>
+    props.aspectRatio !== undefined ||
+    (props.width !== undefined && props.height !== undefined),
+);
+
+/**
  * Combined class: the passed-in class plus the conditional
- * `img-aspect-ratio` marker (drives the shimmer placeholder only
- * when an explicit aspect ratio is provided).
+ * `img-loading-placeholder` marker (drives the shimmer placeholder
+ * whenever the layout space is reserved).
  */
 const imgClass = computed(() => [
   props.class,
-  { "img-aspect-ratio": props.aspectRatio !== undefined },
+  { "img-loading-placeholder": hasReservedSpace.value },
 ]);
 
 // =========================================================================
@@ -207,17 +218,19 @@ img[data-img-loaded] {
   cursor: inherit;
 }
 
-/* --- Image placeholder (aspect-ratio reservation + shimmer) ---
-   Only on imgs that carry an explicit aspectRatio (e.g. gallery
-   posters): while the lazy image is still downloading the slot shows
-   a themed shimmer; on load the shimmer background is removed and a
-   short reveal animation fades the poster in.  Browsers without CSS
-   `aspect-ratio` simply skip the slot (progressive enhancement).
+/* --- Image placeholder (reserved-space reservation + shimmer) ---
+   Applies to imgs with a reserved layout space — either an explicit
+   `aspectRatio` (ratio box, e.g. gallery posters) OR both `width`
+   and `height` (fixed pixel box, e.g. HeroSection).  While the lazy
+   image is still downloading the slot shows a themed shimmer; on
+   load the shimmer background is removed and a short reveal
+   animation fades the image in.  Browsers without CSS
+   `aspect-ratio` skip the ratio box (progressive enhancement).
    NOTE: the shimmer is the element's own background — keep
    `opacity: 1` here, an element-level opacity would hide the
    placeholder too. */
 
-.img-aspect-ratio:not([data-img-loaded]) {
+.img-loading-placeholder:not([data-img-loaded]) {
   opacity: 1;
   background-color: var(--bs-secondary-bg);
   background-image: linear-gradient(
@@ -230,7 +243,7 @@ img[data-img-loaded] {
   animation: picture-shimmer 1.4s linear infinite;
 }
 
-.img-aspect-ratio[data-img-loaded] {
+.img-loading-placeholder[data-img-loaded] {
   background: none;
   animation: picture-reveal 0.2s ease;
 }
@@ -254,11 +267,11 @@ img[data-img-loaded] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .img-aspect-ratio:not([data-img-loaded]) {
+  .img-loading-placeholder:not([data-img-loaded]) {
     animation: none;
   }
 
-  .img-aspect-ratio[data-img-loaded] {
+  .img-loading-placeholder[data-img-loaded] {
     animation: none;
   }
 }

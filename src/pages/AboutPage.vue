@@ -57,7 +57,7 @@ function onMajorColorClick(event: Event): void {
         webp: { light: { en: '/images/webp/covers/about.webp' } },
       },
       alt: $t('text-about-alt'),
-      class: 'rounded no-copy solid-bg',
+      class: 'no-copy solid-bg',
     }"
   />
 
