@@ -24,7 +24,6 @@ import { useBreakpoint } from "../../composables/useBreakpoint";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import type { HastNode } from "../../types/hast";
-import TypeAwareLink from "../links/TypeAwareLink.vue";
 import HastFragment from "../render-functions/HastFragment.vue";
 
 // =========================================================================
@@ -68,9 +67,6 @@ const activeId = ref("");
 
 /** Whether the mobile heading list is expanded. */
 const headingExpanded = ref(false);
-
-/** Template ref for the mobile heading list (for height-based scroll offset). */
-const mobileListRef = ref<HTMLElement | null>(null);
 
 /** Text of the currently active heading (for the mobile collapsed bar). */
 const currentHeadingText = computed(() => {
@@ -171,8 +167,14 @@ const hastChildren = computed<HastNode[]>(() => {
 // Scrollspy
 // -------------------------------------------------------------------------
 
-/** Navbar offset for active-heading detection. */
-const SCROLLSPY_OFFSET = 80;
+/** Breathing room added to detection offsets (desktop 80 = 64 + 16). */
+const BREATHING_ROOM_OFFSET = 16;
+
+/** Desktop scrollspy detection offset (navbar 64 + breathing room). */
+const SCROLLSPY_OFFSET = 64 + BREATHING_ROOM_OFFSET;
+
+/** Mobile scrollspy detection offset — navbar (64) + sticky heading bar (48). */
+const MOBILE_SCROLLSPY_OFFSET = 112;
 
 /** Throttle flag for scroll handler. */
 let scrollTicking = false;
@@ -181,7 +183,10 @@ let scrollTicking = false;
 function onScroll(): void {
   if (!scrollTicking) {
     requestAnimationFrame(() => {
-      const scrollY = window.scrollY + SCROLLSPY_OFFSET;
+      const offset = isDesktop.value
+        ? SCROLLSPY_OFFSET
+        : MOBILE_SCROLLSPY_OFFSET + BREATHING_ROOM_OFFSET;
+      const scrollY = window.scrollY + offset;
       let current = "";
       for (const h of headings.value) {
         const el = document.getElementById(h.id);
@@ -194,10 +199,6 @@ function onScroll(): void {
   }
 }
 
-/** Navbar + mobile bar height for scroll-offset calculation. */
-const NAVBAR_HEIGHT = 64;
-const MOBILE_BAR_HEIGHT = 48;
-
 /**
  * Mobile list expand/collapse height cap (mirrors the CSS
  * `max-height: 60vh` on .scrollspy-mobile-list) — avoids a post-animation
@@ -205,16 +206,24 @@ const MOBILE_BAR_HEIGHT = 48;
  */
 const MOBILE_LIST_MAX_HEIGHT_VH = 0.6;
 
+/** Pending mobile heading scroll — executed after the list leaves. */
+let pendingScrollId: string | null = null;
+
 /** Scroll smoothly to a heading and update the URL hash. */
 function onHeadingClick(id: string, isMobileClick: boolean = false): void {
-  const baseOffset = isMobileClick
-    ? NAVBAR_HEIGHT +
-      MOBILE_BAR_HEIGHT +
-      (mobileListRef.value?.offsetHeight ?? 0)
-    : props.scrollOffset;
   history.pushState(null, "", `#${id}`);
-  scrollToHashTarget(id, false, baseOffset);
-  if (isMobileClick) headingExpanded.value = false;
+  if (isMobileClick) {
+    // Collapse first and DEFER the scroll until the leave transition
+    // finishes: the expanded list is in the flow (up to 60vh), pushing
+    // the heading down — scrolling now (against the expanded layout)
+    // would land too far UP once the list collapses (heading ends up
+    // above the viewport).  After-leave, the layout is stable and the
+    // heading sits exactly below the 112 px header (64 navbar + 48 bar).
+    headingExpanded.value = false;
+    pendingScrollId = id;
+    return;
+  }
+  scrollToHashTarget(id, false, props.scrollOffset);
 }
 
 // -------------------------------------------------------------------------
@@ -263,9 +272,13 @@ function onMobileListLeave(el: Element): void {
   list.style.maxHeight = "0px";
 }
 
-/** Clear the inline max-height when the element is fully removed. */
+/** Clear the inline max-height and run any deferred heading scroll. */
 function onMobileListAfterLeave(el: Element): void {
   (el as HTMLElement).style.maxHeight = "";
+  if (pendingScrollId) {
+    scrollToHashTarget(pendingScrollId, false, MOBILE_SCROLLSPY_OFFSET);
+    pendingScrollId = null;
+  }
 }
 
 onMounted(() => {
@@ -299,17 +312,11 @@ onBeforeUnmount(() => {
         @leave="onMobileListLeave"
         @after-leave="onMobileListAfterLeave"
       >
-        <ul
-          v-if="headingExpanded"
-          ref="mobileListRef"
-          class="scrollspy-mobile-list px-3"
-        >
+        <ul v-if="headingExpanded" class="scrollspy-mobile-list px-3">
           <li v-for="item in headings" :key="item.id">
-            <TypeAwareLink
-              type="anchor"
+            <a
               :href="`#${item.id}`"
-              hide-indicator
-              class="scrollspy-link"
+              class="link scrollspy-link"
               :class="{
                 active: activeId === item.id,
                 'ps-3': item.level >= 3,
@@ -318,7 +325,7 @@ onBeforeUnmount(() => {
               @click.prevent="onHeadingClick(item.id, true)"
             >
               {{ item.text }}
-            </TypeAwareLink>
+            </a>
           </li>
         </ul>
       </Transition>
@@ -338,11 +345,9 @@ onBeforeUnmount(() => {
         >
           <ul class="nav flex-column">
             <li v-for="item in headings" :key="item.id" class="nav-item">
-              <TypeAwareLink
-                type="anchor"
+              <a
                 :href="`#${item.id}`"
-                hide-indicator
-                class="nav-link scrollspy-link py-1"
+                class="link nav-link scrollspy-link py-1"
                 :class="{
                   active: activeId === item.id,
                   'ps-3': item.level >= 3,
@@ -351,7 +356,7 @@ onBeforeUnmount(() => {
                 @click.prevent="onHeadingClick(item.id)"
               >
                 {{ item.text }}
-              </TypeAwareLink>
+              </a>
             </li>
           </ul>
         </nav>

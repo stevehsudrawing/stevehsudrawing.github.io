@@ -77,7 +77,10 @@ export const router = createRouter({
     // offset is only applied once the page is tall enough — async content
     // (link cards, GitHub cards) mounts after the navigation, and an early
     // restore would be clamped to the top.
-    if (savedPosition) {
+    // An explicit hash target always wins over a restored position:
+    // Back/Forward into a #hash entry must land on the heading, not a
+    // stale saved scroll (the hashchange listener also races here).
+    if (savedPosition && !to.hash) {
       return new Promise((resolve) => {
         const target = savedPosition.top ?? 0;
         let attempts = 0;
