@@ -66,7 +66,7 @@ import { initNoCopyProtection } from "./platform/no-copy";
 // =========================================================================
 
 useTheme();
-const { initLang, messages, t, locale, setLocale } = useI18n();
+const { initLang, t, locale, setLocale } = useI18n();
 useStoredValue(getStoredOpenInNewTab, setStoredOpenInNewTab, true);
 const enableAnimations = useStoredValue(
   getStoredEnableAnimations,
