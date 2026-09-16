@@ -319,8 +319,8 @@ onBeforeUnmount(() => {
               class="link scrollspy-link"
               :class="{
                 active: activeId === item.id,
-                'ps-3': item.level >= 3,
-                'ps-0': item.level < 3,
+                'ps-4': item.level >= 3,
+                'ps-2': item.level < 3,
               }"
               @click.prevent="onHeadingClick(item.id, true)"
             >
@@ -350,8 +350,8 @@ onBeforeUnmount(() => {
                 class="link nav-link scrollspy-link py-1"
                 :class="{
                   active: activeId === item.id,
-                  'ps-3': item.level >= 3,
-                  'ps-0': item.level < 3,
+                  'ps-4': item.level >= 3,
+                  'ps-2': item.level < 3,
                 }"
                 @click.prevent="onHeadingClick(item.id)"
               >
@@ -390,7 +390,11 @@ onBeforeUnmount(() => {
 .scrollspy-nav .nav-link {
   color: var(--bs-body-color);
   border-radius: 0;
-  transition: color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-left 0.15s ease;
+  border-left: 2px solid transparent;
+  padding-left: 0.5rem;
 }
 
 .scrollspy-nav .nav-link:hover {
@@ -399,7 +403,7 @@ onBeforeUnmount(() => {
 
 .scrollspy-nav .nav-link.active {
   color: var(--bs-primary);
-  font-weight: calc(var(--bs-body-font-weight) + 100);
+  border-left: 2px solid var(--bs-primary);
 }
 
 .markdown-article :deep(.section-heading-wrapper) {
@@ -462,7 +466,9 @@ onBeforeUnmount(() => {
   color: var(--bs-body-color);
   text-decoration: none;
   font-size: 0.9rem;
-  transition: color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-left 0.15s ease;
 }
 
 .scrollspy-mobile-list a:hover {
@@ -471,7 +477,7 @@ onBeforeUnmount(() => {
 
 .scrollspy-mobile-list a.active {
   color: var(--bs-primary);
-  font-weight: calc(var(--bs-body-font-weight) + 100);
+  border-left: 2px solid var(--bs-primary);
 }
 
 /* --- Expand/collapse animation (exact measured height via JS hooks) --- */

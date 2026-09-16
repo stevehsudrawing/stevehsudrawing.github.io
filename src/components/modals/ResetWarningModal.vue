@@ -13,8 +13,10 @@ import { useStoredValue } from "../../composables/useStoredValue";
 import { useTheme } from "../../composables/useTheme";
 import {
   getStoredEnableAnimations,
+  getStoredEnableSwiper,
   getStoredOpenInNewTab,
   setStoredEnableAnimations,
+  setStoredEnableSwiper,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
 
@@ -37,6 +39,11 @@ const enableAnimations = useStoredValue(
   setStoredEnableAnimations,
   true,
 );
+const enableSwiper = useStoredValue(
+  getStoredEnableSwiper,
+  setStoredEnableSwiper,
+  true,
+);
 
 /** Cancel-button element for keyboard auto-focus. */
 const cancelBtnRef = ref<HTMLElement | null>(null);
@@ -52,6 +59,7 @@ const { onShown } = useModalFocus(cancelBtnRef);
 function resetAll(): void {
   openInNewTab.value = true;
   enableAnimations.value = true;
+  enableSwiper.value = true;
   setTheme("auto");
   locale.value = "en";
   setLocale("en");

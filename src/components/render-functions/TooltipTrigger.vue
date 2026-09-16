@@ -4,7 +4,8 @@
   Encapsulates v-b-tooltip.top.manual with a built-in delayed-show timer.
   Does NOT introduce extra DOM — the tooltip directive, event
   handlers, and click-to-dismiss are merged onto the first slot child via
-  cloneVNode + withDirectives.
+  cloneVNode + withDirectives.  Shows on hover AND keyboard focus
+  (focusin / focusout), so tooltips stay reachable without a mouse.
 
   Usage:
   ```vue
@@ -100,20 +101,28 @@ export default defineComponent({
       const origOnClick = origProps.onClick;
       const origOnMouseenter = origProps.onMouseenter;
       const origOnMouseleave = origProps.onMouseleave;
+      const origOnFocusin = origProps.onFocusin;
+      const origOnFocusout = origProps.onFocusout;
 
       if (vnode.props) {
         delete vnode.props.onClick;
         delete vnode.props.onMouseenter;
         delete vnode.props.onMouseleave;
+        delete vnode.props.onFocusin;
+        delete vnode.props.onFocusout;
       }
 
       const onMouseenter = chainHandler(origOnMouseenter, tip.scheduleShow);
       const onMouseleave = chainHandler(origOnMouseleave, tip.cancelAndHide);
+      const onFocusin = chainHandler(origOnFocusin, tip.scheduleShow);
+      const onFocusout = chainHandler(origOnFocusout, tip.cancelAndHide);
       const onClick = chainHandler(origOnClick, tip.cancelAndHide);
 
       const cloned = cloneVNode(vnode, {
         onMouseenter,
         onMouseleave,
+        onFocusin,
+        onFocusout,
         onClick,
       });
 

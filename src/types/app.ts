@@ -32,6 +32,7 @@ export const enum StorageKey {
   Lang = "lang",
   OpenInNewTab = "openInNewTab",
   EnableAnimations = "enableAnimations",
+  EnableSwiper = "enableSwiper",
   /** Cached GitHub user profile data (JSON-serialized CacheEntry<GitHubUser>). */
   GithubProfile = "githubProfile",
   /** Cached GitHub events data (JSON-serialized CacheEntry<GitHubEvent[]>). */

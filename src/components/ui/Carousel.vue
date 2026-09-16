@@ -13,8 +13,9 @@
       description and the slide's related link live
     - Adaptive control color from the active image's edge luminance
 
-  Unsupported browsers (Swiper v14 baseline, see isSwiperSupported) and
-  no-JS environments get a static first-slide fallback — a single
+  Unsupported browsers (Swiper v14 baseline) and a disabled
+  `enableSwiper` preference — both resolved by `useSwiperMode()` — get
+  a static first-slide fallback (no-JS environments included): a single
   FeatureAwarePicture carrying the picture's own overlay controls (ALT +
   preview) and its `relatedLink`.
 -->
@@ -32,8 +33,8 @@ import { useI18n } from "../../composables/useI18n";
 import { usePictureList } from "../../composables/usePictureList";
 import { usePictureRegistry } from "../../composables/usePictureRegistry";
 import { usePictureViewer } from "../../composables/usePictureViewer";
+import { useSwiperMode } from "../../composables/useSwiperMode";
 import { useTheme } from "../../composables/useTheme";
-import { isSwiperSupported } from "../../platform/advanced-feat-support";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type { FeatureAwarePictureProps } from "../../types/app";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
@@ -54,8 +55,11 @@ const props = defineProps<{
 /** Swiper v14 module set used by this carousel. */
 const modules = [Autoplay, EffectCreative, Keyboard, A11y];
 
-/** Whether the interactive carousel can run (static fallback otherwise). */
-const isSupported = isSwiperSupported();
+/**
+ * Whether the interactive carousel runs — the browser capability AND
+ * the live `enableSwiper` preference (static fallback otherwise).
+ */
+const { swiperEnabled } = useSwiperMode();
 
 /** Autoplay delay (ms) — preserved from the old BCarousel. */
 const AUTOPLAY_DELAY = 6000;
@@ -349,12 +353,25 @@ function onAutoplayTimeLeft(
 watch(effectiveTheme, () => {
   if (swiper.value) readActiveSrc(swiper.value);
 });
+
+// Disabling Swiper unmounts the Swiper branch — clear the transient
+// state so nothing reads a destroyed instance (the theme watcher above
+// included) and a later re-enable starts fresh.
+watch(swiperEnabled, (enabled) => {
+  if (enabled) return;
+  swiper.value = null;
+  isPlaying.value = false;
+  progressElapsed.value = 0;
+  isTransitioning.value = false;
+  prevActiveIndex.value = -1;
+  hoverPaused.value = false;
+});
 </script>
 
 <template>
   <!-- ==== Interactive carousel (supported browsers + slides loaded) ==== -->
   <div
-    v-if="isSupported && slides.length > 0"
+    v-if="swiperEnabled && slides.length > 0"
     class="illustration-carousel"
     :class="
       isDark === true ? 'controls-on-image-dark' : 'controls-on-image-light'

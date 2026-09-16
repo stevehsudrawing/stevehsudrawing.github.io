@@ -5,20 +5,24 @@
   backdrop / Esc clears the whole stack.
 -->
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { useStoredValue } from "../../composables/useStoredValue";
+import { useSwiperMode } from "../../composables/useSwiperMode";
 import { useTheme } from "../../composables/useTheme";
 import { LANGUAGE_LIST } from "../../configs/language-list";
 import { THEME_OPTIONS } from "../../configs/theme-options";
 import {
   getStoredEnableAnimations,
+  getStoredEnableSwiper,
   getStoredOpenInNewTab,
   setStoredEnableAnimations,
+  setStoredEnableSwiper,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // State
@@ -30,7 +34,7 @@ const { push, pop } = useModalStack();
 /** Language-select element for keyboard auto-focus. */
 const langSelectRef = ref<HTMLElement | null>(null);
 
-const { locale, setLocale } = useI18n();
+const { locale, setLocale, t } = useI18n();
 const { preference: themePreference, setPreference: setTheme } = useTheme();
 
 const openInNewTab = useStoredValue(
@@ -43,6 +47,29 @@ const enableAnimations = useStoredValue(
   setStoredEnableAnimations,
   true,
 );
+const enableSwiper = useStoredValue(
+  getStoredEnableSwiper,
+  setStoredEnableSwiper,
+  true,
+);
+
+/**
+ * Browser capability probe for the Swiper toggle — below-baseline
+ * browsers show the switch disabled (see `useSwiperMode`).
+ */
+const { swiperSupported } = useSwiperMode();
+
+/**
+ * Display binding of the Swiper switch: OFF whenever the browser cannot
+ * run Swiper; the stored preference is written only while supported
+ * (a disabled switch never calls the setter anyway).
+ */
+const swiperToggle = computed({
+  get: () => swiperSupported && enableSwiper.value,
+  set: (value: boolean) => {
+    if (swiperSupported) enableSwiper.value = value;
+  },
+});
 
 /** Keyboard-aware focus: move focus to language select when opened via Tab. */
 const { onShown } = useModalFocus(langSelectRef);
@@ -63,6 +90,20 @@ onBeforeUnmount(() => {
   reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
 });
 
+/** Tooltip text of the animations toggle icon (warning ⇄ info). */
+const animationsTooltip = computed(() =>
+  reducedMotion.value
+    ? t("text-animations-disabled-by-system-description")
+    : t("text-enable-animations-description"),
+);
+
+/** Tooltip text of the Swiper toggle icon (warning ⇄ info). */
+const swiperTooltip = computed(() =>
+  swiperSupported
+    ? t("text-enable-swiper-description")
+    : t("text-swiper-unsupported-description"),
+);
+
 // -------------------------------------------------------------------------
 // Theme / language options
 // -------------------------------------------------------------------------
@@ -75,6 +116,13 @@ const languages = LANGUAGE_LIST.map((item) => ({
 // =========================================================================
 // Actions
 // =========================================================================
+
+/**
+ * No-op click guard for the toggle tooltip icons: with the `stop` /
+ * `prevent` modifiers it keeps a click on the icon (inside the checkbox
+ * label) from toggling the switch.
+ */
+function blockToggle(): void {}
 
 /** Open ResetWarningModal on top of this modal (via the modal stack). */
 function openResetWarning(): void {
@@ -152,10 +200,42 @@ function openResetWarning(): void {
         :disabled="reducedMotion"
       >
         {{ $t("text-enable-animations") }}
+        <TooltipTrigger :title="animationsTooltip" :delay="0" teleport>
+          <i
+            class="bi ms-1"
+            :class="
+              reducedMotion ? 'bi-exclamation-triangle' : 'bi-info-circle'
+            "
+            role="img"
+            tabindex="0"
+            :aria-label="animationsTooltip"
+            @click.stop.prevent="blockToggle"
+          ></i>
+        </TooltipTrigger>
       </BFormCheckbox>
-      <small v-if="reducedMotion" class="text-muted d-block mb-3">
-        {{ $t("text-animations-disabled-by-system-description") }}
-      </small>
+
+      <!-- Swiper toggle -->
+      <BFormCheckbox
+        id="settings-swiper-toggle"
+        v-model="swiperToggle"
+        :unchecked-value="false"
+        switch
+        :disabled="!swiperSupported"
+      >
+        {{ $t("text-enable-swiper") }}
+        <TooltipTrigger :title="swiperTooltip" :delay="0" teleport>
+          <i
+            class="bi ms-1"
+            :class="
+              swiperSupported ? 'bi-info-circle' : 'bi-exclamation-triangle'
+            "
+            role="img"
+            tabindex="0"
+            :aria-label="swiperTooltip"
+            @click.stop.prevent="blockToggle"
+          ></i>
+        </TooltipTrigger>
+      </BFormCheckbox>
     </div>
 
     <!-- Reset confirmation: pushed onto the stack by openResetWarning() -->

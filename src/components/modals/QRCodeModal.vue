@@ -303,12 +303,14 @@ function openLink(): void {
           </span>
         </div>
 
-        <code class="mt-2 mb-0 d-block">{{ url }}</code>
+        <code class="code-no-bg qr-code-link mt-2 mb-0 d-block">{{ url }}</code>
 
         <div id="qr-share-card-footer">
           <div id="qr-share-card-footer-text">
             <span>{{ $t("text-learn-more-about-me") }}</span>
-            <code id="qr-share-card-source">{{ BASE_URL }}</code>
+            <code id="qr-share-card-source" class="code-no-bg">{{
+              BASE_URL
+            }}</code>
           </div>
           <div id="qr-share-card-logo-container">
             <InlineSvg
@@ -384,9 +386,8 @@ function openLink(): void {
 
 <style scoped>
 /* --- QR share card (captured by html-to-image for PNG export) --- */
-code {
-  background-color: unset;
-  outline: none;
+.qr-code-link {
+  font-size: 12.8px;
 }
 
 #qr-share-card {
@@ -443,6 +444,7 @@ code {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  font-size: 10.5px;
 }
 
 #qr-share-card-logo-container {

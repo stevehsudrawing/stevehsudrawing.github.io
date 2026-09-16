@@ -130,6 +130,17 @@ export function setStoredEnableAnimations(value: boolean): void {
   writeRaw(StorageKey.EnableAnimations, value ? "true" : "false");
 }
 
+/** Read the enable-Swiper preference (default: true). */
+export function getStoredEnableSwiper(): boolean {
+  const raw = readRaw(StorageKey.EnableSwiper);
+  return raw === "true" ? true : raw === "false" ? false : true;
+}
+
+/** Persist the enable-Swiper preference. */
+export function setStoredEnableSwiper(value: boolean): void {
+  writeRaw(StorageKey.EnableSwiper, value ? "true" : "false");
+}
+
 // =========================================================================
 // GitHub API caches
 // =========================================================================

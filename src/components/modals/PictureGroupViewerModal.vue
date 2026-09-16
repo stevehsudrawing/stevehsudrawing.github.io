@@ -5,14 +5,15 @@
   with QRCodeModal): the header title shows the picture description; the
   footer has QR-share / related-link / Back (conditional) / Close.
   Navigation:
-    - Swiper coverflow stage (supported browsers): click a side image to
-      switch (slideToClickedSlide), keyboard arrows + touch swipe via
-      Swiper; bottom-center fraction indicator; a modality hint (swipe /
-      drag, or arrow keys) that fades out on its own.
-    - Static fallback (old browsers): centred current picture with the
-      restored dir-aware slide Transition + looping chevron arrows
-      flanking the stage + the same fraction; keyboard arrows via a
-      window listener.
+    - Swiper coverflow stage (supported browsers with `enableSwiper`
+      on): click a side image to switch (slideToClickedSlide), keyboard
+      arrows + touch swipe via Swiper; bottom-center fraction
+      indicator; a modality hint (swipe / drag, or arrow keys) that
+      fades out on its own.
+    - Static fallback (old browsers or the preference off): centred
+      current picture with the restored dir-aware slide Transition +
+      looping chevron arrows flanking the stage + the same fraction;
+      keyboard arrows via a window listener.
   Mobile (≤ 768 px): the slides grow to the stage width, which pushes the
   coverflow neighbours fully outside the stage — the picture is enlarged
   to the stage width or height.
@@ -33,8 +34,8 @@ import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { usePictureRegistry } from "../../composables/usePictureRegistry";
+import { useSwiperMode } from "../../composables/useSwiperMode";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
-import { isSwiperSupported } from "../../platform/advanced-feat-support";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type {
   FeatureAwarePictureProps,
@@ -56,8 +57,11 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
-/** Whether the interactive Swiper stage can run (static fallback else). */
-const isSwiper = isSwiperSupported();
+/**
+ * Whether the interactive Swiper stage runs — the browser capability
+ * AND the live `enableSwiper` preference (static fallback otherwise).
+ */
+const { swiperEnabled: isSwiper } = useSwiperMode();
 
 /** Swiper v14 module set used by the coverflow stage. */
 const modules = [EffectCoverflow, Keyboard, A11y];
@@ -118,7 +122,7 @@ const current = computed<string | null>(
  * branch: always — its arrow-key hint is the only hint there.
  */
 const hintsVisible = computed(() =>
-  isSwiper ? contents.value.length > 1 : contents.value.length > 0,
+  isSwiper.value ? contents.value.length > 1 : contents.value.length > 0,
 );
 
 // -------------------------------------------------------------------------
@@ -169,9 +173,11 @@ const stageRef = ref<HTMLElement | null>(null);
  * Rendered <img> of the CURRENT picture per branch (theme/lang resolved).
  */
 function currentStageImg(): HTMLImageElement | null {
-  const root = isSwiper ? stageRef.value : pictureWrapRef.value;
+  const root = isSwiper.value ? stageRef.value : pictureWrapRef.value;
   if (!root) return null;
-  return root.querySelector(isSwiper ? ".swiper-slide-active img" : "img");
+  return root.querySelector(
+    isSwiper.value ? ".swiper-slide-active img" : "img",
+  );
 }
 
 /**
@@ -194,7 +200,7 @@ function sampleStageLuminance(): void {
         else if (edge === "right") rightDark.value = dark;
         else bottomDark.value = dark;
       };
-    if (!isSwiper) {
+    if (!isSwiper.value) {
       void isImageEdgeDark(src, { edge: "left", ratio: 0.1 }).then(
         apply("left"),
       );
@@ -226,7 +232,7 @@ function onSlideChangeEnd(): void {
 watch(
   pictureProps,
   () => {
-    if (isSwiper) return;
+    if (isSwiper.value) return;
     resetStageLuminance();
     void nextTick(() => sampleStageLuminance());
   },
@@ -420,12 +426,12 @@ function onKeydown(e: KeyboardEvent): void {
 function onShown(): void {
   // The interactive branch uses Swiper's Keyboard module; the fallback
   // branch keeps this window listener.
-  if (!isSwiper) window.addEventListener("keydown", onKeydown);
+  if (!isSwiper.value) window.addEventListener("keydown", onKeydown);
   // Fullscreen lightbox: suppress offcanvas edge-swipes while open.
   setSwipeTrackingEnabled(false);
   // Initial sampling for the Swiper branch (the setup-time watch fires
   // before the modal DOM exists).
-  if (isSwiper) {
+  if (isSwiper.value) {
     resetStageLuminance();
     void nextTick(sampleStageLuminance);
   }
