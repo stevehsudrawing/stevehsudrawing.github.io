@@ -366,27 +366,27 @@ a {
 .theme-transition-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1100;
-  background-color: rgba(144, 146, 148, 0);
+  z-index: var(--shlh-z-overlay);
+  background-color: rgba(var(--shlh-transition-rgb), 0);
   backdrop-filter: blur(0);
   pointer-events: none;
   transition:
-    background-color 0.5s ease-in,
-    backdrop-filter 0.5s ease-in;
+    background-color var(--shlh-duration-slow) ease-in,
+    backdrop-filter var(--shlh-duration-slow) ease-in;
 }
 
 .theme-transition-overlay.active {
-  background-color: rgb(144, 146, 148);
-  backdrop-filter: blur(1rem);
+  background-color: rgb(var(--shlh-transition-rgb));
+  backdrop-filter: blur(var(--shlh-blur-md));
   pointer-events: auto;
   cursor: wait;
 }
 
 .theme-transition-overlay.fade-out {
-  background-color: rgba(144, 146, 148, 0);
+  background-color: rgba(var(--shlh-transition-rgb), 0);
   backdrop-filter: blur(0);
   pointer-events: none;
   transition:
     background-color 1s ease-out,
-    backdrop-filter 0.5s ease-in;
+    backdrop-filter var(--shlh-duration-slow) ease-in;
 }

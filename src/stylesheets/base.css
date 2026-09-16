@@ -38,16 +38,15 @@ hr {
   margin-top: calc(64px + var(--safe-area-inset-top));
   margin-bottom: calc(2rem + var(--safe-area-inset-bottom));
   flex: 1;
-  transition: opacity 0.15s ease;
   filter: none;
   transition:
-    opacity 0.2s linear,
-    filter 0.2s linear;
+    opacity var(--shlh-duration-base) linear,
+    filter var(--shlh-duration-base) linear;
 }
 
 #page-content.content-dimming {
-  opacity: 0.5;
-  filter: blur(0.5rem);
+  opacity: var(--shlh-dim-opacity);
+  filter: blur(var(--shlh-blur-sm));
 }
 
 /* --- Safe Area (iOS standalone PWA) --- */
@@ -64,10 +63,10 @@ hr {
 a {
   text-decoration: none;
   transition:
-    color 0.1s ease-in-out,
-    background-color 0.1s ease-in-out,
-    border-color 0.1s ease-in-out,
-    outline 0.1s ease-in-out;
+    color var(--shlh-duration-fast) ease-in-out,
+    background-color var(--shlh-duration-fast) ease-in-out,
+    border-color var(--shlh-duration-fast) ease-in-out,
+    outline var(--shlh-duration-fast) ease-in-out;
 }
 
 .link:hover,
@@ -119,9 +118,9 @@ code {
 
 .fade {
   transition:
-    opacity 0.2s linear,
-    background-color 0.2s linear,
-    backdrop-filter 0.2s linear;
+    opacity var(--shlh-duration-base) linear,
+    background-color var(--shlh-duration-base) linear,
+    backdrop-filter var(--shlh-duration-base) linear;
 }
 
 /* --- Heading Reset --- */
@@ -144,14 +143,14 @@ h6,
 /* --- Dropdown Menu --- */
 
 .dropdown-menu {
-  z-index: 1050 !important;
+  --bs-dropdown-zindex: var(--shlh-z-dropdown);
 }
 
 .dropdown-menu.fade {
   transition:
-    opacity 0.1s linear,
-    background-color 0.1s linear,
-    backdrop-filter 0.1s linear;
+    opacity var(--shlh-duration-fast) linear,
+    background-color var(--shlh-duration-fast) linear,
+    backdrop-filter var(--shlh-duration-fast) linear;
 }
 
 /* --- Close Button --- */
@@ -165,7 +164,7 @@ h6,
 .offcanvas-backdrop {
   --bs-backdrop-bg: var(--bs-body-bg);
   --bs-backdrop-bg-rgb: var(--bs-body-bg-rgb);
-  --bs-backdrop-opacity: 0.75;
+  --bs-backdrop-opacity: var(--shlh-backdrop-opacity);
   background-color: rgba(var(--bs-backdrop-bg-rgb));
   opacity: 0;
   backdrop-filter: blur(0);
@@ -174,7 +173,7 @@ h6,
 .offcanvas-backdrop.show {
   background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
   opacity: 1;
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(var(--shlh-blur-sm));
 }
 
 /* --- Modal --- */
@@ -186,7 +185,7 @@ h6,
 /* Open / Close Animation */
 .modal.fade .modal-dialog {
   transform: rotateX(3deg) scale(0.85);
-  filter: blur(0.5rem);
+  filter: blur(var(--shlh-blur-sm));
   transition:
     transform 0.3s ease-out,
     filter 0.3s ease-out;
@@ -216,7 +215,7 @@ h6,
 .modal-backdrop {
   --bs-backdrop-bg: var(--bs-body-bg);
   --bs-backdrop-bg-rgb: var(--bs-body-bg-rgb);
-  --bs-backdrop-opacity: 0.75;
+  --bs-backdrop-opacity: var(--shlh-backdrop-opacity);
   opacity: 0;
   backdrop-filter: blur(0);
 }
@@ -224,7 +223,7 @@ h6,
 .modal-backdrop.show {
   background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
   opacity: 1;
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(var(--shlh-blur-sm));
 }
 
 /* --- Popovers --- */
@@ -249,9 +248,9 @@ h6,
 
 .nav-link {
   transition:
-    color 0.1s ease-in-out,
-    background-color 0.1s ease-in-out,
-    border-color 0.1s ease-in-out;
+    color var(--shlh-duration-fast) ease-in-out,
+    background-color var(--shlh-duration-fast) ease-in-out,
+    border-color var(--shlh-duration-fast) ease-in-out;
 }
 
 /* --- Cards --- */
@@ -260,7 +259,7 @@ h6,
   border: none;
   margin: calc(var(--bs-card-border-width) / 2);
   outline: var(--bs-card-border-width) solid var(--bs-card-border-color);
-  transition: outline 0.1s ease-in-out;
+  transition: outline var(--shlh-duration-fast) ease-in-out;
 }
 
 .card:hover {
@@ -345,7 +344,7 @@ h6,
   width: 100%;
   height: auto;
   object-fit: cover;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--shlh-duration-base) ease;
 }
 
 /* ========================================================================

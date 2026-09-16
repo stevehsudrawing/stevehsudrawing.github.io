@@ -74,7 +74,7 @@ function onActivate(): void {
   width: 100%;
   cursor: pointer;
   outline: 0 solid var(--bs-body-color);
-  transition: outline 0.1s ease-in-out;
+  transition: outline var(--shlh-duration-fast) ease-in-out;
 }
 
 .picture-card:hover {

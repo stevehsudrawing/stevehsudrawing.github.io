@@ -24,47 +24,9 @@
 
 /* --- Disable Transparency --- */
 
-/* when browser/system prefers */
-@media (prefers-reduced-transparency: reduce) {
-  .tooltip {
-    --bs-tooltip-opacity: 1 !important;
-  }
-
-  .navbar {
-    backdrop-filter: none !important;
-    background-color: rgba(var(--bs-body-bg-rgb), 1) !important;
-  }
-
-  .modal-backdrop {
-    --bs-backdrop-bg-rgb: var(--shlh-transition-rgb);
-    opacity: 0;
-    backdrop-filter: none;
-  }
-
-  .modal-backdrop.show {
-    background-color: rgb(var(--bs-backdrop-bg-rgb));
-    opacity: 1;
-    backdrop-filter: none !important;
-  }
-
-  [data-bs-theme="dark"] .modal-backdrop {
-    --bs-backdrop-bg-rgb: 0, 0, 0;
-  }
-
-  .offcanvas-backdrop {
-    --bs-backdrop-bg-rgb: var(--shlh-transition-rgb);
-    opacity: 0;
-  }
-
-  .offcanvas-backdrop.show {
-    background-color: rgb(var(--bs-backdrop-bg-rgb));
-    opacity: 1;
-  }
-
-  [data-bs-theme="dark"] .offcanvas-backdrop {
-    --bs-backdrop-bg-rgb: 0, 0, 0;
-  }
-}
+/* `prefers-reduced-transparency` is handled as parameter variants in
+   `parameters.css` (blur radii → 0, surface / backdrop opacities → 1,
+   opaque tooltips) - no rules live here anymore. */
 
 /* --- High Contrast --- */
 
@@ -172,5 +134,31 @@
 
   .footer a {
     font-weight: calc(var(--bs-body-font-weight) + 100);
+  }
+}
+
+/* --- Forced Colors --- */
+
+/* when the browser enforces the user's color palette
+
+   Policy (MDN-aligned): no separate design - only targeted system-color
+   tweaks where the default forcing breaks legibility (system colors are
+   honoured as-is by the UA).  Component-local patches live with their
+   scoped rules: `ColoredImg.vue` (mask glyphs), `LoadingBar.vue`
+   (progress fill), `Carousel.vue` (countdown fill).  Accepted as-is:
+   translucent Canvas backdrops, the theme-overlay flash, removed
+   gradient decoration. */
+@media (forced-colors: active) {
+  /* Floating panels lose their shadow (box-shadow → none); a system
+     border keeps the tooltip reading as a panel.  Popovers / toasts
+     ship borders already. */
+  .tooltip-inner {
+    border: 1px solid CanvasText;
+  }
+
+  /* The scrolled-navbar hairline is a box-shadow (forced away); a
+     border keeps the separator. */
+  .navbar-scrolled {
+    border-bottom: 1px solid CanvasText;
   }
 }

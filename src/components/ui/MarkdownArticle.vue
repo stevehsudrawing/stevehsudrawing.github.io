@@ -487,7 +487,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   transition:
     max-height 0.25s ease,
-    opacity 0.2s ease;
+    opacity var(--shlh-duration-base) ease;
 }
 
 .scrollspy-mobile-enter-from,

@@ -768,7 +768,7 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 5;
+  z-index: var(--shlh-z-on-image);
   padding: 0.4rem 0.5rem;
   /* Neutral theme tint while luminance is unknown; the shared
      on-image palette overrides once sampled (per side). */
@@ -821,12 +821,12 @@ onBeforeUnmount(() => {
   bottom: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
+  z-index: var(--shlh-z-on-image);
   padding: 0.125rem 0.625rem;
   /* Neutral theme tint while the luminance is unknown; the shared
      on-image palette overrides once sampled (bottom edge). */
   background: var(--shlh-on-image-bar-bg, rgba(var(--bs-body-color-rgb), 0.15));
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(var(--shlh-blur-sm));
   color: var(--shlh-on-image-control-color, var(--bs-body-color));
   border-radius: var(--bs-border-radius);
   font-size: 0.8rem;
@@ -847,7 +847,7 @@ onBeforeUnmount(() => {
   bottom: 2.25rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
+  z-index: var(--shlh-z-on-image);
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -866,7 +866,7 @@ onBeforeUnmount(() => {
   border-radius: var(--bs-border-radius);
   font-size: 0.8rem;
   line-height: 1.25;
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(var(--shlh-blur-sm));
   animation: picture-hint-fade 5s ease forwards;
 }
 

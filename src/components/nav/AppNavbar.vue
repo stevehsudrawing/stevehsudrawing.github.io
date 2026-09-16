@@ -291,7 +291,7 @@ defineExpose({
               drop="end"
               boundary="viewport"
               teleport-to="body"
-              :style="{ 'z-index': 1050 }"
+              :style="{ 'z-index': 'var(--shlh-z-dropdown)' }"
             >
               <template #button-content>
                 <span>{{ $t(item.i18nKey) }}</span>
@@ -395,14 +395,16 @@ defineExpose({
 
 .navbar {
   height: calc(64px + var(--safe-area-inset-top, 0px));
-  background-color: rgba(var(--bs-body-bg-rgb), 0.8);
-  backdrop-filter: blur(1rem) saturate(1.5);
+  background-color: rgba(var(--bs-body-bg-rgb), var(--shlh-surface-opacity));
+  backdrop-filter: blur(var(--shlh-blur-md)) saturate(1.5);
   box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
   padding: 0;
   padding-top: var(--safe-area-inset-top, 0px);
-  transition: box-shadow 0.2s ease-in-out;
+  transition: box-shadow var(--shlh-duration-base) ease-in-out;
 }
 
+/* Literal radius here - `@supports` conditions cannot take `var()`;
+   keep in sync with `--shlh-blur-md` (parameters.css). */
 @supports not (backdrop-filter: blur(1rem)) {
   .navbar {
     background-color: rgba(var(--bs-body-bg-rgb), 1);

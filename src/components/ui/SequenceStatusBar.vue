@@ -101,17 +101,16 @@ onScopeDispose(() => {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1020;
   display: flex;
   align-items: center;
   height: 2.5rem;
   padding: 0 1rem;
   border-top: 1px solid var(--bs-border-color);
-  background-color: rgba(var(--bs-body-bg-rgb), 0.8);
-  backdrop-filter: blur(1rem);
+  background-color: rgba(var(--bs-body-bg-rgb), var(--shlh-surface-opacity));
+  backdrop-filter: blur(var(--shlh-blur-md));
   color: var(--bs-body-color);
   box-shadow: var(--bs-box-shadow-lg);
-  z-index: 1055;
+  z-index: var(--shlh-z-status-bar);
 }
 
 .sequence-status-message {

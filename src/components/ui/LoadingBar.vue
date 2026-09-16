@@ -74,7 +74,7 @@ defineExpose({ show, complete, hide });
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1100;
+  z-index: var(--shlh-z-overlay);
   cursor: wait;
 }
 
@@ -82,7 +82,15 @@ defineExpose({ show, complete, hide });
   height: 3px;
   width: 0;
   background-color: rgb(var(--bs-primary-rgb));
-  transition: width 0.2s ease-out;
+  transition: width var(--shlh-duration-base) ease-out;
+}
+
+/* forced-colors: the brand fill would be forced to `Canvas` (invisible
+   against the page); a system color keeps the progress readable. */
+@media (forced-colors: active) {
+  #loading-bar-fill {
+    background-color: CanvasText;
+  }
 }
 
 #loading-bar.active #loading-bar-fill {
@@ -92,6 +100,6 @@ defineExpose({ show, complete, hide });
 
 #loading-bar.done #loading-bar-fill {
   width: 100%;
-  transition: width 0.2s ease-in;
+  transition: width var(--shlh-duration-base) ease-in;
 }
 </style>

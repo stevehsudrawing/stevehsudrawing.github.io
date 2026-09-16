@@ -501,7 +501,7 @@ watch(swiperEnabled, (enabled) => {
   align-items: flex-end;
   gap: 1px;
   height: 0.25rem;
-  transition: height 0.1s ease;
+  transition: height var(--shlh-duration-fast) ease;
 }
 
 /* End buttons: 0.25rem collapsed squares (same look as the bar track),
@@ -524,11 +524,11 @@ watch(swiperEnabled, (enabled) => {
   line-height: 1;
   overflow: hidden;
   pointer-events: none;
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(var(--shlh-blur-sm));
   transition:
-    width 0.1s ease,
-    background-color 0.1s ease,
-    filter 0.1s ease;
+    width var(--shlh-duration-fast) ease,
+    background-color var(--shlh-duration-fast) ease,
+    filter var(--shlh-duration-fast) ease;
   cursor: pointer;
 }
 
@@ -545,7 +545,7 @@ watch(swiperEnabled, (enabled) => {
 .carousel-play-toggle > i,
 .carousel-preview-btn > i {
   opacity: 0;
-  transition: opacity 0.1s ease;
+  transition: opacity var(--shlh-duration-fast) ease;
 }
 
 /* Hover / active / keyboard-focus inversion via pixel invert (see the
@@ -577,10 +577,10 @@ watch(swiperEnabled, (enabled) => {
   border: 0;
   border-radius: 0;
   background: var(--shlh-on-image-bar-bg);
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(var(--shlh-blur-sm));
   cursor: pointer;
   overflow: hidden;
-  transition: filter 0.1s ease;
+  transition: filter var(--shlh-duration-fast) ease;
 }
 
 /* Hover inversion: the whole bar inverts (track + fill, incl. the
@@ -596,6 +596,15 @@ watch(swiperEnabled, (enabled) => {
   background: var(--shlh-on-image-bar-fill);
   transform-origin: left center;
   transform: scaleX(0);
+}
+
+/* forced-colors: the fill would be forced to `Canvas` (only marginally
+   distinguishable from the translucent track); a system color keeps the
+   countdown readable. */
+@media (forced-colors: active) {
+  .carousel-bar-fill {
+    background-color: CanvasText;
+  }
 }
 
 /* During a slide transition the previous bar's fill drains away in

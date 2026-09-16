@@ -56,7 +56,7 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
           <span>{{ $t("text-powered-by-part-2") }}</span>
         </div>
 
-        <!-- ==== Issue + Share + View Code ==== -->
+        <!-- ==== Issue + Share ==== -->
         <div class="ms-auto">
           <TypeAwareLink
             class="text-nowrap me-2"
@@ -81,24 +81,6 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
           >
             <i class="bi bi-share-fill"></i>
           </QRCodeButton>
-          <TooltipTrigger :title="$t('text-view-code')">
-            <TypeAwareLink
-              type="external"
-              :href="`https://github.com/${GITHUB_REPO}`"
-              hide-indicator
-              :icon="{
-                type: 'colored-img',
-                imgProps: {
-                  src: '/images/webp/icons/github.webp',
-                  colorVar: 'bs-body-color',
-                  alt: $t('text-repo-of-steve-hsu-s-link-hub'),
-                },
-              }"
-              :aria-label="$t('text-view-code')"
-            >
-              <i class="bi bi-github"></i>
-            </TypeAwareLink>
-          </TooltipTrigger>
         </div>
       </div>
     </div>

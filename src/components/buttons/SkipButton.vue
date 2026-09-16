@@ -24,7 +24,7 @@
   width: 1px;
   height: 1px;
   overflow: hidden;
-  z-index: 1100;
+  z-index: var(--shlh-z-overlay);
 }
 
 #skip-button:focus-visible,

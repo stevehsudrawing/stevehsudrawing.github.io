@@ -383,8 +383,8 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
 /* ==== Image loading opacity (global, applies site-wide) ==== */
 
 img {
-  opacity: 0.5;
-  transition: opacity 0.2s ease;
+  opacity: var(--shlh-loading-opacity);
+  transition: opacity var(--shlh-duration-base) ease;
   cursor: wait;
 }
 
@@ -408,7 +408,7 @@ img[data-img-loaded] {
 .picture-overlay-controls {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: var(--shlh-z-on-image);
   pointer-events: none;
 }
 
@@ -439,7 +439,7 @@ img[data-img-loaded] {
   line-height: 1;
   letter-spacing: 0.02em;
   transform: scale(0);
-  transition: transform 0.1s ease;
+  transition: transform var(--shlh-duration-fast) ease;
   pointer-events: none;
   cursor: pointer;
 }
@@ -504,7 +504,7 @@ html.user-input-keyboard .picture-overlay-btn {
   background-image: linear-gradient(
     100deg,
     transparent 40%,
-    rgba(var(--bs-body-color-rgb), 0.08) 50%,
+    rgba(var(--bs-body-color-rgb), var(--shlh-shimmer-alpha)) 50%,
     transparent 60%
   );
   background-size: 200% 100%;

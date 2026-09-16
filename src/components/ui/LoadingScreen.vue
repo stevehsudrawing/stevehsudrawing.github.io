@@ -47,14 +47,14 @@ defineExpose({ hide });
 .loading-screen {
   position: fixed;
   inset: 0;
-  z-index: 1200;
+  z-index: var(--shlh-z-loading-screen);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
   background-color: var(--bs-body-bg);
-  transition: opacity 0.5s ease;
+  transition: opacity var(--shlh-duration-slow) ease;
   cursor: wait;
 }
 

@@ -82,11 +82,20 @@ onMounted(() => {
   -webkit-mask: var(--img-mask-url, none) no-repeat center / contain;
 }
 
+/* forced-colors: the mask glyph's `background-color` would be forced to
+   `Canvas` (a page-colored shape - invisible); a system color keeps the
+   glyph readable. */
+@media (forced-colors: active) {
+  [data-img-feature~="colored"] {
+    background-color: CanvasText;
+  }
+}
+
 /* ==== Loading opacity ==== */
 
 img {
-  opacity: 0.5;
-  transition: opacity 0.2s ease;
+  opacity: var(--shlh-loading-opacity);
+  transition: opacity var(--shlh-duration-base) ease;
   cursor: wait;
 }
 

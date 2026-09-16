@@ -1,0 +1,77 @@
+/* ========================================================================
+   Parameters - Cross-cutting visual parameters (single source)
+
+   Every value below is consumed via `var()` from stylesheets and
+   component style blocks.  The preference variants at the bottom
+   re-declare the SAME custom properties, so consumers pick the variant
+   up through inheritance - no `!important` and no cascade-order
+   coupling between files.
+
+   Families:
+   - --shlh-blur-*        Backdrop / filter blur radii
+   - --shlh-*-opacity     Surfaces, backdrops, dimming, image loading
+   - --shlh-*-alpha       Translucent fills (shimmer, on-image bars)
+   - --shlh-duration-*    Shared transition paces (fast / base / slow)
+   - --shlh-z-*           Coordinated stacking layers
+   ======================================================================== */
+
+/* --- Defaults --- */
+
+:root {
+  /* Blur radii */
+  --shlh-blur-sm: 0.5rem;
+  --shlh-blur-md: 1rem;
+
+  /* Opacities */
+  --shlh-surface-opacity: 0.8;
+  --shlh-backdrop-opacity: 0.75;
+  --shlh-dim-opacity: 0.5;
+  --shlh-loading-opacity: 0.5;
+
+  /* Alphas */
+  --shlh-shimmer-alpha: 0.08;
+  --shlh-on-image-bar-alpha: 0.3;
+
+  /* Durations */
+  --shlh-duration-fast: 0.1s;
+  --shlh-duration-base: 0.2s;
+  --shlh-duration-slow: 0.5s;
+
+  /* Z-index layers (relative to Bootstrap's ladder: dropdown 1000 /
+     fixed-top 1030 / offcanvas 1045 / backdrop 1050 / modal 1055 /
+     popover 1070 / tooltip 1080 / toast 1090) */
+  --shlh-z-on-image: 5;
+  --shlh-z-dropdown: 1050;
+  --shlh-z-status-bar: 1055;
+  --shlh-z-overlay: 1100;
+  --shlh-z-loading-screen: 1200;
+}
+
+/* --- Reduced Transparency (no blur, solid surfaces) --- */
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --shlh-blur-sm: 0;
+    --shlh-blur-md: 0;
+    --shlh-surface-opacity: 1;
+    --shlh-backdrop-opacity: 1;
+  }
+
+  /* Bootstrap's tooltip opacity knob has no `--shlh-` indirection;
+     override it directly (Bootstrap loads first - no `!important`). */
+  .tooltip {
+    --bs-tooltip-opacity: 1;
+  }
+}
+
+/* --- High Contrast (stronger state signalling) --- */
+
+@media (prefers-contrast: more) {
+  :root {
+    --shlh-surface-opacity: 1;
+    --shlh-backdrop-opacity: 1;
+    --shlh-dim-opacity: 0.65;
+    --shlh-shimmer-alpha: 0.15;
+    --shlh-on-image-bar-alpha: 0.45;
+  }
+}

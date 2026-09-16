@@ -102,8 +102,8 @@ const copyUrl = computed(() =>
 /* ---- Title link anchors ---- */
 .title-link-anchor {
   transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
+    opacity var(--shlh-duration-base) ease,
+    visibility var(--shlh-duration-base) ease;
 }
 
 /* Mobile (< 768px) */
