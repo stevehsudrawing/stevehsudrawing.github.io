@@ -5,18 +5,18 @@
  * separate content-injection-plugin.ts.
  */
 
-import { OG_IMAGE, TWITTER_CREATOR, PAGE_META } from "./site-meta";
-import { BASE_URL, SITE_AUTHOR, SITE_NAME } from "../src/configs/site-meta";
-import { getPageName } from "./utils";
-import { LANGUAGE_LIST } from "../src/configs/language-list";
-import indexButtonGroups from "../src/configs/link-button-groups/index.json";
-import type { LinkButtonGroupData } from "../src/types/app";
+import { OG_IMAGE, TWITTER_CREATOR, PAGE_META } from "./site-meta.ts";
+import { BASE_URL, SITE_AUTHOR, SITE_NAME } from "../src/configs/site-meta.ts";
+import { getPageName } from "./utils.ts";
+import { LANGUAGE_LIST } from "../src/configs/language-list.ts";
+import indexButtonGroups from "../src/configs/link-button-groups/index.json" with { type: "json" };
+import type { LinkButtonGroupData } from "../src/types/app.ts";
 import type {
   IndexHtmlTransformContext,
   IndexHtmlTransformResult,
   HtmlTagDescriptor,
 } from "vite";
-import type { PageMetaEntry } from "./types";
+import type { PageMetaEntry } from "./types.ts";
 
 // =========================================================================
 // Shared tags that are identical across ALL pages

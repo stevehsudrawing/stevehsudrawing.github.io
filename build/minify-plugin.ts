@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { minify } from "html-minifier-terser";
-import { walkDir } from "./utils";
+import { createBundleWrittenGate, walkDir } from "./utils.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -84,12 +84,16 @@ function minifyXML(filePath: string): void {
  * Minifies HTML (collapseWhitespace, removeComments via html-minifier-terser),
  * JSON (compact via JSON.stringify), legacy CSS/JS (comment removal, whitespace
  * collapse), and XML (whitespace between tags).
- * @returns A Vite plugin object with a closeBundle hook.
+ * @returns A Vite plugin object (writeBundle-gated closeBundle hook).
  */
 export function minifyPlugin() {
+  const gate = createBundleWrittenGate();
   return {
     name: "minify-plugin",
+    writeBundle: gate.writeBundle,
     async closeBundle(): Promise<void> {
+      if (!gate.isBundleWritten()) return;
+
       const distDir = resolve(__dirname, "..", "dist");
 
       const htmlFiles = walkDir(distDir, [".html"]);

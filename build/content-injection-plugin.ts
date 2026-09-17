@@ -7,9 +7,9 @@
  * content-extract.ts (shared with llms-txt-plugin).
  */
 
-import { getPageName } from "./utils";
-import { extractPlainText } from "../src/core/utils";
-import { PAGE_META } from "./site-meta";
+import { getPageName } from "./utils.ts";
+import { extractPlainText } from "../src/core/utils.ts";
+import { PAGE_META } from "./site-meta.ts";
 import {
   loadLinkCardGroups,
   loadLinkButtonGroups,
@@ -17,7 +17,7 @@ import {
   textForTitle,
   type LinkCardGroup,
   type LinkButtonGroup,
-} from "./content-extract";
+} from "./content-extract.ts";
 import type { IndexHtmlTransformContext } from "vite";
 
 // =========================================================================

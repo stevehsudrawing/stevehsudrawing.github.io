@@ -5,7 +5,7 @@
 
 import { readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
-import type { PageName } from "../types";
+import type { PageName } from "./types.ts";
 
 // ---------------------------------------------------------------------------
 // HAST utilities
@@ -55,4 +55,31 @@ export function walkDir(dir: string, extensions: string[]): string[] {
     }
   }
   return results;
+}
+
+// ---------------------------------------------------------------------------
+// Build lifecycle utilities
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a guard that lets `closeBundle` post-processing run only after
+ * a bundle was actually written.  Vite fires `closeBundle` after every
+ * build attempt - including aborted ones - and when the dev server
+ * closes; dist is then missing or stale, and a post-processing failure
+ * there would mask the real build error.  Spread `writeBundle` into the
+ * plugin and return early from `closeBundle` unless `isBundleWritten()`
+ * is true.
+ * @returns The flag-setting `writeBundle` hook and its check.
+ */
+export function createBundleWrittenGate(): {
+  writeBundle: () => void;
+  isBundleWritten: () => boolean;
+} {
+  let written = false;
+  return {
+    writeBundle: () => {
+      written = true;
+    },
+    isBundleWritten: () => written,
+  };
 }

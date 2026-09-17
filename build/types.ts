@@ -2,7 +2,7 @@
  * Build-time TypeScript type definitions.
  */
 
-import type { PAGE_NAMES } from "../src/configs/pages";
+import type { PAGE_NAMES } from "../src/configs/pages.ts";
 
 /**
  * Internal HAST node alias.

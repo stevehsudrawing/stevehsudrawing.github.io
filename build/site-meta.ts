@@ -5,11 +5,11 @@
  * by the head-tags-plugin.
  */
 
-import type { PageMetaMap } from "../types";
+import type { PageMetaMap } from "./types.ts";
 
 // Single source of truth: runtime metadata lives in src/configs/site-meta.ts.
 // (build/* may import from src/*; the reverse is forbidden.)
-import { BASE_URL, SITE_NAME } from "../src/configs/site-meta";
+import { BASE_URL, SITE_NAME } from "../src/configs/site-meta.ts";
 
 /** Absolute URL of the Open Graph / Twitter Card share image (1200x630). */
 export const OG_IMAGE = `${BASE_URL}/images/png/banner.png`;

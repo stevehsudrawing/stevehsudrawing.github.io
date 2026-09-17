@@ -9,7 +9,7 @@
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { BASE_URL } from "../src/configs/site-meta";
+import { BASE_URL } from "../src/configs/site-meta.ts";
 
 // =========================================================================
 // JSON config types (subset of runtime types)

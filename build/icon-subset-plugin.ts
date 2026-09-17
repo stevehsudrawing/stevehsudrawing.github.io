@@ -23,7 +23,13 @@
  * (editors / `vue-tsc` need it before any build).
  */
 
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Plugin } from "vite";
@@ -400,6 +406,10 @@ async function ensureArtifacts(): Promise<void> {
   if (upToDate) return;
 
   const woff2 = await buildFont(names);
+
+  // The fonts directory is generated and git-ignored; git tracks no
+  // empty directories, so on a fresh checkout it does not exist yet.
+  mkdirSync(dirname(OUT_FONT), { recursive: true });
 
   // Write-if-changed for both artifacts (byte-stable pipeline).
   const currentFont = existsSync(OUT_FONT) ? readFileSync(OUT_FONT) : null;

@@ -4,7 +4,7 @@
  */
 
 import type { LocationQueryRaw } from "vue-router";
-import type { Lang, LanguageAwareString, PictureSrcMap } from "../types/app";
+import type { Lang, LanguageAwareString, PictureSrcMap } from "../types/app.ts";
 
 /**
  * Normalize a URL pathname so that the root maps to /index.html.

@@ -15,6 +15,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Plugin } from "vite";
+import { createBundleWrittenGate } from "./utils.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -70,15 +71,23 @@ function injectPatterns(source: string, patterns: string[]): string {
  * Vite plugin that injects the README-derived image-block glob list
  * into `sw.js` (build output + dev server).
  *
- * @returns A Vite plugin object (closeBundle + configureServer hooks).
+ * @returns A Vite plugin object (writeBundle-gated closeBundle +
+ * configureServer hooks).
  */
 export function swScopePlugin(): Plugin {
+  const gate = createBundleWrittenGate();
   return {
     name: "sw-scope-plugin",
+    writeBundle: gate.writeBundle,
     closeBundle(): void {
+      if (!gate.isBundleWritten()) return;
+
       const swPath = resolve(ROOT, "dist", "sw.js");
-      if (!existsSync(swPath)) return; // dev-server close - nothing to do
-      writeFileSync(swPath, injectPatterns(readFileSync(swPath, "utf-8"), readPatterns()));
+      if (!existsSync(swPath)) return; // belt: public/sw.js missing
+      writeFileSync(
+        swPath,
+        injectPatterns(readFileSync(swPath, "utf-8"), readPatterns()),
+      );
     },
     configureServer(server): void {
       server.middlewares.use((req, res, next) => {

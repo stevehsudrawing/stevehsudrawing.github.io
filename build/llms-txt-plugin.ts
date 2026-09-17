@@ -16,8 +16,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
-import { BASE_URL, SITE_NAME } from "../src/configs/site-meta";
-import { extractPlainText } from "../src/core/utils";
+import { BASE_URL, SITE_NAME } from "../src/configs/site-meta.ts";
+import { extractPlainText } from "../src/core/utils.ts";
 import {
     loadLinkButtonGroups,
     loadLinkCardGroups,
@@ -30,9 +30,9 @@ import {
     type LinkButtonGroup,
     type LinkCardGroup,
     type RegistryPicture,
-} from "./content-extract";
-import { PAGE_META } from "./site-meta";
-import type { PageMetaEntry } from "./types";
+} from "./content-extract.ts";
+import { PAGE_META } from "./site-meta.ts";
+import type { PageMetaEntry } from "./types.ts";
 
 // =========================================================================
 // Markdown naming
