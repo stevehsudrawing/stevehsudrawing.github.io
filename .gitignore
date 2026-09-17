@@ -12,6 +12,9 @@ node_modules/
 dist/
 .vite/
 
+# Generated: Material Symbols subset font (build/icon-subset-plugin.ts)
+src/assets/fonts/*.woff2
+
 # Vite: Environment files
 *.local
 

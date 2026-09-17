@@ -221,26 +221,9 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
    INSIDE the carousel slides and collapse every `.carousel-item` to zero
    height (the whole carousel disappears). */
 
-.hero-cover-box > picture,
-.hero-cover-box > img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.hero-cover-box > picture > img,
-.hero-cover-box > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* FeatureAwarePicture with overlay controls (showAltButton /
-   previewable) wraps the picture in `.feature-aware-picture`: the
-   wrapper takes the box, its own picture / img take the wrapper, and the
-   img keeps the 1:1 `cover` crop — the ALT / preview buttons then sit on
+/* FeatureAwarePicture's unified wrapper (v3.18.1 — always emitted) takes
+   the box, its picture / img take the wrapper, and the img keeps its
+   `cover` crop — the ALT / preview buttons and the failure badge sit on
    the box corners. */
 .hero-cover-box > .feature-aware-picture {
   position: absolute;

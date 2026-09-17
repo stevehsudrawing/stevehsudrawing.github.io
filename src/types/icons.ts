@@ -2,8 +2,10 @@
  * Material Symbols icon subset manifest — GENERATED FILE,
  * DO NOT EDIT BY HAND.
  *
- * Regenerate with: python tools/generate-icon-subset.py
- * Source font: @fontsource-variable/material-symbols-outlined (latin full-axes woff2, subsetted).
+ * Regenerated automatically by `build/icon-subset-plugin.ts` (dev-server
+ * start / save and `pnpm build`).  Source font:
+ * @fontsource-variable/material-symbols-outlined (latin full-axes woff2,
+ * subsetted to the names below).
  */
 
 /** Every icon name carried by the committed subset font. */
@@ -14,6 +16,7 @@ export const ICON_NAMES = [
   "arrow_outward",
   "bar_chart",
   "block",
+  "broken_image",
   "call_split",
   "cancel",
   "chevron_left",

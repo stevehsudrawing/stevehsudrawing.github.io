@@ -484,6 +484,12 @@ function openLink(): void {
   display: block;
 }
 
+/* v3.18.1 — the id lands on FeatureAwarePicture's wrapper now; keep the
+   img itself block so the inline baseline gap never appears. */
+#qr-code-icon :deep(img) {
+  display: block;
+}
+
 #qr-code-modal-link {
   font-size: 13.6px;
   color: rgba(var(--bs-body-color-rgb), 0.9);

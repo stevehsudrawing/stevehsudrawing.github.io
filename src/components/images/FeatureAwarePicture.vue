@@ -4,23 +4,35 @@
   Merges the old FeatureAwareImg (bare <img>) and FeatureAwarePicture
   (<picture> wrapper) into a single component.  Rendering strategy:
 
-    src provided           → bare <img> with static src
-    srcMap without avif    → bare <img> with theme/language-resolved src
+    src provided           → <img> with static src
+    srcMap without avif    → <img> with theme/language-resolved src
     srcMap with avif       → <picture> with AVIF + WebP <source> elements
 
   Colored (CSS mask) rendering is handled by the separate ColoredImg
   component.  This component does NOT output data-img-feature.
 
+  The image always renders inside the single positioned root wrapper
+  (`.feature-aware-picture`) — the positioning context for the overlay
+  controls and the failure badge.  v3.18.1: the former bare-root
+  branch was removed; consumers that relied on a bare root (`> img` /
+  `> picture` direct-child selectors) were migrated to the wrapper
+  chain (`.feature-aware-picture > picture > img`).
+
   Overlay controls (opt-in): with `showAltButton` and/or `previewable`
-  the component wraps the image in a positioned box and adds corner
-  controls on the bottom edge — an ALT button opening a BPopover with
-  the picture title (falling back to the generic description label),
-  the image description and the optional `message` as its secondary
-  line, and a preview button opening the single-image viewer.  Without
-  those flags the rendered DOM is unchanged (a bare <picture> / <img>
-  root) — every legacy consumer relies on that.  `relatedLink` is
-  carried for the lightboxes only; `message` renders only in the ALT
-  popover.
+  the component adds corner controls on the bottom edge — an ALT button
+  opening a BPopover with the picture title (falling back to the generic
+  description label), the image description and the optional `message`
+  as its secondary line, and a preview button opening the single-image
+  viewer.  `relatedLink` is carried for the lightboxes only; `message`
+  renders only in the ALT popover.
+
+  Failure handling: a failed image keeps the neutral plate
+  (`--bs-secondary-bg`, no shimmer) and lets the browser render its
+  fallback content (the alt text) inset by 0.25 rem; a decorative
+  `broken_image` badge marks the failure and the preview button hides.
+  The ALT button remains (the alt text is the useful information).
+  `load` / `error` are emitted for external consumers — the Carousel
+  gates its autoplay on the first slide settling.
 -->
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
@@ -42,6 +54,13 @@ import MaterialSymbol from "../icons/MaterialSymbol.vue";
 
 const props = defineProps<FeatureAwarePictureProps>();
 
+const emit = defineEmits<{
+  /** The current source finished loading (also emitted on a cache hit). */
+  load: [];
+  /** The current source failed to load (missing file / network). */
+  error: [];
+}>();
+
 // =========================================================================
 // State
 // =========================================================================
@@ -51,6 +70,7 @@ const { locale, t } = useI18n();
 const { openPictureViewer } = usePictureViewer();
 
 const loaded = ref(false);
+const failed = ref(false);
 const imgRef = ref<HTMLImageElement>();
 
 // -------------------------------------------------------------------------
@@ -194,10 +214,12 @@ const imgClass = computed(() => {
 
 function onLoad(): void {
   loaded.value = true;
+  emit("load");
 }
 
 function onError(): void {
-  loaded.value = true;
+  failed.value = true;
+  emit("error");
 }
 
 /**
@@ -221,14 +243,25 @@ function onPreviewClick(): void {
 }
 
 onMounted(() => {
-  if (imgRef.value?.complete && imgRef.value.naturalWidth > 0) {
-    loaded.value = true;
+  // Cache-hit settle check (the load event may have fired before mount).
+  if (imgRef.value?.complete) {
+    if (imgRef.value.naturalWidth > 0) {
+      loaded.value = true;
+      emit("load");
+    } else {
+      failed.value = true;
+      emit("error");
+    }
   }
   sampleBottomLuminance();
 });
 
-// Re-sample when the resolved source changes (theme / language switch).
+// Re-sample when the resolved source changes (theme / language switch)
+// and reset the settle state: the new source must re-run its shimmer /
+// fade-in (previously a swapped source skipped straight to "loaded").
 watch([resolvedImgSrc, resolvedAvifSrc], () => {
+  loaded.value = false;
+  failed.value = false;
   bottomDark.value = null;
   sampleBottomLuminance();
 });
@@ -236,11 +269,12 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
 
 <template>
   <!--
-    With overlay controls: positioned wrapper + bottom-edge controls.
-    The image markup below is intentionally repeated in the v-else
-    branch so legacy consumers keep a bare <picture> / <img> root.
+    One positioned root: hosts the picture chain, the optional corner
+    controls and the failure badge.  The img markup repeats for the
+    <picture> / plain-<img> cases (the <source> element cannot be
+    conditionally included without extending the wrapper chain).
   -->
-  <div v-if="hasOverlayControls" class="feature-aware-picture">
+  <div class="feature-aware-picture">
     <picture v-if="renderPicture">
       <source
         type="image/avif"
@@ -263,6 +297,7 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
         :loading="loading"
         :fetchpriority="fetchpriority"
         :data-img-loaded="loaded ? '' : undefined"
+        :data-img-failed="failed ? '' : undefined"
         @load="onLoad"
         @error="onError"
       />
@@ -285,12 +320,17 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
       :loading="loading"
       :fetchpriority="fetchpriority"
       :data-img-loaded="loaded ? '' : undefined"
+      :data-img-failed="failed ? '' : undefined"
       @load="onLoad"
       @error="onError"
     />
 
     <!-- ==== Overlay controls: ALT (left) + preview (right) ==== -->
-    <div class="picture-overlay-controls" :class="overlayPaletteClass">
+    <div
+      v-if="hasOverlayControls"
+      class="picture-overlay-controls"
+      :class="overlayPaletteClass"
+    >
       <BPopover
         v-if="hasAltButton"
         :title="popoverTitle"
@@ -315,7 +355,7 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
         </div>
       </BPopover>
       <button
-        v-if="previewable"
+        v-if="previewable && !failed"
         type="button"
         class="picture-overlay-btn picture-overlay-btn-preview"
         :aria-label="t('text-image-preview')"
@@ -324,60 +364,13 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
         <MaterialSymbol name="zoom_in" />
       </button>
     </div>
+
+    <!-- ==== Failure badge (decorative — the alt text carries the
+         information; the plate sits where the preview button would) ==== -->
+    <span v-if="failed" class="img-failure-badge" aria-hidden="true">
+      <MaterialSymbol name="broken_image" />
+    </span>
   </div>
-
-  <!-- Legacy: bare root (no wrapper) — see the component header -->
-  <template v-else>
-    <!-- With AVIF: full <picture> -->
-    <picture v-if="renderPicture">
-      <source
-        type="image/avif"
-        :srcset="resolvedAvifSrc"
-        :fetchpriority="fetchpriority"
-      />
-      <img
-        ref="imgRef"
-        :src="resolvedImgSrc"
-        :alt="alt"
-        :width="width"
-        :height="height"
-        :style="{
-          width: width,
-          height: height,
-          aspectRatio:
-            aspectRatio !== undefined ? String(aspectRatio) : undefined,
-        }"
-        :class="imgClass"
-        :loading="loading"
-        :fetchpriority="fetchpriority"
-        :data-img-loaded="loaded ? '' : undefined"
-        @load="onLoad"
-        @error="onError"
-      />
-    </picture>
-
-    <!-- No AVIF: bare <img> -->
-    <img
-      v-else
-      ref="imgRef"
-      :src="resolvedImgSrc"
-      :alt="alt"
-      :width="width"
-      :height="height"
-      :style="{
-        width: width,
-        height: height,
-        aspectRatio:
-          aspectRatio !== undefined ? String(aspectRatio) : undefined,
-      }"
-      :class="imgClass"
-      :loading="loading"
-      :fetchpriority="fetchpriority"
-      :data-img-loaded="loaded ? '' : undefined"
-      @load="onLoad"
-      @error="onError"
-    />
-  </template>
 </template>
 
 <style scoped>
@@ -394,10 +387,28 @@ img[data-img-loaded] {
   cursor: inherit;
 }
 
-/* ==== Overlay controls (ALT + preview corners) ==== */
+/* Failed source: keep the neutral plate and let the browser render its
+   fallback content (the alt text — inset by the padding rule below);
+   the badge marks the failure. */
+img[data-img-failed] {
+  opacity: 1;
+  cursor: inherit;
+  background-color: var(--bs-secondary-bg);
+}
 
-/* Positioning context for the corner controls — emitted only when an
-   overlay control is requested (see the component header). */
+/* Fallback-content inset: while the browser renders the img's own
+   fallback content (the alt text — possible while loading, certain in
+   the failed state), keep it 0.25 rem off the element edge.  The
+   reserved boxes are border-box sized, so the outer box never changes. */
+.img-loading-placeholder:not([data-img-loaded]):not([data-img-failed]),
+img[data-img-failed] {
+  padding: 0.25rem;
+}
+
+/* ==== Root wrapper (controls + failure badge context) ==== */
+
+/* Always present (v3.18.1) — the positioning context for the corner
+   controls and the failure badge. */
 .feature-aware-picture {
   position: relative;
   display: inline-block;
@@ -476,6 +487,26 @@ html.user-input-keyboard .picture-overlay-btn {
   filter: invert(1);
 }
 
+/* ==== Failure badge ==== */
+
+/* Bottom-right corner — where the preview button would sit (a failed
+   image hides it).  A flat neutral plate that reads over any artwork. */
+.img-failure-badge {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  z-index: var(--shlh-z-on-image);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--bs-border-radius);
+  background: var(--bs-secondary-bg);
+  color: var(--bs-secondary-color);
+  pointer-events: none;
+}
+
 /* --- ALT popover content ---
    Secondary line under the alt text — the picture `message`, when
    present.  Lives inside the teleported popover body; the slot content
@@ -499,7 +530,7 @@ html.user-input-keyboard .picture-overlay-btn {
    `opacity: 1` here, an element-level opacity would hide the
    placeholder too. */
 
-.img-loading-placeholder:not([data-img-loaded]) {
+.img-loading-placeholder:not([data-img-loaded]):not([data-img-failed]) {
   opacity: 1;
   background-color: var(--bs-secondary-bg);
   background-image: linear-gradient(
@@ -526,7 +557,7 @@ html.user-input-keyboard .picture-overlay-btn {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .img-loading-placeholder:not([data-img-loaded]) {
+  .img-loading-placeholder:not([data-img-loaded]):not([data-img-failed]) {
     animation: none;
   }
 }

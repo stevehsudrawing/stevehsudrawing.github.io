@@ -6,6 +6,7 @@ import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
 import { contentInjectionPlugin } from "./build/content-injection-plugin";
 import { headTagsPlugin } from "./build/head-tags-plugin";
+import { iconSubsetPlugin } from "./build/icon-subset-plugin";
 import { llmsTxtPlugin } from "./build/llms-txt-plugin";
 import { minifyPlugin } from "./build/minify-plugin";
 import { sitemapPlugin } from "./build/sitemap-plugin";
@@ -26,6 +27,7 @@ export default defineConfig({
     }),
     contentInjectionPlugin(),
     headTagsPlugin(),
+    iconSubsetPlugin(),
     minifyPlugin(),
     sitemapPlugin(),
     llmsTxtPlugin(),

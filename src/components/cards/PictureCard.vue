@@ -82,6 +82,16 @@ function onActivate(): void {
 }
 
 /* --- Poster image (fills the column, height auto) --- */
+
+/* The unified wrapper (v3.18.1) must take the full column width — an
+   inline-block shrink-to-fit wrapper collapses while a lazy image has
+   no intrinsic size yet (the img's `width: 100%` has nothing to resolve
+   against, so the reserved `aspect-ratio` box would not apply). */
+.picture-card :deep(.feature-aware-picture) {
+  display: block;
+  width: 100%;
+}
+
 .picture-card :deep(.picture-card-img) {
   width: 100%;
   height: auto;

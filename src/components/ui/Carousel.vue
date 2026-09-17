@@ -91,6 +91,18 @@ const isDark = ref<boolean | null>(null);
 /** Whether OUR hover currently paused autoplay (vs. the user's pause). */
 const hoverPaused = ref(false);
 
+/**
+ * Whether the first slide's image has settled (load or error) — the
+ * autoplay gate (v3.18.1); a failed image must not stall the carousel.
+ */
+const firstSlideSettled = ref(false);
+
+/**
+ * Whether the USER paused via the play/pause button — the settle gate
+ * must not restart over it (hover pause is tracked separately above).
+ */
+const userPaused = ref(false);
+
 /** True while a slide transition is running (bar activate is deferred). */
 const isTransitioning = ref(false);
 
@@ -153,7 +165,9 @@ function slideProps(id: string, index: number): FeatureAwarePictureProps {
 /** Autoplay config — the play/pause button is the single switch.
  *  Hover pause is managed by the component (see pointer handlers) —
  *  Swiper's `pauseOnMouseEnter` binds to `swiper.el` only and would
- *  resume while hovering the sibling controls group. */
+ *  resume while hovering the sibling controls group.  The initial
+ *  start is additionally gated on the first slide settling (v3.18.1 —
+ *  see onSwiper / onSlideSettled). */
 const AUTOPLAY_CONFIG = {
   delay: AUTOPLAY_DELAY,
   disableOnInteraction: false,
@@ -221,9 +235,17 @@ function togglePlay(): void {
   // A manual toggle supersedes any hover-paused state.
   hoverPaused.value = false;
   if (isPlaying.value) {
+    // Explicit user pause — the settle gate must never restart over it.
+    userPaused.value = true;
     instance.autoplay.pause();
   } else {
-    instance.autoplay.resume();
+    userPaused.value = false;
+    if (instance.autoplay.paused) {
+      instance.autoplay.resume();
+    } else {
+      // Gated (never started) or stopped: resume() would be a no-op.
+      instance.autoplay.start();
+    }
   }
 }
 
@@ -287,10 +309,27 @@ function readActiveSrc(instance: SwiperClass): void {
   });
 }
 
+/**
+ * First-slide settle handler (wired to the slide images' `load` /
+ * `error`): release the autoplay gate once — never for reduced motion
+ * or after an explicit user pause.  Loop-mode clones are DOM copies
+ * without Vue listeners; the original slide-0 element reports.
+ */
+function onSlideSettled(index: number): void {
+  if (index !== 0 || firstSlideSettled.value) return;
+  firstSlideSettled.value = true;
+  if (prefersReducedMotion || userPaused.value) return;
+  if (swiper.value?.autoplay.running) return;
+  swiper.value?.autoplay.start();
+}
+
 /** Swiper instance handler — syncs autoplay state + first source read. */
 function onSwiper(instance: SwiperClass): void {
   swiper.value = instance;
-  if (prefersReducedMotion) {
+  // Autoplay gate (v3.18.1): hold the init-started autoplay until the
+  // first slide's image settles; reduced motion and an explicit user
+  // pause block it as well.
+  if (prefersReducedMotion || !firstSlideSettled.value || userPaused.value) {
     instance.autoplay.stop();
     isPlaying.value = false;
   } else {
@@ -405,6 +444,8 @@ watch(swiperEnabled, (enabled) => {
         <FeatureAwarePicture
           v-bind="slideProps(slideId, i)"
           class="d-block w-100 h-100 no-copy solid-bg"
+          @load="onSlideSettled(i)"
+          @error="onSlideSettled(i)"
         />
       </SwiperSlide>
     </Swiper>
@@ -419,7 +460,7 @@ watch(swiperEnabled, (enabled) => {
         "
         @click="togglePlay"
       >
-        <MaterialSymbol :name="isPlaying ? 'pause' : 'play_arrow'" />
+        <MaterialSymbol :name="isPlaying ? 'pause' : 'play_arrow'" fill />
       </button>
 
       <div class="carousel-bars">
@@ -642,6 +683,15 @@ watch(swiperEnabled, (enabled) => {
 
 .illustration-carousel .swiper-slide {
   overflow: hidden;
+}
+
+/* v3.18.1 wrapper unification: the always-present
+   `.feature-aware-picture` wrapper must fill the slide, so the img's
+   percentage height resolves against a definite box. */
+.illustration-carousel .swiper-slide .feature-aware-picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .illustration-carousel .swiper-slide img {

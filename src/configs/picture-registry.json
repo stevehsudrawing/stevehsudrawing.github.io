@@ -14,6 +14,7 @@
       },
       "noCopy": true,
       "feature": ["follow-theme"],
+      "aspectRatio": 1,
       "relatedLink": {
         "type": "external",
         "href": "https://www.pixiv.net/artworks/145641748",
@@ -38,6 +39,7 @@
       },
       "noCopy": true,
       "title": "SELF",
+      "aspectRatio": 1,
       "relatedLink": {
         "type": "external",
         "href": "https://www.pixiv.net/artworks/144184773",
@@ -61,6 +63,7 @@
         "webp": { "light": { "en": "/images/webp/covers/illustration-2.webp" } }
       },
       "noCopy": true,
+      "aspectRatio": 1,
       "relatedLink": {
         "type": "internal",
         "href": "/gallery.html?picGroupId=sticker-collections&picId=sticker-collection-series-1-vol-1"
@@ -77,6 +80,7 @@
         "webp": { "light": { "en": "/images/webp/covers/illustration-3.webp" } }
       },
       "noCopy": true,
+      "aspectRatio": 1,
       "relatedLink": {
         "type": "internal",
         "href": "/gallery.html?picGroupId=sticker-collections&picId=sticker-collection-series-2-vol-2"
@@ -97,7 +101,8 @@
         }
       },
       "noCopy": true,
-      "feature": ["follow-theme"]
+      "feature": ["follow-theme"],
+      "aspectRatio": 1
     }
   },
   {
@@ -106,7 +111,8 @@
       "srcMap": {
         "avif": { "light": { "en": "/images/avif/covers/blogs.avif" } },
         "webp": { "light": { "en": "/images/webp/covers/blogs.webp" } }
-      }
+      },
+      "aspectRatio": 1
     }
   },
   {
@@ -115,7 +121,8 @@
       "srcMap": {
         "avif": { "light": { "en": "/images/avif/covers/chatting.avif" } },
         "webp": { "light": { "en": "/images/webp/covers/chatting.webp" } }
-      }
+      },
+      "aspectRatio": 1
     }
   },
   {
@@ -124,7 +131,8 @@
       "srcMap": {
         "avif": { "light": { "en": "/images/avif/covers/projects.avif" } },
         "webp": { "light": { "en": "/images/webp/covers/projects.webp" } }
-      }
+      },
+      "aspectRatio": 1
     }
   },
   {
@@ -136,6 +144,7 @@
       },
       "noCopy": true,
       "title": "CODENAME",
+      "aspectRatio": 1,
       "relatedLink": {
         "type": "external",
         "href": "https://www.pixiv.net/artworks/149435832",
@@ -158,6 +167,7 @@
         "webp": { "light": { "en": "/images/webp/covers/worldview-1.webp" } }
       },
       "noCopy": true,
+      "aspectRatio": 1,
       "relatedLink": {
         "type": "external",
         "href": "https://www.pixiv.net/artworks/149401566",
