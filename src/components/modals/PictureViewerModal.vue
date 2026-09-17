@@ -27,6 +27,7 @@ import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import type { FeatureAwarePictureProps } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
@@ -153,7 +154,7 @@ onBeforeUnmount(() => {
             @click="onRelatedLinkClick()"
             hide-indicator
           >
-            <i class="bi bi-box-arrow-up-right"></i>
+            <MaterialSymbol name="open_in_new" />
           </TypeAwareLink>
         </TooltipTrigger>
         <button

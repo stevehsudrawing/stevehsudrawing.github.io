@@ -17,6 +17,7 @@ import {
   type DailyStat,
   type GitHubEvent,
 } from "../types/app";
+import type { IconName } from "../types/icons";
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
 
 // =========================================================================
@@ -51,23 +52,23 @@ export function eventTypeI18nKey(eventType: string): string {
 }
 
 /**
- * Map a GitHub event type string to its Bootstrap Icons class.
+ * Map a GitHub event type string to its Material Symbols ligature name.
  *
  * @param eventType - Raw event type from the API (e.g. "PushEvent").
- * @returns Bootstrap Icons CSS class (e.g. "bi-git").
+ * @returns Icon name for `MaterialSymbol` (e.g. "commit").
  */
-export function eventTypeIcon(eventType: string): string {
-  const map: Record<string, string> = {
-    PushEvent: "bi-git",
-    WatchEvent: "bi-star",
-    IssuesEvent: "bi-exclamation-diamond",
-    IssueCommentEvent: "bi-chat-left-dots",
-    CreateEvent: "bi-plus-circle",
-    ForkEvent: "bi-diagram-2",
-    PullRequestEvent: "bi-signpost-split",
-    DeleteEvent: "bi-trash",
+export function eventTypeIcon(eventType: string): IconName {
+  const map: Record<string, IconName> = {
+    PushEvent: "commit",
+    WatchEvent: "star",
+    IssuesEvent: "error",
+    IssueCommentEvent: "forum",
+    CreateEvent: "add_circle",
+    ForkEvent: "call_split",
+    PullRequestEvent: "merge",
+    DeleteEvent: "delete",
   };
-  return map[eventType] || "bi-three-dots";
+  return map[eventType] || "more_horiz";
 }
 
 // =========================================================================

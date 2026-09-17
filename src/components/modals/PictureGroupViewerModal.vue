@@ -42,6 +42,7 @@ import type {
   TypeAwareImageProps,
   TypeAwareLinkProps,
 } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
@@ -540,7 +541,7 @@ onBeforeUnmount(() => {
           :aria-label="$t('text-previous-page')"
           @click="fallbackGoTo(-1)"
         >
-          <i class="bi bi-chevron-left"></i>
+          <MaterialSymbol name="chevron_left" />
         </button>
       </TooltipTrigger>
       <TooltipTrigger v-if="!isSwiper" :title="t('text-next-page')">
@@ -557,7 +558,7 @@ onBeforeUnmount(() => {
           :aria-label="$t('text-next-page')"
           @click="fallbackGoTo(1)"
         >
-          <i class="bi bi-chevron-right"></i>
+          <MaterialSymbol name="chevron_right" />
         </button>
       </TooltipTrigger>
 
@@ -580,11 +581,11 @@ onBeforeUnmount(() => {
           v-if="isSwiper"
           class="picture-viewer-hint picture-viewer-hint-swipe"
         >
-          <i class="bi bi-arrow-left-right"></i>
+          <MaterialSymbol name="swap_horiz" />
           {{ t("text-swipe-or-drag-to-switch") }}
         </span>
         <span class="picture-viewer-hint picture-viewer-hint-keys">
-          <i class="bi bi-arrow-left-right"></i>
+          <MaterialSymbol name="swap_horiz" />
           {{ t("text-use-arrow-keys-to-switch") }}
         </span>
       </div>
@@ -614,7 +615,7 @@ onBeforeUnmount(() => {
             :aria-label="$t('text-share')"
             @click="showQR"
           >
-            <i class="bi bi-share-fill"></i>
+            <MaterialSymbol name="share" />
           </button>
         </TooltipTrigger>
         <TooltipTrigger :title="t('text-open-related-page')">
@@ -626,7 +627,7 @@ onBeforeUnmount(() => {
             hide-indicator
             @click="onRelatedLinkClick()"
           >
-            <i class="bi bi-box-arrow-up-right"></i>
+            <MaterialSymbol name="open_in_new" />
           </TypeAwareLink>
         </TooltipTrigger>
         <div class="ms-auto">

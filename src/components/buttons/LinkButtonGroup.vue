@@ -7,6 +7,7 @@
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import type { LinkButtonData } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import LinkButton from "./LinkButton.vue";
 
 // =========================================================================
@@ -78,9 +79,9 @@ onBeforeUnmount(() => {
     class="scroll-hint"
     aria-hidden="true"
   >
-    <i class="bi bi-chevron-left"></i>
+    <MaterialSymbol name="chevron_left" />
     <span>{{ t("text-scroll-horizontally") }}</span>
-    <i class="bi bi-chevron-right"></i>
+    <MaterialSymbol name="chevron_right" />
   </div>
 </template>
 
@@ -103,7 +104,7 @@ onBeforeUnmount(() => {
   animation: scrollHintFadeIn 0.3s ease;
 }
 
-.scroll-hint i {
+.scroll-hint .material-symbols-outlined {
   font-size: 0.7rem;
   vertical-align: middle;
 }

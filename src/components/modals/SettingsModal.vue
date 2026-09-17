@@ -22,6 +22,7 @@ import {
   setStoredEnableSwiper,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
@@ -201,16 +202,13 @@ function openResetWarning(): void {
       >
         {{ $t("text-enable-animations") }}
         <TooltipTrigger :title="animationsTooltip" :delay="0" teleport>
-          <i
-            class="bi ms-1"
-            :class="
-              reducedMotion ? 'bi-exclamation-triangle' : 'bi-info-circle'
-            "
-            role="img"
+          <MaterialSymbol
+            :name="reducedMotion ? 'warning' : 'info'"
+            :label="animationsTooltip"
+            class="ms-1"
             tabindex="0"
-            :aria-label="animationsTooltip"
             @click.stop.prevent="blockToggle"
-          ></i>
+          />
         </TooltipTrigger>
       </BFormCheckbox>
 
@@ -224,16 +222,13 @@ function openResetWarning(): void {
       >
         {{ $t("text-enable-swiper") }}
         <TooltipTrigger :title="swiperTooltip" :delay="0" teleport>
-          <i
-            class="bi ms-1"
-            :class="
-              swiperSupported ? 'bi-info-circle' : 'bi-exclamation-triangle'
-            "
-            role="img"
+          <MaterialSymbol
+            :name="swiperSupported ? 'info' : 'warning'"
+            :label="swiperTooltip"
+            class="ms-1"
             tabindex="0"
-            :aria-label="swiperTooltip"
             @click.stop.prevent="blockToggle"
-          ></i>
+          />
         </TooltipTrigger>
       </BFormCheckbox>
     </div>

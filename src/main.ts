@@ -7,7 +7,6 @@
 // =========================================================================
 // CSS imports
 // =========================================================================
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Self-hosted fonts (replaces CDN <link> tags)

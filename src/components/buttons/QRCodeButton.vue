@@ -1,13 +1,15 @@
 <!--
   QRCodeButton.vue — Standalone QR-code trigger button.
   Opens QRCodeModal via inject(OPEN_QR_CODE_KEY) on click.
-  Default slot shows bi-qr-code; override for custom icon (e.g. bi-share-fill).
+  Default slot shows the `qr_code` icon; override with a custom
+  MaterialSymbol (e.g. `share` with `fill`).
 -->
 <script setup lang="ts">
 import { inject } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import type { TypeAwareImageProps } from "../../types/app";
 import { OPEN_QR_CODE_KEY } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
@@ -64,7 +66,7 @@ function onClick(e: MouseEvent): void {
       :aria-label="$t('text-show-qr-code')"
       @click="onClick"
     >
-      <i v-if="!$slots.default" class="bi bi-qr-code"></i>
+      <MaterialSymbol v-if="!$slots.default" name="qr_code" />
       <slot />
     </a>
   </TooltipTrigger>

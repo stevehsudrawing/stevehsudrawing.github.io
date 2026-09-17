@@ -7,6 +7,7 @@
 import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
 import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import MaterialSymbol from "../components/icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../components/images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import TooltipTrigger from "../components/render-functions/TooltipTrigger.vue";
@@ -80,7 +81,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         v-if="breakpoint !== 'mobile'"
       >
         <span>{{ $t("text-scroll-down") }}</span>
-        <i class="bi bi-chevron-down"></i>
+        <MaterialSymbol name="keyboard_arrow_down" />
       </TypeAwareLink>
     </TooltipTrigger>
   </div>
@@ -135,7 +136,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         v-if="breakpoint !== 'mobile'"
       >
         <span>{{ $t("text-scroll-down") }}</span>
-        <i class="bi bi-chevron-down"></i>
+        <MaterialSymbol name="keyboard_arrow_down" />
       </TypeAwareLink>
     </TooltipTrigger>
   </div>
@@ -195,7 +196,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
       class="link link-hover-change-background link-secondary-shlh fw-semibold mt-3"
     >
       <span>{{ $t("text-about-me-and-my-emails") }}</span>
-      <i class="bi bi-arrow-right"></i>
+      <MaterialSymbol name="arrow_forward" />
     </TypeAwareLink>
   </StickerSection>
 </template>
@@ -277,7 +278,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
   font-size: 0.8rem;
 }
 
-.scroll-down-tip > i {
+.scroll-down-tip > .material-symbols-outlined {
   font-size: 1rem;
 }
 </style>

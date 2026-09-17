@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { BASE_URL, GITHUB_REPO } from "../../configs/site-meta.js";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 </script>
@@ -79,7 +80,7 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
             }"
             hide-open-link
           >
-            <i class="bi bi-share-fill"></i>
+            <MaterialSymbol name="share" fill />
           </QRCodeButton>
         </div>
       </div>

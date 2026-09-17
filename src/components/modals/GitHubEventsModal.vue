@@ -17,6 +17,8 @@ import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { DATE_LOCALES } from "../../configs/language-list";
 import type { GitHubEvent } from "../../types/app";
+import type { IconName } from "../../types/icons";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
@@ -150,7 +152,7 @@ function relativeTime(iso: string): string {
 
 interface EventRow {
   key: string;
-  icon: string;
+  icon: IconName;
   prefix: string;
   suffix: string;
   linkHref: string;
@@ -193,10 +195,10 @@ const rows = computed<EventRow[]>(() =>
         :key="row.key"
         class="d-flex align-items-center gap-2 py-1"
       >
-        <i
-          :class="`bi ${row.icon} text-body-secondary flex-shrink-0`"
-          aria-hidden="true"
-        ></i>
+        <MaterialSymbol
+          :name="row.icon"
+          class="text-body-secondary flex-shrink-0"
+        />
         <div class="event-row-text flex-grow-1 small d-flex gap-1">
           <span class="flex-shrink-0">{{ row.prefix }}</span>
           <TooltipTrigger :title="row.linkText">

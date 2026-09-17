@@ -4,6 +4,7 @@
  */
 
 import type { ThemeChoice } from "../types/app";
+import type { IconName } from "../types/icons";
 
 /** One theme option: value, i18n key, and icon. */
 export interface ThemeOption {
@@ -11,13 +12,13 @@ export interface ThemeOption {
   value: ThemeChoice;
   /** i18n key for the display label. */
   i18nKey: string;
-  /** Bootstrap Icons class for the navbar dropdown. */
-  icon: string;
+  /** Material Symbols ligature name (see `MaterialSymbol`). */
+  icon: IconName;
 }
 
 /** All theme options, in display order. */
 export const THEME_OPTIONS: readonly ThemeOption[] = [
-  { value: "auto", i18nKey: "text-auto", icon: "bi-circle-half" },
-  { value: "light", i18nKey: "text-light", icon: "bi-sun-fill" },
-  { value: "dark", i18nKey: "text-dark", icon: "bi-moon-stars-fill" },
+  { value: "auto", i18nKey: "text-auto", icon: "contrast" },
+  { value: "light", i18nKey: "text-light", icon: "light_mode" },
+  { value: "dark", i18nKey: "text-dark", icon: "dark_mode" },
 ];

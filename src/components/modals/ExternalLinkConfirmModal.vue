@@ -18,6 +18,7 @@ import {
 } from "../../platform/storage";
 import type { TypeAwareImageProps } from "../../types/app";
 import CopyButton from "../buttons/CopyButton.vue";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
@@ -146,7 +147,7 @@ function showQR(): void {
             :aria-label="$t('text-show-qr-code')"
             @click="showQR"
           >
-            <i class="bi bi-qr-code"></i>
+            <MaterialSymbol name="qr_code" />
           </button>
         </TooltipTrigger>
         <CopyButton
@@ -154,7 +155,7 @@ function showQR(): void {
           class="btn btn-outline-primary btn-no-border me-auto"
           :copy-text="url"
         >
-          <i class="bi bi-clipboard"></i>
+          <MaterialSymbol name="content_copy" />
         </CopyButton>
         <button
           type="button"

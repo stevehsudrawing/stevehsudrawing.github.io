@@ -14,6 +14,7 @@ import { useToast } from "../../composables/useToast";
 import { BASE_URL } from "../../configs/site-meta";
 import { cssVar } from "../../platform/css-var";
 import type { TypeAwareImageProps } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
@@ -335,7 +336,7 @@ function openLink(): void {
             :aria-label="$t('text-open')"
             @click="openLink"
           >
-            <i class="bi bi-box-arrow-up-right"></i>
+            <MaterialSymbol name="open_in_new" />
           </button>
         </TooltipTrigger>
         <TooltipTrigger :title="t('text-share')">
@@ -347,7 +348,7 @@ function openLink(): void {
             @click="shareImage()"
             :disabled="buttonsDisabled"
           >
-            <i class="bi bi-share"></i>
+            <MaterialSymbol name="share" />
           </button>
         </TooltipTrigger>
         <TooltipTrigger :title="t('text-download')">
@@ -358,7 +359,7 @@ function openLink(): void {
             @click="downloadPNG()"
             :disabled="buttonsDisabled"
           >
-            <i class="bi bi-download"></i>
+            <MaterialSymbol name="download" />
           </button>
         </TooltipTrigger>
         <TooltipTrigger :title="t('text-copy')">
@@ -369,7 +370,7 @@ function openLink(): void {
             @click="copyImage()"
             :disabled="buttonsDisabled"
           >
-            <i class="bi bi-clipboard"></i>
+            <MaterialSymbol name="content_copy" />
           </button>
         </TooltipTrigger>
         <button

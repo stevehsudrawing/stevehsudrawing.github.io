@@ -14,6 +14,7 @@ import { BASE_URL } from "../../configs/site-meta";
 import { toDashCase } from "../../core/utils";
 import AnchorButton from "../buttons/AnchorButton.vue";
 import CopyButton from "../buttons/CopyButton.vue";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 
 // =========================================================================
 // Props
@@ -80,7 +81,7 @@ const copyUrl = computed(() =>
         class="my-auto link title-link-anchor"
         :copy-text="copyUrl"
       >
-        <i class="bi bi-link-45deg"></i>
+        <MaterialSymbol name="link" />
       </CopyButton>
     </div>
   </div>

@@ -37,6 +37,7 @@ import { useSwiperMode } from "../../composables/useSwiperMode";
 import { useTheme } from "../../composables/useTheme";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type { FeatureAwarePictureProps } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 
 // =========================================================================
@@ -418,10 +419,7 @@ watch(swiperEnabled, (enabled) => {
         "
         @click="togglePlay"
       >
-        <i
-          :class="isPlaying ? 'bi bi-pause-fill' : 'bi bi-play-fill'"
-          aria-hidden="true"
-        ></i>
+        <MaterialSymbol :name="isPlaying ? 'pause' : 'play_arrow'" />
       </button>
 
       <div class="carousel-bars">
@@ -449,7 +447,7 @@ watch(swiperEnabled, (enabled) => {
         :aria-label="t('text-image-preview')"
         @click="onPreviewClick(currentSlide)"
       >
-        <i class="bi bi-zoom-in" aria-hidden="true"></i>
+        <MaterialSymbol name="zoom_in" />
       </button>
     </div>
   </div>
@@ -542,8 +540,8 @@ watch(swiperEnabled, (enabled) => {
 
 /* Icon hidden while collapsed; fades in on expand (opacity set in the
    expanded-state rules). */
-.carousel-play-toggle > i,
-.carousel-preview-btn > i {
+.carousel-play-toggle > .material-symbols-outlined,
+.carousel-preview-btn > .material-symbols-outlined {
   opacity: 0;
   transition: opacity var(--shlh-duration-fast) ease;
 }
@@ -666,8 +664,10 @@ watch(swiperEnabled, (enabled) => {
   background: var(--shlh-on-image-control-bg);
 }
 
-.illustration-carousel:hover .carousel-play-toggle > i,
-.illustration-carousel:hover .carousel-preview-btn > i {
+.illustration-carousel:hover .carousel-play-toggle > .material-symbols-outlined,
+.illustration-carousel:hover
+  .carousel-preview-btn
+  > .material-symbols-outlined {
   opacity: 1;
 }
 
@@ -682,8 +682,14 @@ html.user-input-keyboard .illustration-carousel .carousel-preview-btn {
   background: var(--shlh-on-image-control-bg);
 }
 
-html.user-input-keyboard .illustration-carousel .carousel-play-toggle > i,
-html.user-input-keyboard .illustration-carousel .carousel-preview-btn > i {
+html.user-input-keyboard
+  .illustration-carousel
+  .carousel-play-toggle
+  > .material-symbols-outlined,
+html.user-input-keyboard
+  .illustration-carousel
+  .carousel-preview-btn
+  > .material-symbols-outlined {
   opacity: 1;
 }
 
@@ -699,8 +705,8 @@ html.user-input-keyboard .illustration-carousel .carousel-preview-btn > i {
     background: var(--shlh-on-image-control-bg);
   }
 
-  .illustration-carousel .carousel-play-toggle > i,
-  .illustration-carousel .carousel-preview-btn > i {
+  .illustration-carousel .carousel-play-toggle > .material-symbols-outlined,
+  .illustration-carousel .carousel-preview-btn > .material-symbols-outlined {
     opacity: 1;
   }
 }

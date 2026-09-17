@@ -9,6 +9,7 @@
 -->
 <script setup lang="ts">
 import { scrollToHashTarget } from "../../platform/accessibility";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
@@ -48,7 +49,7 @@ function onClick(targetId: string): void {
       :aria-label="$t('text-anchor-to-x', [props.headingTitle])"
       @click.prevent="onClick(targetId)"
     >
-      <i class="bi bi-paragraph"></i>
+      <MaterialSymbol name="format_paragraph" />
     </a>
   </TooltipTrigger>
 </template>

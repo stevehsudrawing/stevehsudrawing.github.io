@@ -24,6 +24,7 @@ import { useBreakpoint } from "../../composables/useBreakpoint";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import type { HastNode } from "../../types/hast";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import HastFragment from "../render-functions/HastFragment.vue";
 
 // =========================================================================
@@ -301,9 +302,9 @@ onBeforeUnmount(() => {
         @click="headingExpanded = !headingExpanded"
       >
         <span class="scrollspy-current-text">{{ currentHeadingText }}</span>
-        <i
-          :class="headingExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"
-        ></i>
+        <MaterialSymbol
+          :name="headingExpanded ? 'expand_less' : 'expand_more'"
+        />
       </div>
       <Transition
         name="scrollspy-mobile"
@@ -440,7 +441,7 @@ onBeforeUnmount(() => {
   font-weight: 500;
 }
 
-.scrollspy-current-bar i {
+.scrollspy-current-bar .material-symbols-outlined {
   font-size: 1.1rem;
   flex-shrink: 0;
   margin-left: 0.5rem;

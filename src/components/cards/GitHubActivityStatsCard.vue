@@ -37,6 +37,7 @@ import { useModalStack } from "../../composables/useModalStack";
 import { useTheme } from "../../composables/useTheme";
 import { cssVar } from "../../platform/css-var";
 import type { ActivityStat, DailyStat, GitHubEvent } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 
@@ -330,7 +331,7 @@ function labelFor(eventType: string): string {
               :class="{ active: chartMode === 'bar' }"
               @click="chartMode = 'bar'"
             >
-              <i class="bi bi-bar-chart"></i>
+              <MaterialSymbol name="bar_chart" />
             </button>
           </TooltipTrigger>
           <TooltipTrigger :title="$t('text-line-chart')">
@@ -340,7 +341,7 @@ function labelFor(eventType: string): string {
               :class="{ active: chartMode === 'line' }"
               @click="chartMode = 'line'"
             >
-              <i class="bi bi-graph-up"></i>
+              <MaterialSymbol name="show_chart" />
             </button>
           </TooltipTrigger>
         </div>
@@ -357,7 +358,10 @@ function labelFor(eventType: string): string {
               :key="stat.eventType"
               class="chart-label-item text-body-secondary small text-nowrap"
             >
-              <i :class="`bi ${eventTypeIcon(stat.eventType)} me-1`"></i>
+              <MaterialSymbol
+                :name="eventTypeIcon(stat.eventType)"
+                class="me-1"
+              />
               {{ labelFor(stat.eventType) }}
             </span>
             <span class="chart-label-item-placeholder">&nbsp;</span>

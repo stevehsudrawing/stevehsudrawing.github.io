@@ -16,6 +16,7 @@ import { useRouter } from "vue-router";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import type { TypeAwareImageProps, TypeAwareLinkProps } from "../../types/app";
 import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 
 // =========================================================================
 // Types
@@ -104,9 +105,17 @@ function onClick(e: MouseEvent): void {
     @click="onClick"
   >
     <slot />
-    <i v-if="showExternalIcon" class="bi bi-arrow-up-right link-indicator"></i>
-    <i v-if="showAnchorIcon" class="bi bi-paragraph link-indicator"></i>
-    <i v-if="showEmailIcon" class="bi bi-envelope link-indicator"></i>
+    <MaterialSymbol
+      v-if="showExternalIcon"
+      name="arrow_outward"
+      class="link-indicator"
+    />
+    <MaterialSymbol
+      v-if="showAnchorIcon"
+      name="format_paragraph"
+      class="link-indicator"
+    />
+    <MaterialSymbol v-if="showEmailIcon" name="mail" class="link-indicator" />
   </a>
 </template>
 

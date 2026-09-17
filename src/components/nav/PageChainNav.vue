@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { getPageNavLinks } from "../../core/page-chain";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
@@ -38,7 +39,7 @@ const nav = computed(() => getPageNavLinks(props.pageName));
       :href="nav.prev"
       class="link link-hover-change-background link-secondary-shlh fw-semibold"
     >
-      <i class="bi bi-arrow-left me-1"></i>
+      <MaterialSymbol name="arrow_back" class="me-1" />
       <span>{{ $t("text-previous-page") }}</span>
     </TypeAwareLink>
     <div v-else></div>
@@ -51,7 +52,7 @@ const nav = computed(() => getPageNavLinks(props.pageName));
       class="link link-hover-change-background link-primary fw-semibold"
     >
       <span>{{ $t("text-next-page") }}</span>
-      <i class="bi bi-arrow-right ms-1"></i>
+      <MaterialSymbol name="arrow_forward" class="ms-1" />
     </TypeAwareLink>
     <div v-else></div>
   </div>

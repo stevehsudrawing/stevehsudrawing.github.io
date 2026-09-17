@@ -82,7 +82,7 @@
 | Package Manager    | [pnpm](https://pnpm.io/)                                                                                            |
 | CSS Framework      | [Bootstrap 5.3.8](https://getbootstrap.com/)                                                                        |
 | Font               | [Inter Variable](https://github.com/rsms/inter) / [Roboto Mono Variable](https://github.com/googlefonts/RobotoMono) |
-| Icons              | [Bootstrap Icons](https://icons.getbootstrap.com/)                                                                  |
+| Icons              | [Material Symbols Outlined](https://fonts.google.com/icons) (self-hosted subset)                                    |
 | QR Code            | [qrcode](https://github.com/soldair/node-qrcode)                                                                    |
 | HTML-to-Image      | [html-to-image](https://github.com/bubkoo/html-to-image)                                                            |
 | HTML-to-Canvas     | [html2canvas](https://github.com/niklasvh/html2canvas)                                                              |

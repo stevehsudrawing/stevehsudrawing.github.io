@@ -34,6 +34,7 @@ import type {
   Lang,
   ThemeAwareImgSrcMap,
 } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 
 // =========================================================================
 // Props
@@ -320,7 +321,7 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
         :aria-label="t('text-image-preview')"
         @click="onPreviewClick"
       >
-        <i class="bi bi-zoom-in" aria-hidden="true"></i>
+        <MaterialSymbol name="zoom_in" />
       </button>
     </div>
   </div>

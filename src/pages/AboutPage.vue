@@ -6,6 +6,7 @@
 import { inject, ref } from "vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
+import MaterialSymbol from "../components/icons/MaterialSymbol.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
@@ -123,9 +124,9 @@ function onMajorColorClick(event: Event): void {
                   copy-text="#47c4ee"
                   style="color: #47c4ee"
                 >
-                  <i class="bi bi-square-fill"></i>
+                  <MaterialSymbol name="square" fill />
                   <code class="code-no-bg">#47c4ee</code>
-                  <i class="bi bi-clipboard"></i>
+                  <MaterialSymbol name="content_copy" />
                 </CopyButton> </span
               >,&nbsp;
               <span data-major-color="#3c96ff" @click="onMajorColorClick">
@@ -134,9 +135,9 @@ function onMajorColorClick(event: Event): void {
                   copy-text="#3c96ff"
                   style="color: #3c96ff"
                 >
-                  <i class="bi bi-square-fill"></i>
+                  <MaterialSymbol name="square" fill />
                   <code class="code-no-bg">#3c96ff</code>
-                  <i class="bi bi-clipboard"></i>
+                  <MaterialSymbol name="content_copy" />
                 </CopyButton>
               </span>
             </td>

@@ -10,9 +10,11 @@
 import { computed } from "vue";
 import { useGithubProfile } from "../../composables/useGithubProfile";
 import { useI18n } from "../../composables/useI18n";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import InlineSvg from "../ui/InlineSvg.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 
 // =========================================================================
@@ -112,7 +114,10 @@ const statsText = computed(() => {
                 },
               }"
             >
-              <i class="bi bi-github me-1"></i>
+              <InlineSvg
+                src="/images/svg/icons/github.svg"
+                class="github-mark me-1"
+              />
               <span>{{ $t("text-view-profile") }}</span>
             </TypeAwareLink>
           </div>
@@ -174,7 +179,10 @@ const statsText = computed(() => {
                   },
                 }"
               >
-                <i class="bi bi-github me-1"></i>
+                <InlineSvg
+                  src="/images/svg/icons/github.svg"
+                  class="github-mark me-1"
+                />
                 <span>{{ $t("text-view-profile") }}</span>
               </TypeAwareLink>
               <TooltipTrigger :title="$t('text-more-information')" teleport>
@@ -183,7 +191,7 @@ const statsText = computed(() => {
                   type="internal"
                   href="/softwares.html#my-github-profile"
                 >
-                  <i class="bi bi-three-dots"></i>
+                  <MaterialSymbol name="more_horiz" />
                 </TypeAwareLink>
               </TooltipTrigger>
             </div>
@@ -214,6 +222,14 @@ const statsText = computed(() => {
 </template>
 
 <style scoped>
+/* ---- GitHub brand mark (InlineSvg) ---- */
+
+.github-mark :deep(svg) {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
 /* ---- Avatar ---- */
 
 .github-avatar {

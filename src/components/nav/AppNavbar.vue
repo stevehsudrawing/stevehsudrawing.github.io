@@ -19,6 +19,7 @@ import { useTheme } from "../../composables/useTheme";
 import { extractPageName, normalizeInternalPath } from "../../core/utils";
 import type { NavDropdownItem, NavItem } from "../../types/app";
 import { OPEN_SETTINGS_KEY } from "../../types/app";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
 import OffcanvasNav from "./OffcanvasNav.vue";
@@ -146,11 +147,10 @@ const currentLanguageName = computed(
     locale.value,
 );
 
-/** Current theme icon class (reacts to preference change). */
+/** Current theme icon name (reacts to preference change). */
 const currentThemeIcon = computed(
   () =>
-    THEME_OPTIONS.find((o) => o.value === preference.value)?.icon ??
-    "bi-circle-half",
+    THEME_OPTIONS.find((o) => o.value === preference.value)?.icon ?? "contrast",
 );
 
 /** Current theme display name (reacts to preference change). */
@@ -254,7 +254,7 @@ defineExpose({
         :aria-expanded="showOffcanvas"
         :aria-label="$t('text-toggle-navigation')"
       >
-        <i class="bi bi-list navbar-toggler-icon-font"></i>
+        <MaterialSymbol name="menu" class="navbar-toggler-icon-font" />
       </button>
 
       <!-- ==== Desktop nav ==== -->
@@ -320,7 +320,7 @@ defineExpose({
             boundary="viewport"
           >
             <template #button-content>
-              <i class="bi bi-globe2"></i>
+              <MaterialSymbol name="language" />
               <span class="ms-1 d-none d-sm-inline">{{
                 currentLanguageName
               }}</span>
@@ -344,7 +344,7 @@ defineExpose({
             boundary="viewport"
           >
             <template #button-content>
-              <i :class="['bi', currentThemeIcon]"></i>
+              <MaterialSymbol :name="currentThemeIcon" />
               <span class="ms-1 d-none d-sm-inline">{{
                 currentThemeLabel
               }}</span>
@@ -355,7 +355,7 @@ defineExpose({
               :active="preference === opt.value"
               @click="setPreference(opt.value)"
             >
-              <i :class="['bi', opt.icon, 'me-2']"></i>
+              <MaterialSymbol :name="opt.icon" class="me-2" />
               {{ $t(opt.i18nKey) }}
             </BDropdownItem>
           </BDropdown>
@@ -371,7 +371,7 @@ defineExpose({
             :aria-label="$t('text-settings')"
             @click.prevent="openSettings()"
           >
-            <i class="bi bi-gear"></i>
+            <MaterialSymbol name="settings" />
           </a>
         </li>
       </ul>

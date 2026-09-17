@@ -4,6 +4,8 @@
   shells so the card layout (h-100, borders) remains stable.
 -->
 <script setup lang="ts">
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
+
 // =========================================================================
 // Props
 // =========================================================================
@@ -34,13 +36,15 @@ defineProps<{
     </div>
 
     <!-- Error icon -->
-    <i
+    <MaterialSymbol
       v-else-if="state === 'error'"
-      class="bi bi-x-circle-fill text-danger mb-1 fs-3"
-    ></i>
+      name="cancel"
+      fill
+      class="text-danger mb-1 fs-3"
+    />
 
     <!-- Empty icon -->
-    <i v-else class="bi bi-slash-circle text-body-secondary mb-1 fs-3"></i>
+    <MaterialSymbol v-else name="block" class="text-body-secondary mb-1 fs-3" />
 
     <!-- Label — Always shows -->
     <span class="small fw-semibold">{{ label }}</span>
