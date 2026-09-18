@@ -35,6 +35,11 @@ import {
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack } from "../../composables/useModalStack";
 import { useTheme } from "../../composables/useTheme";
+import {
+  DATE_LOCALES,
+  LONG_DATE_FORMATS,
+  SHORT_DATE_FORMATS,
+} from "../../configs/language-list";
 import { cssVar } from "../../platform/css-var";
 import type { ActivityStat, DailyStat, GitHubEvent } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
@@ -69,8 +74,8 @@ function ensureChartJs(): void {
 // State
 // =========================================================================
 
-const { t } = useI18n();
-const { effectiveTheme } = useTheme();
+const { t, locale } = useI18n();
+const { appliedTheme } = useTheme();
 const { events, stats, dailyStats, isLoading, error } = useGithubActivity();
 const { push } = useModalStack();
 
@@ -169,12 +174,26 @@ function chartOnHover(
   }
 }
 
+/**
+ * The site's resolved font stack for canvas text (the `body` computed
+ * font-family — follows the language-specific stacks).
+ * @returns The CSS font-family list.
+ */
+function readFontFamily(): string {
+  return (
+    getComputedStyle(document.body).fontFamily ||
+    "'Inter Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+  );
+}
+
 /** Build a Chart.js bar chart (horizontal, event-type distribution). */
 function createBarChart(
   canvas: HTMLCanvasElement,
   data: ActivityStat[],
 ): Chart {
   const primary = cssVar("shlh-primary", "#3078cc");
+  const textColor = cssVar("bs-body-color", "#212529");
+  const gridColor = cssVar("bs-border-color", "#dee2e6");
 
   return new Chart(canvas, {
     type: "bar",
@@ -193,14 +212,31 @@ function createBarChart(
       indexAxis: "y",
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      font: { family: readFontFamily() },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            // Localized event-type label (the raw GitHub event type
+            // would render as e.g. "PushEvent").
+            title: (items) => {
+              const type = data[items[0]?.dataIndex ?? -1]?.eventType;
+              return type ? labelFor(type) : "";
+            },
+          },
+        },
+      },
       onClick: (_e, elements) => chartOnClick(elements),
       onHover: (e, elements) => chartOnHover(e, elements),
       scales: {
         x: {
           type: "linear",
-          ticks: { stepSize: 1, precision: 0 },
-          grid: { display: false },
+          // Default nice interval — no forced stepSize (the counts
+          // are plain integers; Chart.js derives the step from the
+          // axis range).  Gridlines match the line chart's (border
+          // colour); the category axis keeps none.
+          ticks: { color: textColor },
+          grid: { color: gridColor },
           border: { display: false },
         },
         y: {
@@ -240,13 +276,22 @@ function createLineChart(canvas: HTMLCanvasElement, data: DailyStat[]): Chart {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      font: { family: readFontFamily() },
       plugins: { legend: { display: false } },
       onClick: (_e, elements) => chartOnClick(elements),
       onHover: (e, elements) => chartOnHover(e, elements),
       scales: {
         x: {
           type: "time",
-          time: { unit: "day", displayFormats: { day: "MMM d" } },
+          // date-fns locale — the adapter forwards this object
+          // verbatim to format() for ticks and tooltips.
+          adapters: { date: { locale: DATE_LOCALES[locale.value] } },
+          time: {
+            unit: "day",
+            // Shared per-language formats (configs/language-list.ts).
+            displayFormats: { day: SHORT_DATE_FORMATS[locale.value] },
+            tooltipFormat: LONG_DATE_FORMATS[locale.value],
+          },
           ticks: { color: textColor, maxTicksLimit: 8 },
           grid: { display: false },
           border: { color: gridColor },
@@ -287,7 +332,7 @@ onMounted(() => {
 });
 
 watch(
-  [() => stats.value, () => dailyStats.value, chartMode, effectiveTheme],
+  [() => stats.value, () => dailyStats.value, chartMode, appliedTheme, locale],
   () => {
     rebuildChart();
   },
@@ -423,7 +468,7 @@ function labelFor(eventType: string): string {
 }
 
 .chart-label-item-placeholder {
-  line-height: 2.1;
+  line-height: 1.6;
 }
 
 .chart-canvas-col {

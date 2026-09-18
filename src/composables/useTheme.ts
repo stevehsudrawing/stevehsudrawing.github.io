@@ -2,9 +2,10 @@
  * Theme composable — reactive theme state for Vue 3.
  *
  * Provides a SINGLE source of truth for the user's theme preference
- * (auto / light / dark) and the resolved effective theme.  The
- * preference ref is a module-level singleton so all components
- * that call useTheme() share the same reactive state.
+ * (auto / light / dark), the resolved effective theme, and the
+ * applied (DOM) theme.  The preference ref is a module-level
+ * singleton so all components that call useTheme() share the same
+ * reactive state.
  *
  * Coexists with ui/theme.ts: the composable owns the reactive STATE;
  * the imperative module (ui/theme.ts) still performs DOM manipulation
@@ -42,6 +43,45 @@ const effectiveTheme = computed<EffectiveTheme>(() =>
       : "light"
     : (preference.value as EffectiveTheme),
 );
+
+// ---- Applied theme (the DOM attribute) ----
+//
+// `appliedTheme` tracks `<html data-bs-theme>` — the theme that is
+// actually visible.  It LAGS `effectiveTheme` while the transition
+// overlay plays (applyThemePreference() flips the attribute 500 ms
+// after the preference changes).  Consumers that read CSS variables
+// or swap theme-dependent assets must react to THIS ref — reacting
+// to `effectiveTheme` reads the OUTGOING theme's colors.
+
+/** Read the theme currently applied to the DOM. */
+function readDomTheme(): EffectiveTheme {
+  return document.documentElement.getAttribute("data-bs-theme") === "dark"
+    ? "dark"
+    : "light";
+}
+
+/** Theme currently applied to `<html data-bs-theme>`. */
+const appliedTheme = ref<EffectiveTheme>("light");
+
+let appliedThemeSyncStarted = false;
+
+/**
+ * Sync `appliedTheme` with the DOM attribute (idempotent — the first
+ * useTheme() call starts the observer).  The MutationObserver covers
+ * every writer path: the user-preference overlay flip, system 'auto'
+ * changes, and the initial load.
+ */
+function startAppliedThemeSync(): void {
+  if (appliedThemeSyncStarted) return;
+  appliedThemeSyncStarted = true;
+  appliedTheme.value = readDomTheme();
+  new MutationObserver(() => {
+    appliedTheme.value = readDomTheme();
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-bs-theme"],
+  });
+}
 
 // ---- System theme listener (shared — one global listener) ----
 
@@ -95,12 +135,21 @@ export function useTheme(): {
   preference: Ref<ThemeChoice>;
   /** Resolved theme: 'light' or 'dark' (auto -> system preference). */
   effectiveTheme: Ref<EffectiveTheme>;
+  /**
+   * Theme currently applied to `<html data-bs-theme>`.  Lags
+   * `effectiveTheme` during the 500 ms overlay transition — use this
+   * to read CSS variables / swap theme-dependent assets.
+   */
+  appliedTheme: Ref<EffectiveTheme>;
   /** Directly set the preference and apply it via ui/theme.ts. */
   setPreference: (choice: ThemeChoice) => void;
 } {
   // Per-component: register system theme listener
   onMounted(addSystemListener);
   onUnmounted(removeSystemListener);
+
+  // Start the DOM-attribute sync (idempotent — first call wins).
+  startAppliedThemeSync();
 
   // --- Actions ---
 
@@ -118,5 +167,5 @@ export function useTheme(): {
     applyThemePreference(choice);
   }
 
-  return { preference, effectiveTheme, setPreference };
+  return { preference, effectiveTheme, appliedTheme, setPreference };
 }

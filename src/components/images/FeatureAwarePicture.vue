@@ -65,7 +65,7 @@ const emit = defineEmits<{
 // State
 // =========================================================================
 
-const { effectiveTheme } = useTheme();
+const { appliedTheme } = useTheme();
 const { locale, t } = useI18n();
 const { openPictureViewer } = usePictureViewer();
 
@@ -124,8 +124,11 @@ const followLanguage = computed(() =>
 // Resolved theme / language keys
 // -------------------------------------------------------------------------
 
+// The swap follows `appliedTheme` — the theme actually on the page:
+// it waits for the data-bs-theme flip so the new source appears under
+// the transition overlay, synchronized with the CSS change (v3.18.3).
 const resolvedTheme = computed(() =>
-  followTheme.value ? effectiveTheme.value : "light",
+  followTheme.value ? appliedTheme.value : "light",
 );
 const resolvedLang = computed(() =>
   followLanguage.value ? locale.value : "en",

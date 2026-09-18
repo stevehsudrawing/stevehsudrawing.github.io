@@ -130,7 +130,7 @@ watch(
 );
 
 const { t } = useI18n();
-const { effectiveTheme } = useTheme();
+const { appliedTheme } = useTheme();
 const { openPictureViewer } = usePictureViewer();
 
 // -------------------------------------------------------------------------
@@ -305,7 +305,13 @@ function readActiveSrc(instance: SwiperClass): void {
           String(instance.realIndex),
       ) ?? instance.slides?.[instance.realIndex];
     const img = slideEl?.querySelector("img");
-    luminanceSrc.value = img?.currentSrc || img?.src || null;
+    // Prefer the `src` attribute: it updates synchronously with the
+    // reactive theme/language swap, while `currentSrc` (the browser's
+    // selected source) settles asynchronously — reading it right
+    // after a theme flip returned the OUTGOING variant, so the
+    // luminance ref never changed and the re-detection was skipped
+    // (v3.18.3).
+    luminanceSrc.value = img?.getAttribute("src") || img?.currentSrc || null;
   });
 }
 
@@ -389,8 +395,10 @@ function onAutoplayTimeLeft(
   progressElapsed.value = 1 - percentage;
 }
 
-// Theme switch swaps the follow-theme sources (slide 0) — re-detect.
-watch(effectiveTheme, () => {
+// Theme switch swaps the follow-theme sources (slide 0) — wait for
+// the child DOM patch, then re-detect the new source's luminance.
+watch(appliedTheme, async () => {
+  await nextTick();
   if (swiper.value) readActiveSrc(swiper.value);
 });
 

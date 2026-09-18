@@ -150,6 +150,7 @@
   "text-event-desc-push-plain": "Pushed to %L",
   "text-event-desc-push": "Pushed %1 commits to %L",
   "text-event-desc-watch": "Starred %L",
+  "text-x-activities": "%1 activities",
   "text-x-activities-recently": "%1 activities recently",
 
   "text-available-on-part-1": "Available on ",

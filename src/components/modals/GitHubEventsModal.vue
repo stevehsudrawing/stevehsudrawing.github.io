@@ -222,6 +222,9 @@ const rows = computed<EventRow[]>(() =>
     </ul>
 
     <template #footer>
+      <span class="text-body-secondary small">
+        {{ $t("text-x-activities", [String(events.length)]) }}
+      </span>
       <button
         ref="closeBtnRef"
         type="button"

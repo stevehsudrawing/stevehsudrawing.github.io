@@ -27,7 +27,7 @@ const { visible, props: stackProps } = useStackModal("qr-code");
 const { push, pop } = useModalStack();
 
 const { t } = useI18n();
-const { effectiveTheme } = useTheme();
+const { appliedTheme } = useTheme();
 const { showToast } = useToast();
 
 const qrCanvas = ref<HTMLCanvasElement | null>(null);
@@ -84,11 +84,6 @@ const shareApiSupported = computed(() => {
   return !!navigator.canShare?.({ files: [testFile] });
 });
 
-const qrColors = computed(() => ({
-  dark: cssVar("bs-body-color", "#000000"),
-  light: cssVar("bs-body-bg", "#ffffff"),
-}));
-
 const cardTitle = computed(() => centerIconAlt.value);
 
 // =========================================================================
@@ -99,13 +94,24 @@ const cardTitle = computed(() => centerIconAlt.value);
 // QR code generation
 // -------------------------------------------------------------------------
 
-let prevUrl = "";
+/**
+ * Read the current QR colors fresh from the CSS variables — `cssVar()`
+ * is a snapshot API, so the values must never be cached across a theme
+ * change.
+ * @returns The module color (`bs-body-color`) and background color
+ *   (`bs-body-bg`) for the active theme.
+ */
+function readQrColors(): { dark: string; light: string } {
+  return {
+    dark: cssVar("bs-body-color", "#000000"),
+    light: cssVar("bs-body-bg", "#ffffff"),
+  };
+}
 
 async function generateQR(): Promise<void> {
-  if (!qrCanvas.value || !url.value || url.value === prevUrl) return;
-  prevUrl = url.value;
+  if (!qrCanvas.value || !url.value) return;
 
-  const { dark, light } = qrColors.value;
+  const { dark, light } = readQrColors();
   await QRCode.toCanvas(qrCanvas.value, url.value, {
     width: 250,
     margin: 0,
@@ -114,30 +120,16 @@ async function generateQR(): Promise<void> {
   });
 }
 
-watch(visible, async (v) => {
-  if (v) {
-    await nextTick();
-    await generateQR();
-  }
-});
-
-// Re-generate on theme change.  Read CSS properties directly
-// rather than relying on the qrColors computed — getComputedStyle()
-// is not reactive and the computed cache may be stale.
-// Guard against an empty url: the modal-stack props are retired to
-// null after leaving the top, and QRCode.toCanvas throws on "".
-watch(effectiveTheme, async () => {
-  if (visible.value && qrCanvas.value && url.value) {
-    await nextTick();
-    const dark = cssVar("bs-body-color", "#000000");
-    const light = cssVar("bs-body-bg", "#ffffff");
-    await QRCode.toCanvas(qrCanvas.value, url.value, {
-      width: 250,
-      margin: 0,
-      color: { dark, light },
-      errorCorrectionLevel: "Q",
-    });
-  }
+// Regenerate on open, on URL changes while open, and after the theme
+// actually flips.  `appliedTheme` (not `effectiveTheme`): the 500 ms
+// overlay transition means the CSS variables still hold the OUTGOING
+// theme's colors when effectiveTheme changes.  Guard against an empty
+// url: the modal-stack props are retired to null after leaving the
+// top, and QRCode.toCanvas throws on "".
+watch([visible, url, appliedTheme], async () => {
+  if (!visible.value || !url.value) return;
+  await nextTick();
+  await generateQR();
 });
 
 // -------------------------------------------------------------------------
@@ -155,7 +147,7 @@ async function renderShareCardBlob(): Promise<Blob> {
   const shareCard = document.getElementById("qr-share-card");
   if (!shareCard) throw new Error("Share card element not found");
 
-  const bg = qrColors.value.light;
+  const bg = readQrColors().light;
   const hti = window.htmlToImage as Record<string, unknown>;
   const toPng = hti.toPng as (
     el: HTMLElement,

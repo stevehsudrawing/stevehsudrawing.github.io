@@ -132,6 +132,7 @@
   "text-event-desc-push-plain": "向 %L 推送了提交",
   "text-event-desc-push": "向 %L 推送了 %1 个提交",
   "text-event-desc-watch": "收藏了 %L",
+  "text-x-activities": "共 %1 次活动",
   "text-x-activities-recently": "近期共 %1 次活动",
 
   "text-available-on-part-1": "在",
