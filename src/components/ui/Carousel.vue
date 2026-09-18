@@ -9,8 +9,8 @@
       `picGroupId` prop (picture ids are resolved through the registry)
     - One controls group: play/pause + per-slide countdown bars +
       preview button (expanded on hover / always for keyboard+touch) —
-      the preview opens the single-image lightbox, where the ALT
-      description and the slide's related link live
+      the preview opens the GROUP lightbox, where the ALT description
+      and the slide's related link live
     - Adaptive control color from the active image's edge luminance
 
   Unsupported browsers (Swiper v14 baseline) and a disabled
@@ -30,15 +30,16 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, ref, shallowRef, watch } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import { usePictureGroupViewer } from "../../composables/usePictureGroupViewer";
 import { usePictureList } from "../../composables/usePictureList";
 import { usePictureRegistry } from "../../composables/usePictureRegistry";
-import { usePictureViewer } from "../../composables/usePictureViewer";
 import { useSwiperMode } from "../../composables/useSwiperMode";
 import { useTheme } from "../../composables/useTheme";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type { FeatureAwarePictureProps } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props
@@ -131,7 +132,7 @@ watch(
 
 const { t } = useI18n();
 const { appliedTheme } = useTheme();
-const { openPictureViewer } = usePictureViewer();
+const { openPictureGroupViewer } = usePictureGroupViewer();
 
 // -------------------------------------------------------------------------
 // Pool-driven slides (resolved through the registry)
@@ -279,13 +280,13 @@ function goToSlide(index: number): void {
 }
 
 /**
- * Preview click — open the single-image lightbox for one slide (the
- * active slide from the controls group, the first slide from the static
- * fallback branch).
+ * Preview click — open the GROUP lightbox for the active slide (the
+ * static fallback branch reaches the same viewer through the
+ * picture's `previewGroupId`).
  */
 function onPreviewClick(pictureId: string | null | undefined): void {
   if (!pictureId) return;
-  openPictureViewer(pictureProps(pictureId));
+  openPictureGroupViewer({ picGroupId: props.picGroupId, picId: pictureId });
 }
 
 /**
@@ -460,16 +461,21 @@ watch(swiperEnabled, (enabled) => {
 
     <!-- ==== Controls group (play/pause + bars + preview) ==== -->
     <div class="carousel-controls">
-      <button
-        type="button"
-        class="carousel-play-toggle"
-        :aria-label="
-          isPlaying ? t('text-carousel-pause') : t('text-carousel-play')
-        "
-        @click="togglePlay"
+      <TooltipTrigger
+        :title="isPlaying ? t('text-carousel-pause') : t('text-carousel-play')"
+        teleport
       >
-        <MaterialSymbol :name="isPlaying ? 'pause' : 'play_arrow'" fill />
-      </button>
+        <button
+          type="button"
+          class="carousel-play-toggle"
+          :aria-label="
+            isPlaying ? t('text-carousel-pause') : t('text-carousel-play')
+          "
+          @click="togglePlay"
+        >
+          <MaterialSymbol :name="isPlaying ? 'pause' : 'play_arrow'" fill />
+        </button>
+      </TooltipTrigger>
 
       <div class="carousel-bars">
         <button
@@ -490,14 +496,16 @@ watch(swiperEnabled, (enabled) => {
         </button>
       </div>
 
-      <button
-        type="button"
-        class="carousel-preview-btn"
-        :aria-label="t('text-image-preview')"
-        @click="onPreviewClick(currentSlide)"
-      >
-        <MaterialSymbol name="zoom_in" />
-      </button>
+      <TooltipTrigger :title="t('text-image-preview')" teleport>
+        <button
+          type="button"
+          class="carousel-preview-btn"
+          :aria-label="t('text-image-preview')"
+          @click="onPreviewClick(currentSlide)"
+        >
+          <MaterialSymbol name="zoom_in" />
+        </button>
+      </TooltipTrigger>
     </div>
   </div>
 
@@ -508,6 +516,7 @@ watch(swiperEnabled, (enabled) => {
         v-bind="slideProps(slides[0], 0)"
         show-alt-button
         previewable
+        :preview-group-id="props.picGroupId"
         class="d-block w-100 h-100 no-copy solid-bg"
       />
     </template>

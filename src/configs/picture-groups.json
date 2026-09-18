@@ -14,6 +14,7 @@
         "dataI18n": "text-carousel-illustration-description"
       }
     },
+    "aspectRatio": 1,
     "pages": ["index", "gallery"],
     "contents": [
       "illustration-0",
@@ -37,6 +38,7 @@
         "dataI18n": "text-hero-covers-description"
       }
     },
+    "aspectRatio": 1,
     "pages": ["gallery"],
     "contents": [
       "artworks",
@@ -63,6 +65,7 @@
         "dataI18n": "text-sticker-collections-display-description"
       }
     },
+    "aspectRatio": 0.75,
     "pages": ["gallery"],
     "contents": [
       "sticker-collection-series-1-vol-1",

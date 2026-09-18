@@ -182,6 +182,15 @@ export interface DisplayPictureGroupData {
   /** HAST node for the group description (rendered like LinkCardGroup). */
   description?: HastNode | null;
   /**
+   * Uniform width ÷ height ratio of every picture in the group (e.g.
+   * 1 = square, 0.75 = 3:4 portrait).  The convention requires all
+   * members to share it — `tools/validate-picture-configs.mjs`
+   * enforces the value and each member's registry-ratio consistency.
+   * Consumed by the gallery cards (placeholder reservation) and the
+   * grid layout.
+   */
+  aspectRatio: number;
+  /**
    * Pages that render this group (e.g. `["gallery"]`).  The runtime
    * ignores it; the build filters by it (unknown names are rejected by
    * `tools/validate-picture-configs.mjs`).
@@ -333,6 +342,14 @@ export interface FeatureAwarePictureProps {
    * writes it to `?picId=`), never rendered on the `<img>`.
    */
   pictureId?: string;
+  /**
+   * Owning group lightbox id — when set (with a non-empty
+   * `pictureId`), the preview button opens the GROUP viewer at this
+   * picture instead of the single-image viewer.  A consumer display
+   * key, never part of the registry (a picture may belong to several
+   * groups).
+   */
+  previewGroupId?: string;
 }
 
 // -------------------------------------------------------------------------

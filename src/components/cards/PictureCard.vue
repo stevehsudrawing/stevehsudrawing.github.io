@@ -1,5 +1,5 @@
 <!--
-  PictureCard.vue — Single gallery picture card (masonry item).
+  PictureCard.vue — Single gallery picture card (grid cell).
   Renders a FeatureAwarePicture poster with the preview-only no-copy
   treatment.  The picture's props are resolved through the registry; the
   card supplies the card-layer display keys only.
@@ -9,6 +9,7 @@ import { computed } from "vue";
 import { usePictureRegistry } from "../../composables/usePictureRegistry";
 import type { FeatureAwarePictureProps } from "../../types/app";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props / Emits
@@ -19,6 +20,8 @@ const props = defineProps<{
   pictureId: string;
   /** Owning group id (carried by the `select` event). */
   groupId: string;
+  /** Uniform group ratio — the reserved placeholder box (width ÷ height). */
+  aspectRatio: number;
 }>();
 
 const emit = defineEmits<{
@@ -35,6 +38,7 @@ const { pictureProps } = usePictureRegistry();
 /** Resolved FeatureAwarePicture props (registry + card display keys). */
 const imgProps = computed<FeatureAwarePictureProps>(() =>
   pictureProps(props.pictureId, {
+    aspectRatio: props.aspectRatio,
     loading: "lazy",
     class: "no-copy picture-card-img",
   }),
@@ -42,6 +46,9 @@ const imgProps = computed<FeatureAwarePictureProps>(() =>
 
 /** Alt text (also the figure's aria-label). */
 const alt = computed(() => imgProps.value.alt ?? "");
+
+/** Tooltip title — the resolved picture title; empty hides the tooltip. */
+const titleText = computed(() => imgProps.value.title ?? "");
 
 // =========================================================================
 // Actions
@@ -54,21 +61,48 @@ function onActivate(): void {
 </script>
 
 <template>
-  <figure
-    class="picture-card"
-    role="button"
-    tabindex="0"
-    :aria-label="alt"
-    @click="onActivate"
-    @keydown.enter="onActivate"
-    @keydown.space.prevent="onActivate"
-  >
-    <FeatureAwarePicture v-bind="imgProps" />
-  </figure>
+  <!--
+    The cell div is the grid item.  The b-tooltip directive mounts a
+    host <span> NEXT TO its target (the figure) — as a direct grid
+    child that span claims a cell of its own and leaves every other
+    cell empty (v3.18.4 fix).  The block cell confines it.
+  -->
+  <div class="picture-card-cell">
+    <TooltipTrigger v-if="titleText" :title="titleText">
+      <figure
+        class="picture-card"
+        role="button"
+        tabindex="0"
+        :aria-label="alt"
+        @click="onActivate"
+        @keydown.enter="onActivate"
+        @keydown.space.prevent="onActivate"
+      >
+        <FeatureAwarePicture v-bind="imgProps" />
+      </figure>
+    </TooltipTrigger>
+    <figure
+      v-else
+      class="picture-card"
+      role="button"
+      tabindex="0"
+      :aria-label="alt"
+      @click="onActivate"
+      @keydown.enter="onActivate"
+      @keydown.space.prevent="onActivate"
+    >
+      <FeatureAwarePicture v-bind="imgProps" />
+    </figure>
+  </div>
 </template>
 
 <style scoped>
-/* --- Masonry card --- */
+/* --- Grid cell (confines the tooltip host span; see the template) --- */
+.picture-card-cell {
+  min-width: 0;
+}
+
+/* --- Grid card --- */
 .picture-card {
   margin: 0;
   width: 100%;

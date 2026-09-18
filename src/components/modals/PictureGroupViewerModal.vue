@@ -246,9 +246,23 @@ const title = computed(() =>
 );
 
 /**
- * QR centre icon — resolution: the picture's `relatedLink.icon` (with an
- * id-derived alt) → the default site signature.  NEVER the poster itself
- * (keeps the full artwork out of the share card).
+ * QR share-card title — the picture's resolved title plus the
+ * localized `text-picture` label in HALF-WIDTH parentheses
+ * (`Kato (Picture)` / `Kato (图片)`), in EVERY case (a configured
+ * `relatedLink.icon` included); the icon's own alt no longer feeds the
+ * card.  Falls back to the site name only when the title is empty.
+ */
+const qrTitle = computed(() =>
+  title.value
+    ? `${title.value} (${t("text-picture")})`
+    : t("text-steve-hsu-s-link-hub"),
+);
+
+/**
+ * QR centre icon — resolution: the picture's `relatedLink.icon` → the
+ * default site signature.  NEVER the poster itself (keeps the full
+ * artwork out of the share card).  The share-card title travels as the
+ * icon's alt (computed in `qrTitle`).
  */
 const qrIcon = computed<TypeAwareImageProps>(() => {
   const pictureId = current.value;
@@ -259,18 +273,12 @@ const qrIcon = computed<TypeAwareImageProps>(() => {
     if (configured.type === "picture") {
       return {
         type: "picture",
-        imgProps: {
-          ...configured.imgProps,
-          alt: configured.imgProps.alt ?? t(`text-${pictureId}-title`),
-        },
+        imgProps: { ...configured.imgProps, alt: qrTitle.value },
       };
     }
     return {
       type: "colored-img",
-      imgProps: {
-        ...configured.imgProps,
-        alt: configured.imgProps.alt ?? t(`text-${pictureId}-title`),
-      },
+      imgProps: { ...configured.imgProps, alt: qrTitle.value },
     };
   }
   // Default icon: site signature.
@@ -279,7 +287,7 @@ const qrIcon = computed<TypeAwareImageProps>(() => {
     imgProps: {
       src: "/images/webp/icons/steve-hsu.webp",
       colorVar: "bs-primary",
-      alt: t("text-steve-hsu"),
+      alt: qrTitle.value,
     },
   };
 });

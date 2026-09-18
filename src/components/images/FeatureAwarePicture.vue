@@ -23,7 +23,7 @@
   opening a BPopover with the picture title (falling back to the generic
   description label), the image description and the optional `message`
   as its secondary line, and a preview button opening the single-image
-  viewer.  `relatedLink` is carried for the lightboxes only; `message`
+  viewer (or the GROUP viewer when `previewGroupId` is set, v3.18.4).  `relatedLink` is carried for the lightboxes only; `message`
   renders only in the ALT popover.
 
   Failure handling: a failed image keeps the neutral plate
@@ -37,6 +37,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import { usePictureGroupViewer } from "../../composables/usePictureGroupViewer";
 import { usePictureViewer } from "../../composables/usePictureViewer";
 import { useTheme } from "../../composables/useTheme";
 import { resolveLanguageAwareString } from "../../core/utils";
@@ -47,6 +48,7 @@ import type {
   ThemeAwareImgSrcMap,
 } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Props
@@ -68,6 +70,7 @@ const emit = defineEmits<{
 const { appliedTheme } = useTheme();
 const { locale, t } = useI18n();
 const { openPictureViewer } = usePictureViewer();
+const { openPictureGroupViewer } = usePictureGroupViewer();
 
 const loaded = ref(false);
 const failed = ref(false);
@@ -240,8 +243,19 @@ function sampleBottomLuminance(): void {
   });
 }
 
-/** Preview button click — open the single-image viewer with these props. */
+/**
+ * Preview button click — the GROUP viewer when `previewGroupId` +
+ * `pictureId` are set (a browsable group), the single-image viewer with
+ * these props otherwise.
+ */
 function onPreviewClick(): void {
+  if (props.previewGroupId && props.pictureId) {
+    openPictureGroupViewer({
+      picGroupId: props.previewGroupId,
+      picId: props.pictureId,
+    });
+    return;
+  }
   openPictureViewer({ ...props });
 }
 
@@ -357,15 +371,20 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
           <i>{{ message }}</i>
         </div>
       </BPopover>
-      <button
+      <TooltipTrigger
         v-if="previewable && !failed"
-        type="button"
-        class="picture-overlay-btn picture-overlay-btn-preview"
-        :aria-label="t('text-image-preview')"
-        @click="onPreviewClick"
+        :title="t('text-image-preview')"
+        teleport
       >
-        <MaterialSymbol name="zoom_in" />
-      </button>
+        <button
+          type="button"
+          class="picture-overlay-btn picture-overlay-btn-preview"
+          :aria-label="t('text-image-preview')"
+          @click="onPreviewClick"
+        >
+          <MaterialSymbol name="zoom_in" />
+        </button>
+      </TooltipTrigger>
     </div>
 
     <!-- ==== Failure badge (decorative — the alt text carries the
