@@ -7,6 +7,11 @@
  *
  * Deduplication: IssuesEvent with action "labeled" is skipped because
  * an "opened" event for the same issue is always present in the feed.
+ *
+ * Windowing: the feed is trimmed to the last 30 days client-side — the
+ * Events API has no date parameter and can return stale entries despite
+ * its documented 30-day window (a 2-year-old `PublicEvent` appeared in
+ * the 2026-09-19 response).
  */
 
 import { computed, type ComputedRef } from "vue";
@@ -24,12 +29,42 @@ import { useGithubApi, type GithubApiState } from "./useGithubApi";
 // Constants
 // =========================================================================
 
-/** GitHub Events API endpoint for the site owner. */
+/**
+ * GitHub Events API endpoint for the site owner.
+ *
+ * The Events API accepts NO date parameter (only `per_page` / `page`),
+ * so the rolling 30-day window is re-applied client-side — see
+ * `filterRecentEvents()`.
+ */
 const EVENTS_URL = `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=100`;
+
+/** Rolling activity window surfaced across the site (days). */
+const ACTIVITY_WINDOW_DAYS = 30;
+
+/** Rolling activity window (milliseconds). */
+const ACTIVITY_WINDOW_MS = ACTIVITY_WINDOW_DAYS * 24 * 60 * 60 * 1000;
 
 // =========================================================================
 // Helpers
 // =========================================================================
+
+/**
+ * Trim an events feed to the rolling activity window.
+ *
+ * The Events API documents a 30-day window, yet real responses can
+ * carry stale entries, so the window is enforced client-side. Events
+ * with a missing or unparseable `created_at` are dropped.
+ *
+ * @param events - Raw events from the Events API.
+ * @returns The events created within the last {@link ACTIVITY_WINDOW_DAYS} days.
+ */
+function filterRecentEvents(events: GitHubEvent[]): GitHubEvent[] {
+  const threshold = Date.now() - ACTIVITY_WINDOW_MS;
+  return events.filter((event) => {
+    const timestamp = Date.parse(event.created_at);
+    return !Number.isNaN(timestamp) && timestamp >= threshold;
+  });
+}
 
 /**
  * Map a GitHub event type string to its i18n key.
@@ -78,6 +113,10 @@ export function eventTypeIcon(eventType: string): IconName {
 /**
  * Reactive GitHub events with computed activity statistics.
  *
+ * The returned `events` ref is the raw API feed trimmed to the last
+ * {@link ACTIVITY_WINDOW_DAYS} days; both computed stat sets derive
+ * from it.
+ *
  * @returns Shared reactive state — events array, computed stats,
  *          loading/error flags, and a refresh trigger.
  *
@@ -86,8 +125,9 @@ export function eventTypeIcon(eventType: string): IconName {
  * // stats.value → [{ eventType: "PushEvent", count: 20, percentage: 67 }, ...]
  */
 export function useGithubActivity(): {
-  /** Raw events from the API (or null if not yet fetched). */
-  events: GithubApiState<GitHubEvent[]>["data"];
+  /** Events of the last 30 days — the raw feed trimmed to the
+   *  rolling window, or null if not yet fetched. */
+  events: ComputedRef<GitHubEvent[] | null>;
   /** Aggregated stats sorted by count descending. */
   stats: ComputedRef<ActivityStat[]>;
   /** Daily event counts for line chart (sorted by date ascending). */
@@ -100,11 +140,16 @@ export function useGithubActivity(): {
   refresh: GithubApiState<GitHubEvent[]>["refresh"];
 } {
   const {
-    data: events,
+    data: rawEvents,
     isLoading,
     error,
     refresh,
   } = useGithubApi<GitHubEvent[]>(EVENTS_URL, GITHUB_EVENTS_CACHE);
+
+  // Public events ref — the raw feed trimmed to the rolling window
+  const events = computed<GitHubEvent[] | null>(() =>
+    rawEvents.value === null ? null : filterRecentEvents(rawEvents.value),
+  );
 
   const stats = computed<ActivityStat[]>(() => {
     if (!events.value || events.value.length === 0) return [];

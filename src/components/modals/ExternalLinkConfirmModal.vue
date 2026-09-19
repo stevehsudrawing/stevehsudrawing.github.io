@@ -143,7 +143,7 @@ function showQR(): void {
           <button
             v-if="!hideQRButton"
             type="button"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-show-qr-code')"
             @click="showQR"
           >
@@ -152,26 +152,28 @@ function showQR(): void {
         </TooltipTrigger>
         <CopyButton
           tag="button"
-          class="btn btn-outline-primary btn-no-border me-auto"
+          class="btn btn-same-padding btn-outline-primary btn-no-border"
           :copy-text="url"
         >
           <MaterialSymbol name="content_copy" />
         </CopyButton>
-        <button
-          type="button"
-          class="btn btn-outline-secondary btn-no-border"
-          @click="pop()"
-        >
-          {{ $t("text-cancel") }}
-        </button>
-        <button
-          ref="openBtnRef"
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          @click="confirm"
-        >
-          {{ $t("text-open") }}
-        </button>
+        <div class="ms-auto">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-no-border"
+            @click="pop()"
+          >
+            {{ $t("text-cancel") }}
+          </button>
+          <button
+            ref="openBtnRef"
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            @click="confirm"
+          >
+            {{ $t("text-open") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>

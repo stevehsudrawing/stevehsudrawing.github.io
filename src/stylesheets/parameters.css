@@ -27,6 +27,7 @@
   --shlh-backdrop-opacity: 0.75;
   --shlh-dim-opacity: 0.5;
   --shlh-loading-opacity: 0.5;
+  --shlh-changelog-timeline-opacity: 0.5;
 
   /* Alphas */
   --shlh-shimmer-alpha: 0.08;

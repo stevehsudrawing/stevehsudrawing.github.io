@@ -32,6 +32,7 @@ export const ICON_NAMES = [
   "expand_more",
   "format_paragraph",
   "forum",
+  "history",
   "info",
   "keyboard_arrow_down",
   "language",

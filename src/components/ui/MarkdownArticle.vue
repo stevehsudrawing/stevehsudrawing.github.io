@@ -2,8 +2,8 @@
   MarkdownArticle.vue — Reusable markdown renderer with built-in scrollspy.
 
   Accepts a raw markdown string via the `content` prop and renders it through
-  a full HAST post-processing pipeline (marked -> fromHtml -> process ->
-  HastFragment), then displays the result alongside a desktop sidebar
+  a full HAST post-processing pipeline (the shared `markdownToHast()` ->
+  process -> HastFragment), then displays the result alongside a desktop sidebar
   scrollspy and a mobile sticky collapsible heading nav.
 
   Markdown headings (h2–h6) are replaced with `<section-heading>` HAST
@@ -17,10 +17,9 @@
 -->
 <script setup lang="ts">
 import { BCol, BRow } from "bootstrap-vue-next";
-import { fromHtml } from "hast-util-from-html";
-import { marked } from "marked";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useBreakpoint } from "../../composables/useBreakpoint";
+import { markdownToHast } from "../../core/markdown";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import type { HastNode } from "../../types/hast";
@@ -158,8 +157,7 @@ function processHastNode(node: HastNode): void {
 const hastChildren = computed<HastNode[]>(() => {
   headings.value = [];
   if (!props.content) return [];
-  const html = marked.parse(props.content) as string;
-  const root = fromHtml(html, { fragment: true }) as unknown as HastNode;
+  const root = markdownToHast(props.content);
   processHastNode(root);
   return root.children ?? [];
 });

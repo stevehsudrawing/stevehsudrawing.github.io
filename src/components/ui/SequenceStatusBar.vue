@@ -81,7 +81,7 @@ onScopeDispose(() => {
     >
       <div class="container">
         <code
-          class="code-no-bg sequence-status-message"
+          class="font-monospace sequence-status-message"
           :class="{
             'text-danger': status === 'error',
             'text-success': status === 'success',

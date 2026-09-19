@@ -2,11 +2,14 @@
   FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
+import { useModalStack } from "../../composables/useModalStack";
 import { BASE_URL, GITHUB_REPO } from "../../configs/site-meta.js";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+
+const { push } = useModalStack();
 </script>
 
 <template>
@@ -57,7 +60,7 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
           <span>{{ $t("text-powered-by-part-2") }}</span>
         </div>
 
-        <!-- ==== Issue + Share ==== -->
+        <!-- ==== Issue + Changelog + Share ==== -->
         <div class="ms-auto">
           <TypeAwareLink
             class="text-nowrap me-2"
@@ -67,6 +70,17 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
           >
             {{ $t("text-report-an-issue") }}
           </TypeAwareLink>
+          <TooltipTrigger :title="$t('text-changelog')">
+            <a
+              href="javascript:void(0)"
+              role="button"
+              class="text-decoration-none me-2"
+              :aria-label="$t('text-changelog')"
+              @click="push({ id: 'changelog', props: null })"
+            >
+              <MaterialSymbol name="history" />
+            </a>
+          </TooltipTrigger>
           <QRCodeButton
             class="me-2"
             :url="BASE_URL"

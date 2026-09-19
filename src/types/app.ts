@@ -36,7 +36,8 @@ export const enum StorageKey {
   /** Cached GitHub user profile data (JSON-serialized CacheEntry<GitHubUser>). */
   GithubProfile = "githubProfile",
   /** Cached GitHub events data (JSON-serialized CacheEntry<GitHubEvent[]>). */
-  GithubEvents = "githubEvents",
+  GithubEvents = "githubEvents" /** Cached GitHub commits data (JSON-serialized CacheEntry<GitHubCommit[]>). */,
+  GithubCommits = "githubCommits",
 }
 
 // =========================================================================
@@ -470,6 +471,34 @@ export interface GitHubEvent {
   };
 }
 
+/**
+ * A single commit from the GitHub Commits API
+ * (GET /repos/{owner}/{repo}/commits).  Only the consumed subset.
+ */
+export interface GitHubCommit {
+  /** Full commit SHA. */
+  sha: string;
+  /** URL of the commit page on GitHub. */
+  html_url: string;
+  /** Commit payload — message and authoring date. */
+  commit: {
+    /** Raw commit message (title line + optional body). */
+    message: string;
+    /** Author metadata. */
+    author: {
+      /** Author name. */
+      name: string;
+      /** ISO 8601 authoring timestamp. */
+      date: string;
+    };
+  };
+  /** GitHub user (null when the authoring email maps to no account). */
+  author: {
+    /** GitHub login. */
+    login: string;
+  } | null;
+}
+
 /** Aggregated count for a single GitHub event type (used by bar chart). */
 export interface ActivityStat {
   /** Raw event type string from the API (e.g. "PushEvent"). */
@@ -564,12 +593,13 @@ export type ModalId =
   | "picture-viewer"
   | "settings"
   | "reset-warning"
-  | "sticker";
+  | "sticker"
+  | "changelog";
 
 /**
  * Modal stack entry — discriminated union keyed by `id`.
  * Narrowing `item.id` also narrows `item.props`.
- * `settings` and `reset-warning` are prop-less.
+ * `settings`, `reset-warning` and `changelog` are prop-less.
  */
 export type ModalStackItem =
   | { id: "external-link"; props: ExternalLinkConfirmModalProps }
@@ -579,7 +609,8 @@ export type ModalStackItem =
   | { id: "picture-viewer"; props: PictureViewerModalProps }
   | { id: "settings"; props: null }
   | { id: "reset-warning"; props: null }
-  | { id: "sticker"; props: StickerModalProps | null };
+  | { id: "sticker"; props: StickerModalProps | null }
+  | { id: "changelog"; props: null };
 
 // =========================================================================
 // Provide / inject keys (cross-component communication)

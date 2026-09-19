@@ -235,7 +235,7 @@ function openResetWarning(): void {
 
     <!-- Reset confirmation: pushed onto the stack by openResetWarning() -->
     <template #footer>
-      <div class="w-100 d-flex justify-content-between">
+      <div class="w-100 d-flex">
         <button
           type="button"
           class="btn btn-outline-danger btn-no-border"
@@ -243,13 +243,15 @@ function openResetWarning(): void {
         >
           {{ $t("text-reset") }}
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          @click="pop()"
-        >
-          {{ $t("text-close") }}
-        </button>
+        <div class="ms-auto">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            @click="pop()"
+          >
+            {{ $t("text-close") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>

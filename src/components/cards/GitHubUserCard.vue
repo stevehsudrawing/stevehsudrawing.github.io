@@ -116,7 +116,7 @@ const statsText = computed(() => {
             >
               <InlineSvg
                 src="/images/svg/icons/github.svg"
-                class="github-mark me-1"
+                class="github-mark"
               />
               <span>{{ $t("text-view-profile") }}</span>
             </TypeAwareLink>
@@ -181,13 +181,13 @@ const statsText = computed(() => {
               >
                 <InlineSvg
                   src="/images/svg/icons/github.svg"
-                  class="github-mark me-1"
+                  class="github-mark"
                 />
                 <span>{{ $t("text-view-profile") }}</span>
               </TypeAwareLink>
               <TooltipTrigger :title="$t('text-more-information')" teleport>
                 <TypeAwareLink
-                  class="btn btn-outline-secondary btn-sm"
+                  class="btn btn-same-padding btn-outline-secondary btn-sm"
                   type="internal"
                   href="/softwares.html#my-github-profile"
                 >

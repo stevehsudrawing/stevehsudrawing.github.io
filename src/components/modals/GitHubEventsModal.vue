@@ -6,7 +6,6 @@
   auto-hiding this modal; Cancel pops back.
 -->
 <script setup lang="ts">
-import { formatDistanceToNow } from "date-fns";
 import { computed, ref } from "vue";
 import {
   eventTypeI18nKey,
@@ -15,7 +14,7 @@ import {
 import { useI18n } from "../../composables/useI18n";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { DATE_LOCALES } from "../../configs/language-list";
+import { formatAbsoluteTime, formatRelativeTime } from "../../core/time";
 import type { GitHubEvent } from "../../types/app";
 import type { IconName } from "../../types/icons";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
@@ -140,14 +139,6 @@ function linkTarget(ev: GitHubEvent): { href: string; text: string } {
   };
 }
 
-/** Relative time text in the current language (e.g. "2 hours ago"). */
-function relativeTime(iso: string): string {
-  return formatDistanceToNow(new Date(iso), {
-    addSuffix: true,
-    locale: DATE_LOCALES[locale.value],
-  });
-}
-
 // ---- Row model (computed for the template) ----
 
 interface EventRow {
@@ -157,7 +148,10 @@ interface EventRow {
   suffix: string;
   linkHref: string;
   linkText: string;
+  /** Relative time (surface text). */
   timeText: string;
+  /** Absolute localized time (tooltip). */
+  absoluteTime: string;
 }
 
 const rows = computed<EventRow[]>(() =>
@@ -171,7 +165,8 @@ const rows = computed<EventRow[]>(() =>
       suffix,
       linkHref: href,
       linkText: text,
-      timeText: relativeTime(ev.created_at),
+      timeText: formatRelativeTime(ev.created_at, locale.value),
+      absoluteTime: formatAbsoluteTime(ev.created_at, locale.value),
     };
   }),
 );
@@ -183,6 +178,7 @@ const rows = computed<EventRow[]>(() =>
     :title="title"
     header-class="h5 modal-title"
     title-tag="span"
+    size="lg"
     no-header-close
     centered
     hide-footer
@@ -213,11 +209,13 @@ const rows = computed<EventRow[]>(() =>
           </TooltipTrigger>
           <span v-if="row.suffix" class="flex-shrink-0">{{ row.suffix }}</span>
         </div>
-        <span
-          class="text-body-secondary small text-nowrap flex-shrink-0 time-text"
-        >
-          {{ row.timeText }}
-        </span>
+        <TooltipTrigger :title="row.absoluteTime" teleport>
+          <span
+            class="text-body-secondary small text-nowrap flex-shrink-0 time-text"
+          >
+            {{ row.timeText }}
+          </span>
+        </TooltipTrigger>
       </li>
     </ul>
 
@@ -225,14 +223,16 @@ const rows = computed<EventRow[]>(() =>
       <span class="text-body-secondary small">
         {{ $t("text-x-activities", [String(events.length)]) }}
       </span>
-      <button
-        ref="closeBtnRef"
-        type="button"
-        class="btn btn-outline-primary btn-no-border ms-auto"
-        @click="pop()"
-      >
-        {{ $t("text-close") }}
-      </button>
+      <div class="ms-auto">
+        <button
+          ref="closeBtnRef"
+          type="button"
+          class="btn btn-outline-primary btn-no-border ms-auto"
+          @click="pop()"
+        >
+          {{ $t("text-close") }}
+        </button>
+      </div>
     </template>
   </BModal>
 </template>

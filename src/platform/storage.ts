@@ -14,7 +14,13 @@
  */
 
 import { DEFAULT_LANG, LANGUAGE_LIST } from "../configs/language-list";
-import type { GitHubEvent, GitHubUser, Lang, ThemeChoice } from "../types/app";
+import type {
+  GitHubCommit,
+  GitHubEvent,
+  GitHubUser,
+  Lang,
+  ThemeChoice,
+} from "../types/app";
 import { StorageKey } from "../types/app";
 
 // =========================================================================
@@ -188,5 +194,15 @@ export const GITHUB_EVENTS_CACHE: GithubCacheAccessor<GitHubEvent[]> = {
     readCacheEntry<GitHubEvent[]>(StorageKey.GithubEvents),
   write: (data: GitHubEvent[]): void => {
     writeCacheEntry(StorageKey.GithubEvents, data);
+  },
+};
+
+/** GitHub commits cache accessor for useGithubApi(). */
+export const GITHUB_COMMITS_CACHE: GithubCacheAccessor<GitHubCommit[]> = {
+  key: StorageKey.GithubCommits,
+  read: (): CacheEntry<GitHubCommit[]> | null =>
+    readCacheEntry<GitHubCommit[]>(StorageKey.GithubCommits),
+  write: (data: GitHubCommit[]): void => {
+    writeCacheEntry(StorageKey.GithubCommits, data);
   },
 };

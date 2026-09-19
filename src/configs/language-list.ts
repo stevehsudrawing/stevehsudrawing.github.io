@@ -65,3 +65,13 @@ export const LONG_DATE_FORMATS: Record<Lang, string> = {
   "zh-Hans": "yyyy年M月d日",
   "zh-Hant": "yyyy年M月d日",
 };
+
+/**
+ * Absolute date-time per language — relative-time tooltips (changelog
+ * and event rows are hour-granular, so the clock time is included).
+ */
+export const DATETIME_FORMATS: Record<Lang, string> = {
+  en: "MMM d, yyyy HH:mm",
+  "zh-Hans": "yyyy年M月d日 HH:mm",
+  "zh-Hant": "yyyy年M月d日 HH:mm",
+};

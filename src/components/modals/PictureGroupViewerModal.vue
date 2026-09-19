@@ -619,7 +619,7 @@ onBeforeUnmount(() => {
         <TooltipTrigger :title="t('text-share')">
           <button
             type="button"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-share')"
             @click="showQR"
           >
@@ -630,7 +630,7 @@ onBeforeUnmount(() => {
           <TypeAwareLink
             v-if="relatedLink"
             v-bind="relatedLink"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-open-related-page')"
             hide-indicator
             @click="onRelatedLinkClick()"

@@ -102,8 +102,8 @@ const message = computed(() => t(`text-sticker-${stickerId.value}-message`));
   <BModal
     v-model="visible"
     :title="STICKER_MODAL_TITLE"
-    header-class="sticker-modal-header code"
-    title-class="code-no-bg"
+    header-class="sticker-modal-header"
+    title-class="font-monospace"
     title-tag="code"
     no-header-close
     centered
@@ -125,15 +125,17 @@ const message = computed(() => t(`text-sticker-${stickerId.value}-message`));
     </div>
 
     <template #footer>
-      <div class="w-100 d-flex justify-content-end">
-        <button
-          ref="closeBtnRef"
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          @click="pop()"
-        >
-          {{ $t("text-close") }}
-        </button>
+      <div class="w-100 d-flex">
+        <div class="ms-auto">
+          <button
+            ref="closeBtnRef"
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            @click="pop()"
+          >
+            {{ $t("text-close") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>

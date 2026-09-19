@@ -125,7 +125,7 @@ function onMajorColorClick(event: Event): void {
                   style="color: #47c4ee"
                 >
                   <MaterialSymbol name="square" fill />
-                  <code class="code-no-bg">#47c4ee</code>
+                  <span class="font-monospace">#47c4ee</span>
                   <MaterialSymbol name="content_copy" />
                 </CopyButton> </span
               >,&nbsp;
@@ -136,7 +136,7 @@ function onMajorColorClick(event: Event): void {
                   style="color: #3c96ff"
                 >
                   <MaterialSymbol name="square" fill />
-                  <code class="code-no-bg">#3c96ff</code>
+                  <span class="font-monospace">#3c96ff</span>
                   <MaterialSymbol name="content_copy" />
                 </CopyButton>
               </span>

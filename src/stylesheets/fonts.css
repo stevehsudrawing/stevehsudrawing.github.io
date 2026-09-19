@@ -78,72 +78,50 @@
   font-size: 1.1em;
 }
 
-/* --- Body --- */
+/* --- Variable Overrides --- */
 
-body {
-  font-family:
+/* The per-language stacks are injected by overriding Bootstrap's
+   custom properties — never by writing `body` / `code` selector
+   rules.  Overrides MUST target the ROOT element (compound
+   `:root[lang="…"]`, never a descendant form like
+   `html[lang="…"] :root`): `:root` is the `<html>` element itself,
+   and Bootstrap resolves `--bs-body-font-family` /
+   `--bs-code-font-family` on the root, so a descendant override
+   would never re-substitute. */
+
+/* English */
+:root {
+  --bs-font-sans-serif:
     var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-ja),
+    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji);
+  --bs-font-monospace:
+    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-ja),
+    var(--shlh-font-monospace-system), var(--shlh-font-sans-serif-en),
     var(--shlh-font-sans-serif-system), var(--shlh-font-emoji);
 }
 
-html[lang="zh-Hans"] > body {
-  font-family:
+/* Chinese (Simplified) */
+:root[lang="zh-Hans"] {
+  --bs-font-sans-serif:
     var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-zh-Hans),
     var(--shlh-font-sans-serif-ja), var(--shlh-font-sans-serif-system),
     var(--shlh-font-emoji);
-}
-
-html[lang="zh-Hant"] > body {
-  font-family:
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-zh-Hant),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-sans-serif-system),
+  --bs-font-monospace:
+    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hans),
+    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
+    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
     var(--shlh-font-emoji);
 }
 
-/* --- Code --- */
-
-code {
-  font-family:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-ja),
-    var(--shlh-font-monospace-system), var(--shlh-font-sans-serif-en),
-    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji) !important;
-}
-
-html[lang="zh-Hans"] code {
-  font-family:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hans),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji) !important;
-}
-
-html[lang="zh-Hant"] code {
-  font-family:
+/* Chinese (Traditional) */
+:root[lang="zh-Hant"] {
+  --bs-font-sans-serif:
+    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-zh-Hant),
+    var(--shlh-font-sans-serif-ja), var(--shlh-font-sans-serif-system),
+    var(--shlh-font-emoji);
+  --bs-font-monospace:
     var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hant),
     var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
     var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji) !important;
-}
-
-.code {
-  font-family:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-ja),
-    var(--shlh-font-monospace-system), var(--shlh-font-sans-serif-en),
-    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji) !important;
-}
-
-html[lang="zh-Hans"] .code {
-  font-family:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hans),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji) !important;
-}
-
-html[lang="zh-Hant"] .code {
-  font-family:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hant),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji) !important;
+    var(--shlh-font-emoji);
 }

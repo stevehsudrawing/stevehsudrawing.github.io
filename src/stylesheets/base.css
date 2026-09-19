@@ -87,16 +87,12 @@ ruby {
 }
 
 code {
-  font-size: inherit;
+  font-size: 0.9em;
+  padding: 0.05em 0.1em;
   word-break: break-all;
   color: inherit;
   background-color: var(--bs-tertiary-bg);
   outline: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
-}
-
-.code-no-bg {
-  background-color: transparent;
-  outline: none;
 }
 
 /* ========================================================================
@@ -322,6 +318,10 @@ h6,
 
 .btn-no-border {
   --bs-btn-border-width: 0;
+}
+
+.btn-same-padding {
+  --bs-btn-padding-x: var(--bs-btn-padding-y);
 }
 
 .larger-link {

@@ -7,6 +7,10 @@
   cloneVNode + withDirectives.  Shows on hover AND keyboard focus
   (focusin / focusout), so tooltips stay reachable without a mouse.
 
+  The first slot child MUST be an ELEMENT (a plain element or a
+  component with a single element root) — the directive binds to a DOM
+  node, so a bare text child attaches nothing silently.
+
   Usage:
   ```vue
   <TooltipTrigger :title="$t('text-settings')">

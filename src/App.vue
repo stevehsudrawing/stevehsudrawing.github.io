@@ -24,6 +24,7 @@ import { SHOW_TOAST_KEY } from "./composables/useToast";
 
 // UI components (template refs)
 import SkipButton from "./components/buttons/SkipButton.vue";
+import ChangelogModal from "./components/modals/ChangelogModal.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
 import GitHubEventsModal from "./components/modals/GitHubEventsModal.vue";
 import PictureGroupViewerModal from "./components/modals/PictureGroupViewerModal.vue";
@@ -287,5 +288,6 @@ onMounted(async () => {
   <PictureGroupViewerModal />
   <PictureViewerModal />
   <StickerModal />
+  <ChangelogModal />
   <ToastStack ref="toastStackRef" />
 </template>

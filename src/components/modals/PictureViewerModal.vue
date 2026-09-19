@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
           <TypeAwareLink
             v-if="relatedLink"
             v-bind="relatedLink"
-            class="btn btn-outline-primary btn-no-border me-auto"
+            class="btn btn-same-padding btn-outline-primary btn-no-border me-auto"
             :aria-label="$t('text-open-related-page')"
             @click="onRelatedLinkClick()"
             hide-indicator
@@ -157,13 +157,15 @@ onBeforeUnmount(() => {
             <MaterialSymbol name="open_in_new" />
           </TypeAwareLink>
         </TooltipTrigger>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-no-border ms-auto"
-          @click="close()"
-        >
-          {{ $t("text-close") }}
-        </button>
+        <div class="ms-auto">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border ms-auto"
+            @click="close()"
+          >
+            {{ $t("text-close") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>

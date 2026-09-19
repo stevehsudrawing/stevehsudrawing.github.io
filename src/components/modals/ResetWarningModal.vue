@@ -84,22 +84,24 @@ function resetAll(): void {
     </p>
 
     <template #footer>
-      <div class="w-100 d-flex justify-content-between">
-        <button
-          ref="cancelBtnRef"
-          type="button"
-          class="btn btn-outline-secondary btn-no-border"
-          @click="pop()"
-        >
-          {{ $t("text-cancel") }}
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger btn-no-border"
-          @click="resetAll()"
-        >
-          {{ $t("text-continue") }}
-        </button>
+      <div class="w-100 d-flex">
+        <div class="ms-auto">
+          <button
+            ref="cancelBtnRef"
+            type="button"
+            class="btn btn-outline-secondary btn-no-border"
+            @click="pop()"
+          >
+            {{ $t("text-cancel") }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-no-border"
+            @click="resetAll()"
+          >
+            {{ $t("text-continue") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>

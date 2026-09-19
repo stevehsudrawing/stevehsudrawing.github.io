@@ -296,14 +296,16 @@ function openLink(): void {
           </span>
         </div>
 
-        <code class="code-no-bg qr-code-link mt-2 mb-0 d-block">{{ url }}</code>
+        <span class="font-monospace qr-code-link mt-2 mb-0 d-block">{{
+          url
+        }}</span>
 
         <div id="qr-share-card-footer">
           <div id="qr-share-card-footer-text">
             <span>{{ $t("text-learn-more-about-me") }}</span>
-            <code id="qr-share-card-source" class="code-no-bg">{{
+            <span id="qr-share-card-source" class="font-monospace">{{
               BASE_URL
-            }}</code>
+            }}</span>
           </div>
           <div id="qr-share-card-logo-container">
             <InlineSvg
@@ -324,7 +326,7 @@ function openLink(): void {
           <button
             v-if="!isInternal && !hideOpenLink"
             type="button"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-open')"
             @click="openLink"
           >
@@ -335,7 +337,7 @@ function openLink(): void {
           <button
             v-if="shareApiSupported"
             type="button"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-share')"
             @click="shareImage()"
             :disabled="buttonsDisabled"
@@ -346,7 +348,7 @@ function openLink(): void {
         <TooltipTrigger :title="t('text-download')">
           <button
             type="button"
-            class="btn btn-outline-primary btn-no-border"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-download')"
             @click="downloadPNG()"
             :disabled="buttonsDisabled"
@@ -357,7 +359,7 @@ function openLink(): void {
         <TooltipTrigger :title="t('text-copy')">
           <button
             type="button"
-            class="btn btn-outline-primary btn-no-border me-auto"
+            class="btn btn-same-padding btn-outline-primary btn-no-border me-auto"
             :aria-label="$t('text-copy')"
             @click="copyImage()"
             :disabled="buttonsDisabled"
@@ -365,13 +367,15 @@ function openLink(): void {
             <MaterialSymbol name="content_copy" />
           </button>
         </TooltipTrigger>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          @click="pop()"
-        >
-          {{ $t("text-close") }}
-        </button>
+        <div class="ms-auto">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            @click="pop()"
+          >
+            {{ $t("text-close") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>
@@ -380,7 +384,8 @@ function openLink(): void {
 <style scoped>
 /* --- QR share card (captured by html-to-image for PNG export) --- */
 .qr-code-link {
-  font-size: 12.8px;
+  font-size: 12.9px;
+  word-break: break-all;
 }
 
 #qr-share-card {
