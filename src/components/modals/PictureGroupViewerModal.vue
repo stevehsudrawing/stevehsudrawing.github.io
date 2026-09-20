@@ -34,6 +34,7 @@ import { setSwipeTrackingEnabled } from "../../composables/useGesture";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { usePictureRegistry } from "../../composables/usePictureRegistry";
+import { useQRCodeModal } from "../../composables/useQRCodeModal";
 import { useSwiperMode } from "../../composables/useSwiperMode";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
 import { isImageEdgeDark } from "../../platform/image-luminance";
@@ -52,7 +53,8 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 // =========================================================================
 
 const { visible, props: stackProps } = useStackModal("picture-group-viewer");
-const { push, pop, clear } = useModalStack();
+const { pop, clear } = useModalStack();
+const { openQRCodeModal } = useQRCodeModal();
 
 const { t } = useI18n();
 const route = useRoute();
@@ -378,13 +380,10 @@ function onSlideChange(instance: SwiperClass): void {
 }
 
 function showQR(): void {
-  push({
-    id: "qr-code",
-    props: {
-      url: shareUrl.value,
-      icon: qrIcon.value,
-      hideOpenLink: true,
-    },
+  openQRCodeModal({
+    url: shareUrl.value,
+    icon: qrIcon.value,
+    hideOpenLink: true,
   });
 }
 

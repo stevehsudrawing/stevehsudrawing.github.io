@@ -20,7 +20,7 @@ import { GITHUB_EVENTS_CACHE } from "../platform/storage";
 import {
   type ActivityStat,
   type DailyStat,
-  type GitHubEvent,
+  type GithubEvent,
 } from "../types/app";
 import type { IconName } from "../types/icons";
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
@@ -58,7 +58,7 @@ const ACTIVITY_WINDOW_MS = ACTIVITY_WINDOW_DAYS * 24 * 60 * 60 * 1000;
  * @param events - Raw events from the Events API.
  * @returns The events created within the last {@link ACTIVITY_WINDOW_DAYS} days.
  */
-function filterRecentEvents(events: GitHubEvent[]): GitHubEvent[] {
+function filterRecentEvents(events: GithubEvent[]): GithubEvent[] {
   const threshold = Date.now() - ACTIVITY_WINDOW_MS;
   return events.filter((event) => {
     const timestamp = Date.parse(event.created_at);
@@ -127,27 +127,27 @@ export function eventTypeIcon(eventType: string): IconName {
 export function useGithubActivity(): {
   /** Events of the last 30 days — the raw feed trimmed to the
    *  rolling window, or null if not yet fetched. */
-  events: ComputedRef<GitHubEvent[] | null>;
+  events: ComputedRef<GithubEvent[] | null>;
   /** Aggregated stats sorted by count descending. */
   stats: ComputedRef<ActivityStat[]>;
   /** Daily event counts for line chart (sorted by date ascending). */
   dailyStats: ComputedRef<DailyStat[]>;
   /** True while a fetch is in-flight. */
-  isLoading: GithubApiState<GitHubEvent[]>["isLoading"];
+  isLoading: GithubApiState<GithubEvent[]>["isLoading"];
   /** Error message from the last failed fetch, or null. */
-  error: GithubApiState<GitHubEvent[]>["error"];
+  error: GithubApiState<GithubEvent[]>["error"];
   /** Manually trigger a re-fetch. */
-  refresh: GithubApiState<GitHubEvent[]>["refresh"];
+  refresh: GithubApiState<GithubEvent[]>["refresh"];
 } {
   const {
     data: rawEvents,
     isLoading,
     error,
     refresh,
-  } = useGithubApi<GitHubEvent[]>(EVENTS_URL, GITHUB_EVENTS_CACHE);
+  } = useGithubApi<GithubEvent[]>(EVENTS_URL, GITHUB_EVENTS_CACHE);
 
   // Public events ref — the raw feed trimmed to the rolling window
-  const events = computed<GitHubEvent[] | null>(() =>
+  const events = computed<GithubEvent[] | null>(() =>
     rawEvents.value === null ? null : filterRecentEvents(rawEvents.value),
   );
 

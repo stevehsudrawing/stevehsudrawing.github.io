@@ -198,86 +198,54 @@ function onScroll(): void {
   }
 }
 
-/**
- * Mobile list expand/collapse height cap (mirrors the CSS
- * `max-height: 60vh` on .scrollspy-mobile-list) — avoids a post-animation
- * snap when an article has more headings than fit on screen.
- */
-const MOBILE_LIST_MAX_HEIGHT_VH = 0.6;
+/** The CSS-grid collapse element (transitionend drives the deferred scroll). */
+const collapseEl = ref<HTMLElement | null>(null);
 
-/** Pending mobile heading scroll — executed after the list leaves. */
+/** Pending mobile heading scroll — executed once the list collapsed. */
 let pendingScrollId: string | null = null;
+
+/** Run the deferred heading scroll, if any. */
+function flushPendingScroll(): void {
+  if (!pendingScrollId) return;
+  scrollToHashTarget(pendingScrollId, false, MOBILE_SCROLLSPY_OFFSET);
+  pendingScrollId = null;
+}
 
 /** Scroll smoothly to a heading and update the URL hash. */
 function onHeadingClick(id: string, isMobileClick: boolean = false): void {
   history.pushState(null, "", `#${id}`);
   if (isMobileClick) {
-    // Collapse first and DEFER the scroll until the leave transition
+    // Collapse first and DEFER the scroll until the collapse transition
     // finishes: the expanded list is in the flow (up to 60vh), pushing
     // the heading down — scrolling now (against the expanded layout)
     // would land too far UP once the list collapses (heading ends up
-    // above the viewport).  After-leave, the layout is stable and the
-    // heading sits exactly below the 112 px header (64 navbar + 48 bar).
+    // above the viewport).  With transitions disabled (reduced motion /
+    // .no-animations) the layout is already stable — scroll immediately.
     headingExpanded.value = false;
     pendingScrollId = id;
+    const el = collapseEl.value;
+    if (!el || parseFloat(getComputedStyle(el).transitionDuration) === 0) {
+      flushPendingScroll();
+    }
     return;
   }
   scrollToHashTarget(id, false, props.scrollOffset);
 }
 
 // -------------------------------------------------------------------------
-// Mobile list expand/collapse (exact measured height)
+// Mobile list expand/collapse (CSS grid-template-rows)
 // -------------------------------------------------------------------------
 
 /**
- * Cap a list height at the resting 60vh CSS max-height.
- * @param list - The mobile heading list element.
+ * Collapse transition finished — the layout is stable, so run the
+ * pending heading scroll.  Ignores bubbled child transitions (the link
+ * colour transitions end as well).
+ * @param e - The transitionend event from the collapse element.
  */
-function cappedListHeight(list: HTMLElement): number {
-  return Math.min(
-    list.scrollHeight,
-    Math.floor(window.innerHeight * MOBILE_LIST_MAX_HEIGHT_VH),
-  );
-}
-
-/**
- * Expand animation — measure the list's real height (capped at 60vh) and
- * animate max-height from 0 to that exact pixel value.
- * @param el - The list element being inserted.
- */
-function onMobileListEnter(el: Element): void {
-  const list = el as HTMLElement;
-  list.style.maxHeight = "none";
-  const height = cappedListHeight(list);
-  list.style.maxHeight = "0px";
-  void list.offsetHeight; // force reflow so the 0px start applies
-  list.style.maxHeight = `${height}px`;
-}
-
-/** Clear the inline max-height so the resting 60vh CSS cap applies. */
-function onMobileListAfterEnter(el: Element): void {
-  (el as HTMLElement).style.maxHeight = "";
-}
-
-/**
- * Collapse animation — start from the list's real height (capped), then
- * animate down to 0.
- * @param el - The list element being removed.
- */
-function onMobileListLeave(el: Element): void {
-  const list = el as HTMLElement;
-  list.style.maxHeight = `${cappedListHeight(list)}px`;
-  void list.offsetHeight; // force reflow so the current height applies
-  list.style.maxHeight = "0px";
-}
-
-/** Clear the inline max-height and run any deferred heading scroll. */
-function onMobileListAfterLeave(el: Element): void {
-  (el as HTMLElement).style.maxHeight = "";
-  if (pendingScrollId) {
-    scrollToHashTarget(pendingScrollId, false, MOBILE_SCROLLSPY_OFFSET);
-    pendingScrollId = null;
-  }
+function onCollapseTransitionEnd(e: TransitionEvent): void {
+  if (e.target !== e.currentTarget) return;
+  if (e.propertyName !== "grid-template-rows") return;
+  flushPendingScroll();
 }
 
 onMounted(() => {
@@ -304,14 +272,13 @@ onBeforeUnmount(() => {
           :name="headingExpanded ? 'expand_less' : 'expand_more'"
         />
       </div>
-      <Transition
-        name="scrollspy-mobile"
-        @enter="onMobileListEnter"
-        @after-enter="onMobileListAfterEnter"
-        @leave="onMobileListLeave"
-        @after-leave="onMobileListAfterLeave"
+      <div
+        ref="collapseEl"
+        class="scrollspy-mobile-collapse"
+        :class="{ expanded: headingExpanded }"
+        @transitionend="onCollapseTransitionEnd"
       >
-        <ul v-if="headingExpanded" class="scrollspy-mobile-list px-3">
+        <ul class="scrollspy-mobile-list px-3">
           <li v-for="item in headings" :key="item.id">
             <a
               :href="`#${item.id}`"
@@ -327,7 +294,7 @@ onBeforeUnmount(() => {
             </a>
           </li>
         </ul>
-      </Transition>
+      </div>
     </nav>
 
     <BRow>
@@ -448,7 +415,10 @@ onBeforeUnmount(() => {
 .scrollspy-mobile-list {
   list-style: none;
   margin: 0;
-  padding: 0.5rem 0;
+  /* Vertical padding lives on the links below — element padding cannot
+     shrink below its used value, which would leave a ~17 px strip in
+     the collapsed (0fr) state. */
+  padding-block: 0;
   max-height: 60vh;
   overflow-y: auto;
   border-bottom: 1px solid var(--bs-border-color);
@@ -479,18 +449,29 @@ onBeforeUnmount(() => {
   border-left: 2px solid var(--bs-primary);
 }
 
-/* --- Expand/collapse animation (exact measured height via JS hooks) --- */
+/* --- Expand/collapse animation (CSS grid rows, no measured height) --- */
 
-.scrollspy-mobile-enter-active,
-.scrollspy-mobile-leave-active {
-  overflow: hidden;
-  transition:
-    max-height 0.25s ease,
-    opacity var(--shlh-duration-base) ease;
+.scrollspy-mobile-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--shlh-duration-base) ease;
 }
 
-.scrollspy-mobile-enter-from,
-.scrollspy-mobile-leave-to {
-  opacity: 0;
+.scrollspy-mobile-collapse.expanded {
+  grid-template-rows: 1fr;
+}
+
+/* The grid item must clip + shrink below its content; the collapsed
+   state also stays out of the tab order (visibility flips AFTER the
+   collapse finishes, so the shrinking list stays visible). */
+.scrollspy-mobile-collapse .scrollspy-mobile-list {
+  min-height: 0;
+  visibility: hidden;
+  transition: visibility 0s linear var(--shlh-duration-base);
+}
+
+.scrollspy-mobile-collapse.expanded .scrollspy-mobile-list {
+  visibility: visible;
+  transition: visibility 0s;
 }
 </style>

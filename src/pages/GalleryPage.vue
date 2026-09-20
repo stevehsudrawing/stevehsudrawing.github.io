@@ -10,7 +10,7 @@ import { computed } from "vue";
 import PictureListGroups from "../components/cards/PictureListGroups.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
-import { usePictureGroupViewer } from "../composables/usePictureGroupViewer";
+import { usePictureGroupViewerModal } from "../composables/usePictureGroupViewerModal";
 import { usePictureList } from "../composables/usePictureList";
 import { usePictureRegistry } from "../composables/usePictureRegistry";
 
@@ -26,7 +26,7 @@ const groups = computed(() => groupsForPage("gallery"));
 // =========================================================================
 
 const { pictureProps } = usePictureRegistry();
-const { openPictureGroupViewer } = usePictureGroupViewer();
+const { openPictureGroupViewerModal } = usePictureGroupViewerModal();
 
 /**
  * Card click — open the group viewer at the clicked picture.
@@ -35,7 +35,7 @@ const { openPictureGroupViewer } = usePictureGroupViewer();
  * @param groupId - Owning group id (carried by the select chain).
  */
 function onSelect(pictureId: string, groupId: string): void {
-  openPictureGroupViewer({ picGroupId: groupId, picId: pictureId });
+  openPictureGroupViewerModal({ picGroupId: groupId, picId: pictureId });
 }
 </script>
 

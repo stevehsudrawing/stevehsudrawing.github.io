@@ -2,14 +2,14 @@
   FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
-import { useModalStack } from "../../composables/useModalStack";
+import { useChangelogModal } from "../../composables/useChangelogModal";
 import { BASE_URL, GITHUB_REPO } from "../../configs/site-meta.js";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
-const { push } = useModalStack();
+const { openChangelogModal } = useChangelogModal();
 </script>
 
 <template>
@@ -76,7 +76,7 @@ const { push } = useModalStack();
               role="button"
               class="text-decoration-none me-2"
               :aria-label="$t('text-changelog')"
-              @click="push({ id: 'changelog', props: null })"
+              @click="openChangelogModal()"
             >
               <MaterialSymbol name="history" />
             </a>

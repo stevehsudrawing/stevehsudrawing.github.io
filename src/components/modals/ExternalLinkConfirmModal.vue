@@ -11,6 +11,7 @@ import { computed, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useQRCodeModal } from "../../composables/useQRCodeModal";
 import { useStoredValue } from "../../composables/useStoredValue";
 import {
   getStoredOpenInNewTab,
@@ -27,7 +28,8 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 // =========================================================================
 
 const { visible, props: stackProps } = useStackModal("external-link");
-const { push, pop } = useModalStack();
+const { pop } = useModalStack();
+const { openQRCodeModal } = useQRCodeModal();
 
 const openInNewTab = useStoredValue(
   getStoredOpenInNewTab,
@@ -90,13 +92,10 @@ function confirm(): void {
 }
 
 function showQR(): void {
-  push({
-    id: "qr-code",
-    props: {
-      url: url.value,
-      icon: icon.value,
-      hideOpenLink: false,
-    },
+  openQRCodeModal({
+    url: url.value,
+    icon: icon.value,
+    hideOpenLink: false,
   });
 }
 </script>

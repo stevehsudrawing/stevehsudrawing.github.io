@@ -10,7 +10,7 @@
  *   stack → route   once no lightbox is open the params are stripped
  *                   (keeping `?lang=`)
  *
- * The openers (`usePictureGroupViewer`, `usePictureViewer`) write the
+ * The openers (`usePictureGroupViewerModal`, `usePictureViewerModal`) write the
  * entry params themselves; this composable only reacts, so every
  * transition has exactly one writer.
  */

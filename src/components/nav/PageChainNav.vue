@@ -37,7 +37,7 @@ const nav = computed(() => getPageNavLinks(props.pageName));
       v-if="nav.prev"
       type="internal"
       :href="nav.prev"
-      class="link link-hover-change-background link-secondary-shlh fw-semibold"
+      class="link link-hover-change-background link-secondary fw-semibold"
     >
       <MaterialSymbol name="arrow_back" class="me-1" />
       <span>{{ $t("text-previous-page") }}</span>

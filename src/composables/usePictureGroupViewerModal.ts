@@ -1,7 +1,7 @@
 /**
- * usePictureGroupViewer — group-lightbox controller.
+ * usePictureGroupViewerModal — group-lightbox controller.
  *
- * Mirrors `usePictureViewer()`: resolves the group from the pool, pushes
+ * Mirrors `usePictureViewerModal()`: resolves the group from the pool, pushes
  * the group viewer (`PictureGroupViewerModal`, stack id
  * `picture-group-viewer`) and writes the entry parameters
  * (`?picGroupId=` + `?picId=`).  Afterwards `usePictureViewerUrl()`
@@ -13,8 +13,8 @@
  * clamped.
  *
  * @example
- * const { openPictureGroupViewer } = usePictureGroupViewer();
- * openPictureGroupViewer({ picGroupId: "sticker-collections", picId: "…" });
+ * const { openPictureGroupViewerModal } = usePictureGroupViewerModal();
+ * openPictureGroupViewerModal({ picGroupId: "sticker-collections", picId: "…" });
  */
 
 import { useRoute, useRouter } from "vue-router";
@@ -26,8 +26,8 @@ import { usePictureList } from "./usePictureList";
 // Types
 // =========================================================================
 
-/** Options for `openPictureGroupViewer()`. */
-export interface OpenPictureGroupViewerOptions {
+/** Options for `openPictureGroupViewerModal()`. */
+export interface OpenPictureGroupViewerModalOptions {
   /** Group id (pool key) — the `?picGroupId=` value. */
   picGroupId: string;
   /** Picture id to open — wins over `picIndex`. */
@@ -43,13 +43,15 @@ export interface OpenPictureGroupViewerOptions {
 /**
  * Group-viewer controller.
  *
- * @returns `openPictureGroupViewer(options)` — pushes the group viewer
+ * @returns `openPictureGroupViewerModal(options)` — pushes the group viewer
  *   with the group's picture ids and mirrors the entry params into the
  *   URL.
  */
-export function usePictureGroupViewer(): {
+export function usePictureGroupViewerModal(): {
   /** Push the group viewer at the requested picture. */
-  openPictureGroupViewer: (options: OpenPictureGroupViewerOptions) => void;
+  openPictureGroupViewerModal: (
+    options: OpenPictureGroupViewerModalOptions,
+  ) => void;
 } {
   const { push } = useModalStack();
   const { findGroup } = usePictureList();
@@ -93,8 +95,8 @@ export function usePictureGroupViewer(): {
     return contents[0] ?? null;
   }
 
-  function openPictureGroupViewer(
-    options: OpenPictureGroupViewerOptions,
+  function openPictureGroupViewerModal(
+    options: OpenPictureGroupViewerModalOptions,
   ): void {
     const { picGroupId, picId, picIndex } = options;
     const group = findGroup(picGroupId);
@@ -122,5 +124,5 @@ export function usePictureGroupViewer(): {
     });
   }
 
-  return { openPictureGroupViewer };
+  return { openPictureGroupViewerModal };
 }

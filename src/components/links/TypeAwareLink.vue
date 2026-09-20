@@ -3,7 +3,7 @@
   Renders an <a> tag with the .link class and delegates click
   handling based on type:
 
-    external  -> openExternalLink()  (provided by App.vue)
+    external  -> openExternalLinkConfirmModal() (useExternalLinkConfirmModal)
     internal  -> router.push(href)   (Vue Router SPA navigation)
     email     -> native <a href="mailto:..."> behavior
     anchor    -> smooth-scroll to #hash target
@@ -11,23 +11,12 @@
   Always carries the .link class for hover-underline styling.
 -->
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { useExternalLinkConfirmModal } from "../../composables/useExternalLinkConfirmModal";
 import { scrollToHashTarget } from "../../platform/accessibility";
-import type { TypeAwareImageProps, TypeAwareLinkProps } from "../../types/app";
-import { OPEN_EXTERNAL_LINK_KEY } from "../../types/app";
+import type { TypeAwareLinkProps } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
-
-// =========================================================================
-// Types
-// =========================================================================
-
-/** Signature of the openExternalLink function provided by App.vue. */
-type OpenExternalLinkFn = (
-  url: string,
-  icon: TypeAwareImageProps | null,
-  hideQR: boolean,
-) => void;
 
 // =========================================================================
 // Props
@@ -36,14 +25,11 @@ type OpenExternalLinkFn = (
 const props = defineProps<TypeAwareLinkProps>();
 
 // =========================================================================
-// Inject
+// State
 // =========================================================================
 
 const router = useRouter();
-const openExternalLink = inject<OpenExternalLinkFn | undefined>(
-  OPEN_EXTERNAL_LINK_KEY,
-  undefined,
-);
+const { openExternalLinkConfirmModal } = useExternalLinkConfirmModal();
 
 // =========================================================================
 // State
@@ -79,13 +65,17 @@ function onClick(e: MouseEvent): void {
   } else if (props.type === "anchor") {
     e.preventDefault();
     scrollToHashTarget(props.href);
-  } else if (props.type === "external" && openExternalLink) {
+  } else if (props.type === "external") {
     e.preventDefault();
     // QR is shown only when an icon is provided AND noQRCode is
     // not explicitly true (default: hide QR).
     const hasIcon = !!props.icon;
     const hideQR = props.noQRCode !== false || !hasIcon;
-    openExternalLink(props.href, props.icon ?? null, hideQR);
+    openExternalLinkConfirmModal({
+      url: props.href,
+      icon: props.icon ?? null,
+      hideQR,
+    });
   }
   // email: native browser behavior
 }

@@ -255,12 +255,15 @@ h6,
   border: none;
   margin: calc(var(--bs-card-border-width) / 2);
   outline: var(--bs-card-border-width) solid var(--bs-card-border-color);
-  transition: outline var(--shlh-duration-fast) ease-in-out;
+  transition:
+    background-color var(--shlh-duration-fast) ease-in-out,
+    outline var(--shlh-duration-fast) ease-in-out;
 }
 
 .card:hover {
+  background-color: rgba(var(--bs-secondary-rgb), 0.05);
   z-index: 1005;
-  outline: calc(var(--bs-card-border-width) * 2) solid var(--bs-body-color);
+  outline: calc(var(--bs-card-border-width) * 2) solid var(--bs-secondary);
 }
 
 /* --- Tooltip --- */

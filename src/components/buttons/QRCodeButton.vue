@@ -1,26 +1,15 @@
 <!--
   QRCodeButton.vue — Standalone QR-code trigger button.
-  Opens QRCodeModal via inject(OPEN_QR_CODE_KEY) on click.
+  Opens QRCodeModal via useQRCodeModal() on click.
   Default slot shows the `qr_code` icon; override with a custom
   MaterialSymbol (e.g. `share` with `fill`).
 -->
 <script setup lang="ts">
-import { inject } from "vue";
 import { useI18n } from "../../composables/useI18n";
+import { useQRCodeModal } from "../../composables/useQRCodeModal";
 import type { TypeAwareImageProps } from "../../types/app";
-import { OPEN_QR_CODE_KEY } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
-
-// =========================================================================
-// Types
-// =========================================================================
-
-type OpenQRCodeFn = (
-  url: string,
-  icon: TypeAwareImageProps | null,
-  hideOpenLink?: boolean,
-) => void;
 
 // =========================================================================
 // Props
@@ -36,24 +25,23 @@ const props = defineProps<{
 }>();
 
 // =========================================================================
-// Inject
+// State
 // =========================================================================
 
 const { t } = useI18n();
-const openQRCode = inject<OpenQRCodeFn | undefined>(
-  OPEN_QR_CODE_KEY,
-  undefined,
-);
+const { openQRCodeModal } = useQRCodeModal();
 
 // =========================================================================
 // Actions
 // =========================================================================
 
 function onClick(e: MouseEvent): void {
-  if (openQRCode) {
-    e.preventDefault();
-    openQRCode(props.url, props.icon ?? null, props.hideOpenLink);
-  }
+  e.preventDefault();
+  openQRCodeModal({
+    url: props.url,
+    icon: props.icon ?? null,
+    hideOpenLink: props.hideOpenLink,
+  });
 }
 </script>
 

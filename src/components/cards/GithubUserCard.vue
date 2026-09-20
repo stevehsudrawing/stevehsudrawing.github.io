@@ -1,5 +1,5 @@
 <!--
-  GitHubUserCard.vue — Displays the site owner's GitHub profile info.
+  GithubUserCard.vue — Displays the site owner's GitHub profile info.
   Fetches data via useGithubProfile() with stale-while-revalidate caching.
 
   Variants:

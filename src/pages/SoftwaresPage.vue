@@ -4,8 +4,8 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import GitHubActivityStatsCard from "../components/cards/GitHubActivityStatsCard.vue";
-import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import GithubActivityStatsCard from "../components/cards/GithubActivityStatsCard.vue";
+import GithubUserCard from "../components/cards/GithubUserCard.vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
@@ -46,10 +46,10 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
     />
     <div class="row g-0">
       <div class="col-lg-6">
-        <GitHubUserCard variant="full" />
+        <GithubUserCard variant="full" />
       </div>
       <div class="col-lg-6">
-        <GitHubActivityStatsCard />
+        <GithubActivityStatsCard />
       </div>
     </div>
   </div>

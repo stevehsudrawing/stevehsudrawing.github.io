@@ -116,22 +116,6 @@
     --bs-btn-active-color: #000;
   }
 
-  /* Links */
-
-  .link-secondary-shlh {
-    --shlh-link-color: #000;
-    --shlh-link-color-rgb: 0, 0, 0;
-    --shlh-link-hover-color: #444;
-    --shlh-link-active-color: #444;
-  }
-
-  [data-bs-theme="dark"] .link-secondary-shlh {
-    --shlh-link-color: #fff;
-    --shlh-link-color-rgb: 255, 255, 255;
-    --shlh-link-hover-color: #bbb;
-    --shlh-link-active-color: #bbb;
-  }
-
   .footer a {
     font-weight: calc(var(--bs-body-font-weight) + 100);
   }

@@ -3,7 +3,7 @@
   Previously static content in about.html's <main id="page-content">.
 -->
 <script setup lang="ts">
-import { inject, ref } from "vue";
+import { ref } from "vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import MaterialSymbol from "../components/icons/MaterialSymbol.vue";
@@ -16,7 +16,7 @@ import StickerSection from "../components/ui/StickerSection.vue";
 import { useLinkCards } from "../composables/useLinkCards";
 import { useMajorColorSequence } from "../composables/useMajorColorSequence";
 import { usePictureRegistry } from "../composables/usePictureRegistry";
-import { OPEN_STICKER_KEY } from "../types/app";
+import { useStickerModal } from "../composables/useStickerModal";
 
 // Picture registry — resolves the hero cover props.
 const { pictureProps } = usePictureRegistry();
@@ -31,10 +31,7 @@ const { groups, pagePath } = useLinkCards(ref("about"));
 // Major-color buttons
 // =========================================================================
 
-const openSticker = inject<(() => void) | undefined>(
-  OPEN_STICKER_KEY,
-  undefined,
-);
+const { openStickerModal } = useStickerModal();
 const majorColorSequence = useMajorColorSequence();
 
 /**
@@ -46,7 +43,7 @@ function onMajorColorClick(event: Event): void {
   const el = event.currentTarget as HTMLElement;
   const color = el.dataset.majorColor ?? "";
   if (majorColorSequence.record(color)) {
-    openSticker?.();
+    openStickerModal();
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <!--
-  GitHubEventsModal.vue — Event list popup for chart clicks.
+  GithubEventsModal.vue — Event list popup for chart clicks.
   Props + visibility come from the shared modal stack (useStackModal).
   Each row: event-type icon + i18n description (with %L link marker) +
   relative time.  The link pushes external-link on top of the stack,
@@ -15,7 +15,7 @@ import { useI18n } from "../../composables/useI18n";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { formatAbsoluteTime, formatRelativeTime } from "../../core/time";
-import type { GitHubEvent } from "../../types/app";
+import type { GithubEvent } from "../../types/app";
 import type { IconName } from "../../types/icons";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
@@ -68,7 +68,7 @@ function splitTemplate(
  * @param ev - The raw GitHub event.
  * @returns Text before and after the link marker.
  */
-function describe(ev: GitHubEvent): { prefix: string; suffix: string } {
+function describe(ev: GithubEvent): { prefix: string; suffix: string } {
   switch (ev.type) {
     case "PushEvent": {
       const size =
@@ -119,7 +119,7 @@ function describe(ev: GitHubEvent): { prefix: string; suffix: string } {
  * @param ev - The raw GitHub event.
  * @returns Link href and visible link text.
  */
-function linkTarget(ev: GitHubEvent): { href: string; text: string } {
+function linkTarget(ev: GithubEvent): { href: string; text: string } {
   const issue = ev.payload.issue;
   if ((ev.type === "IssuesEvent" || ev.type === "IssueCommentEvent") && issue) {
     return {

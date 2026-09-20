@@ -37,8 +37,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { usePictureGroupViewer } from "../../composables/usePictureGroupViewer";
-import { usePictureViewer } from "../../composables/usePictureViewer";
+import { usePictureGroupViewerModal } from "../../composables/usePictureGroupViewerModal";
+import { usePictureViewerModal } from "../../composables/usePictureViewerModal";
 import { useTheme } from "../../composables/useTheme";
 import { resolveLanguageAwareString } from "../../core/utils";
 import { isImageEdgeDark } from "../../platform/image-luminance";
@@ -69,8 +69,8 @@ const emit = defineEmits<{
 
 const { appliedTheme } = useTheme();
 const { locale, t } = useI18n();
-const { openPictureViewer } = usePictureViewer();
-const { openPictureGroupViewer } = usePictureGroupViewer();
+const { openPictureViewerModal } = usePictureViewerModal();
+const { openPictureGroupViewerModal } = usePictureGroupViewerModal();
 
 const loaded = ref(false);
 const failed = ref(false);
@@ -250,13 +250,13 @@ function sampleBottomLuminance(): void {
  */
 function onPreviewClick(): void {
   if (props.previewGroupId && props.pictureId) {
-    openPictureGroupViewer({
+    openPictureGroupViewerModal({
       picGroupId: props.previewGroupId,
       picId: props.pictureId,
     });
     return;
   }
-  openPictureViewer({ ...props });
+  openPictureViewerModal({ ...props });
 }
 
 onMounted(() => {

@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LinkButtonGroup from "../components/buttons/LinkButtonGroup.vue";
-import GitHubUserCard from "../components/cards/GitHubUserCard.vue";
+import GithubUserCard from "../components/cards/GithubUserCard.vue";
 import MaterialSymbol from "../components/icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../components/images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../components/links/TypeAwareLink.vue";
@@ -103,7 +103,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
           </p>
         </div>
         <div class="pb-4">
-          <GitHubUserCard variant="compact" />
+          <GithubUserCard variant="compact" />
         </div>
         <LinkButtonGroup
           v-if="findGroup('softwares')"
@@ -193,7 +193,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
     <TypeAwareLink
       type="internal"
       href="/about.html"
-      class="link link-hover-change-background link-secondary-shlh fw-semibold mt-3"
+      class="link link-hover-change-background link-secondary fw-semibold mt-3"
     >
       <span>{{ $t("text-about-me-and-my-emails") }}</span>
       <MaterialSymbol name="arrow_forward" />

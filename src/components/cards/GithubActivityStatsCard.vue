@@ -1,5 +1,5 @@
 <!--
-  GitHubActivityStatsCard.vue — Chart.js bar / line chart of recent
+  GithubActivityStatsCard.vue — Chart.js bar / line chart of recent
   GitHub event types.  Fetches events via useGithubActivity() with
   stale-while-revalidate caching.
 
@@ -32,8 +32,8 @@ import {
   eventTypeIcon,
   useGithubActivity,
 } from "../../composables/useGithubActivity";
+import { useGithubEventsModal } from "../../composables/useGithubEventsModal";
 import { useI18n } from "../../composables/useI18n";
-import { useModalStack } from "../../composables/useModalStack";
 import { useTheme } from "../../composables/useTheme";
 import {
   DATE_LOCALES,
@@ -41,7 +41,7 @@ import {
   SHORT_DATE_FORMATS,
 } from "../../configs/language-list";
 import { cssVar } from "../../platform/css-var";
-import type { ActivityStat, DailyStat, GitHubEvent } from "../../types/app";
+import type { ActivityStat, DailyStat, GithubEvent } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
@@ -77,7 +77,7 @@ function ensureChartJs(): void {
 const { t, locale } = useI18n();
 const { appliedTheme } = useTheme();
 const { events, stats, dailyStats, isLoading, error } = useGithubActivity();
-const { push } = useModalStack();
+const { openGithubEventsModal } = useGithubEventsModal();
 
 // ---- Chart mode ----
 
@@ -118,9 +118,9 @@ const hasData = computed(() =>
 // =========================================================================
 
 /** Shared click handling — open the events modal for a filtered subset. */
-function openEventsModal(filtered: GitHubEvent[], title: string): void {
+function openEventsModal(filtered: GithubEvent[], title: string): void {
   if (filtered.length === 0) return;
-  push({ id: "github-events", props: { title, events: filtered } });
+  openGithubEventsModal({ title, events: filtered });
 }
 
 /** Bar-mode click: show all events of the clicked event type. */

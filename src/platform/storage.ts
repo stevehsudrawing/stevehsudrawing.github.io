@@ -15,9 +15,9 @@
 
 import { DEFAULT_LANG, LANGUAGE_LIST } from "../configs/language-list";
 import type {
-  GitHubCommit,
-  GitHubEvent,
-  GitHubUser,
+  GithubCommit,
+  GithubEvent,
+  GithubUser,
   Lang,
   ThemeChoice,
 } from "../types/app";
@@ -178,31 +178,31 @@ function writeCacheEntry<T>(key: string, data: T): void {
 }
 
 /** GitHub profile cache accessor for useGithubApi(). */
-export const GITHUB_PROFILE_CACHE: GithubCacheAccessor<GitHubUser> = {
+export const GITHUB_PROFILE_CACHE: GithubCacheAccessor<GithubUser> = {
   key: StorageKey.GithubProfile,
-  read: (): CacheEntry<GitHubUser> | null =>
-    readCacheEntry<GitHubUser>(StorageKey.GithubProfile),
-  write: (data: GitHubUser): void => {
+  read: (): CacheEntry<GithubUser> | null =>
+    readCacheEntry<GithubUser>(StorageKey.GithubProfile),
+  write: (data: GithubUser): void => {
     writeCacheEntry(StorageKey.GithubProfile, data);
   },
 };
 
 /** GitHub events cache accessor for useGithubApi(). */
-export const GITHUB_EVENTS_CACHE: GithubCacheAccessor<GitHubEvent[]> = {
+export const GITHUB_EVENTS_CACHE: GithubCacheAccessor<GithubEvent[]> = {
   key: StorageKey.GithubEvents,
-  read: (): CacheEntry<GitHubEvent[]> | null =>
-    readCacheEntry<GitHubEvent[]>(StorageKey.GithubEvents),
-  write: (data: GitHubEvent[]): void => {
+  read: (): CacheEntry<GithubEvent[]> | null =>
+    readCacheEntry<GithubEvent[]>(StorageKey.GithubEvents),
+  write: (data: GithubEvent[]): void => {
     writeCacheEntry(StorageKey.GithubEvents, data);
   },
 };
 
 /** GitHub commits cache accessor for useGithubApi(). */
-export const GITHUB_COMMITS_CACHE: GithubCacheAccessor<GitHubCommit[]> = {
+export const GITHUB_COMMITS_CACHE: GithubCacheAccessor<GithubCommit[]> = {
   key: StorageKey.GithubCommits,
-  read: (): CacheEntry<GitHubCommit[]> | null =>
-    readCacheEntry<GitHubCommit[]>(StorageKey.GithubCommits),
-  write: (data: GitHubCommit[]): void => {
+  read: (): CacheEntry<GithubCommit[]> | null =>
+    readCacheEntry<GithubCommit[]>(StorageKey.GithubCommits),
+  write: (data: GithubCommit[]): void => {
     writeCacheEntry(StorageKey.GithubCommits, data);
   },
 };

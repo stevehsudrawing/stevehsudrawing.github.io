@@ -189,6 +189,8 @@
   --bs-primary-text-emphasis: var(--shlh-primary-800);
   --bs-primary-bg-subtle: var(--shlh-primary-100);
   --bs-primary-border-subtle: var(--shlh-primary-200);
+  --bs-secondary: var(--bs-gray-600);
+  --bs-secondary-rgb: var(--bs-gray-600-rgb);
 }
 
 /* Dark */
@@ -198,6 +200,8 @@
   --bs-primary-text-emphasis: var(--shlh-primary-500);
   --bs-primary-bg-subtle: var(--shlh-primary-900);
   --bs-primary-border-subtle: var(--shlh-primary-800);
+  --bs-secondary: var(--bs-gray-500);
+  --bs-secondary-rgb: var(--bs-gray-500-rgb);
 }
 
 /* --- (Primary) Link --- */
@@ -236,7 +240,7 @@ a {
 /* --- Secondary Link --- */
 
 /* Light */
-.link-secondary-shlh {
+.link-secondary {
   --shlh-link-color: var(--bs-gray-600);
   --shlh-link-color-rgb: var(--bs-gray-600-rgb);
   --shlh-link-hover-color: var(--bs-gray-700);
@@ -244,7 +248,7 @@ a {
 }
 
 /* Dark */
-[data-bs-theme="dark"] .link-secondary-shlh {
+[data-bs-theme="dark"] .link-secondary {
   --shlh-link-color: var(--bs-gray-500);
   --shlh-link-color-rgb: var(--bs-gray-500-rgb);
   --shlh-link-hover-color: var(--bs-gray-400);
@@ -350,6 +354,14 @@ a {
 .btn-outline-primary {
   --bs-btn-hover-color: var(--shlh-primary-color);
   --bs-btn-active-color: var(--shlh-primary-color);
+}
+
+/* --- Secondary Button --- */
+
+/* Dark */
+[data-bs-theme="dark"] .btn-outline-secondary {
+  --bs-btn-hover-color: var(--bs-body-bg);
+  --bs-btn-active-color: var(--bs-body-bg);
 }
 
 /* --- Close Button --- */

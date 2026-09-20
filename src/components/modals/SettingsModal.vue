@@ -9,6 +9,7 @@ import { computed, onBeforeUnmount, ref } from "vue";
 import { useI18n } from "../../composables/useI18n";
 import { useModalFocus } from "../../composables/useModalFocus";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useResetWarningModal } from "../../composables/useResetWarningModal";
 import { useStoredValue } from "../../composables/useStoredValue";
 import { useSwiperMode } from "../../composables/useSwiperMode";
 import { useTheme } from "../../composables/useTheme";
@@ -30,7 +31,8 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 // =========================================================================
 
 const { visible } = useStackModal("settings");
-const { push, pop } = useModalStack();
+const { pop } = useModalStack();
+const { openResetWarningModal } = useResetWarningModal();
 
 /** Language-select element for keyboard auto-focus. */
 const langSelectRef = ref<HTMLElement | null>(null);
@@ -125,9 +127,9 @@ const languages = LANGUAGE_LIST.map((item) => ({
  */
 function blockToggle(): void {}
 
-/** Open ResetWarningModal on top of this modal (via the modal stack). */
+/** Open ResetWarningModal on top of this modal (via its opener). */
 function openResetWarning(): void {
-  push({ id: "reset-warning", props: null });
+  openResetWarningModal();
 }
 </script>
 

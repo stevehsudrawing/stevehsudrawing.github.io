@@ -104,7 +104,7 @@ const message = computed(() => t(`text-sticker-${stickerId.value}-message`));
     :title="STICKER_MODAL_TITLE"
     header-class="sticker-modal-header"
     title-class="font-monospace"
-    title-tag="code"
+    title-tag="span"
     no-header-close
     centered
     hide-footer

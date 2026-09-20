@@ -42,7 +42,7 @@ const MarkdownBody = defineAsyncComponent(
 // Types
 // =========================================================================
 
-/** One rendered timeline row, derived from a `GitHubCommit`. */
+/** One rendered timeline row, derived from a `GithubCommit`. */
 interface CommitRow {
   /** Full SHA — the row key + expansion identity. */
   sha: string;
@@ -212,9 +212,7 @@ const historyUrl = `https://github.com/${GITHUB_REPO}/commits`;
               :title="row.absolute"
               teleport
             >
-              <span
-                class="changelog-time small text-body-secondary flex-shrink-0"
-              >
+              <span class="changelog-time text-body-secondary flex-shrink-0">
                 {{ row.relative }}
               </span>
             </TooltipTrigger>
@@ -324,7 +322,7 @@ const historyUrl = `https://github.com/${GITHUB_REPO}/commits`;
   left: 50%;
   top: 0;
   bottom: 0;
-  width: 1px;
+  width: 2px;
   transform: translateX(-50%);
   background: rgba(
     var(--bs-secondary-rgb),

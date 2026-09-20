@@ -74,7 +74,7 @@ const promiseCache = new Map<string, Promise<void>>();
  * @returns Reactive state ({@link GithubApiState}) shared across all callers.
  *
  * @example
- * const { data, isLoading, error, refresh } = useGithubApi<GitHubUser>(
+ * const { data, isLoading, error, refresh } = useGithubApi<GithubUser>(
  *   'https://api.github.com/users/stevehsudrawing',
  *   GITHUB_PROFILE_CACHE,
  * );

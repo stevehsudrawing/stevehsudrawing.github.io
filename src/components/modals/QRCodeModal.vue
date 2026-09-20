@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import QRCode from "qrcode";
 import { computed, nextTick, ref, watch } from "vue";
+import { useExternalLinkConfirmModal } from "../../composables/useExternalLinkConfirmModal";
 import { useI18n } from "../../composables/useI18n";
 import { useModalStack, useStackModal } from "../../composables/useModalStack";
 import { useTheme } from "../../composables/useTheme";
@@ -24,7 +25,8 @@ import InlineSvg from "../ui/InlineSvg.vue";
 // =========================================================================
 
 const { visible, props: stackProps } = useStackModal("qr-code");
-const { push, pop } = useModalStack();
+const { pop } = useModalStack();
+const { openExternalLinkConfirmModal } = useExternalLinkConfirmModal();
 
 const { t } = useI18n();
 const { appliedTheme } = useTheme();
@@ -243,13 +245,10 @@ async function copyImage(): Promise<void> {
  * ExternalLinkConfirmModal, regardless of how this modal was opened.
  */
 function openLink(): void {
-  push({
-    id: "external-link",
-    props: {
-      url: url.value,
-      icon: icon.value,
-      hideQR: false,
-    },
+  openExternalLinkConfirmModal({
+    url: url.value,
+    icon: icon.value,
+    hideQR: false,
   });
 }
 </script>

@@ -30,7 +30,7 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, ref, shallowRef, watch } from "vue";
 import { useI18n } from "../../composables/useI18n";
-import { usePictureGroupViewer } from "../../composables/usePictureGroupViewer";
+import { usePictureGroupViewerModal } from "../../composables/usePictureGroupViewerModal";
 import { usePictureList } from "../../composables/usePictureList";
 import { usePictureRegistry } from "../../composables/usePictureRegistry";
 import { useSwiperMode } from "../../composables/useSwiperMode";
@@ -132,7 +132,7 @@ watch(
 
 const { t } = useI18n();
 const { appliedTheme } = useTheme();
-const { openPictureGroupViewer } = usePictureGroupViewer();
+const { openPictureGroupViewerModal } = usePictureGroupViewerModal();
 
 // -------------------------------------------------------------------------
 // Pool-driven slides (resolved through the registry)
@@ -286,7 +286,10 @@ function goToSlide(index: number): void {
  */
 function onPreviewClick(pictureId: string | null | undefined): void {
   if (!pictureId) return;
-  openPictureGroupViewer({ picGroupId: props.picGroupId, picId: pictureId });
+  openPictureGroupViewerModal({
+    picGroupId: props.picGroupId,
+    picId: pictureId,
+  });
 }
 
 /**

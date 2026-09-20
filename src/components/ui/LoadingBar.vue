@@ -14,6 +14,9 @@ import { onMounted } from "vue";
 
 let bar: HTMLElement | null = null;
 
+/** Hide-after-transition cleanup, pending while the width transition runs. */
+let pendingCleanup: (() => void) | null = null;
+
 // =========================================================================
 // Actions
 // =========================================================================
@@ -22,9 +25,37 @@ onMounted(() => {
   bar = document.getElementById("loading-bar");
 });
 
+/** The fill element of the static bar markup. */
+function fillEl(): HTMLElement | null {
+  return bar?.querySelector<HTMLElement>("#loading-bar-fill") ?? null;
+}
+
+/** Drop a scheduled cleanup (show / hide reset the lifecycle). */
+function cancelPendingCleanup(): void {
+  pendingCleanup = null;
+  fillEl()?.removeEventListener("transitionend", onFillTransitionEnd);
+}
+
+/** Run + clear the pending cleanup immediately. */
+function runPendingCleanup(): void {
+  const cleanup = pendingCleanup;
+  cancelPendingCleanup();
+  cleanup?.();
+}
+
+/**
+ * Fill width transitionend — runs the pending completion cleanup.
+ * @param event - The transitionend event from the fill.
+ */
+function onFillTransitionEnd(event: TransitionEvent): void {
+  if (event.propertyName !== "width") return;
+  runPendingCleanup();
+}
+
 /** Show the progress bar and animate to ~85 %. */
 function show(): void {
   if (!bar) return;
+  cancelPendingCleanup();
   bar.classList.remove("done");
   bar.style.display = "";
   // Force reflow so the reset takes effect before adding 'active'
@@ -32,22 +63,28 @@ function show(): void {
   bar.classList.add("active");
 }
 
-/** Complete the progress bar: animate to 100 % then fade out. */
+/** Complete the progress bar: animate to 100 % then hide it. */
 function complete(): void {
   if (!bar) return;
   bar.classList.add("done");
   bar.classList.remove("active");
-  // Hide after the completion transition (350 ms)
-  setTimeout(() => {
+  pendingCleanup = () => {
     if (!bar) return;
     bar.classList.remove("done");
     bar.style.display = "none";
-  }, 350);
+  };
+  const fill = fillEl();
+  if (!fill || parseFloat(getComputedStyle(fill).transitionDuration) === 0) {
+    runPendingCleanup();
+    return;
+  }
+  fill.addEventListener("transitionend", onFillTransitionEnd);
 }
 
 /** Immediately hide the progress bar without the completion animation. */
 function hide(): void {
   if (!bar) return;
+  cancelPendingCleanup();
   bar.classList.remove("active", "done");
   bar.style.display = "none";
 }

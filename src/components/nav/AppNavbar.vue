@@ -11,14 +11,14 @@
   - Scroll border via @scroll + :class
 -->
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useBreakpoint } from "../../composables/useBreakpoint";
 import { useGesture } from "../../composables/useGesture";
 import { useI18n } from "../../composables/useI18n";
+import { useSettingsModal } from "../../composables/useSettingsModal";
 import { useTheme } from "../../composables/useTheme";
 import { extractPageName, normalizeInternalPath } from "../../core/utils";
 import type { NavDropdownItem, NavItem } from "../../types/app";
-import { OPEN_SETTINGS_KEY } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
@@ -161,10 +161,10 @@ const currentThemeLabel = computed(() => {
 });
 
 // =========================================================================
-// Inject
+// State
 // =========================================================================
 
-const openSettings = inject<() => void>(OPEN_SETTINGS_KEY, () => {});
+const { openSettingsModal } = useSettingsModal();
 
 // =========================================================================
 // Actions
@@ -369,7 +369,7 @@ defineExpose({
             class="nav-link"
             href="#"
             :aria-label="$t('text-settings')"
-            @click.prevent="openSettings()"
+            @click.prevent="openSettingsModal()"
           >
             <MaterialSymbol name="settings" />
           </a>

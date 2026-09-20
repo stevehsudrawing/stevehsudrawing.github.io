@@ -33,10 +33,11 @@ export const enum StorageKey {
   OpenInNewTab = "openInNewTab",
   EnableAnimations = "enableAnimations",
   EnableSwiper = "enableSwiper",
-  /** Cached GitHub user profile data (JSON-serialized CacheEntry<GitHubUser>). */
+  /** Cached GitHub profile data (JSON-serialized CacheEntry<GithubUser>). */
   GithubProfile = "githubProfile",
-  /** Cached GitHub events data (JSON-serialized CacheEntry<GitHubEvent[]>). */
-  GithubEvents = "githubEvents" /** Cached GitHub commits data (JSON-serialized CacheEntry<GitHubCommit[]>). */,
+  /** Cached GitHub events data (JSON-serialized CacheEntry<GithubEvent[]>). */
+  GithubEvents = "githubEvents",
+  /** Cached GitHub commits data (JSON-serialized CacheEntry<GithubCommit[]>). */
   GithubCommits = "githubCommits",
 }
 
@@ -421,7 +422,7 @@ export interface TypeAwareLinkProps {
  * Subset of GitHub's `GET /users/{username}` response.
  * Only includes fields that are displayed in the UI.
  */
-export interface GitHubUser {
+export interface GithubUser {
   /** GitHub login (username). */
   login: string;
   /** URL to the user's avatar image. */
@@ -443,7 +444,7 @@ export interface GitHubUser {
 }
 
 /** A single event from the GitHub Events API (GET /users/{username}/events/public). */
-export interface GitHubEvent {
+export interface GithubEvent {
   /** Event id (may be absent in stale caches). */
   id?: string;
   /** Event type (e.g. "PushEvent", "WatchEvent"). */
@@ -475,7 +476,7 @@ export interface GitHubEvent {
  * A single commit from the GitHub Commits API
  * (GET /repos/{owner}/{repo}/commits).  Only the consumed subset.
  */
-export interface GitHubCommit {
+export interface GithubCommit {
   /** Full commit SHA. */
   sha: string;
   /** URL of the commit page on GitHub. */
@@ -541,12 +542,12 @@ export interface QRCodeModalProps {
   hideOpenLink: boolean;
 }
 
-/** Props for GitHubEventsModal — stored in a modal-stack item. */
-export interface GitHubEventsModalProps {
+/** Props for GithubEventsModal — stored in a modal-stack item. */
+export interface GithubEventsModalProps {
   /** Modal title (event-type label or formatted date). */
   title: string;
   /** Filtered events to display, reverse chronological. */
-  events: GitHubEvent[];
+  events: GithubEvent[];
 }
 
 /** Props for PictureGroupViewerModal — stored in a modal-stack item. */
@@ -604,38 +605,10 @@ export type ModalId =
 export type ModalStackItem =
   | { id: "external-link"; props: ExternalLinkConfirmModalProps }
   | { id: "qr-code"; props: QRCodeModalProps }
-  | { id: "github-events"; props: GitHubEventsModalProps }
+  | { id: "github-events"; props: GithubEventsModalProps }
   | { id: "picture-group-viewer"; props: PictureGroupViewerModalProps }
   | { id: "picture-viewer"; props: PictureViewerModalProps }
   | { id: "settings"; props: null }
   | { id: "reset-warning"; props: null }
   | { id: "sticker"; props: StickerModalProps | null }
   | { id: "changelog"; props: null };
-
-// =========================================================================
-// Provide / inject keys (cross-component communication)
-// =========================================================================
-
-/**
- * Injection key for the external-link confirmation flow.
- * Provided by App.vue; consumed by TypeAwareLink.
- */
-export const OPEN_EXTERNAL_LINK_KEY = Symbol("openExternalLink");
-
-/**
- * Injection key for the QR code modal.
- * Provided by App.vue; consumed by QRCodeButton.
- */
-export const OPEN_QR_CODE_KEY = Symbol("openQRCode");
-
-/**
- * Injection key for the Settings modal.
- * Provided by App.vue; consumed by AppNavbar (gear button).
- */
-export const OPEN_SETTINGS_KEY = Symbol("openSettings");
-
-/**
- * Injection key for the sticker modal.
- * Provided by App.vue; consumed by AboutPage.
- */
-export const OPEN_STICKER_KEY = Symbol("openSticker");

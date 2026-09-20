@@ -1,5 +1,5 @@
 /**
- * usePictureViewer — single-image lightbox controller.
+ * usePictureViewerModal — single-image lightbox controller.
  *
  * Pushes the single-image viewer (`PictureViewerModal`, stack id
  * `picture-viewer`) onto the shared modal stack with a set of
@@ -15,8 +15,8 @@
  * carries no title.
  *
  * @example
- * const { openPictureViewer } = usePictureViewer();
- * openPictureViewer(props);
+ * const { openPictureViewerModal } = usePictureViewerModal();
+ * openPictureViewerModal(props);
  */
 
 import { useRoute, useRouter } from "vue-router";
@@ -31,18 +31,18 @@ import { useModalStack } from "./useModalStack";
 /**
  * Single-image viewer controller.
  *
- * @returns `openPictureViewer(img)` — pushes the lightbox with the
+ * @returns `openPictureViewerModal(img)` — pushes the lightbox with the
  *   given display props and mirrors the picture id into the URL.
  */
-export function usePictureViewer(): {
+export function usePictureViewerModal(): {
   /** Push the single-image viewer with the given display props. */
-  openPictureViewer: (img: FeatureAwarePictureProps) => void;
+  openPictureViewerModal: (img: FeatureAwarePictureProps) => void;
 } {
   const { push } = useModalStack();
   const route = useRoute();
   const router = useRouter();
 
-  function openPictureViewer(img: FeatureAwarePictureProps): void {
+  function openPictureViewerModal(img: FeatureAwarePictureProps): void {
     push({ id: "picture-viewer", props: { img } });
     if (!img.pictureId) return;
     // Entry param only — the single viewer never navigates internally.
@@ -55,5 +55,5 @@ export function usePictureViewer(): {
     });
   }
 
-  return { openPictureViewer };
+  return { openPictureViewerModal };
 }

@@ -18,6 +18,7 @@ import { useI18n } from "./composables/useI18n";
 import { useModalStack } from "./composables/useModalStack";
 import { usePageNavigation } from "./composables/usePageNavigation";
 import { usePictureViewerUrl } from "./composables/usePictureViewerUrl";
+import { useStickerModal } from "./composables/useStickerModal";
 import { useStoredValue } from "./composables/useStoredValue";
 import { useTheme } from "./composables/useTheme";
 import { SHOW_TOAST_KEY } from "./composables/useToast";
@@ -26,7 +27,7 @@ import { SHOW_TOAST_KEY } from "./composables/useToast";
 import SkipButton from "./components/buttons/SkipButton.vue";
 import ChangelogModal from "./components/modals/ChangelogModal.vue";
 import ExternalLinkConfirmModal from "./components/modals/ExternalLinkConfirmModal.vue";
-import GitHubEventsModal from "./components/modals/GitHubEventsModal.vue";
+import GithubEventsModal from "./components/modals/GithubEventsModal.vue";
 import PictureGroupViewerModal from "./components/modals/PictureGroupViewerModal.vue";
 import PictureViewerModal from "./components/modals/PictureViewerModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
@@ -40,13 +41,6 @@ import LoadingScreen from "./components/ui/LoadingScreen.vue";
 import ToastStack from "./components/ui/ToastStack.vue";
 
 // Platform-level modules
-import type { TypeAwareImageProps } from "./types/app";
-import {
-  OPEN_EXTERNAL_LINK_KEY,
-  OPEN_QR_CODE_KEY,
-  OPEN_SETTINGS_KEY,
-  OPEN_STICKER_KEY,
-} from "./types/app";
 
 import {
   getStoredEnableAnimations,
@@ -106,7 +100,10 @@ usePageNavigation(router, loadingBarRef, t);
 
 // ---- Modal stack (all modals coordinate through the shared stack) ----
 
-const { push, stack, clear } = useModalStack();
+const { stack, clear } = useModalStack();
+
+/** Sticker-modal opener — the secret-hash trigger's entry point. */
+const { openStickerModal } = useStickerModal();
 
 // ---- Lightbox query parameters (?picGroupId= / ?picId=) ----
 // The single owner of the lightbox URL state: it opens the viewers for a
@@ -152,44 +149,6 @@ provide(SHOW_TOAST_KEY, (type: "success" | "error", message: string) => {
   toastStackRef.value?.showToast(type, message);
 });
 
-// ---- Settings-modal injection (consumed by AppNavbar gear button) ----
-
-provide(OPEN_SETTINGS_KEY, () => {
-  push({ id: "settings", props: null });
-});
-
-// ---- External-link & QR-code injection (consumed by TypeAwareLink, QRCodeButton) ----
-
-provide(
-  OPEN_EXTERNAL_LINK_KEY,
-  (url: string, icon: TypeAwareImageProps | null, hideQR: boolean) => {
-    push({
-      id: "external-link",
-      props: { url, icon, hideQR },
-    });
-  },
-);
-
-provide(
-  OPEN_QR_CODE_KEY,
-  (url: string, icon: TypeAwareImageProps | null, hideOpenLink?: boolean) => {
-    push({
-      id: "qr-code",
-      props: {
-        url,
-        icon,
-        hideOpenLink: hideOpenLink ?? false,
-      },
-    });
-  },
-);
-
-// ---- Sticker-modal injection (consumed by AboutPage) ----
-
-provide(OPEN_STICKER_KEY, () => {
-  push({ id: "sticker", props: null });
-});
-
 // ---- Secret-hash sticker trigger (#47c4ee / #3c96ff) ----
 
 /**
@@ -205,7 +164,7 @@ watch(
   () => route.hash,
   (hash) => {
     if (STICKER_TRIGGER_HASHES.includes(hash)) {
-      push({ id: "sticker", props: null });
+      openStickerModal();
       void router.replace({ hash: "" });
     }
   },
@@ -284,7 +243,7 @@ onMounted(async () => {
   <ExternalLinkConfirmModal />
   <QRCodeModal />
   <ResetWarningModal />
-  <GitHubEventsModal />
+  <GithubEventsModal />
   <PictureGroupViewerModal />
   <PictureViewerModal />
   <StickerModal />

@@ -115,9 +115,10 @@ const tooltipTitle = computed(() => t("text-" + props.button.id));
 }
 
 .btn-outline-secondary {
-  --bs-btn-hover-color: #6c757d;
-  --bs-btn-hover-bg: rgba(108, 117, 125, 0.2);
-  --bs-btn-active-color: #6c757d;
-  --bs-btn-active-bg: rgba(108, 117, 125, 0.2);
+  --bs-btn-border-color: rgba(var(--bs-secondary-rgb), 0.5);
+  --bs-btn-hover-color: var(--bs-secondary);
+  --bs-btn-hover-bg: rgba(var(--bs-secondary-rgb), 0.2);
+  --bs-btn-active-color: var(--bs-secondary);
+  --bs-btn-active-bg: rgba(var(--bs-secondary-rgb), 0.2);
 }
 </style>

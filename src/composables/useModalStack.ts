@@ -66,7 +66,8 @@ export function useModalStack(): {
   stack: Ref<ModalStackItem[]>;
   /** The top stack entry, or null. */
   top: ComputedRef<ModalStackItem | null>;
-  /** Push a modal onto the stack. */
+  /** Push a modal onto the stack.  Internal transport — components
+   *  use the per-modal opener composables (`useXxxModal`) instead. */
   push: (item: ModalStackItem) => void;
   /** Pop the top modal (reveals the previous one, if any). */
   pop: () => void;

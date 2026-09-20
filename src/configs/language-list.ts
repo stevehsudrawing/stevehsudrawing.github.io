@@ -2,8 +2,8 @@
  * Supported-language configuration — the single source of truth for the
  * language list, the language-keyed date-fns locales, and the
  * language-keyed short/long date formats.
- * Consumed at runtime by AppNavbar / SettingsModal / GitHubEventsModal /
- * GitHubActivityStatsCard and at build time by the sitemap and head-tags
+ * Consumed at runtime by AppNavbar / SettingsModal / GithubEventsModal /
+ * GithubActivityStatsCard and at build time by the sitemap and head-tags
  * plugins.
  */
 

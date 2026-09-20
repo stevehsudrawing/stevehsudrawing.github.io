@@ -111,7 +111,7 @@ const showQR = computed(() => {
               v-if="titleLink"
               v-bind="titleLink"
               :icon="icon"
-              class="card-title mb-1 flex-grow-1"
+              class="mb-1 flex-grow-1"
             >
               {{ titleText }}
             </TypeAwareLink>
@@ -139,10 +139,6 @@ const showQR = computed(() => {
  * Migrated from base.css — Cards / Image Utilities sections.
  * These were build-time injected link-card styles, now owned by LinkCard.vue.
  */
-
-a {
-  color: var(--shlh-link-color) !important;
-}
 
 /* ---- Card wrapper ---- */
 .card-wrapper {

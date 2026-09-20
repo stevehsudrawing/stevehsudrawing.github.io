@@ -20,13 +20,34 @@ onMounted(() => {
   loadingEl = document.getElementById("loading-screen");
 });
 
+/**
+ * Remove the element once its fade-out ends.  Runs immediately when
+ * transitions are disabled (reduced motion / .no-animations).
+ * @param el - The loading-screen element.
+ */
+function afterFadeOut(el: HTMLElement): void {
+  const finish = (): void => {
+    el.parentNode?.removeChild(el);
+  };
+  if (parseFloat(getComputedStyle(el).transitionDuration) === 0) {
+    finish();
+    return;
+  }
+  el.addEventListener(
+    "transitionend",
+    function handler(event: TransitionEvent): void {
+      if (event.propertyName !== "opacity") return;
+      el.removeEventListener("transitionend", handler);
+      finish();
+    },
+  );
+}
+
 /** Hide the loading screen with a fade-out animation, then remove from DOM. */
 function hide(): void {
   if (!loadingEl) return;
   loadingEl.classList.add("fade-out");
-  setTimeout(() => {
-    loadingEl?.parentNode?.removeChild(loadingEl!);
-  }, 500);
+  afterFadeOut(loadingEl);
 }
 
 // =========================================================================

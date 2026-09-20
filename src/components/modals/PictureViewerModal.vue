@@ -1,7 +1,7 @@
 <!--
   PictureViewerModal.vue — single-image lightbox (stack id `picture-viewer`).
 
-  Opened through openPictureViewer() (composables/usePictureViewer.ts) by
+  Opened through openPictureViewerModal() (composables/usePictureViewerModal.ts) by
   the FeatureAwarePicture overlay preview button — or by any other caller
   that wants to show one picture enlarged.
 
