@@ -632,6 +632,7 @@ onBeforeUnmount(() => {
             class="btn btn-same-padding btn-outline-primary btn-no-border"
             :aria-label="$t('text-open-related-page')"
             hide-indicator
+            no-underline
             @click="onRelatedLinkClick()"
           >
             <MaterialSymbol name="open_in_new" />

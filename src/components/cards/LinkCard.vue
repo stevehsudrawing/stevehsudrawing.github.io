@@ -107,15 +107,17 @@ const showQR = computed(() => {
         <div class="flex-grow-1">
           <!-- Title -->
           <div class="d-flex">
-            <TypeAwareLink
-              v-if="titleLink"
-              v-bind="titleLink"
-              :icon="icon"
-              class="mb-1 flex-grow-1"
-            >
-              {{ titleText }}
-            </TypeAwareLink>
-            <span v-else class="card-title mb-1">{{ titleText }}</span>
+            <div class="flex-grow-1">
+              <TypeAwareLink
+                v-if="titleLink"
+                v-bind="titleLink"
+                :icon="icon"
+                class="mb-1"
+              >
+                {{ titleText }}
+              </TypeAwareLink>
+              <span v-else class="card-title mb-1">{{ titleText }}</span>
+            </div>
             <!-- QR button -->
             <QRCodeButton
               v-if="showQR && titleLink"

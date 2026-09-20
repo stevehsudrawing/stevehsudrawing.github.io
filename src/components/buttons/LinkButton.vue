@@ -95,6 +95,7 @@ const tooltipTitle = computed(() => t("text-" + props.button.id));
       :class="['btn', btnClass, 'link-btn-img-wrapper']"
       :aria-label="tooltipTitle"
       hide-indicator
+      no-underline
     >
       <TypeAwareImage :image="displayIcon" :width="40" :height="40" />
     </TypeAwareLink>

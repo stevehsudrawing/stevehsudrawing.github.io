@@ -153,6 +153,7 @@ onBeforeUnmount(() => {
             :aria-label="$t('text-open-related-page')"
             @click="onRelatedLinkClick()"
             hide-indicator
+            no-underline
           >
             <MaterialSymbol name="open_in_new" />
           </TypeAwareLink>

@@ -268,6 +268,7 @@ const historyUrl = `https://github.com/${GITHUB_REPO}/commits`;
           class="btn btn-same-padding btn-outline-primary btn-no-border"
           :aria-label="t('text-view-full-history-on-github')"
           hide-indicator
+          no-underline
         >
           <InlineSvg
             src="/images/svg/icons/github.svg"

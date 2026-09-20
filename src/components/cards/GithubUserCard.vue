@@ -104,6 +104,7 @@ const statsText = computed(() => {
           <div>
             <TypeAwareLink
               class="btn btn-outline-secondary btn-sm"
+              no-underline
               type="external"
               :href="profile!.html_url"
               :icon="{
@@ -168,6 +169,7 @@ const statsText = computed(() => {
             <div class="btn-group">
               <TypeAwareLink
                 class="btn btn-outline-secondary btn-sm flex-shrink-0"
+                no-underline
                 type="external"
                 :href="profile!.html_url"
                 :icon="{
@@ -188,6 +190,7 @@ const statsText = computed(() => {
               <TooltipTrigger :title="$t('text-more-information')" teleport>
                 <TypeAwareLink
                   class="btn btn-same-padding btn-outline-secondary btn-sm"
+                  no-underline
                   type="internal"
                   href="/softwares.html#my-github-profile"
                 >

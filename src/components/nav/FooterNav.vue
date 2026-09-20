@@ -72,7 +72,6 @@ const { openChangelogModal } = useChangelogModal();
           </TypeAwareLink>
           <TooltipTrigger :title="$t('text-changelog')">
             <a
-              href="javascript:void(0)"
               role="button"
               class="text-decoration-none me-2"
               :aria-label="$t('text-changelog')"

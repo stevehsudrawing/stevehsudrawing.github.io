@@ -48,7 +48,6 @@ function onClick(e: MouseEvent): void {
 <template>
   <TooltipTrigger :title="t('text-show-qr-code')">
     <a
-      href="javascript:void(0)"
       role="button"
       class="text-decoration-none"
       :aria-label="$t('text-show-qr-code')"

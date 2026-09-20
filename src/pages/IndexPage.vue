@@ -72,12 +72,15 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         </div>
       </div>
     </div>
+
+    <!-- Scroll Down Tip -->
     <TooltipTrigger :title="$t('text-my-softwares')">
       <TypeAwareLink
         class="scroll-down-tip"
         href="#softwares-section"
         type="anchor"
         hide-indicator
+        no-underline
         v-if="breakpoint !== 'mobile'"
       >
         <span>{{ $t("text-scroll-down") }}</span>
@@ -127,12 +130,15 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
         </div>
       </div>
     </div>
+
+    <!-- Scroll Down Tip -->
     <TooltipTrigger :title="$t('text-more-links')">
       <TypeAwareLink
         class="scroll-down-tip"
         href="#blogs-sponsor-section"
         type="anchor"
         hide-indicator
+        no-underline
         v-if="breakpoint !== 'mobile'"
       >
         <span>{{ $t("text-scroll-down") }}</span>

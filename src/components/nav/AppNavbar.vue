@@ -302,6 +302,7 @@ defineExpose({
                   :href="child.href"
                   class="dropdown-item"
                   :class="{ active: isActive(child.href) }"
+                  no-underline
                   >{{ $t(child.i18nKey) }}</TypeAwareLink
                 >
               </li>

@@ -107,12 +107,12 @@ function onActivate(): void {
   margin: 0;
   width: 100%;
   cursor: pointer;
-  outline: 0 solid var(--bs-body-color);
+  outline: 0 solid var(--bs-secondary);
   transition: outline var(--shlh-duration-fast) ease-in-out;
 }
 
 .picture-card:hover {
-  outline: 2px solid var(--bs-body-color);
+  outline: 2px solid var(--bs-secondary);
 }
 
 /* --- Poster image (fills the column, height auto) --- */

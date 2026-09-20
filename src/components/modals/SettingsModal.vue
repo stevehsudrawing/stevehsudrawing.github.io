@@ -1,8 +1,13 @@
 <!--
-  SettingsModal.vue — User preferences panel.
+  SettingsModal.vue — User preferences panel, shaped as mobile-style
+  option rows (title + persistent description left, control right).
   Visibility comes from the shared modal stack (useStackModal).
-  Reset button pushes reset-warning on top; Close pops one level;
+  Reset button opens reset-warning on top; Close pops one level;
   backdrop / Esc clears the whole stack.
+
+  Forced states (system reduced motion / unsupported browser) swap in a
+  forced-disabled description and a purely decorative warning icon left
+  of the control.
 -->
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from "vue";
@@ -24,7 +29,6 @@ import {
   setStoredOpenInNewTab,
 } from "../../platform/storage";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
-import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // State
@@ -93,15 +97,15 @@ onBeforeUnmount(() => {
   reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
 });
 
-/** Tooltip text of the animations toggle icon (warning ⇄ info). */
-const animationsTooltip = computed(() =>
+/** Persistent description of the animations row (forced state ⇄ normal). */
+const animationsDescription = computed(() =>
   reducedMotion.value
     ? t("text-animations-disabled-by-system-description")
     : t("text-enable-animations-description"),
 );
 
-/** Tooltip text of the Swiper toggle icon (warning ⇄ info). */
-const swiperTooltip = computed(() =>
+/** Persistent description of the Swiper row (forced state ⇄ normal). */
+const swiperDescription = computed(() =>
   swiperSupported
     ? t("text-enable-swiper-description")
     : t("text-swiper-unsupported-description"),
@@ -119,13 +123,6 @@ const languages = LANGUAGE_LIST.map((item) => ({
 // =========================================================================
 // Actions
 // =========================================================================
-
-/**
- * No-op click guard for the toggle tooltip icons: with the `stop` /
- * `prevent` modifiers it keeps a click on the icon (inside the checkbox
- * label) from toggling the switch.
- */
-function blockToggle(): void {}
 
 /** Open ResetWarningModal on top of this modal (via its opener). */
 function openResetWarning(): void {
@@ -150,37 +147,49 @@ function openResetWarning(): void {
   >
     <div class="d-flex flex-column gap-3">
       <!-- Language -->
-      <div>
-        <label for="settings-language-select" class="form-label fw-semibold">
+      <div class="settings-row">
+        <label class="settings-text" for="settings-language-select">
           {{ $t("text-language") }}
         </label>
-        <select
-          id="settings-language-select"
-          ref="langSelectRef"
-          v-model="locale"
-          class="form-select"
-          @change="setLocale(locale)"
-        >
-          <option v-for="lang in languages" :key="lang.code" :value="lang.code">
-            {{ lang.name }}
-          </option>
-        </select>
+        <div class="settings-control">
+          <select
+            id="settings-language-select"
+            ref="langSelectRef"
+            v-model="locale"
+            class="form-select settings-select"
+            @change="setLocale(locale)"
+          >
+            <option
+              v-for="lang in languages"
+              :key="lang.code"
+              :value="lang.code"
+            >
+              {{ lang.name }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <!-- Theme -->
-      <div>
-        <div class="mb-2 fw-semibold">{{ $t("text-theme") }}</div>
-        <div class="btn-group d-flex flex-wrap" role="group">
-          <button
-            v-for="t in THEME_OPTIONS"
-            :key="t.value"
-            type="button"
-            class="btn btn-outline-secondary flex-fill"
-            :class="{ active: themePreference === t.value }"
-            @click="setTheme(t.value)"
+      <div class="settings-row">
+        <label class="settings-text" for="settings-theme-select">
+          {{ $t("text-theme") }}
+        </label>
+        <div class="settings-control">
+          <select
+            id="settings-theme-select"
+            v-model="themePreference"
+            class="form-select settings-select"
+            @change="setTheme(themePreference)"
           >
-            {{ $t(t.i18nKey) }}
-          </button>
+            <option
+              v-for="option in THEME_OPTIONS"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ $t(option.i18nKey) }}
+            </option>
+          </select>
         </div>
       </div>
 
@@ -189,9 +198,13 @@ function openResetWarning(): void {
         id="settings-new-tab-toggle"
         v-model="openInNewTab"
         :unchecked-value="false"
+        :aria-label="$t('text-always-open-external-links-in-a-new-tab')"
         switch
+        class="settings-row settings-row-switch"
       >
-        {{ $t("text-always-open-external-links-in-a-new-tab") }}
+        <span class="settings-text">
+          {{ $t("text-always-open-external-links-in-a-new-tab") }}
+        </span>
       </BFormCheckbox>
 
       <!-- Animations toggle -->
@@ -199,19 +212,22 @@ function openResetWarning(): void {
         id="settings-animations-toggle"
         v-model="enableAnimations"
         :unchecked-value="false"
-        switch
         :disabled="reducedMotion"
+        :aria-label="$t('text-enable-animations')"
+        switch
+        class="settings-row settings-row-switch"
       >
-        {{ $t("text-enable-animations") }}
-        <TooltipTrigger :title="animationsTooltip" :delay="0" teleport>
-          <MaterialSymbol
-            :name="reducedMotion ? 'warning' : 'info'"
-            :label="animationsTooltip"
-            class="ms-1"
-            tabindex="0"
-            @click.stop.prevent="blockToggle"
-          />
-        </TooltipTrigger>
+        <span class="settings-text">
+          {{ $t("text-enable-animations") }}
+          <span class="small text-body-secondary">
+            {{ animationsDescription }}
+          </span>
+        </span>
+        <MaterialSymbol
+          v-if="reducedMotion"
+          name="warning"
+          class="settings-warning text-body"
+        />
       </BFormCheckbox>
 
       <!-- Swiper toggle -->
@@ -219,19 +235,20 @@ function openResetWarning(): void {
         id="settings-swiper-toggle"
         v-model="swiperToggle"
         :unchecked-value="false"
-        switch
         :disabled="!swiperSupported"
+        :aria-label="$t('text-enable-swiper')"
+        switch
+        class="settings-row settings-row-switch"
       >
-        {{ $t("text-enable-swiper") }}
-        <TooltipTrigger :title="swiperTooltip" :delay="0" teleport>
-          <MaterialSymbol
-            :name="swiperSupported ? 'info' : 'warning'"
-            :label="swiperTooltip"
-            class="ms-1"
-            tabindex="0"
-            @click.stop.prevent="blockToggle"
-          />
-        </TooltipTrigger>
+        <span class="settings-text">
+          {{ $t("text-enable-swiper") }}
+          <span class="small text-body-secondary">{{ swiperDescription }}</span>
+        </span>
+        <MaterialSymbol
+          v-if="!swiperSupported"
+          name="warning"
+          class="settings-warning text-body"
+        />
       </BFormCheckbox>
     </div>
 
@@ -258,3 +275,69 @@ function openResetWarning(): void {
     </template>
   </BModal>
 </template>
+
+<style scoped>
+/* ==== Settings Modal — mobile-style option rows ==== */
+
+/* --- Row layout --- */
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settings-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.settings-control {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+/* --- Selects: borderless with a hover tint --- */
+
+.settings-select {
+  width: auto;
+  border: 0;
+  background-color: transparent;
+  transition: background-color var(--shlh-duration-fast) ease-in-out;
+}
+
+.settings-select:hover {
+  background-color: rgba(var(--bs-body-color-rgb), 0.1);
+}
+
+/* --- Switch rows (BFormCheckbox re-flowed into the row) --- */
+
+.settings-row-switch {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.settings-row-switch :deep(.form-check-label) {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.settings-row-switch :deep(.form-check-input) {
+  order: 2;
+  float: none;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.settings-warning {
+  flex-shrink: 0;
+}
+</style>

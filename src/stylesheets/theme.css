@@ -217,12 +217,10 @@ a {
 
 a:hover {
   color: var(--shlh-link-hover-color);
-  text-decoration-color: var(--shlh-link-hover-color);
 }
 
 a:active {
   color: var(--shlh-link-active-color);
-  text-decoration-color: var(--shlh-link-active-color);
 }
 
 /* Light */
@@ -268,6 +266,12 @@ a {
   color: var(--shlh-link-hover-on-background-color) !important;
   background-color: var(--shlh-link-color) !important;
   outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 1) !important;
+}
+
+/* The sweeping `.link::after` underline (base.css) never applies to
+   background-swap links. */
+.link.link-hover-change-background::after {
+  content: none;
 }
 
 /* --- Footer Link --- */

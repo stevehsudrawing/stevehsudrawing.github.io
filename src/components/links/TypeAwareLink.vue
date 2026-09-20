@@ -8,7 +8,9 @@
     email     -> native <a href="mailto:..."> behavior
     anchor    -> smooth-scroll to #hash target
 
-  Always carries the .link class for hover-underline styling.
+  Carries the .link class for the sweeping hover underline (base.css:
+  grows from the left, retreats toward the right on leave) unless
+  `noUnderline` is set — button-styled links (`btn`) opt out.
 -->
 <script setup lang="ts">
 import { computed } from "vue";
@@ -84,8 +86,8 @@ function onClick(e: MouseEvent): void {
 <template>
   <a
     :href="href"
-    class="link"
     :class="{
+      link: !noUnderline,
       'external-link': type === 'external',
       'internal-link': type === 'internal',
     }"

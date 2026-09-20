@@ -412,6 +412,12 @@ export interface TypeAwareLinkProps {
   noQRCode?: boolean;
   /** Hide the type indicator icon (arrow / envelope / paragraph). */
   hideIndicator?: boolean;
+  /**
+   * Do not apply the `.link` class — removes the sweeping hover
+   * underline.  Set on button-styled links (`btn`), where the
+   * text-link affordance must not appear.
+   */
+  noUnderline?: boolean;
 }
 
 // =========================================================================

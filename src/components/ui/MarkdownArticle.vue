@@ -383,6 +383,7 @@ onBeforeUnmount(() => {
   top: calc(64px + var(--safe-area-inset-top, 0px));
   z-index: 1020;
   background: var(--bs-body-bg);
+  border-left: 2px solid transparent;
   margin-left: calc(-1 * var(--bs-gutter-x, 0.75rem) * 0.5);
   margin-right: calc(-1 * var(--bs-gutter-x, 0.75rem) * 0.5);
   margin-bottom: 1rem;
