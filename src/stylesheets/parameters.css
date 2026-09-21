@@ -32,6 +32,7 @@
   /* Alphas */
   --shlh-shimmer-alpha: 0.08;
   --shlh-on-image-bar-alpha: 0.3;
+  --shlh-on-image-toast-alpha: 0.3;
 
   /* Durations */
   --shlh-duration-fast: 0.1s;
@@ -56,6 +57,8 @@
     --shlh-blur-md: 0;
     --shlh-surface-opacity: 1;
     --shlh-backdrop-opacity: 1;
+    --shlh-on-image-bar-alpha: 0.5;
+    --shlh-on-image-toast-alpha: 1;
   }
 
   /* Bootstrap's tooltip opacity knob has no `--shlh-` indirection;
@@ -71,8 +74,8 @@
   :root {
     --shlh-surface-opacity: 1;
     --shlh-backdrop-opacity: 1;
-    --shlh-dim-opacity: 0.65;
     --shlh-shimmer-alpha: 0.15;
-    --shlh-on-image-bar-alpha: 0.45;
+    --shlh-on-image-bar-alpha: 0.5;
+    --shlh-on-image-toast-alpha: 1;
   }
 }

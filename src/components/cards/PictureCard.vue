@@ -6,7 +6,7 @@
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import { usePictureRegistry } from "../../composables/usePictureRegistry";
+import { usePictureRegistry } from "../../composables/pictures/usePictureRegistry";
 import type { FeatureAwarePictureProps } from "../../types/app";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";

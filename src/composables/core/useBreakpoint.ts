@@ -22,7 +22,7 @@
  */
 
 import { onBeforeUnmount, onMounted, ref, type Ref } from "vue";
-import type { Breakpoint } from "../types/app";
+import type { Breakpoint } from "../../types/app";
 
 // =========================================================================
 // Module-level shared state (singleton — all components share the same ref)

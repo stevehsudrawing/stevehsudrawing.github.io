@@ -11,12 +11,12 @@
  */
 import { computed, ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
-import registryData from "../configs/picture-registry.json";
-import { findPictureEntry } from "../core/picture-registry";
+import registryData from "../../configs/picture-registry.json";
+import { findPictureEntry } from "../../core/picture-registry";
 import type {
   DisplayPictureGroupData,
   RegistryPictureEntry,
-} from "../types/app";
+} from "../../types/app";
 
 // =========================================================================
 // Pool loading (module-level singleton)
@@ -55,7 +55,7 @@ function warnAboutUnknownPictures(pool: DisplayPictureGroupData[]): void {
  */
 function loadPool(): Promise<DisplayPictureGroupData[]> {
   if (!poolPromise) {
-    poolPromise = import("../configs/picture-groups.json").then((mod) => {
+    poolPromise = import("../../configs/picture-groups.json").then((mod) => {
       const pool = mod.default as unknown as DisplayPictureGroupData[];
       if (import.meta.env.DEV) warnAboutUnknownPictures(pool);
       return pool;

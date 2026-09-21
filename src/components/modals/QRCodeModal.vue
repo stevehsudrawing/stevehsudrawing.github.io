@@ -7,11 +7,14 @@
 <script setup lang="ts">
 import QRCode from "qrcode";
 import { computed, nextTick, ref, watch } from "vue";
-import { useExternalLinkConfirmModal } from "../../composables/useExternalLinkConfirmModal";
-import { useI18n } from "../../composables/useI18n";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { useTheme } from "../../composables/useTheme";
-import { useToast } from "../../composables/useToast";
+import { useI18n } from "../../composables/core/useI18n";
+import { useTheme } from "../../composables/core/useTheme";
+import { useToast } from "../../composables/core/useToast";
+import { useExternalLinkConfirmModal } from "../../composables/modals/useExternalLinkConfirmModal";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
 import { BASE_URL } from "../../configs/site-meta";
 import { cssVar } from "../../platform/css-var";
 import type { TypeAwareImageProps } from "../../types/app";
@@ -310,7 +313,7 @@ function openLink(): void {
             <InlineSvg
               src="/images/svg/icons/steve-hsu.svg"
               :width="25"
-              :height="21"
+              :height="25"
               color-var="bs-primary"
               class="no-copy"
             />

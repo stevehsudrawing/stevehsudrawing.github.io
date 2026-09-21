@@ -15,14 +15,14 @@
  */
 
 import { computed, type ComputedRef } from "vue";
-import { GITHUB_USERNAME } from "../configs/site-meta";
-import { GITHUB_EVENTS_CACHE } from "../platform/storage";
+import { GITHUB_USERNAME } from "../../configs/site-meta";
+import { GITHUB_EVENTS_CACHE } from "../../platform/storage";
 import {
   type ActivityStat,
   type DailyStat,
   type GithubEvent,
-} from "../types/app";
-import type { IconName } from "../types/icons";
+} from "../../types/app";
+import type { IconName } from "../../types/icons";
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
 
 // =========================================================================

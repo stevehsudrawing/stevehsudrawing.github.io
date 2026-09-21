@@ -7,7 +7,7 @@
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import MarkdownArticle from "../components/ui/MarkdownArticle.vue";
-import { usePictureRegistry } from "../composables/usePictureRegistry";
+import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
 
 // Picture registry — resolves the hero cover props.
 const { pictureProps } = usePictureRegistry();

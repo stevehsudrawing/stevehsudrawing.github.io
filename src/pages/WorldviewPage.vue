@@ -8,9 +8,9 @@ import { computed } from "vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import MarkdownArticle from "../components/ui/MarkdownArticle.vue";
-import { useI18n } from "../composables/useI18n";
-import { useMarkdownContent } from "../composables/useMarkdownContent";
-import { usePictureRegistry } from "../composables/usePictureRegistry";
+import { useMarkdownContent } from "../composables/content/useMarkdownContent";
+import { useI18n } from "../composables/core/useI18n";
+import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
 import { isBirthdayWeek } from "../core/birthday";
 
 // Picture registry — resolves the hero cover props.

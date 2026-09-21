@@ -25,7 +25,7 @@
  * assets (stale `shlh-*` caches are deleted on activate).
  */
 
-const CACHE_VERSION = "3.19.2";
+const CACHE_VERSION = "3.20.0";
 const HTML_CACHE = `shlh-html-${CACHE_VERSION}`;
 const STATIC_CACHE = `shlh-static-${CACHE_VERSION}`;
 

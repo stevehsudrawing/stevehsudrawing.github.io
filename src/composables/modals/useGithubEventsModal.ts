@@ -10,7 +10,7 @@
  * openGithubEventsModal({ title, events: filtered });
  */
 
-import type { GithubEventsModalProps } from "../types/app";
+import type { GithubEventsModalProps } from "../../types/app";
 import { useModalStack } from "./useModalStack";
 
 /**

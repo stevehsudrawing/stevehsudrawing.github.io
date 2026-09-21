@@ -6,11 +6,14 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { useModalFocus } from "../../composables/useModalFocus";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { useStoredValue } from "../../composables/useStoredValue";
-import { useTheme } from "../../composables/useTheme";
+import { useI18n } from "../../composables/core/useI18n";
+import { useStoredValue } from "../../composables/core/useStoredValue";
+import { useTheme } from "../../composables/core/useTheme";
+import { useModalFocus } from "../../composables/modals/useModalFocus";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
 import {
   getStoredEnableAnimations,
   getStoredEnableSwiper,

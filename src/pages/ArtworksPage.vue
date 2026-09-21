@@ -7,8 +7,8 @@ import { ref } from "vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
-import { useLinkCards } from "../composables/useLinkCards";
-import { usePictureRegistry } from "../composables/usePictureRegistry";
+import { useLinkCards } from "../composables/content/useLinkCards";
+import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
 
 // Picture registry — resolves the hero cover props.
 const { pictureProps } = usePictureRegistry();

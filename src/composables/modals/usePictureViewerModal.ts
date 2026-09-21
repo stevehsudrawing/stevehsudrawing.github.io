@@ -20,8 +20,8 @@
  */
 
 import { useRoute, useRouter } from "vue-router";
-import { preserveLangParam } from "../core/utils";
-import type { FeatureAwarePictureProps } from "../types/app";
+import { preserveLangParam } from "../../core/utils";
+import type { FeatureAwarePictureProps } from "../../types/app";
 import { useModalStack } from "./useModalStack";
 
 // =========================================================================

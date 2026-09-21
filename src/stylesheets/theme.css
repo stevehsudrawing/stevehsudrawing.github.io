@@ -256,8 +256,14 @@ a {
 /* --- Hover Effect of Changing Background --- */
 
 /* Both */
+/* Owns its transition set — the base `a` rule animates colour only
+   (v3.20.0). */
 .link-hover-change-background {
   outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 0);
+  transition:
+    color var(--shlh-duration-fast) linear,
+    background-color var(--shlh-duration-fast) linear,
+    outline var(--shlh-duration-fast) linear;
 }
 
 .link-hover-change-background:hover,
@@ -325,7 +331,7 @@ a {
 }
 
 [data-bs-theme="dark"] .form-switch .form-check-input:checked {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23000'/%3e%3c/svg%3e");
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23212529'/%3e%3c/svg%3e");
 }
 
 /* --- Dropdown Menu --- */

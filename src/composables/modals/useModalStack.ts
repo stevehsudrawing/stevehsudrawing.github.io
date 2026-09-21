@@ -31,7 +31,7 @@ import {
   type ComputedRef,
   type Ref,
 } from "vue";
-import type { ModalId, ModalStackItem } from "../types/app";
+import type { ModalId, ModalStackItem } from "../../types/app";
 
 // =========================================================================
 // Module-level singleton state

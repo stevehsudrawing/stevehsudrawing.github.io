@@ -10,7 +10,7 @@
  * openExternalLinkConfirmModal({ url, icon, hideQR });
  */
 
-import type { ExternalLinkConfirmModalProps } from "../types/app";
+import type { ExternalLinkConfirmModalProps } from "../../types/app";
 import { useModalStack } from "./useModalStack";
 
 /**

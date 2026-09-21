@@ -8,8 +8,8 @@
   useToast() (SHOW_TOAST_KEY provide/inject) for user feedback.
 -->
 <script setup lang="ts">
-import { useI18n } from "../../composables/useI18n";
-import { useToast } from "../../composables/useToast";
+import { useI18n } from "../../composables/core/useI18n";
+import { useToast } from "../../composables/core/useToast";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================

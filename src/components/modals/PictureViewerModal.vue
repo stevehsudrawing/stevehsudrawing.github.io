@@ -1,7 +1,7 @@
 <!--
   PictureViewerModal.vue — single-image lightbox (stack id `picture-viewer`).
 
-  Opened through openPictureViewerModal() (composables/usePictureViewerModal.ts) by
+  Opened through openPictureViewerModal() (composables/modals/usePictureViewerModal.ts) by
   the FeatureAwarePicture overlay preview button — or by any other caller
   that wants to show one picture enlarged.
 
@@ -23,9 +23,12 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
-import { setSwipeTrackingEnabled } from "../../composables/useGesture";
-import { useI18n } from "../../composables/useI18n";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { setSwipeTrackingEnabled } from "../../composables/core/useGesture";
+import { useI18n } from "../../composables/core/useI18n";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
 import type { FeatureAwarePictureProps } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";

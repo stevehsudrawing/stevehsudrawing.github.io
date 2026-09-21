@@ -8,13 +8,13 @@
  * MarkdownArticle re-parses when the content changes.
  */
 import { computed, type ComputedRef } from "vue";
-import { resolveLanguageAwareString } from "../core/utils";
-import type { LanguageAwareString } from "../types/app";
-import { useI18n } from "./useI18n";
+import { resolveLanguageAwareString } from "../../core/utils";
+import type { LanguageAwareString } from "../../types/app";
+import { useI18n } from "../core/useI18n";
 
-import enWorldview from "../configs/i18n/en/worldview.md?raw";
-import zhHansWorldview from "../configs/i18n/zh-Hans/worldview.md?raw";
-import zhHantWorldview from "../configs/i18n/zh-Hant/worldview.md?raw";
+import enWorldview from "../../configs/i18n/en/worldview.md?raw";
+import zhHansWorldview from "../../configs/i18n/zh-Hans/worldview.md?raw";
+import zhHantWorldview from "../../configs/i18n/zh-Hant/worldview.md?raw";
 
 /** Per-language markdown sources, keyed by document id. */
 const MARKDOWN_SOURCES: Record<string, LanguageAwareString> = {

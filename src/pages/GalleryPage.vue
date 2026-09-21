@@ -10,9 +10,9 @@ import { computed } from "vue";
 import PictureListGroups from "../components/cards/PictureListGroups.vue";
 import PageChainNav from "../components/nav/PageChainNav.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
-import { usePictureGroupViewerModal } from "../composables/usePictureGroupViewerModal";
-import { usePictureList } from "../composables/usePictureList";
-import { usePictureRegistry } from "../composables/usePictureRegistry";
+import { usePictureGroupViewerModal } from "../composables/modals/usePictureGroupViewerModal";
+import { usePictureList } from "../composables/pictures/usePictureList";
+import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
 
 // =========================================================================
 // Picture groups

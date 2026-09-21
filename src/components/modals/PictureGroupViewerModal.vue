@@ -30,12 +30,15 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { setSwipeTrackingEnabled } from "../../composables/useGesture";
-import { useI18n } from "../../composables/useI18n";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { usePictureRegistry } from "../../composables/usePictureRegistry";
-import { useQRCodeModal } from "../../composables/useQRCodeModal";
-import { useSwiperMode } from "../../composables/useSwiperMode";
+import { setSwipeTrackingEnabled } from "../../composables/core/useGesture";
+import { useI18n } from "../../composables/core/useI18n";
+import { useSwiperMode } from "../../composables/core/useSwiperMode";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
+import { useQRCodeModal } from "../../composables/modals/useQRCodeModal";
+import { usePictureRegistry } from "../../composables/pictures/usePictureRegistry";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type {
@@ -577,9 +580,9 @@ onBeforeUnmount(() => {
         :class="[
           isSwiper ? '' : 'picture-viewer-hints--fallback',
           bottomDark === true
-            ? 'controls-on-image-dark'
+            ? 'toast-on-image-dark'
             : bottomDark === false
-              ? 'controls-on-image-light'
+              ? 'toast-on-image-light'
               : '',
         ]"
         aria-hidden="true"
@@ -602,9 +605,9 @@ onBeforeUnmount(() => {
         class="picture-viewer-fraction"
         :class="
           bottomDark === true
-            ? 'controls-on-image-dark'
+            ? 'toast-on-image-dark'
             : bottomDark === false
-              ? 'controls-on-image-light'
+              ? 'toast-on-image-light'
               : ''
         "
         aria-hidden="true"

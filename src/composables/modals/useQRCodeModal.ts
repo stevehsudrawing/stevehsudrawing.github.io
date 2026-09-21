@@ -10,7 +10,7 @@
  * openQRCodeModal({ url, icon, hideOpenLink: false });
  */
 
-import type { QRCodeModalProps } from "../types/app";
+import type { QRCodeModalProps } from "../../types/app";
 import { useModalStack } from "./useModalStack";
 
 /**

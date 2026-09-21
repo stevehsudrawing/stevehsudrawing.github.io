@@ -9,9 +9,12 @@
 -->
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { useModalFocus } from "../../composables/useModalFocus";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useI18n } from "../../composables/core/useI18n";
+import { useModalFocus } from "../../composables/modals/useModalFocus";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
 import { createStickerSrcMap } from "../../core/utils";
 import { celebrateAt } from "../../platform/confetti";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";

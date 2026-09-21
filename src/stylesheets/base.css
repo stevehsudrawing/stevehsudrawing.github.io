@@ -60,13 +60,12 @@ hr {
    Typography
    ======================================================================== */
 
+/* Colours only — other link affordances animate with their own classes
+   (the `.link` underline sweep below; `.link-hover-change-background`
+   owns its transition set in theme.css, v3.20.0). */
 a {
   text-decoration: none;
-  transition:
-    color var(--shlh-duration-fast) ease-in-out,
-    background-color var(--shlh-duration-fast) ease-in-out,
-    border-color var(--shlh-duration-fast) ease-in-out,
-    outline var(--shlh-duration-fast) ease-in-out;
+  transition: color var(--shlh-duration-fast) linear;
 }
 
 /* --- Link underline sweep ---

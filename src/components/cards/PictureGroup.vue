@@ -5,8 +5,8 @@
 <script setup lang="ts">
 import { toHtml } from "hast-util-to-html";
 import { computed } from "vue";
-import { useBreakpoint } from "../../composables/useBreakpoint";
-import { useI18n } from "../../composables/useI18n";
+import { useBreakpoint } from "../../composables/core/useBreakpoint";
+import { useI18n } from "../../composables/core/useI18n";
 import { resolveI18nInHtml } from "../../core/utils";
 import type { Breakpoint, DisplayPictureGroupData } from "../../types/app";
 import SectionHeading from "../ui/SectionHeading.vue";

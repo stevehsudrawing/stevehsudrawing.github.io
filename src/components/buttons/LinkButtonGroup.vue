@@ -5,7 +5,7 @@
 -->
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-import { useI18n } from "../../composables/useI18n";
+import { useI18n } from "../../composables/core/useI18n";
 import type { LinkButtonData } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import LinkButton from "./LinkButton.vue";

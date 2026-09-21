@@ -17,10 +17,10 @@
 
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { preserveLangParam } from "../core/utils";
+import { preserveLangParam } from "../../core/utils";
+import { usePictureList } from "../pictures/usePictureList";
+import { usePictureRegistry } from "../pictures/usePictureRegistry";
 import { useModalStack } from "./useModalStack";
-import { usePictureList } from "./usePictureList";
-import { usePictureRegistry } from "./usePictureRegistry";
 
 // =========================================================================
 // Composable

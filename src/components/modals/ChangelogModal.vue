@@ -12,10 +12,13 @@
 -->
 <script setup lang="ts">
 import { computed, defineAsyncComponent, ref, shallowRef, watch } from "vue";
-import { useGithubCommits } from "../../composables/useGithubCommits";
-import { useI18n } from "../../composables/useI18n";
-import { useModalFocus } from "../../composables/useModalFocus";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
+import { useI18n } from "../../composables/core/useI18n";
+import { useGithubCommits } from "../../composables/github/useGithubCommits";
+import { useModalFocus } from "../../composables/modals/useModalFocus";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
 import { GITHUB_REPO } from "../../configs/site-meta";
 import { splitCommitMessage } from "../../core/commit-message";
 import { formatAbsoluteTime, formatRelativeTime } from "../../core/time";

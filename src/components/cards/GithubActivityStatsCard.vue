@@ -27,14 +27,14 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useI18n } from "../../composables/core/useI18n";
+import { useTheme } from "../../composables/core/useTheme";
 import {
   eventTypeI18nKey,
   eventTypeIcon,
   useGithubActivity,
-} from "../../composables/useGithubActivity";
-import { useGithubEventsModal } from "../../composables/useGithubEventsModal";
-import { useI18n } from "../../composables/useI18n";
-import { useTheme } from "../../composables/useTheme";
+} from "../../composables/github/useGithubActivity";
+import { useGithubEventsModal } from "../../composables/modals/useGithubEventsModal";
 import {
   DATE_LOCALES,
   LONG_DATE_FORMATS,

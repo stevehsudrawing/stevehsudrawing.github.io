@@ -15,17 +15,17 @@
  * const hero = pictureProps("artworks", { showAltButton: true, previewable: true });
  */
 
-import registryData from "../configs/picture-registry.json";
+import registryData from "../../configs/picture-registry.json";
 import {
   findPictureEntry,
   resolvePictureProps,
-} from "../core/picture-registry";
+} from "../../core/picture-registry";
 import type {
   FeatureAwarePictureProps,
   PicturePropsOverride,
   RegistryPictureEntry,
-} from "../types/app";
-import { useI18n } from "./useI18n";
+} from "../../types/app";
+import { useI18n } from "../core/useI18n";
 
 // =========================================================================
 // Registry data

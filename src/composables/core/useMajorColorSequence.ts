@@ -13,7 +13,7 @@
  * `record()` returns `true` exactly once (AboutPage opens the modal).
  */
 import { computed, onScopeDispose, ref, type Ref } from "vue";
-import { MAJOR_COLORS } from "../configs/easter-egg";
+import { MAJOR_COLORS } from "../../configs/easter-egg";
 
 // =========================================================================
 // Constants

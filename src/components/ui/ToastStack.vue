@@ -9,7 +9,7 @@
 -->
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useBreakpoint } from "../../composables/useBreakpoint";
+import { useBreakpoint } from "../../composables/core/useBreakpoint";
 
 // =========================================================================
 // Constants

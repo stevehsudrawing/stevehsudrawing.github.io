@@ -11,8 +11,8 @@ import type {
   ColoredImgProps,
   FeatureAwarePictureProps,
   ImgFeature,
-} from "../types/app";
-import type { HastNode } from "../types/hast";
+} from "../../types/app";
+import type { HastNode } from "../../types/hast";
 
 // =========================================================================
 // Types

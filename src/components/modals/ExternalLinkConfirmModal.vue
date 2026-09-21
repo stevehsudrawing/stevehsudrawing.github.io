@@ -8,11 +8,14 @@
 -->
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { useModalFocus } from "../../composables/useModalFocus";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
-import { useQRCodeModal } from "../../composables/useQRCodeModal";
-import { useStoredValue } from "../../composables/useStoredValue";
+import { useI18n } from "../../composables/core/useI18n";
+import { useStoredValue } from "../../composables/core/useStoredValue";
+import { useModalFocus } from "../../composables/modals/useModalFocus";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
+import { useQRCodeModal } from "../../composables/modals/useQRCodeModal";
 import {
   getStoredOpenInNewTab,
   setStoredOpenInNewTab,

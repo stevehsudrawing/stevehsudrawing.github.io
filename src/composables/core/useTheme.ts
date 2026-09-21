@@ -14,9 +14,9 @@
  */
 
 import { computed, onMounted, onUnmounted, ref, watch, type Ref } from "vue";
-import { getStoredTheme, setStoredTheme } from "../platform/storage";
-import { applyThemePreference } from "../platform/theme";
-import type { EffectiveTheme, ThemeChoice } from "../types/app";
+import { getStoredTheme, setStoredTheme } from "../../platform/storage";
+import { applyThemePreference } from "../../platform/theme";
+import type { EffectiveTheme, ThemeChoice } from "../../types/app";
 import { useStoredValue } from "./useStoredValue";
 
 // =========================================================================
@@ -120,7 +120,7 @@ function removeSystemListener(): void {
 // This watcher only syncs favicons for system-initiated changes.
 
 watch(effectiveTheme, () => {
-  import("../platform/theme").then(({ applyAllFaviconThemes }) => {
+  import("../../platform/theme").then(({ applyAllFaviconThemes }) => {
     applyAllFaviconThemes();
   });
 });

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { useExternalLinkConfirmModal } from "../../composables/useExternalLinkConfirmModal";
+import { useExternalLinkConfirmModal } from "../../composables/modals/useExternalLinkConfirmModal";
 import { scrollToHashTarget } from "../../platform/accessibility";
 import type { TypeAwareLinkProps } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";

@@ -12,11 +12,11 @@
 -->
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { useBreakpoint } from "../../composables/useBreakpoint";
-import { useGesture } from "../../composables/useGesture";
-import { useI18n } from "../../composables/useI18n";
-import { useSettingsModal } from "../../composables/useSettingsModal";
-import { useTheme } from "../../composables/useTheme";
+import { useBreakpoint } from "../../composables/core/useBreakpoint";
+import { useGesture } from "../../composables/core/useGesture";
+import { useI18n } from "../../composables/core/useI18n";
+import { useTheme } from "../../composables/core/useTheme";
+import { useSettingsModal } from "../../composables/modals/useSettingsModal";
 import { extractPageName, normalizeInternalPath } from "../../core/utils";
 import type { NavDropdownItem, NavItem } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
@@ -216,14 +216,14 @@ defineExpose({
         >
           <TypeAwareLink
             type="internal"
+            class="link-hover-change-background"
             href="/index.html"
             :aria-label="$t('text-homepage-of-steve-hsu-s-link-hub')"
           >
             <InlineSvg
               src="/images/svg/icons/steve-hsu.svg"
               :width="32"
-              :height="28"
-              color-var="bs-primary"
+              :height="32"
               class="no-copy"
             />
           </TypeAwareLink>
@@ -400,8 +400,9 @@ defineExpose({
   backdrop-filter: blur(var(--shlh-blur-md)) saturate(1.5);
   box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
   padding: 0;
-  padding-top: var(--safe-area-inset-top, 0px);
-  transition: box-shadow var(--shlh-duration-base) ease-in-out;
+  padding-top: calc(var(--safe-area-inset-top, 0px) + 1px);
+  border-bottom: 1px solid transparent;
+  transition: border-bottom var(--shlh-duration-base) ease-in-out;
 }
 
 /* Literal radius here - `@supports` conditions cannot take `var()`;
@@ -441,13 +442,12 @@ defineExpose({
 }
 
 .navbar-scrolled {
-  box-shadow: 0 1px 0 rgba(var(--bs-body-color-rgb), 0.25);
+  border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.25);
 }
 
 /* --- Brand container --- */
 
 #navbar-brand-container {
-  padding: 0 8px;
   display: inline-flex;
   align-items: center;
   height: 100%;
@@ -523,6 +523,10 @@ defineExpose({
 /* --- Tablet & Desktop (>= 768px) --- */
 
 @media (min-width: 768px) {
+  #navbar-content {
+    margin-left: 0.5rem;
+  }
+
   .navbar .navbar-collapse {
     flex-wrap: nowrap;
     min-width: 0;

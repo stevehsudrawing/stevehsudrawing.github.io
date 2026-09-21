@@ -19,7 +19,7 @@ import { computed, onScopeDispose, watch } from "vue";
 import {
   SEQUENCE_LENGTH,
   useMajorColorSequence,
-} from "../../composables/useMajorColorSequence";
+} from "../../composables/core/useMajorColorSequence";
 
 // =========================================================================
 // State

@@ -36,10 +36,10 @@
 -->
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useI18n } from "../../composables/useI18n";
-import { usePictureGroupViewerModal } from "../../composables/usePictureGroupViewerModal";
-import { usePictureViewerModal } from "../../composables/usePictureViewerModal";
-import { useTheme } from "../../composables/useTheme";
+import { useI18n } from "../../composables/core/useI18n";
+import { useTheme } from "../../composables/core/useTheme";
+import { usePictureGroupViewerModal } from "../../composables/modals/usePictureGroupViewerModal";
+import { usePictureViewerModal } from "../../composables/modals/usePictureViewerModal";
 import { resolveLanguageAwareString } from "../../core/utils";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type {
@@ -556,9 +556,10 @@ html.user-input-keyboard .picture-overlay-btn {
   opacity: 1;
   background-color: var(--bs-secondary-bg);
   background-image: linear-gradient(
-    100deg,
+    120deg,
     transparent 40%,
-    rgba(var(--bs-body-color-rgb), var(--shlh-shimmer-alpha)) 50%,
+    rgba(var(--bs-body-color-rgb), var(--shlh-shimmer-alpha)) 40.1%,
+    rgba(var(--bs-body-color-rgb), var(--shlh-shimmer-alpha)) 59.9%,
     transparent 60%
   );
   background-size: 200% 100%;

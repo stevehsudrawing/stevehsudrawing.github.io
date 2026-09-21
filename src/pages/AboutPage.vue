@@ -13,10 +13,10 @@ import HeroSection from "../components/ui/HeroSection.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 import SequenceStatusBar from "../components/ui/SequenceStatusBar.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
-import { useLinkCards } from "../composables/useLinkCards";
-import { useMajorColorSequence } from "../composables/useMajorColorSequence";
-import { usePictureRegistry } from "../composables/usePictureRegistry";
-import { useStickerModal } from "../composables/useStickerModal";
+import { useLinkCards } from "../composables/content/useLinkCards";
+import { useMajorColorSequence } from "../composables/core/useMajorColorSequence";
+import { useStickerModal } from "../composables/modals/useStickerModal";
+import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
 
 // Picture registry — resolves the hero cover props.
 const { pictureProps } = usePictureRegistry();

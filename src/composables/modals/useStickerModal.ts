@@ -11,7 +11,7 @@
  * openStickerModal();
  */
 
-import type { StickerModalProps } from "../types/app";
+import type { StickerModalProps } from "../../types/app";
 import { useModalStack } from "./useModalStack";
 
 /**

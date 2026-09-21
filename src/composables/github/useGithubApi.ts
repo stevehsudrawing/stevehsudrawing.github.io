@@ -14,7 +14,7 @@
  */
 
 import { ref, type Ref } from "vue";
-import type { GithubCacheAccessor } from "../platform/storage";
+import type { GithubCacheAccessor } from "../../platform/storage";
 
 // =========================================================================
 // Types

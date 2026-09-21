@@ -10,9 +10,9 @@
  * the shared cache then serves reopens instantly.
  */
 
-import { GITHUB_REPO } from "../configs/site-meta";
-import { GITHUB_COMMITS_CACHE } from "../platform/storage";
-import type { GithubCommit } from "../types/app";
+import { GITHUB_REPO } from "../../configs/site-meta";
+import { GITHUB_COMMITS_CACHE } from "../../platform/storage";
+import type { GithubCommit } from "../../types/app";
 import { useGithubApi, type GithubApiState } from "./useGithubApi";
 
 // =========================================================================

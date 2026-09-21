@@ -8,8 +8,8 @@
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import { useGithubProfile } from "../../composables/useGithubProfile";
-import { useI18n } from "../../composables/useI18n";
+import { useI18n } from "../../composables/core/useI18n";
+import { useGithubProfile } from "../../composables/github/useGithubProfile";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";

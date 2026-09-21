@@ -2,7 +2,7 @@
  * Link cards composable — loads the link-card JSON config for the current page.
  */
 import { computed, ref, type Ref } from "vue";
-import type { LinkCardGroupData } from "../types/app";
+import type { LinkCardGroupData } from "../../types/app";
 
 // =========================================================================
 // Constants
@@ -10,13 +10,13 @@ import type { LinkCardGroupData } from "../types/app";
 
 /** Map of page names to their link-card JSON module loaders. */
 const configLoaders: Record<string, () => Promise<{ default: unknown }>> = {
-  about: () => import("../configs/link-cards/about.json"),
+  about: () => import("../../configs/link-cards/about.json"),
   "artworks-and-videos": () =>
-    import("../configs/link-cards/artworks-and-videos.json"),
+    import("../../configs/link-cards/artworks-and-videos.json"),
   "blogs-and-sponsor": () =>
-    import("../configs/link-cards/blogs-and-sponsor.json"),
-  chatting: () => import("../configs/link-cards/chatting.json"),
-  softwares: () => import("../configs/link-cards/softwares.json"),
+    import("../../configs/link-cards/blogs-and-sponsor.json"),
+  chatting: () => import("../../configs/link-cards/chatting.json"),
+  softwares: () => import("../../configs/link-cards/softwares.json"),
 };
 
 // =========================================================================

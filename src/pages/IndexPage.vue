@@ -14,9 +14,9 @@ import TooltipTrigger from "../components/render-functions/TooltipTrigger.vue";
 import Carousel from "../components/ui/Carousel.vue";
 import HeroSection from "../components/ui/HeroSection.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
-import { useBreakpoint } from "../composables/useBreakpoint";
-import { useLinkButtonGroups } from "../composables/useLinkButtonGroups";
-import { usePictureRegistry } from "../composables/usePictureRegistry";
+import { useLinkButtonGroups } from "../composables/content/useLinkButtonGroups";
+import { useBreakpoint } from "../composables/core/useBreakpoint";
+import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
 import type { LinkButtonGroupData } from "../types/app";
 
 // Picture registry — resolves the cover props of this page's pictures.

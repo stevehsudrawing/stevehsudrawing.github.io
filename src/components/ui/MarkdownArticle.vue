@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { BCol, BRow } from "bootstrap-vue-next";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { useBreakpoint } from "../../composables/useBreakpoint";
+import { useBreakpoint } from "../../composables/core/useBreakpoint";
 import { markdownToHast } from "../../core/markdown";
 import { extractPlainText, toDashCase } from "../../core/utils";
 import { scrollToHashTarget } from "../../platform/accessibility";

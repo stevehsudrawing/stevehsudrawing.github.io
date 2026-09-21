@@ -2,7 +2,7 @@
   FooterNav.vue — site footer with copyright, external links, and QR share trigger.
 -->
 <script setup lang="ts">
-import { useChangelogModal } from "../../composables/useChangelogModal";
+import { useChangelogModal } from "../../composables/modals/useChangelogModal";
 import { BASE_URL, GITHUB_REPO } from "../../configs/site-meta.js";
 import QRCodeButton from "../buttons/QRCodeButton.vue";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";

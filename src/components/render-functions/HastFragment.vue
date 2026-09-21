@@ -14,8 +14,8 @@ import {
   extractColoredImgProps,
   extractLinkProps,
   extractPictureProps,
-} from "../../composables/useHastToVue";
-import { useI18n } from "../../composables/useI18n";
+} from "../../composables/content/useHastToVue";
+import { useI18n } from "../../composables/core/useI18n";
 import type { HastNode } from "../../types/hast";
 import ColoredImg from "../images/ColoredImg.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";

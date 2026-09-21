@@ -7,13 +7,16 @@
 -->
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useI18n } from "../../composables/core/useI18n";
 import {
   eventTypeI18nKey,
   eventTypeIcon,
-} from "../../composables/useGithubActivity";
-import { useI18n } from "../../composables/useI18n";
-import { useModalFocus } from "../../composables/useModalFocus";
-import { useModalStack, useStackModal } from "../../composables/useModalStack";
+} from "../../composables/github/useGithubActivity";
+import { useModalFocus } from "../../composables/modals/useModalFocus";
+import {
+  useModalStack,
+  useStackModal,
+} from "../../composables/modals/useModalStack";
 import { formatAbsoluteTime, formatRelativeTime } from "../../core/time";
 import type { GithubEvent } from "../../types/app";
 import type { IconName } from "../../types/icons";

@@ -18,9 +18,9 @@
  */
 
 import { useRoute, useRouter } from "vue-router";
-import { preserveLangParam } from "../core/utils";
+import { preserveLangParam } from "../../core/utils";
+import { usePictureList } from "../pictures/usePictureList";
 import { useModalStack } from "./useModalStack";
-import { usePictureList } from "./usePictureList";
 
 // =========================================================================
 // Types

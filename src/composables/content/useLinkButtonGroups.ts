@@ -3,7 +3,7 @@
  * for a given page.
  */
 import { ref, type Ref } from "vue";
-import type { LinkButtonGroupData } from "../types/app";
+import type { LinkButtonGroupData } from "../../types/app";
 
 // =========================================================================
 // Constants
@@ -11,7 +11,7 @@ import type { LinkButtonGroupData } from "../types/app";
 
 /** Map of page names to their link-button-group JSON module loaders. */
 const configLoaders: Record<string, () => Promise<{ default: unknown }>> = {
-  index: () => import("../configs/link-button-groups/index.json"),
+  index: () => import("../../configs/link-button-groups/index.json"),
 };
 
 // =========================================================================

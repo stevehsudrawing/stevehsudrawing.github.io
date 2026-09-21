@@ -25,3 +25,17 @@
   --shlh-on-image-bar-bg: rgba(255, 255, 255, var(--shlh-on-image-bar-alpha));
   --shlh-on-image-bar-fill: #fff;
 }
+
+.toast-on-image-light {
+  --shlh-on-image-control-color: #fff;
+  --shlh-on-image-control-bg: #000;
+  --shlh-on-image-bar-bg: rgba(0, 0, 0, var(--shlh-on-image-toast-alpha));
+  --shlh-on-image-bar-fill: #000;
+}
+
+.toast-on-image-dark {
+  --shlh-on-image-control-color: #000;
+  --shlh-on-image-control-bg: #fff;
+  --shlh-on-image-bar-bg: rgba(255, 255, 255, var(--shlh-on-image-toast-alpha));
+  --shlh-on-image-bar-fill: #fff;
+}

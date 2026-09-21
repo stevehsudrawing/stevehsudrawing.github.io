@@ -69,6 +69,7 @@ watch(
               ? 'page'
               : undefined
           "
+          no-underline
           >{{ $t(item.i18nKey) }}</TypeAwareLink
         >
         <template v-else>
@@ -89,6 +90,7 @@ watch(
                     ? 'page'
                     : undefined
                 "
+                no-underline
                 >{{ $t(child.i18nKey) }}</TypeAwareLink
               >
             </li>

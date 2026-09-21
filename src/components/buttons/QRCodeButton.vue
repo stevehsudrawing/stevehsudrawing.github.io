@@ -5,8 +5,8 @@
   MaterialSymbol (e.g. `share` with `fill`).
 -->
 <script setup lang="ts">
-import { useI18n } from "../../composables/useI18n";
-import { useQRCodeModal } from "../../composables/useQRCodeModal";
+import { useI18n } from "../../composables/core/useI18n";
+import { useQRCodeModal } from "../../composables/modals/useQRCodeModal";
 import type { TypeAwareImageProps } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";

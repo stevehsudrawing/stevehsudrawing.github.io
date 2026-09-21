@@ -14,14 +14,14 @@ import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 // Composables
-import { useI18n } from "./composables/useI18n";
-import { useModalStack } from "./composables/useModalStack";
-import { usePageNavigation } from "./composables/usePageNavigation";
-import { usePictureViewerUrl } from "./composables/usePictureViewerUrl";
-import { useStickerModal } from "./composables/useStickerModal";
-import { useStoredValue } from "./composables/useStoredValue";
-import { useTheme } from "./composables/useTheme";
-import { SHOW_TOAST_KEY } from "./composables/useToast";
+import { useI18n } from "./composables/core/useI18n";
+import { usePageNavigation } from "./composables/core/usePageNavigation";
+import { useStoredValue } from "./composables/core/useStoredValue";
+import { useTheme } from "./composables/core/useTheme";
+import { SHOW_TOAST_KEY } from "./composables/core/useToast";
+import { useModalStack } from "./composables/modals/useModalStack";
+import { usePictureViewerUrl } from "./composables/modals/usePictureViewerUrl";
+import { useStickerModal } from "./composables/modals/useStickerModal";
 
 // UI components (template refs)
 import SkipButton from "./components/buttons/SkipButton.vue";

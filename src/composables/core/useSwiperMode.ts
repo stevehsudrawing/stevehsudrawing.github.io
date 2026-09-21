@@ -14,11 +14,11 @@
  */
 
 import { computed, type ComputedRef } from "vue";
-import { isSwiperSupported } from "../platform/advanced-feat-support";
+import { isSwiperSupported } from "../../platform/advanced-feat-support";
 import {
   getStoredEnableSwiper,
   setStoredEnableSwiper,
-} from "../platform/storage";
+} from "../../platform/storage";
 import { useStoredValue } from "./useStoredValue";
 
 // =========================================================================
