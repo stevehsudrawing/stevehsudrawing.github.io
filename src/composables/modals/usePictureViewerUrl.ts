@@ -6,9 +6,12 @@
  *
  *   route → stack   `?picGroupId=` (with `?picId=` or alone) opens the
  *                   group viewer; a bare `?picId=` opens the single-image
- *                   viewer on ANY page; unknown ids warn and open nothing
+ *                   viewer on ANY page — or re-stacks it on the group
+ *                   when the group is open (the nested state); unknown
+ *                   ids warn and open nothing
  *   stack → route   once no lightbox is open the params are stripped
- *                   (keeping `?lang=`)
+ *                   (keeping `?lang=`); closing a nested single viewer
+ *                   restores the group params
  *
  * The openers (`usePictureGroupViewerModal`, `usePictureViewerModal`) write the
  * entry params themselves; this composable only reacts, so every
@@ -18,6 +21,7 @@
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { preserveLangParam } from "../../core/utils";
+import type { ModalStackItem } from "../../types/app";
 import { usePictureList } from "../pictures/usePictureList";
 import { usePictureRegistry } from "../pictures/usePictureRegistry";
 import { useModalStack } from "./useModalStack";
@@ -114,10 +118,49 @@ export function usePictureViewerUrl(): void {
       if (!routerReady.value) return;
       const pictureId = queryValue(route.query.picId);
       const groupId = queryValue(route.query.picGroupId);
+      const groupOpen = groupViewerOpen.value;
+      const singleOpen = singleViewerOpen.value;
 
-      if (groupViewerOpen.value || singleViewerOpen.value) {
-        // Removing the params while a lightbox is open closes it (Close
-        // button / Back).  Leaving the page is handled by App.vue.
+      // ---- nested stack (single viewer on top of the group) ----
+      if (groupOpen && singleOpen) {
+        if (!pictureId && !groupId) {
+          // Both params gone — a history jump past both entries: close
+          // both viewers, top down.
+          while (
+            (groupViewerOpen.value || singleViewerOpen.value) &&
+            stack.value.length
+          ) {
+            pop();
+          }
+        } else if (groupId) {
+          // The URL describes the group BENEATH — close the single
+          // viewer (a Back press from its bare `?picId=` entry).
+          pop();
+        }
+        return;
+      }
+
+      if (groupOpen) {
+        if (!pictureId && !groupId) {
+          // Removing the params while a lightbox is open closes it
+          // (Close button / Back).  Leaving the page is handled by
+          // App.vue.
+          pop();
+          return;
+        }
+        if (pictureId && !groupId) {
+          // A bare `?picId=` while the group is open — the nested
+          // single viewer is being re-opened from the URL (Forward).
+          push({
+            id: "picture-viewer",
+            props: { img: pictureProps(pictureId) },
+          });
+        }
+        return;
+      }
+
+      if (singleOpen) {
+        // Removing the params while a lightbox is open closes it.
         if (!pictureId && !groupId) pop();
         return;
       }
@@ -134,8 +177,40 @@ export function usePictureViewerUrl(): void {
     { immediate: true },
   );
 
-  // ---- stack → route (cleanup) ----
-  watch([groupViewerOpen, singleViewerOpen], ([group, single]) => {
-    if (!group && !single) stripViewerParams();
-  });
+  // ---- stack → route (cleanup / nested restore) ----
+  watch(
+    [groupViewerOpen, singleViewerOpen],
+    ([group, single], [, wasSingle]) => {
+      if (!group && !single) {
+        stripViewerParams();
+        return;
+      }
+      // The nested single viewer just closed while its group stayed
+      // open: restore the group entry params (the single's bare
+      // `?picId=` is still in the URL; nothing to do when a Back
+      // navigation already brought the group params back).
+      if (
+        wasSingle &&
+        !single &&
+        group &&
+        !queryValue(route.query.picGroupId)
+      ) {
+        const item = stack.value.find(
+          (
+            entry,
+          ): entry is Extract<ModalStackItem, { id: "picture-group-viewer" }> =>
+            entry.id === "picture-group-viewer",
+        );
+        if (item) {
+          router.replace({
+            query: preserveLangParam({
+              ...route.query,
+              picGroupId: item.props.groupId,
+              picId: queryValue(route.query.picId) ?? item.props.currentId,
+            }),
+          });
+        }
+      }
+    },
+  );
 }

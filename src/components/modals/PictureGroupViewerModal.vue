@@ -37,6 +37,7 @@ import {
   useModalStack,
   useStackModal,
 } from "../../composables/modals/useModalStack";
+import { usePictureViewerModal } from "../../composables/modals/usePictureViewerModal";
 import { useQRCodeModal } from "../../composables/modals/useQRCodeModal";
 import { usePictureRegistry } from "../../composables/pictures/usePictureRegistry";
 import { normalizeInternalPath, preserveLangParam } from "../../core/utils";
@@ -56,8 +57,9 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 // =========================================================================
 
 const { visible, props: stackProps } = useStackModal("picture-group-viewer");
-const { pop, clear } = useModalStack();
+const { pop, clear, stack } = useModalStack();
 const { openQRCodeModal } = useQRCodeModal();
+const { openPictureViewerModal } = usePictureViewerModal();
 
 const { t } = useI18n();
 const route = useRoute();
@@ -390,6 +392,18 @@ function showQR(): void {
   });
 }
 
+/**
+ * Zoom-in footer button — push the single-image viewer ON TOP of the
+ * group for the current picture.  Close reveals the group again; the
+ * URL owner mirrors the nested state (bare `?picId=` while the single
+ * viewer is up, the group params restored on close).
+ */
+function openSingleViewer(): void {
+  const id = current.value;
+  if (!id) return;
+  openPictureViewerModal(picturePropsOf(id));
+}
+
 /** Close the viewer: pop it and stay on the gallery page. */
 function close(): void {
   pop();
@@ -450,7 +464,11 @@ function onShown(): void {
 
 function onHidden(): void {
   window.removeEventListener("keydown", onKeydown);
-  setSwipeTrackingEnabled(true);
+  // A viewer stacked on top (the nested single viewer) owns the
+  // suppression while IT is open — this modal merely hid underneath it.
+  if (!stack.value.some((item) => item.id === "picture-viewer")) {
+    setSwipeTrackingEnabled(true);
+  }
 }
 
 onBeforeUnmount(() => {
@@ -618,6 +636,16 @@ onBeforeUnmount(() => {
 
     <template #footer>
       <div class="w-100 d-flex">
+        <TooltipTrigger :title="t('text-image-preview')">
+          <button
+            type="button"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
+            :aria-label="$t('text-image-preview')"
+            @click="openSingleViewer"
+          >
+            <MaterialSymbol name="zoom_in" />
+          </button>
+        </TooltipTrigger>
         <TooltipTrigger :title="t('text-share')">
           <button
             type="button"

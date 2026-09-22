@@ -116,6 +116,9 @@
   "text-view-profile": "檢視資料",
   "text-warning": "警告",
   "text-worldview": "世界觀",
+  "text-zoom-hints-keyboard": "按 + / − 縮放，方向鍵移動",
+  "text-zoom-hints-mouse": "滾輪縮放，拖曳移動，雙擊切換",
+  "text-zoom-hints-touch": "雙指縮放，拖曳移動，雙擊切換",
 
   "text-anchor-to-x": "前往 %1 的錨點",
   "text-carousel-go-to-slide": "轉到第 %1 張",

@@ -141,6 +141,9 @@
   "text-x": "X",
   "text-you-are-about-to-leave": "You are about to leave this site and go to: ",
   "text-youtube": "Youtube",
+  "text-zoom-hints-keyboard": "press + / − to zoom, arrow keys to pan",
+  "text-zoom-hints-mouse": "scroll to zoom, drag to pan, double-click to toggle",
+  "text-zoom-hints-touch": "pinch to zoom, drag to pan, double-tap to toggle",
 
   "text-anchor-to-x": "Anchor to %1",
   "text-carousel-go-to-slide": "Go to slide %1",
