@@ -13,23 +13,29 @@
   which mirrors the entry param back to the URL).  Leaving the page closes
   it (App.vue).
 
-  Chrome: the standard BModal shell — the picture title, an optional
-  centered message under the stage, and a footer with the related-link
-  button (when the picture carries one) plus Close.  Deliberately no QR
-  share button (a share target is a URL, and `TypeAwareLink` /
-  `ExternalLinkConfirmModal` own that decision) and no Back button (Back
-  would be synonymous with Close here).  The image keeps the ALT button
-  (title + description popover) but never a preview button (no
-  recursion).  Preview-only: `.no-copy`.
+  Chrome: the standard BModal shell — the picture title and a footer
+  with the zoom controls (`remove` / slider / `add`, left) and the
+  related-link button (when the picture carries one) plus Close, right.
+  v3.20.2: the dialog always fills the window height minus 1rem (the
+  shared `.picture-viewer-dialog` rules in base.css), and the inline
+  `message` line is gone — the ALT popover is its only consumer.
+  Deliberately no QR share button (a share target is a URL, and
+  `TypeAwareLink` / `ExternalLinkConfirmModal` own that decision) and
+  no Back button (Back would be synonymous with Close here).  The image
+  keeps the ALT button (title + description popover) but never a
+  preview button (no recursion).  Preview-only: `.no-copy`.
 
-  Zoom & pan (v3.20.1): `@panzoom/panzoom` drives the stage — wheel zoom
-  at the cursor, drag pan (grab / grabbing), arrow-key pan, `+` / `-` /
-  `0` keyboard zoom, double-click toggle and touch pinch.  The panzoom
-  element is the stage-sized box whose parent is the stage, so
-  `contain: "outside"` reads a cover ratio of exactly 1 — the scale runs
-  free in [1, 4] and the pan clamp keeps the box covering the stage at
-  every scale.  The corner ALT control fades out while zoomed; a
-  modality-aware hint line explains the gestures and fades on its own.
+  Zoom & pan (v3.20.1, smoothed in v3.20.2): `@panzoom/panzoom` drives
+  the stage — wheel zoom at the cursor (a custom rAF layer eases the
+  scale toward its target; panzoom ships no wheel smoothing), drag pan
+  (grab / grabbing), arrow-key pan (the official animated pan),
+  `+` / `-` / `0` keyboard zoom, double-click toggle and touch pinch.
+  The panzoom element is the stage-stretched box whose parent is the
+  stage, so `contain: "outside"` reads a cover ratio of exactly 1 — the
+  scale runs free in [1, 4] and the pan clamp keeps the box covering
+  the stage at every scale.  The corner ALT control fades out while
+  zoomed; a modality-aware hint line explains the gestures and fades on
+  its own.
 -->
 <script setup lang="ts">
 import type { PanzoomObject } from "@panzoom/panzoom";
@@ -65,9 +71,6 @@ const router = useRouter();
 const title = computed(
   () => stackProps.value?.img.title || t("text-image-preview"),
 );
-
-/** Optional message rendered under the stage. */
-const message = computed(() => stackProps.value?.img.message ?? "");
 
 /** Related link of the picture (footer button — hidden when absent). */
 const relatedLink = computed(() => stackProps.value?.img.relatedLink ?? null);
@@ -130,8 +133,35 @@ const MAX_SCALE = 4;
 /** Arrow-key pan step per press, in CSS pixels. */
 const PAN_STEP_PX = 40;
 
+/** Arrow-key pan duration (ms) — the official animated pan. */
+const PAN_DURATION_MS = 120;
+
 /** Double-click / double-tap target scale. */
 const DOUBLE_CLICK_SCALE = 2;
+
+/** Wheel factor per 100 px of normalized delta (≈ panzoom's e^0.1). */
+const WHEEL_SCALE_STEP = 0.1;
+
+/** Per-frame easing factor of the wheel loop (≈ 200 ms settle). */
+const WHEEL_EASE_ALPHA = 0.3;
+
+/** Scale delta at which the wheel loop settles. */
+const WHEEL_SETTLE_EPSILON = 0.002;
+
+/** Largest per-event wheel delta, in normalized 100 px units. */
+const WHEEL_DELTA_CAP = 2;
+
+/** Current scale — mirrors panzoom for the slider and button states. */
+const scaleValue = ref(1);
+
+/** Wheel smoothing: target scale (null = loop idle). */
+let wheelTarget: number | null = null;
+
+/** Wheel smoothing: focal point of the latest wheel event. */
+let wheelFocal = { clientX: 0, clientY: 0 };
+
+/** Wheel smoothing: pending rAF handle (0 = none). */
+let wheelRaf = 0;
 
 /**
  * Whether zoom transitions must not animate — the system's
@@ -144,9 +174,11 @@ function prefersNoAnimation(): boolean {
   );
 }
 
-/** Mirror the current scale into the `--zoomed` stage class. */
+/** Mirror the current scale into the stage class and the slider. */
 function applyZoomedState(): void {
-  zoomed.value = (panzoom?.getScale() ?? 1) > 1.001;
+  const scale = panzoom?.getScale() ?? 1;
+  zoomed.value = scale > 1.001;
+  scaleValue.value = scale;
 }
 
 /** Keep the state in sync while panzoom animates / clamps on its own. */
@@ -156,6 +188,7 @@ function onPanzoomChange(): void {
 
 /** Track the drag only while zoomed (at 1× the pan is locked). */
 function onPanzoomStart(): void {
+  cancelWheelSmoothing();
   dragging.value = (panzoom?.getScale() ?? 1) > 1.001;
 }
 
@@ -176,13 +209,12 @@ function ensurePanzoom(): void {
   panzoom = Panzoom(box, {
     minScale: 1,
     maxScale: MAX_SCALE,
-    // The box fills the stage on both axes (its auto height is the
-    // picture height — floored at 50vh — and the stage follows it, no
-    // other content), so the cover ratio reads as exactly 1: "outside"
-    // never force-clamps the scale, and the pan clamp keeps the box
-    // covering the stage at every scale — no empty space beyond the
-    // box, ever.  ("inside" would cap the scale at the fit ratio
-    // whenever the element is smaller than the stage.)
+    // The box is stretched to the stage on both axes (v3.20.2), so the
+    // cover ratio reads as exactly 1: "outside" never force-clamps the
+    // scale, and the pan clamp keeps the box covering the stage at
+    // every scale — no empty space beyond the box, ever.  ("inside"
+    // would cap the scale at the fit ratio whenever the element is
+    // smaller than the stage.)
     contain: "outside",
     panOnlyWhenZoomed: true,
     cursor: "grab",
@@ -198,6 +230,7 @@ function ensurePanzoom(): void {
 
 /** Tear down the instance and every extra listener. */
 function destroyPanzoom(): void {
+  cancelWheelSmoothing();
   panzoom?.destroy();
   panzoom = null;
   zoomed.value = false;
@@ -210,9 +243,68 @@ function destroyPanzoom(): void {
   panzoomElement = null;
 }
 
-/** Wheel over the stage zooms at the cursor (panzoom owns the math). */
+/**
+ * Normalize a wheel event to 100 px units (a mouse notch ≈ 1), honouring
+ * deltaMode (line / page) and the shift-horizontal convention.
+ *
+ * @param event - The wheel event.
+ * @returns Normalized delta (positive = zoom out).
+ */
+function normalizeWheelDelta(event: WheelEvent): number {
+  const raw = event.deltaY === 0 && event.deltaX ? event.deltaX : event.deltaY;
+  const unit = event.deltaMode === 1 ? 33 : event.deltaMode === 2 ? 400 : 1;
+  return (raw * unit) / 100;
+}
+
+/** Cancel a running wheel-smoothing loop (every interruption point). */
+function cancelWheelSmoothing(): void {
+  if (wheelRaf !== 0) {
+    cancelAnimationFrame(wheelRaf);
+    wheelRaf = 0;
+  }
+  wheelTarget = null;
+}
+
+/** One easing frame of the wheel-smoothing loop. */
+function stepWheelSmoothing(): void {
+  wheelRaf = 0;
+  if (!panzoom || wheelTarget === null) return;
+  const current = panzoom.getScale();
+  const next = current + (wheelTarget - current) * WHEEL_EASE_ALPHA;
+  const settled = Math.abs(wheelTarget - next) < WHEEL_SETTLE_EPSILON;
+  panzoom.zoomToPoint(settled ? wheelTarget : next, wheelFocal);
+  applyZoomedState();
+  if (settled) wheelTarget = null;
+  else wheelRaf = requestAnimationFrame(stepWheelSmoothing);
+}
+
+/**
+ * Wheel over the stage: zoom at the cursor.  panzoom ships no wheel
+ * smoothing (`zoomWithWheel` hard-codes `animate: false`), so a thin
+ * rAF layer eases the scale toward a clamped target; reduced motion
+ * applies the target directly.
+ */
 function onWheel(event: WheelEvent): void {
-  panzoom?.zoomWithWheel(event);
+  if (!panzoom) return;
+  event.preventDefault();
+  const delta = normalizeWheelDelta(event);
+  if (delta === 0) return;
+  const capped = Math.max(-WHEEL_DELTA_CAP, Math.min(WHEEL_DELTA_CAP, delta));
+  const from = wheelTarget ?? panzoom.getScale();
+  // Sign follows panzoom: a negative delta (scroll up) zooms IN.
+  const target = Math.min(
+    MAX_SCALE,
+    Math.max(1, from * Math.exp(-WHEEL_SCALE_STEP * capped)),
+  );
+  wheelFocal = { clientX: event.clientX, clientY: event.clientY };
+  if (prefersNoAnimation()) {
+    cancelWheelSmoothing();
+    panzoom.zoomToPoint(target, wheelFocal);
+    applyZoomedState();
+    return;
+  }
+  wheelTarget = target;
+  if (wheelRaf === 0) wheelRaf = requestAnimationFrame(stepWheelSmoothing);
 }
 
 /** Double-click / double-tap: toggle 1× ⇄ 2× at the pointer. */
@@ -221,6 +313,7 @@ function onDblClick(event: MouseEvent): void {
   // The corner controls sit inside the box — never toggle from them.
   const target = event.target as Element | null;
   if (target?.closest(".picture-overlay-controls")) return;
+  cancelWheelSmoothing();
   if (panzoom.getScale() > 1.001) {
     resetView(true);
     return;
@@ -240,20 +333,43 @@ function onDblClick(event: MouseEvent): void {
  */
 function resetView(animate: boolean): void {
   if (!panzoom) return;
+  cancelWheelSmoothing();
   panzoom.reset({ animate: animate && !prefersNoAnimation() });
   applyZoomedState();
 }
 
 /**
- * Keyboard zoom step (`+` / `-`), animated unless reduced motion is on.
+ * Keyboard / button zoom step (`+` / `-`), animated unless reduced
+ * motion is on.
  *
  * @param direction - 1 = zoom in, -1 = zoom out.
  */
 function zoomStep(direction: 1 | -1): void {
   if (!panzoom) return;
+  cancelWheelSmoothing();
   const options = { animate: !prefersNoAnimation() };
   if (direction === 1) panzoom.zoomIn(options);
   else panzoom.zoomOut(options);
+  applyZoomedState();
+}
+
+/**
+ * Zoom-slider input — apply the requested scale about the stage centre.
+ *
+ * @param value - The range value (`update:modelValue`; a string unless
+ *   a `.number` modifier was used; `null` is ignored).
+ */
+function onRangeUpdate(value: string | number | null): void {
+  if (!panzoom || value === null) return;
+  cancelWheelSmoothing();
+  const scale = Math.min(MAX_SCALE, Math.max(1, Number(value)));
+  const stage = stageRef.value;
+  if (!stage) return;
+  const rect = stage.getBoundingClientRect();
+  panzoom.zoomToPoint(scale, {
+    clientX: rect.left + rect.width / 2,
+    clientY: rect.top + rect.height / 2,
+  });
   applyZoomedState();
 }
 
@@ -262,10 +378,27 @@ function zoomStep(direction: 1 | -1): void {
  * is the TOP modal while open, so its keys are consumed here BEFORE they
  * can reach the group viewer's Swiper underneath; handled keys always
  * `preventDefault` + `stopPropagation`, pan / zoom active or not.
+ *
+ * Arrow direction (v3.20.1): the VIEWPORT moves toward the pressed
+ * arrow (ArrowLeft translates the picture right, and vice versa).
  */
 function onKeydown(event: KeyboardEvent): void {
   if (!panzoom || event.ctrlKey || event.metaKey || event.altKey) return;
   const { key, code } = event;
+
+  // A focused slider owns its arrow keys (native range adjustment);
+  // only the propagation is stopped — `stopPropagation` never cancels
+  // the default action, so the slider still moves — and the covered
+  // Swiper underneath stays shielded.
+  const target = event.target as HTMLElement | null;
+  if (
+    target instanceof HTMLInputElement &&
+    target.type === "range" &&
+    key.startsWith("Arrow")
+  ) {
+    event.stopPropagation();
+    return;
+  }
 
   if (
     key === "ArrowLeft" ||
@@ -274,6 +407,7 @@ function onKeydown(event: KeyboardEvent): void {
     key === "ArrowDown"
   ) {
     if (panzoom.getScale() > 1.001) {
+      cancelWheelSmoothing();
       const toX =
         key === "ArrowLeft"
           ? PAN_STEP_PX
@@ -286,7 +420,11 @@ function onKeydown(event: KeyboardEvent): void {
           : key === "ArrowDown"
             ? -PAN_STEP_PX
             : 0;
-      panzoom.pan(toX, toY, { relative: true, animate: false });
+      panzoom.pan(toX, toY, {
+        relative: true,
+        animate: !prefersNoAnimation(),
+        duration: PAN_DURATION_MS,
+      });
     }
   } else if (key === "+" || key === "=" || code === "NumpadAdd") {
     zoomStep(1);
@@ -314,6 +452,21 @@ function sampleBottomLuminance(): void {
   void isImageEdgeDark(src, { edge: "bottom", ratio: 0.1 }).then((dark) => {
     bottomDark.value = dark;
   });
+}
+
+/**
+ * Write the measured stage height into the image-cap CSS variable
+ * (`--shlh-picture-stage-h`) — the wrapper stays picture-sized (the ALT
+ * anchor), so percentage height chains cannot cap the img; the measured
+ * value replaces the viewport-based fallback.
+ */
+function syncStageHeightVar(): void {
+  const stage = stageRef.value;
+  if (!stage) return;
+  const height = stage.clientHeight;
+  if (height > 0) {
+    stage.style.setProperty("--shlh-picture-stage-h", `${height}px`);
+  }
 }
 
 // A fresh push adopts new props — the next show resets the transform
@@ -374,6 +527,7 @@ function onShown(): void {
   setSwipeTrackingEnabled(false);
   // Capture-phase listener — see onKeydown().
   window.addEventListener("keydown", onKeydown, true);
+  window.addEventListener("resize", syncStageHeightVar);
   void nextTick(() => {
     ensurePanzoom();
     if (pendingReset) {
@@ -381,17 +535,22 @@ function onShown(): void {
       resetView(false);
     }
     applyZoomedState();
+    syncStageHeightVar();
   });
 }
 
 function onHidden(): void {
   setSwipeTrackingEnabled(true);
   window.removeEventListener("keydown", onKeydown, true);
+  window.removeEventListener("resize", syncStageHeightVar);
+  cancelWheelSmoothing();
 }
 
 onBeforeUnmount(() => {
   setSwipeTrackingEnabled(true);
   window.removeEventListener("keydown", onKeydown, true);
+  window.removeEventListener("resize", syncStageHeightVar);
+  cancelWheelSmoothing();
   destroyPanzoom();
 });
 </script>
@@ -404,7 +563,7 @@ onBeforeUnmount(() => {
     title-tag="span"
     size="xl"
     no-header-close
-    centered
+    dialog-class="picture-viewer-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
@@ -455,28 +614,60 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <!-- ==== Optional message (centered under the picture) ==== -->
-    <p v-if="message" class="picture-single-message">{{ message }}</p>
-
     <template #footer>
-      <div class="w-100 d-flex">
-        <TooltipTrigger :title="t('text-open-related-page')">
-          <TypeAwareLink
-            v-if="relatedLink"
-            v-bind="relatedLink"
-            class="btn btn-same-padding btn-outline-primary btn-no-border me-auto"
-            :aria-label="$t('text-open-related-page')"
-            @click="onRelatedLinkClick()"
-            hide-indicator
-            no-underline
-          >
-            <MaterialSymbol name="open_in_new" />
-          </TypeAwareLink>
-        </TooltipTrigger>
-        <div class="ms-auto">
+      <div class="w-100 d-flex align-items-center">
+        <!-- Zoom controls (left): step buttons flank the slider. -->
+        <div class="d-flex align-items-center flex-grow-1 me-2">
+          <TooltipTrigger :title="t('text-zoom-out')">
+            <button
+              type="button"
+              class="btn btn-same-padding btn-outline-primary btn-no-border"
+              :disabled="scaleValue <= 1"
+              :aria-label="$t('text-zoom-out')"
+              @click="zoomStep(-1)"
+            >
+              <MaterialSymbol name="remove" />
+            </button>
+          </TooltipTrigger>
+          <BFormInput
+            type="range"
+            class="picture-single-zoom-range"
+            min="1"
+            :max="MAX_SCALE"
+            step="0.01"
+            :model-value="scaleValue"
+            :aria-label="$t('text-zoom-level')"
+            @update:model-value="onRangeUpdate"
+          />
+          <TooltipTrigger :title="t('text-zoom-in')">
+            <button
+              type="button"
+              class="btn btn-same-padding btn-outline-primary btn-no-border"
+              :disabled="scaleValue >= MAX_SCALE"
+              :aria-label="$t('text-zoom-in')"
+              @click="zoomStep(1)"
+            >
+              <MaterialSymbol name="add" />
+            </button>
+          </TooltipTrigger>
+        </div>
+        <div class="d-flex align-items-center">
+          <TooltipTrigger :title="t('text-open-related-page')">
+            <TypeAwareLink
+              v-if="relatedLink"
+              v-bind="relatedLink"
+              class="btn btn-same-padding btn-outline-primary btn-no-border"
+              :aria-label="$t('text-open-related-page')"
+              @click="onRelatedLinkClick()"
+              hide-indicator
+              no-underline
+            >
+              <MaterialSymbol name="open_in_new" />
+            </TypeAwareLink>
+          </TooltipTrigger>
           <button
             type="button"
-            class="btn btn-outline-primary btn-no-border ms-auto"
+            class="btn btn-outline-primary btn-no-border ms-2"
             @click="close()"
           >
             {{ $t("text-close") }}
@@ -489,24 +680,25 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* --- Pan / zoom stage --- */
+/* Window-height dialog (v3.20.2): the stage takes the remaining body
+   height (`flex: 1`) and STRETCHES the pan box — box height == stage
+   height without any percentage chain. */
 .picture-single-stage {
   position: relative;
-  min-height: 50vh;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 }
 
-/* Panzoom element: fills the stage on the width, and its auto height
-   (= the picture height, floored at 50vh) IS the stage height — the
-   stage follows this box (no other content), so panzoom's `contain:
-   "outside"` reads a cover ratio of exactly 1 and never force-clamps
-   the scale.  The box is the drag surface; the wrapper it centres keeps
-   the picture-sized anchor for the corner controls. */
+/* Panzoom element: stretched to the stage on both axes, so panzoom's
+   `contain: "outside"` reads a cover ratio of exactly 1 and never
+   force-clamps the scale.  The box is the drag surface; the wrapper it
+   centres keeps the picture-sized anchor for the corner controls. */
 .picture-single-pan {
   width: 100%;
-  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -528,16 +720,15 @@ onBeforeUnmount(() => {
   max-width: 100%;
 }
 
-/* The img fits the stage box: capped by the width AND by the available
-   viewport height (the modal chrome + margins are deducted), so a large
-   picture shrinks instead of producing a vertical scrollbar.  Two
-   declarations on purpose: the `vh` one is the fallback for browsers
-   without `dvh` support (an unsupported unit invalidates the whole
-   declaration). */
+/* The img caps against the MEASURED stage height (`syncStageHeightVar`)
+   — the wrapper stays picture-sized (the ALT anchor), so a percentage
+   chain cannot reach it.  The viewport formula is the first-frame /
+   no-JS fallback; `dvh` gets its own declaration so an unsupported unit
+   cannot drop the whole rule. */
 .picture-single-pan :deep(img) {
   max-width: 100%;
-  max-height: min(70vh, calc(100vh - 12rem));
-  max-height: min(70vh, calc(100dvh - 12rem));
+  max-height: calc(100vh - 10rem);
+  max-height: var(--shlh-picture-stage-h, calc(100dvh - 10rem));
   object-fit: contain;
 }
 
@@ -630,11 +821,14 @@ html.user-input-keyboard .picture-single-hint-keys {
   }
 }
 
-/* --- Optional message (under the picture) --- */
-.picture-single-message {
-  max-width: 32rem;
-  margin: 0.75rem auto 0;
-  text-align: center;
-  color: var(--bs-secondary-color);
+/* --- Zoom controls (footer) --- */
+/* The slider flexes between the step buttons and caps out; the left
+   cluster grows so the footer stays balanced at every width. */
+.picture-single-zoom-range {
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 10rem;
+  margin: 0 0.375rem;
 }
 </style>

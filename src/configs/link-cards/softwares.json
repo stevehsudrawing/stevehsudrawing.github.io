@@ -171,5 +171,62 @@
         }
       }
     ]
+  },
+  {
+    "id": "miscellaneous",
+    "contents": [
+      {
+        "id": "skinview3d-etf",
+        "available": false,
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/github.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-name"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Name"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": ": skinview3d-etf | "
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-coming-soon"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Coming soon"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
   }
 ]

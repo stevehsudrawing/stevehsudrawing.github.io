@@ -247,6 +247,31 @@ h6,
   backdrop-filter: blur(var(--shlh-blur-sm));
 }
 
+/* --- Picture viewers: window-height dialogs (v3.20.2) --- */
+/* Both picture viewers (single / group) always fill the window height
+   minus a uniform 0.5 rem inset.  The modal DOM is teleported to
+   `<body>`, so this global sheet owns the rules (scoped styles cannot
+   reach `.modal-dialog`).  The column-flex body hands the remaining
+   height to the viewer stage (`flex: 1`), which stretches the pan box
+   or the Swiper in turn. */
+.picture-viewer-dialog {
+  height: calc(100vh - 1rem);
+  height: calc(100dvh - 1rem);
+  margin: 0.5rem auto;
+}
+
+.picture-viewer-dialog .modal-content {
+  height: 100%;
+}
+
+.picture-viewer-dialog .modal-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
 /* --- Popovers --- */
 
 .popover {
@@ -338,6 +363,64 @@ h6,
   --bs-btn-disabled-color: var(--bs-body-color);
   --bs-btn-disabled-border-color: var(--bs-body-color);
   --bs-gradient: none;
+}
+
+/* --- Range Input ---
+   Thumb colours follow the accent (Bootstrap hard-codes them); the
+   track paints a thin 0.3rem band inside a 1.5rem-tall hit box so the
+   slim look keeps a full click range. */
+
+.form-range::-webkit-slider-runnable-track {
+  height: 1.5rem;
+  border-radius: 0;
+  background: linear-gradient(
+    transparent calc(50% - 0.15rem),
+    var(--bs-secondary-bg) calc(50% - 0.15rem),
+    var(--bs-secondary-bg) calc(50% + 0.15rem),
+    transparent calc(50% + 0.15rem)
+  );
+}
+
+.form-range::-webkit-slider-thumb {
+  width: 0.75rem;
+  height: 1.5rem;
+  margin-top: 0;
+  border-radius: 0;
+  background-color: var(--bs-primary);
+}
+
+.form-range::-webkit-slider-thumb:active {
+  background-color: var(--shlh-primary-400);
+}
+
+.form-range:focus::-webkit-slider-thumb {
+  box-shadow: none;
+}
+
+.form-range::-moz-range-track {
+  height: 1.5rem;
+  border-radius: 0;
+  background: linear-gradient(
+    transparent calc(50% - 0.15rem),
+    var(--bs-secondary-bg) calc(50% - 0.15rem),
+    var(--bs-secondary-bg) calc(50% + 0.15rem),
+    transparent calc(50% + 0.15rem)
+  );
+}
+
+.form-range::-moz-range-thumb {
+  width: 0.75rem;
+  height: 1.5rem;
+  border-radius: 0;
+  background-color: var(--bs-primary);
+}
+
+.form-range::-moz-range-thumb:active {
+  background-color: var(--shlh-primary-400);
+}
+
+.form-range:focus::-moz-range-thumb {
+  box-shadow: none;
 }
 
 /* ========================================================================

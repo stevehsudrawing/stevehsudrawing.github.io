@@ -397,6 +397,11 @@ defineExpose({
 .navbar {
   height: calc(64px + var(--safe-area-inset-top, 0px));
   background-color: rgba(var(--bs-body-bg-rgb), var(--shlh-surface-opacity));
+  background-image: linear-gradient(
+    0deg,
+    transparent 0%,
+    var(--bs-body-bg) 100%
+  );
   backdrop-filter: blur(var(--shlh-blur-md)) saturate(1.5);
   box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
   padding: 0;
@@ -442,7 +447,7 @@ defineExpose({
 }
 
 .navbar-scrolled {
-  border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.25);
+  border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
 }
 
 /* --- Brand container --- */

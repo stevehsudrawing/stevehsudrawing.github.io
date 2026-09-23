@@ -98,6 +98,6 @@ const hasContents = computed(
 .picture-grid {
   display: grid;
   grid-template-columns: repeat(var(--picture-columns), minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: 2px;
 }
 </style>

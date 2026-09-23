@@ -3,7 +3,10 @@
   (stack id `picture-group-viewer`; the single-image lightbox lives in
   PictureViewerModal.vue).  Uses the standard BModal chrome (consistent
   with QRCodeModal): the header title shows the picture description; the
-  footer has QR-share / related-link / Back (conditional) / Close.
+  footer has zoom (the single-viewer hand-off, v3.20.1) / QR-share /
+  related-link / Back (conditional) / Close.  v3.20.2: the dialog fills
+  the window height minus 1rem (shared `.picture-viewer-dialog` rules in
+  base.css) and the stage stretches the Swiper / fallback image.
   Navigation:
     - Swiper coverflow stage (supported browsers with `enableSwiper`
       on): click a side image to switch (slideToClickedSlide), keyboard
@@ -448,12 +451,24 @@ function onKeydown(e: KeyboardEvent): void {
   }
 }
 
+/** Write the measured stage height into the image-cap CSS variable. */
+function syncStageHeightVar(): void {
+  const stage = stageRef.value;
+  if (!stage) return;
+  const height = stage.clientHeight;
+  if (height > 0) {
+    stage.style.setProperty("--shlh-picture-stage-h", `${height}px`);
+  }
+}
+
 function onShown(): void {
   // The interactive branch uses Swiper's Keyboard module; the fallback
   // branch keeps this window listener.
   if (!isSwiper.value) window.addEventListener("keydown", onKeydown);
+  window.addEventListener("resize", syncStageHeightVar);
   // Fullscreen lightbox: suppress offcanvas edge-swipes while open.
   setSwipeTrackingEnabled(false);
+  void nextTick(syncStageHeightVar);
   // Initial sampling for the Swiper branch (the setup-time watch fires
   // before the modal DOM exists).
   if (isSwiper.value) {
@@ -464,6 +479,7 @@ function onShown(): void {
 
 function onHidden(): void {
   window.removeEventListener("keydown", onKeydown);
+  window.removeEventListener("resize", syncStageHeightVar);
   // A viewer stacked on top (the nested single viewer) owns the
   // suppression while IT is open — this modal merely hid underneath it.
   if (!stack.value.some((item) => item.id === "picture-viewer")) {
@@ -473,6 +489,7 @@ function onHidden(): void {
 
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", onKeydown);
+  window.removeEventListener("resize", syncStageHeightVar);
   setSwipeTrackingEnabled(true);
 });
 </script>
@@ -485,7 +502,7 @@ onBeforeUnmount(() => {
     title-tag="span"
     size="xl"
     no-header-close
-    centered
+    dialog-class="picture-viewer-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
@@ -698,9 +715,13 @@ onBeforeUnmount(() => {
    `.swiper-3d { perspective: 1200px }`; a custom short perspective
    (e.g. 16rem) distorts the coverflow hit area.  The fallback branch
    gets its OWN perspective below. */
+/* Window-height dialog (v3.20.2): the stage takes the remaining body
+   height (`flex: 1`), and the Swiper / slide wrap below stretch into
+   it — no viewport-height formulas needed. */
 .picture-viewer-stage {
   position: relative;
-  min-height: 50vh;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -714,10 +735,11 @@ onBeforeUnmount(() => {
   perspective: 16rem;
 }
 
+/* Stretches into the full-height stage (align-self override — the
+   stage centres its items); Swiper's internal height chains follow. */
 .picture-viewer-swiper {
   width: 100%;
-  /* Viewport-aware: cap by the modal chrome on small screens (dvh). */
-  height: min(70vh, calc(100dvh - 10rem));
+  align-self: stretch;
 }
 
 /* Official coverflow sampling: auto-width slides capped below the
@@ -797,10 +819,13 @@ onBeforeUnmount(() => {
   max-height: 100%;
 }
 
-/* Fallback branch: the slide wrap has no definite height — keep the
-   viewport-based cap there (vh only, no dvh on old browsers). */
+/* Fallback branch: the slide wrap has no definite height — the img caps
+   against the MEASURED stage height (the fallback formula keeps the
+   first frame / no-JS path safe; `dvh` gets its own declaration so an
+   unsupported unit cannot drop the whole rule). */
 .picture-viewer-stage :deep(.picture-slide-wrap img) {
-  max-height: min(70vh, calc(100vh - 10rem));
+  max-height: calc(100vh - 10rem);
+  max-height: var(--shlh-picture-stage-h, calc(100dvh - 10rem));
 }
 
 /* --- Fallback arrows (flank the stage, old browsers) --- */

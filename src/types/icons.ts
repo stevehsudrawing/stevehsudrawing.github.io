@@ -10,6 +10,7 @@
 
 /** Every icon name carried by the committed subset font. */
 export const ICON_NAMES = [
+  "add",
   "add_circle",
   "arrow_back",
   "arrow_forward",
@@ -46,6 +47,7 @@ export const ICON_NAMES = [
   "pause",
   "play_arrow",
   "qr_code",
+  "remove",
   "settings",
   "share",
   "show_chart",

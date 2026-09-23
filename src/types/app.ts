@@ -329,8 +329,9 @@ export interface FeatureAwarePictureProps {
    */
   title?: string;
   /**
-   * Short message shown as the ALT popover's secondary line (when
-   * non-empty) and under the picture by the single-image lightbox.
+   * Short message rendered as the ALT popover's secondary line (when
+   * non-empty) — its only consumer since v3.20.2 (the single-image
+   * lightbox no longer renders it under the stage).
    */
   message?: string;
   /**
