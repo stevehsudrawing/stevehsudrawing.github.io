@@ -32,6 +32,7 @@ import {
   setStoredOpenInNewTab,
 } from "../../platform/storage";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -148,6 +149,9 @@ function openResetWarning(): void {
     cancel-variant="outline-secondary"
     @shown="onShown"
   >
+    <template #title>
+      <TruncatedTitle :text="$t('text-settings')" />
+    </template>
     <div class="d-flex flex-column gap-3">
       <!-- Language -->
       <div class="settings-row">

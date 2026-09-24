@@ -3,10 +3,11 @@
   (stack id `picture-group-viewer`; the single-image lightbox lives in
   PictureViewerModal.vue).  Uses the standard BModal chrome (consistent
   with QRCodeModal): the header title shows the picture description; the
-  footer has zoom (the single-viewer hand-off, v3.20.1) / QR-share /
-  related-link / Back (conditional) / Close.  v3.20.2: the dialog fills
-  the window height minus 1rem (shared `.picture-viewer-dialog` rules in
-  base.css) and the stage stretches the Swiper / fallback image.
+  footer has zoom (the single-viewer hand-off) / QR-share /
+  related-link / Back (conditional) / Close.  The dialog fills the
+  whole viewport (shared `.picture-viewer-dialog` rules in base.css —
+  both axes, zero margin) and the stage stretches the Swiper /
+  fallback image.
   Navigation:
     - Swiper coverflow stage (supported browsers with `enableSwiper`
       on): click a side image to switch (slideToClickedSlide), keyboard
@@ -54,6 +55,7 @@ import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -500,12 +502,14 @@ onBeforeUnmount(() => {
     :title="title"
     header-class="h5 modal-title"
     title-tag="span"
-    size="xl"
     no-header-close
     dialog-class="picture-viewer-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
+    <template #title>
+      <TruncatedTitle :text="title" />
+    </template>
     <!-- ==== Image stage (Swiper coverflow / static fallback) ==== -->
     <div
       ref="stageRef"

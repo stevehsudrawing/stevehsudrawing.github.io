@@ -22,6 +22,7 @@ import {
   setStoredEnableSwiper,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -82,6 +83,9 @@ function resetAll(): void {
     hide-footer
     @shown="onShown"
   >
+    <template #title>
+      <TruncatedTitle :text="$t('text-warning')" />
+    </template>
     <p>
       {{ $t("text-warning-reset-description") }}
     </p>

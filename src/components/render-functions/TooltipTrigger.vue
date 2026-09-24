@@ -17,8 +17,6 @@
     <button class="btn">⚙</button>
   </TooltipTrigger>
   ```
-
-  See §4.2.6.1 for the manual tooltip pattern this replaces.
 -->
 <script lang="ts">
 import { vBTooltip } from "bootstrap-vue-next";

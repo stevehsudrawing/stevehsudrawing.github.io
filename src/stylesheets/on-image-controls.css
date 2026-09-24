@@ -5,8 +5,8 @@
  * bright image edge -> dark controls; dark image edge -> light controls.
  *
  * CONTRACT: the control colours must stay pure #000/#fff because hover
- * uses `filter: invert(1)` (see docs/todos/v3.12.0.md §15.2).  The bar
- * alpha comes from `--shlh-on-image-bar-alpha` (parameters.css).
+ * uses `filter: invert(1)`.  The bar alpha comes from
+ * `--shlh-on-image-bar-alpha` (parameters.css).
  * Consumers:
  *   - Carousel.vue root (.illustration-carousel)
  *   - PictureViewerModal.vue fallback arrows (per side)

@@ -1,11 +1,10 @@
 /**
  * Service-worker registration.
  *
- * Registers `public/sw.js` — the copy-protection + offline worker
- * (see the `10-service-worker` instruction doc).  The registration is
- * production-only by default; in dev it needs an explicit `?sw=1`,
- * because the dev server restarts and HMR must never ride on cached
- * responses.
+ * Registers `public/sw.js` — the copy-protection + offline worker.
+ * The registration is production-only by default; in dev it needs an
+ * explicit `?sw=1`, because the dev server restarts and HMR must never
+ * ride on cached responses.
  *
  * Registration failures are swallowed: the worker is a progressive
  * enhancement, and the site behaves exactly as before without it.

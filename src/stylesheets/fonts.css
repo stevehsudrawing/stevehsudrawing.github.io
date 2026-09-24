@@ -34,10 +34,10 @@
 /* --- Icon Font (Material Symbols subset) --- */
 
 /* Generated subset (`build/icon-subset-plugin.ts`; the woff2 itself is
-   git-ignored) — see the Material Symbols instruction doc.  Plain
-   `format("woff2")` (not `woff2-variations`): browsers that cannot
-   parse the variations keyword still load the file as a static
-   instance instead of rendering the raw ligature words. */
+   git-ignored).  Plain `format("woff2")` (not `woff2-variations`):
+   browsers that cannot parse the variations keyword still load the
+   file as a static instance instead of rendering the raw ligature
+   words. */
 @font-face {
   font-family: "Material Symbols Outlined Variable";
   font-style: normal;

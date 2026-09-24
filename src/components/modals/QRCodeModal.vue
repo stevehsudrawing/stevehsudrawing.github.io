@@ -22,6 +22,7 @@ import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -266,6 +267,9 @@ function openLink(): void {
     centered
     hide-footer
   >
+    <template #title>
+      <TruncatedTitle :text="$t('text-qr-code')" />
+    </template>
     <div class="d-flex justify-content-center">
       <!-- ==== QR share card (exact DOM structure for html-to-image) ==== -->
       <div id="qr-share-card">

@@ -6,9 +6,9 @@
  *   1. Tab navigations into a protected /images/** path get a synthetic
  *      403 page (`/403.html`) — the protected set is the glob list in
  *      `BLOCK_PATTERNS`, injected at build / dev-serve time from
- *      `public/images/README.md` by `build/sw-scope-plugin.ts`
- *      (§ 4.2.7 copy protection; a real edge rule is `future.md`
- *      § 5).  The two notice files stay reachable.
+ *      `public/images/README.md` by `build/sw-scope-plugin.ts` (the
+ *      copy-protection feature; a real edge rule would need a hosting
+ *      layer).  The two notice files stay reachable.
  *   2. Other tab navigations are network-first: the fresh HTML is
  *      cached per pathname, an offline request falls back to that
  *      cache — then to `error-offline.html`, served plainly as 200
@@ -25,7 +25,7 @@
  * assets (stale `shlh-*` caches are deleted on activate).
  */
 
-const CACHE_VERSION = "3.20.2";
+const CACHE_VERSION = "3.20.3";
 const HTML_CACHE = `shlh-html-${CACHE_VERSION}`;
 const STATIC_CACHE = `shlh-static-${CACHE_VERSION}`;
 
@@ -193,7 +193,7 @@ async function syntheticResponse(path, status, statusText) {
 }
 
 /**
- * Direct image navigation → 403 (the content policy, § 4.2.7).
+ * Direct image navigation → 403 (the content policy).
  *
  * @returns {Promise<Response>} The 403 response.
  */

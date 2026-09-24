@@ -18,6 +18,7 @@ import {
 import { createStickerSrcMap } from "../../core/utils";
 import { celebrateAt } from "../../platform/confetti";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // Constants
@@ -113,6 +114,9 @@ const message = computed(() => t(`text-sticker-${stickerId.value}-message`));
     hide-footer
     @shown="onShown"
   >
+    <template #title>
+      <TruncatedTitle :text="STICKER_MODAL_TITLE" />
+    </template>
     <div class="sticker-modal-body">
       <FeatureAwarePicture
         :src-map="stickerSrcMap"

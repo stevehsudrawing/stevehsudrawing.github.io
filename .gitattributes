@@ -3,7 +3,7 @@
 # .editorconfig for the editor side).
 #
 # `.cmd` / `.bat` are the legacy CRLF exception — prefer `.py` / `.mjs`
-# for new tool scripts (see the general-file-rules instruction doc).
+# for new tool scripts.
 
 * text=auto eol=lf
 

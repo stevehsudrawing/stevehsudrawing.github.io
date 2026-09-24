@@ -27,6 +27,7 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // Constants
@@ -165,6 +166,9 @@ const historyUrl = `https://github.com/${GITHUB_REPO}/commits`;
     scrollable
     @shown="onShown"
   >
+    <template #title>
+      <TruncatedTitle :text="t('text-site-changelog')" />
+    </template>
     <!-- ==== Loading / error / empty ==== -->
     <LoadingPlaceholder
       v-if="isLoading && !commits"

@@ -25,6 +25,7 @@ import CopyButton from "../buttons/CopyButton.vue";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareImage from "../images/TypeAwareImage.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -114,6 +115,9 @@ function showQR(): void {
     hide-footer
     @shown="onShown"
   >
+    <template #title>
+      <TruncatedTitle :text="$t('text-external-link')" />
+    </template>
     <p class="mb-2">
       {{ $t("text-you-are-about-to-leave") }}
     </p>

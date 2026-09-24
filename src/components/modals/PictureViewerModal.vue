@@ -1,41 +1,27 @@
 <!--
   PictureViewerModal.vue — single-image lightbox (stack id `picture-viewer`).
 
-  Opened through openPictureViewerModal() (composables/modals/usePictureViewerModal.ts) by
-  the FeatureAwarePicture overlay preview button, by the group viewer's
-  `zoom_in` footer button (v3.20.1 — pushed ON TOP of the group; Close
-  reveals it again) — or by any other caller that wants to show one
-  picture enlarged.
+  Opened through openPictureViewerModal() — by the FeatureAwarePicture
+  preview overlay, by the group viewer's `zoom_in` button (stacked on
+  top of the group), or by a `?picId=` deep link.  The viewer reads no
+  query parameters and writes no history of its own; leaving the page
+  closes it.
 
-  Deliberately independent of the Swiper stage and of the URL wiring: it
-  reads no query parameters and creates no history entry of its own
-  (`?picId=` / `?picGroupId=` belong to the URL owner and the GROUP viewer,
-  which mirrors the entry param back to the URL).  Leaving the page closes
-  it (App.vue).
+  Chrome: the picture title, a footer with the zoom controls
+  (`remove` / slider / `add`) and the related-link button plus Close,
+  and the ALT description button on the image.  No QR share button (a
+  share target belongs to the URL-owning group viewer), no Back button
+  (synonymous with Close) and no preview button (no recursion).
+  Preview-only: `.no-copy`.
 
-  Chrome: the standard BModal shell — the picture title and a footer
-  with the zoom controls (`remove` / slider / `add`, left) and the
-  related-link button (when the picture carries one) plus Close, right.
-  v3.20.2: the dialog always fills the window height minus 1rem (the
-  shared `.picture-viewer-dialog` rules in base.css), and the inline
-  `message` line is gone — the ALT popover is its only consumer.
-  Deliberately no QR share button (a share target is a URL, and
-  `TypeAwareLink` / `ExternalLinkConfirmModal` own that decision) and
-  no Back button (Back would be synonymous with Close here).  The image
-  keeps the ALT button (title + description popover) but never a
-  preview button (no recursion).  Preview-only: `.no-copy`.
-
-  Zoom & pan (v3.20.1, smoothed in v3.20.2): `@panzoom/panzoom` drives
-  the stage — wheel zoom at the cursor (a custom rAF layer eases the
-  scale toward its target; panzoom ships no wheel smoothing), drag pan
-  (grab / grabbing), arrow-key pan (the official animated pan),
-  `+` / `-` / `0` keyboard zoom, double-click toggle and touch pinch.
-  The panzoom element is the stage-stretched box whose parent is the
-  stage, so `contain: "outside"` reads a cover ratio of exactly 1 — the
-  scale runs free in [1, 4] and the pan clamp keeps the box covering
-  the stage at every scale.  The corner ALT control fades out while
-  zoomed; a modality-aware hint line explains the gestures and fades on
-  its own.
+  Zoom & pan: `@panzoom/panzoom` drives the stage — wheel zoom at the
+  cursor (a thin rAF layer eases the scale; panzoom ships no wheel
+  smoothing), drag pan, animated arrow-key pan, `+` / `-` / `0`
+  keyboard zoom, double-click toggle and touch pinch.  The panzoom
+  element is the stage-stretched box, so `contain: "outside"` reads a
+  cover ratio of exactly 1 — the scale runs free in [1, 4] and the pan
+  clamp keeps the box covering the stage at every scale.  A
+  modality-aware hint line explains the gestures and fades on its own.
 -->
 <script setup lang="ts">
 import type { PanzoomObject } from "@panzoom/panzoom";
@@ -54,6 +40,7 @@ import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -100,7 +87,7 @@ const imageProps = computed<FeatureAwarePictureProps | null>(() => {
 });
 
 // -------------------------------------------------------------------------
-// Zoom & pan (panzoom — v3.20.1)
+// Zoom & pan (panzoom)
 // -------------------------------------------------------------------------
 
 /** Stage element — the wheel surface and panzoom's containment parent. */
@@ -209,7 +196,7 @@ function ensurePanzoom(): void {
   panzoom = Panzoom(box, {
     minScale: 1,
     maxScale: MAX_SCALE,
-    // The box is stretched to the stage on both axes (v3.20.2), so the
+    // The box is stretched to the stage on both axes, so the
     // cover ratio reads as exactly 1: "outside" never force-clamps the
     // scale, and the pan clamp keeps the box covering the stage at
     // every scale — no empty space beyond the box, ever.  ("inside"
@@ -379,7 +366,7 @@ function onRangeUpdate(value: string | number | null): void {
  * can reach the group viewer's Swiper underneath; handled keys always
  * `preventDefault` + `stopPropagation`, pan / zoom active or not.
  *
- * Arrow direction (v3.20.1): the VIEWPORT moves toward the pressed
+ * Arrow direction: the VIEWPORT moves toward the pressed
  * arrow (ArrowLeft translates the picture right, and vice versa).
  */
 function onKeydown(event: KeyboardEvent): void {
@@ -561,12 +548,14 @@ onBeforeUnmount(() => {
     :title="title"
     header-class="h5 modal-title"
     title-tag="span"
-    size="xl"
     no-header-close
     dialog-class="picture-viewer-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
+    <template #title>
+      <TruncatedTitle :text="title" />
+    </template>
     <!-- ==== Single-image stage (pan / zoom) ==== -->
     <div
       ref="stageRef"
@@ -617,7 +606,9 @@ onBeforeUnmount(() => {
     <template #footer>
       <div class="w-100 d-flex align-items-center">
         <!-- Zoom controls (left): step buttons flank the slider. -->
-        <div class="d-flex align-items-center flex-grow-1 me-2">
+        <div
+          class="picture-single-zoom-cluster d-flex align-items-center flex-grow-1 me-2"
+        >
           <TooltipTrigger :title="t('text-zoom-out')">
             <button
               type="button"
@@ -680,9 +671,8 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* --- Pan / zoom stage --- */
-/* Window-height dialog (v3.20.2): the stage takes the remaining body
-   height (`flex: 1`) and STRETCHES the pan box — box height == stage
-   height without any percentage chain. */
+/* The stage takes the remaining body height (`flex: 1`) and STRETCHES
+   the pan box — box height == stage height, no percentage chain. */
 .picture-single-stage {
   position: relative;
   flex: 1 1 auto;
@@ -822,11 +812,16 @@ html.user-input-keyboard .picture-single-hint-keys {
 }
 
 /* --- Zoom controls (footer) --- */
-/* The slider flexes between the step buttons and caps out; the left
-   cluster grows so the footer stays balanced at every width. */
+/* The cluster shrinks (`min-width: 0`) and the slider flexes from a
+   zero basis, so the footer keeps its right-side buttons at narrow
+   widths; the left cluster grows at wide ones. */
+.picture-single-zoom-cluster {
+  min-width: 0;
+}
+
 .picture-single-zoom-range {
   width: auto;
-  flex: 1 1 auto;
+  flex: 1 1 0px;
   min-width: 0;
   max-width: 10rem;
   margin: 0 0.375rem;

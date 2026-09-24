@@ -2,8 +2,8 @@
   Carousel.vue — Hero illustration carousel (IndexPage).
 
   Swiper v14 replacement for the old BCarousel + BCarouselSlide:
-    - Effect creative transition, `rewind` mode (loop breaks creative
-      progress — see docs/todos/v3.12.0.md §13)
+    - Effect creative transition, `rewind` mode (loop breaks the
+      creative effect's progress)
     - Autoplay state derived from the Swiper instance (no drift)
     - Pool-driven slides from `src/configs/picture-groups.json` via the
       `picGroupId` prop (picture ids are resolved through the registry)

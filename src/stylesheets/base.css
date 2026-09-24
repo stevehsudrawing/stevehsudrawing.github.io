@@ -225,12 +225,28 @@ h6,
   border-bottom: none !important;
 }
 
+/* Titles clamp to one line; the overflow logic and the tooltip live in
+   `TruncatedTitle`.  The direct-child selector matters — `header-class`
+   puts its classes on the header DIV, so a bare `.modal-title` rule
+   would also hit the header. */
+.modal-header > .modal-title {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .modal-body {
   padding: 0 var(--bs-modal-padding);
 }
 
 .modal-footer {
   border-top: none !important;
+}
+
+/* Footer labels never wrap — whole buttons wrap instead. */
+.modal-footer .btn {
+  white-space: nowrap;
 }
 
 .modal-backdrop {
@@ -247,17 +263,20 @@ h6,
   backdrop-filter: blur(var(--shlh-blur-sm));
 }
 
-/* --- Picture viewers: window-height dialogs (v3.20.2) --- */
-/* Both picture viewers (single / group) always fill the window height
-   minus a uniform 0.5 rem inset.  The modal DOM is teleported to
-   `<body>`, so this global sheet owns the rules (scoped styles cannot
-   reach `.modal-dialog`).  The column-flex body hands the remaining
-   height to the viewer stage (`flex: 1`), which stretches the pan box
-   or the Swiper in turn. */
+/* --- Picture viewers: viewport-filling dialogs (v3.20.2; full-bleed
+   v3.20.3) --- */
+/* Both picture viewers (single / group) fill the whole viewport — both
+   axes, zero margin.  The modal DOM is teleported to `<body>`, so this
+   global sheet owns the rules (scoped styles cannot reach
+   `.modal-dialog`).  The column-flex body hands the remaining height
+   to the viewer stage (`flex: 1`), which stretches the pan box or the
+   Swiper in turn. */
 .picture-viewer-dialog {
-  height: calc(100vh - 1rem);
-  height: calc(100dvh - 1rem);
-  margin: 0.5rem auto;
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
 }
 
 .picture-viewer-dialog .modal-content {

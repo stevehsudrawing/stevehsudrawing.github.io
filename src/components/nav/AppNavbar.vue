@@ -402,7 +402,7 @@ defineExpose({
     transparent 0%,
     var(--bs-body-bg) 100%
   );
-  backdrop-filter: blur(var(--shlh-blur-md)) saturate(1.5);
+  backdrop-filter: blur(var(--shlh-blur-sm)) saturate(1.5);
   box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
   padding: 0;
   padding-top: calc(var(--safe-area-inset-top, 0px) + 1px);
@@ -411,7 +411,7 @@ defineExpose({
 }
 
 /* Literal radius here - `@supports` conditions cannot take `var()`;
-   keep in sync with `--shlh-blur-md` (parameters.css). */
+   keep in sync with `--shlh-blur-sm` (parameters.css). */
 @supports not (backdrop-filter: blur(1rem)) {
   .navbar {
     background-color: rgba(var(--bs-body-bg-rgb), 1);

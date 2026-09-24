@@ -2,9 +2,9 @@
  * Storage platform module — the single entry point for ALL localStorage
  * access in the application.
  *
- * MANDATORY CONSTRAINT (see §3.1 / §4.1.3): every localStorage key MUST
- * have a typed getter/setter accessor pair here.  Raw localStorage usage
- * outside this module is forbidden.
+ * MANDATORY CONSTRAINT: every localStorage key MUST have a typed
+ * getter/setter accessor pair here.  Raw localStorage usage outside
+ * this module is forbidden.
  *
  * Conventions:
  * - String preferences (theme, lang) -> stored as plain strings

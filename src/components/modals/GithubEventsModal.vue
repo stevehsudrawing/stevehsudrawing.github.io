@@ -23,6 +23,7 @@ import type { IconName } from "../../types/icons";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
+import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
 // State
@@ -188,6 +189,9 @@ const rows = computed<EventRow[]>(() =>
     scrollable
     @shown="onShown"
   >
+    <template #title>
+      <TruncatedTitle :text="title" />
+    </template>
     <ul class="list-unstyled mb-0 github-events-list">
       <li
         v-for="row in rows"
