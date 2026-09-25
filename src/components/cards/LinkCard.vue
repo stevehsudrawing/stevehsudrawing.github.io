@@ -112,11 +112,11 @@ const showQR = computed(() => {
                 v-if="titleLink"
                 v-bind="titleLink"
                 :icon="icon"
-                class="mb-1"
+                class="fw-medium mb-1"
               >
                 {{ titleText }}
               </TypeAwareLink>
-              <span v-else class="card-title mb-1">{{ titleText }}</span>
+              <span v-else class="fw-medium mb-1">{{ titleText }}</span>
             </div>
             <!-- QR button -->
             <QRCodeButton

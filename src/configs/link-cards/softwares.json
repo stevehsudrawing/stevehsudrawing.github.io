@@ -173,17 +173,38 @@
     ]
   },
   {
-    "id": "miscellaneous",
+    "id": "npm-packages",
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "element",
+          "tagName": "span",
+          "properties": {
+            "dataI18n": "text-npm-packages-description"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "Open source packages I develop and publish on npm."
+            }
+          ]
+        }
+      ]
+    },
     "contents": [
       {
         "id": "skinview3d-etf",
-        "available": false,
         "icon": {
           "type": "colored-img",
           "imgProps": {
             "src": "/images/webp/icons/github.webp",
             "colorVar": "bs-body-color"
           }
+        },
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/skinview3d-etf"
         },
         "description": {
           "type": "root",
@@ -213,14 +234,24 @@
             },
             {
               "type": "element",
-              "tagName": "span",
+              "tagName": "a",
               "properties": {
-                "dataI18n": "text-coming-soon"
+                "href": "https://stevehsudrawing.github.io/skinview3d-etf/",
+                "className": ["external-link"]
               },
               "children": [
                 {
-                  "type": "text",
-                  "value": "Coming soon"
+                  "type": "element",
+                  "tagName": "span",
+                  "properties": {
+                    "dataI18n": "text-demo-page"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Demo page"
+                    }
+                  ]
                 }
               ]
             }

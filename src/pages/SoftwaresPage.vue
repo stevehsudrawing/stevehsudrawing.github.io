@@ -39,7 +39,7 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
   <hr />
 
   <!-- === My GitHub Profile === -->
-  <div class="container pb-2">
+  <div class="container">
     <SectionHeading
       :title="$t('text-my-github-profile')"
       :page-path="'softwares.html'"
@@ -52,9 +52,8 @@ const { groups, pagePath } = useLinkCards(ref("softwares"));
         <GithubActivityStatsCard />
       </div>
     </div>
+    <hr />
   </div>
-
-  <hr />
 
   <!-- ==== Link cards ==== -->
   <div v-if="groups" class="container">
