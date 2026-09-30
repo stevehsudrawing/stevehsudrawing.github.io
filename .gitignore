@@ -1,10 +1,3 @@
-# IDE / Text Editors: Settings
-.idea/
-.vscode/
-
-# Python: Environments
-.venv**
-
 # Node.js Dependencies
 node_modules/
 
@@ -12,27 +5,11 @@ node_modules/
 dist/
 .vite/
 
-# Generated: Material Symbols subset font (build/icon-subset-plugin.ts)
-src/assets/fonts/*.woff2
-
 # Vite: Environment files
 *.local
 
 # Vite: Lock files (choose one)
 pnpm-lock.yaml
 
-# Local only test files and tools
-test/
-tools/
-temp/
-
-# Photoshop files
-*.psd
-
-# Windows shortcuts
-*.lnk
-
-# Local-only documents
-docs/
-.github/copilot-instructions.md
-.github/instructions/
+# Generated: Material Symbols subset font (build/icon-subset-plugin.ts)
+src/assets/fonts/*.woff2
