@@ -186,16 +186,14 @@ export interface DisplayPictureGroupData {
   /**
    * Uniform width ÷ height ratio of every picture in the group (e.g.
    * 1 = square, 0.75 = 3:4 portrait).  The convention requires all
-   * members to share it — `tools/validate-picture-configs.mjs`
-   * enforces the value and each member's registry-ratio consistency.
-   * Consumed by the gallery cards (placeholder reservation) and the
-   * grid layout.
+   * members to share it; a mismatching value or registry ratio is
+   * rejected.  Consumed by the gallery cards (placeholder reservation)
+   * and the grid layout.
    */
   aspectRatio: number;
   /**
    * Pages that render this group (e.g. `["gallery"]`).  The runtime
-   * ignores it; the build filters by it (unknown names are rejected by
-   * `tools/validate-picture-configs.mjs`).
+   * ignores it; the build filters by it (unknown names are rejected).
    */
   pages: string[];
   /** Picture ids resolved through the registry (order = render order). */
