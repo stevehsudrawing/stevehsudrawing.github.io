@@ -103,3 +103,23 @@ export function isSwiperSupported(): boolean {
 
   return true;
 }
+
+/**
+ * Whether the browser can create a WebGL 2 context.
+ *
+ * The skin viewer (`platform/skin-viewer.ts`) needs WebGL 2 (the
+ * three release's own browser target); browsers failing the probe get
+ * an explanatory message instead of a broken stage, and the 3D chunk
+ * is not even downloaded.  True feature detection, unlike the UA
+ * blacklist above.
+ *
+ * @returns `true` when a webgl2 context can be created.
+ */
+export function isWebGL2Supported(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    return canvas.getContext("webgl2") !== null;
+  } catch {
+    return false;
+  }
+}

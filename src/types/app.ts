@@ -39,6 +39,8 @@ export const enum StorageKey {
   GithubEvents = "githubEvents",
   /** Cached GitHub commits data (JSON-serialized CacheEntry<GithubCommit[]>). */
   GithubCommits = "githubCommits",
+  /** Cached Minecraft profile data (JSON-serialized CacheEntry<MinecraftProfile>). */
+  MinecraftProfile = "minecraftProfile",
 }
 
 // =========================================================================
@@ -524,6 +526,26 @@ export interface DailyStat {
 }
 
 // =========================================================================
+// Minecraft profile (playerdb.co relay)
+// =========================================================================
+
+/**
+ * Consumed subset of the playerdb.co player object
+ * (`GET /api/player/minecraft/{uuid}` → `data.player`).
+ * The shared SWR cache stores exactly this selected shape.
+ */
+export interface MinecraftProfile {
+  /** Current in-game username. */
+  username: string;
+  /** Undashed UUID (32 hex characters). */
+  raw_id: string;
+  /** Skin texture URL (https) on `textures.minecraft.net`. */
+  skin_texture: string;
+  /** Cape texture URL, or null when the account wears no cape. */
+  cape_texture: string | null;
+}
+
+// =========================================================================
 // Modal stack
 // =========================================================================
 
@@ -600,12 +622,14 @@ export type ModalId =
   | "settings"
   | "reset-warning"
   | "sticker"
-  | "changelog";
+  | "changelog"
+  | "skin-viewer";
 
 /**
  * Modal stack entry — discriminated union keyed by `id`.
  * Narrowing `item.id` also narrows `item.props`.
- * `settings`, `reset-warning` and `changelog` are prop-less.
+ * `settings`, `reset-warning`, `changelog` and `skin-viewer` are
+ * prop-less.
  */
 export type ModalStackItem =
   | { id: "external-link"; props: ExternalLinkConfirmModalProps }
@@ -616,4 +640,5 @@ export type ModalStackItem =
   | { id: "settings"; props: null }
   | { id: "reset-warning"; props: null }
   | { id: "sticker"; props: StickerModalProps | null }
-  | { id: "changelog"; props: null };
+  | { id: "changelog"; props: null }
+  | { id: "skin-viewer"; props: null };

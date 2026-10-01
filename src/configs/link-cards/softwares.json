@@ -254,6 +254,80 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": " | "
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataModal": "skin-viewer"
+              },
+              "children": [
+                {
+                  "type": "element",
+                  "tagName": "span",
+                  "properties": {
+                    "dataI18n": "text-skin-viewer-trigger"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "View my 3D skin"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "etf-skin-decoder",
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/github.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/etf-skin-decoder"
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-name"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Name"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": ": etf-skin-decoder"
+                }
+              ]
             }
           ]
         }

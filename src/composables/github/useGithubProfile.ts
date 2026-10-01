@@ -9,7 +9,8 @@
 import { GITHUB_USERNAME } from "../../configs/site-meta";
 import { GITHUB_PROFILE_CACHE } from "../../platform/storage";
 import type { GithubUser } from "../../types/app";
-import { useGithubApi, type GithubApiState } from "./useGithubApi";
+import type { CachedFetchState } from "../core/useCachedFetch";
+import { useGithubApi } from "./useGithubApi";
 
 // =========================================================================
 // Constants
@@ -31,6 +32,6 @@ const PROFILE_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
  * const { data, isLoading, error, refresh } = useGithubProfile();
  * // data.value?.public_repos → 8
  */
-export function useGithubProfile(): GithubApiState<GithubUser> {
+export function useGithubProfile(): CachedFetchState<GithubUser> {
   return useGithubApi<GithubUser>(PROFILE_URL, GITHUB_PROFILE_CACHE);
 }

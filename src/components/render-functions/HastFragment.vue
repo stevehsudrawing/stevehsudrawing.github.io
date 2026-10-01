@@ -3,10 +3,11 @@
 
   Converts a HAST node tree (from markdown or link-card JSON) into
   Vue VNodes, upgrading `<a>` to `<TypeAwareLink>`, `<img>` to
-  `<FeatureAwarePicture>` or `<ColoredImg>`, and `<section-heading>`
-  (markdown heading markers) to `<SectionHeading>`.  Other elements are
-  rendered as native HTML elements with their attributes passed
-  through.
+  `<FeatureAwarePicture>` or `<ColoredImg>`, `<section-heading>`
+  (markdown heading markers) to `<SectionHeading>`, and elements with
+  a `dataModal` property to `<ModalTrigger>` (parameterless modal
+  openers).  Other elements are rendered as native HTML elements with
+  their attributes passed through.
 -->
 <script lang="ts">
 import { defineComponent, h, type VNode } from "vue";
@@ -21,6 +22,7 @@ import ColoredImg from "../images/ColoredImg.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import SectionHeading from "../ui/SectionHeading.vue";
+import ModalTrigger from "./ModalTrigger.vue";
 
 type RenderResult = VNode | string;
 
@@ -104,6 +106,12 @@ export default defineComponent({
           );
         }
 
+        // data-modal="..." → ModalTrigger (parameterless modal opener)
+        const modalId = properties.dataModal;
+        if (typeof modalId === "string" && modalId !== "") {
+          return h(ModalTrigger, { modalId }, { default: () => children });
+        }
+
         // — Native HTML element --
         const tagName = node.tagName!;
         const vueProps: Record<string, unknown> = {};
@@ -117,8 +125,13 @@ export default defineComponent({
           }
           // Pass through remaining primitive properties
           for (const [key, val] of Object.entries(rest)) {
-            // Skip i18n metadata keys — they are directives, not HTML attrs
-            if (key === "dataI18n" || key === "dataI18nHtml") continue;
+            // Skip directive metadata keys — they are not HTML attributes
+            if (
+              key === "dataI18n" ||
+              key === "dataI18nHtml" ||
+              key === "dataModal"
+            )
+              continue;
             if (
               typeof val === "string" ||
               typeof val === "number" ||

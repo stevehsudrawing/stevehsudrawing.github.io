@@ -1,77 +1,34 @@
 /**
- * Generic GitHub REST API composable with client-side caching.
+ * useGithubApi — GitHub REST API fetch + cache (thin wrapper).
  *
- * Provides a **stale-while-revalidate** fetch + localStorage cache for any
- * GitHub API endpoint.  All callers using the same cache key share a single
- * reactive ref and a single in-flight fetch (deduped via module-level
- * promise tracking).
- *
- * Cache entries (`{ data, fetchedAt }` JSON) are read and written via a
- * storage accessor from platform/storage.ts.  The `maxAge` option controls
- * freshness (default: 1 hour).  Stale caches are served immediately while
- * a background re-fetch runs; on network error or 403 (rate-limit),
- * cached data is returned regardless of age.
+ * Delegates the stale-while-revalidate machinery to the shared
+ * `useCachedFetch` core with the GitHub conventions: the `GitHub API`
+ * error label and 403 (rate limit) keeping stale data.  All callers
+ * using the same cache key share a single reactive ref and a single
+ * in-flight fetch.
  */
 
-import { ref, type Ref } from "vue";
-import type { GithubCacheAccessor } from "../../platform/storage";
-
-// =========================================================================
-// Types
-// =========================================================================
-
-/** Return type for the useGithubApi composable. */
-export interface GithubApiState<T> {
-  /** The fetched data, or null if never successfully fetched. */
-  data: Ref<T | null>;
-  /** True while a fetch is in-flight. */
-  isLoading: Ref<boolean>;
-  /** Error message from the last failed fetch, or null. */
-  error: Ref<string | null>;
-  /** Manually trigger a re-fetch (bypasses cache freshness check). */
-  refresh: () => Promise<void>;
-}
-
-// =========================================================================
-// Shared state (module-level singletons keyed by cacheKey)
-// =========================================================================
-
-/** Default cache freshness threshold (1 hour in milliseconds). */
-const DEFAULT_MAX_AGE = 3_600_000;
-
-/** Singleton data refs keyed by cache key. */
-const dataCache = new Map<string, Ref<unknown>>();
-
-/** Singleton loading refs keyed by cache key. */
-const loadingCache = new Map<string, Ref<boolean>>();
-
-/** Singleton error refs keyed by cache key. */
-const errorCache = new Map<string, Ref<string | null>>();
-
-/** In-flight fetch promises keyed by cache key (dedup concurrent calls). */
-const promiseCache = new Map<string, Promise<void>>();
-
-// =========================================================================
-// Composable
-// =========================================================================
+import type { CacheAccessor } from "../../platform/storage";
+import { useCachedFetch, type CachedFetchState } from "../core/useCachedFetch";
 
 /**
- * Generic GitHub API fetch + cache composable.
+ * GitHub REST API fetch + cache composable.
  *
  * **Stale-while-revalidate**: if cached data exists it is returned
- * immediately; if the cache is older than `maxAge` a background re-fetch
- * is triggered (but the stale data keeps showing).  Concurrent calls
- * from multiple components share a single in-flight fetch.
+ * immediately; if the cache is stale a background re-fetch is
+ * triggered (but the stale data keeps showing).  Concurrent calls from
+ * multiple components share a single in-flight fetch.
  *
- * On network error or HTTP 403 (rate limit), any cached data is returned
- * regardless of age.  If no cache exists, `data` stays `null` and `error`
- * is set.
+ * On network error or HTTP 403 (rate limit), any cached data is
+ * returned regardless of age.  If no cache exists, `data` stays null
+ * and `error` is set.
  *
  * @param url - Full GitHub REST API URL (e.g. "https://api.github.com/users/stevehsudrawing").
  * @param cache - Storage accessor for this endpoint's cache
- *   (GITHUB_PROFILE_CACHE / GITHUB_EVENTS_CACHE in platform/storage.ts).
- * @param maxAge - Cache freshness threshold in ms (default: 1 hour).
- * @returns Reactive state ({@link GithubApiState}) shared across all callers.
+ *   (GITHUB_PROFILE_CACHE / GITHUB_EVENTS_CACHE / GITHUB_COMMITS_CACHE
+ *   in platform/storage.ts).
+ * @returns Reactive state ({@link CachedFetchState}) shared across all
+ *          callers.
  *
  * @example
  * const { data, isLoading, error, refresh } = useGithubApi<GithubUser>(
@@ -81,121 +38,10 @@ const promiseCache = new Map<string, Promise<void>>();
  */
 export function useGithubApi<T>(
   url: string,
-  cache: GithubCacheAccessor<T>,
-  maxAge: number = DEFAULT_MAX_AGE,
-): GithubApiState<T> {
-  const cacheKey = cache.key;
-
-  // ---- Return cached singleton if already initialised ----
-
-  const existingData = dataCache.get(cacheKey);
-  if (existingData) {
-    return {
-      data: existingData as Ref<T | null>,
-      isLoading: loadingCache.get(cacheKey)! as Ref<boolean>,
-      error: errorCache.get(cacheKey)! as Ref<string | null>,
-      refresh: () => performFetch(cache, url, maxAge),
-    };
-  }
-
-  // ---- First call: create shared refs and trigger initial fetch ----
-
-  const data = ref<T | null>(null) as Ref<T | null>;
-  const isLoading = ref<boolean>(false);
-  const error = ref<string | null>(null);
-
-  dataCache.set(cacheKey, data);
-  loadingCache.set(cacheKey, isLoading);
-  errorCache.set(cacheKey, error);
-
-  // Initialise from cache (synchronous)
-  const cached = cache.read();
-  if (cached) {
-    data.value = cached.data;
-    // If stale, trigger background refresh
-    if (Date.now() - cached.fetchedAt > maxAge) {
-      void performFetch(cache, url, maxAge);
-    }
-  } else {
-    // No cache — fetch immediately
-    void performFetch(cache, url, maxAge);
-  }
-
-  return {
-    data,
-    isLoading,
-    error,
-    refresh: () => performFetch(cache, url, maxAge),
-  };
-}
-
-// =========================================================================
-// Internal fetch logic
-// =========================================================================
-
-/**
- * Fetch data from the given URL, update cache and reactive state.
- *
- * Deduplicates concurrent calls: if a fetch is already in-flight for
- * this endpoint, subsequent callers wait on the same promise.
- *
- * @param cache - Storage accessor for this endpoint's cache.
- * @param url - GitHub REST API URL.
- * @param maxAge - Cache freshness threshold in ms (not used here, but
- *   carried for potential future use in background refresh logic).
- */
-async function performFetch<T>(
-  cache: GithubCacheAccessor<T>,
-  url: string,
-  maxAge: number,
-): Promise<void> {
-  const cacheKey = cache.key;
-
-  // Dedup: if a fetch is already in-flight, piggyback on it
-  const existing = promiseCache.get(cacheKey);
-  if (existing) {
-    await existing;
-    return;
-  }
-
-  const isLoading = loadingCache.get(cacheKey) as Ref<boolean> | undefined;
-  const error = errorCache.get(cacheKey) as Ref<string | null> | undefined;
-  const data = dataCache.get(cacheKey) as Ref<T | null> | undefined;
-
-  if (isLoading) isLoading.value = true;
-  if (error) error.value = null;
-
-  const promise = (async (): Promise<void> => {
-    try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        // 403 = rate limited; keep any cached data regardless of age
-        if (response.status === 403) {
-          if (error) error.value = "GitHub API rate limit exceeded";
-          return; // data stays at whatever cached value we have
-        }
-        if (error) {
-          error.value = `GitHub API returned ${response.status} ${response.statusText}`;
-        }
-        return;
-      }
-
-      const json = (await response.json()) as T;
-      if (data) data.value = json;
-      cache.write(json);
-    } catch (err: unknown) {
-      // Network error — keep cached data if we have it
-      if (error) {
-        error.value =
-          err instanceof Error ? err.message : "Unknown network error";
-      }
-    } finally {
-      if (isLoading) isLoading.value = false;
-      promiseCache.delete(cacheKey);
-    }
-  })();
-
-  promiseCache.set(cacheKey, promise);
-  await promise;
+  cache: CacheAccessor<T>,
+): CachedFetchState<T> {
+  return useCachedFetch<T>(url, cache, {
+    label: "GitHub API",
+    staleStatuses: [403],
+  });
 }

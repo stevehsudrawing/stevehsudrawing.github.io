@@ -13,7 +13,8 @@
 import { GITHUB_REPO } from "../../configs/site-meta";
 import { GITHUB_COMMITS_CACHE } from "../../platform/storage";
 import type { GithubCommit } from "../../types/app";
-import { useGithubApi, type GithubApiState } from "./useGithubApi";
+import type { CachedFetchState } from "../core/useCachedFetch";
+import { useGithubApi } from "./useGithubApi";
 
 // =========================================================================
 // Constants
@@ -37,13 +38,13 @@ const COMMITS_URL = `https://api.github.com/repos/${GITHUB_REPO}/commits?per_pag
  */
 export function useGithubCommits(): {
   /** Latest commits (newest first), or null if not yet fetched. */
-  commits: GithubApiState<GithubCommit[]>["data"];
+  commits: CachedFetchState<GithubCommit[]>["data"];
   /** True while a fetch is in-flight. */
-  isLoading: GithubApiState<GithubCommit[]>["isLoading"];
+  isLoading: CachedFetchState<GithubCommit[]>["isLoading"];
   /** Error message from the last failed fetch, or null. */
-  error: GithubApiState<GithubCommit[]>["error"];
+  error: CachedFetchState<GithubCommit[]>["error"];
   /** Manually trigger a re-fetch. */
-  refresh: GithubApiState<GithubCommit[]>["refresh"];
+  refresh: CachedFetchState<GithubCommit[]>["refresh"];
 } {
   const { data, isLoading, error, refresh } = useGithubApi<GithubCommit[]>(
     COMMITS_URL,

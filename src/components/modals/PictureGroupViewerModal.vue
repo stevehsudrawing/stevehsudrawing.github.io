@@ -5,7 +5,7 @@
   with QRCodeModal): the header title shows the picture description; the
   footer has zoom (the single-viewer hand-off) / QR-share /
   related-link / Back (conditional) / Close.  The dialog fills the
-  whole viewport (shared `.picture-viewer-dialog` rules in base.css —
+  whole viewport (shared `.full-bleed-dialog` rules in base.css —
   both axes, zero margin) and the stage stretches the Swiper /
   fallback image.
   Navigation:
@@ -503,7 +503,7 @@ onBeforeUnmount(() => {
     header-class="h5 modal-title"
     title-tag="span"
     no-header-close
-    dialog-class="picture-viewer-dialog"
+    dialog-class="full-bleed-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >

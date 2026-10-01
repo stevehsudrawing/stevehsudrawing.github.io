@@ -19,6 +19,7 @@ import type {
   GithubEvent,
   GithubUser,
   Lang,
+  MinecraftProfile,
   ThemeChoice,
 } from "../types/app";
 import { StorageKey } from "../types/app";
@@ -49,7 +50,7 @@ function writeRaw(key: string, value: string): void {
 }
 
 // =========================================================================
-// Cache entry types (shared with useGithubApi)
+// Cache entry types (shared with useCachedFetch)
 // =========================================================================
 
 /** Wrapper stored in localStorage alongside each API response. */
@@ -60,9 +61,9 @@ export interface CacheEntry<T> {
   fetchedAt: number;
 }
 
-/** Accessor pair for one GitHub API cache key. */
-export interface GithubCacheAccessor<T> {
-  /** StorageKey string — identity for useGithubApi's singleton maps. */
+/** Accessor pair for one API cache key. */
+export interface CacheAccessor<T> {
+  /** StorageKey string — identity for useCachedFetch's singleton maps. */
   key: string;
   /** Read the cache entry (null on miss / corruption). */
   read: () => CacheEntry<T> | null;
@@ -148,10 +149,10 @@ export function setStoredEnableSwiper(value: boolean): void {
 }
 
 // =========================================================================
-// GitHub API caches
+// API caches
 // =========================================================================
 
-/** Read a JSON cache entry for one GitHub cache key. */
+/** Read a JSON cache entry for one API cache key. */
 function readCacheEntry<T>(key: string): CacheEntry<T> | null {
   const raw = readRaw(key);
   if (raw === null) return null;
@@ -171,14 +172,14 @@ function readCacheEntry<T>(key: string): CacheEntry<T> | null {
   }
 }
 
-/** Write a JSON cache entry for one GitHub cache key. */
+/** Write a JSON cache entry for one API cache key. */
 function writeCacheEntry<T>(key: string, data: T): void {
   const entry: CacheEntry<T> = { data, fetchedAt: Date.now() };
   writeRaw(key, JSON.stringify(entry));
 }
 
 /** GitHub profile cache accessor for useGithubApi(). */
-export const GITHUB_PROFILE_CACHE: GithubCacheAccessor<GithubUser> = {
+export const GITHUB_PROFILE_CACHE: CacheAccessor<GithubUser> = {
   key: StorageKey.GithubProfile,
   read: (): CacheEntry<GithubUser> | null =>
     readCacheEntry<GithubUser>(StorageKey.GithubProfile),
@@ -188,7 +189,7 @@ export const GITHUB_PROFILE_CACHE: GithubCacheAccessor<GithubUser> = {
 };
 
 /** GitHub events cache accessor for useGithubApi(). */
-export const GITHUB_EVENTS_CACHE: GithubCacheAccessor<GithubEvent[]> = {
+export const GITHUB_EVENTS_CACHE: CacheAccessor<GithubEvent[]> = {
   key: StorageKey.GithubEvents,
   read: (): CacheEntry<GithubEvent[]> | null =>
     readCacheEntry<GithubEvent[]>(StorageKey.GithubEvents),
@@ -198,11 +199,21 @@ export const GITHUB_EVENTS_CACHE: GithubCacheAccessor<GithubEvent[]> = {
 };
 
 /** GitHub commits cache accessor for useGithubApi(). */
-export const GITHUB_COMMITS_CACHE: GithubCacheAccessor<GithubCommit[]> = {
+export const GITHUB_COMMITS_CACHE: CacheAccessor<GithubCommit[]> = {
   key: StorageKey.GithubCommits,
   read: (): CacheEntry<GithubCommit[]> | null =>
     readCacheEntry<GithubCommit[]>(StorageKey.GithubCommits),
   write: (data: GithubCommit[]): void => {
     writeCacheEntry(StorageKey.GithubCommits, data);
+  },
+};
+
+/** Minecraft profile cache accessor for useMinecraftProfile(). */
+export const MINECRAFT_PROFILE_CACHE: CacheAccessor<MinecraftProfile> = {
+  key: StorageKey.MinecraftProfile,
+  read: (): CacheEntry<MinecraftProfile> | null =>
+    readCacheEntry<MinecraftProfile>(StorageKey.MinecraftProfile),
+  write: (data: MinecraftProfile): void => {
+    writeCacheEntry(StorageKey.MinecraftProfile, data);
   },
 };

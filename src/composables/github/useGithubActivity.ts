@@ -23,7 +23,8 @@ import {
   type GithubEvent,
 } from "../../types/app";
 import type { IconName } from "../../types/icons";
-import { useGithubApi, type GithubApiState } from "./useGithubApi";
+import type { CachedFetchState } from "../core/useCachedFetch";
+import { useGithubApi } from "./useGithubApi";
 
 // =========================================================================
 // Constants
@@ -133,11 +134,11 @@ export function useGithubActivity(): {
   /** Daily event counts for line chart (sorted by date ascending). */
   dailyStats: ComputedRef<DailyStat[]>;
   /** True while a fetch is in-flight. */
-  isLoading: GithubApiState<GithubEvent[]>["isLoading"];
+  isLoading: CachedFetchState<GithubEvent[]>["isLoading"];
   /** Error message from the last failed fetch, or null. */
-  error: GithubApiState<GithubEvent[]>["error"];
+  error: CachedFetchState<GithubEvent[]>["error"];
   /** Manually trigger a re-fetch. */
-  refresh: GithubApiState<GithubEvent[]>["refresh"];
+  refresh: CachedFetchState<GithubEvent[]>["refresh"];
 } {
   const {
     data: rawEvents,

@@ -33,6 +33,7 @@ import PictureViewerModal from "./components/modals/PictureViewerModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
 import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
 import SettingsModal from "./components/modals/SettingsModal.vue";
+import SkinViewerModal from "./components/modals/SkinViewerModal.vue";
 import StickerModal from "./components/modals/StickerModal.vue";
 import AppNavbar from "./components/nav/AppNavbar.vue";
 import FooterNav from "./components/nav/FooterNav.vue";
@@ -248,5 +249,6 @@ onMounted(async () => {
   <PictureViewerModal />
   <StickerModal />
   <ChangelogModal />
+  <SkinViewerModal />
   <ToastStack ref="toastStackRef" />
 </template>

@@ -263,15 +263,14 @@ h6,
   backdrop-filter: blur(var(--shlh-blur-sm));
 }
 
-/* --- Picture viewers: viewport-filling dialogs (v3.20.2; full-bleed
-   v3.20.3) --- */
-/* Both picture viewers (single / group) fill the whole viewport — both
-   axes, zero margin.  The modal DOM is teleported to `<body>`, so this
-   global sheet owns the rules (scoped styles cannot reach
-   `.modal-dialog`).  The column-flex body hands the remaining height
-   to the viewer stage (`flex: 1`), which stretches the pan box or the
-   Swiper in turn. */
-.picture-viewer-dialog {
+/* --- Shared viewport-filling dialogs --- */
+/* The picture viewers (single / group) and future modals fill the
+   whole viewport — both axes, zero margin.  The modal DOM is
+   teleported to `<body>`, so this global sheet owns the rules (scoped
+   styles cannot reach `.modal-dialog`).  The column-flex body hands
+   the remaining height to the viewer stage (`flex: 1`), which
+   stretches the pan box or the Swiper in turn. */
+.full-bleed-dialog {
   width: 100%;
   max-width: 100%;
   height: 100vh;
@@ -279,11 +278,11 @@ h6,
   margin: 0;
 }
 
-.picture-viewer-dialog .modal-content {
+.full-bleed-dialog .modal-content {
   height: 100%;
 }
 
-.picture-viewer-dialog .modal-body {
+.full-bleed-dialog .modal-body {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;

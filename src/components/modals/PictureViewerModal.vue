@@ -549,7 +549,7 @@ onBeforeUnmount(() => {
     header-class="h5 modal-title"
     title-tag="span"
     no-header-close
-    dialog-class="picture-viewer-dialog"
+    dialog-class="full-bleed-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
