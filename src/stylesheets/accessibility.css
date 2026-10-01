@@ -12,6 +12,13 @@
     transition: none !important;
     animation: none !important;
   }
+
+  /* Self-fading hint overlays lose their fade-out when animations are
+     disabled and would linger — hide them outright. */
+  .picture-single-hints,
+  .skin-viewer-hints {
+    display: none !important;
+  }
 }
 
 /* when the user manually turns them off */
@@ -20,6 +27,11 @@
 .no-animations *::after {
   transition: none !important;
   animation: none !important;
+}
+
+.no-animations .picture-single-hints,
+.no-animations .skin-viewer-hints {
+  display: none !important;
 }
 
 /* --- Disable Transparency --- */

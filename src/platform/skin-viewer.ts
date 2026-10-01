@@ -26,6 +26,11 @@ import type { MinecraftProfile } from "../types/app";
 export interface SkinViewerStageHandle {
   /** Stops rendering and disposes every resource (idempotent). */
   dispose(): void;
+  /**
+   * Restarts the Blockbench intro from its first frame (the camera is
+   * untouched); callable while the viewer is ready.
+   */
+  replayIntro(): void;
 }
 
 /** Options accepted by {@link initSkinViewerStage}. */
@@ -40,6 +45,8 @@ export interface SkinViewerStageOptions {
   onCapeError: () => void;
   /** Receives non-fatal warnings (unsupported skins, texture issues). */
   onWarning: (message: string) => void;
+  /** Reports intro play-state changes (true = playing) for the UI. */
+  onIntroStateChange?: (playing: boolean) => void;
 }
 
 // =========================================================================
@@ -61,7 +68,8 @@ export interface SkinViewerStageOptions {
 export async function initSkinViewerStage(
   options: SkinViewerStageOptions,
 ): Promise<SkinViewerStageHandle> {
-  const { stage, canvas, profile, onCapeError, onWarning } = options;
+  const { stage, canvas, profile, onCapeError, onWarning, onIntroStateChange } =
+    options;
 
   // ---- Lazy stack: three family + the Blockbench animation JSON ----
   const [skinview3dModule, etfModule, blockbenchModule, animationModule] =
@@ -89,6 +97,20 @@ export async function initSkinViewerStage(
     pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
   });
 
+  // ---- Default camera: a 20° downward tilt ----
+  // `camera` / `controls` are skinview3d public members; the
+  // constructor already set the distance (`adjustCameraDistance`), so
+  // re-aim the same radius at a fixed elevation and sync the controls.
+  // Replays never touch the camera.
+  const cameraTilt = (20 * Math.PI) / 180;
+  const cameraDistance = viewer.camera.position.length();
+  viewer.camera.position.set(
+    0,
+    Math.sin(cameraTilt) * cameraDistance,
+    Math.cos(cameraTilt) * cameraDistance,
+  );
+  viewer.controls.update();
+
   // Auto-detect the skin model (slim / classic) from the texture.
   await viewer.loadSkin(profile.skin_texture);
 
@@ -102,19 +124,26 @@ export async function initSkinViewerStage(
   }
 
   // ---- Animation: Blockbench intro once, then the idle loop ----
+  const ANIMATION_NAME = "animation.player.appear1";
   let controller: ETFController | null = null;
+
+  /** Swaps the finished intro for the idle loop (first run and replays). */
+  const finishIntro = (): void => {
+    viewer.animation = new IdleAnimation();
+    // Replacing the animation slot disconnects the blink ticker
+    // (see the extension's ticker docs) — re-attach it.
+    controller?.rebind();
+    onIntroStateChange?.(false);
+  };
 
   const intro = new SkinViewBlockbench({
     animation: animationModule.default as AnimationFileType,
-    animationName: "animation.player.appear1",
-    onFinish: () => {
-      viewer.animation = new IdleAnimation();
-      // Replacing the animation slot disconnects the blink ticker
-      // (see the extension's ticker docs) — re-attach it.
-      controller?.rebind();
-    },
+    animationName: ANIMATION_NAME,
+    connectCape: true,
+    onFinish: finishIntro,
   });
   viewer.animation = intro;
+  onIntroStateChange?.(true);
 
   // ---- Torso init workaround (skinview3d-blockbench 1.0.19) ----
   // `initTorso()` runs on the intro's first frame: it re-parents the
@@ -133,6 +162,27 @@ export async function initSkinViewerStage(
   torsoFixRaf = requestAnimationFrame(() => {
     torsoFixRaf = 0;
     viewer.playerObject.resetJoints();
+
+    // `connectCape`'s attach() decompose re-expressed the cape euler
+    // as the flipped (10.8°, 0, π) representation; the partial
+    // `rotation.x` writes that follow (resetJoints, idle ticks) then
+    // rebuild the quaternion from it and lift the sheet over the
+    // head.  Rewrite all three axes once to restore the canonical
+    // pose — the cape then stays a rigid child of the torso, so it
+    // follows the intro's bow the way the vanilla cape does.
+    const cape = viewer.playerObject.cape;
+    cape.rotation.set((10.8 * Math.PI) / 180, Math.PI, 0);
+
+    // The library's `connectCape` wrapper also sits one unit too high
+    // (its hardcoded `-1` nudge); re-anchor it so the cape's canonical
+    // local lands back on its player-space pose at rest.
+    const capeWrapper = cape.parent;
+    const bodyPart = capeWrapper?.parent;
+    if (capeWrapper && bodyPart) {
+      capeWrapper.position.y = -(
+        bodyPart.position.y + (bodyPart.parent?.position.y ?? 0)
+      );
+    }
   });
 
   // Attach AFTER the intro occupies the slot: the blink ticker then
@@ -169,6 +219,15 @@ export async function initSkinViewerStage(
 
   let disposed = false;
   return {
+    replayIntro(): void {
+      if (disposed) return;
+      intro.setAnimation(ANIMATION_NAME);
+      viewer.animation = intro;
+      // The slot swap disconnected the blink ticker — re-attach it.
+      controller?.rebind();
+      onIntroStateChange?.(true);
+    },
+
     dispose(): void {
       if (disposed) return;
       disposed = true;

@@ -9,8 +9,9 @@
   download.  Each open boots a fresh viewer (Blockbench intro, then
   the idle loop) that is disposed on close; the stage stays 1:1 and
   fades in when ready — the fade follows the reduced-motion rules,
-  unlike the 3D content animation.  Preview-only: no download
-  affordance; the footer credits entry links the three packages.
+  unlike the 3D content animation.  The footer carries the tech-stack
+  popover, the name-card popover and the intro replay; the stage shows
+  self-fading operation hints.  Preview-only: no download affordance.
 -->
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
@@ -28,8 +29,10 @@ import {
   type SkinViewerStageHandle,
 } from "../../platform/skin-viewer";
 import type { MinecraftProfile } from "../../types/app";
+import CopyButton from "../buttons/CopyButton.vue";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
@@ -52,6 +55,8 @@ const SKINVIEW3D_URL = "https://github.com/bs-community/skinview3d";
 const SKINVIEW3D_ETF_URL = "https://github.com/stevehsudrawing/skinview3d-etf";
 const SKINVIEW3D_BLOCKBENCH_URL =
   "https://github.com/Andcool-Systems/skinview3d-blockbench-animation";
+/** The community relay that resolves the Mojang profile. */
+const PLAYERDB_URL = "https://playerdb.co";
 
 // =========================================================================
 // State
@@ -80,6 +85,21 @@ const closeBtnRef = ref<HTMLElement | null>(null);
 /** Live viewer handle (disposed on close). */
 let stageHandle: SkinViewerStageHandle | null = null;
 
+/** Latest resolved profile (feeds the name card). */
+const profileData = ref<MinecraftProfile | null>(null);
+
+/** True while the Blockbench intro plays (replay stays disabled). */
+const introPlaying = ref(false);
+
+/** True during the replay fade-out (blocks re-entry). */
+const replayBusy = ref(false);
+
+/** Hides the stage during the replay fade-out. */
+const stageHidden = ref(false);
+
+/** Name-card face canvas ref. */
+const faceCanvasRef = ref<HTMLCanvasElement | null>(null);
+
 /** Layout-time stage sizing observer (ResizeObserver when available). */
 let stageObserver: ResizeObserver | null = null;
 
@@ -104,6 +124,14 @@ const errorLabelKey = computed(() =>
       ? "text-skin-viewer-error-network"
       : "text-skin-viewer-error-generic",
 );
+
+/** Dashed UUID (canonical JE form) when the raw id has 32 hex chars. */
+const profileUuid = computed(() => {
+  const raw = profileData.value?.raw_id ?? "";
+  return /^[0-9a-f]{32}$/i.test(raw)
+    ? raw.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "$1-$2-$3-$4-$5")
+    : raw;
+});
 
 // =========================================================================
 // Actions
@@ -197,12 +225,77 @@ function waitForProfile(
   });
 }
 
+/** Draws the 8×8 face + hat layer of a skin texture onto a canvas. */
+async function renderFace(
+  canvasEl: HTMLCanvasElement,
+  src: string,
+): Promise<void> {
+  const image = new Image();
+  image.decoding = "async";
+  const loaded = await new Promise<boolean>((resolve) => {
+    image.onload = () => resolve(true);
+    image.onerror = () => resolve(false);
+    image.src = src;
+  });
+  // Degrade to the empty canvas when the texture cannot be fetched.
+  if (!loaded) return;
+  const ctx = canvasEl.getContext("2d");
+  if (!ctx) return;
+  ctx.imageSmoothingEnabled = false;
+  ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+  // 64×64 skin layout: base face (8,8) + hat overlay (40,8).  Mimic
+  // the 3D head: the hat layer fills the canvas while the base face
+  // shrinks to 1/1.15, centred — the fringe then overhangs its edge.
+  const innerSide = canvasEl.width / 1.15;
+  const innerOffset = (canvasEl.width - innerSide) / 2;
+  ctx.drawImage(
+    image,
+    8,
+    8,
+    8,
+    8,
+    innerOffset,
+    innerOffset,
+    innerSide,
+    innerSide,
+  );
+  ctx.drawImage(image, 40, 8, 8, 8, 0, 0, canvasEl.width, canvasEl.height);
+}
+
+/** Replays the intro: fade the stage out, restart it, fade back in. */
+async function replayIntro(): Promise<void> {
+  const handle = stageHandle;
+  const stageEl = stageRef.value;
+  if (
+    !handle ||
+    !stageEl ||
+    phase.value !== "ready" ||
+    introPlaying.value ||
+    replayBusy.value
+  ) {
+    return;
+  }
+  replayBusy.value = true;
+  stageHidden.value = true;
+  const seconds = parseFloat(getComputedStyle(stageEl).transitionDuration);
+  await new Promise((resolve) =>
+    setTimeout(resolve, Number.isFinite(seconds) ? seconds * 1000 : 200),
+  );
+  // The dialog can close mid-fade — bail on a stale run.
+  if (stageHandle === handle && phase.value === "ready") {
+    handle.replayIntro();
+    stageHidden.value = false;
+  }
+  replayBusy.value = false;
+}
+
 /** Boots the stage: WebGL gate -> profile -> dynamic 3D stack. */
 async function start(): Promise<void> {
   const gen = ++generation;
 
   // Dispose any previous run's viewer before reusing the canvas.
   disposeStage();
+  stageHidden.value = false;
   phase.value = "loading";
 
   // ---- WebGL 2 gate: no chunk download below the baseline ----
@@ -219,6 +312,7 @@ async function start(): Promise<void> {
   }
   const data = await waitForProfile(profile);
   if (gen !== generation) return;
+  profileData.value = data;
   if (!data) {
     errorKind.value = "data";
     phase.value = "error";
@@ -245,6 +339,9 @@ async function start(): Promise<void> {
       profile: data,
       onCapeError: () => showToast("error", t("text-skin-viewer-cape-error")),
       onWarning: (message) => console.warn(message),
+      onIntroStateChange: (playing) => {
+        introPlaying.value = playing;
+      },
     });
   } catch (err) {
     console.warn(err);
@@ -277,6 +374,11 @@ function onHidden(): void {
 // =========================================================================
 // Lifecycle
 // =========================================================================
+
+/** Renders the name-card face when the canvas mounts (lazy popover). */
+watch([faceCanvasRef, profileData], ([canvasEl, profile]) => {
+  if (canvasEl && profile) void renderFace(canvasEl, profile.skin_texture);
+});
 
 watch(visible, (isVisible) => {
   if (isVisible) {
@@ -316,7 +418,9 @@ onBeforeUnmount(() => {
       <div
         ref="stageRef"
         class="skin-viewer-stage no-copy"
-        :class="{ 'skin-viewer-stage-visible': phase === 'ready' }"
+        :class="{
+          'skin-viewer-stage-visible': phase === 'ready' && !stageHidden,
+        }"
       >
         <canvas
           ref="canvasRef"
@@ -341,71 +445,159 @@ onBeforeUnmount(() => {
           {{ t("text-retry") }}
         </button>
       </div>
+
+      <!-- ==== Hints (modality-aware, self-fading) ==== -->
+      <div
+        v-if="phase === 'ready'"
+        :key="visible ? 'open' : 'closed'"
+        class="skin-viewer-hints"
+        aria-hidden="true"
+      >
+        <span class="skin-viewer-hint skin-viewer-hint-mouse">
+          <MaterialSymbol name="flip_camera_android" />
+          {{ t("text-skin-viewer-hints-mouse") }}
+        </span>
+        <span class="skin-viewer-hint skin-viewer-hint-touch">
+          <MaterialSymbol name="flip_camera_android" />
+          {{ t("text-skin-viewer-hints-touch") }}
+        </span>
+      </div>
     </div>
 
-    <!-- ==== Footer: credits (left) + Close (right) ==== -->
+    <!-- ==== Footer: attribution / name card / replay + Close ==== -->
     <template #footer>
-      <BPopover
-        :title="t('text-skin-viewer-credits-title')"
-        placement="top"
-        click
-        lazy
-        teleport-to="body"
-      >
-        <template #target>
+      <div class="d-flex align-items-center gap-1">
+        <BPopover
+          :title="t('text-skin-viewer-credits-title')"
+          placement="top"
+          click
+          lazy
+          teleport-to="body"
+        >
+          <template #target>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-no-border btn-same-padding"
+              :aria-label="t('text-skin-viewer-credits')"
+            >
+              <MaterialSymbol name="info" />
+            </button>
+          </template>
+          <ul class="skin-viewer-credits mb-2">
+            <li>
+              <TypeAwareLink
+                type="external"
+                :href="SKINVIEW3D_URL"
+                class="link"
+                no-qr-code
+              >
+                skinview3d
+              </TypeAwareLink>
+              <span class="text-body-secondary">
+                (MIT) — {{ t("text-skin-viewer-credit-renderer") }}
+              </span>
+            </li>
+            <li>
+              <TypeAwareLink
+                type="external"
+                :href="SKINVIEW3D_ETF_URL"
+                class="link"
+                no-qr-code
+              >
+                skinview3d-etf
+              </TypeAwareLink>
+              <span class="text-body-secondary">
+                (MIT) — {{ t("text-skin-viewer-credit-etf") }}
+              </span>
+            </li>
+            <li>
+              <TypeAwareLink
+                type="external"
+                :href="SKINVIEW3D_BLOCKBENCH_URL"
+                class="link"
+                no-qr-code
+              >
+                skinview3d-blockbench
+              </TypeAwareLink>
+              <span class="text-body-secondary">
+                (MIT) — {{ t("text-skin-viewer-credit-blockbench") }}
+              </span>
+            </li>
+            <li>
+              <TypeAwareLink
+                type="external"
+                :href="PLAYERDB_URL"
+                class="link"
+                no-qr-code
+              >
+                playerdb.co
+              </TypeAwareLink>
+              <span class="text-body-secondary">
+                — {{ t("text-skin-viewer-credit-playerdb") }}
+              </span>
+            </li>
+          </ul>
+          <p class="small text-body-secondary mb-2">
+            {{ t("text-skin-viewer-credit-data") }}
+          </p>
+          <p class="small text-body-secondary mb-0">
+            {{ t("text-skin-viewer-credit-art") }}
+          </p>
+        </BPopover>
+
+        <BPopover
+          :title="t('text-skin-viewer-profile')"
+          placement="top"
+          click
+          lazy
+          teleport-to="body"
+        >
+          <template #target>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-no-border btn-same-padding"
+              :aria-label="t('text-skin-viewer-profile')"
+              :disabled="phase !== 'ready'"
+            >
+              <MaterialSymbol name="id_card" />
+            </button>
+          </template>
+          <div class="skin-viewer-card">
+            <canvas
+              ref="faceCanvasRef"
+              class="skin-viewer-face no-copy"
+              width="128"
+              height="128"
+            ></canvas>
+            <div class="skin-viewer-card-info">
+              <div class="fw-semibold">{{ profileData?.username }}</div>
+              <div class="skin-viewer-uuid">
+                <CopyButton
+                  v-if="profileUuid"
+                  tag="button"
+                  :copy-text="profileUuid"
+                  class="text-secondary"
+                >
+                  <span class="font-monospace">{{ profileUuid }}</span>
+                  <MaterialSymbol name="content_copy" />
+                </CopyButton>
+              </div>
+            </div>
+          </div>
+        </BPopover>
+
+        <TooltipTrigger :title="t('text-skin-viewer-replay')">
           <button
             type="button"
             class="btn btn-outline-primary btn-no-border btn-same-padding"
-            :aria-label="t('text-skin-viewer-credits')"
+            :aria-label="t('text-skin-viewer-replay')"
+            :disabled="phase !== 'ready' || introPlaying || replayBusy"
+            @click="replayIntro"
           >
-            <MaterialSymbol name="info" />
+            <MaterialSymbol name="replay" />
           </button>
-        </template>
-        <ul class="skin-viewer-credits mb-2">
-          <li>
-            <TypeAwareLink
-              type="external"
-              :href="SKINVIEW3D_URL"
-              class="link"
-              no-qr-code
-            >
-              skinview3d
-            </TypeAwareLink>
-            <span class="text-body-secondary">
-              (MIT) — {{ t("text-skin-viewer-credit-renderer") }}
-            </span>
-          </li>
-          <li>
-            <TypeAwareLink
-              type="external"
-              :href="SKINVIEW3D_ETF_URL"
-              class="link"
-              no-qr-code
-            >
-              skinview3d-etf
-            </TypeAwareLink>
-            <span class="text-body-secondary">
-              (MIT) — {{ t("text-skin-viewer-credit-etf") }}
-            </span>
-          </li>
-          <li>
-            <TypeAwareLink
-              type="external"
-              :href="SKINVIEW3D_BLOCKBENCH_URL"
-              class="link"
-              no-qr-code
-            >
-              skinview3d-blockbench
-            </TypeAwareLink>
-            <span class="text-body-secondary">
-              (MIT) — {{ t("text-skin-viewer-credit-blockbench") }}
-            </span>
-          </li>
-        </ul>
-        <p class="small text-body-secondary mb-0">
-          {{ t("text-skin-viewer-credit-data") }}
-        </p>
-      </BPopover>
+        </TooltipTrigger>
+      </div>
 
       <div class="ms-auto">
         <button
@@ -460,6 +652,101 @@ onBeforeUnmount(() => {
   justify-content: center;
   gap: 0.5rem;
   background: var(--bs-modal-bg);
+}
+
+/* ==== Hints (modality-aware, self-fading) ====
+   Only one variant shows at a time: pointer / touch.  The fade lives
+   on the variant; the container is re-created on every open
+   (`:key="visible"`) so the animation replays — no JS timer.  The
+   shared accessibility rules hide these under reduced motion. */
+.skin-viewer-hints {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.skin-viewer-hint {
+  display: none;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  border-radius: var(--bs-border-radius);
+  font-size: 0.8rem;
+  line-height: 1.25;
+  animation: skin-hint-fade 5s ease forwards;
+}
+
+/* Default (pointer input): wheel / drag. */
+.skin-viewer-hint-mouse {
+  display: inline-flex;
+}
+
+/* Touch modality: pinch / one-finger drag. */
+html.user-input-touch .skin-viewer-hint-mouse {
+  display: none;
+}
+
+html.user-input-touch .skin-viewer-hint-touch {
+  display: inline-flex;
+}
+
+@keyframes skin-hint-fade {
+  0%,
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==== Name card (face + username + UUID) ==== */
+.skin-viewer-card {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.skin-viewer-face {
+  width: 3.5rem;
+  height: 3.5rem;
+  background: var(--bs-tertiary-bg);
+  border-radius: var(--bs-border-radius-sm);
+  image-rendering: pixelated;
+}
+
+.skin-viewer-card-info {
+  min-width: 0;
+}
+
+/* The UUID line is the copy trigger (CopyButton renders the button). */
+.skin-viewer-uuid :deep(button) {
+  display: block;
+  padding: 0.125rem 0.25rem;
+  margin: -0.125rem -0.25rem;
+  border: 0;
+  border-radius: var(--bs-border-radius-sm);
+  background: none;
+  color: inherit;
+  text-align: left;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.skin-viewer-uuid :deep(button:hover) {
+  background: var(--bs-tertiary-bg);
+}
+
+.skin-viewer-uuid .font-monospace {
+  word-break: break-all;
 }
 
 /* ==== Credits popover list ==== */

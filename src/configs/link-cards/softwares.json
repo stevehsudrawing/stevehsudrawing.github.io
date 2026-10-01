@@ -234,22 +234,21 @@
             },
             {
               "type": "element",
-              "tagName": "a",
+              "tagName": "span",
               "properties": {
-                "href": "https://stevehsudrawing.github.io/skinview3d-etf/",
-                "className": ["external-link"]
+                "dataModal": "skin-viewer"
               },
               "children": [
                 {
                   "type": "element",
                   "tagName": "span",
                   "properties": {
-                    "dataI18n": "text-demo-page"
+                    "dataI18n": "text-skin-viewer-trigger"
                   },
                   "children": [
                     {
                       "type": "text",
-                      "value": "Demo page"
+                      "value": "Showcase"
                     }
                   ]
                 }
@@ -267,21 +266,22 @@
             },
             {
               "type": "element",
-              "tagName": "span",
+              "tagName": "a",
               "properties": {
-                "dataModal": "skin-viewer"
+                "href": "https://stevehsudrawing.github.io/skinview3d-etf/",
+                "className": ["external-link"]
               },
               "children": [
                 {
                   "type": "element",
                   "tagName": "span",
                   "properties": {
-                    "dataI18n": "text-skin-viewer-trigger"
+                    "dataI18n": "text-demo-page"
                   },
                   "children": [
                     {
                       "type": "text",
-                      "value": "View my 3D skin"
+                      "value": "Demo page"
                     }
                   ]
                 }
