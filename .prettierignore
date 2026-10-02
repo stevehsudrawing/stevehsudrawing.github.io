@@ -6,3 +6,6 @@ dist/
 .vite/
 *.local
 pnpm-lock.yaml
+
+# Generated (unplugin-vue-components)
+src/components.d.ts

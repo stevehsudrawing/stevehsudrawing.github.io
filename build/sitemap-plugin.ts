@@ -11,7 +11,10 @@ import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
 import { PAGE_META } from "./site-meta.ts";
 import { BASE_URL } from "../src/configs/site-meta.ts";
-import { LANGUAGE_LIST, type LanguageEntry } from "../src/configs/language-list.ts";
+import {
+  LANGUAGE_LIST,
+  type LanguageEntry,
+} from "../src/configs/language-list.ts";
 import type { PageMetaEntry } from "./types.ts";
 
 /**

@@ -25,7 +25,8 @@ export type PageTier = "full" | "none";
 export type JsonLDType = "homepage" | "breadcrumb" | "none";
 
 /** Sitemap change frequency values per the sitemaps.org protocol. */
-export type Changefreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+export type Changefreq =
+  "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 
 /** Metadata for a single page, used by the head-tags plugin for SEO tag generation. */
 export interface PageMetaEntry {

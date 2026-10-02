@@ -19,17 +19,17 @@ import type { Plugin, ResolvedConfig } from "vite";
 import { BASE_URL, SITE_NAME } from "../src/configs/site-meta.ts";
 import { extractPlainText } from "../src/core/utils.ts";
 import {
-    loadLinkButtonGroups,
-    loadLinkCardGroups,
-    loadPictureGroups,
-    loadPictureRegistry,
-    pageUrl,
-    textFor,
-    textForTitle,
-    type DisplayPictureGroup,
-    type LinkButtonGroup,
-    type LinkCardGroup,
-    type RegistryPicture,
+  loadLinkButtonGroups,
+  loadLinkCardGroups,
+  loadPictureGroups,
+  loadPictureRegistry,
+  pageUrl,
+  textFor,
+  textForTitle,
+  type DisplayPictureGroup,
+  type LinkButtonGroup,
+  type LinkCardGroup,
+  type RegistryPicture,
 } from "./content-extract.ts";
 import { PAGE_META } from "./site-meta.ts";
 import type { PageMetaEntry } from "./types.ts";
@@ -191,7 +191,8 @@ function renderPictureGroups(
         if (!picture) continue;
         // Per-picture title key (`text-<id>-title`); a registry title wins
         // (language-neutral pictures such as "SELF").
-        const title = picture.pictureProps?.title || textFor(pictureId + "-title");
+        const title =
+          picture.pictureProps?.title || textFor(pictureId + "-title");
         const href = picture.pictureProps?.relatedLink?.href;
         parts.push(href ? `- [${title}](${href})` : `- ${title}`);
       }

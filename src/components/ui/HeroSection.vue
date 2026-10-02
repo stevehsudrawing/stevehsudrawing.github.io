@@ -36,6 +36,11 @@ defineProps<{
   headingTag?: "h1" | "h2";
   /** Description paragraph (optional; omitted when not provided). */
   description?: string;
+  /**
+   * Rich (HTML) description — rendered via `v-html` in the same
+   * container; takes precedence over `description`.
+   */
+  descriptionHtml?: string;
   /** Image properties — passed directly to FeatureAwarePicture. */
   image: FeatureAwarePictureProps;
   /**
@@ -67,7 +72,8 @@ const isDesktop = computed(
     >
       <div class="hero-text">
         <component :is="headingTag ?? 'h1'" class="h1">{{ title }}</component>
-        <div v-if="description" class="py-2">
+        <div v-if="descriptionHtml" class="py-2" v-html="descriptionHtml"></div>
+        <div v-else-if="description" class="py-2">
           {{ description }}
         </div>
         <!-- Extra content (LinkButtonGroup, GitHub link, etc.) -->

@@ -49,7 +49,7 @@ const { content } = useMarkdownContent("worldview");
   <!-- ==== Hero section ==== -->
   <HeroSection
     :title="$t('text-worldview')"
-    :description="$t('text-worldview-description')"
+    :description-html="$t('html-worldview-description')"
     :image="
       pictureProps(`worldview-${coverIndex}`, {
         title: coverTitle,

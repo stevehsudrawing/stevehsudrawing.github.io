@@ -104,8 +104,7 @@ const LOG_PREFIX = "[icon-subset]";
 function readScanText(): string {
   const files = readdirSync(SRC, { recursive: true, encoding: "utf-8" }).filter(
     (path) =>
-      /\.(vue|ts)$/.test(path) &&
-      path.replace(/\\/g, "/") !== "types/icons.ts",
+      /\.(vue|ts)$/.test(path) && path.replace(/\\/g, "/") !== "types/icons.ts",
   );
   return files
     .map((path) => readFileSync(resolve(SRC, path), "utf-8"))
@@ -188,7 +187,10 @@ interface SubsetExports {
  * @param gids - Glyph ids of every retained icon.
  * @returns The subset sfnt bytes.
  */
-async function subsetSfnt(sfnt: Uint8Array, gids: number[]): Promise<Uint8Array> {
+async function subsetSfnt(
+  sfnt: Uint8Array,
+  gids: number[],
+): Promise<Uint8Array> {
   const { instance } = await WebAssembly.instantiate(readFileSync(SUBSET_WASM));
   const hbe = instance.exports as unknown as SubsetExports;
   // The heap view must be re-derived after any allocation — wasm memory
@@ -206,7 +208,9 @@ async function subsetSfnt(sfnt: Uint8Array, gids: number[]): Promise<Uint8Array>
   if (!input) {
     hbe.hb_face_destroy(face);
     hbe.free(sfntPtr);
-    throw new Error(`${LOG_PREFIX} hb_subset_input_create_or_fail returned null`);
+    throw new Error(
+      `${LOG_PREFIX} hb_subset_input_create_or_fail returned null`,
+    );
   }
 
   const glyphSet = hbe.hb_subset_input_glyph_set(input);

@@ -152,6 +152,19 @@
         "sameAs": true
       },
       {
+        "id": "npm-packages",
+        "link": {
+          "type": "internal",
+          "href": "/softwares.html#npm-packages"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/npm.webp"
+          }
+        }
+      },
+      {
         "id": "quanto-ult",
         "link": {
           "type": "external",

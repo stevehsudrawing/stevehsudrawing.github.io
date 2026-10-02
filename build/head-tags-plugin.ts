@@ -31,7 +31,13 @@ function commonTags(): HtmlTagDescriptor[] {
   return [
     // Common
     { tag: "meta", attrs: { charset: "utf-8" } },
-    { tag: "meta", attrs: { name: "viewport", "content": "width=device-width, initial-scale=1, viewport-fit=cover" } },
+    {
+      tag: "meta",
+      attrs: {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
+      },
+    },
 
     // Apple PWA
     { tag: "meta", attrs: { name: "mobile-web-app-capable", content: "yes" } },

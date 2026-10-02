@@ -17,8 +17,10 @@ import {
 } from "../../composables/modals/useModalStack";
 import { createStickerSrcMap } from "../../core/utils";
 import { celebrateAt } from "../../platform/confetti";
+import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
-import TruncatedTitle from "../ui/TruncatedTitle.vue";
+import TypeAwareLink from "../links/TypeAwareLink.vue";
+import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 
 // =========================================================================
 // Constants
@@ -115,7 +117,7 @@ const message = computed(() => t(`text-sticker-${stickerId.value}-message`));
     @shown="onShown"
   >
     <template #title>
-      <TruncatedTitle :text="STICKER_MODAL_TITLE" />
+      {{ STICKER_MODAL_TITLE }}
     </template>
     <div class="sticker-modal-body">
       <FeatureAwarePicture
@@ -133,6 +135,19 @@ const message = computed(() => t(`text-sticker-${stickerId.value}-message`));
 
     <template #footer>
       <div class="w-100 d-flex">
+        <TooltipTrigger :title="t('text-more-stickers')">
+          <TypeAwareLink
+            type="internal"
+            href="/gallery.html#sticker-collections"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
+            :aria-label="t('text-more-stickers')"
+            hide-indicator
+            no-underline
+            @click="pop()"
+          >
+            <MaterialSymbol name="sticker" />
+          </TypeAwareLink>
+        </TooltipTrigger>
         <div class="ms-auto">
           <button
             ref="closeBtnRef"

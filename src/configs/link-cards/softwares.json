@@ -196,10 +196,9 @@
       {
         "id": "skinview3d-etf",
         "icon": {
-          "type": "colored-img",
+          "type": "picture",
           "imgProps": {
-            "src": "/images/webp/icons/github.webp",
-            "colorVar": "bs-body-color"
+            "src": "/images/webp/icons/npm.webp"
           }
         },
         "titleLink": {
@@ -293,10 +292,9 @@
       {
         "id": "etf-skin-decoder",
         "icon": {
-          "type": "colored-img",
+          "type": "picture",
           "imgProps": {
-            "src": "/images/webp/icons/github.webp",
-            "colorVar": "bs-body-color"
+            "src": "/images/webp/icons/npm.webp"
           }
         },
         "titleLink": {

@@ -57,6 +57,7 @@ export const ICON_NAMES = [
   "show_chart",
   "square",
   "star",
+  "sticker",
   "swap_horiz",
   "warning",
   "zoom_in",
