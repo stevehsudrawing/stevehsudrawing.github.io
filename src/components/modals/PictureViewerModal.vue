@@ -204,7 +204,9 @@ function ensurePanzoom(): void {
     // smaller than the stage.)
     contain: "outside",
     panOnlyWhenZoomed: true,
-    cursor: "grab",
+    // `inherit` follows the stage's shared `.drag-cursor` pair — the box is
+    // the stage's direct child; panzoom only owns the resting style.
+    cursor: "inherit",
   });
   panzoomElement = box;
 
@@ -559,15 +561,13 @@ onBeforeUnmount(() => {
     <!-- ==== Single-image stage (pan / zoom) ==== -->
     <div
       ref="stageRef"
-      class="picture-single-stage"
-      :class="{ 'picture-single-stage--zoomed': zoomed }"
+      class="picture-single-stage drag-cursor"
+      :class="{
+        'picture-single-stage--zoomed': zoomed,
+        'is-dragging': dragging,
+      }"
     >
-      <div
-        v-if="imageProps"
-        ref="panRef"
-        class="picture-single-pan"
-        :class="{ 'picture-single-pan--dragging': dragging }"
-      >
+      <div v-if="imageProps" ref="panRef" class="picture-single-pan">
         <FeatureAwarePicture
           v-bind="imageProps"
           @load="sampleBottomLuminance"
@@ -694,11 +694,8 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 
-/* Drag feedback: panzoom sets the resting `cursor: grab` inline, so the
-   dragging class needs `!important` to win over that inline style. */
-.picture-single-pan--dragging {
-  cursor: grabbing !important;
-}
+/* The stage owns the shared `.drag-cursor` pair (plus `is-dragging`); the
+   panzoom element inherits it through its inline `cursor: inherit`. */
 
 /* The picture never exceeds the stage.  NOTE: the `class` prop lands on
    the <img> (a declared prop never falls through to the root element),

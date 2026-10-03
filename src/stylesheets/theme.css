@@ -9,6 +9,10 @@
     var(--shlh-close-btn-focus-ring-color);
   --shlh-transition-rgb: 144, 146, 148;
 
+  --shlh-cursor-grab: url("/images/svg/cursors/grab.svg") 18 17, grab;
+  --shlh-cursor-grabbing:
+    url("/images/svg/cursors/grabbing.svg") 18 17, grabbing;
+
   --bs-gray-100-rgb: 248, 249, 250;
   --bs-gray-200-rgb: 233, 236, 239;
   --bs-gray-300-rgb: 222, 226, 230;

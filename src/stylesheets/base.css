@@ -497,3 +497,19 @@ img.no-copy.solid-bg {
 .sequence-bar-visible .toast-container {
   bottom: 3.5rem !important;
 }
+
+/* ========================================================================
+   Drag Cursor
+   (Shared opt-in pair for drag surfaces — both picture viewers, the hero
+   carousel and the skin-viewer stage.  Values come from `--shlh-cursor-*`
+   in theme.css; `is-dragging` is toggled by `useDragState()` or an
+   equivalent drag signal, e.g. panzoom's pan events.)
+   ======================================================================== */
+
+.drag-cursor {
+  cursor: var(--shlh-cursor-grab);
+}
+
+.drag-cursor.is-dragging {
+  cursor: var(--shlh-cursor-grabbing);
+}

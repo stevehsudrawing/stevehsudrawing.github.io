@@ -34,6 +34,7 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useDragState } from "../../composables/core/useDragState";
 import { setSwipeTrackingEnabled } from "../../composables/core/useGesture";
 import { useI18n } from "../../composables/core/useI18n";
 import { useSwiperMode } from "../../composables/core/useSwiperMode";
@@ -65,6 +66,7 @@ const { visible, props: stackProps } = useStackModal("picture-group-viewer");
 const { pop, clear, stack } = useModalStack();
 const { openQRCodeModal } = useQRCodeModal();
 const { openPictureViewerModal } = usePictureViewerModal();
+const { isDragging, onPointerDown } = useDragState();
 
 const { t } = useI18n();
 const route = useRoute();
@@ -514,7 +516,12 @@ onBeforeUnmount(() => {
     <div
       ref="stageRef"
       class="picture-viewer-stage"
-      :class="{ 'picture-viewer-stage-fallback': !isSwiper }"
+      :class="{
+        'picture-viewer-stage-fallback': !isSwiper,
+        'drag-cursor': isSwiper,
+        'is-dragging': isDragging,
+      }"
+      @pointerdown="onPointerDown"
     >
       <Swiper
         v-if="isSwiper && contents.length > 0"
@@ -527,7 +534,6 @@ onBeforeUnmount(() => {
         :slides-per-view="'auto'"
         :loop="true"
         :speed="600"
-        :grab-cursor="true"
         slide-to-clicked-slide
         :keyboard="KEYBOARD_CONFIG"
         :a11y="A11Y_CONFIG"
@@ -771,28 +777,20 @@ onBeforeUnmount(() => {
 }
 
 /* Side slides are dimmed; hovering one raises it (click-to-switch
-   affordance — slide-level pointer overrides the swiper's grab).
+   affordance — the slide-level pointer overrides the stage's shared
+   cursor pair).
    NOTE: property LIST only (never a shorthand) — a shorthand would
    override swiper.css `.swiper-slide { transition-property: transform }`
    and kill the coverflow transform transition.  Duration stays
    inline-driven by Swiper (600ms during transitions). */
 .picture-viewer-stage :deep(.picture-viewer-swiper .swiper-slide) {
   transition-property: transform, opacity;
-  /* Explicit per-slide cursor: grab ONLY on the active slide; side
-     slides get pointer (click-to-switch affordance). Overrides any
-     cursor inherited from the wrapper (Swiper's grabCursor sets inline
-     `cursor: grab` there). */
-  cursor: auto;
 }
 
 .picture-viewer-stage
   :deep(.picture-viewer-swiper .swiper-slide:not(.swiper-slide-active)) {
   opacity: 0.5;
   cursor: pointer;
-}
-
-.picture-viewer-stage :deep(.picture-viewer-swiper .swiper-slide-active) {
-  cursor: grab;
 }
 
 .picture-viewer-stage

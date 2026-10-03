@@ -15,6 +15,7 @@
 -->
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { useDragState } from "../../composables/core/useDragState";
 import { useI18n } from "../../composables/core/useI18n";
 import { useToast } from "../../composables/core/useToast";
 import { useMinecraftProfile } from "../../composables/minecraft/useMinecraftProfile";
@@ -68,6 +69,7 @@ const { pop } = useModalStack();
 const { t } = useI18n();
 const { showToast } = useToast();
 const { openRefreshWarningModal } = useRefreshWarningModal();
+const { isDragging, onPointerDown } = useDragState();
 
 /**
  * Lazy profile state — created on the first open so page loads never
@@ -441,7 +443,10 @@ onBeforeUnmount(() => {
         class="skin-viewer-stage no-copy"
         :class="{
           'skin-viewer-stage-visible': phase === 'ready' && !stageHidden,
+          'drag-cursor': phase === 'ready' && !stageHidden,
+          'is-dragging': isDragging,
         }"
+        @pointerdown="onPointerDown"
       >
         <canvas
           ref="canvasRef"

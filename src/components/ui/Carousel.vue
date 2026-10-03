@@ -29,6 +29,7 @@ import { A11y, Autoplay, EffectCreative, Keyboard } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, nextTick, ref, shallowRef, watch } from "vue";
+import { useDragState } from "../../composables/core/useDragState";
 import { useI18n } from "../../composables/core/useI18n";
 import { useSwiperMode } from "../../composables/core/useSwiperMode";
 import { useTheme } from "../../composables/core/useTheme";
@@ -133,6 +134,7 @@ watch(
 const { t } = useI18n();
 const { appliedTheme } = useTheme();
 const { openPictureGroupViewerModal } = usePictureGroupViewerModal();
+const { isDragging, onPointerDown } = useDragState();
 
 // -------------------------------------------------------------------------
 // Pool-driven slides (resolved through the registry)
@@ -424,18 +426,19 @@ watch(swiperEnabled, (enabled) => {
   <!-- ==== Interactive carousel (supported browsers + slides loaded) ==== -->
   <div
     v-if="swiperEnabled && slides.length > 0"
-    class="illustration-carousel"
-    :class="
-      isDark === true ? 'controls-on-image-dark' : 'controls-on-image-light'
-    "
+    class="illustration-carousel drag-cursor"
+    :class="[
+      isDark === true ? 'controls-on-image-dark' : 'controls-on-image-light',
+      { 'is-dragging': isDragging },
+    ]"
     @pointerenter="onPointerEnter"
     @pointerleave="onPointerLeave"
+    @pointerdown="onPointerDown"
   >
     <Swiper
       :modules="modules"
       :loop="true"
       :speed="600"
-      :grabCursor="true"
       effect="creative"
       :creative-effect="CREATIVE_EFFECT"
       :autoplay="AUTOPLAY_CONFIG"
