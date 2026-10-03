@@ -45,10 +45,15 @@ export function useGithubCommits(): {
   error: CachedFetchState<GithubCommit[]>["error"];
   /** Manually trigger a re-fetch. */
   refresh: CachedFetchState<GithubCommit[]>["refresh"];
+  /** Full endpoint URL (refresh-dialog transparency). */
+  url: CachedFetchState<GithubCommit[]>["url"];
+  /** Cache timestamp of the current data, or null if never fetched. */
+  fetchedAt: CachedFetchState<GithubCommit[]>["fetchedAt"];
+  /** Upstream API id — the `CACHED_APIS` metadata key. */
+  api: CachedFetchState<GithubCommit[]>["api"];
 } {
-  const { data, isLoading, error, refresh } = useGithubApi<GithubCommit[]>(
-    COMMITS_URL,
-    GITHUB_COMMITS_CACHE,
-  );
-  return { commits: data, isLoading, error, refresh };
+  const { data, isLoading, error, refresh, url, fetchedAt, api } = useGithubApi<
+    GithubCommit[]
+  >(COMMITS_URL, GITHUB_COMMITS_CACHE);
+  return { commits: data, isLoading, error, refresh, url, fetchedAt, api };
 }

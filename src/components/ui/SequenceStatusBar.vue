@@ -80,13 +80,13 @@ onScopeDispose(() => {
       aria-live="polite"
     >
       <div class="container">
-        <code
+        <span
           class="font-monospace sequence-status-message"
           :class="{
             'text-danger': status === 'error',
             'text-success': status === 'success',
           }"
-          >{{ message }}</code
+          >{{ message }}</span
         >
       </div>
     </div>

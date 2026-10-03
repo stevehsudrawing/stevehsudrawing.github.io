@@ -107,6 +107,53 @@ export function eventTypeIcon(eventType: string): IconName {
   return map[eventType] || "more_horiz";
 }
 
+/**
+ * Whether an event is the duplicated "labeled" IssuesEvent — skipped
+ * everywhere because "opened" is always present for the same issue.
+ *
+ * @param event - The raw GitHub event.
+ * @returns True when the event should be skipped.
+ */
+function isLabeledDupe(event: GithubEvent): boolean {
+  return event.type === "IssuesEvent" && event.payload?.action === "labeled";
+}
+
+/**
+ * Filter the events feed to one event type (the bar-chart click
+ * selection) — labeled dupes skipped, newest first.
+ *
+ * @param events - The window-trimmed feed.
+ * @param eventType - Raw event type (e.g. "PushEvent").
+ * @returns Matching events, reverse chronological.
+ */
+export function filterEventsByType(
+  events: GithubEvent[],
+  eventType: string,
+): GithubEvent[] {
+  return events
+    .filter((event) => event.type === eventType && !isLabeledDupe(event))
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+}
+
+/**
+ * Filter the events feed to one UTC day (the line-chart click
+ * selection) — labeled dupes skipped, newest first.
+ *
+ * @param events - The window-trimmed feed.
+ * @param day - `YYYY-MM-DD` (UTC).
+ * @returns Matching events, reverse chronological.
+ */
+export function filterEventsByDay(
+  events: GithubEvent[],
+  day: string,
+): GithubEvent[] {
+  return events
+    .filter(
+      (event) => event.created_at.slice(0, 10) === day && !isLabeledDupe(event),
+    )
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+}
+
 // =========================================================================
 // Composable
 // =========================================================================
@@ -139,12 +186,21 @@ export function useGithubActivity(): {
   error: CachedFetchState<GithubEvent[]>["error"];
   /** Manually trigger a re-fetch. */
   refresh: CachedFetchState<GithubEvent[]>["refresh"];
+  /** Full endpoint URL (refresh-dialog transparency). */
+  url: CachedFetchState<GithubEvent[]>["url"];
+  /** Cache timestamp of the current data, or null if never fetched. */
+  fetchedAt: CachedFetchState<GithubEvent[]>["fetchedAt"];
+  /** Upstream API id — the `CACHED_APIS` metadata key. */
+  api: CachedFetchState<GithubEvent[]>["api"];
 } {
   const {
     data: rawEvents,
     isLoading,
     error,
     refresh,
+    url,
+    fetchedAt,
+    api,
   } = useGithubApi<GithubEvent[]>(EVENTS_URL, GITHUB_EVENTS_CACHE);
 
   // Public events ref — the raw feed trimmed to the rolling window
@@ -158,10 +214,7 @@ export function useGithubActivity(): {
     // Count each event type, skipping noisy duplicates
     const counts: Record<string, number> = {};
     for (const event of events.value) {
-      // "labeled" is a duplicate of "opened" for the same issue
-      if (event.type === "IssuesEvent" && event.payload?.action === "labeled") {
-        continue;
-      }
+      if (isLabeledDupe(event)) continue;
       counts[event.type] = (counts[event.type] || 0) + 1;
     }
 
@@ -182,9 +235,7 @@ export function useGithubActivity(): {
 
     const map: Record<string, number> = {};
     for (const event of events.value) {
-      if (event.type === "IssuesEvent" && event.payload?.action === "labeled") {
-        continue;
-      }
+      if (isLabeledDupe(event)) continue;
       const day = event.created_at.slice(0, 10);
       map[day] = (map[day] || 0) + 1;
     }
@@ -212,5 +263,15 @@ export function useGithubActivity(): {
     return result;
   });
 
-  return { events, stats, dailyStats, isLoading, error, refresh };
+  return {
+    events,
+    stats,
+    dailyStats,
+    isLoading,
+    error,
+    refresh,
+    url,
+    fetchedAt,
+    api,
+  };
 }

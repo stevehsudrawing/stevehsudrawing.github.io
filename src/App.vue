@@ -31,6 +31,7 @@ import GithubEventsModal from "./components/modals/GithubEventsModal.vue";
 import PictureGroupViewerModal from "./components/modals/PictureGroupViewerModal.vue";
 import PictureViewerModal from "./components/modals/PictureViewerModal.vue";
 import QRCodeModal from "./components/modals/QRCodeModal.vue";
+import RefreshWarningModal from "./components/modals/RefreshWarningModal.vue";
 import ResetWarningModal from "./components/modals/ResetWarningModal.vue";
 import SettingsModal from "./components/modals/SettingsModal.vue";
 import SkinViewerModal from "./components/modals/SkinViewerModal.vue";
@@ -250,5 +251,6 @@ onMounted(async () => {
   <StickerModal />
   <ChangelogModal />
   <SkinViewerModal />
+  <RefreshWarningModal />
   <ToastStack ref="toastStackRef" />
 </template>

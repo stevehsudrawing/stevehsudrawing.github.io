@@ -32,16 +32,19 @@ import { useTheme } from "../../composables/core/useTheme";
 import {
   eventTypeI18nKey,
   eventTypeIcon,
+  filterEventsByDay,
+  filterEventsByType,
   useGithubActivity,
 } from "../../composables/github/useGithubActivity";
 import { useGithubEventsModal } from "../../composables/modals/useGithubEventsModal";
+import { useRefreshWarningModal } from "../../composables/modals/useRefreshWarningModal";
 import {
   DATE_LOCALES,
   LONG_DATE_FORMATS,
   SHORT_DATE_FORMATS,
 } from "../../configs/language-list";
 import { cssVar } from "../../platform/css-var";
-import type { ActivityStat, DailyStat, GithubEvent } from "../../types/app";
+import type { ActivityStat, DailyStat } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
@@ -76,8 +79,19 @@ function ensureChartJs(): void {
 
 const { t, locale } = useI18n();
 const { appliedTheme } = useTheme();
-const { events, stats, dailyStats, isLoading, error } = useGithubActivity();
+const {
+  events,
+  stats,
+  dailyStats,
+  isLoading,
+  error,
+  refresh,
+  url,
+  fetchedAt,
+  api,
+} = useGithubActivity();
 const { openGithubEventsModal } = useGithubEventsModal();
+const { openRefreshWarningModal } = useRefreshWarningModal();
 
 // ---- Chart mode ----
 
@@ -117,39 +131,29 @@ const hasData = computed(() =>
 // Chart creation
 // =========================================================================
 
-/** Shared click handling — open the events modal for a filtered subset. */
-function openEventsModal(filtered: GithubEvent[], title: string): void {
-  if (filtered.length === 0) return;
-  openGithubEventsModal({ title, events: filtered });
-}
-
-/** Bar-mode click: show all events of the clicked event type. */
+/** Bar-mode click: open the events modal for the clicked event type. */
 function openEventsForBar(index: number): void {
   const eventType = stats.value[index]?.eventType;
   if (!eventType) return;
-  const filtered = (events.value ?? [])
-    .filter(
-      (e) =>
-        e.type === eventType &&
-        !(e.type === "IssuesEvent" && e.payload?.action === "labeled"),
-    )
-    .sort((a, b) => b.created_at.localeCompare(a.created_at));
-  openEventsModal(filtered, labelFor(eventType));
+  if (filterEventsByType(events.value ?? [], eventType).length === 0) return;
+  openGithubEventsModal({
+    title: labelFor(eventType),
+    filter: { kind: "type", eventType },
+  });
 }
 
-/** Line-mode click: show all events of the clicked day. */
+/** Line-mode click: open the events modal for the clicked UTC day. */
 function openEventsForLine(index: number): void {
   const ts = dailyStats.value[index]?.x;
   if (ts === undefined) return;
   const day = new Date(ts).toISOString().slice(0, 10);
-  const filtered = (events.value ?? [])
-    .filter(
-      (e) =>
-        e.created_at.slice(0, 10) === day &&
-        !(e.type === "IssuesEvent" && e.payload?.action === "labeled"),
-    )
-    .sort((a, b) => b.created_at.localeCompare(a.created_at));
-  openEventsModal(filtered, day);
+  if (filterEventsByDay(events.value ?? [], day).length === 0) return;
+  openGithubEventsModal({ title: day, filter: { kind: "day", day } });
+}
+
+/** Open the refresh confirmation with this endpoint's cache state. */
+function openRefresh(): void {
+  openRefreshWarningModal({ api, url, fetchedAt, refresh, error });
 }
 
 /** Shared Chart.js options.onClick handler (pointer cursor + open modal). */
@@ -367,26 +371,39 @@ function labelFor(eventType: string): string {
           }}</span>
         </div>
 
-        <!-- Toggle buttons -->
-        <div class="btn-group btn-group-sm my-2" role="group">
-          <TooltipTrigger :title="$t('text-bar-chart')">
+        <div>
+          <!-- Toggle buttons -->
+          <div class="btn-group btn-group-sm my-2" role="group">
+            <TooltipTrigger :title="$t('text-bar-chart')">
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-same-padding"
+                :class="{ active: chartMode === 'bar' }"
+                @click="chartMode = 'bar'"
+              >
+                <MaterialSymbol name="bar_chart" />
+              </button>
+            </TooltipTrigger>
+            <TooltipTrigger :title="$t('text-line-chart')">
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-same-padding"
+                :class="{ active: chartMode === 'line' }"
+                @click="chartMode = 'line'"
+              >
+                <MaterialSymbol name="show_chart" />
+              </button>
+            </TooltipTrigger>
+          </div>
+          <TooltipTrigger :title="$t('text-refresh')">
             <button
               type="button"
-              class="btn btn-outline-secondary"
-              :class="{ active: chartMode === 'bar' }"
-              @click="chartMode = 'bar'"
+              class="btn btn-sm btn-outline-secondary btn-same-padding my-2 ms-2"
+              :aria-label="$t('text-refresh')"
+              :disabled="isLoading"
+              @click="openRefresh"
             >
-              <MaterialSymbol name="bar_chart" />
-            </button>
-          </TooltipTrigger>
-          <TooltipTrigger :title="$t('text-line-chart')">
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              :class="{ active: chartMode === 'line' }"
-              @click="chartMode = 'line'"
-            >
-              <MaterialSymbol name="show_chart" />
+              <MaterialSymbol name="refresh" />
             </button>
           </TooltipTrigger>
         </div>

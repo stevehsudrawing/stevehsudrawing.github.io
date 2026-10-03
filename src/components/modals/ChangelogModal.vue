@@ -19,6 +19,7 @@ import {
   useModalStack,
   useStackModal,
 } from "../../composables/modals/useModalStack";
+import { useRefreshWarningModal } from "../../composables/modals/useRefreshWarningModal";
 import { GITHUB_REPO } from "../../configs/site-meta";
 import { splitCommitMessage } from "../../core/commit-message";
 import { formatAbsoluteTime, formatRelativeTime } from "../../core/time";
@@ -73,6 +74,7 @@ interface CommitRow {
 const { visible } = useStackModal("changelog");
 const { pop } = useModalStack();
 const { t, locale } = useI18n();
+const { openRefreshWarningModal } = useRefreshWarningModal();
 
 /** Close-button element for keyboard auto-focus. */
 const closeBtnRef = ref<HTMLElement | null>(null);
@@ -152,6 +154,19 @@ const rows = computed<CommitRow[]>(() =>
 
 /** GitHub commit-history URL for the footer link. */
 const historyUrl = `https://github.com/${GITHUB_REPO}/commits`;
+
+/** Open the refresh confirmation with this endpoint's cache state. */
+function openRefresh(): void {
+  const state = commitState.value;
+  if (!state) return;
+  openRefreshWarningModal({
+    api: state.api,
+    url: state.url,
+    fetchedAt: state.fetchedAt,
+    refresh: state.refresh,
+    error: state.error,
+  });
+}
 </script>
 
 <template>
@@ -282,6 +297,17 @@ const historyUrl = `https://github.com/${GITHUB_REPO}/commits`;
             class="changelog-github-mark"
           />
         </TypeAwareLink>
+      </TooltipTrigger>
+      <TooltipTrigger :title="t('text-refresh')">
+        <button
+          type="button"
+          class="btn btn-same-padding btn-outline-primary btn-no-border"
+          :aria-label="t('text-refresh')"
+          :disabled="isLoading"
+          @click="openRefresh"
+        >
+          <MaterialSymbol name="refresh" />
+        </button>
       </TooltipTrigger>
       <div class="ms-auto">
         <button

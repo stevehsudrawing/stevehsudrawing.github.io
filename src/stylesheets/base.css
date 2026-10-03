@@ -139,6 +139,13 @@ code {
 
 .fade {
   transition:
+    opacity var(--shlh-duration-fast) linear,
+    background-color var(--shlh-duration-fast) linear,
+    backdrop-filter var(--shlh-duration-fast) linear;
+}
+
+.modal.fade {
+  transition:
     opacity var(--shlh-duration-base) linear,
     background-color var(--shlh-duration-base) linear,
     backdrop-filter var(--shlh-duration-base) linear;
@@ -165,13 +172,6 @@ h6,
 
 .dropdown-menu {
   --bs-dropdown-zindex: var(--shlh-z-dropdown);
-}
-
-.dropdown-menu.fade {
-  transition:
-    opacity var(--shlh-duration-fast) linear,
-    background-color var(--shlh-duration-fast) linear,
-    backdrop-filter var(--shlh-duration-fast) linear;
 }
 
 /* --- Close Button --- */

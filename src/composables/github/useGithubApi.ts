@@ -41,6 +41,7 @@ export function useGithubApi<T>(
   cache: CacheAccessor<T>,
 ): CachedFetchState<T> {
   return useCachedFetch<T>(url, cache, {
+    api: "github-rest",
     label: "GitHub API",
     staleStatuses: [403],
   });

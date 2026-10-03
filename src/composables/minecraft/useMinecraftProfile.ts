@@ -55,6 +55,7 @@ export function useMinecraftProfile(): CachedFetchState<MinecraftProfile> {
     PROFILE_URL,
     MINECRAFT_PROFILE_CACHE,
     {
+      api: "playerdb",
       label: "PlayerDB",
       staleStatuses: [429],
       select: (raw) => {

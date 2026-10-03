@@ -1,22 +1,29 @@
 <!--
   GithubEventsModal.vue — Event list popup for chart clicks.
   Props + visibility come from the shared modal stack (useStackModal).
-  Each row: event-type icon + i18n description (with %L link marker) +
-  relative time.  The link pushes external-link on top of the stack,
-  auto-hiding this modal; Cancel pops back.
+  The list derives from the LIVE events feed via the stack filter
+  (`{ title, filter }` — mirroring the changelog modal's lazy pattern),
+  so a refresh updates it in place.  Each row: event-type icon + i18n
+  description (with %L link marker) + relative time.  The link pushes
+  external-link on top of the stack, auto-hiding this modal; Cancel
+  pops back.
 -->
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, shallowRef, watch } from "vue";
 import { useI18n } from "../../composables/core/useI18n";
 import {
   eventTypeI18nKey,
   eventTypeIcon,
+  filterEventsByDay,
+  filterEventsByType,
+  useGithubActivity,
 } from "../../composables/github/useGithubActivity";
 import { useModalFocus } from "../../composables/modals/useModalFocus";
 import {
   useModalStack,
   useStackModal,
 } from "../../composables/modals/useModalStack";
+import { useRefreshWarningModal } from "../../composables/modals/useRefreshWarningModal";
 import { formatAbsoluteTime, formatRelativeTime } from "../../core/time";
 import type { GithubEvent } from "../../types/app";
 import type { IconName } from "../../types/icons";
@@ -32,6 +39,7 @@ import TruncatedTitle from "../ui/TruncatedTitle.vue";
 const { visible, props: stackProps } = useStackModal("github-events");
 const { pop } = useModalStack();
 const { t, locale } = useI18n();
+const { openRefreshWarningModal } = useRefreshWarningModal();
 
 /** Close-button element for keyboard auto-focus. */
 const closeBtnRef = ref<HTMLElement | null>(null);
@@ -39,10 +47,52 @@ const closeBtnRef = ref<HTMLElement | null>(null);
 /** Keyboard-aware focus: move focus to Close when opened via Tab. */
 const { onShown } = useModalFocus(closeBtnRef);
 
+// ---- Lazy data (created on the first open; mirrors the changelog) --------
+
+/**
+ * Activity state — created on the FIRST open.  `useGithubActivity`
+ * fetches at first call and this modal is always mounted, so calling it
+ * in setup would request on every page load; the watch defers it.
+ */
+const activityState = shallowRef<ReturnType<typeof useGithubActivity> | null>(
+  null,
+);
+
+watch(visible, (open) => {
+  if (open && !activityState.value) activityState.value = useGithubActivity();
+});
+
 // ---- Derived (narrowed from the stack entry) ----
 
 const title = computed(() => stackProps.value?.title ?? "");
-const events = computed(() => stackProps.value?.events ?? []);
+
+/** Filtered events — derived from the live feed via the stack filter. */
+const events = computed(() => {
+  const filter = stackProps.value?.filter;
+  if (!filter) return [];
+  const feed = activityState.value?.events.value ?? [];
+  return filter.kind === "type"
+    ? filterEventsByType(feed, filter.eventType)
+    : filterEventsByDay(feed, filter.day);
+});
+
+/** True while the underlying feed is re-fetching (refresh disabled). */
+const isLoading = computed(() => activityState.value?.isLoading.value ?? false);
+
+// ---- Actions ----
+
+/** Open the refresh confirmation with this endpoint's cache state. */
+function openRefresh(): void {
+  const state = activityState.value;
+  if (!state) return;
+  openRefreshWarningModal({
+    api: state.api,
+    url: state.url,
+    fetchedAt: state.fetchedAt,
+    refresh: state.refresh,
+    error: state.error,
+  });
+}
 
 // =========================================================================
 // Helpers
@@ -230,6 +280,17 @@ const rows = computed<EventRow[]>(() =>
       <span class="text-body-secondary small">
         {{ $t("text-x-activities", [String(events.length)]) }}
       </span>
+      <TooltipTrigger :title="$t('text-refresh')">
+        <button
+          type="button"
+          class="btn btn-same-padding btn-outline-primary btn-no-border"
+          :aria-label="$t('text-refresh')"
+          :disabled="isLoading"
+          @click="openRefresh"
+        >
+          <MaterialSymbol name="refresh" />
+        </button>
+      </TooltipTrigger>
       <div class="ms-auto">
         <button
           ref="closeBtnRef"

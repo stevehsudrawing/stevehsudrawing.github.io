@@ -49,6 +49,7 @@ export const ICON_NAMES = [
   "pause",
   "play_arrow",
   "qr_code",
+  "refresh",
   "remove",
   "replay",
   "screen_rotation",

@@ -10,6 +10,7 @@
 import { computed } from "vue";
 import { useI18n } from "../../composables/core/useI18n";
 import { useGithubProfile } from "../../composables/github/useGithubProfile";
+import { useRefreshWarningModal } from "../../composables/modals/useRefreshWarningModal";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
@@ -38,7 +39,16 @@ const props = withDefaults(
 // =========================================================================
 
 const { t } = useI18n();
-const { data: profile, isLoading, error } = useGithubProfile();
+const {
+  data: profile,
+  isLoading,
+  error,
+  refresh,
+  url,
+  fetchedAt,
+  api,
+} = useGithubProfile();
+const { openRefreshWarningModal } = useRefreshWarningModal();
 
 // ---- Derived ----
 
@@ -70,6 +80,15 @@ const statsText = computed(() => {
   const followingText = t("text-following");
   return `${p.public_repos} ${reposText} · ${p.followers} ${followersText} · ${p.following} ${followingText}`;
 });
+
+// =========================================================================
+// Actions
+// =========================================================================
+
+/** Open the refresh confirmation with this endpoint's cache state. */
+function openRefresh(): void {
+  openRefreshWarningModal({ api, url, fetchedAt, refresh, error });
+}
 </script>
 
 <template>
@@ -101,7 +120,7 @@ const statsText = computed(() => {
               {{ statsText }}
             </p>
           </div>
-          <div>
+          <div class="btn-group">
             <TypeAwareLink
               class="btn btn-outline-secondary btn-sm"
               no-underline
@@ -121,6 +140,17 @@ const statsText = computed(() => {
               />
               <span>{{ $t("text-view-profile") }}</span>
             </TypeAwareLink>
+            <TooltipTrigger :title="$t('text-refresh')" teleport>
+              <button
+                type="button"
+                class="btn btn-same-padding btn-outline-secondary btn-sm"
+                :aria-label="$t('text-refresh')"
+                :disabled="isLoading"
+                @click="openRefresh"
+              >
+                <MaterialSymbol name="refresh" />
+              </button>
+            </TooltipTrigger>
           </div>
         </div>
       </template>
@@ -187,6 +217,17 @@ const statsText = computed(() => {
                 />
                 <span>{{ $t("text-view-profile") }}</span>
               </TypeAwareLink>
+              <TooltipTrigger :title="$t('text-refresh')" teleport>
+                <button
+                  type="button"
+                  class="btn btn-same-padding btn-outline-secondary btn-sm"
+                  :aria-label="$t('text-refresh')"
+                  :disabled="isLoading"
+                  @click="openRefresh"
+                >
+                  <MaterialSymbol name="refresh" />
+                </button>
+              </TooltipTrigger>
               <TooltipTrigger :title="$t('text-more-information')" teleport>
                 <TypeAwareLink
                   class="btn btn-same-padding btn-outline-secondary btn-sm"

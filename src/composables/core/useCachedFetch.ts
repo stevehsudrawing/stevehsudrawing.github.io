@@ -15,6 +15,7 @@
 
 import { ref, type Ref } from "vue";
 import type { CacheAccessor } from "../../platform/storage";
+import type { CachedApiId } from "../../types/app";
 
 // =========================================================================
 // Types
@@ -30,10 +31,18 @@ export interface CachedFetchState<T> {
   error: Ref<string | null>;
   /** Manually trigger a re-fetch (bypasses the freshness check). */
   refresh: () => Promise<void>;
+  /** Full endpoint URL this state fetches (refresh-dialog transparency). */
+  url: string;
+  /** Cache timestamp of the current data, or null if never fetched. */
+  fetchedAt: Ref<number | null>;
+  /** Upstream API id — the `CACHED_APIS` metadata key. */
+  api: CachedApiId;
 }
 
 /** Options accepted by the useCachedFetch composable. */
 export interface CachedFetchOptions<T> {
+  /** Upstream API id — the `CACHED_APIS` metadata key. */
+  api: CachedApiId;
   /** Cache freshness threshold in milliseconds (default: 1 hour). */
   maxAge?: number;
   /** Label used in error messages (default: "API"). */
@@ -69,6 +78,9 @@ const loadingCache = new Map<string, Ref<boolean>>();
 /** Singleton error refs keyed by cache key. */
 const errorCache = new Map<string, Ref<string | null>>();
 
+/** Singleton cache-timestamp refs keyed by cache key. */
+const fetchedAtCache = new Map<string, Ref<number | null>>();
+
 /** In-flight fetch promises keyed by cache key (dedup concurrent calls). */
 const promiseCache = new Map<string, Promise<void>>();
 
@@ -86,8 +98,8 @@ const promiseCache = new Map<string, Promise<void>>();
  *
  * @param url - Full endpoint URL.
  * @param cache - Storage accessor for this endpoint's cache.
- * @param options - Freshness threshold, error label, stale statuses
- *   and the optional response `select` mapping.
+ * @param options - Upstream API id, freshness threshold, error label,
+ *   stale statuses and the optional response `select` mapping.
  * @returns Reactive state ({@link CachedFetchState}) shared across all
  *          callers of the same cache key.
  *
@@ -95,17 +107,18 @@ const promiseCache = new Map<string, Promise<void>>();
  * const { data, isLoading, error, refresh } = useCachedFetch<GithubUser>(
  *   "https://api.github.com/users/stevehsudrawing",
  *   GITHUB_PROFILE_CACHE,
- *   { label: "GitHub API", staleStatuses: [403] },
+ *   { api: "github-rest", label: "GitHub API", staleStatuses: [403] },
  * );
  */
 export function useCachedFetch<T>(
   url: string,
   cache: CacheAccessor<T>,
-  options: CachedFetchOptions<T> = {},
+  options: CachedFetchOptions<T>,
 ): CachedFetchState<T> {
   const context: FetchContext<T> = {
     url,
     cache,
+    api: options.api,
     select: options.select,
     label: options.label ?? DEFAULT_LABEL,
     staleStatuses: options.staleStatuses ?? [],
@@ -122,6 +135,9 @@ export function useCachedFetch<T>(
       isLoading: loadingCache.get(cacheKey)! as Ref<boolean>,
       error: errorCache.get(cacheKey)! as Ref<string | null>,
       refresh: () => performFetch(context),
+      url: context.url,
+      fetchedAt: fetchedAtCache.get(cacheKey)!,
+      api: context.api,
     };
   }
 
@@ -130,15 +146,18 @@ export function useCachedFetch<T>(
   const data = ref<T | null>(null) as Ref<T | null>;
   const isLoading = ref<boolean>(false);
   const error = ref<string | null>(null);
+  const fetchedAt = ref<number | null>(null);
 
   dataCache.set(cacheKey, data);
   loadingCache.set(cacheKey, isLoading);
   errorCache.set(cacheKey, error);
+  fetchedAtCache.set(cacheKey, fetchedAt);
 
   // Initialise from cache (synchronous)
   const cached = cache.read();
   if (cached) {
     data.value = cached.data;
+    fetchedAt.value = cached.fetchedAt;
     // If stale, trigger a background refresh (stale data keeps showing)
     if (Date.now() - cached.fetchedAt > maxAge) {
       void performFetch(context);
@@ -153,6 +172,9 @@ export function useCachedFetch<T>(
     isLoading,
     error,
     refresh: () => performFetch(context),
+    url: context.url,
+    fetchedAt,
+    api: context.api,
   };
 }
 
@@ -166,6 +188,8 @@ interface FetchContext<T> {
   url: string;
   /** Storage accessor for this endpoint's cache. */
   cache: CacheAccessor<T>;
+  /** Upstream API id — the `CACHED_APIS` metadata key. */
+  api: CachedApiId;
   /** Optional response-to-cached-shape mapping. */
   select?: (raw: unknown) => T;
   /** Label used in error messages. */
@@ -221,6 +245,8 @@ async function performFetch<T>(context: FetchContext<T>): Promise<void> {
       const value = context.select ? context.select(raw) : (raw as T);
       if (data) data.value = value;
       context.cache.write(value);
+      const fetchedAt = fetchedAtCache.get(cacheKey);
+      if (fetchedAt) fetchedAt.value = Date.now();
     } catch (err: unknown) {
       // Network error (or a throwing `select`) — keep cached data if any
       if (error) {

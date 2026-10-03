@@ -17,8 +17,8 @@ export function normalizeInternalPath(pathname: string): string {
 }
 
 /**
- * Resolve a language-aware value (image src URL or markdown content) with
- * an English fallback.
+ * Resolve a language-aware value (URL or text resource) with an English
+ * fallback.
  * @param value - The language-keyed map, or undefined.
  * @param lang - The active language.
  * @returns The value for `lang`, falling back to `en`, or "".

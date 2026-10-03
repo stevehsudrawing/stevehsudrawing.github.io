@@ -23,6 +23,7 @@ import {
   useModalStack,
   useStackModal,
 } from "../../composables/modals/useModalStack";
+import { useRefreshWarningModal } from "../../composables/modals/useRefreshWarningModal";
 import { isWebGL2Supported } from "../../platform/advanced-feat-support";
 import {
   initSkinViewerStage,
@@ -66,6 +67,7 @@ const { visible } = useStackModal("skin-viewer");
 const { pop } = useModalStack();
 const { t } = useI18n();
 const { showToast } = useToast();
+const { openRefreshWarningModal } = useRefreshWarningModal();
 
 /**
  * Lazy profile state — created on the first open so page loads never
@@ -289,6 +291,25 @@ async function replayIntro(): Promise<void> {
   replayBusy.value = false;
 }
 
+/**
+ * Open the refresh confirmation; a successful fetch re-runs `start()`
+ * so the name card and the stage re-apply the newest profile.
+ */
+function openRefresh(): void {
+  const state = profileState;
+  if (!state) return;
+  openRefreshWarningModal({
+    api: state.api,
+    url: state.url,
+    fetchedAt: state.fetchedAt,
+    refresh: async () => {
+      await state.refresh();
+      if (state.error.value === null) void start();
+    },
+    error: state.error,
+  });
+}
+
 /** Boots the stage: WebGL gate -> profile -> dynamic 3D stack. */
 async function start(): Promise<void> {
   const gen = ++generation;
@@ -466,7 +487,7 @@ onBeforeUnmount(() => {
 
     <!-- ==== Footer: attribution / name card / replay + Close ==== -->
     <template #footer>
-      <div class="d-flex align-items-center gap-1">
+      <div class="d-flex align-items-center">
         <BPopover
           :title="t('text-skin-viewer-credits-title')"
           placement="top"
@@ -597,6 +618,17 @@ onBeforeUnmount(() => {
             <MaterialSymbol name="replay" />
           </button>
         </TooltipTrigger>
+        <TooltipTrigger :title="t('text-refresh')">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border btn-same-padding"
+            :aria-label="t('text-refresh')"
+            :disabled="phase === 'loading'"
+            @click="openRefresh"
+          >
+            <MaterialSymbol name="refresh" />
+          </button>
+        </TooltipTrigger>
       </div>
 
       <div class="ms-auto">
@@ -718,7 +750,6 @@ html.user-input-touch .skin-viewer-hint-touch {
 .skin-viewer-face {
   width: 3.5rem;
   height: 3.5rem;
-  background: var(--bs-tertiary-bg);
   border-radius: var(--bs-border-radius-sm);
   image-rendering: pixelated;
 }

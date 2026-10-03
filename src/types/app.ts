@@ -218,9 +218,10 @@ export type ImgFeature = "follow-theme" | "follow-language";
 // -------------------------------------------------------------------------
 
 /**
- * Language-keyed string (image src URL or markdown content) — keys derived
- * from `Lang`.  `en` is required — it is the ultimate fallback when a
- * language variant is not specified.
+ * Language-keyed string (URL or text resource — picture sources, markdown
+ * content, documentation links) — keys derived from `Lang`.  `en` is
+ * required — it is the ultimate fallback when a language variant is not
+ * specified.
  */
 export type LanguageAwareString = {
   en: string;
@@ -546,6 +547,16 @@ export interface MinecraftProfile {
 }
 
 // =========================================================================
+// Cached external APIs
+// =========================================================================
+
+/**
+ * Upstream APIs behind the site's cached fetch endpoints — the metadata
+ * registry (`configs/cached-apis.ts`) is keyed by these ids.
+ */
+export type CachedApiId = "github-rest" | "playerdb";
+
+// =========================================================================
 // Modal stack
 // =========================================================================
 
@@ -569,12 +580,33 @@ export interface QRCodeModalProps {
   hideOpenLink: boolean;
 }
 
+/**
+ * Filter descriptor for the events modal — how the list was selected on
+ * the chart: a clicked bar (one event type) or a clicked point (one UTC
+ * day).  The modal derives its rows from the live feed via this filter,
+ * so a refresh updates the list in place.
+ */
+export type GithubEventsFilter =
+  { kind: "type"; eventType: string } | { kind: "day"; day: string };
+
 /** Props for GithubEventsModal — stored in a modal-stack item. */
 export interface GithubEventsModalProps {
   /** Modal title (event-type label or formatted date). */
   title: string;
-  /** Filtered events to display, reverse chronological. */
-  events: GithubEvent[];
+  /** Filter applied to the live events feed. */
+  filter: GithubEventsFilter;
+}
+
+/** Props for RefreshWarningModal — stored in a modal-stack item. */
+export interface RefreshWarningModalProps {
+  /** Cached API being refreshed — resolves the name + docs link. */
+  apiId: CachedApiId;
+  /** Exact request URL about to be sent (shown for transparency). */
+  url: string;
+  /** Cache timestamp of the displayed data (null = never fetched). */
+  fetchedAt: number | null;
+  /** Performs the re-fetch; resolves true on success (toast gate). */
+  refresh: () => Promise<boolean>;
 }
 
 /** Props for PictureGroupViewerModal — stored in a modal-stack item. */
@@ -621,6 +653,7 @@ export type ModalId =
   | "picture-viewer"
   | "settings"
   | "reset-warning"
+  | "refresh-warning"
   | "sticker"
   | "changelog"
   | "skin-viewer";
@@ -639,6 +672,7 @@ export type ModalStackItem =
   | { id: "picture-viewer"; props: PictureViewerModalProps }
   | { id: "settings"; props: null }
   | { id: "reset-warning"; props: null }
+  | { id: "refresh-warning"; props: RefreshWarningModalProps }
   | { id: "sticker"; props: StickerModalProps | null }
   | { id: "changelog"; props: null }
   | { id: "skin-viewer"; props: null };
