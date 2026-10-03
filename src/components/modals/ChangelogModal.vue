@@ -283,41 +283,43 @@ function openRefresh(): void {
 
     <!-- ==== Footer: GitHub history (left) + Close (right) ==== -->
     <template #footer>
-      <TooltipTrigger :title="t('text-view-full-history-on-github')">
-        <TypeAwareLink
-          type="external"
-          :href="historyUrl"
-          class="btn btn-same-padding btn-outline-primary btn-no-border"
-          :aria-label="t('text-view-full-history-on-github')"
-          hide-indicator
-          no-underline
-        >
-          <InlineSvg
-            src="/images/svg/icons/github.svg"
-            class="changelog-github-mark"
-          />
-        </TypeAwareLink>
-      </TooltipTrigger>
-      <TooltipTrigger :title="t('text-refresh')">
-        <button
-          type="button"
-          class="btn btn-same-padding btn-outline-primary btn-no-border"
-          :aria-label="t('text-refresh')"
-          :disabled="isLoading"
-          @click="openRefresh"
-        >
-          <MaterialSymbol name="refresh" />
-        </button>
-      </TooltipTrigger>
-      <div class="ms-auto">
-        <button
-          ref="closeBtnRef"
-          type="button"
-          class="btn btn-outline-primary btn-no-border"
-          @click="pop()"
-        >
-          {{ $t("text-close") }}
-        </button>
+      <div class="w-100 d-flex">
+        <TooltipTrigger :title="t('text-view-full-history-on-github')">
+          <TypeAwareLink
+            type="external"
+            :href="historyUrl"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
+            :aria-label="t('text-view-full-history-on-github')"
+            hide-indicator
+            no-underline
+          >
+            <InlineSvg
+              src="/images/svg/icons/github.svg"
+              class="changelog-github-mark"
+            />
+          </TypeAwareLink>
+        </TooltipTrigger>
+        <TooltipTrigger :title="t('text-refresh')">
+          <button
+            type="button"
+            class="btn btn-same-padding btn-outline-primary btn-no-border"
+            :aria-label="t('text-refresh')"
+            :disabled="isLoading"
+            @click="openRefresh"
+          >
+            <MaterialSymbol name="refresh" />
+          </button>
+        </TooltipTrigger>
+        <div class="ms-auto">
+          <button
+            ref="closeBtnRef"
+            type="button"
+            class="btn btn-outline-primary btn-no-border"
+            @click="pop()"
+          >
+            {{ $t("text-close") }}
+          </button>
+        </div>
       </div>
     </template>
   </BModal>
