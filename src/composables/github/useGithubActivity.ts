@@ -68,23 +68,78 @@ function filterRecentEvents(events: GithubEvent[]): GithubEvent[] {
 }
 
 /**
+ * Display metadata for one documented GitHub Events API type.
+ */
+interface EventTypeMeta {
+  /** i18n key of the human-readable label. */
+  i18nKey: string;
+  /**
+   * Material Symbols ligature name — collected into the icon subset
+   * through this literal `icon: "…"` field.
+   */
+  icon: IconName;
+}
+
+/**
+ * Label key + icon for every documented Events API type (the full set
+ * as of 2026-10) — the single source of truth behind
+ * `eventTypeI18nKey()` / `eventTypeIcon()` / `isKnownEventType()`.
+ */
+const EVENT_TYPE_META: Record<string, EventTypeMeta> = {
+  CommitCommentEvent: {
+    i18nKey: "text-github-event-commit-comment",
+    icon: "comment",
+  },
+  CreateEvent: { i18nKey: "text-github-event-create", icon: "add_circle" },
+  DeleteEvent: { i18nKey: "text-github-event-delete", icon: "delete" },
+  DiscussionEvent: { i18nKey: "text-github-event-discussion", icon: "forum" },
+  ForkEvent: { i18nKey: "text-github-event-fork", icon: "call_split" },
+  GollumEvent: { i18nKey: "text-github-event-gollum", icon: "history_edu" },
+  IssueCommentEvent: {
+    i18nKey: "text-github-event-issue-comment",
+    icon: "comment",
+  },
+  IssuesEvent: { i18nKey: "text-github-event-issues", icon: "adjust" },
+  MemberEvent: { i18nKey: "text-github-event-member", icon: "group" },
+  PublicEvent: { i18nKey: "text-github-event-public", icon: "public" },
+  PullRequestEvent: {
+    i18nKey: "text-github-event-pull-request",
+    icon: "merge",
+  },
+  PullRequestReviewEvent: {
+    i18nKey: "text-github-event-pull-request-review",
+    icon: "fact_check",
+  },
+  PullRequestReviewCommentEvent: {
+    i18nKey: "text-github-event-pull-request-review-comment",
+    icon: "rate_review",
+  },
+  PushEvent: { i18nKey: "text-github-event-push", icon: "commit" },
+  ReleaseEvent: { i18nKey: "text-github-event-release", icon: "new_releases" },
+  WatchEvent: { i18nKey: "text-github-event-watch", icon: "star" },
+};
+
+/** Aggregate bucket key for unmapped event types ("Other"). */
+export const OTHER_EVENT_TYPE = "Other";
+
+/**
+ * Whether an event type is part of the documented set.
+ *
+ * @param eventType - Raw event type from the API (e.g. "PushEvent").
+ * @returns True when the type has its own label + icon.
+ */
+export function isKnownEventType(eventType: string): boolean {
+  return Object.prototype.hasOwnProperty.call(EVENT_TYPE_META, eventType);
+}
+
+/**
  * Map a GitHub event type string to its i18n key.
  *
  * @param eventType - Raw event type from the API (e.g. "PushEvent").
  * @returns i18n key for the human-readable label.
  */
 export function eventTypeI18nKey(eventType: string): string {
-  const map: Record<string, string> = {
-    PushEvent: "text-github-event-push",
-    WatchEvent: "text-github-event-watch",
-    IssuesEvent: "text-github-event-issues",
-    IssueCommentEvent: "text-github-event-issue-comment",
-    CreateEvent: "text-github-event-create",
-    ForkEvent: "text-github-event-fork",
-    PullRequestEvent: "text-github-event-pull-request",
-    DeleteEvent: "text-github-event-delete",
-  };
-  return map[eventType] || "text-github-event-other";
+  return EVENT_TYPE_META[eventType]?.i18nKey || "text-github-event-other";
 }
 
 /**
@@ -94,17 +149,7 @@ export function eventTypeI18nKey(eventType: string): string {
  * @returns Icon name for `MaterialSymbol` (e.g. "commit").
  */
 export function eventTypeIcon(eventType: string): IconName {
-  const map: Record<string, IconName> = {
-    PushEvent: "commit",
-    WatchEvent: "star",
-    IssuesEvent: "error",
-    IssueCommentEvent: "forum",
-    CreateEvent: "add_circle",
-    ForkEvent: "call_split",
-    PullRequestEvent: "merge",
-    DeleteEvent: "delete",
-  };
-  return map[eventType] || "more_horiz";
+  return EVENT_TYPE_META[eventType]?.icon || "more_horiz";
 }
 
 /**
@@ -151,6 +196,19 @@ export function filterEventsByDay(
     .filter(
       (event) => event.created_at.slice(0, 10) === day && !isLabeledDupe(event),
     )
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+}
+
+/**
+ * Filter the events feed to the unmapped ("Other") event types — the
+ * aggregate bar's click selection: labeled dupes skipped, newest first.
+ *
+ * @param events - The window-trimmed feed.
+ * @returns Events whose type has no dedicated label + icon.
+ */
+export function filterEventsByOther(events: GithubEvent[]): GithubEvent[] {
+  return events
+    .filter((event) => !isKnownEventType(event.type) && !isLabeledDupe(event))
     .sort((a, b) => b.created_at.localeCompare(a.created_at));
 }
 
@@ -211,11 +269,13 @@ export function useGithubActivity(): {
   const stats = computed<ActivityStat[]>(() => {
     if (!events.value || events.value.length === 0) return [];
 
-    // Count each event type, skipping noisy duplicates
+    // Count each known event type, skipping noisy duplicates; unmapped
+    // types collapse into the single "Other" bucket
     const counts: Record<string, number> = {};
     for (const event of events.value) {
       if (isLabeledDupe(event)) continue;
-      counts[event.type] = (counts[event.type] || 0) + 1;
+      const key = isKnownEventType(event.type) ? event.type : OTHER_EVENT_TYPE;
+      counts[key] = (counts[key] || 0) + 1;
     }
 
     const total = Object.values(counts).reduce((a, b) => a + b, 0);

@@ -390,7 +390,7 @@ function openLink(): void {
 <style scoped>
 /* --- QR share card (captured by html-to-image for PNG export) --- */
 .qr-code-link {
-  font-size: 12.9px;
+  font-size: 12.5px;
   word-break: break-all;
 }
 

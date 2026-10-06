@@ -15,6 +15,7 @@ import {
   eventTypeI18nKey,
   eventTypeIcon,
   filterEventsByDay,
+  filterEventsByOther,
   filterEventsByType,
   useGithubActivity,
 } from "../../composables/github/useGithubActivity";
@@ -71,9 +72,9 @@ const events = computed(() => {
   const filter = stackProps.value?.filter;
   if (!filter) return [];
   const feed = activityState.value?.events.value ?? [];
-  return filter.kind === "type"
-    ? filterEventsByType(feed, filter.eventType)
-    : filterEventsByDay(feed, filter.day);
+  if (filter.kind === "type") return filterEventsByType(feed, filter.eventType);
+  if (filter.kind === "other") return filterEventsByOther(feed);
+  return filterEventsByDay(feed, filter.day);
 });
 
 /** True while the underlying feed is re-fetching (refresh disabled). */
@@ -157,6 +158,22 @@ function describe(ev: GithubEvent): { prefix: string; suffix: string } {
       return splitTemplate("text-event-desc-pr", [
         String(ev.payload.action ?? "opened"),
       ]);
+    case "ReleaseEvent":
+      return splitTemplate("text-event-desc-release");
+    case "GollumEvent":
+      return splitTemplate("text-event-desc-gollum");
+    case "PublicEvent":
+      return splitTemplate("text-event-desc-public");
+    case "MemberEvent":
+      return splitTemplate("text-event-desc-member");
+    case "CommitCommentEvent":
+      return splitTemplate("text-event-desc-commit-comment");
+    case "DiscussionEvent":
+      return splitTemplate("text-event-desc-discussion");
+    case "PullRequestReviewEvent":
+      return splitTemplate("text-event-desc-pull-request-review");
+    case "PullRequestReviewCommentEvent":
+      return splitTemplate("text-event-desc-pull-request-review-comment");
     default:
       // Unknown event types: show the localized type label, link the repo
       return {

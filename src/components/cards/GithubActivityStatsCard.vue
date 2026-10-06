@@ -33,7 +33,9 @@ import {
   eventTypeI18nKey,
   eventTypeIcon,
   filterEventsByDay,
+  filterEventsByOther,
   filterEventsByType,
+  OTHER_EVENT_TYPE,
   useGithubActivity,
 } from "../../composables/github/useGithubActivity";
 import { useGithubEventsModal } from "../../composables/modals/useGithubEventsModal";
@@ -131,10 +133,21 @@ const hasData = computed(() =>
 // Chart creation
 // =========================================================================
 
-/** Bar-mode click: open the events modal for the clicked event type. */
+/** Bar-mode click: open the events modal for the clicked bar. */
 function openEventsForBar(index: number): void {
   const eventType = stats.value[index]?.eventType;
   if (!eventType) return;
+
+  // Aggregate "Other" bucket → the unmapped-types filter
+  if (eventType === OTHER_EVENT_TYPE) {
+    if (filterEventsByOther(events.value ?? []).length === 0) return;
+    openGithubEventsModal({
+      title: labelFor(eventType),
+      filter: { kind: "other" },
+    });
+    return;
+  }
+
   if (filterEventsByType(events.value ?? [], eventType).length === 0) return;
   openGithubEventsModal({
     title: labelFor(eventType),
@@ -364,7 +377,7 @@ function labelFor(eventType: string): string {
       <div
         class="d-flex flex-wrap justify-content-between align-items-center pb-2"
       >
-        <div>
+        <div class="me-2">
           <h3 class="h5 card-title mb-0">{{ headingText }}</h3>
           <span class="text-body-secondary small">{{
             $t("text-github-event-display-range")

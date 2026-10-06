@@ -510,7 +510,10 @@ export interface GithubCommit {
 
 /** Aggregated count for a single GitHub event type (used by bar chart). */
 export interface ActivityStat {
-  /** Raw event type string from the API (e.g. "PushEvent"). */
+  /**
+   * Event type key — a raw API type (e.g. "PushEvent"), or the aggregate
+   * `"Other"` bucket for unmapped types.
+   */
   eventType: string;
   /** Number of occurrences of this event type. */
   count: number;
@@ -582,12 +585,15 @@ export interface QRCodeModalProps {
 
 /**
  * Filter descriptor for the events modal — how the list was selected on
- * the chart: a clicked bar (one event type) or a clicked point (one UTC
- * day).  The modal derives its rows from the live feed via this filter,
- * so a refresh updates the list in place.
+ * the chart: a clicked bar (one event type, or the aggregate "Other"
+ * bucket) or a clicked point (one UTC day).  The modal derives its rows
+ * from the live feed via this filter, so a refresh updates the list in
+ * place.
  */
 export type GithubEventsFilter =
-  { kind: "type"; eventType: string } | { kind: "day"; day: string };
+  | { kind: "type"; eventType: string }
+  | { kind: "other" }
+  | { kind: "day"; day: string };
 
 /** Props for GithubEventsModal — stored in a modal-stack item. */
 export interface GithubEventsModalProps {
