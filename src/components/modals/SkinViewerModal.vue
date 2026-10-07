@@ -10,8 +10,10 @@
   the idle loop) that is disposed on close; the stage stays 1:1 and
   fades in when ready — the fade follows the reduced-motion rules,
   unlike the 3D content animation.  The footer carries the tech-stack
-  popover, the name-card popover and the intro replay; the stage shows
-  self-fading operation hints.  Preview-only: no download affordance.
+  popover, the name-card popover, the intro replay, the pause/play
+  toggle (freezes the current animation) and the eyes toggle; the
+  stage shows self-fading operation hints.  Preview-only: no download
+  affordance.
 -->
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
@@ -28,6 +30,7 @@ import { useRefreshWarningModal } from "../../composables/modals/useRefreshWarni
 import { isWebGL2Supported } from "../../platform/advanced-feat-support";
 import {
   initSkinViewerStage,
+  type SkinViewerAnimationState,
   type SkinViewerStageHandle,
 } from "../../platform/skin-viewer";
 import type { MinecraftProfile } from "../../types/app";
@@ -92,8 +95,11 @@ let stageHandle: SkinViewerStageHandle | null = null;
 /** Latest resolved profile (feeds the name card). */
 const profileData = ref<MinecraftProfile | null>(null);
 
-/** True while the Blockbench intro plays (replay stays disabled). */
-const introPlaying = ref(false);
+/** Playback state of the animation slot (intro / idle / paused). */
+const animationState = ref<SkinViewerAnimationState>("idle");
+
+/** True while the eyes are held closed (the blink is suspended). */
+const eyesClosed = ref(false);
 
 /** True during the replay fade-out (blocks re-entry). */
 const replayBusy = ref(false);
@@ -127,6 +133,20 @@ const errorLabelKey = computed(() =>
     : errorKind.value === "data"
       ? "text-skin-viewer-error-network"
       : "text-skin-viewer-error-generic",
+);
+
+/** Label key of the pause/play button (names the action it runs). */
+const pauseLabelKey = computed(() =>
+  animationState.value === "paused"
+    ? "text-skin-viewer-play"
+    : "text-skin-viewer-pause",
+);
+
+/** Label key of the eyes button (names the action it runs). */
+const eyesLabelKey = computed(() =>
+  eyesClosed.value
+    ? "text-skin-viewer-eyes-open"
+    : "text-skin-viewer-eyes-close",
 );
 
 /** Dashed UUID (canonical JE form) when the raw id has 32 hex chars. */
@@ -274,7 +294,7 @@ async function replayIntro(): Promise<void> {
     !handle ||
     !stageEl ||
     phase.value !== "ready" ||
-    introPlaying.value ||
+    animationState.value !== "idle" ||
     replayBusy.value
   ) {
     return;
@@ -291,6 +311,21 @@ async function replayIntro(): Promise<void> {
     stageHidden.value = false;
   }
   replayBusy.value = false;
+}
+
+/** Freezes or resumes the current animation (intro or idle). */
+function togglePause(): void {
+  const handle = stageHandle;
+  if (!handle || phase.value !== "ready" || replayBusy.value) return;
+  handle.setPaused(animationState.value !== "paused");
+}
+
+/** Holds the eyes closed or restores the automatic blink. */
+function toggleEyes(): void {
+  const handle = stageHandle;
+  if (!handle || phase.value !== "ready") return;
+  eyesClosed.value = !eyesClosed.value;
+  handle.setEyesClosed(eyesClosed.value);
 }
 
 /**
@@ -319,6 +354,9 @@ async function start(): Promise<void> {
   // Dispose any previous run's viewer before reusing the canvas.
   disposeStage();
   stageHidden.value = false;
+  // A new stage starts fresh: the intro playing, the eyes blinking.
+  animationState.value = "idle";
+  eyesClosed.value = false;
   phase.value = "loading";
 
   // ---- WebGL 2 gate: no chunk download below the baseline ----
@@ -362,8 +400,8 @@ async function start(): Promise<void> {
       profile: data,
       onCapeError: () => showToast("error", t("text-skin-viewer-cape-error")),
       onWarning: (message) => console.warn(message),
-      onIntroStateChange: (playing) => {
-        introPlaying.value = playing;
+      onAnimationStateChange: (state) => {
+        animationState.value = state;
       },
     });
   } catch (err) {
@@ -490,7 +528,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <!-- ==== Footer: attribution / name card / replay + Close ==== -->
+    <!-- ==== Footer: attribution / name card / replay / pause / eyes + Close ==== -->
     <template #footer>
       <div class="d-flex align-items-center">
         <BPopover
@@ -617,10 +655,38 @@ onBeforeUnmount(() => {
             type="button"
             class="btn btn-outline-primary btn-no-border btn-same-padding"
             :aria-label="t('text-skin-viewer-replay')"
-            :disabled="phase !== 'ready' || introPlaying || replayBusy"
+            :disabled="
+              phase !== 'ready' || animationState !== 'idle' || replayBusy
+            "
             @click="replayIntro"
           >
             <MaterialSymbol name="replay" />
+          </button>
+        </TooltipTrigger>
+        <TooltipTrigger :title="t(pauseLabelKey)">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border btn-same-padding"
+            :aria-label="t(pauseLabelKey)"
+            :disabled="phase !== 'ready' || replayBusy"
+            @click="togglePause"
+          >
+            <MaterialSymbol
+              :name="animationState === 'paused' ? 'play_arrow' : 'pause'"
+            />
+          </button>
+        </TooltipTrigger>
+        <TooltipTrigger :title="t(eyesLabelKey)">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-no-border btn-same-padding"
+            :aria-label="t(eyesLabelKey)"
+            :disabled="phase !== 'ready'"
+            @click="toggleEyes"
+          >
+            <MaterialSymbol
+              :name="eyesClosed ? 'visibility' : 'visibility_off'"
+            />
           </button>
         </TooltipTrigger>
         <TooltipTrigger :title="t('text-refresh')">

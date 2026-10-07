@@ -1,2 +1,3 @@
 minimumReleaseAgeExclude:
   - skinview3d-blockbench@1.0.20
+  - skinview3d-etf@0.0.5

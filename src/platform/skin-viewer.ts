@@ -6,8 +6,8 @@
  * the 3D stack (three family + the Blockbench animation JSON, kept
  * OUT of the entry bundles), renders the profile's skin and cape on a
  * skinview3d viewer with the ETF features attached, plays the
- * Blockbench intro once and then the built-in idle loop, and owns the
- * square sizing plus disposal.
+ * Blockbench intro once and then the built-in idle loop, exposes the
+ * pause / eyes controls, and owns the square sizing plus disposal.
  *
  * The content animations are deliberately exempt from the
  * reduced-motion rules (canvas motion is not CSS-gated); the modal's
@@ -22,6 +22,9 @@ import type { MinecraftProfile } from "../types/app";
 // Types
 // =========================================================================
 
+/** Playback state of the stage's animation slot. */
+export type SkinViewerAnimationState = "intro" | "idle" | "paused";
+
 /** Handle over a live skin-viewer stage. */
 export interface SkinViewerStageHandle {
   /** Stops rendering and disposes every resource (idempotent). */
@@ -31,6 +34,17 @@ export interface SkinViewerStageHandle {
    * untouched); callable while the viewer is ready.
    */
   replayIntro(): void;
+  /**
+   * Freezes or resumes the current animation (intro or idle): a
+   * frozen slot holds the pose and every slot-riding effect until
+   * resumed.
+   */
+  setPaused(paused: boolean): void;
+  /**
+   * Holds the eyes closed (`state: "closed"`) or restores the
+   * automatic blink (`state: "auto"`).
+   */
+  setEyesClosed(closed: boolean): void;
 }
 
 /** Options accepted by {@link initSkinViewerStage}. */
@@ -45,8 +59,8 @@ export interface SkinViewerStageOptions {
   onCapeError: () => void;
   /** Receives non-fatal warnings (unsupported skins, texture issues). */
   onWarning: (message: string) => void;
-  /** Reports intro play-state changes (true = playing) for the UI. */
-  onIntroStateChange?: (playing: boolean) => void;
+  /** Reports playback-state changes of the animation slot for the UI. */
+  onAnimationStateChange?: (state: SkinViewerAnimationState) => void;
 }
 
 // =========================================================================
@@ -68,8 +82,14 @@ export interface SkinViewerStageOptions {
 export async function initSkinViewerStage(
   options: SkinViewerStageOptions,
 ): Promise<SkinViewerStageHandle> {
-  const { stage, canvas, profile, onCapeError, onWarning, onIntroStateChange } =
-    options;
+  const {
+    stage,
+    canvas,
+    profile,
+    onCapeError,
+    onWarning,
+    onAnimationStateChange,
+  } = options;
 
   // ---- Lazy stack: three family + the Blockbench animation JSON ----
   const [skinview3dModule, etfModule, blockbenchModule, animationModule] =
@@ -124,8 +144,17 @@ export async function initSkinViewerStage(
   }
 
   // ---- Animation: Blockbench intro once, then the idle loop ----
-  const ANIMATION_NAME = "animation.player.appear1";
+  const ANIMATION_NAME = "animation.player.intro";
   let controller: ETFController | null = null;
+  let introActive = false;
+  let paused = false;
+
+  /** Reports the slot's playback state (`"paused"` covers both phases). */
+  const emitAnimationState = (): void => {
+    onAnimationStateChange?.(
+      paused ? "paused" : introActive ? "intro" : "idle",
+    );
+  };
 
   /** Swaps the finished intro for the idle loop (first run and replays). */
   const finishIntro = (): void => {
@@ -133,7 +162,8 @@ export async function initSkinViewerStage(
     // Replacing the animation slot disconnects the blink ticker
     // (see the extension's ticker docs) — re-attach it.
     controller?.rebind();
-    onIntroStateChange?.(false);
+    introActive = false;
+    emitAnimationState();
   };
 
   // `connectCape` binds the cape to the animated torso; the library's
@@ -145,7 +175,8 @@ export async function initSkinViewerStage(
     onFinish: finishIntro,
   });
   viewer.animation = intro;
-  onIntroStateChange?.(true);
+  introActive = true;
+  emitAnimationState();
 
   // Attach AFTER the intro occupies the slot: the blink ticker then
   // shares the intro's clock through `addAnimation()`.
@@ -184,10 +215,36 @@ export async function initSkinViewerStage(
     replayIntro(): void {
       if (disposed) return;
       intro.setAnimation(ANIMATION_NAME);
+      // A replay always restarts playing (the caller only triggers it
+      // from the idle state — paused blocks replay).
+      paused = false;
+      intro.speed = 1;
       viewer.animation = intro;
       // The slot swap disconnected the blink ticker — re-attach it.
       controller?.rebind();
-      onIntroStateChange?.(true);
+      introActive = true;
+      emitAnimationState();
+    },
+
+    setPaused(next: boolean): void {
+      if (disposed) return;
+      paused = next;
+      // Freeze through `speed`, not the `paused` flag: the Blockbench
+      // subclass derives time from an internal clock, and the base
+      // paused early-return would let it accumulate — the animation
+      // would jump forward on resume. `speed = 0` keeps the update
+      // path running, so the clock drains and the pose (plus every
+      // child delta, e.g. the blink ticker) stays frozen.
+      const current = viewer.animation;
+      if (current !== null) {
+        current.speed = next ? 0 : 1;
+      }
+      emitAnimationState();
+    },
+
+    setEyesClosed(closed: boolean): void {
+      if (disposed) return;
+      controller?.setBlinkOptions({ state: closed ? "closed" : "auto" });
     },
 
     dispose(): void {

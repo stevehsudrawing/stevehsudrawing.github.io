@@ -68,6 +68,8 @@ export const ICON_NAMES = [
   "star",
   "sticker",
   "swap_horiz",
+  "visibility",
+  "visibility_off",
   "warning",
   "zoom_in",
 ] as const;
