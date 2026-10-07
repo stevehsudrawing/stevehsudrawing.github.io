@@ -1,7 +1,7 @@
 {
   "name": "stevehsudrawing-link-hub",
   "private": true,
-  "version": "3.22.2",
+  "version": "3.22.3",
   "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
   "scripts": {
@@ -51,7 +51,7 @@
     "marked": "^18.0.9",
     "qrcode": "^1.5.4",
     "skinview3d": "3.4.2",
-    "skinview3d-blockbench": "1.0.19",
+    "skinview3d-blockbench": "1.0.20",
     "skinview3d-etf": "0.0.4",
     "swiper": "^14.2.0",
     "three": "0.156.1",

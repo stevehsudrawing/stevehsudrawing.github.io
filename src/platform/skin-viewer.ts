@@ -136,6 +136,8 @@ export async function initSkinViewerStage(
     onIntroStateChange?.(false);
   };
 
+  // `connectCape` binds the cape to the animated torso; the library's
+  // `initTorso()` runs only when the animation targets the `Torso` bone.
   const intro = new SkinViewBlockbench({
     animation: animationModule.default as AnimationFileType,
     animationName: ANIMATION_NAME,
@@ -144,46 +146,6 @@ export async function initSkinViewerStage(
   });
   viewer.animation = intro;
   onIntroStateChange?.(true);
-
-  // ---- Torso init workaround (skinview3d-blockbench 1.0.19) ----
-  // `initTorso()` runs on the intro's first frame: it re-parents the
-  // head / body / arms with the world-preserving `attach()` — baking
-  // the skin group's own +8 offset into their locals — and then sets
-  // `torso.position.y = 8` on top, so the head and body float 8 units
-  // high for the whole intro. (Position-keyed bones are rewritten in
-  // skin-space every frame and escape the glitch; rotation-only bones
-  // do not.) The next `resetJoints()` — normally triggered by the
-  // animation swap that ends the intro — rewrites the rest values in
-  // torso space and cancels the double offset; run it once after the
-  // first frame so the intro itself already shows the correct pose.
-  // This is what the known "switch the animation off and back on"
-  // workaround effectively does, without restarting the intro.
-  let torsoFixRaf = 0;
-  torsoFixRaf = requestAnimationFrame(() => {
-    torsoFixRaf = 0;
-    viewer.playerObject.resetJoints();
-
-    // `connectCape`'s attach() decompose re-expressed the cape euler
-    // as the flipped (10.8°, 0, π) representation; the partial
-    // `rotation.x` writes that follow (resetJoints, idle ticks) then
-    // rebuild the quaternion from it and lift the sheet over the
-    // head.  Rewrite all three axes once to restore the canonical
-    // pose — the cape then stays a rigid child of the torso, so it
-    // follows the intro's bow the way the vanilla cape does.
-    const cape = viewer.playerObject.cape;
-    cape.rotation.set((10.8 * Math.PI) / 180, Math.PI, 0);
-
-    // The library's `connectCape` wrapper also sits one unit too high
-    // (its hardcoded `-1` nudge); re-anchor it so the cape's canonical
-    // local lands back on its player-space pose at rest.
-    const capeWrapper = cape.parent;
-    const bodyPart = capeWrapper?.parent;
-    if (capeWrapper && bodyPart) {
-      capeWrapper.position.y = -(
-        bodyPart.position.y + (bodyPart.parent?.position.y ?? 0)
-      );
-    }
-  });
 
   // Attach AFTER the intro occupies the slot: the blink ticker then
   // shares the intro's clock through `addAnimation()`.
@@ -238,10 +200,6 @@ export async function initSkinViewerStage(
       if (sizeRaf !== 0) {
         cancelAnimationFrame(sizeRaf);
         sizeRaf = 0;
-      }
-      if (torsoFixRaf !== 0) {
-        cancelAnimationFrame(torsoFixRaf);
-        torsoFixRaf = 0;
       }
       window.removeEventListener("resize", queueResize);
       controller?.detach();
