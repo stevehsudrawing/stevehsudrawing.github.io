@@ -290,13 +290,24 @@ const LANGUAGE_CODES = LANGUAGE_LIST.map((lang) => lang.code);
 /**
  * Personal profile URLs for JSON-LD `sameAs` — the single source of truth
  * is the index link-button config (buttons flagged with `sameAs: true`).
+ * `static` links qualify too: a same-origin sub-site is still one of the
+ * author's own properties.  Root-relative hrefs become absolute — `sameAs`
+ * expects full URLs.
  */
 const SOCIAL_PROFILE_URLS: string[] = (
   indexButtonGroups as LinkButtonGroupData[]
 )
   .flatMap((group) => group.buttons)
-  .filter((button) => button.link.type === "external" && button.sameAs)
-  .map((button) => button.link.href);
+  .filter(
+    (button) =>
+      (button.link.type === "external" || button.link.type === "static") &&
+      button.sameAs,
+  )
+  .map((button) =>
+    button.link.href.startsWith("/")
+      ? `${BASE_URL}${button.link.href}`
+      : button.link.href,
+  );
 
 /** Generate hreflang `<link>` tags for each supported language plus x-default. */
 function hreflangTags(meta: PageMetaEntry): HtmlTagDescriptor[] {

@@ -43,6 +43,7 @@ const showOffcanvas = ref(false);
 useGesture(showOffcanvas);
 
 import { LANGUAGE_LIST } from "../../configs/language-list";
+import { ARTICLES_SUB_SITE_ROOT } from "../../configs/sub-sites";
 import { THEME_OPTIONS } from "../../configs/theme-options";
 
 const navItems: NavItem[] = [
@@ -65,7 +66,12 @@ const navItems: NavItem[] = [
     type: "dropdown",
     i18nKey: "text-articles",
     children: [
-      { type: "link", href: "/worldview.html", i18nKey: "text-worldview" },
+      {
+        type: "link",
+        href: ARTICLES_SUB_SITE_ROOT,
+        i18nKey: "text-steve-hsu-s-articles",
+        linkType: "static",
+      },
       {
         type: "link",
         href: "/copyright-notice.html",
@@ -271,7 +277,7 @@ defineExpose({
           >
             <TypeAwareLink
               v-if="item.type === 'link'"
-              type="internal"
+              :type="item.linkType ?? 'internal'"
               :href="item.href"
               class="nav-link"
               :class="{ active: isActive(item.href) }"
@@ -298,7 +304,7 @@ defineExpose({
               </template>
               <li v-for="child in item.children" :key="child.href">
                 <TypeAwareLink
-                  type="internal"
+                  :type="child.linkType ?? 'internal'"
                   :href="child.href"
                   class="dropdown-item"
                   :class="{ active: isActive(child.href) }"

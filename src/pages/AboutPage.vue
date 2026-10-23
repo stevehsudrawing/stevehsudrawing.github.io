@@ -3,7 +3,7 @@
   Previously static content in about.html's <main id="page-content">.
 -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import CopyButton from "../components/buttons/CopyButton.vue";
 import LinkCardGroups from "../components/cards/LinkCardGroups.vue";
 import MaterialSymbol from "../components/icons/MaterialSymbol.vue";
@@ -14,25 +14,30 @@ import SectionHeading from "../components/ui/SectionHeading.vue";
 import SequenceStatusBar from "../components/ui/SequenceStatusBar.vue";
 import StickerSection from "../components/ui/StickerSection.vue";
 import { useLinkCards } from "../composables/content/useLinkCards";
+import { useI18n } from "../composables/core/useI18n";
 import { useMajorColorSequence } from "../composables/core/useMajorColorSequence";
 import { useStickerModal } from "../composables/modals/useStickerModal";
 import { usePictureRegistry } from "../composables/pictures/usePictureRegistry";
+import { ARTICLES_CHARACTER_STORY } from "../configs/sub-sites";
 
-// Picture registry — resolves the hero cover props.
+// =========================================================================
+// State
+// =========================================================================
+
+const { locale } = useI18n();
 const { pictureProps } = usePictureRegistry();
-
-// =========================================================================
-// Link cards
-// =========================================================================
-
 const { groups, pagePath } = useLinkCards(ref("about"));
-
-// =========================================================================
-// Major-color buttons
-// =========================================================================
-
 const { openStickerModal } = useStickerModal();
 const majorColorSequence = useMajorColorSequence();
+
+/** The character-story article lives on the articles sub-site (per language). */
+const worldviewArticleHref = computed(
+  () => ARTICLES_CHARACTER_STORY[locale.value],
+);
+
+// =========================================================================
+// Actions
+// =========================================================================
 
 /**
  * Record a click on a major-color button (copying still happens via the
@@ -144,8 +149,8 @@ function onMajorColorClick(event: Event): void {
             <td>
               <span v-html="$t('html-profile-7')"></span>
               <TypeAwareLink
-                type="internal"
-                href="/worldview.html"
+                type="static"
+                :href="worldviewArticleHref"
                 class="link"
               >
                 <span>{{ $t("text-learn-more") }}</span>

@@ -4,9 +4,14 @@
   handling based on type:
 
     external  -> openExternalLinkConfirmModal() (useExternalLinkConfirmModal)
+    static    -> native full-page navigation, no interception (a same-origin
+                 page outside the SPA, e.g. a sub-site)
     internal  -> router.push(href)   (Vue Router SPA navigation)
     email     -> native <a href="mailto:..."> behavior
     anchor    -> smooth-scroll to #hash target
+
+  The arrow_outward indicator marks every link that leaves the main
+  site / SPA — both `external` and `static`.
 
   Carries the .link class for the sweeping hover underline (base.css:
   grows from the left, retreats toward the right on leave) unless
@@ -37,9 +42,11 @@ const { openExternalLinkConfirmModal } = useExternalLinkConfirmModal();
 // State
 // =========================================================================
 
-/** Show ↗ arrow icon for external links (unless hidden). */
-const showExternalIcon = computed(
-  () => props.type === "external" && !props.hideIndicator,
+/** Show ↗ arrow icon for links that leave the main site / SPA. */
+const showOutboundIcon = computed(
+  () =>
+    (props.type === "external" || props.type === "static") &&
+    !props.hideIndicator,
 );
 
 /** Show ✉ envelope icon for email links (unless hidden). */
@@ -79,6 +86,7 @@ function onClick(e: MouseEvent): void {
       hideQR,
     });
   }
+  // static: native full-page navigation (no interception)
   // email: native browser behavior
 }
 </script>
@@ -89,6 +97,7 @@ function onClick(e: MouseEvent): void {
     :class="{
       link: !noUnderline,
       'external-link': type === 'external',
+      'static-link': type === 'static',
       'internal-link': type === 'internal',
     }"
     :target="type === 'external' ? '_blank' : undefined"
@@ -98,7 +107,7 @@ function onClick(e: MouseEvent): void {
   >
     <slot />
     <MaterialSymbol
-      v-if="showExternalIcon"
+      v-if="showOutboundIcon"
       name="arrow_outward"
       class="link-indicator"
     />

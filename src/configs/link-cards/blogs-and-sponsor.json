@@ -21,6 +21,37 @@
     },
     "contents": [
       {
+        "id": "steve-hsu-s-articles",
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/articles.webp"
+          }
+        },
+        "titleLink": {
+          "type": "static",
+          "href": "/articles/index.html"
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-steve-hsu-s-articles-description"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Personal blog sub-site"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
         "id": "patreon-quanto-series",
         "icon": {
           "type": "colored-img",

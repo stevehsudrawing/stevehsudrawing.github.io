@@ -210,6 +210,21 @@
     "groupId": "blogs-and-sponsor",
     "buttons": [
       {
+        "id": "steve-hsu-s-articles",
+        "link": {
+          "type": "static",
+          "href": "/articles/index.html"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/articles.webp"
+          }
+        },
+        "primary": true,
+        "sameAs": true
+      },
+      {
         "id": "patreon-quanto-series",
         "link": {
           "type": "external",

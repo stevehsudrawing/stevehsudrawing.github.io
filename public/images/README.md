@@ -20,7 +20,7 @@ matches within one path segment) and are relative to this `images/` folder.
 | `**/banner.*`                                  | Website preview banner                                         |
 | `**/covers/artworks-*.*`                       | Cover images for the Artworks & Videos page                    |
 | `**/covers/illustration-*.*`                   | Illustrations as cover images for the homepage                 |
-| `**/covers/worldview-*.*`                      | Cover image for the Worldview page                             |
+| `**/covers/worldview-*.*`                      | Cover images for the character-story article                   |
 | `**/favicons/**`                               | Website icon                                                   |
 | `**/icons/steve-hsu.*`                         | My personal signature                                          |
 | `**/icons/sticker-collection-series-*-vol-*.*` | Icons for individual sticker collection volumes                |

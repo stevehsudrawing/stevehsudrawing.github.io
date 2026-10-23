@@ -268,7 +268,7 @@ function generatePageMarkdown(pageName: string, meta: PageMetaEntry): string {
 }
 
 /**
- * Markdown snapshot for a markdown-source page (worldview / copyright-notice):
+ * Markdown snapshot for a markdown-source page (copyright-notice):
  * the raw English source with its leading comments + H1 replaced by the
  * standard page header.
  * @param sourcePath - Path to the raw markdown source (relative to cwd).
@@ -314,12 +314,7 @@ export function llmsTxtPlugin(): Plugin {
         if (meta.tier !== "full") continue;
 
         let md: string;
-        if (pageName === "worldview") {
-          md = generateSourcePageMarkdown(
-            "src/configs/i18n/en/worldview.md",
-            meta,
-          );
-        } else if (pageName === "copyright-notice") {
+        if (pageName === "copyright-notice") {
           md = generateSourcePageMarkdown("public/images/README.md", meta);
         } else {
           md = generatePageMarkdown(pageName, meta);

@@ -58,7 +58,7 @@ watch(
       >
         <TypeAwareLink
           v-if="item.type === 'link'"
-          type="internal"
+          :type="item.linkType ?? 'internal'"
           :href="item.href"
           class="nav-link"
           :class="{
@@ -79,7 +79,7 @@ watch(
           <ul class="list-unstyled offcanvas-nav-group">
             <li v-for="child in item.children" :key="child.href">
               <TypeAwareLink
-                type="internal"
+                :type="child.linkType ?? 'internal'"
                 :href="child.href"
                 class="nav-link"
                 :class="{

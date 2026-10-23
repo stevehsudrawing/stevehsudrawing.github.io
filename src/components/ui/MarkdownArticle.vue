@@ -13,7 +13,8 @@
   Props:
     content      - Raw markdown string (required)
     scrollOffset - Scroll offset for heading clicks, desktop (default 64)
-    pagePath     - Page path for heading copy-link URLs (e.g. "/worldview.html")
+    pagePath     - Page path for heading copy-link URLs
+                   (e.g. "/copyright-notice.html")
 -->
 <script setup lang="ts">
 import { BCol, BRow } from "bootstrap-vue-next";
@@ -47,7 +48,10 @@ const props = withDefaults(
     content: string;
     /** Scroll offset from top for desktop heading clicks. */
     scrollOffset?: number;
-    /** Page path for heading copy-link URLs (e.g. "/worldview.html"). */
+    /**
+     * Page path for heading copy-link URLs
+     * (e.g. "/copyright-notice.html").
+     */
     pagePath?: string;
   }>(),
   {

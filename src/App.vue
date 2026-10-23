@@ -176,7 +176,7 @@ watch(
 // ---- Sync ?lang= query changes to the active language ----
 
 /**
- * Internal links that change only the language (e.g. the worldview page's
+ * Internal links that change only the language (e.g. the copyright page's
  * cross-language links) navigate without a page reload.  Apply the new
  * `?lang=` instead of leaving the URL and the active language out of sync.
  * The dropdown path is unaffected (setLocale writes the URL via

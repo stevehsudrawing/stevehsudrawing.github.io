@@ -1,178 +1,5 @@
 [
   {
-    "id": "quanto-series",
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "element",
-          "tagName": "span",
-          "properties": {
-            "dataI18n": "text-quanto-series-description"
-          },
-          "children": [
-            {
-              "type": "text",
-              "value": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter."
-            }
-          ]
-        }
-      ]
-    },
-    "contents": [
-      {
-        "id": "quanto-ult",
-        "icon": {
-          "type": "picture",
-          "imgProps": {
-            "src": "/images/webp/icons/quanto-ult.webp"
-          }
-        },
-        "titleLink": {
-          "type": "external",
-          "href": "https://github.com/stevehsudrawing/QuantoUlt"
-        },
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-name"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Name"
-                }
-              ]
-            },
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": ": QuantoUlt | "
-                }
-              ]
-            },
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-coming-soon"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Coming soon"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "quanto-flx",
-        "icon": {
-          "type": "picture",
-          "imgProps": {
-            "src": "/images/webp/icons/quanto-flx.webp"
-          }
-        },
-        "titleLink": {
-          "type": "external",
-          "href": "https://github.com/stevehsudrawing/quantoflx"
-        },
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-name"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Name"
-                }
-              ]
-            },
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": ": quantoflx"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "quanto-original",
-        "icon": {
-          "type": "colored-img",
-          "imgProps": {
-            "src": "/images/webp/icons/github.webp",
-            "colorVar": "bs-body-color"
-          }
-        },
-        "titleLink": {
-          "type": "external",
-          "href": "https://github.com/stevehsudrawing/quanto"
-        },
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-name"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Name"
-                }
-              ]
-            },
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": ": quanto | "
-                }
-              ]
-            },
-            {
-              "type": "element",
-              "tagName": "span",
-              "properties": {
-                "dataI18n": "text-archived"
-              },
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Archived"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
     "id": "npm-packages",
     "description": {
       "type": "root",
@@ -267,8 +94,7 @@
               "type": "element",
               "tagName": "a",
               "properties": {
-                "href": "https://stevehsudrawing.github.io/skinview3d-etf/",
-                "className": ["external-link"]
+                "href": "/skinview3d-etf/"
               },
               "children": [
                 {
@@ -324,6 +150,192 @@
                 {
                   "type": "text",
                   "value": ": etf-skin-decoder"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "quanto-series",
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "element",
+          "tagName": "span",
+          "properties": {
+            "dataI18n": "text-quanto-series-description"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "Quanto Series is a collaboration of open source projects named starting with Quanto, which are desktop customization tools based on Rainmeter."
+            }
+          ]
+        }
+      ]
+    },
+    "contents": [
+      {
+        "id": "quanto-ult",
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/quanto-ult.webp"
+          }
+        },
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/QuantoUlt"
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-name"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Name"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": ": QuantoUlt | "
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-archived"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Archived"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "quanto-flx",
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/quanto-flx.webp"
+          }
+        },
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/quantoflx"
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-name"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Name"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": ": quantoflx | "
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-archived"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Archived"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "quanto-original",
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/github.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
+        "titleLink": {
+          "type": "external",
+          "href": "https://github.com/stevehsudrawing/quanto"
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-name"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Name"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": ": quanto | "
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-archived"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Archived"
                 }
               ]
             }

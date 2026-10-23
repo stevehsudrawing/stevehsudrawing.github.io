@@ -381,14 +381,16 @@ export interface StickerProps {
 // Navbar item types (shared by AppNavbar and OffcanvasNav)
 // -------------------------------------------------------------------------
 
-/** A direct internal navbar link. */
+/** A direct navbar link (`internal` SPA navigation unless `linkType` says otherwise). */
 export interface NavLinkItem {
   type: "link";
   href: string;
   i18nKey: string;
+  /** Link type — defaults to `internal`; a sub-site entry uses `static`. */
+  linkType?: TypeAwareLinkProps["type"];
 }
 
-/** A navbar dropdown grouping internal page links (single level). */
+/** A navbar dropdown grouping navbar links (single level). */
 export interface NavDropdownItem {
   type: "dropdown";
   i18nKey: string;
@@ -407,7 +409,7 @@ export interface TypeAwareLinkProps {
   /** Target URL. */
   href: string;
   /** Link type — determines click behavior. */
-  type: "external" | "internal" | "email" | "anchor";
+  type: "external" | "internal" | "email" | "anchor" | "static";
   /** Optional icon for the ExternalLinkConfirmModal (external links). */
   icon?: TypeAwareImageProps | null;
   /** Hide the QR-code button in ExternalLinkConfirmModal. */

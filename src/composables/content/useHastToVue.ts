@@ -7,6 +7,8 @@
  * pipeline.
  */
 
+import { INTERNAL_PAGES } from "../../configs/pages";
+import { normalizeInternalPath } from "../../core/utils";
 import type {
   ColoredImgProps,
   FeatureAwarePictureProps,
@@ -22,7 +24,7 @@ import type { HastNode } from "../../types/hast";
 export interface ExtractedLinkProps {
   href: string;
   /** Link type — derived from className + href. */
-  type: "external" | "internal" | "email" | "anchor";
+  type: "external" | "internal" | "email" | "anchor" | "static";
   /** Plain-text content of the link (resolved i18n). */
   textContent: string;
 }
@@ -44,16 +46,24 @@ function parseFeatures(raw: string | undefined): ImgFeature[] {
 }
 
 /**
- * Whether an href points to an internal (same-site) page.
- * Scheme / protocol-relative URLs (`http:`, `https:`, `//host`, `mailto:`,
- * `tel:`, …) are external; everything else (root-relative `/...` or plain
- * relative paths, including query strings) resolves to the current origin
- * and is treated as an internal SPA link.
- * @param href - The raw href.
+ * Classify a scheme-less href as an SPA page (`internal`) or anything else
+ * that needs a full-page load (`static`).
+ *
+ * The page inventory (`INTERNAL_PAGES`) is the boundary: a `.html` file it
+ * lists stays in the SPA; every other target — a sub-site directory
+ * (`/articles/index.html`, `/skinview3d-etf/`), an asset, a non-page path —
+ * leaves the SPA.  A query-only href (`?lang=…`) stays on the current page.
+ *
+ * @param href - The raw href (never scheme-bearing, never a bare `#hash`).
+ * @returns `internal` or `static`.
  */
-function isInternalHref(href: string): boolean {
-  if (!href || href.startsWith("//")) return false;
-  return !/^[a-z][a-z0-9+.-]*:/i.test(href);
+function classifyRelativeHref(href: string): "internal" | "static" {
+  const path = href.split(/[?#]/)[0];
+  if (!path) return "internal";
+  const normalized = normalizeInternalPath(
+    path.startsWith("/") ? path : `/${path}`,
+  );
+  return INTERNAL_PAGES.includes(normalized) ? "internal" : "static";
 }
 
 // =========================================================================
@@ -119,7 +129,15 @@ export function extractColoredImgProps(
 
 /**
  * Extract props for TypeAwareLink from a HAST `<a>` node.
- * Determines the link type from `className` and `href`.
+ * Determines the link type from `className` and `href`, in this order:
+ *
+ *   1. `external-link` className → external
+ *   2. `static-link` className → static
+ *   3. `internal-link` className → internal
+ *   4. `#hash` → anchor; `mailto:` / `tel:` → email
+ *   5. any other scheme (`//host`, `http(s):`, …) → external
+ *   6. otherwise → resolved against the SPA page inventory
+ *      (see `classifyRelativeHref`)
  *
  * @param aNode - HAST element node with tagName "a".
  * @param t - Translation function for child `dataI18n` text.
@@ -133,25 +151,30 @@ export function extractLinkProps(
 
   const props = aNode.properties ?? {};
   const href = (props.href as string) ?? "";
-  const className = props.className;
+  const rawClassName = props.className;
+  const classNames = Array.isArray(rawClassName)
+    ? rawClassName
+    : typeof rawClassName === "string"
+      ? rawClassName.split(/\s+/)
+      : [];
 
   // — Determine link type --
-  let type: ExtractedLinkProps["type"] = "external";
+  let type: ExtractedLinkProps["type"];
 
-  if (href.startsWith("#")) {
+  if (classNames.includes("external-link")) {
+    type = "external";
+  } else if (classNames.includes("static-link")) {
+    type = "static";
+  } else if (classNames.includes("internal-link")) {
+    type = "internal";
+  } else if (href.startsWith("#")) {
     type = "anchor";
   } else if (href.startsWith("mailto:") || href.startsWith("tel:")) {
     type = "email";
-  } else if (
-    (Array.isArray(className) && className.includes("internal-link")) ||
-    (typeof className === "string" && className.includes("internal-link")) ||
-    // Root-relative / relative paths (e.g. `/worldview.html?lang=zh-Hans`)
-    // are internal SPA pages.  Link-card configs annotate them with an
-    // `internal-link` class; markdown-produced links carry no such class,
-    // so classify them here.
-    isInternalHref(href)
-  ) {
-    type = "internal";
+  } else if (href.startsWith("//") || /^[a-z][a-z0-9+.-]*:/i.test(href)) {
+    type = "external";
+  } else {
+    type = classifyRelativeHref(href);
   }
 
   // — Extract plain-text content (resolve dataI18n on child spans) --

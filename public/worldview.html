@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+
+    <!-- Primary SEO -->
+    <meta
+      name="description"
+      content="This article has moved to the Articles sub-site."
+    />
+    <meta name="author" content="Steve Hsu" />
+    <meta name="robots" content="noindex, follow" />
+
+    <!-- Browser UI -->
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>Worldview - Steve Hsu (什五)'s Link-Hub</title>
+
+    <!-- Icons -->
+    <link
+      rel="icon"
+      href="/images/svg/favicons/general.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="icon"
+      href="/images/png/favicons/general.png"
+      type="image/png"
+      sizes="96x96"
+    />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/images/png/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="mask-icon"
+      href="/images/svg/favicons/safari-pinned-tab.svg"
+      color="#212529"
+    />
+
+    <link rel="stylesheet" href="/legacy/base.css" />
+
+    <!--
+      The article now lives on the separate "articles" sub-site (another
+      repository, same origin).  A `?lang=` of one of the three site languages
+      picks that language's article; otherwise the meta refresh below lands on
+      the sub-site index.  `replace()` keeps the back history free of this
+      shim.
+    -->
+    <script>
+      (function () {
+        var lang = new URLSearchParams(location.search).get("lang");
+        if (lang === "en" || lang === "zh-Hans" || lang === "zh-Hant") {
+          location.replace(
+            "/articles/" + lang.toLowerCase() + "/2026-07-15-character-story/",
+          );
+        }
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0; url=/articles/index.html" />
+  </head>
+
+  <body>
+    <main id="page-content" class="container">
+      <div class="centered-container">
+        <picture>
+          <source
+            type="image/avif"
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/avif/stickers/dark/offering-tea.avif"
+          />
+          <source
+            type="image/avif"
+            srcset="/images/avif/stickers/light/offering-tea.avif"
+          />
+          <source
+            type="image/webp"
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/webp/stickers/dark/offering-tea.webp"
+          />
+          <source
+            type="image/webp"
+            srcset="/images/webp/stickers/light/offering-tea.webp"
+          />
+          <source
+            type="image/png"
+            media="(prefers-color-scheme: dark)"
+            srcset="/images/png/stickers/dark/offering-tea.png"
+          />
+          <img
+            alt="A sticker of Kato offering a cup of tea."
+            src="/images/png/stickers/light/offering-tea.png"
+            width="150"
+            height="150"
+            class="no-copy"
+          />
+        </picture>
+        <h1 class="h3">Worldview</h1>
+        <div class="notice-container">
+          <p>This article has moved to the Articles sub-site.</p>
+          <p class="opacity-75">
+            Redirecting&hellip; If nothing happens, open it manually.
+          </p>
+        </div>
+        <a class="btn btn-primary internal-link" href="/articles/index.html"
+          >Go to Articles</a
+        >
+      </div>
+    </main>
+
+    <footer class="container">
+      <div class="d-flex gap-1 footer align-items-center">
+        <div class="flex-grow-1 d-flex gap-1 align-items-center flex-wrap">
+          <div class="flex-grow-1">
+            <b>Steve Hsu (什五)'s Link-Hub</b>
+          </div>
+          <div>
+            Copyright &copy; 2024 - 2026&nbsp;<a
+              class="external-link"
+              href="https://github.com/stevehsudrawing"
+              >Steve Hsu</a
+            >. All rights reserved.
+          </div>
+        </div>
+        <div class="d-flex align-items-center ps-2">
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              srcset="/images/png/favicons/mono-white.png"
+            />
+            <img
+              alt="Steve Hsu (什五)"
+              src="/images/png/favicons/mono-black.png"
+              width="30"
+              height="30"
+            />
+          </picture>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
