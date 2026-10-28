@@ -15,8 +15,9 @@
  *      (the offline state is a client condition, not an HTTP claim).
  *   3. Hashed build assets under /assets/** are cache-first.
  *
- * Everything else (image subresources, external requests, non-GET
- * methods) passes straight through — the worker never interferes with
+ * Everything else passes straight through — the /articles/ sub-site
+ * (another repository, same origin), image subresources, external
+ * requests and non-GET methods.  The worker never interferes with
  * normal loading.  Without an installed worker the site is unchanged:
  * the block and the offline support are strictly progressive
  * enhancements.
@@ -25,7 +26,7 @@
  * assets (stale `shlh-*` caches are deleted on activate).
  */
 
-const CACHE_VERSION = "3.23.0";
+const CACHE_VERSION = "3.23.1";
 const HTML_CACHE = `shlh-html-${CACHE_VERSION}`;
 const STATIC_CACHE = `shlh-static-${CACHE_VERSION}`;
 
@@ -117,7 +118,16 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // 1. Direct tab navigation into a protected /images/** path → 403.
+  // 1. The /articles/ sub-site is a separate application with its own
+  //    deploy cadence — hand it back to the network untouched.  Caching
+  //    its HTML under this worker's version would tie two release
+  //    schedules together, and the offline fallback below is this site's
+  //    error page, not the sub-site's.
+  if (url.pathname === "/articles" || url.pathname.startsWith("/articles/")) {
+    return;
+  }
+
+  // 2. Direct tab navigation into a protected /images/** path → 403.
   if (
     request.mode === "navigate" &&
     url.pathname.startsWith("/images/") &&
@@ -128,19 +138,19 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 2. Other tab navigations → network-first with an offline fallback.
+  // 3. Other tab navigations → network-first with an offline fallback.
   if (request.mode === "navigate") {
     event.respondWith(navigationResponse(request, url.pathname));
     return;
   }
 
-  // 3. Hashed build assets → cache-first.
+  // 4. Hashed build assets → cache-first.
   if (url.pathname.startsWith("/assets/")) {
     event.respondWith(assetResponse(request));
     return;
   }
 
-  // 4. Everything else (same-origin GET): a known cached file — the
+  // 5. Everything else (same-origin GET): a known cached file — the
   //    precache closure — answers from the static cache, everything
   //    else goes to the network.  Images are never stored, so they
   //    fall through to the network as before.

@@ -213,7 +213,7 @@
         "id": "steve-hsu-s-articles",
         "link": {
           "type": "static",
-          "href": "/articles/index.html"
+          "href": "/articles/"
         },
         "icon": {
           "type": "picture",

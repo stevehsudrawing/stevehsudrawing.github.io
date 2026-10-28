@@ -7,14 +7,25 @@
  * SPA router does not own their routes), so links to them use the `static`
  * type and navigate as full page loads.
  *
- * `public/worldview.html` repeats these paths in an inline script — a static
- * file cannot import TS, so keep the two in sync.
+ * The sub-site builds with `base: "/articles"` and `trailingSlash: "always"`,
+ * so its canonical URLs end in a slash — link the directory form.
+ *
+ * Three files cannot import this module and therefore repeat the root:
+ * `public/worldview.html` (a static page), `configs/link-cards/
+ * blogs-and-sponsor.json` and `configs/link-button-groups/index.json`
+ * (data).  Keep them in step by hand.
  */
 
-import type { Lang } from "../types/app";
+import type { Lang } from "../types/app.ts";
 
-/** Root of the articles sub-site. */
-export const ARTICLES_SUB_SITE_ROOT = "/articles/index.html";
+/** Root of the articles sub-site (directory form — the canonical URL). */
+export const ARTICLES_SUB_SITE_ROOT = "/articles/";
+
+/** The sub-site's agent-readable inventory (`llms.txt`). */
+export const ARTICLES_SUB_SITE_LLMS_TXT = `${ARTICLES_SUB_SITE_ROOT}llms.txt`;
+
+/** The sub-site's sitemap (declared by `public/robots.txt`). */
+export const ARTICLES_SUB_SITE_SITEMAP = `${ARTICLES_SUB_SITE_ROOT}sitemap.xml`;
 
 /** The character-story article, keyed by language (sub-site language folders are lowercase). */
 export const ARTICLES_CHARACTER_STORY: Record<Lang, string> = {

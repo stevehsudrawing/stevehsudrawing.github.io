@@ -30,7 +30,7 @@
         },
         "titleLink": {
           "type": "static",
-          "href": "/articles/index.html"
+          "href": "/articles/"
         },
         "description": {
           "type": "root",

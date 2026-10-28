@@ -16,6 +16,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
+import {
+  ARTICLES_SUB_SITE_LLMS_TXT,
+  ARTICLES_SUB_SITE_ROOT,
+  ARTICLES_SUB_SITE_SITEMAP,
+} from "../src/configs/sub-sites.ts";
 import { BASE_URL, SITE_NAME } from "../src/configs/site-meta.ts";
 import { extractPlainText } from "../src/core/utils.ts";
 import {
@@ -60,8 +65,20 @@ const LLMS_TXT_INTRO = `# ${SITE_NAME}
 > GitHub Pages. Supports English, Simplified Chinese (zh-Hans), and Traditional
 > Chinese (zh-Hant).
 
-Each page has a clean markdown version at the same URL with \`.md\` appended
-(e.g. \`/about.html.md\`), announced via \`rel="alternate" type="text/markdown"\`.`;
+Each page of this site has a clean markdown version at the same URL with \`.md\`
+appended (e.g. \`/about.html.md\`), announced via
+\`rel="alternate" type="text/markdown"\`.`;
+
+/**
+ * Sub-site section — nested discovery, not enumeration.
+ *
+ * The articles live in another repository, so listing them here would be a
+ * second source of truth that drifts on every publish.  The sub-site owns its
+ * own inventory and sitemap; this file only points at them.
+ */
+const LLMS_TXT_SUB_SITES = `## Sub-sites
+
+- [Steve Hsu (什五)'s Articles](${BASE_URL}${ARTICLES_SUB_SITE_ROOT}): Personal blog sub-site, published from a separate repository under the same origin. Articles are available in English, Simplified Chinese and Traditional Chinese. Its agent-readable inventory is [/articles/llms.txt](${BASE_URL}${ARTICLES_SUB_SITE_LLMS_TXT}) and its URL list is [/articles/sitemap.xml](${BASE_URL}${ARTICLES_SUB_SITE_SITEMAP}).`;
 
 /** Static Project / Optional sections for the generated llms.txt. */
 const LLMS_TXT_STATIC_SECTIONS = `## Project
@@ -73,7 +90,9 @@ const LLMS_TXT_STATIC_SECTIONS = `## Project
 ## Optional
 
 - Original artworks under \`/images/\` are copyright-protected and blocked from
-  AI/ML crawlers via \`/robots.txt\`; see \`/images/llms.txt\`.
+  AI/ML crawlers via \`/robots.txt\`; see \`/images/llms.txt\`. The same applies to
+  the sub-site's \`/articles/images/\`, \`/articles/_astro/\` and
+  \`/articles/favicons/\`.
 - [llms.txt specification](https://llmstxt.org/index.md): The format this file follows.`;
 
 /**
@@ -108,6 +127,8 @@ function generateLlmsTxt(): string {
     LLMS_TXT_INTRO,
     "",
     corePagesSection(),
+    "",
+    LLMS_TXT_SUB_SITES,
     "",
     LLMS_TXT_STATIC_SECTIONS,
     "",

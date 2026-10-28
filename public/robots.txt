@@ -1,12 +1,17 @@
 # -----------------------------------------------------------------------
-# This robots.txt protects original artworks under /images/ from being
-# crawled by AI/ML training bots, while allowing legitimate search
-# engines to index the site normally.
+# This is the origin's ONLY crawl policy: it also governs the /articles/
+# sub-site, which is published from a separate repository.  A robots.txt
+# inside that repository would be ignored - robots.txt is read from the
+# origin root only.
+#
+# It protects original artworks under /images/ and the sub-site's asset
+# directories from being crawled by AI/ML training bots, while allowing
+# legitimate search engines to index the site normally.
 #
 # See: /images/README.md for the full copyright declaration.
 # -----------------------------------------------------------------------
 
-# — AI / Machine-learning crawlers (blocked from /images/) --
+# — AI / Machine-learning crawlers (blocked from the artwork paths) --
 # The list is from https://github.com/ai-robots-txt/ai.robots.txt
 
 User-agent: AddSearchBot
@@ -169,9 +174,15 @@ User-agent: YandexAdditionalBot
 User-agent: YouBot
 User-agent: ZanistaBot
 Disallow: /images/
+Disallow: /articles/images/
+Disallow: /articles/_astro/
+Disallow: /articles/favicons/
 
 # — Everyone else: full access --
 User-agent: *
 Allow: /
 
 Sitemap: https://stevehsudrawing.github.io/sitemap.xml
+# Owned by the articles repository - a missing file is a non-error for
+# crawlers, and this line is the only way its sitemap gets discovered.
+Sitemap: https://stevehsudrawing.github.io/articles/sitemap.xml
