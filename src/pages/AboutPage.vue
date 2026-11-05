@@ -31,7 +31,7 @@ const { openStickerModal } = useStickerModal();
 const majorColorSequence = useMajorColorSequence();
 
 /** The character-story article lives on the articles sub-site (per language). */
-const worldviewArticleHref = computed(
+const characterStoryHref = computed(
   () => ARTICLES_CHARACTER_STORY[locale.value],
 );
 
@@ -150,7 +150,7 @@ function onMajorColorClick(event: Event): void {
               <span v-html="$t('html-profile-7')"></span>
               <TypeAwareLink
                 type="static"
-                :href="worldviewArticleHref"
+                :href="characterStoryHref"
                 class="link"
               >
                 <span>{{ $t("text-learn-more") }}</span>

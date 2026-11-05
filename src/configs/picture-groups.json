@@ -40,15 +40,7 @@
     },
     "aspectRatio": 1,
     "pages": ["gallery"],
-    "contents": [
-      "artworks",
-      "illustration-1",
-      "blogs",
-      "chatting",
-      "projects",
-      "worldview-0",
-      "worldview-1"
-    ]
+    "contents": ["artworks", "illustration-1", "blogs", "chatting", "projects"]
   },
   {
     "id": "sticker-collections",

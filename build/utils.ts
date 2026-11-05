@@ -8,17 +8,8 @@ import { join, extname } from "node:path";
 import type { PageName } from "./types.ts";
 
 // ---------------------------------------------------------------------------
-// HAST utilities
+// Page helpers
 // ---------------------------------------------------------------------------
-
-/**
- * Deep-clone a HAST node via JSON round-trip.
- * @param node - The HAST node to clone.
- * @returns A deep copy of the node, independent of the original.
- */
-export function cloneNode<T>(node: T): T {
-  return JSON.parse(JSON.stringify(node)) as T;
-}
 
 /**
  * Extract the page name from a Vite ctx.filename (absolute path).
