@@ -22,11 +22,12 @@
  * the block and the offline support are strictly progressive
  * enhancements.
  *
- * CACHE_VERSION: bump alongside every release that changes hashed
- * assets (stale `shlh-*` caches are deleted on activate).
+ * CACHE_VERSION: the release's date version (`yyyy.MM.dd.NN`), bumped only
+ * when a release changes hashed assets or this worker's logic — stale
+ * `shlh-*` caches are deleted on activate.
  */
 
-const CACHE_VERSION = "3.23.1";
+const CACHE_VERSION = "2026.11.18.01";
 const HTML_CACHE = `shlh-html-${CACHE_VERSION}`;
 const STATIC_CACHE = `shlh-static-${CACHE_VERSION}`;
 
