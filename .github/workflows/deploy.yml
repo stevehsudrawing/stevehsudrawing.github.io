@@ -36,7 +36,7 @@ jobs:
         run: pnpm approve-builds vue-demi@0.14.10 || true
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm run build

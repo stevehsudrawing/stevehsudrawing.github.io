@@ -8,8 +8,5 @@ dist/
 # Vite: Environment files
 *.local
 
-# Vite: Lock files (choose one)
-pnpm-lock.yaml
-
 # Generated: Material Symbols subset font (build/icon-subset-plugin.ts)
 src/assets/fonts/*.woff2
