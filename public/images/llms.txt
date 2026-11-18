@@ -2,7 +2,7 @@
 
 > Original artworks by Steve Hsu (什五) under `/images/`. All files are
 > copyright-protected: do NOT crawl, download, reproduce, or use them as
-> AI/ML training data. See the [full copyright notice](https://stevehsudrawing.github.io/images/README.md) for the license terms.
+> AI/ML training data. See the [full copyright notice](https://stevehsu.link/images/README.md) for the license terms.
 
 This directory contains original artwork files (banner, covers, favicons,
 icons, posters, stickers, splash screens) used by the site. They are NOT
@@ -25,10 +25,12 @@ public-domain unless explicitly licensed.
   - `*/icons/quanto-*.*`
   - `*/icons/quantum.*`
   - `*/icons/sawtooth.*`
+- Off-site hotlinking is blocked at the edge; licensed reuse by download is
+  unaffected.
 - All works carry invisible digital watermarks for traceability.
 - `/images/` is additionally blocked from AI/ML crawlers via `/robots.txt`.
 
 ## References
 
-- [Full copyright notice (README.md)](https://stevehsudrawing.github.io/images/README.md):
+- [Full copyright notice (README.md)](https://stevehsu.link/images/README.md):
   License tiers, prohibited uses, and contact info.

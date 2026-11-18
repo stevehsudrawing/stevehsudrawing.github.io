@@ -7,8 +7,9 @@
  *      403 page (`/403.html`) — the protected set is the glob list in
  *      `BLOCK_PATTERNS`, injected at build / dev-serve time from
  *      `public/images/README.md` by `build/sw-scope-plugin.ts` (the
- *      copy-protection feature; a real edge rule would need a hosting
- *      layer).  The two notice files stay reachable.
+ *      copy-protection feature; the edge rejects off-site hotlinks, this
+ *      worker answers the browser's own navigations).  The two notice
+ *      files stay reachable.
  *   2. Other tab navigations are network-first: the fresh HTML is
  *      cached per pathname, an offline request falls back to that
  *      cache — then to `error-offline.html`, served plainly as 200

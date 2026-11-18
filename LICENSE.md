@@ -3,11 +3,11 @@
 Copyright (c) 2024-2026 Steve Hsu (什五). All rights reserved.
 
 This repository is **source-available, not open source**. It is published
-publicly as a reference for the live website at
-<https://stevehsudrawing.github.io>. Except for the permission expressly granted
-in [§3](#3-permitted-use), no license or permission of any kind is granted to
-use, copy, modify, adapt, publish, distribute, sublicense, sell, or deploy any
-part of this repository. All rights are reserved.
+publicly as a reference for the live website at <https://stevehsu.link>. Except
+for the permission expressly granted in [§3](#3-permitted-use), no license or
+permission of any kind is granted to use, copy, modify, adapt, publish,
+distribute, sublicense, sell, or deploy any part of this repository. All rights
+are reserved.
 
 ## 1. Scope
 

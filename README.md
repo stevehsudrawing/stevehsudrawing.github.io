@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://stevehsudrawing.github.io">
+  <a href="https://stevehsu.link">
     <picture>
       <source
         srcset="public/images/png/favicons/general.png"

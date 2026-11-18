@@ -251,7 +251,7 @@ Disallow: /articles/_astro/*.gif$
 User-agent: *
 Allow: /
 
-Sitemap: https://stevehsudrawing.github.io/sitemap.xml
+Sitemap: %SITE_ORIGIN%/sitemap.xml
 # Owned by the articles repository - a missing file is a non-error for
 # crawlers, and this line is the only way its sitemap gets discovered.
-Sitemap: https://stevehsudrawing.github.io/articles/sitemap.xml
+Sitemap: %SITE_ORIGIN%/articles/sitemap.xml

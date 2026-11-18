@@ -4,7 +4,7 @@
  */
 
 /** Canonical base URL of the deployed site (for copy-link generation). */
-export const BASE_URL = "https://stevehsudrawing.github.io";
+export const BASE_URL = "https://stevehsu.link";
 
 /** Site name used in <title> fallbacks and share text. */
 export const SITE_NAME = "Steve Hsu (什五)'s Link-Hub";

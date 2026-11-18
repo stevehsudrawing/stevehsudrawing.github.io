@@ -70,6 +70,11 @@ Under the following terms:
   license, and indicate if changes were made.
 - **NonCommercial** - You may not use the material for commercial purposes.
 
+For on-site display, the `/images/` paths are also behind a server-side referer
+check at the hosting edge. That check is a display policy only, and it does not
+change the license terms above: a lawful download of a CC-licensed work is
+unaffected.
+
 ### 1.3 Other Files
 
 Any file **not** listed above - including but not limited to brand logos,
@@ -93,4 +98,4 @@ above, or have questions about the CC-licensed works
 ([§1.2](#12-open-licensed-works---cc-by-nc-40)), please contact me through my
 email address
 ([stevehsudrawing@outlook.com](mailto:stevehsudrawing@outlook.com)) or other
-platform links listed in [my Link-Hub](https://stevehsudrawing.github.io).
+platform links listed in [my Link-Hub](https://stevehsu.link).

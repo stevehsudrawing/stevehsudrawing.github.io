@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
 import { contentInjectionPlugin } from "./build/content-injection-plugin.ts";
+import { domainInjectionPlugin } from "./build/domain-injection-plugin.ts";
 import { headTagsPlugin } from "./build/head-tags-plugin.ts";
 import { iconSubsetPlugin } from "./build/icon-subset-plugin.ts";
 import { llmsTxtPlugin } from "./build/llms-txt-plugin.ts";
@@ -26,6 +27,7 @@ export default defineConfig({
       directives: true,
     }),
     contentInjectionPlugin(),
+    domainInjectionPlugin(),
     headTagsPlugin(),
     iconSubsetPlugin(),
     minifyPlugin(),
