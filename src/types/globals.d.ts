@@ -13,7 +13,6 @@ import type { toHtml as ToHtmlFn } from "hast-util-to-html";
 
 declare global {
   interface Window {
-    bootstrap: typeof import("bootstrap");
     htmlToImage: Record<string, unknown>;
     html2canvas: (
       element: HTMLElement,
