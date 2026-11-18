@@ -17,7 +17,7 @@ import { useGesture } from "../../composables/core/useGesture";
 import { useI18n } from "../../composables/core/useI18n";
 import { useTheme } from "../../composables/core/useTheme";
 import { useSettingsModal } from "../../composables/modals/useSettingsModal";
-import { extractPageName, normalizeInternalPath } from "../../core/utils";
+import { normalizeInternalPath } from "../../core/utils";
 import type { NavDropdownItem, NavItem } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
@@ -136,10 +136,18 @@ const brandProgress = computed(() =>
   Math.min(Math.max(scrollY.value / 256, 0), 1),
 );
 
-/** Page name for mobile brand slide. */
-const pageI18nKey = computed(
-  () => "text-" + extractPageName(props.currentPage),
-);
+/**
+ * I18n key for the mobile brand slide — the label of the nav item that
+ * points at the current page. Reusing the nav label keeps the two in sync:
+ * the homepage's nav key is `text-home`, so deriving it from the page name
+ * (`text-index`) would leave the brand blank.
+ */
+const pageI18nKey = computed(() => {
+  const links = navItems.flatMap((item) =>
+    item.type === "link" ? [item] : item.children,
+  );
+  return links.find((link) => isActive(link.href))?.i18nKey ?? "";
+});
 const pageName = computed(() => t(pageI18nKey.value));
 
 // -------------------------------------------------------------------------
