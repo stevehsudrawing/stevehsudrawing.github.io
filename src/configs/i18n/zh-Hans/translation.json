@@ -1,6 +1,4 @@
 {
-  "text-vue-js-site": "https://cn.vuejs.org/",
-
   "text-about-me-and-my-emails": "关于我与我的电子邮箱",
   "text-about": "关于",
   "text-afdian": "爱发电",
@@ -76,6 +74,7 @@
   "text-learn-more": "了解更多",
   "text-light": "浅色",
   "text-line-chart": "折线图",
+  "text-license": "许可协议",
   "text-link": "链接",
   "text-mihuashi": "米画师",
   "text-more-information": "更多信息",
@@ -192,8 +191,6 @@
   "text-available-on-part-2": "上可用",
   "text-copyright-part-1": "版权所有",
   "text-copyright-part-2": "。保留所有权利。",
-  "text-powered-by-part-1": "由 ",
-  "text-powered-by-part-2": "强力驱动。",
 
   "text-about-description": "通过此页面进一步了解我！",
   "text-animations-disabled-by-system-description": "您的系统设置已关闭动画。",

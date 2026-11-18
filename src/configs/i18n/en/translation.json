@@ -1,6 +1,4 @@
 {
-  "text-vue-js-site": "https://vuejs.org/",
-
   "text-about-me-and-my-emails": "About me & my emails",
   "text-about": "About",
   "text-afdian": "Afdian",
@@ -81,6 +79,7 @@
   "text-learn-more": "Learn More",
   "text-light": "Light",
   "text-line-chart": "Line chart",
+  "text-license": "License",
   "text-link": "Link",
   "text-lofter": "LOFTER",
   "text-medibang-art-street": "MediBang ART street",
@@ -212,8 +211,6 @@
   "text-available-on-part-2": ".",
   "text-copyright-part-1": "Copyright",
   "text-copyright-part-2": ". All rights reserved. ",
-  "text-powered-by-part-1": "Powered by ",
-  "text-powered-by-part-2": ".",
 
   "text-about-description": "Learn more about me through this page!",
   "text-animations-disabled-by-system-description": "Animations are disabled by your system settings.",

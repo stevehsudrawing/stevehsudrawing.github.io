@@ -1,5 +1,7 @@
 <!--
-  FooterNav.vue — site footer with copyright, external links, and QR share trigger.
+  FooterNav.vue — site footer in three groups: the copyright line, the
+  License / Artwork Copyright links, and the issue / changelog / share
+  icon rail.
 -->
 <script setup lang="ts">
 import { useChangelogModal } from "../../composables/modals/useChangelogModal";
@@ -30,6 +32,18 @@ const { openChangelogModal } = useChangelogModal();
             </TypeAwareLink>
           </TooltipTrigger>
           {{ $t("text-copyright-part-2") }}
+        </div>
+
+        <!-- ==== Licenses ==== -->
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <TypeAwareLink
+            type="external"
+            :href="`https://github.com/${GITHUB_REPO}/blob/main/LICENSE.md`"
+            class="link"
+            no-qr-code
+          >
+            {{ $t("text-license") }}
+          </TypeAwareLink>
           <TypeAwareLink
             type="internal"
             href="/copyright-notice.html"
@@ -39,37 +53,21 @@ const { openChangelogModal } = useChangelogModal();
           </TypeAwareLink>
         </div>
 
-        <!-- ==== Powered by ==== -->
-        <div>
-          <span>{{ $t("text-powered-by-part-1") }}</span>
-          <TypeAwareLink
-            href="https://vite.dev/"
-            type="external"
-            no-qr-code
-            class="link"
-            >Vite</TypeAwareLink
-          >
-          <span>{{ $t("text-and") }}</span>
-          <TypeAwareLink
-            :href="$t('text-vue-js-site')"
-            type="external"
-            no-qr-code
-            class="link"
-            >Vue.js</TypeAwareLink
-          >
-          <span>{{ $t("text-powered-by-part-2") }}</span>
-        </div>
-
         <!-- ==== Issue + Changelog + Share ==== -->
-        <div class="ms-auto">
-          <TypeAwareLink
-            class="text-nowrap me-2"
-            type="external"
-            :href="`https://github.com/${GITHUB_REPO}/issues`"
-            no-qr-code
-          >
-            {{ $t("text-report-an-issue") }}
-          </TypeAwareLink>
+        <div class="ms-auto d-flex align-items-center">
+          <TooltipTrigger :title="$t('text-report-an-issue')">
+            <TypeAwareLink
+              class="text-decoration-none me-2"
+              type="external"
+              :href="`https://github.com/${GITHUB_REPO}/issues`"
+              no-qr-code
+              hide-indicator
+              no-underline
+              :aria-label="$t('text-report-an-issue')"
+            >
+              <MaterialSymbol name="sms_failed" />
+            </TypeAwareLink>
+          </TooltipTrigger>
           <TooltipTrigger :title="$t('text-changelog')">
             <a
               role="button"

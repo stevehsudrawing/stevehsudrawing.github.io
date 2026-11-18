@@ -1,6 +1,4 @@
 {
-  "text-vue-js-site": "https://zh-hk.vuejs.org/",
-
   "text-about-me-and-my-emails": "關於我與我的電子郵箱",
   "text-about": "關於",
   "text-always-open-external-links-in-a-new-tab": "總是在新分頁中開啟外部連結",
@@ -74,6 +72,7 @@
   "text-learn-more": "瞭解更多",
   "text-light": "淺色",
   "text-line-chart": "折線圖",
+  "text-license": "授權協議",
   "text-link": "連結",
   "text-mihuashi": "米畫師",
   "text-more-information": "更多資訊",
@@ -185,8 +184,6 @@
   "text-available-on-part-2": "上可用",
   "text-copyright-part-1": "著作權所有",
   "text-copyright-part-2": "。保留所有權利。",
-  "text-powered-by-part-1": "由 ",
-  "text-powered-by-part-2": "強力驅動。",
 
   "text-about-description": "透過此頁面進一步瞭解我！",
   "text-animations-disabled-by-system-description": "您的系統設定已關閉動畫。",

@@ -64,6 +64,7 @@ export const ICON_NAMES = [
   "settings",
   "share",
   "show_chart",
+  "sms_failed",
   "square",
   "star",
   "sticker",
