@@ -32,20 +32,6 @@
         "sameAs": true
       },
       {
-        "id": "medibang-art-street",
-        "link": {
-          "type": "external",
-          "href": "https://medibang.com/u/stevehsu"
-        },
-        "icon": {
-          "type": "picture",
-          "imgProps": {
-            "src": "/images/webp/icons/medibang-art-street.webp"
-          }
-        },
-        "sameAs": true
-      },
-      {
         "id": "x",
         "link": {
           "type": "external",
@@ -56,6 +42,20 @@
           "imgProps": {
             "src": "/images/webp/icons/x-twitter.webp",
             "colorVar": "bs-body-color"
+          }
+        },
+        "sameAs": true
+      },
+      {
+        "id": "bluesky",
+        "link": {
+          "type": "external",
+          "href": "https://bsky.app/profile/stevehsu.link"
+        },
+        "icon": {
+          "type": "picture",
+          "imgProps": {
+            "src": "/images/webp/icons/bluesky.webp"
           }
         },
         "sameAs": true

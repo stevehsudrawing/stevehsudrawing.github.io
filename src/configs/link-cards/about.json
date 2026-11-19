@@ -4,6 +4,35 @@
     "description": null,
     "contents": [
       {
+        "id": "my-personal-email",
+        "icon": {
+          "type": "colored-img",
+          "imgProps": {
+            "src": "/images/webp/icons/email.webp",
+            "colorVar": "bs-body-color"
+          }
+        },
+        "titleLink": {
+          "type": "email",
+          "href": "mailto:stevehsudrawing@outlook.com"
+        },
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "stevehsudrawing@outlook.com | Steve Hsu / 什五"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
         "id": "quanto-series-team",
         "icon": {
           "type": "colored-img",
@@ -39,35 +68,6 @@
                 {
                   "type": "text",
                   "value": "Only topics about the Quanto Series are allowed"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "my-personal-email",
-        "icon": {
-          "type": "colored-img",
-          "imgProps": {
-            "src": "/images/webp/icons/email.webp",
-            "colorVar": "bs-body-color"
-          }
-        },
-        "titleLink": {
-          "type": "email",
-          "href": "mailto:stevehsudrawing@outlook.com"
-        },
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "element",
-              "tagName": "span",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "stevehsudrawing@outlook.com | Steve Hsu / 什五"
                 }
               ]
             }

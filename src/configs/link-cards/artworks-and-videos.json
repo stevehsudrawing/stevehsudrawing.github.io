@@ -118,7 +118,7 @@
         },
         "titleLink": {
           "type": "external",
-          "href": "https://bsky.app/profile/stevehsudrawing.bsky.social"
+          "href": "https://bsky.app/profile/stevehsu.link"
         },
         "description": {
           "type": "element",
@@ -126,7 +126,7 @@
           "children": [
             {
               "type": "text",
-              "value": "UID: stevehsudrawing.bsky.social"
+              "value": "UID: stevehsu.link"
             }
           ]
         }
