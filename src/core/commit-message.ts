@@ -3,7 +3,7 @@
  * its title (first line) and body (everything after it).
  *
  * Pure logic (no DOM, no Vue), shared by the site changelog modal;
- * the body is fed to `markdownToHast()` for rendering.
+ * the body is rendered as plain text.
  */
 
 /** A commit message split into its title and body. */
