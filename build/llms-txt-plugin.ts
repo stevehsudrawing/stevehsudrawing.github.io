@@ -13,7 +13,7 @@
  * output consumed by LLMs/agents, not hand-edited docs).
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
 import {
@@ -224,18 +224,6 @@ function renderPictureGroups(
 }
 
 /**
- * Strip leading HTML comment blocks and the first H1 from a markdown source
- * (the H1 is replaced by the generated page header).
- * @param md - The raw markdown source.
- * @returns The source body without leading comments and its H1.
- */
-function stripSourceHeader(md: string): string {
-  let body = md.replace(/^\s*<!--[\s\S]*?-->\s*/i, "").trimStart();
-  body = body.replace(/^#\s+[^\n]*\n?/, "").trimStart();
-  return body;
-}
-
-/**
  * Build the markdown snapshot body for a page from its JSON configs
  * (link cards / link buttons / picture list).
  * @param pageName - Page name (e.g. "about").
@@ -288,23 +276,6 @@ function generatePageMarkdown(pageName: string, meta: PageMetaEntry): string {
   return `${pageHeader(meta)}\n${pageBody(pageName)}\n`;
 }
 
-/**
- * Markdown snapshot for a markdown-source page (copyright-notice):
- * the raw English source with its leading comments + H1 replaced by the
- * standard page header.
- * @param sourcePath - Path to the raw markdown source (relative to cwd).
- * @param meta - Page metadata entry.
- * @returns The complete markdown file content.
- */
-function generateSourcePageMarkdown(
-  sourcePath: string,
-  meta: PageMetaEntry,
-): string {
-  const raw = readFileSync(resolve(process.cwd(), sourcePath), "utf-8");
-  const body = stripSourceHeader(raw);
-  return `${pageHeader(meta)}\n${body}\n`;
-}
-
 // =========================================================================
 // Plugin export
 // =========================================================================
@@ -334,13 +305,7 @@ export function llmsTxtPlugin(): Plugin {
       for (const [pageName, meta] of Object.entries(PAGE_META)) {
         if (meta.tier !== "full") continue;
 
-        let md: string;
-        if (pageName === "copyright-notice") {
-          md = generateSourcePageMarkdown("public/images/README.md", meta);
-        } else {
-          md = generatePageMarkdown(pageName, meta);
-        }
-
+        const md = generatePageMarkdown(pageName, meta);
         writeFileSync(resolve(outDir, markdownFileName(pageName)), md, "utf-8");
         console.log(
           `[llms-txt-plugin] Generated ${markdownFileName(pageName)}`,

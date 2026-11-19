@@ -27,14 +27,6 @@ const MAIN_CHAIN = [
 /** Landing page — linked back to by the first MAIN_CHAIN entry. */
 const CHAIN_ROOT = "index";
 
-/**
- * Leaf pages that link back to a single parent.
- * Key = page name, value = parent page name (without .html).
- */
-const LEAVES: Record<string, string> = {
-  "copyright-notice": "index",
-};
-
 // =========================================================================
 // Interface
 // =========================================================================
@@ -54,7 +46,7 @@ export interface PageNavLinks {
 /**
  * Resolve Previous/Next page hrefs for a given page name.
  * @param pageName - Page identifier (without .html extension),
- *   e.g. "softwares", "about", "copyright-notice".
+ *   e.g. "softwares", "about".
  * @returns Previous/Next hrefs, or empty object if the page is not in
  *   the chain (e.g. index).
  */
@@ -69,12 +61,6 @@ export function getPageNavLinks(pageName: string): PageNavLinks {
           ? `/${MAIN_CHAIN[idx + 1]}.html`
           : undefined,
     };
-  }
-
-  // Leaf pages
-  const parent = LEAVES[pageName];
-  if (parent) {
-    return { prev: `/${parent}.html` };
   }
 
   return {};

@@ -14,7 +14,6 @@ export const PAGE_NAMES = [
   "blogs-and-sponsor",
   "chatting",
   "softwares",
-  "copyright-notice",
 ] as const;
 
 /**

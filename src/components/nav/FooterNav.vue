@@ -45,9 +45,10 @@ const { openChangelogModal } = useChangelogModal();
             {{ $t("text-license") }}
           </TypeAwareLink>
           <TypeAwareLink
-            type="internal"
-            href="/copyright-notice.html"
+            type="external"
+            :href="`https://github.com/${GITHUB_REPO}/blob/main/public/images/README.md`"
             class="link"
+            no-qr-code
           >
             {{ $t("text-artwork-copyright") }}
           </TypeAwareLink>

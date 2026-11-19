@@ -43,10 +43,6 @@ const routes = [
     path: "/softwares.html",
     component: () => import("./pages/SoftwaresPage.vue"),
   },
-  {
-    path: "/copyright-notice.html",
-    component: () => import("./pages/CopyrightPage.vue"),
-  },
 ];
 
 // =========================================================================
