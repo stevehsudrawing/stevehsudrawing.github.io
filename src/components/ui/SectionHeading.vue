@@ -1,12 +1,11 @@
 <!--
   SectionHeading.vue — Section heading with anchor and copy-link buttons.
-  Renders a heading (default <h2>) with a dash-case id (auto-generated from
-  the title), an AnchorButton for permalink sharing, and a CopyButton for
-  clipboard copy.
+  Renders an `<h2 class="section-heading h4">` with a dash-case id
+  (auto-generated from the title), an AnchorButton for permalink sharing,
+  and a CopyButton for clipboard copy.
 
-  Used by LinkCardGroup.vue / PictureGroup.vue (HAST titles via slot),
-  page components (static i18n titles via prop), and MarkdownArticle.vue
-  (markdown headings, rendered through a `section-heading` HAST marker).
+  Used by LinkCardGroup.vue / PictureGroup.vue (HAST titles via slot) and
+  the page components (static i18n titles via prop).
 -->
 <script setup lang="ts">
 import { computed } from "vue";
@@ -20,39 +19,24 @@ import MaterialSymbol from "../icons/MaterialSymbol.vue";
 // Props
 // =========================================================================
 
-const props = withDefaults(
-  defineProps<{
-    /** Plain-text heading (used for id generation and aria-label). */
-    title: string;
-    /**
-     * Stable, language-independent anchor ID.
-     * When provided, used directly as the heading's HTML id.
-     * When omitted, derived from `title` via toDashCase().
-     */
-    headingId?: string;
-    /** Page path for copy-link URL (e.g. "/about.html"). */
-    pagePath?: string;
-    /**
-     * Semantic heading level, an integer in [2, 6] (default 2).
-     * Renders `<h{level}>` with the Bootstrap size class
-     * `.h{min(level + 2, 6)}` — i.e. level 2 -> .h4, 3 -> .h5, 4+ -> .h6.
-     */
-    level?: number;
-  }>(),
-  { level: 2 },
-);
+const props = defineProps<{
+  /** Plain-text heading (used for id generation and aria-label). */
+  title: string;
+  /**
+   * Stable, language-independent anchor ID.
+   * When provided, used directly as the heading's HTML id.
+   * When omitted, derived from `title` via toDashCase().
+   */
+  headingId?: string;
+  /** Page path for copy-link URL (e.g. "/about.html"). */
+  pagePath?: string;
+}>();
 
 // =========================================================================
 // State
 // =========================================================================
 
 const titleId = computed(() => props.headingId || toDashCase(props.title));
-
-/** Heading level clamped to the [2, 6] range. */
-const headingLevel = computed(() => Math.min(Math.max(props.level, 2), 6));
-
-/** Bootstrap heading size class: .h4 / .h5 / .h6 (never exceeds 6). */
-const headingClass = computed(() => `h${Math.min(headingLevel.value + 2, 6)}`);
 
 const copyUrl = computed(() =>
   props.pagePath ? `${BASE_URL}${props.pagePath}#${titleId.value}` : "",
@@ -61,14 +45,9 @@ const copyUrl = computed(() =>
 
 <template>
   <div class="section-heading-wrapper">
-    <component
-      :is="`h${headingLevel}`"
-      :id="titleId || undefined"
-      class="section-heading"
-      :class="headingClass"
-    >
+    <h2 :id="titleId || undefined" class="section-heading h4">
       <slot>{{ title }}</slot>
-    </component>
+    </h2>
     <div class="section-heading-buttons-wrapper">
       <AnchorButton
         v-if="titleId"

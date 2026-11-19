@@ -6,7 +6,7 @@
   `defineAsyncComponent`: the markdown parser stack (marked +
   hast-util-from-html, ≈240 KB raw) then stays out of the entry
   chunk — the changelog modal pays for it only when the first commit
-  body renders.  `MarkdownArticle` shares the same pipeline.
+  body renders.
 -->
 <script setup lang="ts">
 import { computed } from "vue";

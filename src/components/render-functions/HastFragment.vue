@@ -3,9 +3,8 @@
 
   Converts a HAST node tree (from markdown or link-card JSON) into
   Vue VNodes, upgrading `<a>` to `<TypeAwareLink>`, `<img>` to
-  `<FeatureAwarePicture>` or `<ColoredImg>`, `<section-heading>`
-  (markdown heading markers) to `<SectionHeading>`, and elements with
-  a `dataModal` property to `<ModalTrigger>` (parameterless modal
+  `<FeatureAwarePicture>` or `<ColoredImg>`, and elements with a
+  `dataModal` property to `<ModalTrigger>` (parameterless modal
   openers).  Other elements are rendered as native HTML elements with
   their attributes passed through.
 -->
@@ -21,7 +20,6 @@ import type { HastNode } from "../../types/hast";
 import ColoredImg from "../images/ColoredImg.vue";
 import FeatureAwarePicture from "../images/FeatureAwarePicture.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
-import SectionHeading from "../ui/SectionHeading.vue";
 import ModalTrigger from "./ModalTrigger.vue";
 
 type RenderResult = VNode | string;
@@ -88,22 +86,6 @@ export default defineComponent({
               return h(FeatureAwarePicture, pictureProps as any);
             }
           }
-        }
-
-        // <section-heading> → SectionHeading (markdown heading markers
-        // produced by MarkdownArticle; inline children become slot content)
-        if (node.tagName === "section-heading") {
-          const { headingId, title, level, pagePath } = properties;
-          return h(
-            SectionHeading,
-            {
-              title: typeof title === "string" ? title : "",
-              headingId: typeof headingId === "string" ? headingId : undefined,
-              level: typeof level === "number" ? level : 2,
-              pagePath: typeof pagePath === "string" ? pagePath : undefined,
-            },
-            { default: () => children },
-          );
         }
 
         // data-modal="..." → ModalTrigger (parameterless modal opener)

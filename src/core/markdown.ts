@@ -1,12 +1,11 @@
 /**
- * Markdown -> HAST helper — the shared parse step behind
- * `MarkdownArticle` and the site changelog modal.
+ * Markdown -> HAST helper — the shared parse step behind the site
+ * changelog modal (`MarkdownBody`).
  *
  * `marked.parse` produces HTML; `hast-util-from-html` turns it into
- * the HAST tree that `HastFragment` renders.  Consumers post-process
- * the returned root (e.g. MarkdownArticle swaps headings for
- * `section-heading` markers) or pass `children` straight through —
- * no `v-html` anywhere in the pipeline.
+ * the HAST tree that `HastFragment` renders.  Consumers pass the
+ * root's `children` straight through — no `v-html` anywhere in the
+ * pipeline.
  */
 
 import { fromHtml } from "hast-util-from-html";
