@@ -2,16 +2,17 @@
   ChangelogModal.vue — site changelog popup (footer entry).
 
   Lists the latest 10 repository commits from the GitHub REST API as a
-  timeline: a rail with hollow/solid dots, the commit title, a relative
-  time (absolute in a tooltip), an expand/collapse toggle with the
-  markdown body, and the short hash linking to the commit page.
+  timeline: a rail with dots, then one wrapping line per commit — the
+  title, a relative time (absolute in a tooltip) and the short hash
+  linking to the commit page — with the plain-text body always shown
+  below it.
 
   The fetch is LAZY: the modal is always mounted (App.vue), so setup
   must NOT call the composable — the first open creates it and the
   shared stale-while-revalidate cache serves reopens.
 -->
 <script setup lang="ts">
-import { computed, defineAsyncComponent, ref, shallowRef, watch } from "vue";
+import { computed, ref, shallowRef, watch } from "vue";
 import { useI18n } from "../../composables/core/useI18n";
 import { useGithubCommits } from "../../composables/github/useGithubCommits";
 import { useModalFocus } from "../../composables/modals/useModalFocus";
@@ -31,40 +32,25 @@ import LoadingPlaceholder from "../ui/LoadingPlaceholder.vue";
 import TruncatedTitle from "../ui/TruncatedTitle.vue";
 
 // =========================================================================
-// Constants
-// =========================================================================
-
-/**
- * Commit bodies render through the async `MarkdownBody` component so
- * the markdown parser stack (marked / hast-util-from-html) stays out
- * of the entry chunk — it loads on the first expanded body.
- */
-const MarkdownBody = defineAsyncComponent(
-  () => import("../render-functions/MarkdownBody.vue"),
-);
-
-// =========================================================================
 // Types
 // =========================================================================
 
 /** One rendered timeline row, derived from a `GithubCommit`. */
 interface CommitRow {
-  /** Full SHA — the row key + expansion identity. */
+  /** Full SHA — the row key. */
   sha: string;
-  /** 7-char short hash shown in the expanded meta line. */
+  /** 7-char short hash, at the end of the title line. */
   shortSha: string;
   /** Commit title (first message line). */
   title: string;
-  /** Raw markdown body (empty string when the commit has no body). */
-  body: string;
-  /** Relative time — the surface text while collapsed. */
+  /** Plain-text body paragraphs — empty when the commit has no body. */
+  paragraphs: string[];
+  /** Relative time — the visible text. */
   relative: string;
-  /** Absolute localized time — tooltip + expanded meta line. */
+  /** Absolute localized time — the tooltip text. */
   absolute: string;
   /** GitHub commit page URL. */
   htmlUrl: string;
-  /** Whether this row is expanded. */
-  expanded: boolean;
 }
 
 // =========================================================================
@@ -104,37 +90,24 @@ const isEmpty = computed(
   () => commits.value !== null && commits.value.length === 0,
 );
 
-// ---- Expansion state ----------------------------------------------------
-
-/** Expanded commit SHAs — the latest commit starts expanded. */
-const expandedShas = ref<Set<string>>(new Set());
-
-watch(
-  commits,
-  (list) => {
-    if (list && list.length > 0 && expandedShas.value.size === 0) {
-      expandedShas.value = new Set([list[0].sha]);
-    }
-  },
-  { immediate: true },
-);
+// ---- Row model ----------------------------------------------------------
 
 /**
- * Toggle one commit's expansion.
+ * Split a commit body into plain-text paragraphs.
  *
- * @param sha - Commit SHA to toggle.
+ * The body is hard-wrapped at 80 columns, so its line breaks are
+ * typographic rather than semantic: a blank line separates paragraphs,
+ * and a single line break joins a paragraph's lines with one space.
+ *
+ * @param body - Raw commit body (empty when the commit has none).
+ * @returns One trimmed string per paragraph.
  */
-function toggleRow(sha: string): void {
-  const next = new Set(expandedShas.value);
-  if (next.has(sha)) {
-    next.delete(sha);
-  } else {
-    next.add(sha);
-  }
-  expandedShas.value = next;
+function toParagraphs(body: string): string[] {
+  return body
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.replace(/\s*\n\s*/g, " ").trim())
+    .filter((paragraph) => paragraph.length > 0);
 }
-
-// ---- Row model ----------------------------------------------------------
 
 const rows = computed<CommitRow[]>(() =>
   (commits.value ?? []).map((commit) => {
@@ -143,11 +116,10 @@ const rows = computed<CommitRow[]>(() =>
       sha: commit.sha,
       shortSha: commit.sha.slice(0, 7),
       title,
-      body,
+      paragraphs: toParagraphs(body),
       relative: formatRelativeTime(commit.commit.author.date, locale.value),
       absolute: formatAbsoluteTime(commit.commit.author.date, locale.value),
       htmlUrl: commit.html_url,
-      expanded: expandedShas.value.has(commit.sha),
     };
   }),
 );
@@ -205,78 +177,37 @@ function openRefresh(): void {
 
     <!-- ==== Commit timeline ==== -->
     <ul v-else class="changelog-list list-unstyled mb-0">
-      <li
-        v-for="row in rows"
-        :key="row.sha"
-        class="changelog-item"
-        :class="{ 'changelog-item-expanded': row.expanded }"
-      >
+      <li v-for="row in rows" :key="row.sha" class="changelog-item">
         <!-- Rail: continuous line + this commit's dot -->
         <span class="changelog-rail" aria-hidden="true">
           <span class="changelog-dot"></span>
         </span>
 
-        <!-- Title row + collapsible detail -->
         <div class="changelog-content">
+          <!-- Title line: the title, then the fixed-width date/hash group -->
           <div class="changelog-head">
-            <span class="changelog-title" :title="row.title">
-              {{ row.title }}
-            </span>
-            <!--
-              The trigger stays MOUNTED (`v-show`, not `v-if`): the
-              tooltip directive leaves its container `<span>` behind
-              when the target unmounts, so a v-if toggle leaked one
-              empty span per expand/collapse cycle (v3.19.0
-              extreme-click test).
-            -->
-            <TooltipTrigger
-              v-show="!row.expanded"
-              :title="row.absolute"
-              teleport
-            >
-              <span class="changelog-time text-body-secondary flex-shrink-0">
-                {{ row.relative }}
-              </span>
-            </TooltipTrigger>
-          </div>
-
-          <div class="changelog-collapse">
-            <div class="changelog-collapse-inner">
-              <div class="changelog-meta small d-flex align-items-center gap-2">
-                <TypeAwareLink
-                  type="external"
-                  :href="row.htmlUrl"
-                  class="changelog-sha font-monospace link-secondary"
-                >
-                  {{ row.shortSha }}
-                </TypeAwareLink>
-                <span class="ms-auto text-body-secondary flex-shrink-0">
-                  {{ row.absolute }}
+            <span class="changelog-title">{{ row.title }}</span>
+            <span class="changelog-meta">
+              <TooltipTrigger :title="row.absolute" teleport>
+                <span class="changelog-time text-body-secondary">
+                  {{ row.relative }}
                 </span>
-              </div>
-              <div v-if="row.body" class="changelog-body">
-                <MarkdownBody :markdown="row.body" />
-              </div>
-            </div>
+              </TooltipTrigger>
+              <TypeAwareLink
+                type="external"
+                :href="row.htmlUrl"
+                class="changelog-sha font-monospace link-secondary"
+              >
+                {{ row.shortSha }}
+              </TypeAwareLink>
+            </span>
           </div>
-        </div>
 
-        <!-- Expand / collapse toggle (mirrors the rail column) -->
-        <div class="changelog-toggle">
-          <button
-            type="button"
-            class="btn btn-same-padding btn-sm btn-outline-secondary btn-no-border"
-            :aria-label="
-              row.expanded
-                ? t('text-collapse-details')
-                : t('text-expand-details')
-            "
-            @click="toggleRow(row.sha)"
-          >
-            <MaterialSymbol
-              :name="row.expanded ? 'expand_less' : 'expand_more'"
-            />
-          </button>
+          <div v-if="row.paragraphs.length > 0" class="changelog-body">
+            <p v-for="(paragraph, index) in row.paragraphs" :key="index">
+              {{ paragraph }}
+            </p>
+          </div>
         </div>
       </li>
     </ul>
@@ -329,8 +260,8 @@ function openRefresh(): void {
 /* ==== Timeline ==== */
 
 /*
-  Row grid — [rail][content][toggle]; the rail column and the toggle
-  column share ONE width token so the row reads symmetric.
+  Row grid — [rail][content]; the rail column keeps the timeline
+  aligned, and the content column holds the title line and the body.
 */
 .changelog-list {
   --changelog-side-w: 2rem;
@@ -339,9 +270,7 @@ function openRefresh(): void {
 
 .changelog-item {
   display: grid;
-  grid-template-columns:
-    var(--changelog-side-w) minmax(0, 1fr)
-    var(--changelog-side-w);
+  grid-template-columns: var(--changelog-side-w) minmax(0, 1fr);
 }
 
 /* --- Rail: continuous line + dot --- */
@@ -371,8 +300,8 @@ function openRefresh(): void {
   top: calc(var(--changelog-title-line) / 2);
 }
 
-/* …and the final dot ends the rail with a gradient-fading tail
-   (expanded or not) — the timeline visibly "runs out". */
+/* …and the final dot ends the rail with a gradient-fading tail, so the
+   timeline visibly "runs out". */
 .changelog-item:last-child .changelog-rail::before {
   bottom: auto;
   height: calc(var(--changelog-title-line) / 2 + 0.75rem);
@@ -396,92 +325,64 @@ function openRefresh(): void {
   background: var(--bs-body-bg);
 }
 
-.changelog-item-expanded .changelog-dot {
-  border-color: var(--bs-primary);
-  background: var(--bs-primary);
-}
-
-/* --- Content: title row + collapsible detail --- */
+/* --- Content: title line + body --- */
 
 .changelog-content {
   min-width: 0;
 }
 
+/* The title takes the free space; when it wraps, the date/hash group
+   moves to its own line and keeps hugging the right edge. */
 .changelog-head {
   font-size: 0.875rem;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0.125rem;
   min-height: var(--changelog-title-line);
 }
 
-/* The title absorbs the free space, pushing the relative time (and
-   the zero-width tooltip host after it) to the right edge.  The
-   minimum title/time gap is the padding — a flex `gap` would also
-   apply around the host span and offset the time by 0.5rem. */
 .changelog-title {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
-  padding-right: 0.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+}
+
+/* The date and the hash share one line; the hash is last, so its
+   right edge lines up under every title. */
+.changelog-meta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
   white-space: nowrap;
 }
 
-.changelog-item-expanded .changelog-title {
-  white-space: normal;
-}
-
-/* CSS-only expand/collapse: 0fr <-> 1fr animates the auto height;
-   browsers without the transition degrade to an instant toggle.
-   `.no-animations` / reduced-motion kill it globally
-   (accessibility.css). */
-.changelog-collapse {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--shlh-duration-base) ease;
-}
-
-.changelog-item-expanded .changelog-collapse {
-  grid-template-rows: 1fr;
-}
-
-.changelog-collapse-inner {
-  overflow: hidden;
-  min-height: 0;
-}
-
-.changelog-meta {
-  padding-top: 0.125rem;
+/* Narrow layout: the title rarely leaves room for the group on the same
+   line, so it takes a line of its own — the relative time then starts at
+   the title's left edge, while the hash keeps the right edge. */
+@media (max-width: 767.98px) {
+  .changelog-meta {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 .changelog-body {
   color: var(--bs-secondary-color);
   font-size: 0.875rem;
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
   padding-bottom: 0.5rem;
 }
 
-.changelog-body :deep(ul) {
-  padding-left: 1.25rem;
+.changelog-body p {
+  margin-bottom: 0.25rem;
 }
 
-.changelog-body :deep(> :last-child) {
+.changelog-body p:last-child {
   margin-bottom: 0;
-}
-
-/* --- Toggle (square icon button, mirrors the rail column) --- */
-
-.changelog-toggle {
-  display: flex;
-  justify-content: center;
-}
-
-.changelog-toggle .btn {
-  aspect-ratio: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  align-self: start;
 }
 
 /* ==== Footer GitHub link ==== */
