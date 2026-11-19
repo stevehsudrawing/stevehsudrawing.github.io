@@ -18,7 +18,7 @@ import { useI18n } from "../../composables/core/useI18n";
 import { useTheme } from "../../composables/core/useTheme";
 import { useSettingsModal } from "../../composables/modals/useSettingsModal";
 import { normalizeInternalPath } from "../../core/utils";
-import type { NavDropdownItem, NavItem } from "../../types/app";
+import type { NavLinkItem } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 import InlineSvg from "../ui/InlineSvg.vue";
@@ -46,7 +46,7 @@ import { LANGUAGE_LIST } from "../../configs/language-list";
 import { ARTICLES_SUB_SITE_ROOT } from "../../configs/sub-sites";
 import { THEME_OPTIONS } from "../../configs/theme-options";
 
-const navItems: NavItem[] = [
+const navItems: NavLinkItem[] = [
   { type: "link", href: "/index.html", i18nKey: "text-home" },
   {
     type: "link",
@@ -63,21 +63,10 @@ const navItems: NavItem[] = [
   { type: "link", href: "/about.html", i18nKey: "text-about" },
   { type: "link", href: "/gallery.html", i18nKey: "text-gallery" },
   {
-    type: "dropdown",
+    type: "link",
+    href: ARTICLES_SUB_SITE_ROOT,
     i18nKey: "text-articles",
-    children: [
-      {
-        type: "link",
-        href: ARTICLES_SUB_SITE_ROOT,
-        i18nKey: "text-steve-hsu-s-articles",
-        linkType: "static",
-      },
-      {
-        type: "link",
-        href: "/copyright-notice.html",
-        i18nKey: "text-copyright-notice",
-      },
-    ],
+    linkType: "static",
   },
 ];
 
@@ -90,15 +79,6 @@ const { preference, setPreference } = useTheme();
 
 function isActive(href: string): boolean {
   return props.currentPage === normalizeInternalPath(href);
-}
-
-/**
- * Whether a nav dropdown is considered active — true when any of its
- * child links points to the current page.
- * @param item - The dropdown nav item.
- */
-function isDropdownActive(item: NavDropdownItem): boolean {
-  return item.children.some((c) => isActive(c.href));
 }
 
 // -------------------------------------------------------------------------
@@ -142,12 +122,9 @@ const brandProgress = computed(() =>
  * the homepage's nav key is `text-home`, so deriving it from the page name
  * (`text-index`) would leave the brand blank.
  */
-const pageI18nKey = computed(() => {
-  const links = navItems.flatMap((item) =>
-    item.type === "link" ? [item] : item.children,
-  );
-  return links.find((link) => isActive(link.href))?.i18nKey ?? "";
-});
+const pageI18nKey = computed(
+  () => navItems.find((link) => isActive(link.href))?.i18nKey ?? "",
+);
 const pageName = computed(() => t(pageI18nKey.value));
 
 // -------------------------------------------------------------------------
@@ -278,13 +255,8 @@ defineExpose({
         id="navbar-content"
       >
         <ul class="navbar-nav flex-grow-1">
-          <li
-            v-for="item in navItems"
-            :key="item.type === 'link' ? item.href : item.i18nKey"
-            class="nav-item"
-          >
+          <li v-for="item in navItems" :key="item.href" class="nav-item">
             <TypeAwareLink
-              v-if="item.type === 'link'"
               :type="item.linkType ?? 'internal'"
               :href="item.href"
               class="nav-link"
@@ -296,31 +268,6 @@ defineExpose({
               "
               >{{ $t(item.i18nKey) }}</TypeAwareLink
             >
-            <BDropdown
-              v-else
-              :toggle-class="
-                isDropdownActive(item) ? 'nav-link active' : 'nav-link'
-              "
-              menu-class="shadow"
-              drop="end"
-              boundary="viewport"
-              teleport-to="body"
-              :style="{ 'z-index': 'var(--shlh-z-dropdown)' }"
-            >
-              <template #button-content>
-                <span>{{ $t(item.i18nKey) }}</span>
-              </template>
-              <li v-for="child in item.children" :key="child.href">
-                <TypeAwareLink
-                  :type="child.linkType ?? 'internal'"
-                  :href="child.href"
-                  class="dropdown-item"
-                  :class="{ active: isActive(child.href) }"
-                  no-underline
-                  >{{ $t(child.i18nKey) }}</TypeAwareLink
-                >
-              </li>
-            </BDropdown>
           </li>
         </ul>
 

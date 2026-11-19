@@ -390,16 +390,6 @@ export interface NavLinkItem {
   linkType?: TypeAwareLinkProps["type"];
 }
 
-/** A navbar dropdown grouping navbar links (single level). */
-export interface NavDropdownItem {
-  type: "dropdown";
-  i18nKey: string;
-  children: NavLinkItem[];
-}
-
-/** A navbar entry: a direct link or a dropdown. */
-export type NavItem = NavLinkItem | NavDropdownItem;
-
 // -------------------------------------------------------------------------
 // TypeAwareLink props
 // -------------------------------------------------------------------------

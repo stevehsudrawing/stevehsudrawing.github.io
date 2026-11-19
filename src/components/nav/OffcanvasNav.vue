@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import { normalizeInternalPath } from "../../core/utils";
-import type { NavItem } from "../../types/app";
+import type { NavLinkItem } from "../../types/app";
 import TypeAwareLink from "../links/TypeAwareLink.vue";
 
 // =========================================================================
@@ -18,7 +18,7 @@ import TypeAwareLink from "../links/TypeAwareLink.vue";
 // =========================================================================
 
 const props = defineProps<{
-  navItems: NavItem[];
+  navItems: NavLinkItem[];
   currentPage: string;
 }>();
 
@@ -51,13 +51,8 @@ watch(
     :header-close-label="$t('text-close')"
   >
     <ul class="navbar-nav">
-      <li
-        v-for="item in navItems"
-        :key="item.type === 'link' ? item.href : item.i18nKey"
-        class="nav-item"
-      >
+      <li v-for="item in navItems" :key="item.href" class="nav-item">
         <TypeAwareLink
-          v-if="item.type === 'link'"
           :type="item.linkType ?? 'internal'"
           :href="item.href"
           class="nav-link"
@@ -72,30 +67,6 @@ watch(
           no-underline
           >{{ $t(item.i18nKey) }}</TypeAwareLink
         >
-        <template v-else>
-          <div class="offcanvas-nav-group-label">
-            {{ $t(item.i18nKey) }}
-          </div>
-          <ul class="list-unstyled offcanvas-nav-group">
-            <li v-for="child in item.children" :key="child.href">
-              <TypeAwareLink
-                :type="child.linkType ?? 'internal'"
-                :href="child.href"
-                class="nav-link"
-                :class="{
-                  active: currentPage === normalizeInternalPath(child.href),
-                }"
-                :aria-current="
-                  currentPage === normalizeInternalPath(child.href)
-                    ? 'page'
-                    : undefined
-                "
-                no-underline
-                >{{ $t(child.i18nKey) }}</TypeAwareLink
-              >
-            </li>
-          </ul>
-        </template>
       </li>
     </ul>
   </BOffcanvas>
@@ -139,32 +110,7 @@ watch(
   padding: 0.5rem 1rem;
 }
 
-.offcanvas .offcanvas-body .navbar-nav .nav-item > .offcanvas-nav-group-label {
-  padding: 1rem 1rem 0.5rem 1rem;
-}
-
-.offcanvas .offcanvas-body .navbar-nav .nav-item > .offcanvas-nav-group {
-  padding: 0 0;
-}
-
 .offcanvas .offcanvas-body .nav-link {
   padding: 0.5rem 1rem;
-}
-
-/* --- Dropdown group (mobile) --- */
-
-.offcanvas .offcanvas-nav-group-label {
-  padding: 1rem 0 0.25rem;
-  font-size: 0.8rem;
-  font-weight: calc(var(--bs-body-font-weight) + 100);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  opacity: 0.6;
-}
-
-.offcanvas .offcanvas-nav-group {
-  list-style: none;
-  margin: 0;
-  padding: 0;
 }
 </style>
