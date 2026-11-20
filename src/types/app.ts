@@ -44,15 +44,6 @@ export const enum StorageKey {
 }
 
 // =========================================================================
-// CustomEvent names
-// =========================================================================
-
-export const enum AppEvent {
-  /** Dispatched when the user requests a language switch via UI. detail = { lang: string } */
-  LangSwitchRequested = "langSwitchRequested",
-}
-
-// =========================================================================
 // Link-card data (used by Vue components and the build-time builder)
 // =========================================================================
 

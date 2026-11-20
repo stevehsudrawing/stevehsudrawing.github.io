@@ -13,7 +13,6 @@ import { updatePageTitle } from "../../platform/page-title";
 import { getStoredLang, setStoredLang } from "../../platform/storage";
 import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../../plugins/i18n";
 import type { Lang } from "../../types/app";
-import { AppEvent } from "../../types/app";
 
 /**
  * Reactive i18n composable.
@@ -86,22 +85,12 @@ export function useI18n(): {
 
   /**
    * Determine the preferred language (URL param -> storage -> default)
-   * and apply it.  Also listens for language-switch requests from UI.
+   * and apply it.  Call once during App.vue onMounted.
    */
   function initLang(): void {
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get("lang");
     setLocale(urlLang || getStoredLang());
-
-    // Listen for user-triggered language switches from UI components
-    document.addEventListener(AppEvent.LangSwitchRequested, ((
-      e: CustomEvent,
-    ) => {
-      const lang = e.detail?.lang;
-      if (lang && typeof lang === "string") {
-        setLocale(lang);
-      }
-    }) as EventListener);
   }
 
   return {
