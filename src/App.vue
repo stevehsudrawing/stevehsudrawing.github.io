@@ -176,9 +176,11 @@ watch(
 // ---- Sync ?lang= query changes to the active language ----
 
 /**
- * Internal links that change only the language (e.g. the copyright page's
- * cross-language links) navigate without a page reload.  Apply the new
- * `?lang=` instead of leaving the URL and the active language out of sync.
+ * Internal links that change only the language (a link carrying `?lang=`)
+ * navigate without a page reload.  Apply the new `?lang=` instead of
+ * leaving the URL and the active language out of sync.  A `?lang=`
+ * parameter is not a stored choice: this path applies the language for
+ * the visit only.
  * The dropdown path is unaffected (setLocale writes the URL via
  * history.replaceState, which does not change `route.query`).
  */

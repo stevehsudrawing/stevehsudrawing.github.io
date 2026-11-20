@@ -162,7 +162,7 @@ const { openSettingsModal } = useSettingsModal();
 // =========================================================================
 
 function switchLanguage(lang: string): void {
-  setLocale(lang);
+  setLocale(lang, true);
 }
 
 onMounted(() => {

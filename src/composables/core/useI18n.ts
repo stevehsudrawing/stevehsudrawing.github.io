@@ -24,8 +24,15 @@ export function useI18n(): {
   messages: Ref<Record<string, unknown>>;
   /** Translate a text key (falls back to the bundled English text). */
   t: (key: string, param?: string[]) => string;
-  /** Switch the active language (synchronous, no fetch). */
-  setLocale: (rawLang: string) => void;
+  /**
+   * Switch the active language (synchronous, no fetch).
+   *
+   * @param rawLang - Language tag or code; normalized before use.
+   * @param persist - Store the language when true.  Pass it only when
+   *   the reader's own choice reached this call; a `?lang=` link and
+   *   the initial load apply the language without writing storage.
+   */
+  setLocale: (rawLang: string, persist?: boolean) => void;
   /**
    * Determine the preferred language (URL param -> storage -> default)
    * and apply it.  Call once during App.vue onMounted.
@@ -59,9 +66,13 @@ export function useI18n(): {
 
   /**
    * Switch the active language: update reactive state, DOM, page title,
-   * and the stored preference.
+   * and — when `persist` is true — the stored preference.
+   *
+   * @param rawLang - Language tag or code; normalized before use.
+   * @param persist - Store the language when true.  Only a path the
+   *   reader's own choice reached may pass it.
    */
-  function setLocale(rawLang: string): void {
+  function setLocale(rawLang: string, persist = false): void {
     const lang: Lang = normalizeLang(rawLang);
     const data = TRANSLATIONS[lang];
 
@@ -79,13 +90,13 @@ export function useI18n(): {
     // Update page title
     updatePageTitle(t);
 
-    // Persist preference
-    setStoredLang(lang);
+    // Persist only a deliberate choice
+    if (persist) setStoredLang(lang);
   }
 
   /**
-   * Determine the preferred language (URL param -> storage -> default)
-   * and apply it.  Call once during App.vue onMounted.
+   * Apply the preferred language (URL param -> storage -> default)
+   * without writing it back.  Call once during App.vue onMounted.
    */
   function initLang(): void {
     const urlParams = new URLSearchParams(window.location.search);

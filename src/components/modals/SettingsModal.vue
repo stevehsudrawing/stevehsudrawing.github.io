@@ -164,7 +164,7 @@ function openResetWarning(): void {
             ref="langSelectRef"
             v-model="locale"
             class="form-select settings-select"
-            @change="setLocale(locale)"
+            @change="setLocale(locale, true)"
           >
             <option
               v-for="lang in languages"

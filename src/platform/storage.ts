@@ -39,11 +39,18 @@ function readRaw(key: string): string | null {
   }
 }
 
-/** Write a raw string value, swallowing storage errors (quota/private mode). */
-function writeRaw(key: string, value: string): void {
+/**
+ * Write a raw string value, or remove the key when the value is null,
+ * swallowing storage errors (quota/private mode).
+ */
+function writeRaw(key: string, value: string | null): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(key, value);
+    if (value === null) {
+      localStorage.removeItem(key);
+    } else {
+      localStorage.setItem(key, value);
+    }
   } catch {
     // localStorage full or disabled — silently ignore
   }
@@ -104,11 +111,15 @@ export function getStoredLang(): Lang {
   return match ? match.code : DEFAULT_LANG;
 }
 
-/** Persist the language preference (canonical codes only). */
-export function setStoredLang(lang: Lang): void {
-  if (LANGUAGE_LIST.some((entry) => entry.code === lang)) {
-    writeRaw(StorageKey.Lang, lang);
+/**
+ * Persist the language preference (canonical codes only), or remove it
+ * when `lang` is null.
+ */
+export function setStoredLang(lang: Lang | null): void {
+  if (lang !== null && !LANGUAGE_LIST.some((entry) => entry.code === lang)) {
+    return;
   }
+  writeRaw(StorageKey.Lang, lang);
 }
 
 // =========================================================================

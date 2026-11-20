@@ -20,6 +20,7 @@ import {
   getStoredOpenInNewTab,
   setStoredEnableAnimations,
   setStoredEnableSwiper,
+  setStoredLang,
   setStoredOpenInNewTab,
 } from "../../platform/storage";
 import TruncatedTitle from "../ui/TruncatedTitle.vue";
@@ -67,6 +68,7 @@ function resetAll(): void {
   setTheme("auto");
   locale.value = "en";
   setLocale("en");
+  setStoredLang(null);
   clear();
   window.location.href = "/index.html";
 }
