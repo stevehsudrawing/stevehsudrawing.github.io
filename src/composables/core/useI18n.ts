@@ -10,7 +10,12 @@ import { TRANSLATIONS } from "../../configs/i18n/translations";
 import { DEFAULT_LANG } from "../../configs/language-list";
 import { normalizeLang, translateMessage } from "../../core/i18n";
 import { updatePageTitle } from "../../platform/page-title";
-import { getStoredLang, setStoredLang } from "../../platform/storage";
+import {
+  getStoredLang,
+  getStoredLangMigrated,
+  setStoredLang,
+  setStoredLangMigrated,
+} from "../../platform/storage";
 import { I18N_LOCALE_KEY, I18N_MESSAGES_KEY } from "../../plugins/i18n";
 import type { Lang } from "../../types/app";
 
@@ -94,11 +99,20 @@ export function useI18n(): {
     if (persist) setStoredLang(lang);
   }
 
+  /** Remove the default an older release wrote on every load, once. */
+  function migrateStoredLang(): void {
+    if (getStoredLangMigrated()) return;
+    if (getStoredLang() === DEFAULT_LANG) setStoredLang(null);
+    setStoredLangMigrated(true);
+  }
+
   /**
    * Apply the preferred language (URL param -> storage -> default)
-   * without writing it back.  Call once during App.vue onMounted.
+   * without writing it back, after a one-time cleanup of the default an
+   * older release wrote on every load.  Call once during App.vue onMounted.
    */
   function initLang(): void {
+    migrateStoredLang();
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get("lang");
     setLocale(urlLang || getStoredLang());

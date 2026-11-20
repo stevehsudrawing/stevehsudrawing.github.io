@@ -30,6 +30,8 @@ export type Breakpoint = "mobile" | "tablet" | "desktop" | "wide-desktop";
 export const enum StorageKey {
   Theme = "theme",
   Lang = "lang",
+  /** One-time marker: the legacy auto-written default was cleaned up. */
+  LangMigrated = "langMigrated",
   OpenInNewTab = "openInNewTab",
   EnableAnimations = "enableAnimations",
   EnableSwiper = "enableSwiper",

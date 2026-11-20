@@ -160,6 +160,20 @@ export function setStoredEnableSwiper(value: boolean): void {
 }
 
 // =========================================================================
+// Language migration marker
+// =========================================================================
+
+/** Read the one-time language-migration marker (default: false). */
+export function getStoredLangMigrated(): boolean {
+  return readRaw(StorageKey.LangMigrated) === "true";
+}
+
+/** Persist the one-time language-migration marker. */
+export function setStoredLangMigrated(value: boolean): void {
+  writeRaw(StorageKey.LangMigrated, value ? "true" : "false");
+}
+
+// =========================================================================
 // API caches
 // =========================================================================
 
