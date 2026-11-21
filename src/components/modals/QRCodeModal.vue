@@ -236,9 +236,9 @@ async function paintQrOntoCapture(
 /**
  * Render the QR share card to a PNG blob.
  *
- * 1. `html-to-image` captures the card through an SVG foreignObject.
- * 2. `paintQrOntoCapture()` repairs a capture that left the QR unpainted.
- * 3. `html2canvas` renders the card directly when step 1 throws.
+ * `html-to-image` captures the card through an SVG foreignObject, and
+ * `paintQrOntoCapture()` repairs a capture that left the QR unpainted.
+ * @returns The exported PNG.
  */
 async function renderShareCardBlob(): Promise<Blob> {
   const shareCard = document.getElementById("qr-share-card");
@@ -251,30 +251,14 @@ async function renderShareCardBlob(): Promise<Blob> {
     opts?: Record<string, unknown>,
   ) => Promise<string>;
 
-  try {
-    const dataUrl = await toPng(shareCard, {
-      backgroundColor: bg,
-      pixelRatio: 3,
-    });
-    const blob = await paintQrOntoCapture(dataUrl, shareCard);
-    if (blob.size > 0) return blob;
-  } catch {
-    // html-to-image failed (likely mobile / no foreignObject), fall through to html2canvas
-  }
-
-  // html2canvas fallback
-  const canvas = await window.html2canvas(shareCard, {
+  const dataUrl = await toPng(shareCard, {
     backgroundColor: bg,
-    scale: 3,
+    pixelRatio: 3,
   });
-  const dataUrl = canvas.toDataURL("image/png");
-  const resp = await fetch(dataUrl);
-  const blob = await resp.blob();
+  const blob = await paintQrOntoCapture(dataUrl, shareCard);
   if (blob.size > 0) return blob;
 
-  throw new Error(
-    "QR export failed: both html-to-image and html2canvas produced empty output",
-  );
+  throw new Error("QR export failed: html-to-image produced an empty image");
 }
 
 async function runWithBlob(

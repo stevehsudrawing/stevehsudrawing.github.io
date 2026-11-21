@@ -145,9 +145,6 @@ importers:
       html-to-image:
         specifier: ^1.11.13
         version: 1.11.13
-      html2canvas:
-        specifier: ^1.4.1
-        version: 1.4.1
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
@@ -636,10 +633,6 @@ packages:
     resolution: {integrity: sha512-IJdzo2vLiElBxKzwS36VsCue/62d6IdWjnPB2v3nuPKeWGynp6FF/CYoLa5i/3jXH/z97ZDdsXz6abpgM6w07A==}
     engines: {node: '>=20.19.0'}
 
-  base64-arraybuffer@1.0.2:
-    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
-    engines: {node: '>= 0.6.0'}
-
   birpc@2.6.1:
     resolution: {integrity: sha512-LPnFhlDpdSH6FJhJyn4M0kFO7vtQ5iPw24FnG0y21q09xC7e8+1LeR31S1MAIrDAHp4m7aas4bEkTDTvMAtebQ==}
 
@@ -780,9 +773,6 @@ packages:
       typescript:
         optional: true
 
-  css-line-break@2.1.0:
-    resolution: {integrity: sha512-FHcKFCZcAha3LwfVBhCQbW2nCNbkZXn7KVUJcsT5/P8YmfsVja0FMPJr0B903j/E69HUphKiV9iQArX8SDYA4w==}
-
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
@@ -915,10 +905,6 @@ packages:
 
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
-
-  html2canvas@1.4.1:
-    resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
-    engines: {node: '>=8.0.0'}
 
   husky@9.1.7:
     resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
@@ -1292,9 +1278,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  text-segmentation@1.0.3:
-    resolution: {integrity: sha512-iOiPUo/BGnZ6+54OsWxZidGCsdU8YbE4PSpdPinp7DeMtUJNJBoJ/ouUSTJjHkh1KntHaltHl/gDs2FC4i5+Nw==}
-
   three@0.156.1:
     resolution: {integrity: sha512-kP7H0FK9d/k6t/XvQ9FO6i+QrePoDcNhwl0I02+wmUJRNSLCUIDMcfObnzQvxb37/0Uc9TDT0T1HgsRRrO6SYQ==}
 
@@ -1384,9 +1367,6 @@ packages:
         optional: true
       webpack:
         optional: true
-
-  utrie@1.0.2:
-    resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==}
 
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
@@ -1943,8 +1923,6 @@ snapshots:
       '@babel/types': 7.29.8
       ast-kit: 2.2.0
 
-  base64-arraybuffer@1.0.2: {}
-
   birpc@2.6.1: {}
 
   bootstrap-vue-next@1.1.0(bootstrap@5.3.8(@popperjs/core@2.11.8))(vue-router@5.3.0(@vue/compiler-sfc@3.5.40)(rolldown@1.2.9)(vite@8.3.0(@types/node@26.1.1)(jiti@2.6.1)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(@typescript/typescript6@6.0.2)))(vue@3.5.40(@typescript/typescript6@6.0.2)):
@@ -2051,10 +2029,6 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: '@typescript/typescript6@6.0.2'
-
-  css-line-break@2.1.0:
-    dependencies:
-      utrie: 1.0.2
 
   csstype@3.2.3: {}
 
@@ -2174,11 +2148,6 @@ snapshots:
   html-to-image@1.11.13: {}
 
   html-void-elements@3.0.0: {}
-
-  html2canvas@1.4.1:
-    dependencies:
-      css-line-break: 2.1.0
-      text-segmentation: 1.0.3
 
   husky@9.1.7: {}
 
@@ -2529,10 +2498,6 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  text-segmentation@1.0.3:
-    dependencies:
-      utrie: 1.0.2
-
   three@0.156.1: {}
 
   tinyexec@1.2.4: {}
@@ -2611,10 +2576,6 @@ snapshots:
     optionalDependencies:
       rolldown: 1.2.9
       vite: 8.3.0(@types/node@26.1.1)(jiti@2.6.1)(terser@5.49.0)(yaml@2.9.0)
-
-  utrie@1.0.2:
-    dependencies:
-      base64-arraybuffer: 1.0.2
 
   vfile-message@4.0.3:
     dependencies:

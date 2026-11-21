@@ -39,11 +39,6 @@ documentation in this repository, except for the material excluded in
 | [tabbable](public/licenses/tabbable-LICENSE.txt)                                 | The tabbable-node walk the trap runs on, inside that bundle                                                      | MIT                       | Copyright (c) 2015 David Clark                                                            |
 | [HAST utilities](public/licenses/hast-LICENSE.txt)                               | Serializing HAST back to HTML for the generated section headings (11 packages)                                   | MIT                       | See the file, which carries each package's own line                                       |
 | [html-to-image](public/licenses/html-to-image-LICENSE.txt)                       | PNG export for the QR card                                                                                       | MIT                       | Copyright (c) 2017-2025 W.Y.                                                              |
-| [html2canvas](public/licenses/html2canvas-LICENSE.txt)                           | PNG export fallback when html-to-image cannot paint                                                              | MIT                       | Copyright (c) 2012 Niklas von Hertzen                                                     |
-| [css-line-break](public/licenses/css-line-break-LICENSE.txt)                     | Line-break boundaries for that fallback, inside html2canvas's bundle                                             | MIT                       | Copyright (c) 2017 Niklas von Hertzen                                                     |
-| [text-segmentation](public/licenses/text-segmentation-LICENSE.txt)               | Grapheme segmentation for that fallback, inside that bundle                                                      | MIT                       | Copyright (c) 2021 Niklas von Hertzen                                                     |
-| [utrie](public/licenses/utrie-LICENSE.txt)                                       | The Unicode trie under it, inside that bundle                                                                    | MIT                       | Copyright (c) 2021 Niklas von Hertzen                                                     |
-| [tslib](public/licenses/tslib-LICENSE.txt)                                       | The TypeScript helpers those two compile against, inside that bundle                                             | 0BSD                      | Copyright (c) Microsoft Corporation.                                                      |
 | [qrcode](public/licenses/qrcode-LICENSE.txt)                                     | The QR code canvas in the QR modal                                                                               | MIT                       | Copyright (c) 2012 Ryan Day                                                               |
 | [dijkstrajs](public/licenses/dijkstrajs-LICENSE.txt)                             | The shortest-path search behind qrcode's mask selection                                                          | MIT                       | Copyright (C) 2008 Wyatt Baldwin                                                          |
 | [Chart.js](public/licenses/chart.js-LICENSE.txt)                                 | The GitHub activity chart                                                                                        | MIT                       | Copyright (c) 2014-2024 Chart.js Contributors                                             |
@@ -63,10 +58,9 @@ documentation in this repository, except for the material excluded in
 | [Roboto Mono](public/licenses/roboto-mono-LICENSE.txt)                           | The Latin webfonts for code, and the `@font-face` rules that serve them                                          | SIL Open Font License 1.1 | Copyright (c) 2015 The Roboto Mono Project Authors                                        |
 | [Material Symbols](public/licenses/material-symbols-LICENSE.txt)                 | The icon webfont, subset from the Outlined variable font at build time                                           | Apache License 2.0        | Copyright Google LLC                                                                      |
 
-Eight of those arrive inside another work's published bundle rather than through
+Four of those arrive inside another work's published bundle rather than through
 this repository's dependencies: BootstrapVueNext publishes Floating UI's,
-VueUse's, focus-trap's and tabbable's code inside its own, and html2canvas
-bundles css-line-break's, text-segmentation's, utrie's and tslib's.
+VueUse's, focus-trap's and tabbable's code inside its own.
 
 The HAST utilities share one file because they are one toolchain: each package
 keeps its own heading, copyright line and license text inside it.

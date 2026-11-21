@@ -85,7 +85,6 @@
 | Icons              | [Material Symbols Outlined](https://fonts.google.com/icons) (self-hosted subset)                                    |
 | QR Code            | [qrcode](https://github.com/soldair/node-qrcode)                                                                    |
 | HTML-to-Image      | [html-to-image](https://github.com/bubkoo/html-to-image)                                                            |
-| HTML-to-Canvas     | [html2canvas](https://github.com/niklasvh/html2canvas)                                                              |
 | Charts             | [Chart.js](https://www.chartjs.org/)                                                                                |
 | Markdown Rendering | [Marked](https://marked.js.org/)                                                                                    |
 | Hosting            | [GitHub Pages](https://pages.github.com/)                                                                           |

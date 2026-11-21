@@ -26,11 +26,9 @@ import "./stylesheets/theme.css";
 // npm package imports
 // =========================================================================
 import * as htmlToImage from "html-to-image";
-import html2canvas from "html2canvas";
 
 // Expose globals for legacy code that expects window.xxx
 window.htmlToImage = htmlToImage as unknown as Record<string, unknown>;
-window.html2canvas = html2canvas;
 
 // =========================================================================
 // Project JS modules (order matters: dependencies before dependents)
