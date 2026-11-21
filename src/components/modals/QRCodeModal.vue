@@ -36,7 +36,7 @@ const { t } = useI18n();
 const { appliedTheme } = useTheme();
 const { showToast } = useToast();
 
-const qrCanvas = ref<HTMLCanvasElement | null>(null);
+const qrImageUrl = ref("");
 const buttonsDisabled = ref(false);
 
 // ---- Derived (narrowed from the stack entry) ----
@@ -114,12 +114,24 @@ function readQrColors(): { dark: string; light: string } {
   };
 }
 
+/**
+ * Render the QR for the current URL into a 750 px data URL.
+ *
+ * The card paints it with `#qr-code-image` rather than a `<canvas>`:
+ * html-to-image clones a canvas into an `<img>` inside its SVG, and WebKit
+ * leaves that nested image unpainted on the first capture (the exported QR
+ * came out blank). A DOM `<img>` avoids the canvas clone, and the export
+ * composites it onto the capture for engines that start the nested-image
+ * decode late (see `paintQrOntoCapture()`). 750 px is 1:1 with the
+ * `pixelRatio: 3` export of the 250 px box.
+ * @returns A promise that resolves once `qrImageUrl` holds the new URL.
+ */
 async function generateQR(): Promise<void> {
-  if (!qrCanvas.value || !url.value) return;
+  if (!url.value) return;
 
   const { dark, light } = readQrColors();
-  await QRCode.toCanvas(qrCanvas.value, url.value, {
-    width: 250,
+  qrImageUrl.value = await QRCode.toDataURL(url.value, {
+    width: 750,
     margin: 0,
     color: { dark, light },
     errorCorrectionLevel: "Q",
@@ -131,7 +143,7 @@ async function generateQR(): Promise<void> {
 // overlay transition means the CSS variables still hold the OUTGOING
 // theme's colors when effectiveTheme changes.  Guard against an empty
 // url: the modal-stack props are retired to null after leaving the
-// top, and QRCode.toCanvas throws on "".
+// top, and QRCode.toDataURL throws on "".
 watch([visible, url, appliedTheme], async () => {
   if (!visible.value || !url.value) return;
   await nextTick();
@@ -143,11 +155,90 @@ watch([visible, url, appliedTheme], async () => {
 // -------------------------------------------------------------------------
 
 /**
+ * Paint the QR back onto a capture that left it blank.
+ *
+ * WebKit rasterises the SVG's nested images asynchronously: the first
+ * capture after a QR is generated comes out with that area empty, while
+ * Chromium and Firefox wait for the decode. Drawing the source image over
+ * its own rect fills the gap, and is pixel-identical where the capture
+ * already painted it.
+ * @param dataUrl The PNG the capture produced, as a data URL.
+ * @param card The share card element that was captured.
+ * @returns The repaired PNG as a blob.
+ */
+async function paintQrOntoCapture(
+  dataUrl: string,
+  card: HTMLElement,
+): Promise<Blob> {
+  const qr = document.getElementById(
+    "qr-code-image",
+  ) as HTMLImageElement | null;
+  const rawBlob = async (): Promise<Blob> => (await fetch(dataUrl)).blob();
+  if (!qr) return rawBlob();
+
+  // The capture can run before the live image is decoded, and drawing an
+  // unfinished image silently paints nothing.
+  try {
+    await qr.decode();
+  } catch {
+    return rawBlob();
+  }
+
+  const captured = new Image();
+  captured.src = dataUrl;
+  await captured.decode();
+
+  const canvas = document.createElement("canvas");
+  canvas.width = captured.width;
+  canvas.height = captured.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return rawBlob();
+  ctx.drawImage(captured, 0, 0);
+
+  const cardRect = card.getBoundingClientRect();
+  const scale = captured.width / cardRect.width;
+  const toCaptureRect = (
+    el: Element,
+  ): { x: number; y: number; w: number; h: number } => {
+    const r = el.getBoundingClientRect();
+    return {
+      x: Math.round((r.left - cardRect.left) * scale),
+      y: Math.round((r.top - cardRect.top) * scale),
+      w: Math.round(r.width * scale),
+      h: Math.round(r.height * scale),
+    };
+  };
+
+  const qrRect = toCaptureRect(qr);
+  const iconBg = document.getElementById("qr-code-icon-bg");
+
+  // The centre icon sits over the QR and the capture already painted it,
+  // so the redraw leaves its rect alone.
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(qrRect.x, qrRect.y, qrRect.w, qrRect.h);
+  if (iconBg) {
+    const iconRect = toCaptureRect(iconBg);
+    ctx.rect(iconRect.x, iconRect.y, iconRect.w, iconRect.h);
+  }
+  ctx.clip("evenodd");
+  ctx.drawImage(qr, qrRect.x, qrRect.y, qrRect.w, qrRect.h);
+  ctx.restore();
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error("QR export produced an empty image"));
+    }, "image/png");
+  });
+}
+
+/**
  * Render the QR share card to a PNG blob.
  *
- * Uses the same two-tier fallback as the legacy features/qr-code.ts:
- * 1. html-to-image toPng (primary — canvas via SVG foreignObject)
- * 2. html2canvas (fallback for mobile / environments without foreignObject)
+ * 1. `html-to-image` captures the card through an SVG foreignObject.
+ * 2. `paintQrOntoCapture()` repairs a capture that left the QR unpainted.
+ * 3. `html2canvas` renders the card directly when step 1 throws.
  */
 async function renderShareCardBlob(): Promise<Blob> {
   const shareCard = document.getElementById("qr-share-card");
@@ -165,8 +256,7 @@ async function renderShareCardBlob(): Promise<Blob> {
       backgroundColor: bg,
       pixelRatio: 3,
     });
-    const resp = await fetch(dataUrl);
-    const blob = await resp.blob();
+    const blob = await paintQrOntoCapture(dataUrl, shareCard);
     if (blob.size > 0) return blob;
   } catch {
     // html-to-image failed (likely mobile / no foreignObject), fall through to html2canvas
@@ -282,15 +372,20 @@ function openLink(): void {
           </div>
         </div>
 
-        <div
-          id="qr-code-container"
-          class="no-copy position-relative d-inline-block"
-        >
-          <canvas ref="qrCanvas"></canvas>
+        <div id="qr-code-container" class="no-copy">
+          <img
+            v-if="qrImageUrl"
+            id="qr-code-image"
+            :src="qrImageUrl"
+            width="250"
+            height="250"
+            alt=""
+            aria-hidden="true"
+          />
           <!-- Center overlay icon -->
           <span
             id="qr-code-icon-bg"
-            class="position-absolute top-50 start-50 translate-middle rounded-2 d-flex align-items-center justify-content-center"
+            class="rounded-2 d-flex align-items-center justify-content-center"
           >
             <TypeAwareImage
               v-if="displayIcon"
@@ -466,21 +561,31 @@ function openLink(): void {
 /* --- QR code container + centre icon --- */
 
 #qr-code-container {
-  position: relative;
   width: 250px;
   height: 250px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   margin: 0 auto;
 }
 
+/* Both children share the single cell so the icon sits over the QR. */
+#qr-code-image,
 #qr-code-icon-bg {
-  width: 32px;
-  height: 32px;
+  grid-area: 1 / 1;
+}
+
+#qr-code-image {
+  width: 250px;
+  height: 250px;
+  display: block;
+}
+
+#qr-code-icon-bg {
+  width: 36px;
+  height: 36px;
   background-color: var(--bs-body-bg);
   border-radius: var(--bs-border-radius-sm);
-  box-shadow: 0 0 0 2px var(--bs-body-color);
+  border: 2px solid var(--bs-body-color);
 }
 
 #qr-code-icon {
