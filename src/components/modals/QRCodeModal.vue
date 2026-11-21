@@ -92,6 +92,13 @@ const shareApiSupported = computed(() => {
 
 const cardTitle = computed(() => centerIconAlt.value);
 
+/**
+ * True when the QR points at the site root rather than a page or an
+ * external link. The card then drops the repeated site name and URL; the
+ * comparison ignores a trailing slash so both spellings match.
+ */
+const isSiteUrl = computed(() => url.value.replace(/\/$/, "") === BASE_URL);
+
 // =========================================================================
 // Actions
 // =========================================================================
@@ -351,7 +358,11 @@ function openLink(): void {
           <div id="qr-share-card-header-text">
             <span id="qr-share-card-title">{{ cardTitle }}</span>
             <span id="qr-share-card-brand">
-              {{ $t("text-from-steve-hsu-s-link-hub") }}
+              {{
+                isSiteUrl
+                  ? $t("text-scan-to-visit-this-site")
+                  : $t("text-from-steve-hsu-s-link-hub")
+              }}
             </span>
           </div>
         </div>
@@ -388,9 +399,13 @@ function openLink(): void {
         <div id="qr-share-card-footer">
           <div id="qr-share-card-footer-text">
             <span>{{ $t("text-learn-more-about-me") }}</span>
-            <span id="qr-share-card-source" class="font-monospace">{{
-              BASE_URL
-            }}</span>
+            <span
+              id="qr-share-card-source"
+              :class="{ 'font-monospace': !isSiteUrl }"
+              >{{
+                isSiteUrl ? $t("text-artist-developer-creator") : BASE_URL
+              }}</span
+            >
           </div>
           <div id="qr-share-card-logo-container">
             <InlineSvg
