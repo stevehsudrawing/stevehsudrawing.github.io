@@ -94,7 +94,7 @@ export interface DisplayPictureGroup {
 }
 
 // =========================================================================
-// i18n text resolution (en/translation.json is the single source of truth)
+// i18n text resolution (en.json is the single source of truth)
 // =========================================================================
 
 let enCache: Record<string, string> | null = null;
@@ -103,7 +103,7 @@ let enCache: Record<string, string> | null = null;
 function getEn(): Record<string, string> {
   if (!enCache) {
     const raw = readFileSync(
-      resolve(process.cwd(), "src/configs/i18n/en/translation.json"),
+      resolve(process.cwd(), "src/configs/i18n/en.json"),
       "utf-8",
     );
     enCache = JSON.parse(raw) as Record<string, string>;
