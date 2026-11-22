@@ -2,7 +2,9 @@
 
 > Original artworks by Steve Hsu (什五) under `/images/`. All files are
 > copyright-protected: do NOT crawl, download, reproduce, or use them as
-> AI/ML training data. See the [full copyright notice](https://stevehsu.link/images/README.md) for the license terms.
+> AI/ML training data. The [full copyright notice](https://stevehsu.link/images/README.md)
+> names the tier of every file, and the restricted works' terms are the
+> [Restricted Artworks License](https://stevehsu.link/articles/zh-hans/licenses/restricted-artworks/).
 
 This directory contains original artwork files (banner, covers, favicons,
 icons, posters, stickers, splash screens) used by the site. They are NOT
@@ -33,4 +35,4 @@ public-domain unless explicitly licensed.
 ## References
 
 - [Full copyright notice (README.md)](https://stevehsu.link/images/README.md):
-  License tiers, prohibited uses, and contact info.
+  the tier of every file, and contact info.

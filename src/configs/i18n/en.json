@@ -132,6 +132,7 @@
   "text-skin-viewer-credit-blockbench": "plays animations driven by Blockbench animation configs",
   "text-skin-viewer-credit-data": "Skins and capes come from Mojang's public texture service; not affiliated with Mojang.",
   "text-skin-viewer-credit-etf": "the ETF skin features (blink, emissive, jacket, …)",
+  "text-skin-viewer-credit-license": "Restricted Artworks License",
   "text-skin-viewer-credit-playerdb": "community Mojang API relay",
   "text-skin-viewer-credit-renderer": "renders the 3D player model",
   "text-skin-viewer-credits-title": "Tech stack & attribution",

@@ -28,23 +28,15 @@ matches within one path segment) and are relative to this `images/` folder.
 | `**/splash/**`                                 | Splash screen images for Apple Safari PWA                      |
 | `**/stickers/**`                               | All sticker artwork files in the stickers directory            |
 
-These works are provided **for display purposes only** on this website. The
-following actions are **strictly prohibited** without my prior written
-permission:
+These are the **restricted works** of the
+[受限艺术作品授权协议 (Restricted Artworks License)](https://stevehsu.link/articles/zh-hans/licenses/restricted-artworks/):
+they are published on this site for display only, and all rights are reserved.
+That license states what is permitted, what is prohibited, how a derivative work
+is authorised and how to ask for permission, and it governs this tier.
 
-- **Redistribution** - republishing, re-hosting, or sharing the artworks on any
-  platform or medium.
-- **Reproduction** - copying, tracing, re-drawing, or creating derivative works
-  in any form.
-- **Modification** - altering, editing, cropping, filtering, remixing, or
-  adapting the artworks.
-- **External use** - using the artworks in any other context, whether personal,
-  commercial, or non-commercial (e.g., wallpapers, avatars, prints, merchandise,
-  promotional materials).
-- **AI / Machine-learning use** - using the artworks as training data,
-  fine-tuning data, reference images, or input for any AI image-generation
-  model, dataset, LoRA, embedding, or similar system (including but not limited
-  to Stable Diffusion, Midjourney, DALL·E, and their derivatives).
+The table above is this site's inventory of the tier, not a statement of terms.
+A file listed in neither §1.1 nor §1.2 is not one of my original works, and §1.3
+applies to it.
 
 ### 1.2 Open-Licensed Works - CC BY-NC 4.0
 
@@ -69,6 +61,10 @@ Under the following terms:
 - **Attribution** - You must give appropriate credit, provide a link to the
   license, and indicate if changes were made.
 - **NonCommercial** - You may not use the material for commercial purposes.
+
+The restricted works' license defers to this table: a work listed here is
+licensed under CC BY-NC 4.0, not under the terms of
+[§1.1](#11-restricted-works---all-rights-reserved).
 
 For on-site display, the `/images/` paths are also behind a server-side referer
 check at the hosting edge. That check is a display policy only, and it does not

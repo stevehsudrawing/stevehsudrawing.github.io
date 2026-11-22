@@ -33,3 +33,13 @@ export const ARTICLES_CHARACTER_STORY: Record<Lang, string> = {
   "zh-Hans": "/articles/zh-hans/2026-07-15-character-story/",
   "zh-Hant": "/articles/zh-hant/2026-07-15-character-story/",
 };
+
+/**
+ * The restricted artworks license that governs the `public/images/**` works,
+ * as the Simplified Chinese document.
+ *
+ * One target for every reader: the `en` and `zh-hant` routes are redirect
+ * pages, and the text itself has one language.
+ */
+export const ARTICLES_RESTRICTED_ARTWORKS =
+  "/articles/zh-hans/licenses/restricted-artworks/";

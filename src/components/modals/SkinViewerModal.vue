@@ -17,6 +17,7 @@
 -->
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { ARTICLES_RESTRICTED_ARTWORKS } from "../../configs/sub-sites";
 import { useDragState } from "../../composables/core/useDragState";
 import { useI18n } from "../../composables/core/useI18n";
 import { useToast } from "../../composables/core/useToast";
@@ -604,8 +605,18 @@ onBeforeUnmount(() => {
           <p class="small text-body-secondary mb-2">
             {{ t("text-skin-viewer-credit-data") }}
           </p>
-          <p class="small text-body-secondary mb-0">
+          <p class="small text-body-secondary mb-2">
             {{ t("text-skin-viewer-credit-art") }}
+          </p>
+          <p class="small mb-0">
+            <TypeAwareLink
+              type="static"
+              :href="ARTICLES_RESTRICTED_ARTWORKS"
+              class="link"
+              no-qr-code
+            >
+              {{ t("text-skin-viewer-credit-license") }}
+            </TypeAwareLink>
           </p>
         </BPopover>
 

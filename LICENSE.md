@@ -18,8 +18,10 @@ documentation in this repository, except for the material excluded in
 ## 2. Exclusions
 
 - **Original artworks** under `public/images/**` are not covered by this
-  license. Their terms, including works offered under the CC BY-NC 4.0 license,
-  are defined in `public/images/README.md`.
+  license. Which files are restricted works, and which are offered under the CC
+  BY-NC 4.0 license, is inventoried in `public/images/README.md`; the restricted
+  works' terms are the
+  [受限艺术作品授权协议 (Restricted Artworks License)](https://stevehsu.link/articles/zh-hans/licenses/restricted-artworks/).
 - **Third-party components** (dependencies, brand logos, social-media icons, and
   other third-party trademarks) remain the property of their respective owners
   and are governed by their own licenses.
