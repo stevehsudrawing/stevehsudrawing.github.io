@@ -65,8 +65,25 @@ const { openRefreshWarningModal } = useRefreshWarningModal();
 /** Close-button element for keyboard auto-focus. */
 const closeBtnRef = ref<HTMLElement | null>(null);
 
+/**
+ * The commit list — opening the modal scrolls its body back to the newest
+ * commit, since the scroll position survives the closed state.
+ */
+const listRef = ref<HTMLElement | null>(null);
+
 /** Keyboard-aware focus: move focus to Close when opened via Tab. */
 const { onShown } = useModalFocus(closeBtnRef);
+
+/**
+ * Runs once the modal is fully open: keyboard focus, then the list back to
+ * the newest commit.  The body keeps its scroll position while the modal is
+ * closed, and `.modal-body` cannot be scrolled before it is displayed — the
+ * `shown` event is the first point where both are true.
+ */
+function handleShown(): void {
+  onShown();
+  listRef.value?.closest(".modal-body")?.scrollTo({ top: 0 });
+}
 
 // ---- Lazy data (created on the first open) ------------------------------
 
@@ -151,7 +168,7 @@ function openRefresh(): void {
     no-header-close
     centered
     scrollable
-    @shown="onShown"
+    @shown="handleShown"
   >
     <template #title>
       <TruncatedTitle :text="t('text-site-changelog')" />
@@ -176,7 +193,7 @@ function openRefresh(): void {
     />
 
     <!-- ==== Commit timeline ==== -->
-    <ul v-else class="changelog-list list-unstyled mb-0">
+    <ul v-else ref="listRef" class="changelog-list list-unstyled mb-0">
       <li v-for="row in rows" :key="row.sha" class="changelog-item">
         <!-- Rail: continuous line + this commit's dot -->
         <span class="changelog-rail" aria-hidden="true">
@@ -265,7 +282,7 @@ function openRefresh(): void {
 */
 .changelog-list {
   --changelog-side-w: 2rem;
-  --changelog-title-line: 1.75rem;
+  --changelog-title-line: 1.4rem;
 }
 
 .changelog-item {
@@ -300,15 +317,13 @@ function openRefresh(): void {
   top: calc(var(--changelog-title-line) / 2);
 }
 
-/* …and the final dot ends the rail with a gradient-fading tail, so the
-   timeline visibly "runs out". */
+/* …and the final dot ends the rail with a gradient-fading tail over the
+   row's own height, so the timeline visibly "runs out". */
 .changelog-item:last-child .changelog-rail::before {
-  bottom: auto;
-  height: calc(var(--changelog-title-line) / 2 + 0.75rem);
   background: linear-gradient(
     to bottom,
     rgba(var(--bs-secondary-rgb), var(--shlh-changelog-timeline-opacity)) 55%,
-    transparent 100%
+    rgba(var(--bs-secondary-rgb), 0) 100%
   );
 }
 
@@ -321,6 +336,9 @@ function openRefresh(): void {
   transform: translate(-50%, -50%);
   border: 2px solid
     rgba(var(--bs-secondary-rgb), var(--shlh-changelog-timeline-opacity));
+  /* Halo in the body color: follows the radius and disappears under
+     forced-colors, where the dot's own background still masks the rail. */
+  box-shadow: 0 0 0 2px var(--bs-body-bg);
   border-radius: 50%;
   background: var(--bs-body-bg);
 }
@@ -335,12 +353,14 @@ function openRefresh(): void {
    moves to its own line and keeps hugging the right edge. */
 .changelog-head {
   font-size: 0.875rem;
+  /* The dot sits at half the title line; this makes the box exactly that
+     tall, so the text and the dot share a center. */
+  line-height: var(--changelog-title-line);
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   column-gap: 0.5rem;
   row-gap: 0.125rem;
-  min-height: var(--changelog-title-line);
 }
 
 .changelog-title {
@@ -355,14 +375,17 @@ function openRefresh(): void {
   margin-left: auto;
   display: inline-flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.25rem;
   white-space: nowrap;
 }
 
 /* Narrow layout: the title rarely leaves room for the group on the same
    line, so it takes a line of its own — the relative time then starts at
-   the title's left edge, while the hash keeps the right edge. */
-@media (max-width: 767.98px) {
+   the title's left edge, while the hash keeps the right edge.  Below lg the
+   .modal-lg dialog is still the default 500px wide (576 through 991.98),
+   so the group needs its own line across that whole range; at 992 the
+   dialog turns 800px. */
+@media (max-width: 991.98px) {
   .changelog-meta {
     margin-left: 0;
     width: 100%;
@@ -373,7 +396,7 @@ function openRefresh(): void {
 .changelog-body {
   color: var(--bs-secondary-color);
   font-size: 0.875rem;
-  padding-top: 0.25rem;
+  padding-top: 0.125rem;
   padding-bottom: 0.5rem;
 }
 
