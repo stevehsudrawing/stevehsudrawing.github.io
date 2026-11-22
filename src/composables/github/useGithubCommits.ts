@@ -2,7 +2,7 @@
  * GitHub commits composable — wraps useGithubApi for the repository
  * commits endpoint (the site changelog modal).
  *
- * Endpoint: GET /repos/{GITHUB_REPO}/commits?per_page=10
+ * Endpoint: GET /repos/{GITHUB_REPO}/commits?per_page=20
  * Cache: 1-hour stale-while-revalidate (via useGithubApi).
  *
  * Lazy contract: the changelog modal is always mounted, so it must
@@ -20,8 +20,8 @@ import { useGithubApi } from "./useGithubApi";
 // Constants
 // =========================================================================
 
-/** Latest commits of the site repository (10 rows for the modal). */
-const COMMITS_URL = `https://api.github.com/repos/${GITHUB_REPO}/commits?per_page=10`;
+/** Latest commits of the site repository (20 rows for the modal). */
+const COMMITS_URL = `https://api.github.com/repos/${GITHUB_REPO}/commits?per_page=20`;
 
 // =========================================================================
 // Composable

@@ -1,7 +1,7 @@
 <!--
   ChangelogModal.vue — site changelog popup (footer entry).
 
-  Lists the latest 10 repository commits from the GitHub REST API as a
+  Lists the latest 20 repository commits from the GitHub REST API as a
   timeline: a rail with dots, then one wrapping line per commit — the
   title, a relative time (absolute in a tooltip) and the short hash
   linking to the commit page — with the plain-text body always shown
