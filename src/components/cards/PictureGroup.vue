@@ -3,12 +3,12 @@
   and a CSS Grid of PictureCards (row-wise flow, v3.18.4).
 -->
 <script setup lang="ts">
-import { toHtml } from "hast-util-to-html";
 import { computed } from "vue";
 import { useBreakpoint } from "../../composables/core/useBreakpoint";
 import { useI18n } from "../../composables/core/useI18n";
-import { resolveI18nInHtml } from "../../core/utils";
 import type { Breakpoint, DisplayPictureGroupData } from "../../types/app";
+import type { HastNode } from "../../types/hast";
+import HastFragment from "../render-functions/HastFragment.vue";
 import SectionHeading from "../ui/SectionHeading.vue";
 import PictureCard from "./PictureCard.vue";
 
@@ -47,15 +47,14 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const breakpoint = useBreakpoint();
 
-/** HAST -> HTML for the group description (same handling as LinkCardGroup). */
-const descHtml = computed(() =>
-  props.group.description
-    ? resolveI18nInHtml(
-        toHtml(props.group.description as Parameters<typeof toHtml>[0]),
-        t,
-      )
-    : "",
-);
+/** HAST children for the group description. */
+const descNodes = computed<HastNode[]>(() => {
+  if (!props.group.description) return [];
+  const desc = props.group.description;
+  return desc.type === "root" && Array.isArray(desc.children)
+    ? (desc.children as HastNode[])
+    : [desc as HastNode];
+});
 
 /** Whether the group has any pictures. */
 const hasContents = computed(
@@ -73,7 +72,9 @@ const hasContents = computed(
     />
 
     <!-- Group description -->
-    <p v-if="descHtml" class="card-text" v-html="descHtml"></p>
+    <p v-if="descNodes.length" class="card-text">
+      <HastFragment :nodes="descNodes" />
+    </p>
 
     <!-- Grid (row-major; the uniform group ratio keeps rows tidy) -->
     <div

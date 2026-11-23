@@ -7,6 +7,10 @@
   `dataModal` property to `<ModalTrigger>` (parameterless modal
   openers).  Other elements are rendered as native HTML elements with
   their attributes passed through.
+
+  Translation directives: `dataI18n` replaces the children with the
+  translated text, and `dataI18nHtml` with the translated HTML — that
+  HTML is the only place this renderer emits raw markup.
 -->
 <script lang="ts">
 import { defineComponent, h, type VNode } from "vue";
@@ -52,9 +56,10 @@ export default defineComponent({
       if (node.type === "element") {
         const properties = node.properties ?? {};
         const i18nKey = (properties.dataI18n as string) ?? "";
+        const i18nHtmlKey = (properties.dataI18nHtml as string) ?? "";
 
-        // Resolve dataI18n: replace children with translated text
-        const childNodes = i18nKey ? [] : (node.children ?? []);
+        // Resolve dataI18n / dataI18nHtml: the key replaces the children
+        const childNodes = i18nKey || i18nHtmlKey ? [] : (node.children ?? []);
         const children = childNodes.map(renderNode);
 
         // <a> → TypeAwareLink
@@ -127,6 +132,11 @@ export default defineComponent({
         // Resolve dataI18n: replace children with the translated text
         if (i18nKey) {
           return h(tagName, vueProps, t(i18nKey));
+        }
+
+        // Resolve dataI18nHtml: the translated HTML replaces the children
+        if (i18nHtmlKey) {
+          return h(tagName, { ...vueProps, innerHTML: t(i18nHtmlKey) });
         }
 
         return h(tagName, vueProps, children);

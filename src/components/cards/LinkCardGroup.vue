@@ -3,11 +3,11 @@
   Renders one LinkCardGroupData item from the link-cards JSON config.
 -->
 <script setup lang="ts">
-import { toHtml } from "hast-util-to-html";
 import { computed } from "vue";
 import { useI18n } from "../../composables/core/useI18n";
-import { resolveI18nInHtml } from "../../core/utils";
 import type { LinkCardGroupData } from "../../types/app";
+import type { HastNode } from "../../types/hast";
+import HastFragment from "../render-functions/HastFragment.vue";
 import SectionHeading from "../ui/SectionHeading.vue";
 import LinkCard from "./LinkCard.vue";
 
@@ -28,15 +28,14 @@ const props = defineProps<{
 
 const { t } = useI18n();
 
-/** HAST -> HTML for the group description. */
-const descHtml = computed(() =>
-  props.group.description
-    ? resolveI18nInHtml(
-        toHtml(props.group.description as Parameters<typeof toHtml>[0]),
-        t,
-      )
-    : "",
-);
+/** HAST children for the group description. */
+const descNodes = computed<HastNode[]>(() => {
+  if (!props.group.description) return [];
+  const desc = props.group.description;
+  return desc.type === "root" && Array.isArray(desc.children)
+    ? (desc.children as HastNode[])
+    : [desc as HastNode];
+});
 
 /** Whether the group has any cards. */
 const hasCards = computed(() => props.group.contents.length > 0);
@@ -52,7 +51,9 @@ const hasCards = computed(() => props.group.contents.length > 0);
     />
 
     <!-- Group description -->
-    <p v-if="descHtml" class="card-text" v-html="descHtml"></p>
+    <p v-if="descNodes.length" class="card-text">
+      <HastFragment :nodes="descNodes" />
+    </p>
 
     <!-- Cards grid -->
     <div v-if="hasCards" class="row g-0">
