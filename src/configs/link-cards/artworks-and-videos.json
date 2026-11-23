@@ -259,17 +259,58 @@
   {
     "id": "sticker-collections",
     "description": {
-      "type": "element",
-      "tagName": "span",
+      "type": "root",
       "children": [
         {
-          "type": "text",
-          "value": "You can download and use these stickers on platforms where they are already available. The display quality of stickers varies depending on platform requirements; please refer to the actual version."
+          "type": "element",
+          "tagName": "span",
+          "properties": {
+            "dataI18n": "text-sticker-collections-license"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "These sticker collections are published under the "
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tagName": "a",
+          "properties": {
+            "className": ["static-link"],
+            "href": "/articles/zh-hans/licenses/restricted-artworks/"
+          },
+          "children": [
+            {
+              "type": "element",
+              "tagName": "cite",
+              "properties": {
+                "dataI18n": "text-restricted-artworks-license"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Restricted Artworks License"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tagName": "span",
+          "properties": {
+            "dataI18n": "text-sticker-collections-license-note"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": ", which says where they may be used. You can download and use them on the platforms where they are already available; the display quality varies by platform, so please refer to the actual version."
+            }
+          ]
         }
-      ],
-      "properties": {
-        "dataI18n": "text-sticker-collections-description"
-      }
+      ]
     },
     "contents": [
       {

@@ -615,7 +615,7 @@ onBeforeUnmount(() => {
               class="link"
               no-qr-code
             >
-              {{ t("text-skin-viewer-credit-license") }}
+              <cite>{{ t("text-restricted-artworks-license") }}</cite>
             </TypeAwareLink>
           </p>
         </BPopover>

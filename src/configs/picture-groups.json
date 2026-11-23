@@ -45,17 +45,58 @@
   {
     "id": "sticker-collections",
     "description": {
-      "type": "element",
-      "tagName": "span",
+      "type": "root",
       "children": [
         {
-          "type": "text",
-          "value": "This section displays the posters of various Sticker Collections. You can visit the \"Artworks & Videos\" page to see the methods of downloading."
+          "type": "element",
+          "tagName": "span",
+          "properties": {
+            "dataI18n": "text-sticker-collections-download-methods"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "This section displays the posters of the various Sticker Collections. You can visit the "
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tagName": "a",
+          "properties": {
+            "className": ["internal-link"],
+            "href": "/artworks-and-videos.html#sticker-collections"
+          },
+          "children": [
+            {
+              "type": "element",
+              "tagName": "span",
+              "properties": {
+                "dataI18n": "text-artworks-and-videos"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Artworks & Videos"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tagName": "span",
+          "properties": {
+            "dataI18n": "text-sticker-collections-download-methods-note"
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": " page to see how to download them."
+            }
+          ]
         }
-      ],
-      "properties": {
-        "dataI18n": "text-sticker-collections-display-description"
-      }
+      ]
     },
     "aspectRatio": 0.75,
     "pages": ["gallery"],
