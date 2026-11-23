@@ -1,7 +1,7 @@
 {
   "name": "stevehsudrawing-link-hub",
   "private": true,
-  "version": "2026.11.23.02",
+  "version": "2026.11.23.03",
   "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
   "scripts": {
@@ -42,8 +42,6 @@
     "chart.js": "^4.5.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^4.4.0",
-    "hast-util-to-html": "^9.0.5",
-    "hastscript": "^9.0.1",
     "html-to-image": "^1.11.13",
     "qrcode": "^1.5.4",
     "skinview3d": "3.4.2",

@@ -4,9 +4,9 @@
  * Must be a standalone script (no imports/exports) so TypeScript treats
  * it as an ambient module declaration rather than a module augmentation.
  *
- * This is separate from globals.d.ts because globals.d.ts needs to import
- * from hast-util-to-html (making it a module), and module-level
- * `declare module` blocks behave differently in Volar's ts-plugin.
+ * This is separate from globals.d.ts because module-level `declare module`
+ * blocks behave differently from ambient ones in Volar's ts-plugin; two
+ * scripts keep each file's declarations where that plugin expects them.
  */
 
 declare module "*.md?raw" {

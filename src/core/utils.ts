@@ -74,51 +74,6 @@ export function extractPlainText(node: unknown): string {
   return "";
 }
 
-// =========================================================================
-// I18n resolution for HAST-rendered HTML
-// =========================================================================
-
-/**
- * Post-process HTML output from `toHtml()` to resolve `data-i18n` and
- * `data-i18n-html` attributes into their translated values.
- *
- * This resolves HAST-rendered content (link cards, button groups)
- * without a legacy DOM walker.
- *
- * @param html - Raw HTML string from `toHtml()`.
- * @param t - i18n translation function (`t(key)`).
- * @returns HTML with all `data-i18n` attributes resolved to translated text,
- *          and the `data-i18n` / `data-i18n-html` attributes removed.
- */
-export function resolveI18nInHtml(
-  html: string,
-  t: (key: string) => string,
-): string {
-  if (!html) return "";
-
-  const doc = new DOMParser().parseFromString(html, "text/html");
-
-  // Resolve data-i18n (textContent)
-  doc.querySelectorAll("[data-i18n]").forEach((el) => {
-    const key = el.getAttribute("data-i18n");
-    if (key) {
-      el.textContent = t(key);
-    }
-    el.removeAttribute("data-i18n");
-  });
-
-  // Resolve data-i18n-html (innerHTML)
-  doc.querySelectorAll("[data-i18n-html]").forEach((el) => {
-    const key = el.getAttribute("data-i18n-html");
-    if (key) {
-      el.innerHTML = t(key);
-    }
-    el.removeAttribute("data-i18n-html");
-  });
-
-  return doc.body.innerHTML;
-}
-
 /**
  * Merge the current `?lang=` query param into a replacement query object.
  *

@@ -6,16 +6,10 @@
  *
  * NOTE: Some packages (html-to-image) do not ship their own type
  * declarations.  For those we declare minimal module stubs below.
- * The `hast-util-to-html` package ships its own types.
+ * This file declares no imports, so it stays a script rather than a
+ * module and the declarations below apply at the global scope.
  */
 
-import type { toHtml as ToHtmlFn } from "hast-util-to-html";
-
-declare global {
-  interface Window {
-    htmlToImage: Record<string, unknown>;
-    toHtml: typeof ToHtmlFn;
-  }
+interface Window {
+  htmlToImage: Record<string, unknown>;
 }
-
-export {};

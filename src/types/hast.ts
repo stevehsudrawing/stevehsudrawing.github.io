@@ -1,6 +1,6 @@
 /**
  * Shared hast (Hypertext Abstract Syntax Tree) types.
- * Used by src/core/utils.ts and src/configs/*.
+ * Used by the card and picture components, their renderer and src/configs/*.
  *
  * Link-card / link-button config types (LinkCardData, LinkCardGroupData,
  * LinkButtonData, …) live in src/types/app.ts and are shared by the Vue
@@ -9,8 +9,8 @@
 
 /**
  * A hast node - can be root, element, text, or comment.
- * The `hast-util-to-html` library uses a more precise union type;
- * this is a simplified version for our JSON configs.
+ * The shape is deliberately loose: it describes JSON configs that several
+ * modules build, read and render, not one library's output.
  */
 export interface HastNode {
   type: string;
