@@ -117,7 +117,7 @@ code {
   word-break: break-all;
   color: inherit;
   background-color: var(--bs-tertiary-bg);
-  outline: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
+  outline: 1px solid var(--shlh-hairline-color);
 }
 
 /* ========================================================================

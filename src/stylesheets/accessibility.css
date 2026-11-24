@@ -97,7 +97,7 @@
   }
 
   .navbar-scrolled {
-    border-bottom-color: rgb(var(--bs-body-color-rgb)) !important;
+    border-bottom-color: var(--bs-body-color) !important;
   }
 
   .navbar-nav .nav-link.active,

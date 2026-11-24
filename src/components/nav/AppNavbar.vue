@@ -363,8 +363,11 @@ defineExpose({
     transparent 0%,
     var(--bs-body-bg) 100%
   );
+  /* The border row lies outside the padding box, so the band stops at the
+     padding edge: the hairline then paints over the page instead of over this
+     element's own gradient. */
+  background-clip: padding-box;
   backdrop-filter: blur(var(--shlh-blur-sm)) saturate(1.5);
-  box-shadow: 0 0 0 rgba(var(--bs-body-color-rgb), 0);
   padding: 0;
   padding-top: calc(var(--safe-area-inset-top, 0px) + 1px);
   border-bottom: 1px solid transparent;
@@ -408,7 +411,7 @@ defineExpose({
 }
 
 .navbar-scrolled {
-  border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.2);
+  border-bottom: 1px solid var(--shlh-hairline-color);
 }
 
 /* --- Brand container --- */
