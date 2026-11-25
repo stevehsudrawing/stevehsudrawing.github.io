@@ -15,13 +15,21 @@ import "@fontsource-variable/inter/opsz-italic.css";
 import "@fontsource-variable/inter/opsz.css";
 import "@fontsource-variable/roboto-mono/wght.css";
 
-// Project CSS (order matters: base -> theme -> layouts -> components)
+// Project CSS. The order is the cascade: a sheet that restates a Bootstrap
+// component variable at equal specificity has to load after the framework and
+// after the sheets that restate the same variables, which is why `base.css`
+// comes last.
+//
+// `accessibility.css` stays ahead of `theme.css` until it dissolves: its
+// contrast block loses the dark-mode tokens to the theme's bridge only by
+// loading earlier, so moving it would change the high-contrast palette rather
+// than preserve it.
 import "./stylesheets/accessibility.css";
-import "./stylesheets/base.css";
+import "./stylesheets/theme.css";
+import "./stylesheets/parameters.css";
 import "./stylesheets/fonts.css";
 import "./stylesheets/on-image-controls.css";
-import "./stylesheets/parameters.css";
-import "./stylesheets/theme.css";
+import "./stylesheets/base.css";
 
 // =========================================================================
 // npm package imports

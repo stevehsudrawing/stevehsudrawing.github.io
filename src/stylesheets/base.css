@@ -221,10 +221,6 @@ h6,
   box-shadow: var(--bs-box-shadow-lg);
 }
 
-.modal-header {
-  border-bottom: none !important;
-}
-
 /* Titles clamp to one line; the overflow logic and the tooltip live in
    `TruncatedTitle`.  The direct-child selector matters — `header-class`
    puts its classes on the header DIV, so a bare `.modal-title` rule
@@ -266,10 +262,6 @@ h6,
 
 .modal-body {
   padding: 0 var(--bs-modal-padding);
-}
-
-.modal-footer {
-  border-top: none !important;
 }
 
 /* Footer labels never wrap — whole buttons wrap instead. */

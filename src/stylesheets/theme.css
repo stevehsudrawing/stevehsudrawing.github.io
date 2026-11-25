@@ -5,8 +5,6 @@
 /* --- Both --- */
 :root {
   --shlh-close-btn-focus-ring-color: #000;
-  --shlh-close-btn-focus-shadow: 0 0 0 var(--bs-focus-ring-width)
-    var(--shlh-close-btn-focus-ring-color);
   --shlh-transition-rgb: 144, 146, 148;
 
   /* The ink of a hairline that separates glass from content. It stays
@@ -381,13 +379,6 @@ a {
 [data-bs-theme="dark"] .btn-outline-secondary {
   --bs-btn-hover-color: var(--bs-body-bg);
   --bs-btn-active-color: var(--bs-body-bg);
-}
-
-/* --- Close Button --- */
-
-/* Both */
-.btn-close {
-  --bs-btn-close-focus-shadow: var(--shlh-close-btn-focus-shadow) !important;
 }
 
 /* ========================================================================

@@ -1,7 +1,18 @@
 /* ==== Bootstrap - compiled from source ==== */
 /* The whole framework is imported rather than a hand-picked module list, so no
    class the markup can name is missing. A bare specifier resolves through the
-   `loadPaths` entry in vite.config.ts. Sass settings that reshape the framework
-   arrive with the commit that needs them, as `!default` overrides above this
-   import. */
+   `loadPaths` entry in vite.config.ts. This file is also where the framework's
+   own decisions are overridden: every assignment below has to sit above the
+   `@import`, because Bootstrap declares its variables with `!default`. */
+
+// Neither modal edge carries a rule, so the width is zero rather than a later
+// `border: none !important` winning a fight.
+$modal-header-border-width: 0;
+$modal-footer-border-width: 0;
+
+// The close button keeps a ring of its own instead of the focus-ring color, so
+// the value is built here rather than patched onto the class.
+$btn-close-focus-shadow: 0 0 0 var(--bs-focus-ring-width)
+  var(--shlh-close-btn-focus-ring-color);
+
 @import "bootstrap/scss/bootstrap";
