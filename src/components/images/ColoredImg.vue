@@ -94,7 +94,7 @@ onMounted(() => {
 /* ==== Loading opacity ==== */
 
 img {
-  opacity: var(--shlh-loading-opacity);
+  opacity: var(--shlh-opacity-loading);
   transition: opacity var(--shlh-duration-base) ease;
   cursor: wait;
 }

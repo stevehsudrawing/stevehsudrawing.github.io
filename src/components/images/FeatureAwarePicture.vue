@@ -399,7 +399,7 @@ watch([resolvedImgSrc, resolvedAvifSrc], () => {
 /* ==== Image loading opacity (global, applies site-wide) ==== */
 
 img {
-  opacity: var(--shlh-loading-opacity);
+  opacity: var(--shlh-opacity-loading);
   transition: opacity var(--shlh-duration-base) ease;
   cursor: wait;
 }
@@ -558,8 +558,8 @@ html.user-input-keyboard .picture-overlay-btn {
   background-image: linear-gradient(
     120deg,
     transparent 40%,
-    rgba(var(--bs-body-color-rgb), var(--shlh-shimmer-alpha)) 40.1%,
-    rgba(var(--bs-body-color-rgb), var(--shlh-shimmer-alpha)) 59.9%,
+    rgba(var(--bs-body-color-rgb), var(--shlh-opacity-shimmer)) 40.1%,
+    rgba(var(--bs-body-color-rgb), var(--shlh-opacity-shimmer)) 59.9%,
     transparent 60%
   );
   background-size: 200% 100%;

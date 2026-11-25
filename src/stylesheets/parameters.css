@@ -10,8 +10,7 @@
    Families:
    - --shlh-header-height   The navbar's own height, without the safe-area inset
    - --shlh-blur-*          Backdrop / filter blur radii
-   - --shlh-*-opacity       Surfaces, backdrops, dimming, image loading
-   - --shlh-*-alpha         Translucent fills (shimmer, on-image bars)
+   - --shlh-opacity-*       Translucency factors (surfaces, fills, loading)
    - --shlh-duration-*      Shared transition paces (fast / base / slow)
    - --shlh-transition-rgb  The neutral the theme wipe fades through
    - --shlh-cursor-*        The grab / grabbing cursors of the drag surfaces
@@ -28,12 +27,16 @@
   --shlh-blur-sm: 0.5rem;
   --shlh-blur-md: 1rem;
 
-  /* Opacities */
-  --shlh-surface-opacity: 0.8;
-  --shlh-backdrop-opacity: 0.75;
-  --shlh-dim-opacity: 0.5;
-  --shlh-loading-opacity: 0.5;
-  --shlh-changelog-timeline-opacity: 0.5;
+  /* Opacity - how translucent a surface or a fill is, whether it lands on the
+     opacity property or inside an rgba() channel. */
+  --shlh-opacity-surface: 0.8;
+  --shlh-opacity-backdrop: 0.75;
+  --shlh-opacity-dim: 0.5;
+  --shlh-opacity-loading: 0.5;
+  --shlh-opacity-changelog-timeline: 0.5;
+  --shlh-opacity-shimmer: 0.08;
+  --shlh-opacity-on-image-bar: 0.3;
+  --shlh-opacity-on-image-toast: 0.3;
 
   /* The neutral the theme wipe fades through; the same in every theme. */
   --shlh-transition-rgb: 144, 146, 148;
@@ -43,11 +46,6 @@
      color of whatever passes beneath it - a custom property reference
      resolves where it is used, not where it is written. */
   --shlh-hairline-color: rgba(var(--bs-body-color-rgb), 0.2);
-
-  /* Alphas */
-  --shlh-shimmer-alpha: 0.08;
-  --shlh-on-image-bar-alpha: 0.3;
-  --shlh-on-image-toast-alpha: 0.3;
 
   /* Durations */
   --shlh-duration-fast: 0.1s;
@@ -86,10 +84,10 @@
   :root {
     --shlh-blur-sm: 0;
     --shlh-blur-md: 0;
-    --shlh-surface-opacity: 1;
-    --shlh-backdrop-opacity: 1;
-    --shlh-on-image-bar-alpha: 0.5;
-    --shlh-on-image-toast-alpha: 1;
+    --shlh-opacity-surface: 1;
+    --shlh-opacity-backdrop: 1;
+    --shlh-opacity-on-image-bar: 0.5;
+    --shlh-opacity-on-image-toast: 1;
   }
 }
 
@@ -97,10 +95,10 @@
 
 @media (prefers-contrast: more) {
   :root {
-    --shlh-surface-opacity: 1;
-    --shlh-backdrop-opacity: 1;
-    --shlh-shimmer-alpha: 0.15;
-    --shlh-on-image-bar-alpha: 0.5;
-    --shlh-on-image-toast-alpha: 1;
+    --shlh-opacity-surface: 1;
+    --shlh-opacity-backdrop: 1;
+    --shlh-opacity-shimmer: 0.15;
+    --shlh-opacity-on-image-bar: 0.5;
+    --shlh-opacity-on-image-toast: 1;
   }
 }

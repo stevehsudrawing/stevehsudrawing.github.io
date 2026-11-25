@@ -308,7 +308,7 @@ function openRefresh(): void {
   transform: translateX(-50%);
   background: rgba(
     var(--bs-secondary-rgb),
-    var(--shlh-changelog-timeline-opacity)
+    var(--shlh-opacity-changelog-timeline)
   );
 }
 
@@ -322,7 +322,7 @@ function openRefresh(): void {
 .changelog-item:last-child .changelog-rail::before {
   background: linear-gradient(
     to bottom,
-    rgba(var(--bs-secondary-rgb), var(--shlh-changelog-timeline-opacity)) 55%,
+    rgba(var(--bs-secondary-rgb), var(--shlh-opacity-changelog-timeline)) 55%,
     rgba(var(--bs-secondary-rgb), 0) 100%
   );
 }
@@ -335,7 +335,7 @@ function openRefresh(): void {
   height: 0.5rem;
   transform: translate(-50%, -50%);
   border: 2px solid
-    rgba(var(--bs-secondary-rgb), var(--shlh-changelog-timeline-opacity));
+    rgba(var(--bs-secondary-rgb), var(--shlh-opacity-changelog-timeline));
   /* Halo in the body color: follows the radius and disappears under
      forced-colors, where the dot's own background still masks the rail. */
   box-shadow: 0 0 0 2px var(--bs-body-bg);

@@ -357,7 +357,7 @@ defineExpose({
 
 .navbar {
   height: calc(var(--shlh-header-height) + var(--safe-area-inset-top, 0px));
-  background-color: rgba(var(--bs-body-bg-rgb), var(--shlh-surface-opacity));
+  background-color: rgba(var(--bs-body-bg-rgb), var(--shlh-opacity-surface));
   background-image: linear-gradient(
     0deg,
     transparent 0%,

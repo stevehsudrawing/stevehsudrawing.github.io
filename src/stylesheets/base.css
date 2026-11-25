@@ -120,7 +120,7 @@ hr {
 }
 
 #page-content.content-dimming {
-  opacity: var(--shlh-dim-opacity);
+  opacity: var(--shlh-opacity-dim);
   filter: blur(var(--shlh-blur-sm));
 }
 
@@ -263,7 +263,7 @@ h6,
 .offcanvas-backdrop {
   --bs-backdrop-bg: var(--bs-body-bg);
   --bs-backdrop-bg-rgb: var(--bs-body-bg-rgb);
-  --bs-backdrop-opacity: var(--shlh-backdrop-opacity);
+  --bs-backdrop-opacity: var(--shlh-opacity-backdrop);
   background-color: rgba(var(--bs-backdrop-bg-rgb));
   opacity: 0;
   backdrop-filter: blur(0);
