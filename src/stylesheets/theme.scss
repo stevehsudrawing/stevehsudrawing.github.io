@@ -35,17 +35,6 @@
 
 /* --- Both --- */
 :root {
-  --shlh-transition-rgb: 144, 146, 148;
-
-  /* The ink of a hairline that separates glass from content. It stays
-     translucent so the row it paints takes the color of whatever passes
-     beneath it. */
-  --shlh-hairline-color: rgba(var(--bs-body-color-rgb), 0.2);
-
-  --shlh-cursor-grab: url("/images/svg/cursors/grab.svg") 18 17, grab;
-  --shlh-cursor-grabbing:
-    url("/images/svg/cursors/grabbing.svg") 18 17, grabbing;
-
   @each $step, $value in $grays {
     --bs-gray-#{$step}-rgb: #{to-rgb($value)};
   }

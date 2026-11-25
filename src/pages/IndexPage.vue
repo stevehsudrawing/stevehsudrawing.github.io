@@ -211,7 +211,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
 .large-hero-section {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - var(--shlh-header-height));
 }
 
 /* --- CLS-safe square cover box (padding-top reserves the 1:1 box) --- */

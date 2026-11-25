@@ -8,16 +8,22 @@
    coupling between files.
 
    Families:
-   - --shlh-blur-*        Backdrop / filter blur radii
-   - --shlh-*-opacity     Surfaces, backdrops, dimming, image loading
-   - --shlh-*-alpha       Translucent fills (shimmer, on-image bars)
-   - --shlh-duration-*    Shared transition paces (fast / base / slow)
-   - --shlh-z-*           Coordinated stacking layers
+   - --shlh-header-height   The navbar's own height, without the safe-area inset
+   - --shlh-blur-*          Backdrop / filter blur radii
+   - --shlh-*-opacity       Surfaces, backdrops, dimming, image loading
+   - --shlh-*-alpha         Translucent fills (shimmer, on-image bars)
+   - --shlh-duration-*      Shared transition paces (fast / base / slow)
+   - --shlh-transition-rgb  The neutral the theme wipe fades through
+   - --shlh-cursor-*        The grab / grabbing cursors of the drag surfaces
+   - --shlh-z-*             Coordinated stacking layers
    ======================================================================== */
 
 /* --- Defaults --- */
 
 :root {
+  /* Layout */
+  --shlh-header-height: 64px;
+
   /* Blur radii */
   --shlh-blur-sm: 0.5rem;
   --shlh-blur-md: 1rem;
@@ -29,6 +35,15 @@
   --shlh-loading-opacity: 0.5;
   --shlh-changelog-timeline-opacity: 0.5;
 
+  /* The neutral the theme wipe fades through; the same in every theme. */
+  --shlh-transition-rgb: 144, 146, 148;
+
+  /* The ink of a hairline that separates glass from content. It reads the
+     ink rather than naming a color, so the row it paints still takes the
+     color of whatever passes beneath it - a custom property reference
+     resolves where it is used, not where it is written. */
+  --shlh-hairline-color: rgba(var(--bs-body-color-rgb), 0.2);
+
   /* Alphas */
   --shlh-shimmer-alpha: 0.08;
   --shlh-on-image-bar-alpha: 0.3;
@@ -39,10 +54,26 @@
   --shlh-duration-base: 0.2s;
   --shlh-duration-slow: 0.5s;
 
-  /* Z-index layers (relative to Bootstrap's ladder: dropdown 1000 /
-     fixed-top 1030 / offcanvas 1045 / backdrop 1050 / modal 1055 /
-     popover 1070 / tooltip 1080 / toast 1090) */
+  /* Cursors */
+  --shlh-cursor-grab: url("/images/svg/cursors/grab.svg") 18 17, grab;
+  --shlh-cursor-grabbing:
+    url("/images/svg/cursors/grabbing.svg") 18 17, grabbing;
+
+  /* Z-index layers, bottom to top, each with what paints there. Values
+     below 100 order siblings inside one component's stacking context and
+     stay literals where they are used.
+
+     5     on-image        controls drawn on top of a picture
+     1005  card-hover      a lifted card, above its neighbors only
+     1050  dropdown        a menu opened from the fixed navbar
+     1055  status-bar      the page-sequence bar, level with a modal
+     1100  overlay         the theme wipe, the loading bar, the skip link
+     1200  loading-screen  the first-load screen, above everything else
+
+     Bootstrap's own ladder: dropdown 1000, fixed-top 1030, offcanvas 1045,
+     backdrop 1050, modal 1055, popover 1070, tooltip 1080, toast 1090. */
   --shlh-z-on-image: 5;
+  --shlh-z-card-hover: 1005;
   --shlh-z-dropdown: 1050;
   --shlh-z-status-bar: 1055;
   --shlh-z-overlay: 1100;
@@ -59,12 +90,6 @@
     --shlh-backdrop-opacity: 1;
     --shlh-on-image-bar-alpha: 0.5;
     --shlh-on-image-toast-alpha: 1;
-  }
-
-  /* Bootstrap's tooltip opacity knob has no `--shlh-` indirection;
-     override it directly (Bootstrap loads first - no `!important`). */
-  .tooltip {
-    --bs-tooltip-opacity: 1;
   }
 }
 

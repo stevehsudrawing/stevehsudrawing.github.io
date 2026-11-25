@@ -44,7 +44,8 @@
 
 /* `prefers-reduced-transparency` is handled as parameter variants in
    `parameters.css` instead: blur radii go to 0 and surfaces go opaque, which
-   is a value change rather than a rule change. */
+   is a value change rather than a rule change. The one exception is a
+   framework knob with no `--shlh-` indirection, overridden below. */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -59,6 +60,14 @@
   .picture-single-hints,
   .skin-viewer-hints {
     display: none !important;
+  }
+}
+
+/* Bootstrap's tooltip opacity knob has no `--shlh-` indirection, so it is
+   overridden here rather than as a parameter. */
+@media (prefers-reduced-transparency: reduce) {
+  .tooltip {
+    --bs-tooltip-opacity: 1;
   }
 }
 
@@ -101,7 +110,7 @@ hr {
 }
 
 #page-content {
-  margin-top: calc(64px + var(--safe-area-inset-top));
+  margin-top: calc(var(--shlh-header-height) + var(--safe-area-inset-top));
   margin-bottom: calc(2rem + var(--safe-area-inset-bottom));
   flex: 1;
   filter: none;
@@ -406,7 +415,7 @@ h6,
 
 .card:hover {
   background-color: rgba(var(--bs-secondary-rgb), 0.05);
-  z-index: 1005;
+  z-index: var(--shlh-z-card-hover);
   outline: calc(var(--bs-card-border-width) * 2) solid var(--bs-secondary);
 }
 
