@@ -1,7 +1,7 @@
 {
   "name": "stevehsudrawing-link-hub",
   "private": true,
-  "version": "2026.11.25.05",
+  "version": "2026.11.25.06",
   "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
   "scripts": {

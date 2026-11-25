@@ -1,0 +1,149 @@
+/* ========================================================================
+   Color Settings
+   ======================================================================== */
+
+@use "palette" as *;
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+/* --- Scale Generation ---
+   One mixin emits both a step and its `-rgb` twin, so a hex and the rgb that
+   Bootstrap blends against can no longer drift apart. `to-rgb()` and
+   `escape-svg()` come from the two imports above; `$grays` is the framework's
+   own map, which is why the gray twins are generated rather than listed. */
+
+@mixin accent-scale($scale) {
+  @each $step, $value in $scale {
+    --shlh-primary-#{$step}: #{$value};
+    --shlh-primary-#{$step}-rgb: #{to-rgb($value)};
+  }
+}
+
+/* The switch knob is a data-URI SVG, so its fill has to be a literal inside
+   the string. Building it from the map keeps the literal from drifting, and
+   `escape-svg()` produces the same percent encoding the sheet used to spell
+   out by hand. */
+@mixin switch-tokens($accent, $ink) {
+  --shlh-form-switch-bg-focus: #{escape-svg(
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$accent}'/></svg>")
+    )};
+  --shlh-form-switch-bg-checked: #{escape-svg(
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$ink}'/></svg>")
+    )};
+}
+
+/* --- Both --- */
+:root {
+  --shlh-transition-rgb: 144, 146, 148;
+
+  /* The ink of a hairline that separates glass from content. It stays
+     translucent so the row it paints takes the color of whatever passes
+     beneath it. */
+  --shlh-hairline-color: rgba(var(--bs-body-color-rgb), 0.2);
+
+  --shlh-cursor-grab: url("/images/svg/cursors/grab.svg") 18 17, grab;
+  --shlh-cursor-grabbing:
+    url("/images/svg/cursors/grabbing.svg") 18 17, grabbing;
+
+  @each $step, $value in $grays {
+    --bs-gray-#{$step}-rgb: #{to-rgb($value)};
+  }
+}
+
+/* --- Light Theme --- */
+
+:root,
+[data-bs-theme="light"] {
+  --bs-card-border-color: var(--bs-gray-300);
+
+  @include accent-scale($shlh-accent-light);
+
+  --shlh-focus-ring-color: #000;
+  --shlh-primary-contrast: #fff;
+
+  @include switch-tokens(map-get($shlh-accent-light, 500), #fff);
+}
+
+/* --- Dark Theme --- */
+
+[data-bs-theme="dark"] {
+  --bs-card-border-color: var(--bs-gray-500);
+
+  @include accent-scale($shlh-accent-dark);
+
+  --shlh-focus-ring-color: #fff;
+  --shlh-primary-contrast: #212529;
+
+  @include switch-tokens(map-get($shlh-accent-dark, 500), #212529);
+}
+
+/* --- High Contrast Theme --- */
+@media (prefers-contrast: more) {
+  /* Light Theme - Darker */
+  :root,
+  [data-bs-theme="light"] {
+    @include accent-scale($shlh-accent-light-contrast);
+
+    --bs-body-font-weight: 500;
+    --bs-secondary-color: #000;
+    --bs-secondary-color-rgb: 0, 0, 0;
+    --bs-border-color-translucent: #000;
+    --bs-border-color: var(--bs-body-color);
+    --bs-tertiary-bg: #fff;
+    --bs-tertiary-bg-rgb: 255, 255, 255;
+    --bs-box-shadow: 0 0 0 2px var(--bs-body-color);
+    --bs-box-shadow-sm: 0 0 0 2px var(--bs-body-color);
+    --bs-box-shadow-lg: 0 0 0 2px var(--bs-body-color);
+  }
+
+  /* Dark Theme - Lighter */
+  [data-bs-theme="dark"] {
+    @include accent-scale($shlh-accent-dark-contrast);
+
+    --bs-body-bg: #000;
+    --bs-body-bg-rgb: 0, 0, 0;
+    --bs-secondary-color: #fff;
+    --bs-secondary-color-rgb: 255, 255, 255;
+    --bs-border-color-translucent: #fff;
+    --bs-tertiary-bg: #000;
+    --bs-tertiary-bg-rgb: 0, 0, 0;
+  }
+}
+
+/* ========================================================================
+   Bootstrap Overrides
+   ======================================================================== */
+
+/* --- Base --- */
+
+/* Both */
+:root {
+  --bs-primary: var(--shlh-primary-500);
+  --bs-link-color: var(--shlh-primary-500);
+  --bs-primary-rgb: var(--shlh-primary-500-rgb);
+  --bs-link-color-rgb: var(--shlh-primary-500-rgb);
+  --bs-focus-ring-color: var(--shlh-focus-ring-color);
+}
+
+/* Light */
+[data-bs-theme="light"] {
+  --bs-link-hover-color: var(--shlh-primary-600);
+  --bs-link-hover-color-rgb: var(--shlh-primary-600-rgb);
+  --bs-primary-text-emphasis: var(--shlh-primary-800);
+  --bs-primary-bg-subtle: var(--shlh-primary-100);
+  --bs-primary-border-subtle: var(--shlh-primary-200);
+  --bs-secondary: var(--bs-gray-600);
+  --bs-secondary-rgb: var(--bs-gray-600-rgb);
+}
+
+/* Dark */
+[data-bs-theme="dark"] {
+  --bs-link-hover-color: var(--shlh-primary-400);
+  --bs-link-hover-color-rgb: var(--shlh-primary-400-rgb);
+  --bs-primary-text-emphasis: var(--shlh-primary-500);
+  --bs-primary-bg-subtle: var(--shlh-primary-900);
+  --bs-primary-border-subtle: var(--shlh-primary-800);
+  --bs-secondary: var(--bs-gray-500);
+  --bs-secondary-rgb: var(--bs-gray-500-rgb);
+}

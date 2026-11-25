@@ -19,7 +19,7 @@ import "@fontsource-variable/roboto-mono/wght.css";
 // component variable at equal specificity has to load after the framework and
 // after the sheets that restate the same variables, which is why `base.css`
 // comes last.
-import "./stylesheets/theme.css";
+import "./stylesheets/theme.scss";
 import "./stylesheets/parameters.css";
 import "./stylesheets/fonts.css";
 import "./stylesheets/on-image-controls.css";

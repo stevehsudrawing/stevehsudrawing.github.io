@@ -259,7 +259,7 @@ export interface PictureSrcMap {
 export interface ColoredImgProps {
   /** Mask image source (the SVG/PNG shape). */
   src: string;
-  /** CSS variable name for the tint color (e.g. "shlh-primary-color"). */
+  /** CSS variable name for the tint color (e.g. "shlh-primary-contrast"). */
   colorVar: string;
   /** Alt text (pre-resolved from i18n). */
   alt: string;

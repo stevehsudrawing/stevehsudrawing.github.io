@@ -118,7 +118,7 @@ export function extractColoredImgProps(
 
   return {
     src: (props.dataSrcMask as string) ?? (props.src as string) ?? "",
-    colorVar: (props.dataColorVar as string) ?? "shlh-primary-color",
+    colorVar: (props.dataColorVar as string) ?? "shlh-primary-contrast",
     alt: altKey ? t(altKey) : ((props.alt as string) ?? ""),
   };
 }

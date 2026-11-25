@@ -45,7 +45,7 @@ const btnClass = computed(() =>
 
 /**
  * For primary buttons, the icon is displayed as a colored mask tinted
- * with shlh-primary-color (visible on the btn-primary background).
+ * with shlh-primary-contrast (visible on the btn-primary background).
  * Non-primary buttons use the icon as-is.  The id-derived alt is always
  * injected (ColoredImg requires alt).
  */
@@ -57,7 +57,7 @@ const displayIcon = computed<TypeAwareImageProps>(() => {
       type: "colored-img",
       imgProps: {
         src: icon.imgProps.src ?? "",
-        colorVar: "shlh-primary-color",
+        colorVar: "shlh-primary-contrast",
         alt: baseAlt,
       },
     };

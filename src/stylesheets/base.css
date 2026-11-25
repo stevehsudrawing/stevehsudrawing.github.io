@@ -10,8 +10,8 @@
 }
 
 *::selection {
-  color: var(--shlh-primary-color);
-  background: var(--shlh-primary);
+  color: var(--shlh-primary-contrast);
+  background: var(--shlh-primary-500);
 }
 
 /* ========================================================================
@@ -236,7 +236,7 @@ h6,
 .dropdown-menu {
   --bs-dropdown-zindex: var(--shlh-z-dropdown);
   --bs-dropdown-link-active-bg: var(--shlh-primary-500);
-  --bs-dropdown-link-active-color: var(--shlh-primary-color);
+  --bs-dropdown-link-active-color: var(--shlh-primary-contrast);
 }
 
 /* --- Close Button --- */
@@ -426,7 +426,7 @@ h6,
 a {
   --shlh-link-color: var(--shlh-primary-500);
   --shlh-link-color-rgb: var(--shlh-primary-500-rgb);
-  --shlh-link-hover-on-background-color: var(--shlh-primary-color);
+  --shlh-link-hover-on-background-color: var(--shlh-primary-contrast);
   --shlh-link-hover-color: var(--shlh-primary-600);
   --shlh-link-active-color: var(--shlh-primary-700);
 
@@ -481,11 +481,11 @@ a:active {
 .btn-outline-primary {
   --bs-btn-color: var(--bs-primary);
   --bs-btn-border-color: var(--bs-primary);
-  --bs-btn-hover-color: var(--shlh-primary-color);
+  --bs-btn-hover-color: var(--shlh-primary-contrast);
   --bs-btn-hover-bg: var(--bs-primary);
   --bs-btn-hover-border-color: var(--bs-primary);
   --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
-  --bs-btn-active-color: var(--shlh-primary-color);
+  --bs-btn-active-color: var(--shlh-primary-contrast);
   --bs-btn-active-bg: var(--bs-primary);
   --bs-btn-active-border-color: var(--bs-primary);
   --bs-btn-disabled-color: var(--bs-primary);
@@ -514,10 +514,20 @@ a:active {
   --bs-btn-active-border-color: var(--shlh-primary-700);
   --bs-btn-disabled-bg: var(--shlh-primary-500);
   --bs-btn-disabled-border-color: var(--shlh-primary-500);
-  --bs-btn-color: var(--shlh-primary-color);
-  --bs-btn-hover-color: var(--shlh-primary-color);
-  --bs-btn-active-color: var(--shlh-primary-color);
-  --bs-btn-disabled-color: var(--shlh-primary-color);
+  --bs-btn-color: var(--shlh-primary-contrast);
+  --bs-btn-hover-color: var(--shlh-primary-contrast);
+  --bs-btn-active-color: var(--shlh-primary-contrast);
+  --bs-btn-disabled-color: var(--shlh-primary-contrast);
+}
+
+/* In dark the label is `#212529`, so the fill steps lighter: 600 and 700 walk
+   it toward the ink (5.60 and 3.35 against AA's 4.5), while 400 and 300 give
+   9.77 and 11.00. The light block already steps darker under a white label. */
+[data-bs-theme="dark"] .btn-primary {
+  --bs-btn-hover-bg: var(--shlh-primary-400);
+  --bs-btn-hover-border-color: var(--shlh-primary-400);
+  --bs-btn-active-bg: var(--shlh-primary-300);
+  --bs-btn-active-border-color: var(--shlh-primary-300);
 }
 
 /* The text sits on a fill of the same gray family, so it takes the page
@@ -542,22 +552,14 @@ a:active {
   border-color: var(--shlh-primary-500);
 }
 
-/* The switch's knob is a data-URI SVG, so its fill is a literal rather than a
-   token. */
+/* The knob's fill is a color, so the theme sheet owns it: both tokens are
+   generated from the accent map. */
 .form-switch .form-check-input:focus {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%233c96ff'/%3e%3c/svg%3e");
+  --bs-form-switch-bg: var(--shlh-form-switch-bg-focus);
 }
 
 .form-switch .form-check-input:checked {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
-}
-
-[data-bs-theme="dark"] .form-switch .form-check-input:focus {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2347c4ee'/%3e%3c/svg%3e");
-}
-
-[data-bs-theme="dark"] .form-switch .form-check-input:checked {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23212529'/%3e%3c/svg%3e");
+  --bs-form-switch-bg: var(--shlh-form-switch-bg-checked);
 }
 
 /* --- Range Input ---

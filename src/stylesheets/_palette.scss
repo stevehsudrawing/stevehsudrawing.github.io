@@ -1,0 +1,62 @@
+/* ========================================================================
+   Palette
+   ======================================================================== */
+
+/* The accent scale, one map per theme, keyed by step 100 to 900. The values
+   are the measured steps rather than arithmetic: each was chosen so a step
+   reaches a contrast ratio the roles that read it need, and `theme.scss`
+   generates the `-rgb` twins from them with `to-rgb()`.
+
+   High contrast shifts a scale one step: light moves darker and pins 900 to
+   `#000`, dark moves lighter and pins 100 to `#fff`. The relationship is
+   described here and written out, not computed, for the same reason.
+
+   This partial emits no CSS, so importing it cannot reorder anything. */
+
+$shlh-accent-light: (
+  100: #d8eaff,
+  200: #b1d5ff,
+  300: #8ac0ff,
+  400: #63abff,
+  500: #3c96ff,
+  600: #3078cc,
+  700: #245a99,
+  800: #183c66,
+  900: #0c1e33,
+);
+
+$shlh-accent-dark: (
+  100: #daf3fc,
+  200: #b5e7f8,
+  300: #a7e3f7,
+  400: #89d9f4,
+  500: #47c4ee,
+  600: #56a6c1,
+  700: #417d91,
+  800: #1c4e5f,
+  900: #0e2730,
+);
+
+$shlh-accent-light-contrast: (
+  100: #b1d5ff,
+  200: #8ac0ff,
+  300: #63abff,
+  400: #3c96ff,
+  500: #3078cc,
+  600: #245a99,
+  700: #183c66,
+  800: #0c1e33,
+  900: #000,
+);
+
+$shlh-accent-dark-contrast: (
+  100: #fff,
+  200: #daf3fc,
+  300: #b5e7f8,
+  400: #a7e3f7,
+  500: #89d9f4,
+  600: #47c4ee,
+  700: #56a6c1,
+  800: #417d91,
+  900: #1c4e5f,
+);

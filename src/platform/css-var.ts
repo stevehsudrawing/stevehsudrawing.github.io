@@ -4,12 +4,12 @@
  * Similar to i18n's t(key): if the property is not set,
  * empty, or unavailable (SSR), the fallback value is returned.
  *
- * @param prop - CSS custom property name with leading `--` (e.g. "--shlh-primary").
+ * @param prop - CSS custom property name with leading `--` (e.g. "--shlh-primary-500").
  * @param fallback - Value returned when the property is unavailable or empty.
  * @returns The trimmed CSS property value, or the fallback.
  *
  * @example
- * cssVar("shlh-primary", "#3078cc")        // → "#3078cc"
+ * cssVar("shlh-primary-500", "#3c96ff")    // → "#3c96ff"
  * cssVar("nonexistent", "rgb(0,0,0)")      // → "rgb(0,0,0)"
  */
 export function cssVar(prop: string, fallback: string): string {
