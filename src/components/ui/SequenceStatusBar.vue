@@ -107,7 +107,7 @@ onScopeDispose(() => {
   padding: 0 1rem;
   border-top: 1px solid var(--bs-border-color);
   background-color: rgba(var(--bs-body-bg-rgb), var(--shlh-opacity-surface));
-  backdrop-filter: blur(var(--shlh-blur-md));
+  backdrop-filter: var(--shlh-backdrop-filter-sm-glass);
   color: var(--bs-body-color);
   box-shadow: var(--bs-box-shadow-lg);
   z-index: var(--shlh-z-status-bar);

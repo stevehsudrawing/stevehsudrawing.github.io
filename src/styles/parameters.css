@@ -8,13 +8,15 @@
    coupling between files.
 
    Families:
-   - --shlh-header-height   The navbar's own height, without the safe-area inset
-   - --shlh-blur-*          Backdrop / filter blur radii
-   - --shlh-opacity-*       Translucency factors (surfaces, fills, loading)
-   - --shlh-duration-*      Shared transition paces (fast / base / slow)
-   - --shlh-transition-rgb  The neutral the theme wipe fades through
-   - --shlh-cursor-*        The grab / grabbing cursors of the drag surfaces
-   - --shlh-z-*             Coordinated stacking layers
+   - --shlh-header-height      The navbar's height, without the inset
+   - --shlh-backdrop-filter-*  What a translucent surface does behind it
+                               (sm / sm-glass / md)
+   - --shlh-content-filter-*   A blur of the element's own content (sm)
+   - --shlh-opacity-*          Translucency factors (surface, fill, loading)
+   - --shlh-duration-*         Shared transition paces (fast / base / slow)
+   - --shlh-transition-rgb     The neutral the theme wipe fades through
+   - --shlh-cursor-*           The grab / grabbing drag cursors
+   - --shlh-z-*                Coordinated stacking layers
    ========================================================================== */
 
 /* --- Defaults --- */
@@ -23,9 +25,15 @@
   /* Layout */
   --shlh-header-height: 64px;
 
-  /* Blur radii */
-  --shlh-blur-sm: 0.5rem;
-  --shlh-blur-md: 1rem;
+  /* Backdrop filters - what a translucent surface does to what is behind it */
+  --shlh-backdrop-filter-sm: blur(0.5rem);
+  --shlh-backdrop-filter-sm-glass: blur(0.5rem) saturate(1.5);
+  --shlh-backdrop-filter-md: blur(1rem);
+
+  /* Content filter - a blur of the element's own content, as opposed to
+     what sits behind it. Two families because the two properties are not
+     the same effect, even when the radius agrees. */
+  --shlh-content-filter-sm: blur(0.5rem);
 
   /* Opacity - how translucent a surface or a fill is, whether it lands on the
      opacity property or inside an rgba() channel. */
@@ -82,8 +90,10 @@
 
 @media (prefers-reduced-transparency: reduce) {
   :root {
-    --shlh-blur-sm: 0;
-    --shlh-blur-md: 0;
+    --shlh-backdrop-filter-sm: none;
+    --shlh-backdrop-filter-sm-glass: none;
+    --shlh-backdrop-filter-md: none;
+    --shlh-content-filter-sm: none;
     --shlh-opacity-surface: 1;
     --shlh-opacity-backdrop: 1;
     --shlh-opacity-on-image-bar: 0.5;

@@ -367,7 +367,7 @@ defineExpose({
      padding edge: the hairline then paints over the page instead of over this
      element's own gradient. */
   background-clip: padding-box;
-  backdrop-filter: blur(var(--shlh-blur-sm)) saturate(1.5);
+  backdrop-filter: var(--shlh-backdrop-filter-sm-glass);
   padding: 0;
   padding-top: calc(var(--safe-area-inset-top, 0px) + 1px);
   border-bottom: 1px solid transparent;
@@ -375,7 +375,7 @@ defineExpose({
 }
 
 /* Literal radius here - `@supports` conditions cannot take `var()`;
-   keep in sync with `--shlh-blur-sm` (parameters.css). */
+   keep it in step with `--shlh-backdrop-filter-sm-glass` (parameters.css). */
 @supports not (backdrop-filter: blur(1rem)) {
   .navbar {
     background-color: rgba(var(--bs-body-bg-rgb), 1);

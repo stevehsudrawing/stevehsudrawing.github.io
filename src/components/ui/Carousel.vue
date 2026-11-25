@@ -585,7 +585,7 @@ watch(swiperEnabled, (enabled) => {
   line-height: 1;
   overflow: hidden;
   pointer-events: none;
-  backdrop-filter: blur(var(--shlh-blur-sm));
+  backdrop-filter: var(--shlh-backdrop-filter-sm);
   transition:
     width var(--shlh-duration-fast) ease,
     background-color var(--shlh-duration-fast) ease,
@@ -638,7 +638,7 @@ watch(swiperEnabled, (enabled) => {
   border: 0;
   border-radius: 0;
   background: var(--shlh-on-image-bar-bg);
-  backdrop-filter: blur(var(--shlh-blur-sm));
+  backdrop-filter: var(--shlh-backdrop-filter-sm);
   cursor: pointer;
   overflow: hidden;
   transition: filter var(--shlh-duration-fast) ease;

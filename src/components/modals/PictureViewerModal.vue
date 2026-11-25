@@ -804,7 +804,7 @@ onBeforeUnmount(() => {
   border-radius: var(--bs-border-radius);
   font-size: 0.8rem;
   line-height: 1.25;
-  backdrop-filter: blur(var(--shlh-blur-sm));
+  backdrop-filter: var(--shlh-backdrop-filter-sm);
   animation: picture-hint-fade 5s ease forwards;
 }
 
