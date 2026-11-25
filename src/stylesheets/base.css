@@ -2,11 +2,16 @@
    CSS Reset
    ======================================================================== */
 
+/* `overflow-wrap` alone. Chromium reads `word-break: break-word` as
+   `overflow-wrap: anywhere` together with `word-break: normal`, and
+   `anywhere` also lowers a box's min-content width to its widest single
+   character — a long token then collapses the box to one character. Both
+   spellings wrap identically; this one keeps the box at least one word wide. */
 * {
   text-autospace: normal;
   font-family: inherit;
   font-optical-sizing: auto;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 *::selection {

@@ -1,3 +1,5 @@
+@use "sass:list";
+
 /* ========================================================================
    Font Settings - CSS custom properties for multi-language font stacks
    ======================================================================== */
@@ -89,39 +91,49 @@
    `--bs-code-font-family` on the root, so a descendant override
    would never re-substitute. */
 
+/* One stack per locale: the Latin face, that locale's CJK face (English has
+   none and falls straight through to the shared Japanese face), the shared
+   fallbacks, and the emoji tail.  The monospace stack repeats the Latin sans
+   face after its own fallback, because a CJK glyph inside a code span resolves
+   through the sans list first. */
+@mixin font-injection($cjk: ()) {
+  --bs-font-sans-serif: #{list.join(
+      list.join(list.append((), var(--shlh-font-sans-serif-en), comma), $cjk),
+      (
+        var(--shlh-font-sans-serif-ja),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-emoji)
+      )
+    )};
+  --bs-font-monospace: #{list.join(
+      list.join(list.append((), var(--shlh-font-monospace-en), comma), $cjk),
+      (
+        var(--shlh-font-sans-serif-ja),
+        var(--shlh-font-monospace-system),
+        var(--shlh-font-sans-serif-en),
+        var(--shlh-font-sans-serif-system),
+        var(--shlh-font-emoji)
+      )
+    )};
+}
+
 /* English */
 :root {
-  --bs-font-sans-serif:
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-ja),
-    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji);
-  --bs-font-monospace:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-ja),
-    var(--shlh-font-monospace-system), var(--shlh-font-sans-serif-en),
-    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji);
+  @include font-injection;
 }
+
+/* The locale's face is a one-element comma list, built by `append` because a
+   written `(face,)` is not stable: the formatter drops the trailing comma and
+   the list becomes a parenthesized value, which joins with a space. */
+$cjk-hans: list.append((), var(--shlh-font-sans-serif-zh-Hans), comma);
+$cjk-hant: list.append((), var(--shlh-font-sans-serif-zh-Hant), comma);
 
 /* Chinese (Simplified) */
 :root[lang="zh-Hans"] {
-  --bs-font-sans-serif:
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-zh-Hans),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji);
-  --bs-font-monospace:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hans),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji);
+  @include font-injection($cjk-hans);
 }
 
 /* Chinese (Traditional) */
 :root[lang="zh-Hant"] {
-  --bs-font-sans-serif:
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-zh-Hant),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji);
-  --bs-font-monospace:
-    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-zh-Hant),
-    var(--shlh-font-sans-serif-ja), var(--shlh-font-monospace-system),
-    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-system),
-    var(--shlh-font-emoji);
+  @include font-injection($cjk-hant);
 }

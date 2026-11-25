@@ -21,7 +21,7 @@ import "@fontsource-variable/roboto-mono/wght.css";
 // comes last.
 import "./stylesheets/theme.scss";
 import "./stylesheets/parameters.css";
-import "./stylesheets/fonts.css";
+import "./stylesheets/fonts.scss";
 import "./stylesheets/on-image-controls.css";
 import "./stylesheets/base.css";
 
