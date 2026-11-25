@@ -1,14 +1,14 @@
-@use "sass:list";
-
 /* ========================================================================
-   Font Settings - CSS custom properties for multi-language font stacks
+   Font Settings - the stacks, composed once, and one slot per language
    ======================================================================== */
+
+/* The icon face is a Sass variable: its only reader is the class below, and
+   no runtime code overrides it. */
+$shlh-font-icon: "Material Symbols Outlined Variable";
 
 :root {
   --shlh-font-emoji:
     "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-
-  --shlh-font-icon: "Material Symbols Outlined Variable";
 
   --shlh-font-monospace-en: "Roboto Mono Variable";
   --shlh-font-monospace-system: ui-monospace, monospace;
@@ -29,6 +29,12 @@
     "PingFang", "Noto Sans TC", "Noto Sans CJK TC", "思源黑體",
     "Source Han Sans TC", "Microsoft JhengHei UI", "微軟正黑體",
     "Microsoft JhengHei";
+
+  /* The one part of the sans stack a language changes: the CJK faces are
+     the only fragments that differ per locale, so a composed stack reads
+     this slot instead of naming a face. */
+  --shlh-font-sans-serif-cjk: var(--shlh-font-sans-serif-ja);
+
   --shlh-font-sans-serif-system:
     -apple-system, ui-sans-serif, system-ui, sans-serif;
 }
@@ -53,7 +59,7 @@
    the retired `.bi` margin (visual parity).  `user-select: none`
    keeps the ligature text out of text selections. */
 .material-symbols-outlined {
-  font-family: var(--shlh-font-icon);
+  font-family: $shlh-font-icon;
   font-weight: normal;
   font-style: normal;
   line-height: 1;
@@ -80,60 +86,41 @@
   font-size: 1.1em;
 }
 
-/* --- Variable Overrides --- */
+/* --- The Bootstrap injections --- */
 
-/* The per-language stacks are injected by overriding Bootstrap's
-   custom properties — never by writing `body` / `code` selector
-   rules.  Overrides MUST target the ROOT element (compound
-   `:root[lang="…"]`, never a descendant form like
-   `html[lang="…"] :root`): `:root` is the `<html>` element itself,
-   and Bootstrap resolves `--bs-body-font-family` /
-   `--bs-code-font-family` on the root, so a descendant override
-   would never re-substitute. */
+/* Each stack is written once and reads `--shlh-font-sans-serif-cjk` where
+   the CJK faces go, so a language changes one declaration instead of
+   restating the whole stack.  Overrides MUST target the ROOT element
+   (compound `:root[lang="…"]`, never a descendant form like
+   `html[lang="…"] :root`): `:root` is the `<html>` element itself, and
+   Bootstrap resolves `--bs-body-font-family` / `--bs-code-font-family`
+   on the root, so a descendant override would never re-substitute.
 
-/* One stack per locale: the Latin face, that locale's CJK face (English has
-   none and falls straight through to the shared Japanese face), the shared
-   fallbacks, and the emoji tail.  The monospace stack repeats the Latin sans
-   face after its own fallback, because a CJK glyph inside a code span resolves
-   through the sans list first. */
-@mixin font-injection($cjk: ()) {
-  --bs-font-sans-serif: #{list.join(
-      list.join(list.append((), var(--shlh-font-sans-serif-en), comma), $cjk),
-      (
-        var(--shlh-font-sans-serif-ja),
-        var(--shlh-font-sans-serif-system),
-        var(--shlh-font-emoji)
-      )
-    )};
-  --bs-font-monospace: #{list.join(
-      list.join(list.append((), var(--shlh-font-monospace-en), comma), $cjk),
-      (
-        var(--shlh-font-sans-serif-ja),
-        var(--shlh-font-monospace-system),
-        var(--shlh-font-sans-serif-en),
-        var(--shlh-font-sans-serif-system),
-        var(--shlh-font-emoji)
-      )
-    )};
-}
-
-/* English */
+   The monospace stack reads the sans CJK slot on purpose: a CJK glyph
+   fills one full-width cell by itself, so its advance is fixed by the
+   character rather than by the face, and a monospace CJK list of its own
+   would be these faces under a second name.  The stack also repeats the
+   Latin sans face after its own fallback, because a CJK glyph inside a
+   code span resolves through the sans list first. */
 :root {
-  @include font-injection;
+  --bs-font-sans-serif:
+    var(--shlh-font-sans-serif-en), var(--shlh-font-sans-serif-cjk),
+    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji);
+  --bs-font-monospace:
+    var(--shlh-font-monospace-en), var(--shlh-font-sans-serif-cjk),
+    var(--shlh-font-monospace-system), var(--shlh-font-sans-serif-en),
+    var(--shlh-font-sans-serif-system), var(--shlh-font-emoji);
 }
 
-/* The locale's face is a one-element comma list, built by `append` because a
-   written `(face,)` is not stable: the formatter drops the trailing comma and
-   the list becomes a parenthesized value, which joins with a space. */
-$cjk-hans: list.append((), var(--shlh-font-sans-serif-zh-Hans), comma);
-$cjk-hant: list.append((), var(--shlh-font-sans-serif-zh-Hant), comma);
-
-/* Chinese (Simplified) */
+/* The Chinese locales read their own face first and keep the Japanese
+   face behind it — the order the stacks had when each locale restated
+   the whole list. */
 :root[lang="zh-Hans"] {
-  @include font-injection($cjk-hans);
+  --shlh-font-sans-serif-cjk:
+    var(--shlh-font-sans-serif-zh-Hans), var(--shlh-font-sans-serif-ja);
 }
 
-/* Chinese (Traditional) */
 :root[lang="zh-Hant"] {
-  @include font-injection($cjk-hant);
+  --shlh-font-sans-serif-cjk:
+    var(--shlh-font-sans-serif-zh-Hant), var(--shlh-font-sans-serif-ja);
 }

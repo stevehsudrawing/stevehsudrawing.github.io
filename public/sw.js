@@ -28,7 +28,7 @@
  * `shlh-*` caches are deleted on activate.
  */
 
-const CACHE_VERSION = "2026.11.25.09";
+const CACHE_VERSION = "2026.11.25.10";
 const HTML_CACHE = `shlh-html-${CACHE_VERSION}`;
 const STATIC_CACHE = `shlh-static-${CACHE_VERSION}`;
 
