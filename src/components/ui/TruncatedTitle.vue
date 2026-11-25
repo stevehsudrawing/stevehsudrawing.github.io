@@ -10,7 +10,7 @@
   Sits in the BModal `#title` slot of every modal; the outer
   `.modal-title` span (including the `-label` id that `aria-labelledby`
   points at) stays BModal's, and the companion clamp rule lives in
-  `stylesheets/base.css`.
+  `styles/base.css`.
 -->
 <script setup lang="ts">
 import { nextTick, onUnmounted, ref, watch } from "vue";

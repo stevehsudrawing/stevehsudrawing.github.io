@@ -1,7 +1,7 @@
 /* ==========================================================================
    Parameters - Cross-cutting visual parameters (single source)
 
-   Every value below is consumed via `var()` from stylesheets and
+   Every value below is consumed via `var()` from these sheets and
    component style blocks.  The preference variants at the bottom
    re-declare the SAME custom properties, so consumers pick the variant
    up through inheritance - no `!important` and no cascade-order

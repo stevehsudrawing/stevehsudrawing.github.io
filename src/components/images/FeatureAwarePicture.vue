@@ -102,7 +102,7 @@ const bottomDark = ref<boolean | null>(null);
 
 /**
  * Palette class for the overlay controls — the shared on-image palette
- * (`src/stylesheets/on-image-controls.css`), also used by the Carousel
+ * (`src/styles/on-image-controls.css`), also used by the Carousel
  * and the picture viewers.
  */
 const overlayPaletteClass = computed(() =>

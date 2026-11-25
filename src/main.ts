@@ -8,7 +8,7 @@
 // CSS imports
 // =========================================================================
 // Bootstrap, compiled from source by the Sass settings in vite.config.ts
-import "./stylesheets/bootstrap.scss";
+import "./styles/bootstrap.scss";
 
 // Self-hosted fonts (replaces CDN <link> tags)
 import "@fontsource-variable/inter/opsz-italic.css";
@@ -19,11 +19,11 @@ import "@fontsource-variable/roboto-mono/wght.css";
 // component variable at equal specificity has to load after the framework and
 // after the sheets that restate the same variables, which is why `base.css`
 // comes last.
-import "./stylesheets/theme.scss";
-import "./stylesheets/parameters.css";
-import "./stylesheets/fonts.scss";
-import "./stylesheets/on-image-controls.css";
-import "./stylesheets/base.css";
+import "./styles/theme.scss";
+import "./styles/parameters.css";
+import "./styles/fonts.scss";
+import "./styles/on-image-controls.css";
+import "./styles/base.css";
 
 // =========================================================================
 // npm package imports
