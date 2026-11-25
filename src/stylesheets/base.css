@@ -9,6 +9,11 @@
   word-break: break-word;
 }
 
+*::selection {
+  color: var(--shlh-primary-color);
+  background: var(--shlh-primary);
+}
+
 /* ========================================================================
    Focus
    ======================================================================== */
@@ -31,6 +36,43 @@
 .btn-close:focus-visible {
   outline: 2px solid var(--shlh-focus-ring-color);
   outline-offset: -2px;
+}
+
+/* ========================================================================
+   Motion
+   ======================================================================== */
+
+/* `prefers-reduced-transparency` is handled as parameter variants in
+   `parameters.css` instead: blur radii go to 0 and surfaces go opaque, which
+   is a value change rather than a rule change. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Self-fading hint overlays lose their fade-out when animations are
+     disabled and would linger — hide them outright. */
+  .picture-single-hints,
+  .skin-viewer-hints {
+    display: none !important;
+  }
+}
+
+/* When the reader turned animations off in the site's settings. */
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+.no-animations .picture-single-hints,
+.no-animations .skin-viewer-hints {
+  display: none !important;
 }
 
 /* ========================================================================
@@ -84,9 +126,9 @@ hr {
    Typography
    ======================================================================== */
 
-/* Colours only — other link affordances animate with their own classes
-   (the `.link` underline sweep below; `.link-hover-change-background`
-   owns its transition set in theme.css, v3.20.0). */
+/* Colors only — other link affordances animate with their own classes
+   (the `.link` underline sweep below; `.link-hover-change-background` in
+   Custom Link / Button Features owns its transition set). */
 a {
   text-decoration: none;
   transition: color var(--shlh-duration-fast) linear;
@@ -123,10 +165,7 @@ a {
   transform-origin: left center;
 }
 
-html[lang="zh-Hans"] cite {
-  font-style: normal;
-}
-
+html[lang="zh-Hans"] cite,
 html[lang="zh-Hant"] cite {
   font-style: normal;
 }
@@ -196,6 +235,8 @@ h6,
 
 .dropdown-menu {
   --bs-dropdown-zindex: var(--shlh-z-dropdown);
+  --bs-dropdown-link-active-bg: var(--shlh-primary-500);
+  --bs-dropdown-link-active-color: var(--shlh-primary-color);
 }
 
 /* --- Close Button --- */
@@ -204,8 +245,12 @@ h6,
   border-radius: var(--bs-border-radius);
 }
 
-/* --- Offcanvas --- */
+/* --- Backdrops ---
+   A modal and the mobile sidebar dim the page the same way, so the two
+   backdrops are one block. The color comes from the token Bootstrap paints
+   from, which the shared declarations below replace. */
 
+.modal-backdrop,
 .offcanvas-backdrop {
   --bs-backdrop-bg: var(--bs-body-bg);
   --bs-backdrop-bg-rgb: var(--bs-body-bg-rgb);
@@ -215,6 +260,7 @@ h6,
   backdrop-filter: blur(0);
 }
 
+.modal-backdrop.show,
 .offcanvas-backdrop.show {
   background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
   opacity: 1;
@@ -291,20 +337,6 @@ h6,
 /* Footer labels never wrap — whole buttons wrap instead. */
 .modal-footer .btn {
   white-space: nowrap;
-}
-
-.modal-backdrop {
-  --bs-backdrop-bg: var(--bs-body-bg);
-  --bs-backdrop-bg-rgb: var(--bs-body-bg-rgb);
-  --bs-backdrop-opacity: var(--shlh-backdrop-opacity);
-  opacity: 0;
-  backdrop-filter: blur(0);
-}
-
-.modal-backdrop.show {
-  background-color: rgba(var(--bs-backdrop-bg-rgb), var(--bs-backdrop-opacity));
-  opacity: 1;
-  backdrop-filter: blur(var(--shlh-blur-sm));
 }
 
 /* --- Shared viewport-filling dialogs --- */
@@ -384,14 +416,76 @@ h6,
   font-family: inherit;
 }
 
+/* --- Links --- */
+
+/* The link color is a custom property on `a` rather than a value on
+   `:hover`, so a rule that changes the link's color changes both states.
+   The light theme is the default; the dark theme restates only the steps it
+   moves. */
+
+a {
+  --shlh-link-color: var(--shlh-primary-500);
+  --shlh-link-color-rgb: var(--shlh-primary-500-rgb);
+  --shlh-link-hover-on-background-color: var(--shlh-primary-color);
+  --shlh-link-hover-color: var(--shlh-primary-600);
+  --shlh-link-active-color: var(--shlh-primary-700);
+
+  color: var(--shlh-link-color);
+}
+
+a:hover {
+  color: var(--shlh-link-hover-color);
+}
+
+a:active {
+  color: var(--shlh-link-active-color);
+}
+
+[data-bs-theme="dark"] a {
+  --shlh-link-hover-color: var(--shlh-primary-400);
+  --shlh-link-active-color: var(--shlh-primary-300);
+}
+
+/* --- Secondary Link --- */
+
+.link-secondary {
+  --shlh-link-color: var(--bs-gray-600);
+  --shlh-link-color-rgb: var(--bs-gray-600-rgb);
+  --shlh-link-hover-color: var(--bs-gray-700);
+  --shlh-link-active-color: var(--bs-gray-800);
+}
+
+[data-bs-theme="dark"] .link-secondary {
+  --shlh-link-color: var(--bs-gray-500);
+  --shlh-link-color-rgb: var(--bs-gray-500-rgb);
+  --shlh-link-hover-color: var(--bs-gray-400);
+  --shlh-link-active-color: var(--bs-gray-300);
+}
+
+/* --- Footer Link --- */
+
+.footer a {
+  --shlh-link-color: var(--bs-body-color);
+  --shlh-link-color-rgb: var(--bs-body-color-rgb);
+  --shlh-link-hover-color: var(--shlh-primary-600);
+  --shlh-link-active-color: var(--shlh-primary-700);
+}
+
+[data-bs-theme="dark"] .footer a {
+  --shlh-link-hover-color: var(--shlh-primary-400);
+  --shlh-link-active-color: var(--shlh-primary-300);
+}
+
 /* --- Buttons --- */
 
 .btn-outline-primary {
   --bs-btn-color: var(--bs-primary);
   --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: var(--shlh-primary-color);
   --bs-btn-hover-bg: var(--bs-primary);
   --bs-btn-hover-border-color: var(--bs-primary);
   --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+  --bs-btn-active-color: var(--shlh-primary-color);
   --bs-btn-active-bg: var(--bs-primary);
   --bs-btn-active-border-color: var(--bs-primary);
   --bs-btn-disabled-color: var(--bs-primary);
@@ -410,21 +504,60 @@ h6,
   --bs-btn-disabled-border-color: var(--bs-secondary);
 }
 
-/* body-color Button (Derived from Bootstrap styles) */
-.btn-outline-body-color {
-  --bs-btn-color: var(--bs-body-color);
-  --bs-btn-border-color: var(--bs-body-color);
+.btn-primary {
+  --bs-btn-bg: var(--shlh-primary-500);
+  --bs-btn-border-color: var(--shlh-primary-500);
+  --bs-btn-hover-bg: var(--shlh-primary-600);
+  --bs-btn-hover-border-color: var(--shlh-primary-600);
+  --bs-btn-focus-shadow-rgb: var(--shlh-primary-600-rgb);
+  --bs-btn-active-bg: var(--shlh-primary-700);
+  --bs-btn-active-border-color: var(--shlh-primary-700);
+  --bs-btn-disabled-bg: var(--shlh-primary-500);
+  --bs-btn-disabled-border-color: var(--shlh-primary-500);
+  --bs-btn-color: var(--shlh-primary-color);
+  --bs-btn-hover-color: var(--shlh-primary-color);
+  --bs-btn-active-color: var(--shlh-primary-color);
+  --bs-btn-disabled-color: var(--shlh-primary-color);
+}
+
+/* The text sits on a fill of the same gray family, so it takes the page
+   background rather than the button's own color. */
+[data-bs-theme="dark"] .btn-outline-secondary {
   --bs-btn-hover-color: var(--bs-body-bg);
-  --bs-btn-hover-bg: var(--bs-body-color);
-  --bs-btn-hover-border-color: var(--bs-body-color);
-  --bs-btn-focus-shadow-rgb: var(--bs-body-color-rgb);
   --bs-btn-active-color: var(--bs-body-bg);
-  --bs-btn-active-bg: var(--bs-body-color);
-  --bs-btn-active-border-color: var(--bs-body-color);
-  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: var(--bs-body-color);
-  --bs-btn-disabled-border-color: var(--bs-body-color);
-  --bs-gradient: none;
+}
+
+/* --- Form Items --- */
+
+.form-check-input:checked {
+  background-color: var(--shlh-primary-500);
+  border-color: var(--shlh-primary-500);
+}
+
+.form-select:focus {
+  border-color: var(--shlh-primary-300);
+}
+
+.form-check-input:focus {
+  border-color: var(--shlh-primary-500);
+}
+
+/* The switch's knob is a data-URI SVG, so its fill is a literal rather than a
+   token. */
+.form-switch .form-check-input:focus {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%233c96ff'/%3e%3c/svg%3e");
+}
+
+.form-switch .form-check-input:checked {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+[data-bs-theme="dark"] .form-switch .form-check-input:focus {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2347c4ee'/%3e%3c/svg%3e");
+}
+
+[data-bs-theme="dark"] .form-switch .form-check-input:checked {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23212529'/%3e%3c/svg%3e");
 }
 
 /* --- Range Input ---
@@ -486,6 +619,77 @@ h6,
 }
 
 /* ========================================================================
+   High Contrast
+   ======================================================================== */
+
+/* The tokens live in `theme.css`, beside the palette they replace; these are
+   the rules that cannot be expressed as a value. */
+
+@media (prefers-contrast: more) {
+  hr {
+    opacity: 1;
+  }
+
+  .navbar {
+    --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 1);
+    --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 1);
+    --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
+    --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb), 1);
+  }
+
+  /* The scrolled edge is the navbar's own border, so it is restated here
+     rather than added. */
+  .navbar-scrolled {
+    border-bottom-color: var(--bs-body-color) !important;
+  }
+
+  .navbar-nav .nav-link.active,
+  .navbar-nav .nav-link.show {
+    font-weight: calc(var(--bs-body-font-weight) + 200) !important;
+  }
+
+  .footer {
+    border-top: 1px solid var(--bs-body-color);
+  }
+
+  /* Bootstrap's tooltip is 0.9 opaque; at this contrast it reads as a panel
+     only when it is solid. */
+  .tooltip {
+    --bs-tooltip-opacity: 1;
+  }
+
+  /* The one place the borderless button needs a border: without it the
+     control has no edge in a palette with no shadows. It is `!important`
+     because the feature class itself sets the width to 0. */
+  .btn-no-border {
+    --bs-btn-border-width: 1px !important;
+  }
+
+  .footer a {
+    font-weight: calc(var(--bs-body-font-weight) + 100);
+  }
+}
+
+/* ========================================================================
+   Forced Colors
+   ======================================================================== */
+
+/* Policy (MDN-aligned): no separate design — only the targeted system-color
+   tweaks where the default forcing breaks legibility, because the UA already
+   honours the rest. Component-local patches live with their scoped rules:
+   `ColoredImg.vue` (mask glyphs), `LoadingBar.vue` (progress fill),
+   `Carousel.vue` (countdown fill). Accepted as-is: translucent Canvas
+   backdrops, the theme-overlay flash, the removed gradient decoration. */
+
+@media (forced-colors: active) {
+  /* A floating panel loses its shadow, so a system border keeps the tooltip
+     reading as a panel. Popovers and toasts ship borders already. */
+  .tooltip-inner {
+    border: 1px solid CanvasText;
+  }
+}
+
+/* ========================================================================
    Custom Link / Button Features
    ======================================================================== */
 
@@ -497,8 +701,29 @@ h6,
   --bs-btn-padding-x: var(--bs-btn-padding-y);
 }
 
-.larger-link {
-  font-size: calc(1rem + 0.2vw);
+/* --- Hover Effect of Changing Background ---
+   Owns its transition set: the base `a` rule animates the color only. */
+
+.link-hover-change-background {
+  outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 0);
+  transition:
+    color var(--shlh-duration-fast) linear,
+    background-color var(--shlh-duration-fast) linear,
+    outline var(--shlh-duration-fast) linear;
+}
+
+.link-hover-change-background:hover,
+.link-hover-change-background:active {
+  text-decoration: none !important;
+  color: var(--shlh-link-hover-on-background-color) !important;
+  background-color: var(--shlh-link-color) !important;
+  outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 1) !important;
+}
+
+/* The sweeping `.link::after` underline never applies to a background-swap
+   link. */
+.link.link-hover-change-background::after {
+  content: none;
 }
 
 /* ========================================================================
@@ -556,4 +781,36 @@ img.no-copy.solid-bg {
 
 .drag-cursor.is-dragging {
   cursor: var(--shlh-cursor-grabbing);
+}
+
+/* ========================================================================
+   Theme Transition Overlay - full-page crossfade during theme switch
+   ======================================================================== */
+
+.theme-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--shlh-z-overlay);
+  background-color: rgba(var(--shlh-transition-rgb), 0);
+  backdrop-filter: blur(0);
+  pointer-events: none;
+  transition:
+    background-color var(--shlh-duration-slow) ease-in,
+    backdrop-filter var(--shlh-duration-slow) ease-in;
+}
+
+.theme-transition-overlay.active {
+  background-color: rgb(var(--shlh-transition-rgb));
+  backdrop-filter: blur(var(--shlh-blur-md));
+  pointer-events: auto;
+  cursor: wait;
+}
+
+.theme-transition-overlay.fade-out {
+  background-color: rgba(var(--shlh-transition-rgb), 0);
+  backdrop-filter: blur(0);
+  pointer-events: none;
+  transition:
+    background-color 1s ease-out,
+    backdrop-filter var(--shlh-duration-slow) ease-in;
 }

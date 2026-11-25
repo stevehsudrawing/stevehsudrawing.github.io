@@ -19,12 +19,6 @@ import "@fontsource-variable/roboto-mono/wght.css";
 // component variable at equal specificity has to load after the framework and
 // after the sheets that restate the same variables, which is why `base.css`
 // comes last.
-//
-// `accessibility.css` stays ahead of `theme.css` until it dissolves: its
-// contrast block loses the dark-mode tokens to the theme's bridge only by
-// loading earlier, so moving it would change the high-contrast palette rather
-// than preserve it.
-import "./stylesheets/accessibility.css";
 import "./stylesheets/theme.css";
 import "./stylesheets/parameters.css";
 import "./stylesheets/fonts.css";

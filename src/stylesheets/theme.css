@@ -118,6 +118,17 @@
     --shlh-primary-700-rgb: 24, 60, 102;
     --shlh-primary-800-rgb: 12, 30, 51;
     --shlh-primary-900-rgb: 0, 0, 0;
+
+    --bs-body-font-weight: 500;
+    --bs-secondary-color: #000;
+    --bs-secondary-color-rgb: 0, 0, 0;
+    --bs-border-color-translucent: #000;
+    --bs-border-color: var(--bs-body-color);
+    --bs-tertiary-bg: #fff;
+    --bs-tertiary-bg-rgb: 255, 255, 255;
+    --bs-box-shadow: 0 0 0 2px var(--bs-body-color);
+    --bs-box-shadow-sm: 0 0 0 2px var(--bs-body-color);
+    --bs-box-shadow-lg: 0 0 0 2px var(--bs-body-color);
   }
 
   /* Dark Theme - Lighter */
@@ -144,16 +155,15 @@
     --shlh-primary-700-rgb: 86, 166, 193;
     --shlh-primary-800-rgb: 65, 125, 145;
     --shlh-primary-900-rgb: 28, 78, 95;
+
+    --bs-body-bg: #000;
+    --bs-body-bg-rgb: 0, 0, 0;
+    --bs-secondary-color: #fff;
+    --bs-secondary-color-rgb: 255, 255, 255;
+    --bs-border-color-translucent: #fff;
+    --bs-tertiary-bg: #000;
+    --bs-tertiary-bg-rgb: 0, 0, 0;
   }
-}
-
-/* ========================================================================
-   CSS Reset
-   ======================================================================== */
-
-*::selection {
-  color: var(--shlh-primary-color);
-  background: var(--shlh-primary);
 }
 
 /* ========================================================================
@@ -191,206 +201,4 @@
   --bs-primary-border-subtle: var(--shlh-primary-800);
   --bs-secondary: var(--bs-gray-500);
   --bs-secondary-rgb: var(--bs-gray-500-rgb);
-}
-
-/* --- (Primary) Link --- */
-
-/* Both */
-a {
-  --shlh-link-color: var(--shlh-primary-500);
-  --shlh-link-color-rgb: var(--shlh-primary-500-rgb);
-  --shlh-link-hover-on-background-color: var(--shlh-primary-color);
-
-  color: var(--shlh-link-color);
-}
-
-a:hover {
-  color: var(--shlh-link-hover-color);
-}
-
-a:active {
-  color: var(--shlh-link-active-color);
-}
-
-/* Light */
-a {
-  --shlh-link-hover-color: var(--shlh-primary-600);
-  --shlh-link-active-color: var(--shlh-primary-700);
-}
-
-/* Dark */
-[data-bs-theme="dark"] a {
-  --shlh-link-hover-color: var(--shlh-primary-400);
-  --shlh-link-active-color: var(--shlh-primary-300);
-}
-
-/* --- Secondary Link --- */
-
-/* Light */
-.link-secondary {
-  --shlh-link-color: var(--bs-gray-600);
-  --shlh-link-color-rgb: var(--bs-gray-600-rgb);
-  --shlh-link-hover-color: var(--bs-gray-700);
-  --shlh-link-active-color: var(--bs-gray-800);
-}
-
-/* Dark */
-[data-bs-theme="dark"] .link-secondary {
-  --shlh-link-color: var(--bs-gray-500);
-  --shlh-link-color-rgb: var(--bs-gray-500-rgb);
-  --shlh-link-hover-color: var(--bs-gray-400);
-  --shlh-link-active-color: var(--bs-gray-300);
-}
-
-/* --- Hover Effect of Changing Background --- */
-
-/* Both */
-/* Owns its transition set — the base `a` rule animates colour only
-   (v3.20.0). */
-.link-hover-change-background {
-  outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 0);
-  transition:
-    color var(--shlh-duration-fast) linear,
-    background-color var(--shlh-duration-fast) linear,
-    outline var(--shlh-duration-fast) linear;
-}
-
-.link-hover-change-background:hover,
-.link-hover-change-background:active {
-  text-decoration: none !important;
-  color: var(--shlh-link-hover-on-background-color) !important;
-  background-color: var(--shlh-link-color) !important;
-  outline: 0.2rem solid rgba(var(--shlh-link-color-rgb), 1) !important;
-}
-
-/* The sweeping `.link::after` underline (base.css) never applies to
-   background-swap links. */
-.link.link-hover-change-background::after {
-  content: none;
-}
-
-/* --- Footer Link --- */
-
-/* Both */
-.footer a {
-  --shlh-link-color: var(--bs-body-color);
-  --shlh-link-color-rgb: var(--bs-body-color-rgb);
-}
-
-/* Light */
-.footer a {
-  --shlh-link-hover-color: var(--shlh-primary-600);
-  --shlh-link-active-color: var(--shlh-primary-700);
-}
-
-/* Dark */
-[data-bs-theme="dark"] .footer a {
-  --shlh-link-hover-color: var(--shlh-primary-400);
-  --shlh-link-active-color: var(--shlh-primary-300);
-}
-
-/* --- Form Items --- */
-
-/* Both */
-.form-check-input:checked {
-  background-color: var(--shlh-primary-500);
-  border-color: var(--shlh-primary-500);
-}
-
-.form-select:focus {
-  border-color: var(--shlh-primary-300);
-}
-
-.form-check-input:focus {
-  border-color: var(--shlh-primary-500);
-}
-
-/* Light */
-.form-switch .form-check-input:focus {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%233c96ff'/%3e%3c/svg%3e");
-}
-
-.form-switch .form-check-input:checked {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
-}
-
-/* Dark */
-[data-bs-theme="dark"] .form-switch .form-check-input:focus {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2347c4ee'/%3e%3c/svg%3e");
-}
-
-[data-bs-theme="dark"] .form-switch .form-check-input:checked {
-  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23212529'/%3e%3c/svg%3e");
-}
-
-/* --- Dropdown Menu --- */
-
-/* Light */
-.dropdown-menu {
-  --bs-dropdown-link-active-bg: var(--shlh-primary-500);
-  --bs-dropdown-link-active-color: var(--shlh-primary-color);
-}
-
-/* --- Primary Button --- */
-
-/* Both */
-.btn-primary {
-  --bs-btn-bg: var(--shlh-primary-500);
-  --bs-btn-border-color: var(--shlh-primary-500);
-  --bs-btn-hover-bg: var(--shlh-primary-600);
-  --bs-btn-hover-border-color: var(--shlh-primary-600);
-  --bs-btn-focus-shadow-rgb: var(--shlh-primary-600-rgb);
-  --bs-btn-active-bg: var(--shlh-primary-700);
-  --bs-btn-active-border-color: var(--shlh-primary-700);
-  --bs-btn-disabled-bg: var(--shlh-primary-500);
-  --bs-btn-disabled-border-color: var(--shlh-primary-500);
-  --bs-btn-color: var(--shlh-primary-color);
-  --bs-btn-hover-color: var(--shlh-primary-color);
-  --bs-btn-active-color: var(--shlh-primary-color);
-  --bs-btn-disabled-color: var(--shlh-primary-color);
-}
-
-.btn-outline-primary {
-  --bs-btn-hover-color: var(--shlh-primary-color);
-  --bs-btn-active-color: var(--shlh-primary-color);
-}
-
-/* --- Secondary Button --- */
-
-/* Dark */
-[data-bs-theme="dark"] .btn-outline-secondary {
-  --bs-btn-hover-color: var(--bs-body-bg);
-  --bs-btn-active-color: var(--bs-body-bg);
-}
-
-/* ========================================================================
-   Theme Transition Overlay - full-page crossfade during theme switch
-   ======================================================================== */
-
-.theme-transition-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--shlh-z-overlay);
-  background-color: rgba(var(--shlh-transition-rgb), 0);
-  backdrop-filter: blur(0);
-  pointer-events: none;
-  transition:
-    background-color var(--shlh-duration-slow) ease-in,
-    backdrop-filter var(--shlh-duration-slow) ease-in;
-}
-
-.theme-transition-overlay.active {
-  background-color: rgb(var(--shlh-transition-rgb));
-  backdrop-filter: blur(var(--shlh-blur-md));
-  pointer-events: auto;
-  cursor: wait;
-}
-
-.theme-transition-overlay.fade-out {
-  background-color: rgba(var(--shlh-transition-rgb), 0);
-  backdrop-filter: blur(0);
-  pointer-events: none;
-  transition:
-    background-color 1s ease-out,
-    backdrop-filter var(--shlh-duration-slow) ease-in;
 }
