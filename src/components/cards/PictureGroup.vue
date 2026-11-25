@@ -1,6 +1,6 @@
 <!--
   PictureGroup.vue — Single picture-list group with heading, description,
-  and a CSS Grid of PictureCards (row-wise flow, v3.18.4).
+  and a CSS Grid of PictureCards (row-wise flow).
 -->
 <script setup lang="ts">
 import { computed } from "vue";

@@ -95,7 +95,7 @@ export const router = createRouter({
       // Same-page query-only navigation: preserve scroll for in-place
       // language switches (?lang=) and the lightboxes (?picGroupId= /
       // ?picId= open / prev / next / close).  Other same-page link
-      // clicks fall through and scroll to top (pre-v3.9.1 behavior).
+      // clicks fall through and scroll to top.
       if (
         to.query.picId !== from.query.picId ||
         to.query.picGroupId !== from.query.picGroupId ||

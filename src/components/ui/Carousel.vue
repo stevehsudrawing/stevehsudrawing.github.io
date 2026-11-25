@@ -95,7 +95,7 @@ const hoverPaused = ref(false);
 
 /**
  * Whether the first slide's image has settled (load or error) — the
- * autoplay gate (v3.18.1); a failed image must not stall the carousel.
+ * autoplay gate; a failed image must not stall the carousel.
  */
 const firstSlideSettled = ref(false);
 
@@ -169,7 +169,7 @@ function slideProps(id: string, index: number): FeatureAwarePictureProps {
  *  Hover pause is managed by the component (see pointer handlers) —
  *  Swiper's `pauseOnMouseEnter` binds to `swiper.el` only and would
  *  resume while hovering the sibling controls group.  The initial
- *  start is additionally gated on the first slide settling (v3.18.1 —
+ *  start is additionally gated on the first slide settling (
  *  see onSwiper / onSlideSettled). */
 const AUTOPLAY_CONFIG = {
   delay: AUTOPLAY_DELAY,
@@ -315,8 +315,7 @@ function readActiveSrc(instance: SwiperClass): void {
     // reactive theme/language swap, while `currentSrc` (the browser's
     // selected source) settles asynchronously — reading it right
     // after a theme flip returned the OUTGOING variant, so the
-    // luminance ref never changed and the re-detection was skipped
-    // (v3.18.3).
+    // luminance ref never changed and the re-detection was skipped.
     luminanceSrc.value = img?.getAttribute("src") || img?.currentSrc || null;
   });
 }
@@ -338,7 +337,7 @@ function onSlideSettled(index: number): void {
 /** Swiper instance handler — syncs autoplay state + first source read. */
 function onSwiper(instance: SwiperClass): void {
   swiper.value = instance;
-  // Autoplay gate (v3.18.1): hold the init-started autoplay until the
+  // Autoplay gate: hold the init-started autoplay until the
   // first slide's image settles; reduced motion and an explicit user
   // pause block it as well.
   if (prefersReducedMotion || !firstSlideSettled.value || userPaused.value) {
@@ -708,7 +707,7 @@ watch(swiperEnabled, (enabled) => {
   overflow: hidden;
 }
 
-/* v3.18.1 wrapper unification: the always-present
+/* The always-present
    `.feature-aware-picture` wrapper must fill the slide, so the img's
    percentage height resolves against a definite box. */
 .illustration-carousel .swiper-slide .feature-aware-picture {
@@ -784,7 +783,7 @@ html.user-input-keyboard
   }
 }
 
-/* --- Static fallback: wrapper-aware sizing (the v3.14.2 hero pattern) --- */
+/* --- Static fallback: wrapper-aware sizing (as in the hero carousel) --- */
 /* With the overlay controls the picture is wrapped in
    `.feature-aware-picture` (inline-block, auto height), so the img's
    `h-100` loses its definite basis.  The wrapper chain is therefore

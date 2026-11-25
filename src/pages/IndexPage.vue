@@ -227,7 +227,7 @@ function findGroup(groupId: string): LinkButtonGroupData | undefined {
    INSIDE the carousel slides and collapse every `.carousel-item` to zero
    height (the whole carousel disappears). */
 
-/* FeatureAwarePicture's unified wrapper (v3.18.1 — always emitted) takes
+/* FeatureAwarePicture's unified wrapper (always emitted) takes
    the box, its picture / img take the wrapper, and the img keeps its
    `cover` crop — the ALT / preview buttons and the failure badge sit on
    the box corners. */

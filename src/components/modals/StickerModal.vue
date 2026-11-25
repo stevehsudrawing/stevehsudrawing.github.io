@@ -4,7 +4,7 @@
   The title is a non-i18n terminal line (deliberate exception — the
   near-future system-message aesthetic is language-neutral): `< Response`
   (`<` marks system output, character-agnostic).  The shown sticker is
-  picked per open from the v3.16.1 pool — a random member by default,
+  picked per open from the pool — a random member by default,
   overridable via the stack item's `stickerId`.
 -->
 <script setup lang="ts">
@@ -27,7 +27,7 @@ import TooltipTrigger from "../render-functions/TooltipTrigger.vue";
 // =========================================================================
 
 /**
- * Random pool of stickers (the v3.16.1 roster) — one member is picked
+ * Random pool of stickers (the current roster) — one member is picked
  * per open; an explicit `stickerId` from the stack item overrides it.
  */
 const STICKER_POOL = [

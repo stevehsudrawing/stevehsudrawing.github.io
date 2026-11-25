@@ -65,7 +65,7 @@ function onActivate(): void {
     The cell div is the grid item.  The b-tooltip directive mounts a
     host <span> NEXT TO its target (the figure) — as a direct grid
     child that span claims a cell of its own and leaves every other
-    cell empty (v3.18.4 fix).  The block cell confines it.
+    cell empty.  The block cell confines it.
   -->
   <div class="picture-card-cell">
     <TooltipTrigger v-if="titleText" :title="titleText">
@@ -117,7 +117,7 @@ function onActivate(): void {
 
 /* --- Poster image (fills the column, height auto) --- */
 
-/* The unified wrapper (v3.18.1) must take the full column width — an
+/* The unified wrapper must take the full column width — an
    inline-block shrink-to-fit wrapper collapses while a lazy image has
    no intrinsic size yet (the img's `width: 100%` has nothing to resolve
    against, so the reserved `aspect-ratio` box would not apply). */

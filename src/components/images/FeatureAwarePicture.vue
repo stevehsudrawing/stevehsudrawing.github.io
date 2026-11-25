@@ -13,18 +13,19 @@
 
   The image always renders inside the single positioned root wrapper
   (`.feature-aware-picture`) — the positioning context for the overlay
-  controls and the failure badge.  v3.18.1: the former bare-root
-  branch was removed; consumers that relied on a bare root (`> img` /
-  `> picture` direct-child selectors) were migrated to the wrapper
-  chain (`.feature-aware-picture > picture > img`).
+  controls and the failure badge.  A bare root is not an option: an
+  overlay button or the failure badge placed against a `> img` /
+  `> picture` child has no positioning context, so every consumer
+  selects through the wrapper chain
+  (`.feature-aware-picture > picture > img`).
 
   Overlay controls (opt-in): with `showAltButton` and/or `previewable`
   the component adds corner controls on the bottom edge — an ALT button
   opening a BPopover with the picture title (falling back to the generic
   description label), the image description and the optional `message`
   as its secondary line, and a preview button opening the single-image
-  viewer (or the GROUP viewer when `previewGroupId` is set, v3.18.4).  `relatedLink` is carried for the lightboxes only; `message`
-  renders only in the ALT popover.
+  viewer (or the GROUP viewer when `previewGroupId` is set).  `relatedLink`
+  is carried for the lightboxes only; `message` renders only in the ALT popover.
 
   Failure handling: a failed image keeps the neutral plate
   (`--bs-secondary-bg`, no shimmer) and lets the browser render its
@@ -129,7 +130,7 @@ const followLanguage = computed(() =>
 
 // The swap follows `appliedTheme` — the theme actually on the page:
 // it waits for the data-bs-theme flip so the new source appears under
-// the transition overlay, synchronized with the CSS change (v3.18.3).
+// the transition overlay, synchronized with the CSS change.
 const resolvedTheme = computed(() =>
   followTheme.value ? appliedTheme.value : "light",
 );
@@ -429,7 +430,7 @@ img[data-img-failed] {
 
 /* ==== Root wrapper (controls + failure badge context) ==== */
 
-/* Always present (v3.18.1) — the positioning context for the corner
+/* Always present — the positioning context for the corner
    controls and the failure badge. */
 .feature-aware-picture {
   position: relative;
@@ -545,7 +546,7 @@ html.user-input-keyboard .picture-overlay-btn {
    image is still downloading the slot shows a themed shimmer; on
    load the shimmer background is removed and the base opacity
    transition fades the image in (the former reveal animation was
-   removed in v3.16.2 — Firefox could freeze it at an intermediate
+   removed — Firefox could freeze it at an intermediate
    opacity).  Browsers without CSS
    `aspect-ratio` skip the ratio box (progressive enhancement).
    NOTE: the shimmer is the element's own background — keep
@@ -574,6 +575,7 @@ html.user-input-keyboard .picture-overlay-btn {
   from {
     background-position: 100% 0;
   }
+
   to {
     background-position: -100% 0;
   }

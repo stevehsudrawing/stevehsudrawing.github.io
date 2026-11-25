@@ -753,7 +753,7 @@ onBeforeUnmount(() => {
    `.swiper-3d { perspective: 1200px }`; a custom short perspective
    (e.g. 16rem) distorts the coverflow hit area.  The fallback branch
    gets its OWN perspective below. */
-/* Window-height dialog (v3.20.2): the stage takes the remaining body
+/* Window-height dialog: the stage takes the remaining body
    height (`flex: 1`), and the Swiper / slide wrap below stretch into
    it — no viewport-height formulas needed. */
 .picture-viewer-stage {

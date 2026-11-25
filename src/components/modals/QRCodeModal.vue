@@ -591,7 +591,7 @@ function openLink(): void {
   display: block;
 }
 
-/* v3.18.1 — the id lands on FeatureAwarePicture's wrapper now; keep the
+/* The id lands on FeatureAwarePicture's wrapper; keep the
    img itself block so the inline baseline gap never appears. */
 #qr-code-icon :deep(img) {
   display: block;

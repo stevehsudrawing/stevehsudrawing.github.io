@@ -119,7 +119,7 @@ usePictureViewerUrl();
 // navigations (managed by the lightbox URL owner) must not close it.
 // The router's INITIAL navigation is skipped until `router.isReady()`
 // settles: a deep link opens the viewer around the same time, and an
-// un-gated clear would race it shut (v3.15.1).
+// un-gated clear would race it shut.
 // This replaces GalleryPage's former onBeforeUnmount hook.
 
 /** Whether the router's initial navigation has settled. */

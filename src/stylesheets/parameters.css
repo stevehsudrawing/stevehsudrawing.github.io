@@ -1,4 +1,4 @@
-/* ========================================================================
+/* ==========================================================================
    Parameters - Cross-cutting visual parameters (single source)
 
    Every value below is consumed via `var()` from stylesheets and
@@ -15,7 +15,7 @@
    - --shlh-transition-rgb  The neutral the theme wipe fades through
    - --shlh-cursor-*        The grab / grabbing cursors of the drag surfaces
    - --shlh-z-*             Coordinated stacking layers
-   ======================================================================== */
+   ========================================================================== */
 
 /* --- Defaults --- */
 

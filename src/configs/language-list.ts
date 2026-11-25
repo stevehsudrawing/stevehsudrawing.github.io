@@ -44,8 +44,7 @@ export const DATE_LOCALES: Record<Lang, Locale> = {
  * Short human-readable date per language — compact, no year (chart
  * ticks and similar tight spots).  zh uses the native "M月d日": the
  * locale default (`MMM d`) renders "8月 20" — awkward spacing and no
- * 日 — when formatted through the zh locales (v3.18.3 evaluation,
- * 2026-09-18).
+ * 日 — when formatted through the zh locales.
  */
 export const SHORT_DATE_FORMATS: Record<Lang, string> = {
   en: "MMM d",
@@ -58,7 +57,7 @@ export const SHORT_DATE_FORMATS: Record<Lang, string> = {
  * similar).  Explicit because both the date-fns zh "PP" token (an ISO
  * "2026-09-12") and the merged date-adapter default
  * (`MMM d, yyyy, h:mm:ss aaaa` — a meaningless time part for
- * day-granular data) fall short (v3.18.3 evaluation, 2026-09-18).
+ * day-granular data) fall short.
  */
 export const LONG_DATE_FORMATS: Record<Lang, string> = {
   en: "MMM d, yyyy",
