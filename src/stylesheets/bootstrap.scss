@@ -10,9 +10,17 @@
 $modal-header-border-width: 0;
 $modal-footer-border-width: 0;
 
-// The close button keeps a ring of its own instead of the focus-ring color, so
-// the value is built here rather than patched onto the class.
-$btn-close-focus-shadow: 0 0 0 var(--bs-focus-ring-width)
-  var(--shlh-close-btn-focus-ring-color);
+// Every component's focus ring defaults to this value, so the only ring on the
+// site is the outline base.css draws: the inputs, the nav links, the form
+// checks and the close button all take `none` from here.
+$focus-ring-box-shadow: none;
+
+// The button's ring is assembled from a width and a translucent rgb pair, not
+// from the shadow above.
+$input-btn-focus-width: 0;
+
+// The select writes its ring out as its own shadow instead of defaulting to
+// the one above.
+$form-select-focus-box-shadow: none;
 
 @import "bootstrap/scss/bootstrap";

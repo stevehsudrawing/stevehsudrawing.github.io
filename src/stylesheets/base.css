@@ -10,6 +10,30 @@
 }
 
 /* ========================================================================
+   Focus
+   ======================================================================== */
+
+/* An outline, never a shadow. Bootstrap zeroes the outline on the focus rules
+   of the components listed here — `.form-control:focus`,
+   `.nav-link:focus-visible`, `.btn-close:focus` and the rest — and each of
+   those selectors is more specific than a bare `:focus-visible`, so they are
+   named beside it. The framework's own rings are compiled out in
+   bootstrap.scss. The offset is negative because the controls sit flush
+   against the bars that frame them. */
+
+:focus-visible,
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.form-check-input:focus-visible,
+.form-range:focus-visible,
+.nav-link:focus-visible,
+.btn-close:focus-visible {
+  outline: 2px solid var(--shlh-focus-ring-color);
+  outline-offset: -2px;
+}
+
+/* ========================================================================
    Page Layout
    ======================================================================== */
 
