@@ -7,7 +7,8 @@
 // =========================================================================
 // CSS imports
 // =========================================================================
-import "bootstrap/dist/css/bootstrap.min.css";
+// Bootstrap, compiled from source by the Sass settings in vite.config.ts
+import "./stylesheets/bootstrap.scss";
 
 // Self-hosted fonts (replaces CDN <link> tags)
 import "@fontsource-variable/inter/opsz-italic.css";

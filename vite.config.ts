@@ -43,6 +43,22 @@ export default defineConfig({
 
   publicDir: resolve(__dirname, "public"),
 
+  css: {
+    preprocessorOptions: {
+      // Bootstrap is compiled from source, so a bare specifier has to resolve
+      // against the project's own node_modules rather than the Vite root.
+      scss: {
+        loadPaths: [resolve(__dirname, "node_modules")],
+        silenceDeprecations: [
+          "import",
+          "global-builtin",
+          "color-functions",
+          "if-function",
+        ],
+      },
+    },
+  },
+
   build: {
     target: "es2015",
     outDir: resolve(__dirname, "dist"),
