@@ -17,8 +17,11 @@
 
 import registryData from "../../configs/picture-registry.json";
 import {
+  PICTURE_LICENSE_TERMS,
   findPictureEntry,
+  pictureLicense,
   resolvePictureProps,
+  type PictureLicenseInfo,
 } from "../../core/picture-registry";
 import type {
   FeatureAwarePictureProps,
@@ -50,8 +53,9 @@ const EMPTY_PROPS: FeatureAwarePictureProps = {
 /**
  * Picture-registry accessor.
  *
- * @returns `pictureProps(id, overrides?)` (resolved display props) and
- *   `hasPicture(id)` (registry membership test).
+ * @returns `pictureProps(id, overrides?)` (resolved display props),
+ *   `hasPicture(id)` (registry membership test) and `pictureLicense(id)`
+ *   (the tier's label and link facts).
  */
 export function usePictureRegistry(): {
   /** Resolve a picture id into display props (dev-warns on unknown ids). */
@@ -61,6 +65,8 @@ export function usePictureRegistry(): {
   ) => FeatureAwarePictureProps;
   /** Whether the registry knows this picture id. */
   hasPicture: (id: string) => boolean;
+  /** The tier a picture is shown under: its label and link facts. */
+  pictureLicense: (id: string) => PictureLicenseInfo;
 } {
   const { t } = useI18n();
 
@@ -82,5 +88,20 @@ export function usePictureRegistry(): {
     return findPictureEntry(registry, id) !== null;
   }
 
-  return { pictureProps, hasPicture };
+  function licenseOf(id: string): PictureLicenseInfo {
+    const entry = findPictureEntry(registry, id);
+    if (!entry) {
+      if (import.meta.env.DEV) {
+        console.warn(`[picture-registry] unknown picture id: "${id}"`);
+      }
+      // The conservative answer — an unknown picture is treated as restricted.
+      return {
+        label: t("text-restricted-artworks-license"),
+        ...PICTURE_LICENSE_TERMS.restricted,
+      };
+    }
+    return pictureLicense(entry, t);
+  }
+
+  return { pictureProps, hasPicture, pictureLicense: licenseOf };
 }

@@ -21,7 +21,8 @@
   Mobile (≤ 768 px): the slides grow to the stage width, which pushes the
   coverflow neighbours fully outside the stage — the picture is enlarged
   to the stage width or height.
-  Preview-only: `.no-copy`, no download / open-original buttons.
+  Preview-only: `.no-copy` on a restricted picture, and no download /
+  open-original buttons.
   Open/close animation + backdrop come from base.css (Modal / .modal-backdrop).
 -->
 <script setup lang="ts">
@@ -101,7 +102,7 @@ const A11Y_CONFIG = { enabled: true };
 // Current picture (initialized from currentId, then navigated internally)
 // -------------------------------------------------------------------------
 
-const { pictureProps: resolvePicture } = usePictureRegistry();
+const { pictureProps: resolvePicture, pictureLicense } = usePictureRegistry();
 
 /** Group id from the stack — written to `?picGroupId=` by the URL sync. */
 const groupId = computed(() => stackProps.value?.groupId ?? "");
@@ -163,6 +164,22 @@ function picturePropsOf(pictureId: string): FeatureAwarePictureProps {
 /** Enlarged poster props of the CURRENT picture (fallback branch). */
 const pictureProps = computed<FeatureAwarePictureProps | null>(() =>
   current.value ? picturePropsOf(current.value) : null,
+);
+
+/** The current picture's license tier — the header names and links it. */
+const licenseInfo = computed(() =>
+  current.value ? pictureLicense(current.value) : null,
+);
+
+/** Props for the header's license link. */
+const licenseLink = computed(() =>
+  licenseInfo.value
+    ? {
+        href: licenseInfo.value.href,
+        type: licenseInfo.value.type,
+        label: licenseInfo.value.label,
+      }
+    : null,
 );
 
 // -------------------------------------------------------------------------
@@ -502,15 +519,26 @@ onBeforeUnmount(() => {
   <BModal
     v-model="visible"
     :title="title"
-    header-class="h5 modal-title"
+    header-class="h5 modal-title picture-license-header"
     title-tag="span"
     no-header-close
     dialog-class="full-bleed-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
-    <template #title>
-      <TruncatedTitle :text="title" />
+    <template #header="{ id }">
+      <span :id="`${id}-label`" class="modal-title">
+        <TruncatedTitle :text="title" />
+      </span>
+      <div class="picture-license-link-wrapper">
+        <TypeAwareLink
+          v-if="licenseLink"
+          v-bind="licenseLink"
+          class="picture-license-link fw-normal"
+        >
+          {{ licenseLink.label }}
+        </TypeAwareLink>
+      </div>
     </template>
     <!-- ==== Image stage (Swiper coverflow / static fallback) ==== -->
     <div
@@ -548,7 +576,7 @@ onBeforeUnmount(() => {
         >
           <FeatureAwarePicture
             v-bind="picturePropsOf(pictureId)"
-            class="picture-viewer-img no-copy"
+            class="picture-viewer-img"
           />
         </SwiperSlide>
       </Swiper>
@@ -576,7 +604,7 @@ onBeforeUnmount(() => {
         >
           <FeatureAwarePicture
             v-bind="pictureProps"
-            class="picture-viewer-img no-copy"
+            class="picture-viewer-img"
           />
         </div>
       </Transition>

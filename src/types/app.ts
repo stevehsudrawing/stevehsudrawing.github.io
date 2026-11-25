@@ -119,6 +119,16 @@ export interface LinkButtonGroupData {
  * `loading`, `fetchpriority`, `showAltButton`, `previewable`) stay with
  * the consumer that renders the picture.
  */
+/**
+ * License tier of a displayed picture.
+ *
+ * `public/images/README.md` owns the tiers; the registry mirrors the one
+ * an entry belongs to, so a lightbox can name the terms the picture is
+ * shown under.  `restricted` is the restricted works' license,
+ * `cc-by-nc-4.0` is CC BY-NC 4.0.
+ */
+export type PictureLicense = "restricted" | "cc-by-nc-4.0";
+
 export interface RegistryPictureProps {
   /** Structured multi-format source map (the registry owns the sources). */
   srcMap: PictureSrcMap;
@@ -135,12 +145,12 @@ export interface RegistryPictureProps {
   /** Explicit width ÷ height ratio, e.g. 3:4 → 0.75 (card placeholder). */
   aspectRatio?: number;
   /**
-   * Opt-in `.no-copy` protection — blocks contextmenu / dragstart /
-   * selection on the rendered picture (a deterrence, not a security
-   * boundary).  Default `false`; the resolver appends the class after
-   * consumer overrides, so a caller's own `class` cannot drop it.
+   * License tier the picture is published under.  Omitting it means
+   * `restricted` — the images notice's own rule, since only the works
+   * listed under CC BY-NC 4.0 are the exception.  The resolver derives
+   * `.no-copy` from the tier, and both lightboxes name it in the header.
    */
-  noCopy?: boolean;
+  license?: PictureLicense;
 }
 
 /** One picture in `src/configs/picture-registry.json`. */

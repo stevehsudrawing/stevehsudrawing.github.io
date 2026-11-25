@@ -12,7 +12,7 @@
   and the ALT description button on the image.  No QR share button (a
   share target belongs to the URL-owning group viewer), no Back button
   (synonymous with Close) and no preview button (no recursion).
-  Preview-only: `.no-copy`.
+  Preview-only: `.no-copy` on a restricted picture.
 
   Zoom & pan: `@panzoom/panzoom` drives the stage — wheel zoom at the
   cursor (a thin rAF layer eases the scale; panzoom ships no wheel
@@ -34,6 +34,7 @@ import {
   useModalStack,
   useStackModal,
 } from "../../composables/modals/useModalStack";
+import { usePictureRegistry } from "../../composables/pictures/usePictureRegistry";
 import { isImageEdgeDark } from "../../platform/image-luminance";
 import type { FeatureAwarePictureProps } from "../../types/app";
 import MaterialSymbol from "../icons/MaterialSymbol.vue";
@@ -49,6 +50,7 @@ import TruncatedTitle from "../ui/TruncatedTitle.vue";
 const { visible, props: stackProps } = useStackModal("picture-viewer");
 const { pop, clear } = useModalStack();
 const { t } = useI18n();
+const { pictureLicense } = usePictureRegistry();
 const router = useRouter();
 
 /**
@@ -61,6 +63,25 @@ const title = computed(
 
 /** Related link of the picture (footer button — hidden when absent). */
 const relatedLink = computed(() => stackProps.value?.img.relatedLink ?? null);
+
+/** Registry id of the displayed picture (`null` when the props carry none). */
+const pictureId = computed(() => stackProps.value?.img.pictureId ?? null);
+
+/** The picture's license tier: its label, link target and copy rule. */
+const licenseInfo = computed(() =>
+  pictureId.value ? pictureLicense(pictureId.value) : null,
+);
+
+/** Props for the header's license link (absent when the id is unknown). */
+const licenseLink = computed(() =>
+  licenseInfo.value
+    ? {
+        href: licenseInfo.value.href,
+        type: licenseInfo.value.type,
+        label: licenseInfo.value.label,
+      }
+    : null,
+);
 
 /**
  * Stage display props: the caller's image props with the stage-owned keys
@@ -80,7 +101,9 @@ const imageProps = computed<FeatureAwarePictureProps | null>(() => {
   } = img;
   return {
     ...rest,
-    class: "picture-single-img no-copy",
+    class: licenseInfo.value?.noCopy
+      ? "picture-single-img no-copy"
+      : "picture-single-img",
     showAltButton: !!img.alt,
     previewable: false,
   };
@@ -548,15 +571,26 @@ onBeforeUnmount(() => {
   <BModal
     v-model="visible"
     :title="title"
-    header-class="h5 modal-title"
+    header-class="h5 modal-title picture-license-header"
     title-tag="span"
     no-header-close
     dialog-class="full-bleed-dialog"
     @shown="onShown"
     @hidden="onHidden"
   >
-    <template #title>
-      <TruncatedTitle :text="title" />
+    <template #header="{ id }">
+      <span :id="`${id}-label`" class="modal-title">
+        <TruncatedTitle :text="title" />
+      </span>
+      <div class="picture-license-link-wrapper">
+        <TypeAwareLink
+          v-if="licenseLink"
+          v-bind="licenseLink"
+          class="picture-license-link fw-normal"
+        >
+          {{ licenseLink.label }}
+        </TypeAwareLink>
+      </div>
     </template>
     <!-- ==== Single-image stage (pan / zoom) ==== -->
     <div

@@ -13,8 +13,10 @@
  * consumer that renders the picture supplies them as overrides.
  */
 
+import { ARTICLES_RESTRICTED_ARTWORKS } from "../configs/sub-sites";
 import type {
   FeatureAwarePictureProps,
+  PictureLicense,
   PicturePropsOverride,
   RegistryPictureEntry,
   TypeAwareLinkProps,
@@ -37,14 +39,95 @@ export function findPictureEntry(
   return entries.find((entry) => entry.id === id) ?? null;
 }
 
+// =========================================================================
+// License tiers
+// =========================================================================
+
+/** One tier's fixed facts: where its terms live and whether it blocks copying. */
+export interface PictureLicenseTerms {
+  /** Where the terms live. */
+  href: string;
+  /** Link type — `static` for the sub-site license page, `external` for the deed. */
+  type: TypeAwareLinkProps["type"];
+  /** Whether the tier blocks copying on the rendered picture. */
+  noCopy: boolean;
+}
+
+/** A tier plus the label to print for the current language. */
+export interface PictureLicenseInfo extends PictureLicenseTerms {
+  /** The link's text. */
+  label: string;
+}
+
+/**
+ * The fixed facts of each tier.
+ *
+ * `public/images/README.md` remains the authority: the restricted works'
+ * terms are the license on the articles sub-site, and the works listed in
+ * its CC BY-NC 4.0 table are offered under that deed.
+ */
+export const PICTURE_LICENSE_TERMS: Record<
+  PictureLicense,
+  PictureLicenseTerms
+> = {
+  restricted: {
+    href: ARTICLES_RESTRICTED_ARTWORKS,
+    type: "static",
+    noCopy: true,
+  },
+  "cc-by-nc-4.0": {
+    href: "https://creativecommons.org/licenses/by-nc/4.0/",
+    type: "external",
+    noCopy: false,
+  },
+};
+
+/**
+ * The tier a picture is shown under.
+ *
+ * An absent field means `restricted`: the notice's own rule is that a
+ * work not listed under CC BY-NC 4.0 is a restricted work, so a missing
+ * field reproduces the notice instead of granting anything.
+ *
+ * @param entry - The registry entry.
+ * @returns The declared tier, or `restricted` when undeclared.
+ */
+export function pictureLicenseOf(entry: RegistryPictureEntry): PictureLicense {
+  return entry.pictureProps.license ?? "restricted";
+}
+
+/**
+ * Resolve a picture's tier into the label and link facts for a language.
+ *
+ * The restricted label is the message the skin viewer's credit already
+ * prints; the CC label is the license's own short name, which reads the
+ * same in every language and therefore needs no message key.
+ *
+ * @param entry - The registry entry.
+ * @param t - i18n resolver.
+ * @returns The label, href, link type and copy rule of the picture's tier.
+ */
+export function pictureLicense(
+  entry: RegistryPictureEntry,
+  t: TextResolver,
+): PictureLicenseInfo {
+  const tier = pictureLicenseOf(entry);
+  const label =
+    tier === "restricted"
+      ? t("text-restricted-artworks-license")
+      : "CC BY-NC 4.0";
+  return { label, ...PICTURE_LICENSE_TERMS[tier] };
+}
+
 /**
  * Resolve one registry entry into render-ready display props.
  *
  * `alt` / `title` / `message` fall back to the id-derived i18n keys.
  * Overrides are applied on top; `relatedLink` is shallow-merged so a
  * caller can add a flag (e.g. `noQRCode`) without repeating the href.
- * A registry `noCopy` flag appends the `no-copy` class after the
- * override merge (so a caller's own `class` cannot drop it).
+ * A registry `license` tier appends the `no-copy` class after the
+ * override merge (so a caller's own `class` cannot drop it) when the tier
+ * blocks copying.
  *
  * @param entry - The registry entry.
  * @param t - i18n resolver.
@@ -56,7 +139,7 @@ export function resolvePictureProps(
   t: TextResolver,
   overrides?: PicturePropsOverride,
 ): FeatureAwarePictureProps {
-  const { noCopy, ...identity } = entry.pictureProps;
+  const { license: _license, ...identity } = entry.pictureProps;
   const base: FeatureAwarePictureProps = {
     ...identity,
     pictureId: entry.id,
@@ -80,7 +163,9 @@ export function resolvePictureProps(
   }
 
   // Applied last — a consumer's `class` override cannot drop it.
-  if (noCopy) resolved.class = ensureNoCopy(resolved.class);
+  if (PICTURE_LICENSE_TERMS[pictureLicenseOf(entry)].noCopy) {
+    resolved.class = ensureNoCopy(resolved.class);
+  }
   return resolved;
 }
 

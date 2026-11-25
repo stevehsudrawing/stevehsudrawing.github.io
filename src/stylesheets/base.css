@@ -236,6 +236,34 @@ h6,
   text-overflow: ellipsis;
 }
 
+/* The picture lightboxes name the displayed picture's license at the
+   header's right edge; on a narrow dialog the name takes its own line under
+   the title instead of leaving the title a few characters.  Only those two
+   modals pass `picture-license-header` to `header-class`.
+
+   The name is wrapped rather than styled on the anchor itself: under `md`
+   the wrapper takes the whole row, and an anchor that wide would underline
+   on hover from anywhere in the row.  The anchor keeps its text width
+   inside, so only the words trigger it.  `0.875rem` is the fine print's
+   step — the title owns the header's size. */
+.picture-license-header {
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+}
+
+.picture-license-header > .picture-license-link-wrapper {
+  font-size: 0.875rem;
+  line-height: inherit;
+  margin-left: auto;
+}
+
+@media (max-width: 767.98px) {
+  .picture-license-header > .picture-license-link-wrapper {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+}
+
 .modal-body {
   padding: 0 var(--bs-modal-padding);
 }
